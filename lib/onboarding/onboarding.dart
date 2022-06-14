@@ -36,6 +36,12 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: guideList.length,
@@ -51,16 +57,16 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget nextIcon() {
-    return Container(
-        margin: const EdgeInsets.all(16.0),
-        child: Material(
-            color: Colors.black45,
-            shape: const CircleBorder(),
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 12.0, 8.0, 12.0),
-                child: GestureDetector(
-                    onTap: onTap,
-                    child: const Icon(Icons.arrow_forward_ios,
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
+            margin: const EdgeInsets.all(16.0),
+            child: const Material(
+                color: Colors.black45,
+                shape: CircleBorder(),
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(12.0, 12.0, 8.0, 12.0),
+                    child: Icon(Icons.arrow_forward_ios,
                         color: Colors.white70)))));
   }
 }
