@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/campaign.dart';
+import 'campaign.model.dart';
 
 class CampaignInfo extends StatelessWidget {
   const CampaignInfo(

@@ -1,11 +1,12 @@
 import 'dart:ui';
 
-import 'package:bside/shared/campaign_info.dart';
+import 'package:bside/campaign/campaign.controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-import '../models/campaign.dart';
-import 'campaign_mock_data.dart';
+import '../campaign/campaign.data.dart';
+import '../campaign/campaign.model.dart';
+import '../campaign/campaign_info.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -19,8 +20,14 @@ class _HomePageState extends State<HomePage> {
   int curPage = 30;
   late Campaign curCampaign;
   PageController? controller;
+  final CampaignController _controller = Get.isRegistered<CampaignController>()
+      ? Get.find()
+      : Get.put(CampaignController());
 
-  onTap(Campaign campaign) {}
+  onPress(Campaign campaign) {
+    _controller.setCampaign(campaign);
+    Get.toNamed('/campaign');
+  }
 
   updateCurPage(int index) {
     setState(() {
@@ -51,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         topBar(),
         customPageViewLayer(
             controller!, updateCurPage, curPage, campaigns.length),
-        informationBox(curCampaign, controller!),
+        informationBox(curCampaign, onPress, controller!),
         loginBox()
       ]),
     );
@@ -144,7 +151,8 @@ Widget customPageViewLayer(PageController controller,
       ]));
 }
 
-Widget informationBox(Campaign curCampaign, PageController controller) {
+Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
+    PageController controller) {
   onPrev() {
     controller.previousPage(
         duration: const Duration(milliseconds: 500),
@@ -155,10 +163,6 @@ Widget informationBox(Campaign curCampaign, PageController controller) {
     controller.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic);
-  }
-
-  onPress() {
-    Get.toNamed('/campaign');
   }
 
   Widget customTextButton() {
@@ -178,7 +182,7 @@ Widget informationBox(Campaign curCampaign, PageController controller) {
               primary: Colors.deepPurple,
               textStyle: const TextStyle(fontSize: 16),
             ),
-            onPressed: onPress,
+            onPressed: () => onPress(curCampaign),
             child: const Text('더보기'),
           ),
         ],

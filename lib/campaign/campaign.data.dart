@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/campaign.dart';
+import 'campaign.model.dart';
 
 final campaigns = <Campaign>[
   Campaign(
@@ -8,6 +8,7 @@ final campaigns = <Campaign>[
       moderator: '얼라인파트너스',
       date: '22년 3월',
       color: Colors.deepPurpleAccent,
+      slogan: '에스엠, 저평가 해소를 위한 첫 걸음',
       backgroundImg:
           'https://economist.co.kr/data/photo/202202/04/25d75cbd-4555-4cfe-ae1e-537b660c478c.jpg',
       logoImg:
@@ -17,6 +18,7 @@ final campaigns = <Campaign>[
       moderator: '소액주주연대',
       date: '22년 3월',
       color: Colors.blue,
+      slogan: '당신이 참치캔에 투자해도 수익이 없는 진짜 이유',
       backgroundImg:
           'https://www.sisajournal.com/news/photo/202103/214628_122327_2652.png',
       logoImg:
@@ -26,6 +28,7 @@ final campaigns = <Campaign>[
       moderator: '소액주주연대',
       date: '22년 7월 7일',
       color: Colors.deepOrangeAccent,
+      slogan: '티엘아이 슬로건',
       backgroundImg:
           'https://img.etnews.com/photonews/0910/091028061936_801060011_b.jpg',
       logoImg:
