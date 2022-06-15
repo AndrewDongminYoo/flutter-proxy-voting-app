@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
-
-import 'guide.dart';
-import 'guide_mock_data.dart';
+import "package:flutter/material.dart";
+import 'package:get/route_manager.dart' show Get, GetNavigation;
+import 'package:bside/onboarding/guide.dart' show Guide;
+import 'package:bside/onboarding/guide_mock_data.dart' show mockGuideList;
 
 /*
   Reference:

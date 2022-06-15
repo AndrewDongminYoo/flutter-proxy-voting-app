@@ -3,9 +3,5 @@ class Guide {
   final String name;
   final String imageURL;
 
-  Guide({
-    required this.id,
-    required this.name,
-    required this.imageURL
-  });
+  Guide({required this.id, required this.name, required this.imageURL});
 }

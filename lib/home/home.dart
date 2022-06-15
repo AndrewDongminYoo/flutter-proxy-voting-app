@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:bside/home/campaign.dart';
-import 'package:get/get.dart';
+import 'package:bside/home/campaign.dart' show Campaign, campaigns;
+import 'package:get/get.dart' show Get, GetNavigation;
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {

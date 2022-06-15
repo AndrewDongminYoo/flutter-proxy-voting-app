@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
-
-import 'routes.dart';
+import 'package:get/route_manager.dart'
+    show Get, GetMaterialApp, GetNavigation, Transition;
+import 'package:bside/routes.dart' show routes;
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Bside',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.deepPurple,
       ),
       locale: Get.deviceLocale,
       defaultTransition: Transition.rightToLeft,
