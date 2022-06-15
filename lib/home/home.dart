@@ -1,8 +1,11 @@
 import 'dart:ui';
 
+import 'package:bside/shared/campaign_info.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:bside/home/campaign.dart';
+
+import '../models/campaign.dart';
+import 'campaign_mock_data.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -105,16 +108,13 @@ Widget customPageViewLayer(PageController controller,
           ),
         ),
         child: Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 40.0),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(campaign.logoImg),
-              // FIXME: 하드코딩된 % 3 수정 필요
-              backgroundColor:
-                  index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
-              radius: isActive ? 50 : 30,
-            ),
+          alignment: Alignment.center,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(campaign.logoImg),
+            // FIXME: 하드코딩된 % 3 수정 필요
+            backgroundColor:
+                index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
+            radius: isActive ? 40 : 25,
           ),
         ));
   }
@@ -158,7 +158,7 @@ Widget informationBox(Campaign curCampaign, PageController controller) {
   }
 
   onPress() {
-    print('print');
+    Get.toNamed('/campaign');
   }
 
   Widget customTextButton() {
@@ -197,20 +197,7 @@ Widget informationBox(Campaign curCampaign, PageController controller) {
               iconSize: 36,
               icon:
                   const Icon(Icons.expand_less_rounded, color: Colors.white70)),
-          Text(
-            curCampaign.companyName,
-            style: const TextStyle(
-                color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            curCampaign.moderator,
-            style:
-                const TextStyle(color: Colors.white, fontSize: 16, height: 2),
-          ),
-          Text(
-            curCampaign.date,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
+          CampaignInfo(campaign: curCampaign),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: customTextButton(),
@@ -225,39 +212,40 @@ Widget informationBox(Campaign curCampaign, PageController controller) {
 }
 
 Widget loginBox() {
-  void onClicked() {
-    print('onClicked');
-  }
+  void onClicked() {}
 
   return Positioned(
     bottom: 0,
     right: 12,
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              color: Colors.deepPurple,
-              borderRadius: BorderRadius.circular(50),
+    child: InkWell(
+      onTap: onClicked,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.only(bottom: 5),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: const Icon(
+                Icons.login_rounded,
+                size: 24,
+                color: Colors.white,
+              ),
             ),
-            child: const Icon(
-              Icons.login_rounded,
-              size: 24,
-              color: Colors.white,
+            const Text(
+              '로그인',
+              style: TextStyle(fontSize: 18),
             ),
-          ),
-          const Text(
-            '로그인',
-            style: TextStyle(fontSize: 18),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
