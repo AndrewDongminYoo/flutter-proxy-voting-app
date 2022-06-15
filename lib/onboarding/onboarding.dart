@@ -19,12 +19,15 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  late PageController pageController;
   late List<Guide> guideList;
   List<Widget> tabs = [];
 
   void onTap() {
-    Get.toNamed('/');
+    if (tabController.index < tabs.length - 1) {
+      tabController.animateTo(2);
+    } else {
+      Get.toNamed('/');
+    }
   }
 
   @override
@@ -33,7 +36,6 @@ class _OnboardingPageState extends State<OnboardingPage>
     guideList = mockGuideList;
     tabs = guideList.map((item) => GuideItem(guide: item)).toList();
     tabController = TabController(length: guideList.length, vsync: this);
-    pageController = PageController();
   }
 
   @override
@@ -44,43 +46,42 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: guideList.length,
-        child: Stack(
-          children: [
-            TabBarView(
-                controller: tabController,
-                physics: const ScrollPhysics(),
-                children: tabs),
-            Align(alignment: Alignment.topRight, child: nextIcon()),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: 80,
-                height: 30,
-                margin: const EdgeInsets.only(bottom: 30),
-                child: TabPageSelector(
-                    controller: tabController,
-                    selectedColor: Colors.purple,
-                    color: Colors.white.withOpacity(0.5)),
+    return SafeArea(
+      child: DefaultTabController(
+          length: guideList.length,
+          child: Stack(
+            children: [
+              TabBarView(
+                  controller: tabController,
+                  physics: const ScrollPhysics(),
+                  children: tabs),
+              Align(alignment: Alignment.topRight, child: nextIcon()),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    margin: const EdgeInsets.only(bottom: 30),
+                    child: TabPageSelector(
+                      controller: tabController,
+                      selectedColor: Colors.deepPurple,
+                      color: Colors.grey,
+                      borderStyle: BorderStyle.none,
+                    )),
               ),
-            )
-          ],
-        ));
+            ],
+          )),
+    );
   }
 
   Widget nextIcon() {
-    return GestureDetector(
-        onTap: onTap,
-        child: Container(
-            margin: const EdgeInsets.all(16.0),
-            child: const Material(
-                color: Colors.black45,
-                shape: CircleBorder(),
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(12.0, 12.0, 8.0, 12.0),
-                    child: Icon(Icons.arrow_forward_ios,
-                        color: Colors.white70)))));
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 40, 20, 0),
+      child: TextButton(
+        onPressed: onTap,
+        style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 16), primary: Colors.white),
+        child: const Text('건너뛰기'),
+      ),
+    );
   }
 }
 

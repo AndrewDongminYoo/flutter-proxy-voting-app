@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       locale: Get.deviceLocale,
-      defaultTransition: Transition.rightToLeft,
+      defaultTransition: Transition.cupertino,
       initialRoute: '/onboarding',
       getPages: routes(),
     );
