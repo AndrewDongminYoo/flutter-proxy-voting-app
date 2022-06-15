@@ -1,8 +1,8 @@
 import 'dart:ui';
 
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:bside/home/campaign.dart' show Campaign, campaigns;
-import 'package:get/get.dart' show Get, GetNavigation;
+import 'package:bside/home/campaign.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -13,10 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final int initialPage = 30;
-  int curPage = 2;
+  int curPage = 30;
   late Campaign curCampaign;
-  late PageController _controller;
+  PageController? controller;
 
   onTap(Campaign campaign) {}
 
@@ -30,14 +29,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _controller =
-        PageController(viewportFraction: 0.2, initialPage: initialPage);
-    curCampaign = campaigns[getRealIndex(initialPage, campaigns.length)];
+    controller = PageController(viewportFraction: 0.2, initialPage: curPage);
+    curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -47,9 +45,10 @@ class _HomePageState extends State<HomePage> {
       body: Stack(children: [
         backgroundImageLayer(curCampaign.backgroundImg),
         imageFilterLayer(),
+        topBar(),
         customPageViewLayer(
-            _controller, updateCurPage, curPage, campaigns.length),
-        informationBox(curCampaign),
+            controller!, updateCurPage, curPage, campaigns.length),
+        informationBox(curCampaign, controller!),
         loginBox()
       ]),
     );
@@ -69,30 +68,51 @@ Widget imageFilterLayer() {
   return Positioned.fill(
       child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(color: Colors.deepPurpleAccent.withOpacity(0.4))));
+          child: Container(color: const Color(0xFF2B1433).withOpacity(0.8))));
+}
+
+Widget topBar() {
+  const String assetName = "assets/images/bside_web.svg";
+  return Positioned(
+      top: 40,
+      left: 20,
+      child: Image.network("https://bside.ai/_nuxt/img/logo.71a8129.png"));
 }
 
 Widget customPageViewLayer(PageController controller,
     void Function(int) updateCurPage, int curPage, int campaignLength) {
   AnimatedContainer slider(Campaign campaign, int index, int active) {
     bool isActive = index == active;
-
     return AnimatedContainer(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic,
         margin: EdgeInsets.only(
-            right: isActive ? Get.width * 0.4 : Get.width * 0.7),
+            right: isActive ? Get.width * 0.4 : Get.width * 0.65),
         decoration: BoxDecoration(
-            color: campaign.color,
-            border: Border.all(color: campaign.color),
-            borderRadius: const BorderRadius.all(Radius.circular(100))),
+          color: campaign.color,
+          borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(80), bottomRight: Radius.circular(80)),
+          gradient: SweepGradient(
+            center: Alignment.center,
+            colors: <Color>[
+              const Color(0xFF572E67),
+              Colors.deepPurple,
+              campaign.color,
+              const Color(0xFF572E67),
+            ],
+            stops: const [0.125, 0.126, 0.6, 1.0],
+            tileMode: TileMode.clamp,
+          ),
+        ),
         child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
             padding: const EdgeInsets.only(right: 40.0),
             child: CircleAvatar(
               backgroundImage: NetworkImage(campaign.logoImg),
-              backgroundColor: Colors.white,
+              // FIXME: 하드코딩된 % 3 수정 필요
+              backgroundColor:
+                  index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
               radius: isActive ? 50 : 30,
             ),
           ),
@@ -101,14 +121,14 @@ Widget customPageViewLayer(PageController controller,
 
   return SizedBox(
       width: Get.width,
-      height: Get.height * 0.75 + 60.0,
+      height: Get.height * 0.7 + 80,
       child: Stack(children: [
         Positioned(
-            top: 60,
-            right: 0,
+            top: 80,
+            right: 16,
             child: SizedBox(
-                width: Get.width * 2,
-                height: Get.height * 1.25,
+                width: Get.width,
+                height: Get.height * 1.15,
                 child: PageView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: null,
@@ -124,13 +144,59 @@ Widget customPageViewLayer(PageController controller,
       ]));
 }
 
-Widget informationBox(Campaign curCampaign) {
+Widget informationBox(Campaign curCampaign, PageController controller) {
+  onPrev() {
+    controller.previousPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic);
+  }
+
+  onNext() {
+    controller.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic);
+  }
+
+  onPress() {
+    print('print');
+  }
+
+  Widget customTextButton() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(30),
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.white),
+            ),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              primary: Colors.deepPurple,
+              textStyle: const TextStyle(fontSize: 16),
+            ),
+            onPressed: onPress,
+            child: const Text('더보기'),
+          ),
+        ],
+      ),
+    );
+  }
+
   return Positioned(
-      bottom: Get.height * 0.25,
+      bottom: Get.height * 0.185,
       right: 12,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          IconButton(
+              onPressed: onPrev,
+              iconSize: 36,
+              icon:
+                  const Icon(Icons.expand_less_rounded, color: Colors.white70)),
           Text(
             curCampaign.companyName,
             style: const TextStyle(
@@ -139,12 +205,21 @@ Widget informationBox(Campaign curCampaign) {
           Text(
             curCampaign.moderator,
             style:
-                const TextStyle(color: Colors.white, fontSize: 18, height: 2),
+                const TextStyle(color: Colors.white, fontSize: 16, height: 2),
           ),
           Text(
             curCampaign.date,
-            style: const TextStyle(color: Colors.white, fontSize: 18),
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: customTextButton(),
+          ),
+          IconButton(
+              onPressed: onNext,
+              iconSize: 36,
+              icon:
+                  const Icon(Icons.expand_more_rounded, color: Colors.white70)),
         ],
       ));
 }
@@ -173,8 +248,8 @@ Widget loginBox() {
               borderRadius: BorderRadius.circular(50),
             ),
             child: const Icon(
-              Icons.door_front_door_outlined,
-              size: 30,
+              Icons.login_rounded,
+              size: 24,
               color: Colors.white,
             ),
           ),

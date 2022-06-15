@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show Colors, MaterialColor;
+import 'package:flutter/material.dart';
 
 class Campaign {
   final String companyName;
@@ -6,7 +6,7 @@ class Campaign {
   final String date;
   final String backgroundImg;
   final String logoImg;
-  final MaterialColor color;
+  final Color color;
 
   Campaign({
     required this.companyName,
@@ -23,7 +23,7 @@ final campaigns = <Campaign>[
       companyName: '에스엠',
       moderator: '얼라인파트너스',
       date: '22년 3월',
-      color: Colors.red,
+      color: Colors.deepPurpleAccent,
       backgroundImg:
           'https://economist.co.kr/data/photo/202202/04/25d75cbd-4555-4cfe-ae1e-537b660c478c.jpg',
       logoImg:
@@ -32,7 +32,7 @@ final campaigns = <Campaign>[
       companyName: '사조산업',
       moderator: '소액주주연대',
       date: '22년 3월',
-      color: Colors.pink,
+      color: Colors.blue,
       backgroundImg:
           'https://www.sisajournal.com/news/photo/202103/214628_122327_2652.png',
       logoImg:
@@ -41,7 +41,7 @@ final campaigns = <Campaign>[
       companyName: '티엘아이',
       moderator: '소액주주연대',
       date: '22년 7월 7일',
-      color: Colors.purple,
+      color: Colors.deepOrangeAccent,
       backgroundImg:
           'https://img.etnews.com/photonews/0910/091028061936_801060011_b.jpg',
       logoImg:
