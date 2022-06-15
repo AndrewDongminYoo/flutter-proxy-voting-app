@@ -1,3 +1,4 @@
+import 'package:bside/onboarding/page_indicator.dart';
 import "package:flutter/material.dart";
 import 'package:get/route_manager.dart' show Get, GetNavigation;
 import 'package:bside/onboarding/guide.dart' show Guide;
@@ -19,6 +20,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  late PageController pageController;
   late List<Guide> guideList;
   List<Widget> tabs = [];
 
@@ -32,6 +34,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     guideList = mockGuideList;
     tabs = guideList.map((item) => GuideItem(guide: item)).toList();
     tabController = TabController(length: guideList.length, vsync: this);
+    pageController = PageController();
   }
 
   @override
@@ -50,7 +53,16 @@ class _OnboardingPageState extends State<OnboardingPage>
                 controller: tabController,
                 physics: const ScrollPhysics(),
                 children: tabs),
-            Align(alignment: Alignment.topRight, child: nextIcon())
+            Align(alignment: Alignment.topRight, child: nextIcon()),
+            Align(
+              child: Container(
+                width: 80,
+                height: 30,
+                margin: EdgeInsets.only(bottom: 30),
+                child: PageIndicator(),
+              ),
+              alignment: Alignment.bottomCenter,
+            )
           ],
         ));
   }
