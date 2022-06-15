@@ -18,16 +18,26 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage>
     with SingleTickerProviderStateMixin {
-  late TabController tabController;
+  TabController? tabController;
   late List<Guide> guideList;
   List<Widget> tabs = [];
+  int _curIndex = 0;
 
   void onTap() {
-    if (tabController.index < tabs.length - 1) {
-      tabController.animateTo(2);
+    if (tabController!.index < tabs.length - 1) {
+      tabController!.animateTo(2);
+      setState(() {
+        _curIndex = 2;
+      });
     } else {
       Get.toNamed('/');
     }
+  }
+
+  void updateIndex () {
+     setState(() {
+        _curIndex = tabController!.index;
+      });
   }
 
   @override
@@ -36,11 +46,13 @@ class _OnboardingPageState extends State<OnboardingPage>
     guideList = mockGuideList;
     tabs = guideList.map((item) => GuideItem(guide: item)).toList();
     tabController = TabController(length: guideList.length, vsync: this);
+    tabController!.addListener(updateIndex);
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    tabController!.removeListener(updateIndex);
+    tabController!.dispose();
     super.dispose();
   }
 
@@ -55,7 +67,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                   controller: tabController,
                   physics: const ScrollPhysics(),
                   children: tabs),
-              Align(alignment: Alignment.topRight, child: nextIcon()),
+              Align(alignment: Alignment.topRight, child: nextIcon(_curIndex)),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -72,14 +84,14 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
-  Widget nextIcon() {
+  Widget nextIcon(int index) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 40, 20, 0),
       child: TextButton(
         onPressed: onTap,
         style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 16), primary: Colors.white),
-        child: const Text('건너뛰기'),
+        child: Text(index == 2 ? '시작하기' : '건너뛰기'),
       ),
     );
   }
