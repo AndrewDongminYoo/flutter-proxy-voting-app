@@ -1,4 +1,3 @@
-import 'package:bside/onboarding/page_indicator.dart';
 import "package:flutter/material.dart";
 import 'package:get/route_manager.dart' show Get, GetNavigation;
 import 'package:bside/onboarding/guide.dart' show Guide;
@@ -55,13 +54,16 @@ class _OnboardingPageState extends State<OnboardingPage>
                 children: tabs),
             Align(alignment: Alignment.topRight, child: nextIcon()),
             Align(
+              alignment: Alignment.bottomCenter,
               child: Container(
                 width: 80,
                 height: 30,
-                margin: EdgeInsets.only(bottom: 30),
-                child: PageIndicator(),
+                margin: const EdgeInsets.only(bottom: 30),
+                child: TabPageSelector(
+                    controller: tabController,
+                    selectedColor: Colors.purple,
+                    color: Colors.white.withOpacity(0.5)),
               ),
-              alignment: Alignment.bottomCenter,
             )
           ],
         ));
