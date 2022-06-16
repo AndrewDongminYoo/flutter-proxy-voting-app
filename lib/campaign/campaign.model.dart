@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'agenda.model.dart';
 
 class Campaign {
   final String companyName;
@@ -8,6 +9,8 @@ class Campaign {
   final String backgroundImg;
   final String logoImg;
   final Color color;
+  final String youtubeUrl;
+  final List<AgendaItem> agendaList;
 
   Campaign({
     required this.companyName,
@@ -17,5 +20,7 @@ class Campaign {
     required this.backgroundImg,
     required this.logoImg,
     required this.color,
+    required this.youtubeUrl,
+    required this.agendaList,
   });
 }
