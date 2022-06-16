@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int curPage = 30;
+  int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
   final CampaignController _controller = Get.isRegistered<CampaignController>()
@@ -91,6 +91,14 @@ Widget topBar() {
 
 Widget customPageViewLayer(PageController controller,
     void Function(int) updateCurPage, int curPage, int campaignLength) {
+  onTap(int page) {
+    if (page != curPage) {
+      controller.animateToPage(page,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOutCubic);
+    }
+  }
+
   AnimatedContainer slider(Campaign campaign, int index, int active) {
     bool isActive = index == active;
     return AnimatedContainer(
@@ -143,10 +151,13 @@ Widget customPageViewLayer(PageController controller,
                     controller: controller,
                     onPageChanged: updateCurPage,
                     itemBuilder: (context, index) {
-                      int activePage = getRealIndex(index, campaigns.length);
+                      int realIndex = getRealIndex(index, campaigns.length);
                       return Container(
                           margin: const EdgeInsets.all(10),
-                          child: slider(campaigns[activePage], index, curPage));
+                          child: GestureDetector(
+                              onTap: () => onTap(index),
+                              child: slider(
+                                  campaigns[realIndex], index, curPage)));
                     })))
       ]));
 }
