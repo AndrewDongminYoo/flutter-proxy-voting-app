@@ -1,4 +1,5 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
+
 import 'agenda.model.dart';
 
 class Campaign {
@@ -22,5 +23,19 @@ class Campaign {
     required this.color,
     required this.youtubeUrl,
     required this.agendaList,
+  });
+}
+
+class ActionMenu {
+  final IconData icon;
+  final Color color;
+  final String label;
+  final void Function() onTap;
+
+  ActionMenu({
+    required this.icon,
+    required this.color,
+    required this.label,
+    required this.onTap,
   });
 }

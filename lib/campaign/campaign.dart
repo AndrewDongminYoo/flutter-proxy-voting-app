@@ -86,16 +86,76 @@ Widget campaignHeader(Campaign campaign) {
 }
 
 Widget campaignInfoInRow(Campaign campaign) {
+  final actionMenuList = <ActionMenu>[
+    ActionMenu(
+        icon: Icons.book_rounded,
+        color: Colors.deepOrange,
+        label: '전자위임',
+        onTap: () {
+          Get.toNamed('/vote');
+        }),
+    ActionMenu(
+        icon: Icons.group_add_rounded,
+        color: Colors.deepPurple,
+        label: '라운지',
+        onTap: () {}),
+    ActionMenu(
+        icon: Icons.attach_file_rounded,
+        color: Colors.deepPurple,
+        label: '공시서류',
+        onTap: () {}),
+    ActionMenu(
+        icon: Icons.history_rounded,
+        color: Colors.deepPurple,
+        label: '이전기록',
+        onTap: () {}),
+  ];
+
   return Column(
+    mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(campaign.companyName,
           style: const TextStyle(color: Colors.white, fontSize: 18)),
       Text("${campaign.moderator} | 주주총회 일정: ${campaign.date}",
           style: const TextStyle(color: Colors.white, fontSize: 16)),
-      SizedBox(height: 20),
-      Text('캠페인 설명', style: const TextStyle(color: Colors.white, fontSize: 16))
+      SizedBox(
+        height: 72,
+        child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: actionMenuList.length + 1,
+            itemBuilder: (BuildContext context, int index) => index == 0
+                ? const SizedBox(
+                    width: 41,
+                  )
+                : iconButton(actionMenuList[index - 1])),
+      ),
+      const SizedBox(height: 20),
+      const Text('캠페인 설명', style: TextStyle(color: Colors.white, fontSize: 16))
     ],
+  );
+}
+
+Widget iconButton(ActionMenu actionMenu) {
+  return InkWell(
+    onTap: actionMenu.onTap,
+    child: Container(
+      width: 82,
+      height: 72,
+      margin: const EdgeInsets.only(right: 10),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Icon(
+          actionMenu.icon,
+          color: actionMenu.color,
+        ),
+        Text(actionMenu.label)
+      ]),
+    ),
   );
 }
 
