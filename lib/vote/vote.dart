@@ -28,6 +28,10 @@ class _VotePageState extends State<VotePage> {
     Get.back();
   }
 
+  onNext() {
+    Get.toNamed('/');
+  }
+
   onVote(int index, VoteType result) {
     setState(() {
       marker = {
@@ -39,6 +43,8 @@ class _VotePageState extends State<VotePage> {
 
   @override
   Widget build(BuildContext context) {
+    final agendaLength = _controller.campaign.agendaList.length;
+
     return Scaffold(
         appBar: AppBar(
             backgroundColor: const Color(0xFF5E3F74),
@@ -59,12 +65,45 @@ class _VotePageState extends State<VotePage> {
                 // Do not show the next item
                 if (item.key > marker['latest']!) {
                   return Container();
+                } else if (item.key == agendaLength - 1) {
+                  return Column(children: [
+                    VoteSelector(
+                        agendaItem: item.value,
+                        index: item.key,
+                        onVote: onVote),
+                    marker['latest']! < agendaLength
+                        ? Container()
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.deepPurple),
+                                  ),
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 12.0),
+                                    primary: Colors.white,
+                                    textStyle: const TextStyle(fontSize: 16),
+                                  ),
+                                  onPressed: onNext,
+                                  child: const Text('위임확인',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ],
+                            ),
+                          )
+                  ]);
                 }
-                return VoteSelector(agendaItem: item.value, index: item.key, onVote: onVote);
+                return VoteSelector(
+                    agendaItem: item.value, index: item.key, onVote: onVote);
               }).toList(),
             ),
           ),
         ));
   }
 }
-

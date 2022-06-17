@@ -25,6 +25,13 @@ final voteButtonList = [
       value: VoteType.abstention),
 ];
 
+final noneButton = VoteButton(
+    bgColor: Colors.white,
+    borderColor: Colors.deepPurple,
+    textColor: Colors.black,
+    label: "미선택",
+    value: VoteType.none);
+
 class VoteSelector extends StatefulWidget {
   const VoteSelector(
       {Key? key,
@@ -41,7 +48,7 @@ class VoteSelector extends StatefulWidget {
 }
 
 class _VoteSelectorState extends State<VoteSelector> {
-  VoteButton curButton = voteButtonList[2];
+  VoteButton curButton = noneButton;
 
   onSelected(VoteButton selected) {
     setState(() {
