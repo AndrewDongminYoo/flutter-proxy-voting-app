@@ -34,14 +34,21 @@ void main() {
       width: ctx.listProperty("width", CustomW.w1, CustomW.values),
       bgColor:
           ctx.listProperty("bgColor", ColorType.deepPurple, ColorType.values),
-      primaryColor: ctx.listProperty(
-        "primaryColor",
-        ColorType.purple,
+      textColor: ctx.listProperty(
+        "textColor",
+        ColorType.white,
         ColorType.values,
       ),
+    );
+  }).add('outlined',
+      (ctx) {
+    return CustomOutlinedButton(
+      onPressed: () {},
+      label: ctx.textProperty("text", "버튼"),
+      width: ctx.listProperty("width", CustomW.w1, CustomW.values),
       textColor: ctx.listProperty(
-        "typoType",
-        ColorType.white,
+        "textColor",
+        ColorType.orange,
         ColorType.values,
       ),
     );

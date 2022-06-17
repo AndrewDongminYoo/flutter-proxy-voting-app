@@ -6,7 +6,6 @@ import 'custom_color.dart';
 class CustomButton extends StatelessWidget {
   final CustomW width;
   final ColorType bgColor;
-  final ColorType primaryColor;
   final ColorType textColor;
   final String label;
   final Function() onPressed;
@@ -15,7 +14,6 @@ class CustomButton extends StatelessWidget {
       {Key? key,
       this.width = CustomW.w1,
       this.bgColor = ColorType.deepPurple,
-      this.primaryColor = ColorType.purple,
       this.textColor = ColorType.white,
       required this.label,
       required this.onPressed})
@@ -24,19 +22,58 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: onPressed,
-        child: Container(
-            height: 40,
-            width: customW[width],
-            decoration: BoxDecoration(
-                color: customColor[bgColor],
-                borderRadius: BorderRadius.circular(12)),
-            child: Center(
-              child: Text(label,
-                  style: TextStyle(
-                      color: customColor[textColor],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400)),
-            )));
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(24),
+      child: Ink(
+          height: 40,
+          width: customW[width],
+          decoration: BoxDecoration(
+              color: customColor[bgColor],
+              borderRadius: BorderRadius.circular(24)),
+          child: Center(
+            child: Text(label,
+                style: TextStyle(
+                    color: customColor[textColor],
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400)),
+          )),
+    );
+  }
+}
+
+class CustomOutlinedButton extends StatelessWidget {
+  final CustomW width;
+  final ColorType textColor;
+  final String label;
+  final Function() onPressed;
+
+  const CustomOutlinedButton(
+      {Key? key,
+      this.width = CustomW.w1,
+      this.textColor = ColorType.white,
+      required this.label,
+      required this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(24),
+      child: Ink(
+          height: 40,
+          width: customW[width],
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: customColor[textColor]!),
+              borderRadius: BorderRadius.circular(24)),
+          child: Center(
+            child: Text(label,
+                style: TextStyle(
+                    color: customColor[textColor],
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400)),
+          )),
+    );
   }
 }
