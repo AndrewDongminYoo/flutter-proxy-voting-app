@@ -29,7 +29,7 @@ class _VotePageState extends State<VotePage> {
   }
 
   onNext() {
-    Get.toNamed('/');
+    Get.toNamed('/signature');
   }
 
   onVote(int index, VoteType result) {

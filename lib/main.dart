@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       locale: Get.deviceLocale,
       defaultTransition: Transition.cupertino,
-      initialRoute: '/signature',
+      initialRoute: '/onboarding',
       getPages: routes(),
     );
   }

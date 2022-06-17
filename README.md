@@ -29,6 +29,16 @@ A new Flutter project.
 - asset: FlutterGen
 - Other libraries: FlutterFire, AppsFlyer, AppCenter, Fastlane
 
+## Scripts
+
+```bash
+# install
+flutter pub get
+
+# run storybook
+flutter run -t lib/main_dashbook.dart 
+```
+
 ## 참고사항
 
 - [History of everything](https://github.com/2d-inc/HistoryOfEverything)

@@ -1,3 +1,4 @@
+import 'package:bside/signature/signature.dart';
 import 'package:bside/vote/vote.dart';
 
 import 'package:bside/home/home.dart' show HomePage;
@@ -9,5 +10,6 @@ routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),
       GetPage(name: '/', page: () => const HomePage()),
       GetPage(name: '/campaign', page: () => const CampaignPage()),
-      GetPage(name: '/vote', page: () => const VotePage())
+      GetPage(name: '/vote', page: () => const VotePage()),
+      GetPage(name: '/signature', page: () => const SignaturePage())
     ];
