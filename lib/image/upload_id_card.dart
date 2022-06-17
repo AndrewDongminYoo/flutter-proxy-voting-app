@@ -11,7 +11,7 @@ class UploadIdCard extends StatefulWidget {
 }
 
 class _UploadIdCardState extends State<UploadIdCard> {
-  Uint8List? _image;
+  Uint8List? _identifyCardImage;
   bool idCardUploaded = false;
 
   @override
@@ -70,11 +70,12 @@ class _UploadIdCardState extends State<UploadIdCard> {
                 height: 300,
                 child: (idCardUploaded
                     ? Image.memory(
-                        _image!,
+                        _identifyCardImage!,
                         fit: BoxFit.contain,
                         alignment: Alignment.center,
                       )
                     : IconButton(
+                        // TODO: 신분증 사본 업로드
                         onPressed: () {},
                         icon: const Icon(
                           Icons.upload_file_rounded,

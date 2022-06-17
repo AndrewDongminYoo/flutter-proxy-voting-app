@@ -1,0 +1,5 @@
+{
+    "git.autofetch": true,
+    "git.showUnpublishedCommitsButton": "always",
+    "git.supportCancellation": true
+}
