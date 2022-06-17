@@ -60,10 +60,15 @@ Widget gradientLayer() {
       child: Container(
     width: Get.width,
     decoration: const BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF5E3F74), Color(0xFF82A5E1)])),
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF5E3F74),
+          Color(0xFF82A5E1),
+        ],
+      ),
+    ),
   ));
 }
 

@@ -1,4 +1,4 @@
-import 'package:bside/shared/custom_color.dart';
+import 'custom_color.dart';
 import 'package:flutter/material.dart';
 
 enum TypoType { h1Bold, h1, h2Bold, h2, body, bodyLight, label }

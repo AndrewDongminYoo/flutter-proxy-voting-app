@@ -1,4 +1,4 @@
-import 'package:bside/shared/custom_color.dart';
+import 'shared/custom_color.dart';
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
 import 'package:bside/shared/custom_text.dart';

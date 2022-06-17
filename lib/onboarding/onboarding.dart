@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:get/route_manager.dart' show Get, GetNavigation;
-import 'package:bside/onboarding/guide.dart' show Guide;
-import 'package:bside/onboarding/guide.data.dart' show mockGuideList;
+import 'guide.dart' show Guide;
+import 'guide.data.dart' show mockGuideList;
 
 /*
   Reference:
@@ -34,10 +34,10 @@ class _OnboardingPageState extends State<OnboardingPage>
     }
   }
 
-  void updateIndex () {
-     setState(() {
-        _curIndex = tabController!.index;
-      });
+  void updateIndex() {
+    setState(() {
+      _curIndex = tabController!.index;
+    });
   }
 
   @override
@@ -103,9 +103,14 @@ class GuideItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Image.network(guide.imageURL, fit: BoxFit.cover));
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: const Color(0xFF572E67),
+      child: Image.network(
+        guide.imageURL,
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }

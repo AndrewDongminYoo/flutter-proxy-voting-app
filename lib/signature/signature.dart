@@ -32,6 +32,9 @@ class _SignaturePageState extends State<SignaturePage> {
     });
   }
 
+  bool isAgreed = false;
+  bool isManaged = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,8 +78,8 @@ class _SignaturePageState extends State<SignaturePage> {
                     ),
                   ],
                 ),
-                const Text(
-                    '전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.\n모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.')
+                const Text('''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
+모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''')
               ],
             ),
           ),
@@ -102,44 +105,10 @@ class _SignaturePageState extends State<SignaturePage> {
                     height: 300,
                   ),
           ),
-          // Container(
-          //   padding: const EdgeInsets.all(10),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       OutlinedButton(
-          //         style: OutlinedButtonTheme.of(context).style,
-          //         onPressed: () async {
-          //           if (_controller.isNotEmpty) {
-          //             final Uint8List? result = await _controller.toPngBytes();
-          //             if (result != null) {
-          //               await Navigator.of(context).push(MaterialPageRoute(
-          //                 builder: (context) {
-          //                   return Scaffold(
-          //                     body: Center(
-          //                       child: Image.memory(result),
-          //                     ),
-          //                   );
-          //                 },
-          //               ));
-          //             }
-          //           }
-          //         },
-          //         child: const Text('저장하기'),
-          //       ),
-          //       //CLEAR CANVAS
-          //       OutlinedButton(
-          //         style: OutlinedButtonTheme.of(context).style,
-          //         onPressed: () {
-          //           setState(() => _controller.clear());
-          //         },
-          //         child: const Text('다시쓰기'),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () {
+              _controller.clear();
+            },
             style: OutlinedButton.styleFrom(
               fixedSize: Size(Get.width - 30, 50),
               primary: Colors.deepOrange,
@@ -168,13 +137,27 @@ class _SignaturePageState extends State<SignaturePage> {
               children: [
                 Row(
                   children: [
-                    Checkbox(value: true, onChanged: (value) {}),
+                    Checkbox(
+                      value: isAgreed,
+                      onChanged: (v) {
+                        setState(() {
+                          isAgreed = !isAgreed;
+                        });
+                      },
+                    ),
                     const Text('전자서명 저장에 동의합니다.'),
                   ],
                 ),
                 Row(
                   children: [
-                    Checkbox(value: true, onChanged: (value) {}),
+                    Checkbox(
+                      value: isManaged,
+                      onChanged: (v) {
+                        setState(() {
+                          isManaged = !isManaged;
+                        });
+                      },
+                    ),
                     const Text('에스엠 측에 대한 기존 위임을 철회합니다.'),
                   ],
                 ),
@@ -184,7 +167,7 @@ class _SignaturePageState extends State<SignaturePage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               fixedSize: Size(Get.width - 30, 50),
-              primary: Colors.purple,
+              primary: const Color(0xFF572E67),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
