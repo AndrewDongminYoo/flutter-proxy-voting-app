@@ -1,4 +1,5 @@
 import 'dart:typed_data' show Uint8List;
+import 'signature.upload.dart' show CustomSignatureController;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;
 import 'package:signature/signature.dart' show Signature, SignatureController;
@@ -12,6 +13,32 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
+  final CustomSignatureController _customController =
+      Get.isRegistered<CustomSignatureController>()
+          ? Get.find()
+          : Get.put(CustomSignatureController());
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      _hideLottie();
+    });
+  }
+
+  void onSubmit() async {
+    if (_controller.isEmpty) {
+      return;
+    }
+    final Uint8List? result = await _controller.toPngBytes();
+    await _customController.uploadSignature(
+      "company_eng_name",
+      "company_name+user_email+sign_date",
+      result!,
+    );
+    Get.toNamed('/vote');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,128 +61,138 @@ class _SignaturePageState extends State<SignaturePage> {
                 onPressed: () {},
               )
             ]),
-        body: Column(children: [
-          Container(
-            margin: const EdgeInsets.all(15),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text('전자 서명을 등록해주세요.',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    const Spacer(),
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButtonTheme.of(context).style,
-                      child: const Text('문의하기'),
-                    ),
-                  ],
-                ),
-                const Text(signatureString)
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.deepOrange,
-                width: 3,
-                style: BorderStyle.solid,
-              ),
-              borderRadius: BorderRadiusDirectional.circular(30),
-            ),
-            child: _showLottie
-                ? GestureDetector(
-                    onTap: _hideLottie,
-                    child: _lottie,
-                  )
-                : Signature(
-                    controller: _controller,
-                    backgroundColor: Colors.transparent,
-                    width: Get.width,
-                    height: 200,
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              margin: const EdgeInsets.all(15),
+              alignment: Alignment.topLeft,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Text('전자 서명을 등록해주세요.',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      const Spacer(),
+                      OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButtonTheme.of(context).style,
+                        child: const Text('문의하기'),
+                      ),
+                    ],
                   ),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              _controller.clear();
-            },
-            style: OutlinedButton.styleFrom(
-              fixedSize: Size(Get.width - 30, 50),
-              primary: Colors.deepOrange,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              side: const BorderSide(
-                color: Colors.deepOrange,
-                width: 3,
+                  const Text(signatureString)
+                ],
               ),
             ),
-            child: const Text(
-              '서명 불러오기',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 10, 50, 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _isAgreed,
-                      onChanged: (v) {
-                        _setAgreed();
-                      },
-                    ),
-                    const Text('전자서명 저장에 동의합니다.'),
-                  ],
+            Container(
+              margin: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.deepOrange,
+                  width: 3,
+                  style: BorderStyle.solid,
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _isManaged,
-                      onChanged: (v) {
-                        _setManaged();
-                      },
+                borderRadius: BorderRadiusDirectional.circular(30),
+              ),
+              child: _showLottie
+                  ? GestureDetector(
+                      onTap: _hideLottie,
+                      child: _lottie,
+                    )
+                  : Signature(
+                      controller: _controller,
+                      backgroundColor: Colors.transparent,
+                      width: Get.width,
+                      height: 200,
                     ),
-                    const Text('에스엠 측에 대한 기존 위임을 철회합니다.'),
-                  ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            OutlinedButton(
+              onPressed: () async {
+                _controller.clear();
+                // String result =
+                //     await _customController.getSignature("company", "filename");
+                // print(result);
+              },
+              style: OutlinedButton.styleFrom(
+                fixedSize: Size(Get.width - 30, 50),
+                primary: Colors.deepOrange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-              ],
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              fixedSize: Size(Get.width - 30, 50),
-              primary: const Color(0xFF572E67),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+                side: const BorderSide(
+                  color: Colors.deepOrange,
+                  width: 3,
+                ),
+              ),
+              child: const Text(
+                '서명 불러오기',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
             ),
-            onPressed: () async {
-              await _showSignature(context);
-            },
-            child: const Text(
-              '등록',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 50, 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _isAgreed,
+                        onChanged: (v) {
+                          _setAgreed();
+                        },
+                      ),
+                      const Text('전자서명 저장에 동의합니다.'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _isManaged,
+                        onChanged: (v) {
+                          _setManaged();
+                        },
+                      ),
+                      const Text('에스엠 측에 대한 기존 위임을 철회합니다.'),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-        ]),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(Get.width - 30, 50),
+                primary: const Color(0xFF572E67),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              onPressed: () async {
+                // temporary solution :: show result
+                await _showSignature(context);
+                // onSubmit();
+              },
+              child: const Text(
+                '등록',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -200,14 +237,8 @@ class _SignaturePageState extends State<SignaturePage> {
     if (_controller.isNotEmpty) {
       final Uint8List? result = await _controller.toPngBytes();
       if (result != null) {
-        Get.put(MaterialPageRoute(
-          builder: (context) {
-            return Scaffold(
-              body: Center(
-                child: Image.memory(result),
-              ),
-            );
-          },
+        Get.to(Center(
+          child: Image.memory(result),
         ));
       }
     }
