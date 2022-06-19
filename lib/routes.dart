@@ -1,10 +1,10 @@
-import 'package:bside/signature/signature.dart';
-import 'package:bside/vote/vote.dart';
+import 'signature/signature.dart';
+import 'vote/vote.dart';
 
-import 'package:bside/home/home.dart' show HomePage;
+import 'home/home.dart' show HomePage;
 import 'package:get/route_manager.dart' show GetPage;
-import 'package:bside/onboarding/onboarding.dart' show OnboardingPage;
-import 'package:bside/campaign/campaign.dart' show CampaignPage;
+import 'onboarding/onboarding.dart' show OnboardingPage;
+import 'campaign/campaign.dart' show CampaignPage;
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),

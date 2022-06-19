@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:bside/campaign/campaign.controller.dart';
+import '../campaign/campaign.controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -82,6 +82,7 @@ Widget imageFilterLayer() {
 }
 
 Widget topBar() {
+  // ignore: unused_local_variable
   const String assetName = "assets/images/bside_web.svg";
   return Positioned(
       top: 40,

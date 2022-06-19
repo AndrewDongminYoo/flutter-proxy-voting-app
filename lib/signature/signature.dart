@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
+import 'dart:typed_data' show Uint8List;
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:signature/signature.dart';
-import 'package:get/get.dart';
+import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;
+import 'package:signature/signature.dart' show Signature, SignatureController;
+import 'package:get/get.dart' show Get, GetNavigation, Inst;
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);
@@ -13,28 +12,6 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  final SignatureController _controller = SignatureController(
-    penStrokeWidth: 5,
-    penColor: Colors.black,
-    exportBackgroundColor: Colors.deepPurpleAccent.shade100,
-  );
-
-  final LottieBuilder lottie = Lottie.network(
-    'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
-    width: Get.width,
-    height: 300,
-  );
-
-  bool showLottie = true;
-  onTap() {
-    setState(() {
-      showLottie = false;
-    });
-  }
-
-  bool isAgreed = false;
-  bool isManaged = false;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,8 +23,8 @@ class _SignaturePageState extends State<SignaturePage> {
       home: Scaffold(
         appBar: AppBar(
             leading: IconButton(
-              icon: const Icon(IconData(0xf05bc, fontFamily: 'MaterialIcons')),
-              onPressed: () => Get.back(),
+              icon: const GoBackIcon(),
+              onPressed: _goBack,
             ),
             title: const Text('전자서명'),
             backgroundColor: const Color(0xFF572E67),
@@ -78,8 +55,7 @@ class _SignaturePageState extends State<SignaturePage> {
                     ),
                   ],
                 ),
-                const Text('''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
-모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''')
+                const Text(signatureString)
               ],
             ),
           ),
@@ -93,16 +69,16 @@ class _SignaturePageState extends State<SignaturePage> {
               ),
               borderRadius: BorderRadiusDirectional.circular(30),
             ),
-            child: showLottie
+            child: _showLottie
                 ? GestureDetector(
-                    onTap: onTap,
-                    child: lottie,
+                    onTap: _hideLottie,
+                    child: _lottie,
                   )
                 : Signature(
                     controller: _controller,
                     backgroundColor: Colors.transparent,
                     width: Get.width,
-                    height: 300,
+                    height: 200,
                   ),
           ),
           OutlinedButton(
@@ -138,11 +114,9 @@ class _SignaturePageState extends State<SignaturePage> {
                 Row(
                   children: [
                     Checkbox(
-                      value: isAgreed,
+                      value: _isAgreed,
                       onChanged: (v) {
-                        setState(() {
-                          isAgreed = !isAgreed;
-                        });
+                        _setAgreed();
                       },
                     ),
                     const Text('전자서명 저장에 동의합니다.'),
@@ -151,11 +125,9 @@ class _SignaturePageState extends State<SignaturePage> {
                 Row(
                   children: [
                     Checkbox(
-                      value: isManaged,
+                      value: _isManaged,
                       onChanged: (v) {
-                        setState(() {
-                          isManaged = !isManaged;
-                        });
+                        _setManaged();
                       },
                     ),
                     const Text('에스엠 측에 대한 기존 위임을 철회합니다.'),
@@ -173,20 +145,7 @@ class _SignaturePageState extends State<SignaturePage> {
               ),
             ),
             onPressed: () async {
-              if (_controller.isNotEmpty) {
-                final Uint8List? result = await _controller.toPngBytes();
-                if (result != null) {
-                  await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return Scaffold(
-                        body: Center(
-                          child: Image.memory(result),
-                        ),
-                      );
-                    },
-                  ));
-                }
-              }
+              await _showSignature(context);
             },
             child: const Text(
               '등록',
@@ -199,5 +158,72 @@ class _SignaturePageState extends State<SignaturePage> {
         ]),
       ),
     );
+  }
+
+  final SignatureController _controller = SignatureController(
+    penStrokeWidth: 5,
+    penColor: Colors.black,
+    exportBackgroundColor: Colors.deepPurpleAccent.shade100,
+  );
+
+  final LottieBuilder _lottie = Lottie.network(
+    'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
+    width: Get.width,
+    height: 200,
+  );
+
+  void _goBack() => Get.back();
+
+  bool _showLottie = true;
+  bool _isAgreed = false;
+  bool _isManaged = false;
+
+  void _hideLottie() {
+    setState(() {
+      _showLottie = false;
+    });
+  }
+
+  void _setAgreed() {
+    setState(() {
+      _isAgreed = !_isAgreed;
+    });
+  }
+
+  void _setManaged() {
+    setState(() {
+      _isManaged = !_isManaged;
+    });
+  }
+
+  Future<void> _showSignature(BuildContext context) async {
+    if (_controller.isNotEmpty) {
+      final Uint8List? result = await _controller.toPngBytes();
+      if (result != null) {
+        Get.put(MaterialPageRoute(
+          builder: (context) {
+            return Scaffold(
+              body: Center(
+                child: Image.memory(result),
+              ),
+            );
+          },
+        ));
+      }
+    }
+  }
+
+  static const signatureString = '''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
+모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
+}
+
+class GoBackIcon extends StatelessWidget {
+  const GoBackIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Icon(IconData(0xf05bc, fontFamily: 'MaterialIcons'));
   }
 }

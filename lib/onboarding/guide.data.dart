@@ -1,4 +1,4 @@
-import 'package:bside/onboarding/guide.dart' show Guide;
+import 'guide.dart' show Guide;
 
 List<Guide> mockGuideList = [
   Guide(
