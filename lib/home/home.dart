@@ -1,12 +1,14 @@
 import 'dart:ui';
 
-import '../campaign/campaign.controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import '../home/home_dialog.dart';
+import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
+import '../campaign/campaign.controller.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -23,10 +25,17 @@ class _HomePageState extends State<HomePage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  final AuthController _authController = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
 
   onPress(Campaign campaign) {
     _controller.setCampaign(campaign);
-    Get.toNamed('/campaign');
+    if (_authController.isLogined) {
+      Get.toNamed('/campaign');
+    } else {
+      Get.dialog(HomeDialog());
+    }
   }
 
   updateCurPage(int index) {

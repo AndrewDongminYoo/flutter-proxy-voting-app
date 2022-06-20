@@ -1,19 +1,19 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:bside/signature/signature.upload.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:bside/signature/signature.upload.dart';
 
-class UploadIdCard extends StatefulWidget {
-  const UploadIdCard({Key? key}) : super(key: key);
+class UploadIdCardPage extends StatefulWidget {
+  const UploadIdCardPage({Key? key}) : super(key: key);
 
   @override
-  State<UploadIdCard> createState() => _UploadIdCardState();
+  State<UploadIdCardPage> createState() => _UploadIdCardPageState();
 }
 
-class _UploadIdCardState extends State<UploadIdCard> {
+class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Uint8List? idcardImage;
   bool idCardUploaded = false;
   final ImagePicker picker = ImagePicker();
