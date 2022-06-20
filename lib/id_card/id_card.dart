@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bside/signature/signature.upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadIdCard extends StatefulWidget {
   const UploadIdCard({Key? key}) : super(key: key);
@@ -11,17 +14,37 @@ class UploadIdCard extends StatefulWidget {
 }
 
 class _UploadIdCardState extends State<UploadIdCard> {
-  Uint8List? _identifyCardImage;
+  Uint8List? idcardImage;
   bool idCardUploaded = false;
+  final ImagePicker picker = ImagePicker();
+
+  final CustomSignatureController _controller =
+      Get.isRegistered<CustomSignatureController>()
+          ? Get.find()
+          : Get.put(CustomSignatureController());
+
+  void _onSubmit() async {
+    final XFile? xfile = await picker.pickImage(
+      source: ImageSource.camera,
+    );
+    if (xfile != null) {
+      idcardImage = await File(xfile.path).readAsBytes();
+      if (idcardImage != null) {
+        await _controller.uploadSignature(
+          "company_name",
+          "id-company-useremail-idcard.png",
+          idcardImage!,
+        );
+        Get.toNamed("/done");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(IconData(0xf05bc, fontFamily: 'MaterialIcons')),
-          onPressed: () => Get.back(),
-        ),
+        leading: const GoBackButton(),
         title: const Text('전자서명'),
         actions: [
           IconButton(
@@ -60,7 +83,7 @@ class _UploadIdCardState extends State<UploadIdCard> {
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.deepOrange,
-                  width: 3,
+                  width: 2,
                   style: BorderStyle.solid,
                 ),
                 borderRadius: BorderRadiusDirectional.circular(30),
@@ -70,17 +93,27 @@ class _UploadIdCardState extends State<UploadIdCard> {
                 height: 300,
                 child: (idCardUploaded
                     ? Image.memory(
-                        _identifyCardImage!,
+                        idcardImage!,
                         fit: BoxFit.contain,
                         alignment: Alignment.center,
                       )
                     : IconButton(
                         // TODO: 신분증 사본 업로드
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.upload_file_rounded,
-                          size: 50,
-                          color: Colors.deepOrange,
+                        onPressed: _onSubmit,
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('촬영 및 업로드하기'),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Icon(
+                              Icons.upload_file_rounded,
+                              size: 50,
+                              color: Colors.deepOrange,
+                              semanticLabel: '촬영 및 업로드',
+                            ),
+                          ],
                         ),
                       )),
               ),
@@ -93,6 +126,9 @@ class _UploadIdCardState extends State<UploadIdCard> {
                 ),
                 Icon(Icons.arrow_circle_right_outlined)
               ],
+            ),
+            const SizedBox(
+              height: 10,
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -114,6 +150,23 @@ class _UploadIdCardState extends State<UploadIdCard> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class GoBackButton extends StatelessWidget {
+  const GoBackButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(IconData(
+        0xf05bc,
+        fontFamily: 'MaterialIcons',
+      )),
+      onPressed: () => Get.toNamed('/signature'),
     );
   }
 }

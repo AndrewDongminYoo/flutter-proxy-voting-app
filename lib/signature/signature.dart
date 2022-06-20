@@ -35,7 +35,7 @@ class _SignaturePageState extends State<SignaturePage> {
   final LottieBuilder _lottie = Lottie.network(
     'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
     width: Get.width,
-    height: 200,
+    height: 300,
   );
 
   void _goBack() => Get.back();
@@ -139,7 +139,7 @@ class _SignaturePageState extends State<SignaturePage> {
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.deepOrange,
-                  width: 3,
+                  width: 2,
                   style: BorderStyle.solid,
                 ),
                 borderRadius: BorderRadiusDirectional.circular(30),
@@ -153,7 +153,7 @@ class _SignaturePageState extends State<SignaturePage> {
                       controller: _controller,
                       backgroundColor: Colors.transparent,
                       width: Get.width,
-                      height: 200,
+                      height: 300,
                     ),
             ),
             const SizedBox(
@@ -174,7 +174,7 @@ class _SignaturePageState extends State<SignaturePage> {
                 ),
                 side: const BorderSide(
                   color: Colors.deepOrange,
-                  width: 3,
+                  width: 2,
                 ),
               ),
               child: const Text(

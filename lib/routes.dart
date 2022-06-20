@@ -1,3 +1,5 @@
+import 'package:bside/id_card/id_card.dart';
+
 import 'signature/signature.dart';
 import 'vote/vote.dart';
 
@@ -11,5 +13,6 @@ routes() => [
       GetPage(name: '/', page: () => const HomePage()),
       GetPage(name: '/campaign', page: () => const CampaignPage()),
       GetPage(name: '/vote', page: () => const VotePage()),
-      GetPage(name: '/signature', page: () => const SignaturePage())
+      GetPage(name: '/signature', page: () => const SignaturePage()),
+      GetPage(name: '/idcard', page: () => const UploadIdCard())
     ];
