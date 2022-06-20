@@ -26,6 +26,56 @@ class _SignaturePageState extends State<SignaturePage> {
     });
   }
 
+  final SignatureController _controller = SignatureController(
+    penStrokeWidth: 5,
+    penColor: Colors.black,
+    exportBackgroundColor: Colors.deepPurpleAccent.shade100,
+  );
+
+  final LottieBuilder _lottie = Lottie.network(
+    'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
+    width: Get.width,
+    height: 200,
+  );
+
+  void _goBack() => Get.back();
+
+  bool _showLottie = true;
+  bool _isAgreed = false;
+  bool _isManaged = false;
+
+  void _hideLottie() {
+    setState(() {
+      _showLottie = false;
+    });
+  }
+
+  void _setAgreed() {
+    setState(() {
+      _isAgreed = !_isAgreed;
+    });
+  }
+
+  void _setManaged() {
+    setState(() {
+      _isManaged = !_isManaged;
+    });
+  }
+
+  Future<void> _showSignature(BuildContext context) async {
+    if (_controller.isNotEmpty) {
+      final Uint8List? result = await _controller.toPngBytes();
+      if (result != null) {
+        Get.to(Center(
+          child: Image.memory(result),
+        ));
+      }
+    }
+  }
+
+  static const signatureString = '''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
+모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
+
   void onSubmit() async {
     if (_controller.isEmpty) {
       return;
@@ -49,10 +99,7 @@ class _SignaturePageState extends State<SignaturePage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-            leading: IconButton(
-              icon: const GoBackIcon(),
-              onPressed: _goBack,
-            ),
+            leading: goBackButton(),
             title: const Text('전자서명'),
             backgroundColor: const Color(0xFF572E67),
             actions: [
@@ -197,64 +244,15 @@ class _SignaturePageState extends State<SignaturePage> {
     );
   }
 
-  final SignatureController _controller = SignatureController(
-    penStrokeWidth: 5,
-    penColor: Colors.black,
-    exportBackgroundColor: Colors.deepPurpleAccent.shade100,
-  );
-
-  final LottieBuilder _lottie = Lottie.network(
-    'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
-    width: Get.width,
-    height: 200,
-  );
-
-  void _goBack() => Get.back();
-
-  bool _showLottie = true;
-  bool _isAgreed = false;
-  bool _isManaged = false;
-
-  void _hideLottie() {
-    setState(() {
-      _showLottie = false;
-    });
-  }
-
-  void _setAgreed() {
-    setState(() {
-      _isAgreed = !_isAgreed;
-    });
-  }
-
-  void _setManaged() {
-    setState(() {
-      _isManaged = !_isManaged;
-    });
-  }
-
-  Future<void> _showSignature(BuildContext context) async {
-    if (_controller.isNotEmpty) {
-      final Uint8List? result = await _controller.toPngBytes();
-      if (result != null) {
-        Get.to(Center(
-          child: Image.memory(result),
-        ));
-      }
-    }
-  }
-
-  static const signatureString = '''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
-모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
-}
-
-class GoBackIcon extends StatelessWidget {
-  const GoBackIcon({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Icon(IconData(0xf05bc, fontFamily: 'MaterialIcons'));
+  IconButton goBackButton() {
+    return IconButton(
+      icon: const Icon(
+        IconData(
+          0xf05bc,
+          fontFamily: 'MaterialIcons',
+        ),
+      ),
+      onPressed: _goBack,
+    );
   }
 }
