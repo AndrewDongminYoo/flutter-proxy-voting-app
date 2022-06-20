@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCIajIGg77kHQEc40xljeOAgL0n0qkwNeM',
-    appId: '1:288458571879:ios:2ae3be2ddeb7aad62014c2',
+    appId: '1:288458571879:ios:c8ca3e58759e15f42014c2',
     messagingSenderId: '288458571879',
     projectId: 'bside-kr',
     storageBucket: 'bside-kr.appspot.com',
     androidClientId: '288458571879-nq0bg2g9pgpgso37rnpmrhjqeuvcj77l.apps.googleusercontent.com',
-    iosClientId: '288458571879-4hb6nkoddlnkgcljcospi5s3vt7c0caa.apps.googleusercontent.com',
-    iosBundleId: 'ai.bside.bsdie',
+    iosClientId: '288458571879-2i36sn3hb187n4ib83sdctodv61dtamv.apps.googleusercontent.com',
+    iosBundleId: 'ai.bside.bside',
   );
 }

@@ -237,7 +237,10 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
 }
 
 Widget loginBox() {
-  void onClicked() {}
+  void onClicked() {
+    // Force a test crash to finish setup
+    // throw Exception("Throw Test Exception");
+  }
 
   return Positioned(
     bottom: 0,
