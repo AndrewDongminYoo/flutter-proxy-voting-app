@@ -29,16 +29,16 @@ class _HomePageState extends State<HomePage> {
       ? Get.find()
       : Get.put(AuthController());
 
-  onPress(Campaign campaign) {
+  void onPress(Campaign campaign) {
     _controller.setCampaign(campaign);
     if (_authController.isLogined) {
       Get.toNamed('/campaign');
     } else {
-      Get.dialog(HomeDialog());
+      Get.dialog(const HomeDialog());
     }
   }
 
-  updateCurPage(int index) {
+  void updateCurPage(int index) {
     setState(() {
       curPage = index;
       curCampaign = campaigns[getRealIndex(index, campaigns.length)];

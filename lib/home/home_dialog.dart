@@ -7,11 +7,11 @@ import '../shared/custom_button.dart';
 class HomeDialog extends StatelessWidget {
   const HomeDialog({Key? key}) : super(key: key);
 
-  onClose() {
+  void onClose() {
     Get.back();
   }
 
-  onPressed() {
+  void onPressed() {
     Get.toNamed('/signup');
   }
 
@@ -21,7 +21,7 @@ class HomeDialog extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText(
+          const CustomText(
             text: '서비스 이용 전에 간단한\n회원가입이 필요해요',
             typoType: TypoType.h2,
           ),
@@ -32,10 +32,7 @@ class HomeDialog extends StatelessWidget {
           )
         ],
       ),
-      content: CustomButton(
-        label: '회원가입',
-        onPressed: onPressed
-      ),
+      content: CustomButton(label: '회원가입', onPressed: onPressed),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),

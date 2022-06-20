@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Bside',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
-        fontFamily: 'Nanum'
+        fontFamily: 'Nanum',
       ),
       locale: Get.deviceLocale,
       defaultTransition: Transition.cupertino,

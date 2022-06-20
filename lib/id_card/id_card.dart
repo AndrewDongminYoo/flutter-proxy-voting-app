@@ -23,7 +23,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           ? Get.find()
           : Get.put(CustomSignatureController());
 
-  void _onSubmit() async {
+  void onSubmit() async {
     final XFile? xfile = await picker.pickImage(
       source: ImageSource.camera,
     );
@@ -40,12 +40,49 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     }
   }
 
+  Widget goBackButton() {
+    return IconButton(
+      icon: const Icon(IconData(
+        0xf05bc,
+        fontFamily: 'MaterialIcons',
+      )),
+      onPressed: () => Get.toNamed('/signature'),
+    );
+  }
+
+  Widget uploadImageButton() {
+    return IconButton(
+      onPressed: onSubmit,
+      icon: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text('촬영 및 업로드하기'),
+          SizedBox(
+            height: 10,
+          ),
+          Icon(
+            Icons.upload_file_rounded,
+            size: 50,
+            color: Colors.deepOrange,
+            semanticLabel: '촬영 및 업로드',
+          ),
+          // Lottie.network(
+          //   "https://assets1.lottiefiles.com/packages/lf20_OWzdLY.json",
+          //   width: Get.width,
+          //   height: 300,
+          // ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const GoBackButton(),
-        title: const Text('전자서명'),
+        leading: goBackButton(),
+        title: const Text('신분증 업로드'),
+        backgroundColor: const Color(0xFF572E67),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_rounded),
@@ -68,7 +105,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 const Spacer(),
                 OutlinedButton(
                   onPressed: () {},
-                  style: OutlinedButtonTheme.of(context).style,
+                  style: OutlinedButton.styleFrom(
+                    primary: const Color(0xFF572E67),
+                  ),
                   child: const Text('문의하기'),
                 ),
               ],
@@ -79,7 +118,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 신분증 원본의 민감한 개인정보는 보안 기술에 의해 자동으로 보이지 않게 삭제됩니다.
             '''),
             Container(
-              margin: const EdgeInsets.all(15),
+              margin: const EdgeInsets.symmetric(vertical: 15),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.deepOrange,
@@ -89,33 +128,18 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 borderRadius: BorderRadiusDirectional.circular(30),
               ),
               child: SizedBox(
-                width: Get.width - 15,
+                width: Get.width,
                 height: 300,
                 child: (idCardUploaded
-                    ? Image.memory(
-                        idcardImage!,
-                        fit: BoxFit.contain,
-                        alignment: Alignment.center,
-                      )
-                    : IconButton(
-                        // TODO: 신분증 사본 업로드
-                        onPressed: _onSubmit,
-                        icon: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text('촬영 및 업로드하기'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Icon(
-                              Icons.upload_file_rounded,
-                              size: 50,
-                              color: Colors.deepOrange,
-                              semanticLabel: '촬영 및 업로드',
-                            ),
-                          ],
+                    ? GestureDetector(
+                        onLongPress: onSubmit,
+                        child: Image.memory(
+                          idcardImage!,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.center,
                         ),
-                      )),
+                      )
+                    : uploadImageButton()),
               ),
             ),
             const Spacer(),
@@ -128,12 +152,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(Get.width - 30, 50),
-                // primary: const Color(0xFF572E67),
+                primary: const Color(0xFF572E67),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -150,23 +174,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class GoBackButton extends StatelessWidget {
-  const GoBackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(IconData(
-        0xf05bc,
-        fontFamily: 'MaterialIcons',
-      )),
-      onPressed: () => Get.toNamed('/signature'),
     );
   }
 }

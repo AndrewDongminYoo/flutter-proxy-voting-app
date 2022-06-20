@@ -94,9 +94,6 @@ class _SignaturePageState extends State<SignaturePage> {
     return MaterialApp(
       title: 'Signature',
       color: Colors.white,
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
       home: Scaffold(
         appBar: AppBar(
             leading: goBackButton(),
@@ -125,7 +122,9 @@ class _SignaturePageState extends State<SignaturePage> {
                       const Spacer(),
                       OutlinedButton(
                         onPressed: () {},
-                        style: OutlinedButtonTheme.of(context).style,
+                        style: OutlinedButton.styleFrom(
+                          primary: const Color(0xFF572E67),
+                        ),
                         child: const Text('문의하기'),
                       ),
                     ],
