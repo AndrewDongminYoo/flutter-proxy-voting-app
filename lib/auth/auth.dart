@@ -31,7 +31,7 @@ class _AuthPageState extends State<AuthPage> {
 
   onPressed() {
     _controller.signUp();
-    Get.toNamed('/');
+    Get.toNamed('/validate');
   }
 
   @override
