@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart'
     show Get, GetMaterialApp, GetNavigation, Transition;
@@ -13,6 +14,14 @@ import 'utils/firebase.dart';
 import 'firebase_options.dart';
 import 'routes.dart' show routes;
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     // Keep splash screen
@@ -23,8 +32,10 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-    final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
+    final PendingDynamicLinkData? initialLink =
+        await FirebaseDynamicLinks.instance.getInitialLink();
 
     // Remove splash screen
     FlutterNativeSplash.remove();
@@ -49,7 +60,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     if (widget.initialLink != null) {
-    final Uri deepLink = widget.initialLink!.link;
+      final Uri deepLink = widget.initialLink!.link;
       initialRoute = deepLink.path;
     }
   }
