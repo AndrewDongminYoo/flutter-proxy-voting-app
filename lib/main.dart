@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'utils/firebase.dart';
 import 'firebase_options.dart';
@@ -23,17 +24,35 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
 
     // Remove splash screen
     FlutterNativeSplash.remove();
-    runApp(const MyApp());
+    runApp(MyApp(initialLink: initialLink));
   },
       (error, stack) =>
           FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key, this.initialLink}) : super(key: key);
+  final PendingDynamicLinkData? initialLink;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String initialRoute = '/onboarding';
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialLink != null) {
+    final Uri deepLink = widget.initialLink!.link;
+      initialRoute = deepLink.path;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +64,7 @@ class MyApp extends StatelessWidget {
       ),
       locale: Get.deviceLocale,
       defaultTransition: Transition.cupertino,
-      initialRoute: '/onboarding',
+      initialRoute: initialRoute,
       getPages: routes(),
       navigatorKey: Get.key,
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],

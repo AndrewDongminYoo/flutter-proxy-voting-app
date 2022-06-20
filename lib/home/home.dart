@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import '../home/home_dialog.dart';
 import '../auth/auth.controller.dart';
@@ -45,11 +46,21 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      Navigator.pushNamed(context, dynamicLinkData.link.path);
+    }).onError((error) {
+      print('onLink error');
+      print(error.message);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     controller = PageController(viewportFraction: 0.2, initialPage: curPage);
     curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
+    initDynamicLinks();
   }
 
   @override
