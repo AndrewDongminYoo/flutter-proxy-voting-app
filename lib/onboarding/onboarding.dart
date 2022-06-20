@@ -73,6 +73,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                 child: Container(
                     margin: const EdgeInsets.only(bottom: 30),
                     child: TabPageSelector(
+                      indicatorSize: 10,
                       controller: tabController,
                       selectedColor: Colors.deepPurple,
                       color: Colors.grey,
@@ -90,7 +91,11 @@ class _OnboardingPageState extends State<OnboardingPage>
       child: TextButton(
         onPressed: onTap,
         style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 16), primary: Colors.white),
+          textStyle: const TextStyle(
+            fontSize: 16,
+          ),
+          primary: Colors.white,
+        ),
         child: Text(index == 2 ? '시작하기' : '건너뛰기'),
       ),
     );
