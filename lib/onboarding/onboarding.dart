@@ -1,8 +1,9 @@
 import "package:flutter/material.dart";
-import 'package:get/route_manager.dart' show Get, GetNavigation;
+import 'package:get/utils.dart';
+import 'package:get/route_manager.dart';
 
-import 'guide.dart' show Guide;
-import 'guide.data.dart' show mockGuideList;
+import 'guide.dart';
+import 'guide.data.dart';
 import '../shared/custom_color.dart';
 
 /*
@@ -120,7 +121,8 @@ class GuideItem extends StatelessWidget {
       padding: const EdgeInsets.only(top: 100),
       color: const Color(0xFF572E67),
       child: Image(
-        image: AssetImage(guide.imageURL),
+        image: AssetImage(
+            GetPlatform.isAndroid ? guide.aosImageUrl : guide.iosImageUrl),
         fit: BoxFit.contain,
       ),
     );
