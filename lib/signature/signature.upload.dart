@@ -9,7 +9,8 @@ class CustomSignatureController extends GetxController {
 
   Future<void> uploadSignature(
       String company, String filename, Uint8List data) async {
-    var response = await _repository.getPresignedUrl(company, filename);
+    Response response = await _repository.getPresignedUrl(company, filename);
+    print(response.bodyString);
     final form = FormData({
       "file": MultipartFile(data, filename: filename),
       "key": response.body['fields']['key'],
