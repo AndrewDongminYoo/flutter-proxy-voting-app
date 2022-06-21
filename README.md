@@ -39,7 +39,11 @@ flutter pub get
 touch .env
 
 # run storybook
-flutter run -t lib/main_dashbook.dart 
+flutter run -t lib/main_dashbook.dart
+
+# deploy Android & iOS
+flutter build appbundle && cd android && bundle exec fastlane beta & cd ..
+flutter build ipa && cd ios && bundle exec fastlane beta & cd ..
 ```
 
 ## 참고사항
