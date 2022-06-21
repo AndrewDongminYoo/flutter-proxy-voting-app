@@ -35,6 +35,9 @@ A new Flutter project.
 # install
 flutter pub get
 
+# create .env
+touch .env
+
 # run storybook
 flutter run -t lib/main_dashbook.dart 
 ```

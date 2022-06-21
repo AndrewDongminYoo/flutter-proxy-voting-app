@@ -5,22 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart'
     show Get, GetMaterialApp, GetNavigation, Transition;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'utils/firebase.dart';
+import 'utils/appsflyer.dart';
 import 'firebase_options.dart';
 import 'routes.dart' show routes;
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-
-  print("Handling a background message: ${message.messageId}");
-}
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
@@ -29,13 +23,8 @@ void main() async {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     // initialize app
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-    final PendingDynamicLinkData? initialLink =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+    await dotenv.load(fileName: '.env');
+    final initialLink = await setupFirebase();
 
     // Remove splash screen
     FlutterNativeSplash.remove();
@@ -43,6 +32,22 @@ void main() async {
   },
       (error, stack) =>
           FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
+}
+
+Future<PendingDynamicLinkData?> setupFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  final PendingDynamicLinkData? initialLink =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+  return initialLink;
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print("Handling a background message: ${message.messageId}");
 }
 
 class MyApp extends StatefulWidget {
@@ -55,14 +60,36 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String initialRoute = '/onboarding';
+  Map? _gcd;
 
   @override
   void initState() {
     super.initState();
+    initDynamicLinks();
+    setupAppsFlyer();
+  }
+
+  initDynamicLinks() {
     if (widget.initialLink != null) {
       final Uri deepLink = widget.initialLink!.link;
       initialRoute = deepLink.path;
     }
+  }
+
+  setupAppsFlyer() {
+    appsflyerSdk.onAppOpenAttribution((res) {
+      print("onAppOpenAttribution res: $res");
+    });
+    appsflyerSdk.onInstallConversionData((res) {
+      print("onInstallConversionData res: $res");
+      setState(() {
+        _gcd = res;
+      });
+    });
+    appsflyerSdk.initSdk(
+        registerConversionDataCallback: true,
+        registerOnAppOpenAttributionCallback: true,
+        registerOnDeepLinkingCallback: false);
   }
 
   @override
