@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -12,6 +10,7 @@ import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
 import '../campaign/campaign.controller.dart';
+import '../shared/custom_color.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -25,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
+  DateTime? currentBackPressTime;
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
@@ -68,7 +68,6 @@ class _HomePageState extends State<HomePage> {
     );
 
     messaging.onTokenRefresh.listen((fcmToken) {
-      // TODO: If necessary send token to application server.
       print(fcmToken);
     }).onError((err) {
       // Error getting token.
@@ -98,43 +97,50 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  Widget backgroundImageLayer(String imgUrl) {
+    return Container(
+        height: Get.height,
+        width: Get.width,
+        color: customColor[ColorType.deepPurple],
+        child: Image(
+          image: AssetImage(imgUrl),
+          fit: BoxFit.contain,
+        ));
+  }
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null || 
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(children: [
-        backgroundImageLayer(curCampaign.backgroundImg),
-        imageFilterLayer(),
-        topBar(),
-        customPageViewLayer(
-            controller!, updateCurPage, curPage, campaigns.length),
-        informationBox(curCampaign, onPress, controller!),
-        loginBox()
-      ]),
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        body: Stack(children: [
+          backgroundImageLayer(curCampaign.backgroundImg),
+          topBar(),
+          customPageViewLayer(
+              controller!, updateCurPage, curPage, campaigns.length),
+          informationBox(curCampaign, onPress, controller!),
+          // loginBox()
+        ]),
+      ),
     );
   }
-}
-
-Widget backgroundImageLayer(String imgUrl) {
-  return Container(
-      height: Get.height,
-      width: Get.width,
-      decoration: BoxDecoration(
-          image:
-              DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover)));
-}
-
-Widget imageFilterLayer() {
-  return Positioned.fill(
-      child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(color: const Color(0xFF2B1433).withOpacity(0.8))));
 }
 
 Widget topBar() {
   // ignore: unused_local_variable
   const String assetName = "assets/images/bside_web.svg";
   return Positioned(
-      top: 40,
+      top: 60,
       left: 20,
       child: Image.network("https://bside.ai/_nuxt/img/logo.71a8129.png"));
 }
@@ -186,10 +192,10 @@ Widget customPageViewLayer(PageController controller,
 
   return SizedBox(
       width: Get.width,
-      height: Get.height * 0.7 + 80,
+      height: Get.height * 0.7 + 100,
       child: Stack(children: [
         Positioned(
-            top: 80,
+            top: 100,
             right: 16,
             child: SizedBox(
                 width: Get.width,
@@ -244,7 +250,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
               textStyle: const TextStyle(fontSize: 16),
             ),
             onPressed: () => onPress(curCampaign),
-            child: const Text('더보기'),
+            child: Text(curCampaign.status),
           ),
         ],
       ),

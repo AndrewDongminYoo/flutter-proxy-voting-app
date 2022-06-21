@@ -12,7 +12,8 @@ class HomeDialog extends StatelessWidget {
   }
 
   void onPressed() {
-    Get.toNamed('/signup');
+    // Get.toNamed('/signup');
+    Get.back();
   }
 
   @override
@@ -22,7 +23,8 @@ class HomeDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomText(
-            text: '서비스 이용 전에 간단한\n회원가입이 필요해요',
+            // text: '서비스 이용 전에 간단한\n회원가입이 필요해요',
+            text: '오픈 준비중입니다',
             typoType: TypoType.h2,
           ),
           IconButton(
@@ -32,7 +34,8 @@ class HomeDialog extends StatelessWidget {
           )
         ],
       ),
-      content: CustomButton(label: '회원가입', onPressed: onPressed),
+      // content: CustomButton(label: '회원가입', onPressed: onPressed),
+      content: CustomButton(label: '확인', onPressed: onPressed),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),

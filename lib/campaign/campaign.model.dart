@@ -9,6 +9,7 @@ class Campaign {
   final String slogan;
   final String backgroundImg;
   final String logoImg;
+  final String status;
   final Color color;
   final String youtubeUrl;
   final List<AgendaItem> agendaList;
@@ -20,6 +21,7 @@ class Campaign {
     required this.slogan,
     required this.backgroundImg,
     required this.logoImg,
+    required this.status,
     required this.color,
     required this.youtubeUrl,
     required this.agendaList,

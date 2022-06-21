@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:get/route_manager.dart' show Get, GetNavigation;
+
 import 'guide.dart' show Guide;
 import 'guide.data.dart' show mockGuideList;
+import '../shared/custom_color.dart';
 
 /*
   Reference:
@@ -30,7 +32,7 @@ class _OnboardingPageState extends State<OnboardingPage>
         _curIndex = 2;
       });
     } else {
-      Get.toNamed('/');
+      Get.offAllNamed('/');
     }
   }
 
@@ -58,28 +60,32 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      color: customColor[ColorType.deepPurple],
       child: DefaultTabController(
           length: guideList.length,
           child: Stack(
             children: [
-              TabBarView(
-                  controller: tabController,
-                  physics: const ScrollPhysics(),
-                  children: tabs),
-              Align(alignment: Alignment.topRight, child: nextIcon(_curIndex)),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: TabPageSelector(
-                      indicatorSize: 10,
-                      controller: tabController,
-                      selectedColor: Colors.deepPurple,
-                      color: Colors.grey,
-                      borderStyle: BorderStyle.none,
-                    )),
+                child: TabBarView(
+                    controller: tabController,
+                    physics: const ScrollPhysics(),
+                    children: tabs),
               ),
+              Align(alignment: Alignment.topRight, child: nextIcon(_curIndex)),
+              // Align(
+              //   alignment: Alignment.bottomCenter,
+              //   child: Container(
+              //       margin: const EdgeInsets.only(bottom: 30),
+              //       child: TabPageSelector(
+              //         indicatorSize: 10,
+              //         controller: tabController,
+              //         selectedColor: Colors.deepPurple,
+              //         color: Colors.grey,
+              //         borderStyle: BorderStyle.none,
+              //       )),
+              // ),
             ],
           )),
     );
@@ -110,11 +116,12 @@ class GuideItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: double.infinity,
+      height: Get.height - 100,
+      padding: const EdgeInsets.only(top: 100),
       color: const Color(0xFF572E67),
-      child: Image.network(
-        guide.imageURL,
-        fit: BoxFit.cover,
+      child: Image(
+        image: AssetImage(guide.imageURL),
+        fit: BoxFit.contain,
       ),
     );
   }

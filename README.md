@@ -44,6 +44,9 @@ flutter run -t lib/main_dashbook.dart
 # deploy Android & iOS
 flutter build appbundle && cd android && bundle exec fastlane beta & cd ..
 flutter build ipa && cd ios && bundle exec fastlane beta & cd ..
+
+# Select xcode-beta
+sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer/
 ```
 
 ## 참고사항
