@@ -40,7 +40,7 @@ class _ValidatePageState extends State<ValidatePage> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(children: [
             const SizedBox(height: 40),
-            Align(
+            const Align(
                 alignment: Alignment.centerLeft,
                 child: CustomText(
                   typoType: TypoType.h2,

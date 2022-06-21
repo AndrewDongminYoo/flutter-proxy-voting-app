@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart'
-    show Get, GetMaterialApp, GetNavigation, Transition;
+import 'package:get/route_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -60,6 +59,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String initialRoute = '/onboarding';
+  // ignore: unused_field
   Map? _gcd;
 
   @override
@@ -105,7 +105,11 @@ class _MyAppState extends State<MyApp> {
       initialRoute: initialRoute,
       getPages: routes(),
       navigatorKey: Get.key,
-      navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(
+          analytics: analytics,
+        ),
+      ],
     );
   }
 }

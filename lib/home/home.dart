@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
       print(error.message);
     });
 
+    // ignore: unused_local_variable
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
