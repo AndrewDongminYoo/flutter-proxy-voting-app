@@ -104,6 +104,7 @@ class _MyAppState extends State<MyApp> {
       defaultTransition: Transition.cupertino,
       initialRoute: initialRoute,
       getPages: routes(),
+      debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,
       navigatorObservers: [
         FirebaseAnalyticsObserver(
