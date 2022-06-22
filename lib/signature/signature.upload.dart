@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:typed_data';
-//// amazon s3 & lambda execute
 import 'signature.service.dart' show SignatureRepository;
 import 'package:get/get.dart';
 
@@ -9,19 +9,20 @@ class CustomSignatureController extends GetxController {
 
   Future<void> uploadSignature(
       String company, String filename, Uint8List data) async {
-    Response response = await _repository.getPresignedUrl(company, filename);
-    print(response.bodyString);
+    Response res = await _repository.getPresignedUrl(company, filename);
+    Map<String, dynamic> response = res.body;
+    String presigned = response['url'];
     final form = FormData({
-      "file": MultipartFile(data, filename: filename),
-      "key": response.body['fields']['key'],
-      "x-amz-algorithm": response.body['fields']['x-amz-algorithm'],
-      "x-amz-credential": response.body['fields']['x-amz-credential'],
-      "x-amz-date": response.body['fields']['x-amz-date'],
-      "x-amz-security-token": response.body['fields']['x-amz-security-token'],
-      "policy": response.body['fields']['policy'],
-      "x-amz-signature": response.body['fields']['x-amz-signature'],
+      "File": MultipartFile(data, filename: filename),
+      "Key": filename,
+      "X-Amz-Algorithm": response['X-Amz-Algorithm'],
+      "X-Amz-Credential": response['X-Amz-Credential'],
+      "X-Amz-Date": response['X-Amz-Date'],
+      "X-Amz-Security-Token": response['X-Amz-Security-Token'],
+      "Policy": response['Policy'],
+      "X-Amz-Signature": response['X-Amz-Signature'],
     });
-    await _repository.putSignature(form);
+    await _repository.putSignature(form, presigned);
   }
 
   Future<String> getSignature(

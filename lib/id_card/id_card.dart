@@ -32,7 +32,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       if (idcardImage != null) {
         await _controller.uploadSignature(
           "company_name",
-          "id-company-useremail-idcard.png",
+          "card_username.png",
           idcardImage!,
         );
         Get.toNamed("/done");

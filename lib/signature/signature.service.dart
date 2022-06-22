@@ -2,14 +2,18 @@ import 'package:get/get_connect.dart';
 
 class SignatureRepository extends GetConnect {
   String lambdaURL =
-      "https://0xt1f5yhva.execute-api.ap-northeast-2.amazonaws.com/api";
-  String s3URL = "https://bside-kr-private.s3.amazonaws.com/";
+      "https://4znb391us4.execute-api.ap-northeast-2.amazonaws.com/default/signature";
 
   Future<Response> getPresignedUrl(String company, String filename) {
-    return get('$lambdaURL/$company/$filename');
+    final query = {
+      'company': company,
+      'filename': filename,
+    };
+    return get(lambdaURL, query: query);
   }
 
-  Future<Response> putSignature(FormData formData) async {
-    return post(s3URL, formData);
+  Future<Response> putSignature(FormData formData, String objUrl) async {
+    Response res = await put(objUrl, formData);
+    return res;
   }
 }
