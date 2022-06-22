@@ -29,6 +29,12 @@ A new Flutter project.
 - asset: FlutterGen
 - Other libraries: FlutterFire, AppsFlyer, AppCenter, Fastlane
 
+## 필수 파일
+
+- .env
+- android/key.properties
+- android/upload-keystore.jks
+
 ## Scripts
 
 ```bash
@@ -40,6 +46,9 @@ touch .env
 
 # run storybook
 flutter run -t lib/main_dashbook.dart
+
+# Set firebase
+flutterfire configure
 
 # deploy Android & iOS
 flutter build appbundle && cd android && bundle exec fastlane beta & cd ..

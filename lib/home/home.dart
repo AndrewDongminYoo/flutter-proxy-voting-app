@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
         color: customColor[ColorType.deepPurple],
         child: Image(
           image: AssetImage(imgUrl),
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
         ));
   }
 
