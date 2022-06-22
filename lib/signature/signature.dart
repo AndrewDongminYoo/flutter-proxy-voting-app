@@ -1,5 +1,4 @@
 import 'dart:typed_data' show Uint8List;
-import 'package:bside/auth/auth.controller.dart';
 
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:flutter/material.dart';

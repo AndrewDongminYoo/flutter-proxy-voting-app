@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'signature.service.dart' show SignatureRepository;
 import 'package:get/get.dart';

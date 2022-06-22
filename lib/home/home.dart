@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || 
-        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       return Future.value(false);
     }
