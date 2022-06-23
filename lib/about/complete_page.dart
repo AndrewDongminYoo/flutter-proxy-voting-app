@@ -1,10 +1,12 @@
 import 'package:bside/campaign/campaign.model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 
 import '../campaign/campaign.controller.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
+import 'address.dart';
 
 class CompleteWidget extends StatefulWidget {
   const CompleteWidget({
@@ -65,6 +67,7 @@ class _CompleteWidgetState extends State<CompleteWidget> {
           text: widget.bottom,
           colorType: ColorType.white,
         ),
+        const Address()
       ]),
     );
   }
