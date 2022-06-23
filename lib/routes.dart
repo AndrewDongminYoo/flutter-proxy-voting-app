@@ -2,12 +2,12 @@ import 'package:bside/result/result.dart';
 import 'package:get/route_manager.dart' show GetPage;
 
 import 'auth/auth.dart';
-import 'checkVoteNum/check.dart';
 import 'vote/vote.dart';
 import 'home/home.dart';
 import 'auth/validate.dart';
 import 'id_card/id_card.dart';
 import 'campaign/campaign.dart';
+import 'checkVoteNum/check.dart';
 import 'signature/signature.dart';
 import 'onboarding/onboarding.dart';
 

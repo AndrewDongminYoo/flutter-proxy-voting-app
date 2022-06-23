@@ -1,11 +1,11 @@
 import 'dart:async';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -25,8 +25,6 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final initialLink = await setupFirebase();
 
-  // Remove splash screen
-  FlutterNativeSplash.remove();
   runApp(MyApp(initialLink: initialLink));
   // },
   //     (error, stack) =>
@@ -58,7 +56,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/checkvoteNum';
+  String initialRoute = '/onboarding';
   // ignore: unused_field
   Map? _gcd;
 
@@ -67,6 +65,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initDynamicLinks();
     // setupAppsFlyer();
+
+    // Remove splash screen
+    FlutterNativeSplash.remove();
   }
 
   initDynamicLinks() {
