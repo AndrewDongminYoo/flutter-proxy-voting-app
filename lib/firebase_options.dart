@@ -63,10 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '288458571879',
     projectId: 'bside-kr',
     storageBucket: 'bside-kr.appspot.com',
-    androidClientId:
-        '288458571879-nq0bg2g9pgpgso37rnpmrhjqeuvcj77l.apps.googleusercontent.com',
-    iosClientId:
-        '288458571879-2i36sn3hb187n4ib83sdctodv61dtamv.apps.googleusercontent.com',
+    androidClientId: '288458571879-nq0bg2g9pgpgso37rnpmrhjqeuvcj77l.apps.googleusercontent.com',
+    iosClientId: '288458571879-2i36sn3hb187n4ib83sdctodv61dtamv.apps.googleusercontent.com',
     iosBundleId: 'ai.bside.bside',
   );
 }

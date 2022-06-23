@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../utils/firebase.dart';
 import '../home/home_dialog.dart';
@@ -48,47 +48,47 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> initFirebase() async {
-    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-      Navigator.pushNamed(context, dynamicLinkData.link.path);
-    }).onError((error) {
-      print('onLink error');
-      print(error.message);
-    });
+  // Future<void> initFirebase() async {
+  //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+  //     Navigator.pushNamed(context, dynamicLinkData.link.path);
+  //   }).onError((error) {
+  //     print('onLink error');
+  //     print(error.message);
+  //   });
 
-    // ignore: unused_local_variable
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+  //   // ignore: unused_local_variable
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     announcement: false,
+  //     badge: true,
+  //     carPlay: false,
+  //     criticalAlert: false,
+  //     provisional: false,
+  //     sound: true,
+  //   );
 
-    messaging.onTokenRefresh.listen((fcmToken) {
-      print(fcmToken);
-    }).onError((err) {
-      // Error getting token.
-    });
+  //   messaging.onTokenRefresh.listen((fcmToken) {
+  //     print(fcmToken);
+  //   }).onError((err) {
+  //     // Error getting token.
+  //   });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     print('Got a message whilst in the foreground!');
+  //     print('Message data: ${message.data}');
 
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-    });
-  }
+  //     if (message.notification != null) {
+  //       print('Message also contained a notification: ${message.notification}');
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
     controller = PageController(viewportFraction: 0.2, initialPage: curPage);
     curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
-    initFirebase();
+    // initFirebase();
   }
 
   @override

@@ -56,6 +56,10 @@ flutter build ipa && cd ios && bundle exec fastlane beta & cd ..
 
 # Select xcode-beta
 sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer/
+
+# Debug
+flutter upgrade
+flutter clean && flutter run
 ```
 
 ## 참고사항
