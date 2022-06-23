@@ -6,18 +6,19 @@ enum TypoType { h1Bold, h1, h2Bold, h2, body, bodyLight, label }
 class TypoStyle {
   final FontWeight fontWeight;
   final double fontSize;
+  final double letterSpacing;
 
-  TypoStyle({required this.fontWeight, required this.fontSize});
+  TypoStyle({required this.fontWeight, required this.fontSize, required this.letterSpacing});
 }
 
 final typoStyle = {
-  TypoType.h1Bold: TypoStyle(fontWeight: FontWeight.w800, fontSize: 24),
-  TypoType.h1: TypoStyle(fontWeight: FontWeight.w700, fontSize: 24),
-  TypoType.h2Bold: TypoStyle(fontWeight: FontWeight.w700, fontSize: 18),
-  TypoType.h2: TypoStyle(fontWeight: FontWeight.w400, fontSize: 18),
-  TypoType.body: TypoStyle(fontWeight: FontWeight.w400, fontSize: 14),
-  TypoType.bodyLight: TypoStyle(fontWeight: FontWeight.w300, fontSize: 14),
-  TypoType.label: TypoStyle(fontWeight: FontWeight.w300, fontSize: 11),
+  TypoType.h1Bold: TypoStyle(fontWeight: FontWeight.w800, fontSize: 24, letterSpacing: 0.48),
+  TypoType.h1: TypoStyle(fontWeight: FontWeight.w700, fontSize: 24, letterSpacing: 0.48),
+  TypoType.h2Bold: TypoStyle(fontWeight: FontWeight.w700, fontSize: 18, letterSpacing: 0.36),
+  TypoType.h2: TypoStyle(fontWeight: FontWeight.w400, fontSize: 18, letterSpacing: 0.36),
+  TypoType.body: TypoStyle(fontWeight: FontWeight.w400, fontSize: 16, letterSpacing: 0.28),
+  TypoType.bodyLight: TypoStyle(fontWeight: FontWeight.w300, fontSize: 16, letterSpacing: 0.28),
+  TypoType.label: TypoStyle(fontWeight: FontWeight.w300, fontSize: 12, letterSpacing: 0.55),
 };
 
 class CustomText extends StatelessWidget {
@@ -44,6 +45,7 @@ class CustomText extends StatelessWidget {
         color: customColor[colorType],
         fontWeight: style.fontWeight,
         fontSize: style.fontSize,
+        letterSpacing: style.letterSpacing
       ),
     );
   }
