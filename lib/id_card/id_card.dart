@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bside/signature/signature.upload.dart';
 
+import '../shared/back_button.dart';
+import '../shared/notice_button.dart';
+
 class UploadIdCardPage extends StatefulWidget {
   const UploadIdCardPage({Key? key}) : super(key: key);
 
@@ -42,16 +45,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     }
   }
 
-  Widget goBackButton() {
-    return IconButton(
-      icon: const Icon(IconData(
-        0xf05bc,
-        fontFamily: 'MaterialIcons',
-      )),
-      onPressed: () => Get.back(),
-    );
-  }
-
   Widget uploadImageButton() {
     return IconButton(
       onPressed: onSubmit,
@@ -77,16 +70,11 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: goBackButton(),
+        leading: const CustomBackButton(),
         title: const Text('신분증 업로드'),
         backgroundColor: const Color(0xFF572E67),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_rounded),
-            onPressed: () {
-              // TODO: 알림 탭 구현
-            },
-          ),
+        actions: const [
+          NoticeButton(),
         ],
       ),
       body: Container(

@@ -1,3 +1,4 @@
+import 'package:bside/shared/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,12 +28,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
         appBar: AppBar(
           backgroundColor: customColor[ColorType.deepPurple],
           elevation: 0,
-          leading: IconButton(
-            tooltip: "뒤로가기",
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Color(0xFFFFFFFF)),
-            onPressed: goBack,
-          ),
+          leading: const CustomBackButton(),
           title: const Text('본인확인 자료'),
         ),
         body: Center(

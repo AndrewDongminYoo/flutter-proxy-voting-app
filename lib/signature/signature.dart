@@ -1,5 +1,7 @@
 import 'dart:typed_data' show Uint8List;
 
+import '../shared/back_button.dart';
+import '../shared/notice_button.dart';
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;
@@ -38,8 +40,6 @@ class _SignaturePageState extends State<SignaturePage> {
     width: Get.width,
     height: 300,
   );
-
-  void _goBack() => Get.back();
 
   bool _showLottie = true;
   bool _isAgreed = false;
@@ -96,16 +96,11 @@ class _SignaturePageState extends State<SignaturePage> {
       color: Colors.white,
       home: Scaffold(
         appBar: AppBar(
-            leading: goBackButton(),
+            leading: const CustomBackButton(),
             title: const Text('전자서명'),
             backgroundColor: const Color(0xFF572E67),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.notifications_rounded),
-                onPressed: () {
-                  // TODO: 알림 탭 구현
-                },
-              )
+            actions: const [
+              NoticeButton(),
             ]),
         body: SingleChildScrollView(
           child: Column(children: [
@@ -242,18 +237,6 @@ class _SignaturePageState extends State<SignaturePage> {
           ]),
         ),
       ),
-    );
-  }
-
-  IconButton goBackButton() {
-    return IconButton(
-      icon: const Icon(
-        IconData(
-          0xf05bc,
-          fontFamily: 'MaterialIcons',
-        ),
-      ),
-      onPressed: _goBack,
     );
   }
 }
