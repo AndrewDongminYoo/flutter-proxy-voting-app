@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
 // import '../utils/firebase.dart';
-import '../home/home_dialog.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
@@ -185,15 +184,15 @@ Widget customPageViewLayer(PageController controller,
           alignment: Alignment.center,
           child: isActive
               ? Hero(
-                tag: 'companyLogo',
-                child: CircleAvatar(
+                  tag: 'companyLogo',
+                  child: CircleAvatar(
                     backgroundImage: NetworkImage(campaign.logoImg),
                     // FIXME: 하드코딩된 % 3 수정 필요
                     backgroundColor:
                         index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
                     radius: isActive ? 40 : 25,
                   ),
-              )
+                )
               : CircleAvatar(
                   backgroundImage: NetworkImage(campaign.logoImg),
                   // FIXME: 하드코딩된 % 3 수정 필요

@@ -3,13 +3,11 @@ import 'package:get/get.dart';
 
 import 'campaign.model.dart';
 import 'campaign.controller.dart';
-import '../home/home_dialog.dart';
 import '../shared/back_button.dart';
-import '../shared/custom_button.dart';
 import '../shared/custom_color.dart';
-import '../shared/custom_grid.dart';
 import '../shared/custom_text.dart';
 import '../shared/progress_bar.dart';
+import '../shared/custom_confirm.dart';
 
 class CampaignPage extends StatefulWidget {
   const CampaignPage({Key? key}) : super(key: key);
@@ -22,11 +20,6 @@ class _CampaignPageState extends State<CampaignPage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
-
-  onPress() {
-    Get.dialog(const HomeDialog());
-    // Get.toNamed("/signup");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +45,13 @@ class _CampaignPageState extends State<CampaignPage> {
                   campaignAgendaList(_controller.campaign),
                   const SizedBox(height: 24),
                   _controller.campaign.companyName == "티엘아이"
-                      ? CustomButton(
-                          label: '전자위임 하러가기',
-                          width: CustomW.w4,
-                          bgColor: ColorType.deepPurple,
-                          onPressed: onPress)
+                      ? CustomConfirm(
+                          buttonLabel: '전자위임 하러가기',
+                          message: '서비스 이용을 위해\n본인인증이 필요해요.',
+                          okLabel: '인증하러가기',
+                          onConfirm: () {
+                            Get.toNamed('/signup');
+                          })
                       : Container(),
                   const SizedBox(height: 24),
                   const SizedBox(height: 24),
