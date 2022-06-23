@@ -58,7 +58,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/onboarding';
+  String initialRoute = '/checkvoteNum';
   // ignore: unused_field
   Map? _gcd;
 

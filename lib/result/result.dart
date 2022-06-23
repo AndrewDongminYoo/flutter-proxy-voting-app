@@ -39,7 +39,7 @@ class _ResultPageState extends State<ResultPage> {
           child: ListView(
             children: <Widget>[
               complete(_controller.campaign),
-              adress(),
+              address(),
               progress()
             ],
           ),
@@ -47,7 +47,7 @@ class _ResultPageState extends State<ResultPage> {
   }
 }
 
-Widget adress() {
+Widget address() {
   return SizedBox(
       height: 300,
       child: Padding(
@@ -66,7 +66,7 @@ Widget adress() {
             color: customColor[ColorType.orange],
             child: SizedBox(
               width: double.infinity,
-              height: 100,
+              height: 120,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -133,7 +133,7 @@ Widget adress() {
 
 Widget complete(Campaign campaign) {
   return Container(
-    width: 1000,
+    width: double.infinity,
     height: 400,
     decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(

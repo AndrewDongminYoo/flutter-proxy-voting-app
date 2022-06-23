@@ -1,4 +1,3 @@
-import 'package:bside/shared/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,17 +24,56 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: customColor[ColorType.deepPurple],
-          elevation: 0,
-          leading: const CustomBackButton(),
-          title: const Text('본인확인 자료'),
+      appBar: AppBar(
+        backgroundColor: customColor[ColorType.deepPurple],
+        elevation: 0,
+        leading: IconButton(
+          tooltip: "뒤로가기",
+          icon: const Icon(Icons.arrow_back_ios_new_rounded,
+              color: Color(0xFFFFFFFF)),
+          onPressed: goBack,
         ),
-        body: Center(
-          child: ListView(
-            children: <Widget>[complete(_controller.campaign), adress()],
-          ),
-        ));
+        title: const Text('본인확인 자료'),
+      ),
+      body: Center(
+        child: ListView(
+          children: <Widget>[
+            complete(_controller.campaign),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                      typoType: TypoType.h1Bold,
+                      textAlign: TextAlign.left,
+                      text: '2022 ${_controller.campaign.companyName} 주주총회 의안'),
+                  const CustomText(
+                      typoType: TypoType.bodyLight,
+                      textAlign: TextAlign.left,
+                      text: '아래 작성 예시를 통해 정확한 정보를 알아보시고'),
+                  const CustomText(
+                      typoType: TypoType.bodyLight,
+                      textAlign: TextAlign.left,
+                      text: '소중한 주주의 의견을 알려주세요!'),
+                  // CustomOutlinedButton(
+                  //     textColor: customColor[ColorType.orange])
+                ],
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        backgroundColor: customColor[ColorType.yellow],
+        child: const Icon(Icons.chat_rounded, color: Color(0xFFDC721E)),
+      ),
+    );
   }
 }
 
@@ -43,16 +81,14 @@ Widget adress() {
   return SizedBox(
       height: 300,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Spacer(),
-          const CustomText(
-            typoType: TypoType.h2Bold,
-            text: '감사합니다. 소재우 주주님',
+          const Spacer(
+            flex: 2,
           ),
           Container(
               width: double.infinity,
-              height: 100,
+              height: 120,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: Color(0xFFDC721E),
@@ -67,20 +103,21 @@ Widget adress() {
                           CustomText(
                               typoType: TypoType.body,
                               text: '주소',
+                              textAlign: TextAlign.left,
                               colorType: ColorType.white),
                           Spacer(),
                           CustomText(
                               typoType: TypoType.bodyLight,
                               text: '수정하기',
+                              textAlign: TextAlign.left,
                               colorType: ColorType.white),
-                          // IconButton(onPressed: Navigator, icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                          // color: Color(0xFFFFFFFF)),)
                         ],
                       ),
                       const Spacer(),
                       const CustomText(
                           typoType: TypoType.bodyLight,
-                          text: '서울시 송파구',
+                          text: '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 707호',
+                          textAlign: TextAlign.left,
                           colorType: ColorType.white),
                     ]),
               )),
@@ -108,14 +145,17 @@ Widget adress() {
                           colorType: ColorType.white)
                     ]),
               )),
+          const Spacer(
+            flex: 2,
+          ),
         ]),
       ));
 }
 
 Widget complete(Campaign campaign) {
   return Container(
-    width: 1000,
-    height: 400,
+    width: double.infinity,
+    height: 500,
     decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
@@ -124,41 +164,25 @@ Widget complete(Campaign campaign) {
             end: Alignment.bottomCenter,
             colors: [Color(0xff60457A), Color(0xff80A1DF)])),
     child: Column(children: <Widget>[
-      Container(
-          margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
-          child: const CustomText(
-              typoType: TypoType.h1,
-              text: '사조 산업',
-              colorType: ColorType.white)),
-      Container(
-        margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-        child: Align(
-          child: CircleAvatar(
-            foregroundImage: NetworkImage(campaign.logoImg),
-            radius: 40,
-            backgroundColor: customColor[ColorType.white],
-          ),
+      const Spacer(),
+      const CustomText(
+          typoType: TypoType.h1, text: '안녕하세요!', colorType: ColorType.white),
+      const CustomText(
+          typoType: TypoType.h1, text: '소재우 주주님', colorType: ColorType.white),
+      const Spacer(),
+      Align(
+        child: CircleAvatar(
+          foregroundImage: NetworkImage(campaign.logoImg),
+          radius: 40,
+          backgroundColor: customColor[ColorType.white],
         ),
       ),
-      Container(
-          margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-          child: const CustomText(
-              typoType: TypoType.h1,
-              text: '수고하셨습니다.',
-              colorType: ColorType.white)),
-      const CustomText(
-          typoType: TypoType.bodyLight,
-          text: '성공적으로 전자위임이 완료되었습니다.',
+      const Spacer(),
+      CustomText(
+          typoType: TypoType.h1,
+          text: campaign.companyName,
           colorType: ColorType.white),
-      const CustomText(
-          typoType: TypoType.bodyLight,
-          text: '다른 캠페인도 둘러보시겠어요?',
-          colorType: ColorType.white),
-      // IconButton(
-      //     onPressed: () => Navigator.pushNamed(context, '/profile'),
-      //     iconSize: 36,
-      //     icon:
-      //         const Icon(Icons.expand_more_rounded, color: Colors.white70)),
+      adress()
     ]),
   );
 }
