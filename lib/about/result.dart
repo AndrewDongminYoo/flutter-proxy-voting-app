@@ -8,6 +8,7 @@ import '../campaign/campaign.model.dart';
 import '../shared/back_button.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
+import 'campaign .progress.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _ResultPageState extends State<ResultPage> {
             children: <Widget>[
               Complete(_controller.campaign),
               const Address(),
-              progress()
+              const CampaignProgressView(),
             ],
           ),
         ));
@@ -88,21 +89,5 @@ Widget Complete(Campaign campaign) {
       //     icon:
       //         const Icon(Icons.expand_more_rounded, color: Colors.white70)),
     ]),
-  );
-}
-
-Widget progress() {
-  return Stepper(
-    type: StepperType.vertical,
-    steps: const [
-      Step(
-        title: Text('Step 1 title'),
-        content: Text(''),
-      ),
-      Step(
-        title: Text('Step 2 title'),
-        content: Text(''),
-      ),
-    ],
   );
 }
