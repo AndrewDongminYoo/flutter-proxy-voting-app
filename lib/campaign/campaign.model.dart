@@ -7,6 +7,7 @@ class Campaign {
   final String moderator;
   final String date;
   final String slogan;
+  final String details;
   final String backgroundImg;
   final String logoImg;
   final String status;
@@ -19,6 +20,7 @@ class Campaign {
     required this.moderator,
     required this.date,
     required this.slogan,
+    required this.details,
     required this.backgroundImg,
     required this.logoImg,
     required this.status,

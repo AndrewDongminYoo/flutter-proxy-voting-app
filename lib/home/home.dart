@@ -1,9 +1,10 @@
+import 'package:bside/shared/custom_button.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../utils/firebase.dart';
+// import '../utils/firebase.dart';
 import '../home/home_dialog.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
@@ -34,11 +35,13 @@ class _HomePageState extends State<HomePage> {
 
   void onPress(Campaign campaign) {
     _controller.setCampaign(campaign);
-    if (_authController.isLogined) {
-      Get.toNamed('/campaign');
-    } else {
-      Get.dialog(const HomeDialog());
-    }
+    // Get.dialog(const HomeDialog());
+    Get.toNamed('/campaign');
+    // if (_authController.isLogined) {
+    //   Get.toNamed('/campaign');
+    // } else {
+    //   Get.dialog(const HomeDialog());
+    // }
   }
 
   void updateCurPage(int index) {
@@ -140,8 +143,8 @@ Widget topBar() {
   // ignore: unused_local_variable
   const String assetName = "assets/images/bside_web.svg";
   return Positioned(
-      top: 60,
-      left: 20,
+      top: 40,
+      left: 16,
       child: Image.network("https://bside.ai/_nuxt/img/logo.71a8129.png"));
 }
 
@@ -170,7 +173,7 @@ Widget customPageViewLayer(PageController controller,
             center: Alignment.center,
             colors: <Color>[
               const Color(0xFF572E67),
-              Colors.deepPurple,
+              const Color(0xFF7C299A),
               campaign.color,
               const Color(0xFF572E67),
             ],
@@ -180,26 +183,37 @@ Widget customPageViewLayer(PageController controller,
         ),
         child: Align(
           alignment: Alignment.center,
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(campaign.logoImg),
-            // FIXME: 하드코딩된 % 3 수정 필요
-            backgroundColor:
-                index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
-            radius: isActive ? 40 : 25,
-          ),
+          child: isActive
+              ? Hero(
+                tag: 'companyLogo',
+                child: CircleAvatar(
+                    backgroundImage: NetworkImage(campaign.logoImg),
+                    // FIXME: 하드코딩된 % 3 수정 필요
+                    backgroundColor:
+                        index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
+                    radius: isActive ? 40 : 25,
+                  ),
+              )
+              : CircleAvatar(
+                  backgroundImage: NetworkImage(campaign.logoImg),
+                  // FIXME: 하드코딩된 % 3 수정 필요
+                  backgroundColor:
+                      index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
+                  radius: isActive ? 40 : 25,
+                ),
         ));
   }
 
   return SizedBox(
       width: Get.width,
-      height: Get.height * 0.7 + 100,
+      height: Get.height * 0.88,
       child: Stack(children: [
         Positioned(
             top: 100,
             right: 16,
             child: SizedBox(
                 width: Get.width,
-                height: Get.height * 1.15,
+                height: Get.height * 1.25,
                 child: PageView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: null,
@@ -209,7 +223,7 @@ Widget customPageViewLayer(PageController controller,
                     itemBuilder: (context, index) {
                       int realIndex = getRealIndex(index, campaigns.length);
                       return Container(
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(13),
                           child: GestureDetector(
                               onTap: () => onTap(index),
                               child: slider(
@@ -232,33 +246,8 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
         curve: Curves.easeInOutCubic);
   }
 
-  Widget customTextButton() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30),
-      child: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(color: Colors.white),
-            ),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-              primary: Colors.deepPurple,
-              textStyle: const TextStyle(fontSize: 16),
-            ),
-            onPressed: () => onPress(curCampaign),
-            child: Text(curCampaign.status),
-          ),
-        ],
-      ),
-    );
-  }
-
   return Positioned(
-      bottom: Get.height * 0.185,
+      top: Get.height * 0.55,
       right: 12,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -271,8 +260,14 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           CampaignInfo(campaign: curCampaign),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: customTextButton(),
+            child: CustomButton(
+              label: curCampaign.status,
+              onPressed: () => onPress(curCampaign),
+              bgColor: ColorType.white,
+              textColor: ColorType.deepPurple,
+            ),
           ),
+          const SizedBox(height: 24),
           IconButton(
               onPressed: onNext,
               iconSize: 36,

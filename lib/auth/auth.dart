@@ -51,11 +51,7 @@ class _AuthPageState extends State<AuthPage> {
                 )),
             TextFormField(
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: '휴대폰번호'),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: '주민등록번호'),
+                  border: OutlineInputBorder(), labelText: '이름'),
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -63,9 +59,17 @@ class _AuthPageState extends State<AuthPage> {
             ),
             TextFormField(
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: '이름'),
+                  border: OutlineInputBorder(), labelText: '주민등록번호'),
             ),
-            CustomButton(label: '확인', onPressed: onPressed, width: CustomW.w4,)
+            TextFormField(
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: '휴대폰번호'),
+            ),
+            CustomButton(
+              label: '확인',
+              onPressed: onPressed,
+              width: CustomW.w4,
+            )
           ],
         ),
       )),

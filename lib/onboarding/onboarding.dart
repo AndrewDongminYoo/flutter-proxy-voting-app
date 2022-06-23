@@ -33,6 +33,7 @@ class _OnboardingPageState extends State<OnboardingPage>
         _curIndex = 2;
       });
     } else {
+      // analytics.logTutorialComplete();
       Get.offAllNamed('/');
     }
   }
@@ -50,6 +51,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     tabs = guideList.map((item) => GuideItem(guide: item)).toList();
     tabController = TabController(length: guideList.length, vsync: this);
     tabController!.addListener(updateIndex);
+    // analytics.logTutorialBegin();
   }
 
   @override

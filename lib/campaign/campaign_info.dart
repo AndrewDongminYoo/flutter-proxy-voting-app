@@ -12,19 +12,23 @@ class CampaignInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+      const SizedBox(height: 24),
       Text(
         campaign.companyName,
         style: const TextStyle(
             color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
       ),
+      const SizedBox(height: 16),
       Text(
         campaign.moderator,
-        style: const TextStyle(color: Colors.white, fontSize: 16, height: 2),
+        style: const TextStyle(color: Colors.white, fontSize: 16, height: 1),
       ),
+      const SizedBox(height: 16),
       Text(
         campaign.date,
         style: const TextStyle(color: Colors.white, fontSize: 16),
       ),
+      const SizedBox(height: 16),
     ]);
   }
 }
