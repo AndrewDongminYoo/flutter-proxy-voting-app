@@ -5,6 +5,7 @@ import 'auth.controller.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_grid.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_appbar.dart';
 
 const headlines = [
   '휴대폰번호를\n입력해주세요',
@@ -37,6 +38,7 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(title: '캠페인'),
       body: SingleChildScrollView(
           child: Form(
         key: _formKey,

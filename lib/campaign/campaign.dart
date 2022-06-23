@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import 'campaign.model.dart';
 import 'campaign.controller.dart';
-import '../shared/back_button.dart';
-import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
+import '../shared/custom_color.dart';
+import '../shared/custom_appbar.dart';
 import '../shared/progress_bar.dart';
 import '../shared/custom_confirm.dart';
 
@@ -24,10 +24,7 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: const Color(0xFF5E3F74),
-          elevation: 0,
-          leading: const CustomBackButton()),
+      appBar: const CustomAppBar(title: '', bgColor: Color(0xFF5E3F74)),
       body: Stack(fit: StackFit.expand, children: [
         gradientLayer(),
         SizedBox(

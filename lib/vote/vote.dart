@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'vote.model.dart';
 import 'vote_selector.dart';
+import '../shared/custom_appbar.dart';
 import '../campaign/campaign.controller.dart';
 
 class VotePage extends StatefulWidget {
@@ -46,15 +47,7 @@ class _VotePageState extends State<VotePage> {
     final agendaLength = _controller.campaign.agendaList.length;
 
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: const Color(0xFF5E3F74),
-            elevation: 0,
-            leading: IconButton(
-              tooltip: "뒤로가기",
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              onPressed: goBack,
-            )),
+        appBar: const CustomAppBar(title: ""),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),

@@ -13,6 +13,8 @@ class CustomBackButton extends StatelessWidget {
           fontFamily: 'MaterialIcons',
         ),
       ),
+      splashRadius: 20.0,
+      iconSize: 24.0,
       tooltip: "뒤로가기",
       onPressed: () => Get.back(),
     );
