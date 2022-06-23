@@ -34,13 +34,11 @@ class _HomePageState extends State<HomePage> {
 
   void onPress(Campaign campaign) {
     _controller.setCampaign(campaign);
-    // Get.dialog(const HomeDialog());
-    Get.toNamed('/campaign');
-    // if (_authController.isLogined) {
-    //   Get.toNamed('/campaign');
-    // } else {
-    //   Get.dialog(const HomeDialog());
-    // }
+    if (_authController.isLogined) {
+      Get.toNamed('/campaign');
+    } else {
+      // Get.dialog(const HomeDialog());
+    }
   }
 
   void updateCurPage(int index) {

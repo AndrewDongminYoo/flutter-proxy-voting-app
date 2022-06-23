@@ -133,11 +133,19 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
             ),
             const Spacer(),
             Row(
-              children: const [
-                Text(
+              children: [
+                const Text(
                   '주민등록 번호 먼저 입력하기',
                 ),
-                Icon(Icons.arrow_circle_right_outlined)
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_circle_right_outlined,
+                  ),
+                  onPressed: () {
+                    if (idCardUploaded) {}
+                    // 주민등록번호 먼저 입력하는 페이지로 이동
+                  },
+                )
               ],
             ),
             const SizedBox(
@@ -152,8 +160,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 ),
               ),
               onPressed: () {
-                // TODO: 저장된 이미지 리턴받아 등록하고 다음 페이지로 이동
-                Get.toNamed('done');
+                if (idCardUploaded) {
+                  // TODO: 저장된 이미지 리턴받아 등록하고 다음 페이지로 이동
+                  Get.toNamed('done');
+                }
               },
               child: const Text(
                 '등록',
