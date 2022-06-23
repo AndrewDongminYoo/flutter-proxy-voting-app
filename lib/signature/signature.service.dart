@@ -12,8 +12,8 @@ class SignatureRepository extends GetConnect {
     return get(lambdaURL, query: query);
   }
 
-  Future<Response> putSignature(FormData formData, String objUrl) async {
-    Response res = await put(objUrl, formData);
-    return res;
+  Future<Response> putSignature(FormData formData, String presignedUrl) async {
+    return await put(presignedUrl, formData,
+        contentType: "multipart/form-data");
   }
 }

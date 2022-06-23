@@ -103,7 +103,9 @@ class _SignaturePageState extends State<SignaturePage> {
             actions: [
               IconButton(
                 icon: const Icon(Icons.notifications_rounded),
-                onPressed: () {},
+                onPressed: () {
+                  // TODO: 알림 탭 구현
+                },
               )
             ]),
         body: SingleChildScrollView(
@@ -122,7 +124,9 @@ class _SignaturePageState extends State<SignaturePage> {
                           )),
                       const Spacer(),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // 문의하기 페이지 구현
+                        },
                         style: OutlinedButton.styleFrom(
                           primary: const Color(0xFF572E67),
                         ),
@@ -162,9 +166,7 @@ class _SignaturePageState extends State<SignaturePage> {
             OutlinedButton(
               onPressed: () async {
                 _controller.clear();
-                // String result =
-                //     await _customController.getSignature("company", "filename");
-                // print(result);
+                // TODO: 이전에 등록한 유저사인 가져오기
               },
               style: OutlinedButton.styleFrom(
                 fixedSize: Size(Get.width - 30, 50),
@@ -211,7 +213,7 @@ class _SignaturePageState extends State<SignaturePage> {
                           _setManaged();
                         },
                       ),
-                      const Text('에스엠 측에 대한 기존 위임을 철회합니다.'),
+                      const Text('티엘아이 측에 대한 기존 위임을 철회합니다.'),
                     ],
                   ),
                 ],
@@ -226,7 +228,7 @@ class _SignaturePageState extends State<SignaturePage> {
                 ),
               ),
               onPressed: () async {
-                // temporary solution :: show result
+                // TODO: 완료된 사인 업로드하고 유저 정보에 입력하고 다음 페이지 넘어가기
                 await _showSignature(context);
                 // onSubmit();
               },

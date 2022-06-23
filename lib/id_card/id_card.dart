@@ -32,10 +32,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       if (idcardImage != null) {
         await _controller.uploadSignature(
           "company_name",
-          "card_username.png",
+          xfile.name,
           idcardImage!,
         );
-        Get.toNamed("/done");
+        setState(() {
+          idCardUploaded = true;
+        });
       }
     }
   }
@@ -46,7 +48,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
         0xf05bc,
         fontFamily: 'MaterialIcons',
       )),
-      onPressed: () => Get.toNamed('/signature'),
+      onPressed: () => Get.back(),
     );
   }
 
@@ -66,11 +68,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
             color: Colors.deepOrange,
             semanticLabel: '촬영 및 업로드',
           ),
-          // Lottie.network(
-          //   "https://assets1.lottiefiles.com/packages/lf20_OWzdLY.json",
-          //   width: Get.width,
-          //   height: 300,
-          // ),
         ],
       ),
     );
@@ -86,7 +83,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_rounded),
-            onPressed: () {},
+            onPressed: () {
+              // TODO: 알림 탭 구현
+            },
           ),
         ],
       ),
@@ -104,7 +103,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                     )),
                 const Spacer(),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO: 문의하기 페이지 구현
+                  },
                   style: OutlinedButton.styleFrom(
                     primary: const Color(0xFF572E67),
                   ),
@@ -162,7 +163,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                // TODO: 저장된 이미지 리턴받아 등록하고 다음 페이지로 이동
+                Get.toNamed('done');
+              },
               child: const Text(
                 '등록',
                 style: TextStyle(
