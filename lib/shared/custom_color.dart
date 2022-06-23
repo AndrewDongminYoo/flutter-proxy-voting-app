@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
-enum ColorType { deepPurple, purple, orange, yellow, blue, grey, lightGrey, white, black}
+enum ColorType {
+  deepPurple,
+  purple,
+  orange,
+  yellow,
+  blue,
+  grey,
+  lightGrey,
+  white,
+  black
+}
 
 final customColor = {
   ColorType.deepPurple: const Color(0xFF572E66),
@@ -12,4 +22,3 @@ final customColor = {
   ColorType.lightGrey: const Color(0xFFE9E9E9),
   ColorType.white: const Color(0xFFFFFFFF),
 };
-
