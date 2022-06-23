@@ -1,3 +1,4 @@
+import 'package:bside/shared/back_button.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -27,14 +28,10 @@ class _ValidatePageState extends State<ValidatePage> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: const Color(0xFF5E3F74),
-          elevation: 0,
-          leading: IconButton(
-            tooltip: "뒤로가기",
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white),
-            onPressed: goBack,
-          )),
+        backgroundColor: const Color(0xFF5E3F74),
+        elevation: 0,
+        leading: const CustomBackButton(),
+      ),
       body: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,

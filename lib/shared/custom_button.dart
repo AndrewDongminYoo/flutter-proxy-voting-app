@@ -72,11 +72,13 @@ class CustomOutlinedButton extends StatelessWidget {
               border: Border.all(color: customColor[textColor]!),
               borderRadius: BorderRadius.circular(24)),
           child: Center(
-            child: Text(label,
-                style: TextStyle(
-                    color: customColor[textColor],
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400)),
+            child: Text(
+              label,
+              style: TextStyle(
+                  color: customColor[textColor],
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400),
+            ),
           )),
     );
   }
