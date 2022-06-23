@@ -1,4 +1,5 @@
-import 'package:bside/shared/custom_text.dart';
+import 'custom_text.dart';
+// import 'notice_button.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/back_button.dart';
@@ -20,6 +21,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 106,
       backgroundColor: bgColor,
       elevation: 0,
+      // actions: const [
+      //   NoticeButton(),
+      // ],
     );
   }
 

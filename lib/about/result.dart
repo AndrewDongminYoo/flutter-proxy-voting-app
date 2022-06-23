@@ -47,7 +47,9 @@ Widget Complete(Campaign campaign) {
     height: 400,
     decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
         gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,

@@ -3,13 +3,13 @@ import 'package:get/route_manager.dart' show GetPage;
 import 'auth/auth.dart';
 import 'vote/vote.dart';
 import 'home/home.dart';
-import 'about/check.dart';
-import 'about/result.dart';
-import 'auth/validate.dart';
 import 'campaign/campaign.dart';
+import 'auth/validate.dart';
 import 'signature/id_card.dart';
 import 'signature/signature.dart';
 import 'onboarding/onboarding.dart';
+import 'about/result.dart';
+import 'about/check.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),
