@@ -28,9 +28,9 @@ class _SignaturePageState extends State<SignaturePage> {
   }
 
   final SignatureController _controller = SignatureController(
-    penStrokeWidth: 5,
+    penStrokeWidth: 3,
     penColor: Colors.black,
-    exportBackgroundColor: Colors.deepPurpleAccent.shade100,
+    exportBackgroundColor: Colors.transparent,
   );
 
   final LottieBuilder _lottie = Lottie.network(
@@ -78,16 +78,15 @@ class _SignaturePageState extends State<SignaturePage> {
 모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
 
   void onSubmit() async {
-    if (_controller.isEmpty) {
-      return;
+    if (_controller.isNotEmpty) {
+      final Uint8List? result = await _controller.toPngBytes();
+      await _customController.uploadSignature(
+        "company_name",
+        '${DateTime.now()}-sign_username.png',
+        result!,
+      );
+      Get.toNamed('/vote');
     }
-    final Uint8List? result = await _controller.toPngBytes();
-    await _customController.uploadSignature(
-      "company_name",
-      "sign_username.png",
-      result!,
-    );
-    Get.toNamed('/vote');
   }
 
   @override
@@ -140,7 +139,7 @@ class _SignaturePageState extends State<SignaturePage> {
             ),
             Container(
               margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
+              foregroundDecoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.deepOrange,
                   width: 2,
@@ -155,13 +154,13 @@ class _SignaturePageState extends State<SignaturePage> {
                     )
                   : Signature(
                       controller: _controller,
-                      backgroundColor: Colors.transparent,
-                      width: Get.width,
+                      backgroundColor: Colors.white,
                       height: 300,
+                      width: Get.width,
                     ),
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             OutlinedButton(
               onPressed: () async {

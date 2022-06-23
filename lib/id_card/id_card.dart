@@ -25,7 +25,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
   void onSubmit() async {
     final XFile? xfile = await picker.pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     );
     if (xfile != null) {
       idcardImage = await File(xfile.path).readAsBytes();
