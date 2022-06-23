@@ -1,8 +1,8 @@
+import 'package:bside/result/result.dart';
 import 'package:get/route_manager.dart' show GetPage;
 
 import 'auth/auth.dart';
 import 'checkVoteNum/check.dart';
-import 'result/result.dart';
 import 'vote/vote.dart';
 import 'home/home.dart';
 import 'auth/validate.dart';
