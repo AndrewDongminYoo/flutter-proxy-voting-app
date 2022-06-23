@@ -56,7 +56,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/idcard';
+  String initialRoute = '/result';
   // ignore: unused_field
   Map? _gcd;
 

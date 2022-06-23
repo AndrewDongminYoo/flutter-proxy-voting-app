@@ -1,22 +1,32 @@
 import 'package:bside/campaign/campaign.model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
-import '../about/address.dart';
+import '../campaign/campaign.controller.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
 
-class CompleteWidget extends StatelessWidget {
-  CompleteWidget({
+class CompleteWidget extends StatefulWidget {
+  const CompleteWidget({
     Key? key,
-    required this.campaign,
+    required this.bottom,
     double? containerHeight,
   }) : super(key: key);
-  final Campaign campaign;
+  final String bottom;
+
+  @override
+  State<CompleteWidget> createState() => _CompleteWidgetState();
+}
+
+class _CompleteWidgetState extends State<CompleteWidget> {
   double? containerHeight;
+  final CampaignController _controller = Get.isRegistered<CampaignController>()
+      ? Get.find()
+      : Get.put(CampaignController());
 
   @override
   Widget build(BuildContext context) {
+    Campaign campaign = _controller.campaign;
     return Container(
       width: Get.width,
       height: 500,
@@ -36,14 +46,9 @@ class CompleteWidget extends StatelessWidget {
       ),
       child: Column(children: <Widget>[
         const Spacer(),
-        const CustomText(
+        CustomText(
           typoType: TypoType.h1,
-          text: '안녕하세요!',
-          colorType: ColorType.white,
-        ),
-        const CustomText(
-          typoType: TypoType.h1,
-          text: '소재우 주주님',
+          text: campaign.companyName,
           colorType: ColorType.white,
         ),
         const Spacer(),
@@ -57,10 +62,9 @@ class CompleteWidget extends StatelessWidget {
         const Spacer(),
         CustomText(
           typoType: TypoType.h1,
-          text: campaign.companyName,
+          text: widget.bottom,
           colorType: ColorType.white,
         ),
-        const Address()
       ]),
     );
   }

@@ -1,7 +1,3 @@
-// ignore_for_file: unused_import
-
-import 'package:bside/About/complete_page.dart';
-import 'package:bside/about/result.dart';
 import 'package:bside/shared/custom_button.dart';
 import 'package:bside/shared/custom_grid.dart';
 import 'package:bside/shared/notice_button.dart';
@@ -13,6 +9,7 @@ import '../campaign/campaign.model.dart';
 import '../shared/back_button.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
+import 'complete_page.dart';
 
 class CheckVoteNumPage extends StatefulWidget {
   const CheckVoteNumPage({Key? key}) : super(key: key);
@@ -41,7 +38,9 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-            const CompleteWidget(),
+            const CompleteWidget(
+              bottom: '안녕하세요! 소재우 주주님',
+            ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(20.0),
