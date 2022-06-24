@@ -1,7 +1,7 @@
-import '../about/stepper_example.dart';
-import '../shared/custom_grid.dart';
+import 'package:bside/about/edit_modal.dart';
 
-import '../shared/custom_button.dart';
+import '../auth/auth.controller.dart';
+
 import 'similar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,13 +18,22 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  final AuthController _addressController = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  onEdit() {
+    Get.dialog(EditModal());
+  }
+
   @override
   Widget build(BuildContext context) {
     Campaign campaign = _controller.campaign;
-
+    String address = _addressController.user?.address != null
+        ? _addressController.user!.address
+        : '주소가 없습니다.';
     var blueBackGroundWidgets = <Widget>[
       Container(
           margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
@@ -56,54 +65,52 @@ class _ResultPageState extends State<ResultPage> {
           typoType: TypoType.bodyLight,
           text: '다른 캠페인도 둘러보시겠어요?',
           colorType: ColorType.white),
+      const SizedBox(height: 10)
     ];
     var whiteBackGroundWidgets = [
-      // const Spacer(
-      //   flex: 2,
-      // ),
       Container(
         width: Get.width,
-        height: 120,
+        height: Get.height * 0.18,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           ),
           color: Color(0xFFDC721E),
         ),
-        child: Container(
-          width: Get.width,
+        child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: const [
-                  CustomText(
-                    typoType: TypoType.body,
-                    text: '주소',
-                    textAlign: TextAlign.left,
-                    colorType: ColorType.white,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    typoType: TypoType.bodyLight,
-                    text: '수정하기',
-                    textAlign: TextAlign.left,
-                    colorType: ColorType.white,
-                  ),
-                  Icon(
-                    Icons.arrow_circle_right_outlined,
-                  ),
-                ],
-              ),
-              const Spacer(),
-              const CustomText(
-                  typoType: TypoType.bodyLight,
-                  text: '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 707호',
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(
+              children: [
+                const CustomText(
+                  typoType: TypoType.body,
+                  text: '주소',
                   textAlign: TextAlign.left,
-                  colorType: ColorType.white),
-            ],
-          ),
+                  colorType: ColorType.white,
+                ),
+                const Spacer(),
+                const CustomText(
+                  typoType: TypoType.bodyLight,
+                  text: '수정하기',
+                  textAlign: TextAlign.left,
+                  colorType: ColorType.white,
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_circle_right_outlined,
+                    color: customColor[ColorType.white],
+                  ),
+                  onPressed: onEdit,
+                ),
+              ],
+            ),
+            CustomText(
+                typoType: TypoType.bodyLight,
+                text: address,
+                textAlign: TextAlign.left,
+                colorType: ColorType.white),
+          ]),
         ),
       ),
       const SizedBox(height: 20),
@@ -133,15 +140,21 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
     ];
-    var animatedWidgets = Column(children: [
-      const StepperComponent(),
-      CustomButton(
-        label: '처음으로',
-        width: CustomW.w4,
-        onPressed: () => Get.toNamed("/"),
-      )
-    ]);
+    var animatedWidgets = Stepper(
+      type: StepperType.vertical,
+      steps: const [
+        Step(
+          title: Text('Step 1 title'),
+          content: Text(''),
+        ),
+        Step(
+          title: Text('Step 2 title'),
+          content: Text(''),
+        ),
+      ],
+    );
     return SimilarPage(
+      title: '결과 확인',
       blueBackGroundWidgets: blueBackGroundWidgets,
       whiteBackGroundWidgets: whiteBackGroundWidgets,
       animatedWidgets: animatedWidgets,

@@ -7,11 +7,12 @@ import '../shared/custom_color.dart';
 class SimilarPage extends StatefulWidget {
   const SimilarPage({
     Key? key,
+    required this.title,
     required this.blueBackGroundWidgets,
     required this.whiteBackGroundWidgets,
     required this.animatedWidgets,
   }) : super(key: key);
-
+  final String title;
   final List<Widget> blueBackGroundWidgets;
   final List<Widget> whiteBackGroundWidgets;
   final Widget animatedWidgets;
@@ -24,8 +25,8 @@ class _SimilarPageState extends State<SimilarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: '',
+      appBar: CustomAppBar(
+        title: widget.title,
       ),
       body: SizedBox(
         height: Get.height - 100,

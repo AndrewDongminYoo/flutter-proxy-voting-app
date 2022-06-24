@@ -1,3 +1,5 @@
+import '../auth/auth.controller.dart';
+import 'edit_modal.dart';
 import 'similar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,9 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
+  final AuthController _addressController = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
@@ -28,8 +33,15 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
     Get.toNamed("/vote");
   }
 
+  onEdit() {
+    Get.dialog(EditModal());
+  }
+
   @override
   Widget build(BuildContext context) {
+    String address = _addressController.user != null
+        ? _addressController.user!.address
+        : '주소가 없습니다.';
     Campaign campaign = _controller.campaign;
 
     var blueBackGroundWidgets = <Widget>[
@@ -67,29 +79,33 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
-              children: const [
-                CustomText(
+              children: [
+                const CustomText(
                   typoType: TypoType.body,
                   text: '주소',
                   textAlign: TextAlign.left,
                   colorType: ColorType.white,
                 ),
-                Spacer(),
-                CustomText(
+                const Spacer(),
+                const CustomText(
                   typoType: TypoType.bodyLight,
                   text: '수정하기',
                   textAlign: TextAlign.left,
                   colorType: ColorType.white,
                 ),
-                Icon(
-                  Icons.arrow_circle_right_outlined,
-                )
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_circle_right_outlined,
+                    color: customColor[ColorType.white],
+                  ),
+                  onPressed: onEdit,
+                ),
               ],
             ),
             const SizedBox(height: 24),
-            const CustomText(
+            CustomText(
                 typoType: TypoType.bodyLight,
-                text: '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 707호',
+                text: address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white),
           ]),
@@ -160,6 +176,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       ),
     ];
     return SimilarPage(
+      title: '의결수 확인',
       blueBackGroundWidgets: blueBackGroundWidgets,
       whiteBackGroundWidgets: whiteBackGroundWidgets,
       animatedWidgets: Container(),
