@@ -28,16 +28,17 @@ class _HomePageState extends State<HomePage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  // ignore: unused_field
   final AuthController _authController = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
 
   void onPress(Campaign campaign) {
     _controller.setCampaign(campaign);
-      Get.toNamed('/campaign');
+    Get.toNamed('/campaign');
     // if (_authController.isLogined) {
     // } else {
-      // Get.dialog(const HomeDialog());
+    // Get.dialog(const HomeDialog());
     // }
   }
 

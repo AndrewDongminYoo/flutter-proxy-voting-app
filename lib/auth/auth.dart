@@ -1,6 +1,5 @@
 import 'package:bside/shared/card_formatter.dart';
 import 'package:bside/shared/custom_color.dart';
-import 'package:bside/shared/custom_scaffold.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +32,10 @@ class _AuthPageState extends State<AuthPage> {
   String telecom = '';
   final telecomController = TextEditingController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  // ignore: unused_field
   late ListModel<Widget> _list;
-  final commonStyle = const TextStyle(letterSpacing: 2.0, fontSize: 18, fontWeight: FontWeight.bold);
+  final commonStyle = const TextStyle(
+      letterSpacing: 2.0, fontSize: 18, fontWeight: FontWeight.bold);
   final AuthController _controller = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
@@ -46,7 +47,7 @@ class _AuthPageState extends State<AuthPage> {
 
   onNext() {
     // TODO: Focus 전환 필요
-    print('onNext: ${curStep}');
+    print('onNext: $curStep');
     FocusScope.of(Get.context!).unfocus();
     switch (curStep) {
       // case 0:

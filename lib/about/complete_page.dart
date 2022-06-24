@@ -1,7 +1,6 @@
 import 'package:bside/campaign/campaign.model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 import '../campaign/campaign.controller.dart';
 import '../shared/custom_color.dart';

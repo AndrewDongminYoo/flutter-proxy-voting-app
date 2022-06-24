@@ -18,10 +18,6 @@ class _ValidatePageState extends State<ValidatePage> {
 
   @override
   Widget build(BuildContext context) {
-    goBack() {
-      Get.back();
-    }
-
     onPressed() {
       Get.toNamed('/');
     }

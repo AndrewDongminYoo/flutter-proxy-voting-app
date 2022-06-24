@@ -92,6 +92,7 @@ Widget campaignHeader(Campaign campaign) {
 }
 
 Widget campaignInfoInRow(Campaign campaign) {
+  // ignore: unused_local_variable
   final actionMenuList = <ActionMenu>[
     ActionMenu(
         icon: Icons.book_rounded,

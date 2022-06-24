@@ -8,8 +8,7 @@ import '../campaign/campaign.model.dart';
 import '../shared/back_button.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
-import 'campaign .progress.dart';
-import 'complete_page.dart';
+import 'campaign.progress.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({Key? key}) : super(key: key);
@@ -36,8 +35,8 @@ class _ResultPageState extends State<ResultPage> {
           child: ListView(
             children: [
               Temp(campaign: campaign),
-              Address(),
-              CampaignProgressView(),
+              const Address(),
+              const CampaignProgressView(),
             ],
           ),
         ));
