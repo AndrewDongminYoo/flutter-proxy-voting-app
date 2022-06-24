@@ -8,17 +8,27 @@ class TypoStyle {
   final double fontSize;
   final double letterSpacing;
 
-  TypoStyle({required this.fontWeight, required this.fontSize, required this.letterSpacing});
+  TypoStyle(
+      {required this.fontWeight,
+      required this.fontSize,
+      required this.letterSpacing});
 }
 
 final typoStyle = {
-  TypoType.h1Bold: TypoStyle(fontWeight: FontWeight.w800, fontSize: 24, letterSpacing: 0.48),
-  TypoType.h1: TypoStyle(fontWeight: FontWeight.w700, fontSize: 24, letterSpacing: 0.48),
-  TypoType.h2Bold: TypoStyle(fontWeight: FontWeight.w700, fontSize: 18, letterSpacing: 0.36),
-  TypoType.h2: TypoStyle(fontWeight: FontWeight.w400, fontSize: 18, letterSpacing: 0.36),
-  TypoType.body: TypoStyle(fontWeight: FontWeight.w400, fontSize: 16, letterSpacing: 0.28),
-  TypoType.bodyLight: TypoStyle(fontWeight: FontWeight.w300, fontSize: 16, letterSpacing: 0.28),
-  TypoType.label: TypoStyle(fontWeight: FontWeight.w300, fontSize: 12, letterSpacing: 0.55),
+  TypoType.h1Bold:
+      TypoStyle(fontWeight: FontWeight.w800, fontSize: 24, letterSpacing: 0.48),
+  TypoType.h1:
+      TypoStyle(fontWeight: FontWeight.w700, fontSize: 24, letterSpacing: 0.48),
+  TypoType.h2Bold:
+      TypoStyle(fontWeight: FontWeight.w700, fontSize: 18, letterSpacing: 0.32),
+  TypoType.h2:
+      TypoStyle(fontWeight: FontWeight.w400, fontSize: 18, letterSpacing: 0.32),
+  TypoType.body:
+      TypoStyle(fontWeight: FontWeight.w400, fontSize: 16, letterSpacing: 0.28),
+  TypoType.bodyLight:
+      TypoStyle(fontWeight: FontWeight.w300, fontSize: 16, letterSpacing: 0.28),
+  TypoType.label:
+      TypoStyle(fontWeight: FontWeight.w300, fontSize: 12, letterSpacing: 0.55),
 };
 
 class CustomText extends StatelessWidget {
@@ -42,11 +52,11 @@ class CustomText extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
-        color: customColor[colorType],
-        fontWeight: style.fontWeight,
-        fontSize: style.fontSize,
-        letterSpacing: style.letterSpacing
-      ),
+          color: customColor[colorType],
+          fontWeight: style.fontWeight,
+          fontSize: style.fontSize,
+          letterSpacing: style.letterSpacing),
+      overflow: TextOverflow.visible,
     );
   }
 }

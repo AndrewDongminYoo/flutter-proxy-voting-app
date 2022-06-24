@@ -54,9 +54,9 @@ class _ResultPageState extends State<ResultPage> {
           colorType: ColorType.white),
     ];
     var whiteBackGroundWidgets = [
-      const Spacer(
-        flex: 2,
-      ),
+      // const Spacer(
+      //   flex: 2,
+      // ),
       Container(
         width: Get.width,
         height: 120,
@@ -78,7 +78,7 @@ class _ResultPageState extends State<ResultPage> {
                   textAlign: TextAlign.left,
                   colorType: ColorType.white,
                 ),
-                Spacer(),
+                // Spacer(),
                 CustomText(
                   typoType: TypoType.bodyLight,
                   text: '수정하기',
@@ -116,7 +116,7 @@ class _ResultPageState extends State<ResultPage> {
                   typoType: TypoType.body,
                   text: '보유 주소',
                   colorType: ColorType.white),
-              Spacer(),
+              // Spacer(),
               CustomText(
                   typoType: TypoType.bodyLight,
                   text: '1000주',
@@ -125,9 +125,9 @@ class _ResultPageState extends State<ResultPage> {
           ),
         ),
       ),
-      const Spacer(
-        flex: 2,
-      ),
+      // const Spacer(
+      //   flex: 2,
+      // ),
     ];
     var animatedWidgets = Stepper(
       type: StepperType.vertical,

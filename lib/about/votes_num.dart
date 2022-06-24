@@ -169,7 +169,6 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       ),
     ];
     const animatedWidgets = Spacer();
-
     return SimilarPage(
       blueBackGroundWidgets: blueBackGroundWidgets,
       whiteBackGroundWidgets: whiteBackGroundWidgets,

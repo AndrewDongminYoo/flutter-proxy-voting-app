@@ -27,7 +27,9 @@ class _SimilarPageState extends State<SimilarPage> {
       appBar: const CustomAppBar(
         title: '본인확인자료',
       ),
-      body: Center(
+      body: SizedBox(
+        height: Get.height - 80,
+        width: Get.width,
         child: ListView(
           children: [
             Container(
