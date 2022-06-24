@@ -33,40 +33,34 @@ class _AppBodyPageState extends State<AppBodyPage> {
           actions: const [
             NoticeButton(),
           ]),
-      body: ListView(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(15),
-            alignment: Alignment.topLeft,
-            child: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Text(widget.helpText,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    const Spacer(),
-                    OutlinedButton(
-                      onPressed: () {
-                        // 문의하기 페이지 구현
-                      },
-                      style: OutlinedButton.styleFrom(
-                        primary: const Color(0xFF572E67),
-                      ),
-                      child: const Text('문의하기'),
-                    ),
-                  ],
+                Text(widget.helpText,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w900,
+                    )),
+                const Spacer(),
+                OutlinedButton(
+                  onPressed: () {
+                    // 문의하기 페이지 구현
+                  },
+                  style: OutlinedButton.styleFrom(
+                    primary: const Color(0xFF572E67),
+                  ),
+                  child: const Text('문의하기'),
                 ),
-                Text(widget.informationString),
               ],
             ),
-          ),
-          widget.mainContent,
-          const Spacer(),
-          widget.subContentList,
-        ],
+            Text(widget.informationString),
+            widget.mainContent,
+            widget.subContentList,
+          ],
+        ),
       ),
     );
   }

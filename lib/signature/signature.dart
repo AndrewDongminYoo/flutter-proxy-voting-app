@@ -82,7 +82,7 @@ class _SignaturePageState extends State<SignaturePage> {
     const titleString = '전자서명';
     const helpText = '전자 서명을 등록해주세요.';
     var mainContent = Container(
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       foregroundDecoration: BoxDecoration(
         border: Border.all(
           color: Colors.deepOrange,
@@ -131,37 +131,27 @@ class _SignaturePageState extends State<SignaturePage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 10, 50, 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: _isAgreed,
-                    onChanged: (v) {
-                      _setAgreed();
-                    },
-                  ),
-                  const Text('전자서명 저장에 동의합니다.'),
-                ],
-              ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _isManaged,
-                    onChanged: (v) {
-                      _setManaged();
-                    },
-                  ),
-                  const Text('티엘아이 측에 대한 기존 위임을 철회합니다.'),
-                ],
-              ),
-            ],
-          ),
+        Row(
+          children: [
+            Checkbox(
+              value: _isAgreed,
+              onChanged: (v) {
+                _setAgreed();
+              },
+            ),
+            const Text('전자서명 저장에 동의합니다.'),
+          ],
+        ),
+        Row(
+          children: [
+            Checkbox(
+              value: _isManaged,
+              onChanged: (v) {
+                _setManaged();
+              },
+            ),
+            const Text('티엘아이 측에 대한 기존 위임을 철회합니다.'),
+          ],
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(

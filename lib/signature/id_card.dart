@@ -73,7 +73,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 
 신분증 원본의 민감한 개인정보는 보안 기술에 의해 자동으로 보이지 않게 삭제됩니다.''';
     Widget mainContent = Container(
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       foregroundDecoration: BoxDecoration(
         border: Border.all(
           color: Colors.deepOrange,
@@ -98,9 +98,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       ),
     );
 
-    Column subContentList = Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.max,
+    Widget subContentList = Column(
       children: [
         Row(
           children: [
