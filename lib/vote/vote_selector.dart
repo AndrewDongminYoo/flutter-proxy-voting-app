@@ -37,11 +37,13 @@ class VoteSelector extends StatefulWidget {
       {Key? key,
       required this.agendaItem,
       required this.index,
-      required this.onVote})
+      required this.onVote,
+      this.useDefault = false})
       : super(key: key);
   final AgendaItem agendaItem;
   final int index;
   final void Function(int, VoteType) onVote;
+  final bool useDefault;
 
   @override
   State<VoteSelector> createState() => _VoteSelectorState();
@@ -55,6 +57,24 @@ class _VoteSelectorState extends State<VoteSelector> {
       curButton = selected;
     });
     widget.onVote(widget.index, selected.value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.useDefault) {
+      switch (widget.agendaItem.defaultOption) {
+        case 1:
+          curButton = voteButtonList[0];
+          break;
+        case -1:
+          curButton = voteButtonList[1];
+          break;
+        case 0:
+          curButton = voteButtonList[2];
+          break;
+      }
+    }
   }
 
   @override
@@ -86,21 +106,21 @@ class _VoteSelectorState extends State<VoteSelector> {
 }
 
 Widget voteSelectorGroup(void Function(VoteButton) setValue) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5.0),
-    child: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: voteButtonList.map((item) {
-          return Expanded(
-            child: GestureDetector(
-                onTap: () => setValue(item),
+  return Row(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: voteButtonList.map((item) {
+        return Expanded(
+          child: GestureDetector(
+              onTap: () => setValue(item),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
                 child: Text(item.label,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 16))),
-          );
-        }).toList()),
-  );
+                    style: const TextStyle(fontSize: 16)),
+              )),
+        );
+      }).toList());
 }
 
 Widget selectedLabel(VoteButton button) {
@@ -120,7 +140,7 @@ Widget selectedLabel(VoteButton button) {
         elevation: 5,
         borderRadius: BorderRadius.circular(30),
         child: Container(
-            width: Get.width / 3,
+            width: Get.width / 4,
             height: 32,
             decoration: BoxDecoration(
                 border: Border.all(color: button.borderColor),

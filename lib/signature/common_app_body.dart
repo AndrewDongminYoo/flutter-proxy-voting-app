@@ -38,15 +38,16 @@ class _AppBodyPageState extends State<AppBodyPage> {
                       fontWeight: FontWeight.w900,
                     )),
                 const Spacer(),
-                OutlinedButton(
-                  onPressed: () {
-                    // 문의하기 페이지 구현
-                  },
-                  style: OutlinedButton.styleFrom(
-                    primary: const Color(0xFF572E67),
-                  ),
-                  child: const Text('문의하기'),
-                ),
+                const SizedBox(height: 40)
+                // OutlinedButton(
+                //   onPressed: () {
+                //     // 문의하기 페이지 구현
+                //   },
+                //   style: OutlinedButton.styleFrom(
+                //     primary: const Color(0xFF572E67),
+                //   ),
+                //   child: const Text('문의하기'),
+                // ),
               ],
             ),
             Text(widget.informationString),

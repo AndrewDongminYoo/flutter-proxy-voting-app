@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../shared/loading_screen.dart';
 import 'shareholder.data.dart';
+import 'vote.model.dart';
 
 class VoteController extends GetxController {
   final VoteService _service = VoteService();
@@ -33,7 +34,11 @@ class VoteController extends GetxController {
 
     stopLoading();
     if (shareholders.length > 1) {
-      Get.toNamed('/duplicate');
+      // FIXME
+      shareholder = shareholders[0];
+      Get.toNamed('/checkvotenum');
+      // print(shareholder);
+      // Get.toNamed('/duplicate');
     } else if (shareholders.length == 1) {
       shareholder = shareholders[0];
       Get.toNamed('/checkvotenum');
@@ -43,13 +48,45 @@ class VoteController extends GetxController {
   }
 
   void selectShareholder(int index) async {
-    await _service.validateShareholder(index);
     shareholder = shareholders[index];
+    await _service.validateShareholder(index);
   }
 
   List<String> addressList() {
     return shareholders.map((e) {
       return e.address;
     }).toList();
+  }
+
+  void postVoteResult(int uid, List<VoteType> voteResult) async {
+    // TODO: device name
+    final deviceName = "";
+
+    final response = await _service.postVoteResult(
+        uid,
+        shareholder!.id,
+        deviceName,
+        _switchVoteValue(voteResult[0]),
+        _switchVoteValue(voteResult[1]),
+        _switchVoteValue(voteResult[2]),
+        _switchVoteValue(voteResult[3]));
+    VoteAgenda.fromJson(response.body['agenda']);
+  }
+
+  int _switchVoteValue(VoteType voteType) {
+    switch (voteType) {
+      case VoteType.agree:
+        return 1;
+      case VoteType.abstention:
+        return 0;
+      case VoteType.disagree:
+        return -1;
+      case VoteType.none:
+        return -2;
+    }
+  }
+
+  void postBackId(int uid, String backId) async {
+    await _service.postBackId(uid, backId);
   }
 }

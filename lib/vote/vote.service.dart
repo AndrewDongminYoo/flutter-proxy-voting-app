@@ -15,4 +15,50 @@ class VoteService extends GetConnect {
   Future<Response> validateShareholder(int id) {
     return put(getURL('/shareholders/$id'), jsonEncode({}));
   }
+
+  Future<Response> postVoteResult(
+    int uid,
+    int shareholderId,
+    String deviceName,
+    int agenda1,
+    int agenda2,
+    int agenda3,
+    int agenda4,
+  ) {
+    return post(
+        getURL("/agenda/vote"),
+        jsonEncode({
+          "uid": uid,
+          "agenda": {
+            "company": "tli",
+            "shareholderId": shareholderId,
+            "deviceName": deviceName,
+            "agenda1": agenda1,
+            "agenda2": agenda2,
+            "agenda3": agenda3,
+            "agenda4": agenda4,
+            "agenda5": 0,
+            "agenda6": 0,
+            "agenda7": 0,
+            "agenda8": 0,
+            "agenda9": 0,
+            "agenda10": 0
+          }
+        }));
+  }
+
+  Future<Response> postSignature(int agendaId, String signature) {
+    return put(getURL('/agenda/signature'),
+        jsonEncode({"agendaId": agendaId, "signature": signature}));
+  }
+
+  Future<Response> postIdCard(int agendaId, String idCard) {
+    return put(getURL('/agenda/idcard'),
+        jsonEncode({"agendaId": agendaId, "idCard": idCard}));
+  }
+
+  Future<Response> postBackId(int uid, String backId) {
+    return put(getURL('/agenda/backid'),
+        jsonEncode({"uid": uid, "backId": backId}));
+  }
 }

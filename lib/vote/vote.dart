@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:bside/auth/auth.controller.dart';
+import 'package:bside/vote/vote.controller.dart';
+
 import '../shared/custom_button.dart';
 import '../shared/custom_grid.dart';
 import 'package:flutter/material.dart';
@@ -21,22 +24,50 @@ class _VotePageState extends State<VotePage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  final AuthController _authController = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  final VoteController _voteController = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   var marker = <String, int>{
     'cur': 0,
     'latest': 0,
   };
+  final voteResult = <int, VoteType>{};
+
+  @override
+  void initState() {
+    super.initState();
+    if (Get.arguments == 'voteWithExample') {
+      voteResult[0] = VoteType.disagree;
+      voteResult[1] = VoteType.agree;
+      voteResult[2] = VoteType.agree;
+      voteResult[3] = VoteType.disagree;
+      setState(() {
+        marker = {
+          'cur': 4,
+          'latest': 4,
+        };
+      });
+    }
+  }
 
   goBack() {
     Get.back();
   }
 
   onNext() {
+    // NOTE: debug
+    // _voteController.postVoteResult(9, voteResult.values.toList());
+    _voteController.postVoteResult(_authController.user!.id,voteResult.values.toList());
     Get.toNamed('/signature');
   }
 
   onVote(int index, VoteType result) {
     setState(() {
+      voteResult[index] = result;
       marker = {
         'cur': index + 1,
         'latest': max(marker['latest']!, index + 1),
@@ -47,9 +78,10 @@ class _VotePageState extends State<VotePage> {
   @override
   Widget build(BuildContext context) {
     final agendaLength = _controller.campaign.agendaList.length;
+    final useDefault = Get.arguments == 'voteWithExample';
 
     return Scaffold(
-        appBar: const CustomAppBar(title: ""),
+        appBar: const CustomAppBar(title: "의결수 확인"),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -65,7 +97,8 @@ class _VotePageState extends State<VotePage> {
                     VoteSelector(
                         agendaItem: item.value,
                         index: item.key,
-                        onVote: onVote),
+                        onVote: onVote,
+                        useDefault: useDefault),
                     marker['latest']! < agendaLength
                         ? Container()
                         : Padding(
@@ -79,7 +112,10 @@ class _VotePageState extends State<VotePage> {
                   ]);
                 }
                 return VoteSelector(
-                    agendaItem: item.value, index: item.key, onVote: onVote);
+                    agendaItem: item.value,
+                    index: item.key,
+                    onVote: onVote,
+                    useDefault: useDefault);
               }).toList(),
             ),
           ),

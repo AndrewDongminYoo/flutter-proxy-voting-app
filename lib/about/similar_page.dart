@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../shared/custom_appbar.dart';
-import '../shared/custom_color.dart';
 
 class SimilarPage extends StatefulWidget {
   const SimilarPage({
@@ -72,13 +71,13 @@ class _SimilarPageState extends State<SimilarPage> {
           ],
         )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: customColor[ColorType.yellow],
-        child: const Icon(Icons.chat_rounded, color: Color(0xFFDC721E)),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     //TODO: Add your onPressed code here!
+      //   },
+      //   backgroundColor: customColor[ColorType.yellow],
+      //   child: const Icon(Icons.chat_rounded, color: Color(0xFFDC721E)),
+      // ),
     );
   }
 }

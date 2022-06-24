@@ -66,7 +66,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    const titleString = '신분증 업로드';
+    const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';
     const informationString = '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
@@ -100,24 +100,24 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
     Widget subContentList = Column(
       children: [
-        Row(
-          children: [
-            const SizedBox(width: 16),
-            const Text('주민등록 번호 먼저 입력하기'),
-            IconButton(
-              tooltip: '주민등록번호 뒷자리를 입력해요.',
-              icon: const Icon(
-                Icons.arrow_circle_right_outlined,
-              ),
-              onPressed: () {
-                if (idCardUploaded) {
-                  Get.toNamed("/idnumber");
-                }
-                // 주민등록번호 먼저 입력하는 페이지로 이동
-              },
-            )
-          ],
-        ),
+        // Row(
+        //   children: [
+        //     const SizedBox(width: 16),
+        //     const Text('주민등록 번호 먼저 입력하기'),
+        //     IconButton(
+        //       tooltip: '주민등록번호 뒷자리를 입력해요.',
+        //       icon: const Icon(
+        //         Icons.arrow_circle_right_outlined,
+        //       ),
+        //       onPressed: () {
+        //         if (idCardUploaded) {
+        //           Get.toNamed("/idnumber");
+        //         }
+        //         // 주민등록번호 먼저 입력하는 페이지로 이동
+        //       },
+        //     )
+        //   ],
+        // ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             fixedSize: Size(Get.width - 30, 50),

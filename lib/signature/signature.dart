@@ -80,7 +80,7 @@ class _SignaturePageState extends State<SignaturePage> {
 
   @override
   Widget build(BuildContext context) {
-    const titleString = '전자서명';
+    const titleString = '전자위임';
     const helpText = '전자 서명을 등록해주세요.';
     var mainContent = Container(
       margin: const EdgeInsets.symmetric(vertical: 15),
