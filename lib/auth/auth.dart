@@ -53,6 +53,7 @@ class _AuthPageState extends State<AuthPage> {
     // TODO: Focus 전환 필요
     print('onNext: $curStep');
     FocusScope.of(Get.context!).unfocus();
+    // FocusManager.instance.primaryFocus?.unfocus();
     switch (curStep) {
       case 0:
         curStep += 1;

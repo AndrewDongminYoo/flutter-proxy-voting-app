@@ -30,8 +30,14 @@ class _ValidatePageState extends State<ValidatePage> {
   bool isOtpTimerExpired = false;
   bool isIdentificationCompleted = false;
 
+  validate(String text) {
+    _controller.validateOtpCode(_controller.user!.phoneNum, text);
+    FocusScope.of(context).unfocus();
+  }
+
   onPressed() {
     if (_controller.isVerified) {
+      timer!.cancel();
       Get.offNamedUntil('/campaign', (route) => route.settings.name == '/');
     }
   }
@@ -94,9 +100,7 @@ class _ValidatePageState extends State<ValidatePage> {
                   onChanged: (String text) {
                     if (text.length >= 6) {
                       otpCode = text;
-                      _controller.validateOtpCode(
-                          _controller.user!.phoneNum, text);
-                      // TODO: validate 이후 keyboard 숨기기
+                      validate(text);
                     }
                   },
                 ),

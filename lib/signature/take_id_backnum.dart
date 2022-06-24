@@ -1,3 +1,6 @@
+import 'package:bside/shared/custom_text.dart';
+import 'package:bside/vote/vote.controller.dart';
+
 import '../auth/auth.data.dart';
 import 'package:flutter/material.dart';
 import '../auth/auth.controller.dart';
@@ -15,6 +18,9 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   final AuthController _controller = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
+  final VoteController _voteController = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
   late String frontId = "";
   late String backId = "";
 
@@ -31,7 +37,8 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   }
 
   onConfirmed() {
-    Get.toNamed('/result');
+    _voteController.postBackId(_controller.user!.id, backId);
+    Get.offAllNamed('/result');
   }
 
   @override
@@ -45,7 +52,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 40,
+            // height: 40,
             margin: const EdgeInsets.all(7),
             decoration: BoxDecoration(
               border: Border.all(width: 3),
@@ -57,7 +64,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: Get.width / 3,
+                  width: Get.width / 4,
                   child: TextField(
                     textAlignVertical: TextAlignVertical.bottom,
                     textAlign: TextAlign.right,
@@ -67,7 +74,10 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                     ),
                   ),
                 ),
-                const Text('-'),
+                CustomText(
+                  text: '   -   ',
+                  typoType: TypoType.h1Bold,
+                ),
                 SizedBox(
                   width: Get.width / 3,
                   child: TextFormField(
@@ -76,6 +86,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                       obscureText: true,
                       initialValue: backId,
                       obscuringCharacter: '●',
+                      maxLength: 7,
                       enableSuggestions: false,
                       autocorrect: false,
                       keyboardType: TextInputType.number,
@@ -92,7 +103,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                         //       color: Colors.black,
                         //       width: 5,
                         //     )),
-                        hintText: '주민등록번호를 입력해주세요.',
+                        hintText: '뒤 7자리',
                       )),
                 ),
               ],

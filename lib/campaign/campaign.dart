@@ -45,6 +45,7 @@ class _CampaignPageState extends State<CampaignPage> {
           label: '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () {
+            print(_authController.user!.username);
             _voteController.toVote(_authController.user!.username);
           });
     } else if (!_authController.isLogined) {

@@ -1,4 +1,5 @@
 import '../auth/auth.controller.dart';
+import '../vote/vote.controller.dart';
 import 'edit_modal.dart';
 import 'similar_page.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +25,16 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  final VoteController _voteController = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   voteWithExample() {
-    Get.toNamed("/vote");
+    Get.toNamed("/vote", arguments: "voteWithExample");
   }
 
   voteWithoutExample() {
-    Get.toNamed("/vote");
+    Get.toNamed("/vote", arguments: "voteWithoutExample");
   }
 
   onEdit() {
@@ -105,7 +109,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
             const SizedBox(height: 24),
             CustomText(
                 typoType: TypoType.bodyLight,
-                text: address,
+                text: _voteController.shareholder!.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white),
           ]),
@@ -122,15 +126,15 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              CustomText(
+            children: [
+              const CustomText(
                   typoType: TypoType.body,
                   text: '보유 주수',
                   colorType: ColorType.white),
-              SizedBox(height: 21),
+              const SizedBox(height: 21),
               CustomText(
                   typoType: TypoType.bodyLight,
-                  text: '1000주',
+                  text: _voteController.shareholder!.sharesNum.toString(),
                   colorType: ColorType.white)
             ],
           ),

@@ -41,7 +41,7 @@ class _StepperComponentState extends State<StepperComponent> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(children: [
-        customStep('주주명부 대조', true),
+        customStep('주주명부 대조', false),
         customStep('안건투표', false),
         customStep('전자서명', false),
         customStep('신분증 사본', false),
