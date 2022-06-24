@@ -25,7 +25,7 @@ class _SimilarPageState extends State<SimilarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: '본인확인자료',
+        title: '',
       ),
       body: SizedBox(
         height: Get.height - 100,

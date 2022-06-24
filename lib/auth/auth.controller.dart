@@ -7,7 +7,7 @@ import '../shared/loading_screen.dart';
 
 class AuthController extends GetxController {
   final AuthService _service = AuthService();
-  
+
   // User data
   User? user;
 
@@ -33,6 +33,12 @@ class AuthController extends GetxController {
     }
   }
 
+  void setAddress(String address) {
+    if (user != null) {
+      user!.address = address;
+    }
+  }
+
   Future<void> getUserInfo(String telNum) async {
     // await _service.get
   }
@@ -40,7 +46,7 @@ class AuthController extends GetxController {
   Future<void> getOtpCode(String name, String frontId, String backId,
       String telecom, String telNum) async {
     await _service.getOtpCode(name, frontId, backId, telecom, telNum);
-    user = User(name, frontId, backId, telecom, telNum); 
+    user = User(name, frontId, backId, telecom, telNum);
   }
 
   Future<void> validateOtpCode(String telNum, String otpCode) async {

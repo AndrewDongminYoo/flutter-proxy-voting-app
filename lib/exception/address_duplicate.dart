@@ -18,7 +18,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
   final AuthController _controller = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
-  String _adress = '';
+  String _address = '';
   var addressList = [
     '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 708호',
     '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 707호',
@@ -26,6 +26,12 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
     '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 800호',
     '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 7080호',
   ];
+
+  onConfirmed() {
+    _controller.setAddress(_address);
+    Get.offNamed('/checkvotenum');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +52,10 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                     return RadioListTile(
                         title: Text(addressList[index]),
                         value: addressList[index],
-                        groupValue: _adress,
+                        groupValue: _address,
                         onChanged: (value) {
                           setState(() {
-                            _adress = addressList[index];
+                            _address = addressList[index];
                           });
                         });
                   },
@@ -58,10 +64,11 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Text(_adress),
+                  child: Text(_address),
                 ),
               ),
-              CustomButton(width: CustomW.w3, label: '확인', onPressed: () {})
+              CustomButton(
+                  width: CustomW.w4, label: '확인', onPressed: onConfirmed)
             ],
           )),
     );
