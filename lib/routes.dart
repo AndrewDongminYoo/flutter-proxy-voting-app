@@ -1,6 +1,7 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 import 'auth/auth.dart';
+import 'signature/take_id_backnum.dart';
 import 'vote/vote.dart';
 import 'home/home.dart';
 import 'campaign/campaign.dart';
@@ -22,4 +23,5 @@ routes() => [
       GetPage(name: '/idcard', page: () => const UploadIdCardPage()),
       GetPage(name: '/result', page: () => const ResultPage()),
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
+      GetPage(name: '/idnumber', page: () => const TakeBackNumberPage()),
     ];
