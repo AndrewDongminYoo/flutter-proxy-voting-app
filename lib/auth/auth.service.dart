@@ -11,7 +11,7 @@ class AuthService extends GetConnect {
   /// 본인인증:
   /// birth: 8자리 ex) 19900110
   /// sex: 남: 1, 여: 2
-  /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT알뜰폰':04, 'KT알뜰폰':05, 'LG알뜰폰':06
+  /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
   Future<Response> getOtpCode(
       String name, String birth, String sex, String telecom, String telNum) {
     String telecomCode = "";
@@ -25,13 +25,13 @@ class AuthService extends GetConnect {
       case "LG U+":
         telecomCode = "03";
         break;
-      case "SKT알뜰폰":
+      case "SKT 알뜰폰":
         telecomCode = "04";
         break;
-      case "KT알뜰폰":
+      case "KT 알뜰폰":
         telecomCode = "05";
         break;
-      case "LG알뜰폰":
+      case "LG U+ 알뜰폰":
         telecomCode = "06";
         break;
     }
