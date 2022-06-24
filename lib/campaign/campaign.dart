@@ -1,3 +1,4 @@
+import 'package:bside/vote/vote.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,25 +27,29 @@ class _CampaignPageState extends State<CampaignPage> {
   final AuthController _authController = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
+  final VoteController _voteController = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   _buildConfirmButton() {
+    // FIXME: 디버깅용
+    // return CustomButton(
+    //     label: '투표하러가기',
+    //     width: CustomW.w4,
+    //     onPressed: () {
+    //       _voteController.toVote("소재우");
+    //     });
+
     if (_authController.canVote()) {
-      // NOTE: 배포 버전에서 사용
       return CustomButton(
-          label: '투표하러가기',
+          label: '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () {
-            Get.toNamed('/checkvotenum');
+            _voteController.toVote(_authController.user!.username);
           });
-      // NOTE: 임시 버전에서 사용
-      // return CustomConfirm(
-      //     buttonLabel: '전자위임 오픈 준비중',
-      //     message: '오픈 준비중입니다.',
-      //     okLabel: '확인',
-      //     onConfirm: () {});
     } else if (!_authController.isLogined) {
       return CustomConfirm(
-          buttonLabel: '주주명부 확인 및 전자위임 하러가기',
+          buttonLabel: '전자위임 하러가기',
           message: '서비스 이용을 위해\n본인인증이 필요해요.',
           okLabel: '인증하러가기',
           onConfirm: () {

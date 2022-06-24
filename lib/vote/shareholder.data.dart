@@ -1,20 +1,17 @@
-class User {
+class Shareholder {
   int id = -1;
-  // identification - user input
   String username = '홍길동';
-  String frontId = '940101';
-  String backId = '1';
-  String telecom = 'SKT';
-  String phoneNum = '01012341234';
-  bool marketing = false;
-  bool notification = false;
-  String deviceName = '';
-  String ci = '';
-  String di = '';
   String address = "";
-  String detailAddress = "";
+  int sharesNum = 0;
 
-  User(this.username, this.frontId, this.backId, this.telecom, this.phoneNum);
+  Shareholder(this.id, this.username, this.address, this.sharesNum);
+
+  Shareholder.fromSharesJson(Map<String, dynamic> json) {
+    id = json['id'] ?? -1;
+    username = json['name'] ?? '';
+    address = json['address'] ?? '';
+    sharesNum = int.parse(json['sharesNum']);
+  }
 
   // User.fromJson(Map<String, dynamic> json) {
   //   id = json['agenda']['id'] ?? -1;
