@@ -9,7 +9,7 @@ import 'signature/id_card.dart';
 import 'signature/signature.dart';
 import 'onboarding/onboarding.dart';
 import 'about/result.dart';
-import 'about/check.dart';
+import 'about/check_vote_num.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),
@@ -21,5 +21,5 @@ routes() => [
       GetPage(name: '/signature', page: () => const SignaturePage()),
       GetPage(name: '/idcard', page: () => const UploadIdCardPage()),
       GetPage(name: '/result', page: () => const ResultPage()),
-      GetPage(name: '/checkvoteNum', page: () => const CheckVoteNumPage()),
+      GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
     ];

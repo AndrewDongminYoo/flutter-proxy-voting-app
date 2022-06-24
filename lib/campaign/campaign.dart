@@ -43,7 +43,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   const SizedBox(height: 24),
                   _controller.campaign.companyName == "티엘아이"
                       ? CustomConfirm(
-                          buttonLabel: '전자위임 하러가기',
+                          buttonLabel: '주주명부 확인 및 전자위임 하러가기',
                           message: '서비스 이용을 위해\n본인인증이 필요해요.',
                           okLabel: '인증하러가기',
                           onConfirm: () {

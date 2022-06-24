@@ -85,7 +85,7 @@ class _SignaturePageState extends State<SignaturePage> {
         '${DateTime.now()}-sign_username.png',
         result!,
       );
-      Get.toNamed('/vote');
+      Get.toNamed('/idcard');
     }
   }
 
@@ -223,8 +223,8 @@ class _SignaturePageState extends State<SignaturePage> {
               ),
               onPressed: () async {
                 // TODO: 완료된 사인 업로드하고 유저 정보에 입력하고 다음 페이지 넘어가기
-                await _showSignature(context);
-                // onSubmit();
+                // await _showSignature(context);
+                onSubmit();
               },
               child: const Text(
                 '등록',

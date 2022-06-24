@@ -162,7 +162,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
               onPressed: () {
                 if (idCardUploaded) {
                   // TODO: 저장된 이미지 리턴받아 등록하고 다음 페이지로 이동
-                  Get.toNamed('done');
+                  Get.toNamed('/idnumber');
                 }
               },
               child: const Text(

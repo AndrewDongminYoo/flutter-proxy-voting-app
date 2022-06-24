@@ -10,12 +10,14 @@ class Unfocused extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) => GestureDetector(
-        key: key,
-        behavior: HitTestBehavior.translucent,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: child,
-      ),
+      builder: (context) {
+        return GestureDetector(
+          key: key,
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: child,
+        );
+      },
     );
   }
 }

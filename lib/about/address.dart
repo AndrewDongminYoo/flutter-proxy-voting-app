@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// import '../checkVoteNum/check.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_text.dart';
-
-import 'package:get/route_manager.dart';
 
 class Address extends StatelessWidget {
   const Address({Key? key}) : super(key: key);

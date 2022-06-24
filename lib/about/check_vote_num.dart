@@ -74,7 +74,9 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButton(
                       label: "투표하러 가기",
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed("/vote");
+                      },
                       width: CustomW.w4,
                     ),
                   ),
