@@ -27,12 +27,13 @@ class _AppBodyPageState extends State<AppBodyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: const CustomBackButton(),
-          title: Text(widget.titleString),
-          backgroundColor: const Color(0xFF572E67),
-          actions: const [
-            NoticeButton(),
-          ]),
+        leading: const CustomBackButton(),
+        title: Text(widget.titleString),
+        backgroundColor: const Color(0xFF572E67),
+        // actions: const [
+        //   NoticeButton(),
+        // ]
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

@@ -56,7 +56,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/duplicate';
+  String initialRoute = '/onboarding';
 
   @override
   void initState() {

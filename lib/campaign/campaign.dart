@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../shared/custom_button.dart';
+import '../shared/custom_grid.dart';
 import 'campaign.model.dart';
 import 'campaign.controller.dart';
 import '../shared/custom_text.dart';
@@ -28,18 +30,18 @@ class _CampaignPageState extends State<CampaignPage> {
   _buildConfirmButton() {
     if (_authController.canVote()) {
       // NOTE: 배포 버전에서 사용
-      // return CustomButton(
-      //     label: '투표하러가기',
-      //     width: CustomW.w4,
-      //     onPressed: () {
-      //       // Get.toNamed('/checkvotenum');
-      //     });
+      return CustomButton(
+          label: '투표하러가기',
+          width: CustomW.w4,
+          onPressed: () {
+            Get.toNamed('/checkvotenum');
+          });
       // NOTE: 임시 버전에서 사용
-      return CustomConfirm(
-          buttonLabel: '전자위임 오픈 준비중',
-          message: '오픈 준비중입니다.',
-          okLabel: '확인',
-          onConfirm: () {});
+      // return CustomConfirm(
+      //     buttonLabel: '전자위임 오픈 준비중',
+      //     message: '오픈 준비중입니다.',
+      //     okLabel: '확인',
+      //     onConfirm: () {});
     } else if (!_authController.isLogined) {
       return CustomConfirm(
           buttonLabel: '주주명부 확인 및 전자위임 하러가기',
@@ -78,8 +80,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   _controller.campaign.companyName == "티엘아이"
                       ? _buildConfirmButton()
                       : Container(),
-                  const SizedBox(height: 24),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 80),
                 ],
               ),
             ),

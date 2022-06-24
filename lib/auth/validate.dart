@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'auth.controller.dart';
 import '../shared/unfocused.dart';
@@ -80,6 +80,7 @@ class _ValidatePageState extends State<ValidatePage> {
                     )),
                 const SizedBox(height: 40),
                 TextFormField(
+                  autofocus: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return;
@@ -95,6 +96,7 @@ class _ValidatePageState extends State<ValidatePage> {
                       otpCode = text;
                       _controller.validateOtpCode(
                           _controller.user!.phoneNum, text);
+                      // TODO: validate 이후 keyboard 숨기기
                     }
                   },
                 ),
@@ -102,7 +104,7 @@ class _ValidatePageState extends State<ValidatePage> {
                 Center(
                     child: CustomText(
                   text:
-                      "${remainingOtpTime ~/ 60} : ${NumberFormat("00").format(remainingOtpTime - (remainingOtpTime ~/ 60) * 60)}",
+                      "${remainingOtpTime ~/ 60} : ${intl.NumberFormat("00").format(remainingOtpTime - (remainingOtpTime ~/ 60) * 60)}",
                   typoType: TypoType.body,
                 )),
                 const SizedBox(height: 40),

@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 200,
       toolbarHeight: 80,
       backgroundColor: bgColor,
-      // elevation: 0,
+      elevation: 0,
       // actions: const [
       //   NoticeButton(),
       // ],
