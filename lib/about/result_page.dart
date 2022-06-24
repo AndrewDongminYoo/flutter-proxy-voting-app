@@ -1,3 +1,7 @@
+import 'package:bside/about/stepper_example.dart';
+import 'package:bside/shared/custom_grid.dart';
+
+import '../shared/custom_button.dart';
 import 'similar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,37 +70,40 @@ class _ResultPageState extends State<ResultPage> {
           ),
           color: Color(0xFFDC721E),
         ),
-        child: Padding(
+        child: Container(
+          width: Get.width,
           padding: const EdgeInsets.all(20.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              children: const [
-                CustomText(
-                  typoType: TypoType.body,
-                  text: '주소',
-                  textAlign: TextAlign.left,
-                  colorType: ColorType.white,
-                ),
-                // Spacer(),
-                CustomText(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: const [
+                  CustomText(
+                    typoType: TypoType.body,
+                    text: '주소',
+                    textAlign: TextAlign.left,
+                    colorType: ColorType.white,
+                  ),
+                  Spacer(),
+                  CustomText(
+                    typoType: TypoType.bodyLight,
+                    text: '수정하기',
+                    textAlign: TextAlign.left,
+                    colorType: ColorType.white,
+                  ),
+                  Icon(
+                    Icons.arrow_circle_right_outlined,
+                  ),
+                ],
+              ),
+              const Spacer(),
+              const CustomText(
                   typoType: TypoType.bodyLight,
-                  text: '수정하기',
+                  text: '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 707호',
                   textAlign: TextAlign.left,
-                  colorType: ColorType.white,
-                ),
-                Icon(
-                  Icons.arrow_circle_right_outlined,
-                ),
-              ],
-            ),
-            const Spacer(),
-            const CustomText(
-                typoType: TypoType.bodyLight,
-                text: '서울시 송파구 아무로 12-2길 32, 송파아크 로펠리스 타워 102동 707호',
-                textAlign: TextAlign.left,
-                colorType: ColorType.white),
-          ]),
+                  colorType: ColorType.white),
+            ],
+          ),
         ),
       ),
       const SizedBox(height: 20),
@@ -114,7 +121,7 @@ class _ResultPageState extends State<ResultPage> {
             children: const [
               CustomText(
                   typoType: TypoType.body,
-                  text: '보유 주소',
+                  text: '보유 주수',
                   colorType: ColorType.white),
               Spacer(),
               CustomText(
@@ -126,19 +133,14 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
     ];
-    var animatedWidgets = Stepper(
-      type: StepperType.vertical,
-      steps: const [
-        Step(
-          title: Text('Step 1 title'),
-          content: Text(''),
-        ),
-        Step(
-          title: Text('Step 2 title'),
-          content: Text(''),
-        ),
-      ],
-    );
+    var animatedWidgets = Column(children: [
+      const StepperComponent(),
+      CustomButton(
+        label: '처음으로',
+        width: CustomW.w4,
+        onPressed: () => Get.toNamed("/"),
+      )
+    ]);
     return SimilarPage(
       blueBackGroundWidgets: blueBackGroundWidgets,
       whiteBackGroundWidgets: whiteBackGroundWidgets,
