@@ -110,6 +110,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget telecomItem(String item) {
     return InkWell(
       onTap: () {
+        // TODO: 통신사 재변경 가능해야
         setState(() {
           telecom = item;
           telecomController.value = TextEditingValue(text: item);
@@ -161,7 +162,9 @@ class _AuthPageState extends State<AuthPage> {
       style: commonStyle,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: '주민등록번호', helperText: '생년월일 6자리와 뒷번호 1자리'),
+          border: OutlineInputBorder(),
+          labelText: '주민등록번호',
+          helperText: '생년월일 6자리와 뒷번호 1자리'),
       onChanged: (text) {
         if (text.length >= 8) {
           FocusScope.of(context).unfocus();

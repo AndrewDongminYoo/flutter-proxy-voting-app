@@ -66,7 +66,7 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: '', bgColor: Color(0xFF5E3F74)),
+      appBar: const CustomAppBar(title: ''),
       body: Stack(fit: StackFit.expand, children: [
         gradientLayer(),
         SizedBox(
@@ -140,17 +140,23 @@ Widget campaignInfoInRow(Campaign campaign) {
         icon: Icons.group_add_rounded,
         color: Colors.deepPurple,
         label: '라운지',
-        onTap: () {}),
+        onTap: () {
+          // TODO: 라운지 구현
+        }),
     ActionMenu(
         icon: Icons.attach_file_rounded,
         color: Colors.deepPurple,
         label: '공시서류',
-        onTap: () {}),
+        onTap: () {
+          // TODO: 공시서류 페이지
+        }),
     ActionMenu(
         icon: Icons.history_rounded,
         color: Colors.deepPurple,
         label: '이전기록',
-        onTap: () {}),
+        onTap: () {
+          // TODO: 이전 기록 보여주기
+        }),
   ];
 
   return Column(
@@ -205,6 +211,7 @@ Widget campaignInfoInRow(Campaign campaign) {
               text: '진행상황',
               colorType: ColorType.white),
           const SizedBox(width: 41),
+          // TODO: 캠페인 인디케이터
           CampaignProgress(value: campaign.companyName == '티엘아이' ? 0.6 : 1.0),
         ],
       )
@@ -223,13 +230,16 @@ Widget iconButton(ActionMenu actionMenu) {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(
-          actionMenu.icon,
-          color: actionMenu.color,
-        ),
-        Text(actionMenu.label)
-      ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            actionMenu.icon,
+            color: actionMenu.color,
+          ),
+          Text(actionMenu.label)
+        ],
+      ),
     ),
   );
 }

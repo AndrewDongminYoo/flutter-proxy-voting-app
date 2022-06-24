@@ -30,6 +30,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       : Get.put(VoteController());
 
   voteWithExample() {
+    // TODO: 자동으로 반찬찬반 투표
     Get.toNamed("/vote", arguments: "voteWithExample");
   }
 

@@ -31,10 +31,44 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   final CampaignController cmpCtrl = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  ImageSource source = ImageSource.camera;
 
-  void onSubmit() async {
+  void onPressed() async {
+    var result = await showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('신분증을 촬영해주세요.'),
+          children: [
+            SimpleDialogOption(
+              onPressed: () {
+                setState(() {
+                  source = ImageSource.camera;
+                });
+                Navigator.pop(context, source);
+              },
+              child: const Text('카메라 촬영'),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                setState(() {
+                  source = ImageSource.gallery;
+                });
+                Navigator.pop(context, source);
+              },
+              child: const Text('갤러리 선택'),
+            ),
+          ],
+        );
+      },
+    );
+    print(result);
+
     final XFile? xfile = await picker.pickImage(
-      source: ImageSource.camera,
+      maxWidth: 400,
+      maxHeight: 300,
+      source: source,
+      preferredCameraDevice: CameraDevice.rear,
     );
     if (xfile != null) {
       idcardImage = await File(xfile.path).readAsBytes();
@@ -54,7 +88,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
   Widget uploadImageButton() {
     return IconButton(
-      onPressed: onSubmit,
+      onPressed: onPressed,
       icon: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
@@ -96,7 +130,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
         height: 300,
         child: (idCardUploaded
             ? GestureDetector(
-                onLongPress: onSubmit,
+                onLongPress: onPressed,
                 child: Image.memory(
                   idcardImage!,
                   fit: BoxFit.contain,
@@ -138,6 +172,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           onPressed: () {
             if (idCardUploaded) {
               // authCtrl.user.URL = _controller.downloadSignature();
+              // TODO: 이미지 주소 바로 다시 받아 데이터베이스(유저 객체)에 저장하기
               Get.toNamed('/idnumber');
             }
           },
