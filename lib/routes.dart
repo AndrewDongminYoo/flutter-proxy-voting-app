@@ -1,6 +1,7 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 import 'auth/auth.dart';
+import 'exception/adress_duplicate.dart';
 import 'not_shareholder/not_shareholder.dart';
 import 'signature/take_id_backnum.dart';
 import 'vote/vote.dart';
@@ -10,8 +11,6 @@ import 'auth/validate.dart';
 import 'signature/id_card.dart';
 import 'signature/signature.dart';
 import 'onboarding/onboarding.dart';
-import 'about/result.dart';
-import 'about/check_vote_num.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),
@@ -22,8 +21,7 @@ routes() => [
       GetPage(name: '/vote', page: () => const VotePage()),
       GetPage(name: '/signature', page: () => const SignaturePage()),
       GetPage(name: '/idcard', page: () => const UploadIdCardPage()),
-      GetPage(name: '/result', page: () => const ResultPage()),
-      GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
       GetPage(name: '/idnumber', page: () => const TakeBackNumberPage()),
-      GetPage(name: '/error', page: () => const NotShareholderPage()),
+      GetPage(name: '/not-shareholder', page: () => const NotShareholderPage()),
+      GetPage(name: '/duplicate', page: () => const AddressDuplicationPage()),
     ];
