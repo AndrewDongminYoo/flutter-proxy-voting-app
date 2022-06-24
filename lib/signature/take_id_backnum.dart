@@ -1,5 +1,6 @@
+import 'package:bside/auth/auth.data.dart';
 import 'package:flutter/material.dart';
-import 'signature.upload.dart';
+import '../auth/auth.controller.dart';
 import 'common_app_body.dart';
 import 'package:get/get.dart';
 
@@ -11,53 +12,90 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
-  final CustomSignatureController _controller =
-      Get.isRegistered<CustomSignatureController>()
-          ? Get.find()
-          : Get.put(CustomSignatureController());
+  final AuthController _controller = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  final TextEditingController txt = Get.isRegistered<TextEditingController>()
+      ? Get.find()
+      : Get.put(TextEditingController());
+  final TextEditingController unused = Get.isRegistered<TextEditingController>()
+      ? Get.find()
+      : Get.put(TextEditingController());
+
+  @override
+  void initState() {
+    if (_controller.isLogined) {
+      User? user = _controller.user;
+      if (user != null) {
+        txt.text = user.backId;
+        unused.text = user.frontId;
+      }
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var thirty = (Get.height) % 3;
     var helpText = '주민등록번호를 입력해주세요.';
     var informationString =
         '입력해주신 주민등록번호는 안전하게 암호화되며 주주명부 확인 및 위임장 작성 용도 이외에는 절대로 활용되지 않습니다. 해당 정보는 주주총회 이후 즉시 폐기됩니다.';
-    var prefixText = "999999999";
     var mainContent = Expanded(
-        child: Container(
-      // margin: const EdgeInsets.symmetric(horizontal: 20),
-      // padding: const EdgeInsets.symmetric(horizontal: 30),
-      alignment: Alignment.center,
+        child: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             height: 40,
-            margin: EdgeInsets.all(7),
+            margin: const EdgeInsets.all(7),
             decoration: BoxDecoration(
               border: Border.all(width: 3),
               borderRadius: const BorderRadius.all(
                 Radius.circular(30),
               ),
             ),
-            child: TextField(
-                textAlign: TextAlign.center,
-                textAlignVertical: TextAlignVertical.bottom,
-                obscuringCharacter: '●',
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                onChanged: ((input) {}),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: Get.width / 3,
+                  child: TextField(
+                    textAlignVertical: TextAlignVertical.bottom,
+                    textAlign: TextAlign.right,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      helperText: unused.text,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: Get.width / 3,
+                  child: TextField(
+                      textAlignVertical: TextAlignVertical.bottom,
+                      textAlign: TextAlign.left,
+                      obscureText: true,
+                      obscuringCharacter: '●',
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      keyboardType: TextInputType.number,
+                      autofocus: true,
+                      controller: txt,
+                      onChanged: ((input) {
+                        txt.text = input;
+                      }),
+                      decoration: const InputDecoration(
+                        // border: OutlineInputBorder(
+                        //     borderRadius: BorderRadius.all(
+                        //       Radius.circular(30),
+                        //     ),
+                        //     borderSide: BorderSide(
+                        //       color: Colors.black,
+                        //       width: 5,
+                        //     )),
+                        hintText: '주민등록번호를 입력해주세요.',
                       )),
-                  hintText: '주민등록번호를 입력해주세요.',
-                )),
+                ),
+              ],
+            ),
           ),
           const Text(
             '관련법상 위임장에는 주민등록번호 전체가 포함되어야 효력이 인정됩니다.',
