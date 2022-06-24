@@ -63,18 +63,7 @@ class _AppBodyPageState extends State<AppBodyPage> {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(15),
-            foregroundDecoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.deepOrange,
-                width: 2,
-                style: BorderStyle.solid,
-              ),
-              borderRadius: BorderRadiusDirectional.circular(30),
-            ),
-            child: widget.mainContent,
-          ),
+          widget.mainContent,
           const Spacer(),
           widget.subContentList,
         ],

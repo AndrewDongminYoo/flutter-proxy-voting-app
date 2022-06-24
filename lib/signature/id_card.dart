@@ -72,20 +72,32 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 
 신분증 원본의 민감한 개인정보는 보안 기술에 의해 자동으로 보이지 않게 삭제됩니다.''';
-    Widget mainContent = SizedBox(
-      width: Get.width,
-      height: 300,
-      child: (idCardUploaded
-          ? GestureDetector(
-              onLongPress: onSubmit,
-              child: Image.memory(
-                idcardImage!,
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-              ),
-            )
-          : uploadImageButton()),
+    Widget mainContent = Container(
+      margin: const EdgeInsets.all(15),
+      foregroundDecoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.deepOrange,
+          width: 2,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadiusDirectional.circular(30),
+      ),
+      child: SizedBox(
+        width: Get.width,
+        height: 300,
+        child: (idCardUploaded
+            ? GestureDetector(
+                onLongPress: onSubmit,
+                child: Image.memory(
+                  idcardImage!,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),
+              )
+            : uploadImageButton()),
+      ),
     );
+
     Column subContentList = Column(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.max,
@@ -100,7 +112,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 Icons.arrow_circle_right_outlined,
               ),
               onPressed: () {
-                if (idCardUploaded) {}
+                if (idCardUploaded) {
+                  Get.toNamed("/idnumber");
+                }
                 // 주민등록번호 먼저 입력하는 페이지로 이동
               },
             )

@@ -81,18 +81,29 @@ class _SignaturePageState extends State<SignaturePage> {
   Widget build(BuildContext context) {
     const titleString = '전자서명';
     const helpText = '전자 서명을 등록해주세요.';
-    var mainContent = SizedBox(
-      child: (_showLottie
-          ? GestureDetector(
-              onTap: _hideLottie,
-              child: _lottie,
-            )
-          : Signature(
-              controller: _controller,
-              backgroundColor: Colors.white,
-              height: 300,
-              width: Get.width,
-            )),
+    var mainContent = Container(
+      margin: const EdgeInsets.all(15),
+      foregroundDecoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.deepOrange,
+          width: 2,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadiusDirectional.circular(30),
+      ),
+      child: SizedBox(
+        child: (_showLottie
+            ? GestureDetector(
+                onTap: _hideLottie,
+                child: _lottie,
+              )
+            : Signature(
+                controller: _controller,
+                backgroundColor: Colors.white,
+                height: 300,
+                width: Get.width,
+              )),
+      ),
     );
     var subContentList = Column(
       children: [
