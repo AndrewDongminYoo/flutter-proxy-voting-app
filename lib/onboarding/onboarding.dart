@@ -1,6 +1,7 @@
-import "package:flutter/material.dart";
 import 'package:get/utils.dart';
+import "package:flutter/material.dart";
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'guide.dart';
 import 'guide.data.dart';
@@ -26,7 +27,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   List<Widget> tabs = [];
   int _curIndex = 0;
 
-  void onTap() {
+  void onTap() async {
     if (tabController!.index < tabs.length - 1) {
       tabController!.animateTo(2);
       setState(() {
@@ -34,6 +35,8 @@ class _OnboardingPageState extends State<OnboardingPage>
       });
     } else {
       // analytics.logTutorialComplete();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool('firstTime', false);
       Get.offAllNamed('/');
     }
   }

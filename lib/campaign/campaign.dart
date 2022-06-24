@@ -205,7 +205,7 @@ Widget campaignInfoInRow(Campaign campaign) {
               text: '진행상황',
               colorType: ColorType.white),
           const SizedBox(width: 41),
-          CampaignProgress(value: campaign.companyName == '티엘아이' ? 0.3 : 1.0),
+          CampaignProgress(value: campaign.companyName == '티엘아이' ? 0.6 : 1.0),
         ],
       )
     ],

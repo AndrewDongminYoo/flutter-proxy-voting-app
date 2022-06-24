@@ -155,28 +155,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3+4"
-<<<<<<< HEAD
-  firebase_performance:
-    dependency: "direct main"
-    description:
-      name: firebase_performance
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.0+14"
-  firebase_performance_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_performance_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.1+8"
-  firebase_performance_web:
-    dependency: transitive
-    description:
-      name: firebase_performance_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0+14"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -196,7 +174,8 @@ packages:
     description:
       name: firebase_storage_web
       url: "https://pub.dartlang.org"
-    sou
+    source: hosted
+    version: "3.2.17"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -214,7 +193,7 @@ packages:
     description:
       name: flutter_dotenv
       url: "https://pub.dartlang.org"
-    sou
+    source: hosted
     version: "5.0.2"
   flutter_launcher_icons:
     dependency: "direct dev"
@@ -458,7 +437,7 @@ packages:
     source: hosted
     version: "4.2.4"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"

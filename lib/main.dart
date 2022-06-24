@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/route_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -21,11 +24,18 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    if (kReleaseMode) exit(1);
+  };
+
   // initialize app
   await dotenv.load(fileName: '.env');
+  final prefs = await SharedPreferences.getInstance();
+  final firstTime = prefs.getBool('firstTime') ?? true;
   final initialLink = await setupFirebase();
 
-  runApp(MyApp(initialLink: initialLink));
+  runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
   // },
   //     (error, stack) =>
   //         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
@@ -48,15 +58,16 @@ Future<PendingDynamicLinkData?> setupFirebase() async {
 // }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key, this.initialLink}) : super(key: key);
+  final bool firstTime;
   final PendingDynamicLinkData? initialLink;
+  const MyApp({Key? key, this.initialLink, required this.firstTime}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/onboarding';
+  String initialRoute = '/';
 
   @override
   void initState() {
@@ -93,6 +104,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    initialRoute = widget.firstTime? '/onboarding': initialRoute;
+
     return GetMaterialApp(
       title: 'Bside',
       theme: ThemeData(
