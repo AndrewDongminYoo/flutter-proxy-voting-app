@@ -47,6 +47,8 @@ dependencies:
   # firebase_messaging: ^11.4.2
   # appsflyer_sdk: ^6.5.2+2 # for debugging
   flutter_dotenv: ^5.0.2
+  url_launcher: ^6.1.4
+  intl: ^0.17.0
   # amplify_flutter: ^0.5.0
   # amplify_auth_cognito: ^0.5.0
   # amplify_analytics_pinpoint: ^0.5.0

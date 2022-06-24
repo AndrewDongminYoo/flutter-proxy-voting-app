@@ -26,22 +26,25 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  final _formKey = GlobalKey<FormState>();
-  int curStep = 0;
-  String header = headlines[0];
-  String telecom = '';
-  final telecomController = TextEditingController();
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  // ignore: unused_field
-  late ListModel<Widget> _list;
-  final commonStyle = const TextStyle(
-      letterSpacing: 2.0, fontSize: 18, fontWeight: FontWeight.bold);
   final AuthController _controller = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
 
+  final _formKey = GlobalKey<FormState>();
+  int curStep = 0;
+  String userName = "";
+  String frontBackId = "";
+  String telecom = '';
+  String phoneNumber = "";
+  String header = headlines[0];
+  final telecomController = TextEditingController();
+  final commonStyle = const TextStyle(
+      letterSpacing: 2.0, fontSize: 18, fontWeight: FontWeight.bold);
+
   onPressed() {
-    _controller.signUp();
+    final valueList = frontBackId.split(' ');
+
+    _controller.getOtpCode(userName, valueList[0], valueList[1], telecom, phoneNumber.replaceAll(' ', ''));
     Get.toNamed('/validate');
   }
 
@@ -50,11 +53,9 @@ class _AuthPageState extends State<AuthPage> {
     print('onNext: $curStep');
     FocusScope.of(Get.context!).unfocus();
     switch (curStep) {
-      // case 0:
-      //   _list.insert(0, phoneNumberForm());
-      //   break;
       case 0:
         curStep += 1;
+        _controller.getUserInfo(phoneNumber.replaceAll(' ', ''));
         break;
       case 1:
         Get.bottomSheet(telecomList(),
@@ -72,15 +73,6 @@ class _AuthPageState extends State<AuthPage> {
         break;
     }
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _list = ListModel<Widget>(
-      listKey: _listKey,
-      initialItems: <Widget>[phoneNumberForm()],
-    );
   }
 
   Widget confirmButton() {
@@ -101,6 +93,7 @@ class _AuthPageState extends State<AuthPage> {
         if (text.length >= 2) {
           onNext();
         }
+        userName = text;
       },
     );
   }
@@ -164,6 +157,7 @@ class _AuthPageState extends State<AuthPage> {
         if (text.length >= 8) {
           onNext();
         }
+        frontBackId = text;
       },
     );
   }
@@ -183,6 +177,7 @@ class _AuthPageState extends State<AuthPage> {
           if (text.length >= 13) {
             onNext();
           }
+          phoneNumber = text;
         });
   }
 
@@ -196,6 +191,7 @@ class _AuthPageState extends State<AuthPage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
+                // FIXME: auto focusing 필요
                 children: [
                   Align(
                       alignment: Alignment.centerLeft,
@@ -226,6 +222,7 @@ class _AuthPageState extends State<AuthPage> {
                       const SizedBox(height: 40),
                       phoneNumberForm(),
                       const SizedBox(height: 40),
+                      // curStep >= 4 ? ServiceTerm() : Container(),
                       curStep >= 4
                           ? CustomButton(
                               label: '확인',
@@ -241,27 +238,4 @@ class _AuthPageState extends State<AuthPage> {
           ),
         ));
   }
-}
-
-class ListModel<E> {
-  ListModel({
-    required this.listKey,
-    Iterable<E>? initialItems,
-  }) : _items = List<E>.from(initialItems ?? <E>[]);
-
-  final GlobalKey<AnimatedListState> listKey;
-  final List<E> _items;
-
-  AnimatedListState? get _animatedList => listKey.currentState;
-
-  void insert(int index, E item) {
-    _items.insert(index, item);
-    _animatedList!.insertItem(index);
-  }
-
-  int get length => _items.length;
-
-  E operator [](int index) => _items[index];
-
-  int indexOf(E item) => _items.indexOf(item);
 }

@@ -40,8 +40,7 @@ void main() {
         ColorType.values,
       ),
     );
-  }).add('outlined',
-      (ctx) {
+  }).add('outlined', (ctx) {
     return CustomOutlinedButton(
       onPressed: () {},
       label: ctx.textProperty("text", "버튼"),
@@ -53,6 +52,11 @@ void main() {
       ),
     );
   });
+
+  // dashbook.storiesOf('ServiceTerm').decorator(CenterDecorator()).add('default',
+  //     (ctx) {
+  //   return ServiceTerm();
+  // });
 
   runApp(dashbook);
 }
