@@ -13,6 +13,7 @@ class CustomSignatureController extends GetxController {
     print(response['uploadURL']);
     final file = MultipartFile(data, filename: filename);
     final formData = FormData({'file': file});
+    // await _repository.postSignature(file);
     await _repository.putSignature(formData, uploadUrl);
   }
 

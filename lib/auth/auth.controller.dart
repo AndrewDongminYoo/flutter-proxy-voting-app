@@ -1,4 +1,4 @@
-import 'package:bside/auth/auth.data.dart';
+import '../auth/auth.data.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as developer;
 

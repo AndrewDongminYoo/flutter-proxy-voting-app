@@ -1,5 +1,5 @@
-import 'package:bside/about/stepper_example.dart';
-import 'package:bside/shared/custom_grid.dart';
+import '../about/stepper_example.dart';
+import '../shared/custom_grid.dart';
 
 import '../shared/custom_button.dart';
 import 'similar_page.dart';

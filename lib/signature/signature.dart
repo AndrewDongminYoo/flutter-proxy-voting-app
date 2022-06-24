@@ -1,6 +1,6 @@
 import 'dart:typed_data' show Uint8List;
 
-import 'package:bside/signature/common_app_body.dart';
+import '../signature/common_app_body.dart';
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;
@@ -68,6 +68,7 @@ class _SignaturePageState extends State<SignaturePage> {
   void onSubmit() async {
     if (_controller.isNotEmpty) {
       final Uint8List? result = await _controller.toPngBytes();
+
       await _customController.uploadSignature(
         "company_name",
         '${DateTime.now()}-sign_username.png',

@@ -1,5 +1,5 @@
-// import 'package:bside/shared/custom_color.dart';
-// import 'package:bside/shared/custom_grid.dart';
+// import 'shared/custom_color.dart';
+// import 'shared/custom_grid.dart';
 // import 'package:flutter/gestures.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

@@ -1,4 +1,4 @@
-import 'package:bside/auth/auth.data.dart';
+import '../auth/auth.data.dart';
 import 'package:flutter/material.dart';
 import '../auth/auth.controller.dart';
 import 'common_app_body.dart';
@@ -30,7 +30,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     super.initState();
   }
 
-  onConfirmed () {
+  onConfirmed() {
     Get.toNamed('/result');
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bside/shared/custom_appbar.dart';
+import '../shared/custom_appbar.dart';
 
 class AppBodyPage extends StatefulWidget {
   const AppBodyPage({

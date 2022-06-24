@@ -13,7 +13,6 @@ import 'signature/id_card.dart';
 import 'signature/signature.dart';
 import 'onboarding/onboarding.dart';
 import 'about/result_page.dart';
-import 'about/votes_num.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),

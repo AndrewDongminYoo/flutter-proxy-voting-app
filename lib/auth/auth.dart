@@ -1,5 +1,5 @@
-import 'package:bside/shared/card_formatter.dart';
-import 'package:bside/shared/custom_color.dart';
+import '../shared/card_formatter.dart';
+import '../shared/custom_color.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +44,8 @@ class _AuthPageState extends State<AuthPage> {
   onPressed() {
     final valueList = frontBackId.split(' ');
 
-    _controller.getOtpCode(userName, valueList[0], valueList[1], telecom, phoneNumber.replaceAll(' ', ''));
+    _controller.getOtpCode(userName, valueList[0], valueList[1], telecom,
+        phoneNumber.replaceAll(' ', ''));
     Get.toNamed('/validate');
   }
 
