@@ -30,6 +30,10 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     super.initState();
   }
 
+  onConfirmed () {
+    Get.toNamed('/result');
+  }
+
   @override
   Widget build(BuildContext context) {
     var helpText = '주민등록번호를 입력해주세요.';
@@ -110,8 +114,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
         ),
       ),
       onPressed: () async {
-        // TODO: 완료된 사인 업로드하고 유저 정보에 입력하고 다음 페이지 넘어가기
-        // await _showSignature(context);
+        onConfirmed();
       },
       child: const Text(
         '등록',

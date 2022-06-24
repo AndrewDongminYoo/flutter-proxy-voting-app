@@ -124,35 +124,36 @@ class _SignaturePageState extends State<SignaturePage> {
             ),
           ),
           child: const Text(
-            '서명 불러오기',
+            '초기화',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
         ),
-        Row(
-          children: [
-            Checkbox(
-              value: _isAgreed,
-              onChanged: (v) {
-                _setAgreed();
-              },
-            ),
-            const Text('전자서명 저장에 동의합니다.'),
-          ],
-        ),
-        Row(
-          children: [
-            Checkbox(
-              value: _isManaged,
-              onChanged: (v) {
-                _setManaged();
-              },
-            ),
-            const Text('티엘아이 측에 대한 기존 위임을 철회합니다.'),
-          ],
-        ),
+        const SizedBox(height: 30),
+        // Row(
+        //   children: [
+        //     Checkbox(
+        //       value: _isAgreed,
+        //       onChanged: (v) {
+        //         _setAgreed();
+        //       },
+        //     ),
+        //     const Text('전자서명 저장에 동의합니다.'),
+        //   ],
+        // ),
+        // Row(
+        //   children: [
+        //     Checkbox(
+        //       value: _isManaged,
+        //       onChanged: (v) {
+        //         _setManaged();
+        //       },
+        //     ),
+        //     const Text('티엘아이 측에 대한 기존 위임을 철회합니다.'),
+        //   ],
+        // ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             fixedSize: Size(Get.width - 30, 50),

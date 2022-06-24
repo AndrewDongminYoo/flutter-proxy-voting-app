@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
 
   const CustomButton(
       {Key? key,
-      this.width = CustomW.w1,
+      this.width = CustomW.w4,
       this.bgColor = ColorType.deepPurple,
       this.textColor = ColorType.white,
       required this.label,
@@ -65,7 +65,7 @@ class CustomOutlinedButton extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(24),
       child: Ink(
-          height: 40,
+          height: 55,
           width: customW[width],
           decoration: BoxDecoration(
               color: Colors.white,

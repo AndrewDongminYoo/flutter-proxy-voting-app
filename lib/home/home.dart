@@ -11,6 +11,7 @@ import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
 import '../campaign/campaign.controller.dart';
 import '../shared/custom_color.dart';
+import '../shared/custom_grid.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -263,6 +264,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
               onPressed: () => onPress(curCampaign),
               bgColor: ColorType.white,
               textColor: ColorType.deepPurple,
+              width: CustomW.w1,
             ),
           ),
           const SizedBox(height: 24),

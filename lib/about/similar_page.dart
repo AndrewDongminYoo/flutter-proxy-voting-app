@@ -30,35 +30,34 @@ class _SimilarPageState extends State<SimilarPage> {
       body: SizedBox(
         height: Get.height - 100,
         width: Get.width,
-        child: ListView(
+        child: SingleChildScrollView(
+            child: Column(
           children: [
             Container(
-                width: Get.width,
-                height: 400,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xff60457A),
-                      Color(0xff80A1DF),
-                    ],
-                  ),
+              width: Get.width,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
-                child: SizedBox(
-                  height: Get.height - 80,
-                  width: Get.width,
-                  child: Column(
-                    children: widget.blueBackGroundWidgets,
-                  ),
-                )),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xff60457A),
+                    Color(0xff80A1DF),
+                  ],
+                ),
+              ),
+              child: Column(
+                children: widget.blueBackGroundWidgets,
+              ),
+            ),
+            const SizedBox(height: 37),
             Container(
               width: Get.width,
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SizedBox(
                 width: Get.width,
                 child: Column(
@@ -67,9 +66,10 @@ class _SimilarPageState extends State<SimilarPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 100),
             widget.animatedWidgets,
           ],
-        ),
+        )),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

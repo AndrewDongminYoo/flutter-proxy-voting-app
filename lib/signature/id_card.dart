@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'common_app_body.dart';
-import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'common_app_body.dart';
 import 'signature.upload.dart';
 
 class UploadIdCardPage extends StatefulWidget {
@@ -67,7 +67,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   @override
   Widget build(BuildContext context) {
     const titleString = '신분증 업로드';
-    const helpText = '신분증 사본을 업로드해주세요.';
+    const helpText = '신분증을 촬영해주세요';
     const informationString = '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 

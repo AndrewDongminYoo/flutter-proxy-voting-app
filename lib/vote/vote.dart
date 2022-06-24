@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:bside/shared/custom_button.dart';
+import 'package:bside/shared/custom_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,30 +68,14 @@ class _VotePageState extends State<VotePage> {
                         onVote: onVote),
                     marker['latest']! < agendaLength
                         ? Container()
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.deepPurple),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 12.0),
-                                    primary: Colors.white,
-                                    textStyle: const TextStyle(fontSize: 16),
-                                  ),
-                                  onPressed: onNext,
-                                  child: const Text('위임확인',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ],
-                            ),
-                          )
+                        : Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0, 20.0, 0, 100.0),
+                            child: CustomButton(
+                                label: '위임확인',
+                                onPressed: onNext,
+                                width: CustomW.w4),
+                          ),
                   ]);
                 }
                 return VoteSelector(

@@ -1,6 +1,5 @@
-import '../shared/back_button.dart';
-import '../shared/notice_button.dart';
 import 'package:flutter/material.dart';
+import 'package:bside/shared/custom_appbar.dart';
 
 class AppBodyPage extends StatefulWidget {
   const AppBodyPage({
@@ -26,14 +25,7 @@ class _AppBodyPageState extends State<AppBodyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const CustomBackButton(),
-        title: Text(widget.titleString),
-        backgroundColor: const Color(0xFF572E67),
-        // actions: const [
-        //   NoticeButton(),
-        // ]
-      ),
+      appBar: CustomAppBar(title: widget.titleString),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -60,6 +52,7 @@ class _AppBodyPageState extends State<AppBodyPage> {
             Text(widget.informationString),
             widget.mainContent,
             widget.subContentList,
+            const SizedBox(height: 100)
           ],
         ),
       ),
