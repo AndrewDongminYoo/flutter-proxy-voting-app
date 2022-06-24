@@ -2,7 +2,7 @@
 
 import 'dart:typed_data' show Uint8List;
 
-import 'package:bside/campaign/campaign.controller.dart';
+import '../campaign/campaign.controller.dart';
 
 import '../auth/auth.controller.dart';
 import '../auth/auth.data.dart';

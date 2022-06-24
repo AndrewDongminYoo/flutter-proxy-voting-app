@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:bside/auth/auth.controller.dart';
-import 'package:bside/vote/vote.controller.dart';
+import '../auth/auth.controller.dart';
+import '../vote/vote.controller.dart';
 
 import '../shared/custom_button.dart';
 import '../shared/custom_grid.dart';
@@ -61,7 +61,8 @@ class _VotePageState extends State<VotePage> {
   onNext() {
     // NOTE: debug
     // _voteController.postVoteResult(9, voteResult.values.toList());
-    _voteController.postVoteResult(_authController.user!.id,voteResult.values.toList());
+    _voteController.postVoteResult(
+        _authController.user!.id, voteResult.values.toList());
     Get.toNamed('/signature');
   }
 

@@ -1,4 +1,4 @@
-import 'package:bside/about/edit_modal.dart';
+import '../about/edit_modal.dart';
 
 import '../auth/auth.controller.dart';
 

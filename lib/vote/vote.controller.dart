@@ -1,4 +1,4 @@
-import 'package:bside/vote/vote.service.dart';
+import '../vote/vote.service.dart';
 import 'package:get/get.dart';
 
 import '../shared/loading_screen.dart';
@@ -61,7 +61,7 @@ class VoteController extends GetxController {
 
   void postVoteResult(int uid, List<VoteType> voteResult) async {
     // TODO: device name
-    final deviceName = "";
+    const deviceName = "";
 
     final response = await _service.postVoteResult(
         uid,

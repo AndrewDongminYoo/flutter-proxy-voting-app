@@ -1,5 +1,5 @@
-import 'package:bside/shared/custom_text.dart';
-import 'package:bside/vote/vote.controller.dart';
+import '../shared/custom_text.dart';
+import '../vote/vote.controller.dart';
 
 import '../auth/auth.data.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                     ),
                   ),
                 ),
-                CustomText(
+                const CustomText(
                   text: '   -   ',
                   typoType: TypoType.h1Bold,
                 ),

@@ -1,5 +1,5 @@
-import 'package:bside/shared/custom_button.dart';
-import 'package:bside/shared/custom_text.dart';
+import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

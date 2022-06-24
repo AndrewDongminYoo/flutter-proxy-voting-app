@@ -1,4 +1,4 @@
-import 'package:bside/vote/vote.controller.dart';
+import '../vote/vote.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
