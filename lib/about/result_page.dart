@@ -87,7 +87,7 @@ class _ResultPageState extends State<ResultPage> {
                 ),
                 Icon(
                   Icons.arrow_circle_right_outlined,
-                )
+                ),
               ],
             ),
             const Spacer(),
@@ -99,7 +99,7 @@ class _ResultPageState extends State<ResultPage> {
           ]),
         ),
       ),
-      const Spacer(),
+      const SizedBox(height: 20),
       Container(
         width: Get.width,
         height: 100,
@@ -108,7 +108,7 @@ class _ResultPageState extends State<ResultPage> {
           color: Color(0xff582E66),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
@@ -116,7 +116,7 @@ class _ResultPageState extends State<ResultPage> {
                   typoType: TypoType.body,
                   text: '보유 주소',
                   colorType: ColorType.white),
-              // Spacer(),
+              Spacer(),
               CustomText(
                   typoType: TypoType.bodyLight,
                   text: '1000주',
@@ -125,9 +125,6 @@ class _ResultPageState extends State<ResultPage> {
           ),
         ),
       ),
-      // const Spacer(
-      //   flex: 2,
-      // ),
     ];
     var animatedWidgets = Stepper(
       type: StepperType.vertical,

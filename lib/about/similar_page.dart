@@ -28,13 +28,13 @@ class _SimilarPageState extends State<SimilarPage> {
         title: '본인확인자료',
       ),
       body: SizedBox(
-        height: Get.height - 80,
+        height: Get.height - 100,
         width: Get.width,
         child: ListView(
           children: [
             Container(
                 width: Get.width,
-                height: 450,
+                height: 400,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
@@ -49,14 +49,22 @@ class _SimilarPageState extends State<SimilarPage> {
                     ],
                   ),
                 ),
-                child: Column(
-                  children: widget.blueBackGroundWidgets,
+                child: SizedBox(
+                  height: Get.height - 80,
+                  width: Get.width,
+                  child: Column(
+                    children: widget.blueBackGroundWidgets,
+                  ),
                 )),
-            Padding(
+            Container(
+              width: Get.width,
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.whiteBackGroundWidgets,
+              child: SizedBox(
+                width: Get.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: widget.whiteBackGroundWidgets,
+                ),
               ),
             ),
             widget.animatedWidgets,
