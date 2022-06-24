@@ -5,6 +5,7 @@ import 'campaign.model.dart';
 import 'campaign.controller.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_color.dart';
+import '../auth/auth.controller.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/progress_bar.dart';
 import '../shared/custom_confirm.dart';
@@ -20,6 +21,39 @@ class _CampaignPageState extends State<CampaignPage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  final AuthController _authController = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+
+  _buildConfirmButton() {
+    if (_authController.canVote()) {
+      // NOTE: 배포 버전에서 사용
+      // return CustomButton(
+      //     label: '투표하러가기',
+      //     width: CustomW.w4,
+      //     onPressed: () {
+      //       // Get.toNamed('/checkvotenum');
+      //     });
+      // NOTE: 임시 버전에서 사용
+      return CustomConfirm(
+          buttonLabel: '전자위임 오픈 준비중',
+          message: '오픈 준비중입니다.',
+          okLabel: '확인',
+          onConfirm: () {});
+    } else if (!_authController.isLogined) {
+      return CustomConfirm(
+          buttonLabel: '주주명부 확인 및 전자위임 하러가기',
+          message: '서비스 이용을 위해\n본인인증이 필요해요.',
+          okLabel: '인증하러가기',
+          onConfirm: () {
+            Get.toNamed('/signup');
+          });
+    } else {
+      // NOTE: 전화번호 인증 혹은 본인정보 확인 필요
+      print('Need verify telNumber');
+      return Container();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +76,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   campaignAgendaList(_controller.campaign),
                   const SizedBox(height: 24),
                   _controller.campaign.companyName == "티엘아이"
-                      ? CustomConfirm(
-                          buttonLabel: '주주명부 확인 및 전자위임 하러가기',
-                          message: '서비스 이용을 위해\n본인인증이 필요해요.',
-                          okLabel: '인증하러가기',
-                          onConfirm: () {
-                            Get.toNamed('/signup');
-                          })
+                      ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 24),
                   const SizedBox(height: 24),

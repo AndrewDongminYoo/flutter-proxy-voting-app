@@ -15,20 +15,16 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   final AuthController _controller = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
-  final TextEditingController txt = Get.isRegistered<TextEditingController>()
-      ? Get.find()
-      : Get.put(TextEditingController());
-  final TextEditingController unused = Get.isRegistered<TextEditingController>()
-      ? Get.find()
-      : Get.put(TextEditingController());
+  late String frontId = "";
+  late String backId = "";
 
   @override
   void initState() {
     if (_controller.isLogined) {
       User? user = _controller.user;
       if (user != null) {
-        txt.text = user.backId;
-        unused.text = user.frontId;
+        backId = user.backId;
+        frontId = user.frontId;
       }
     }
     super.initState();
@@ -63,24 +59,25 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                     textAlign: TextAlign.right,
                     readOnly: true,
                     decoration: InputDecoration(
-                      helperText: unused.text,
+                      helperText: frontId,
                     ),
                   ),
                 ),
+                const Text('-'),
                 SizedBox(
                   width: Get.width / 3,
-                  child: TextField(
+                  child: TextFormField(
                       textAlignVertical: TextAlignVertical.bottom,
                       textAlign: TextAlign.left,
                       obscureText: true,
+                      initialValue: backId,
                       obscuringCharacter: '●',
                       enableSuggestions: false,
                       autocorrect: false,
                       keyboardType: TextInputType.number,
                       autofocus: true,
-                      controller: txt,
                       onChanged: ((input) {
-                        txt.text = input;
+                        backId = input;
                       }),
                       decoration: const InputDecoration(
                         // border: OutlineInputBorder(

@@ -19,6 +19,10 @@ class AuthController extends GetxController {
     isLogined = true;
   }
 
+  bool canVote() {
+    return isLogined && isVerified;
+  }
+
   void startLoading() {
     Get.dialog(const LoadingScreen());
   }

@@ -1,6 +1,7 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 import 'auth/auth.dart';
+import 'not_shareholder/not_shareholder.dart';
 import 'signature/take_id_backnum.dart';
 import 'vote/vote.dart';
 import 'home/home.dart';
@@ -24,4 +25,5 @@ routes() => [
       GetPage(name: '/result', page: () => const ResultPage()),
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
       GetPage(name: '/idnumber', page: () => const TakeBackNumberPage()),
+      GetPage(name: '/error', page: () => const NotShareholderPage()),
     ];
