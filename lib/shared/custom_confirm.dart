@@ -38,7 +38,7 @@ class CustomConfirm extends StatelessWidget {
 
   Widget confirmBody() {
     return Container(
-      height: 192,
+      height: 220,
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(children: [
         const SizedBox(height: 20),

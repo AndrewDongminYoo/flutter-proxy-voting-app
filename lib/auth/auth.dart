@@ -26,6 +26,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  final FocusScopeNode _node = FocusScopeNode();
   final AuthController _controller = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
@@ -41,6 +42,12 @@ class _AuthPageState extends State<AuthPage> {
   final commonStyle = const TextStyle(
       letterSpacing: 2.0, fontSize: 18, fontWeight: FontWeight.bold);
 
+  @override
+  void dispose() {
+    _node.dispose();
+    super.dispose();
+  }
+
   onPressed() {
     final valueList = frontBackId.split(' ');
 
@@ -52,7 +59,7 @@ class _AuthPageState extends State<AuthPage> {
   onNext() {
     // TODO: Focus 전환 필요
     print('onNext: $curStep');
-    FocusScope.of(Get.context!).unfocus();
+    // FocusScope.of(Get.context!).unfocus();
     // FocusManager.instance.primaryFocus?.unfocus();
     switch (curStep) {
       case 0:
@@ -154,9 +161,10 @@ class _AuthPageState extends State<AuthPage> {
       style: commonStyle,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: '주민등록번호'),
+          border: OutlineInputBorder(), labelText: '주민등록번호', helperText: '생년월일 6자리와 뒷번호 1자리'),
       onChanged: (text) {
         if (text.length >= 8) {
+          FocusScope.of(context).unfocus();
           onNext();
         }
         frontBackId = text;
@@ -164,7 +172,7 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  Widget phoneNumberForm() {
+  Widget phoneNumberForm(BuildContext context) {
     return TextFormField(
         inputFormatters: [
           CardFormatter(sample: 'xxx xxxx xxxx', separator: " ")
@@ -177,6 +185,7 @@ class _AuthPageState extends State<AuthPage> {
             border: OutlineInputBorder(), labelText: '휴대폰번호'),
         onChanged: (text) {
           if (text.length >= 13) {
+            FocusScope.of(context).unfocus();
             onNext();
           }
           phoneNumber = text;
@@ -190,51 +199,53 @@ class _AuthPageState extends State<AuthPage> {
         body: Unfocused(
           child: Form(
             key: _formKey,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                // FIXME: auto focusing 필요
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: CustomText(
-                        typoType: TypoType.h1Bold,
-                        text: headlines[curStep],
-                        textAlign: TextAlign.left,
-                      )),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: Column(
-                    children: [
-                      const SizedBox(height: 60),
-                      curStep >= 3 ? nameForm() : Container(),
-                      const SizedBox(height: 40),
-                      curStep >= 2
-                          ? TextFormField(
-                              autofocus: true,
-                              controller: telecomController,
-                              style: commonStyle,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: '통신사'),
-                            )
-                          : Container(),
-                      const SizedBox(height: 40),
-                      curStep >= 1 ? koreanIdForm(context) : Container(),
-                      const SizedBox(height: 40),
-                      phoneNumberForm(),
-                      const SizedBox(height: 40),
-                      // curStep >= 4 ? ServiceTerm() : Container(),
-                      curStep >= 4
-                          ? CustomButton(
-                              label: '확인',
-                              onPressed: onPressed,
-                              width: CustomW.w4,
-                            )
-                          : Container()
-                    ],
-                  )))
-                ],
+            child: FocusScope(
+              node: _node,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: CustomText(
+                          typoType: TypoType.h1Bold,
+                          text: headlines[curStep],
+                          textAlign: TextAlign.left,
+                        )),
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: Column(
+                      children: [
+                        const SizedBox(height: 60),
+                        curStep >= 3 ? nameForm() : Container(),
+                        const SizedBox(height: 40),
+                        curStep >= 2
+                            ? TextFormField(
+                                autofocus: true,
+                                controller: telecomController,
+                                style: commonStyle,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: '통신사'),
+                              )
+                            : Container(),
+                        const SizedBox(height: 40),
+                        curStep >= 1 ? koreanIdForm(context) : Container(),
+                        const SizedBox(height: 40),
+                        phoneNumberForm(context),
+                        const SizedBox(height: 40),
+                        // curStep >= 4 ? ServiceTerm() : Container(),
+                        curStep >= 4
+                            ? CustomButton(
+                                label: '확인',
+                                onPressed: onPressed,
+                                width: CustomW.w4,
+                              )
+                            : Container()
+                      ],
+                    )))
+                  ],
+                ),
               ),
             ),
           ),

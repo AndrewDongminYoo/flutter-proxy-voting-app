@@ -30,9 +30,13 @@ class _ValidatePageState extends State<ValidatePage> {
   bool isOtpTimerExpired = false;
   bool isIdentificationCompleted = false;
 
-  validate(String text) {
-    _controller.validateOtpCode(_controller.user!.phoneNum, text);
+  validate(String text) async {
     FocusScope.of(context).unfocus();
+    await _controller.validateOtpCode(_controller.user!.phoneNum, text);
+    if (_controller.isVerified) {
+      timer!.cancel();
+      Get.offNamedUntil('/campaign', (route) => route.settings.name == '/');
+    }
   }
 
   onPressed() {
