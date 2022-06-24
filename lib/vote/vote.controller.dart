@@ -21,6 +21,7 @@ class VoteController extends GetxController {
 
   void toVote(String name) async {
     startLoading();
+    // ignore: prefer_typing_uninitialized_variables
     var response;
     try {
       response = await _service.findSharesByName('tli', name);

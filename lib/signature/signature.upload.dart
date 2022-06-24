@@ -1,28 +1,25 @@
 import 'dart:typed_data';
-import 'signature.service.dart' show SignatureRepository;
-import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart' show GetxController;
 
 class CustomSignatureController extends GetxController {
-  final SignatureRepository _repository = SignatureRepository();
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<void> uploadSignature(
-      String company, String filename, Uint8List data) async {
-    Response res = await _repository.getPresignedUrl(company, filename);
-    var response = res.body;
-    var uploadUrl = response['uploadURL'];
-    print(response['uploadURL']);
-    final file = MultipartFile(data, filename: filename);
-    final formData = FormData({'file': file});
-    // await _repository.postSignature(file);
-    await _repository.putSignature(formData, uploadUrl);
+      String company, String filename, Uint8List data, String category) async {
+    Reference agendaStorage = storage.ref().child(category).child(company);
+    Reference storageReference = agendaStorage.child(filename);
+    UploadTask uploadTask = storageReference.putData(
+        data, SettableMetadata(contentType: 'image/jpg'));
+    await uploadTask.whenComplete(() => storageReference.getDownloadURL());
   }
 
-  Future<String> getSignature(
-    String company,
-    String filename,
-  ) async {
-    return await _repository
-        .getPresignedUrl(company, filename)
-        .then((response) => response.body['fields']['key']);
+  Future<Image> downloadSignature(
+      String company, String filename, String category) async {
+    Reference gsRef = storage.refFromURL("gs://bside-kr.appspot.com/");
+    Reference tgRef = gsRef.child(category).child(company).child(filename);
+    String imageUrl = await tgRef.getDownloadURL();
+    return Image.network(imageUrl);
   }
 }

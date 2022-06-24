@@ -1,5 +1,11 @@
+// ignore_for_file: unused_element
+
 import 'dart:typed_data' show Uint8List;
 
+import 'package:bside/campaign/campaign.controller.dart';
+
+import '../auth/auth.controller.dart';
+import '../auth/auth.data.dart';
 import '../signature/common_app_body.dart';
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:flutter/material.dart';
@@ -15,20 +21,34 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  final CustomSignatureController _customController =
+  final CustomSignatureController custSignCtrl =
       Get.isRegistered<CustomSignatureController>()
           ? Get.find()
           : Get.put(CustomSignatureController());
+  final AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  final CampaignController cmpCtrl = Get.isRegistered<CampaignController>()
+      ? Get.find()
+      : Get.put(CampaignController());
+
+  late String username = "";
 
   @override
   void initState() {
-    super.initState();
-    _controller.addListener(() {
+    if (authCtrl.isLogined) {
+      User? user = authCtrl.user;
+      if (user != null) {
+        username = user.username;
+      }
+    }
+    authCtrl.addListener(() {
       _hideLottie();
     });
+    super.initState();
   }
 
-  final SignatureController _controller = SignatureController(
+  final SignatureController _signCtrl = SignatureController(
     penStrokeWidth: 3,
     penColor: Colors.black,
     exportBackgroundColor: Colors.transparent,
@@ -66,13 +86,14 @@ class _SignaturePageState extends State<SignaturePage> {
 모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
 
   void onSubmit() async {
-    if (_controller.isNotEmpty) {
-      final Uint8List? result = await _controller.toPngBytes();
+    if (_signCtrl.isNotEmpty) {
+      final Uint8List? result = await _signCtrl.toPngBytes();
 
-      await _customController.uploadSignature(
-        "company_name",
-        '${DateTime.now()}-sign_username.png',
+      await custSignCtrl.uploadSignature(
+        cmpCtrl.campaign.companyName,
+        '${DateTime.now()}-$username.png',
         result!,
+        "signature",
       );
       Get.toNamed('/idcard');
     }
@@ -99,7 +120,7 @@ class _SignaturePageState extends State<SignaturePage> {
                 child: _lottie,
               )
             : Signature(
-                controller: _controller,
+                controller: _signCtrl,
                 backgroundColor: Colors.white,
                 height: 300,
                 width: Get.width,
@@ -110,8 +131,7 @@ class _SignaturePageState extends State<SignaturePage> {
       children: [
         OutlinedButton(
           onPressed: () async {
-            _controller.clear();
-            // TODO: 이전에 등록한 유저사인 가져오기
+            _signCtrl.clear();
           },
           style: OutlinedButton.styleFrom(
             fixedSize: Size(Get.width - 30, 50),
@@ -164,8 +184,6 @@ class _SignaturePageState extends State<SignaturePage> {
             ),
           ),
           onPressed: () async {
-            // TODO: 완료된 사인 업로드하고 유저 정보에 입력하고 다음 페이지 넘어가기
-            // await _showSignature(context);
             onSubmit();
           },
           child: const Text(

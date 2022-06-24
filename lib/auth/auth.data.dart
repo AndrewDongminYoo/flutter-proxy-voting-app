@@ -14,7 +14,13 @@ class User {
   String address = "";
   String detailAddress = "";
 
-  User(this.username, this.frontId, this.backId, this.telecom, this.phoneNum);
+  User(
+    this.username,
+    this.frontId,
+    this.backId,
+    this.telecom,
+    this.phoneNum,
+  );
 
   // User.fromJson(Map<String, dynamic> json) {
   //   id = json['agenda']['id'] ?? -1;

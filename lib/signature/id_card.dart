@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../auth/auth.controller.dart';
+import '../campaign/campaign.controller.dart';
 import 'common_app_body.dart';
 import 'signature.upload.dart';
 
@@ -23,6 +25,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       Get.isRegistered<CustomSignatureController>()
           ? Get.find()
           : Get.put(CustomSignatureController());
+  final AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  final CampaignController cmpCtrl = Get.isRegistered<CampaignController>()
+      ? Get.find()
+      : Get.put(CampaignController());
 
   void onSubmit() async {
     final XFile? xfile = await picker.pickImage(
@@ -32,9 +40,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       idcardImage = await File(xfile.path).readAsBytes();
       if (idcardImage != null) {
         await _controller.uploadSignature(
-          "company_name",
-          xfile.name,
+          cmpCtrl.campaign.companyName,
+          '${authCtrl.user?.username}${xfile.name}',
           idcardImage!,
+          "idcard",
         );
         setState(() {
           idCardUploaded = true;
@@ -110,9 +119,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 Icons.arrow_circle_right_outlined,
               ),
               onPressed: () {
-                if (idCardUploaded) {
-                  Get.toNamed("/idnumber");
-                }
+                Get.toNamed("/idnumber");
                 // 주민등록번호 먼저 입력하는 페이지로 이동
               },
             )
@@ -128,7 +135,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           ),
           onPressed: () {
             if (idCardUploaded) {
-              // TODO: 저장된 이미지 리턴받아 등록하고 다음 페이지로 이동
+              // authCtrl.user.URL = _controller.downloadSignature();
               Get.toNamed('/idnumber');
             }
           },

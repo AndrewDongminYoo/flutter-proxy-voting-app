@@ -49,6 +49,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   url_launcher: ^6.1.4
   intl: ^0.17.0
+  firebase_storage: ^10.2.18
   # amplify_flutter: ^0.5.0
   # amplify_auth_cognito: ^0.5.0
   # amplify_analytics_pinpoint: ^0.5.0

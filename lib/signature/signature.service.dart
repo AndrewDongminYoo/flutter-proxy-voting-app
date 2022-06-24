@@ -16,10 +16,4 @@ class SignatureRepository extends GetConnect {
     return await put(presignedUrl, formData,
         contentType: "multipart/form-data");
   }
-
-  Future<Response> postSignature(MultipartFile file) async {
-    String presignedUrl =
-        "https://bside-korea-private.s3.ap-northeast-2.amazonaws.com/";
-    return await put(presignedUrl, file, contentType: "multipart/form-data");
-  }
 }
