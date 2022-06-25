@@ -34,10 +34,6 @@ class _StepperComponentState extends State<StepperComponent> {
 
   @override
   Widget build(BuildContext context) {
-    // final CampaignController ctrlr = Get.isRegistered<CampaignController>()
-    // ? Get.find()
-    // : Get.put(CampaignController());
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(children: [

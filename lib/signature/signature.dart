@@ -1,19 +1,14 @@
-// ignore_for_file: unused_element
-
 import 'dart:typed_data' show Uint8List;
+import 'package:flutter/material.dart';
 
-import 'package:bside/vote/vote.controller.dart';
-
-import '../campaign/campaign.controller.dart';
-
-import '../auth/auth.controller.dart';
 import '../auth/auth.data.dart';
+import '../auth/auth.controller.dart';
+import '../vote/vote.controller.dart';
 import '../shared/custom_lottie.dart';
 import '../signature/common_app_body.dart';
-import 'signature.upload.dart' show CustomSignatureController;
-import 'package:flutter/material.dart';
-import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:get/get.dart' show Get, GetNavigation, Inst;
+import 'signature.upload.dart' show CustomSignatureController;
+import 'package:signature/signature.dart' show Signature, SignatureController;
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);
@@ -28,7 +23,6 @@ class _SignaturePageState extends State<SignaturePage> {
           ? Get.find()
           : Get.put(CustomSignatureController());
   final AuthController authCtrl = Get.find();
-  final CampaignController cmpCtrl = Get.find();
   final VoteController voteCtrl = Get.find();
 
   late String username = "";
@@ -82,7 +76,7 @@ class _SignaturePageState extends State<SignaturePage> {
     if (_signCtrl.isNotEmpty) {
       final Uint8List? result = await _signCtrl.toPngBytes();
       final url = await custSignCtrl.uploadSignature(
-        cmpCtrl.campaign.companyName,
+        VoteController.to.campaign.companyName,
         '${DateTime.now()}-$username.png',
         result!,
         "signature",

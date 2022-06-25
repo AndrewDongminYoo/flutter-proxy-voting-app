@@ -1,15 +1,25 @@
-import '../vote/vote.service.dart';
 import 'package:get/get.dart';
-
+import '../vote/vote.service.dart';
 import '../shared/loading_screen.dart';
-import 'shareholder.data.dart';
+import '../campaign/campaign.data.dart';
+import '../campaign/campaign.model.dart';
+
 import 'vote.model.dart';
+import 'shareholder.data.dart';
 
 class VoteController extends GetxController {
   final VoteService _service = VoteService();
   final shareholders = <Shareholder>[];
+  Campaign campaign = campaigns[0];
   Shareholder? shareholder;
   VoteAgenda? voteAgenda;
+
+  static VoteController get to => Get.find();
+
+  void setCampaign(Campaign newCampaign) {
+    campaign = newCampaign;
+    update();
+  }
 
   // 전자위임 가능여부를 판단하여 route 이동 진행
   // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시

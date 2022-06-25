@@ -1,19 +1,16 @@
-import '../about/edit_modal.dart';
-
-import '../auth/auth.controller.dart';
-
-import '../shared/custom_button.dart';
-import '../shared/custom_grid.dart';
-import '../vote/vote.controller.dart';
-import 'similar_page.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
-import '../campaign/campaign.controller.dart';
-import '../campaign/campaign.model.dart';
-import '../shared/custom_color.dart';
-import '../shared/custom_text.dart';
+import 'similar_page.dart';
 import 'stepper_example.dart';
+import '../about/edit_modal.dart';
+import '../shared/custom_grid.dart';
+import '../shared/custom_text.dart';
+import '../shared/custom_color.dart';
+import '../vote/vote.controller.dart';
+import '../auth/auth.controller.dart';
+import '../shared/custom_button.dart';
+import '../campaign/campaign.model.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({Key? key}) : super(key: key);
@@ -22,9 +19,6 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  final CampaignController _controller = Get.find();
-  final VoteController _voteController = Get.find();
-
   onEdit() async {
     await Get.dialog(EditModal());
     setState(() {});
@@ -32,7 +26,7 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = _controller.campaign;
+    Campaign campaign = VoteController.to.campaign;
     var blueBackGroundWidgets = <Widget>[
       Container(
           margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
@@ -60,10 +54,6 @@ class _ResultPageState extends State<ResultPage> {
           typoType: TypoType.bodyLight,
           text: '성공적으로 전자위임이 완료되었습니다.',
           colorType: ColorType.white),
-      // const CustomText(
-      //     typoType: TypoType.bodyLight,
-      //     text: '다른 캠페인도 둘러보시겠어요?',
-      //     colorType: ColorType.white),
       const SizedBox(height: 20),
     ];
     var whiteBackGroundWidgets = [
@@ -134,7 +124,7 @@ class _ResultPageState extends State<ResultPage> {
               const SizedBox(height: 21),
               CustomText(
                   typoType: TypoType.bodyLight,
-                  text: _voteController.voteAgenda!.sharesNum.toString(),
+                  text: VoteController.to.voteAgenda!.sharesNum.toString(),
                   colorType: ColorType.white)
             ],
           ),

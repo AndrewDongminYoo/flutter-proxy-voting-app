@@ -1,3 +1,5 @@
+import 'package:bside/vote/vote.controller.dart';
+
 import '../shared/custom_button.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,6 @@ import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
-import '../campaign/campaign.controller.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_grid.dart';
 import '../shared/custom_pop_scope.dart';
@@ -26,19 +27,19 @@ class _HomePageState extends State<HomePage> {
   int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
-  final CampaignController _controller = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController(), permanent: true);
-  final AuthController _authController = Get.isRegistered<AuthController>()
+  final AuthController _authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController(), permanent: true);
+  final VoteController _voteCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(VoteController(), permanent: true);
 
   @override
   void initState() {
     super.initState();
     controller = PageController(viewportFraction: 0.2, initialPage: curPage);
     curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
-    _authController.init();
+    _authCtrl.init();
     // initFirebase();
   }
 
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onConfirmed(Campaign campaign) {
-    _controller.setCampaign(campaign);
+    _voteCtrl.setCampaign(campaign);
     Get.toNamed('/campaign');
   }
 

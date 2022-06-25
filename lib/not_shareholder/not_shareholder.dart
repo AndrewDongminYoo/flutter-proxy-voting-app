@@ -1,14 +1,13 @@
-import 'package:bside/shared/custom_appbar.dart';
-import 'package:flutter/material.dart';
+import 'package:bside/vote/vote.controller.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
-import '../campaign/campaign.controller.dart';
-import '../campaign/campaign.model.dart';
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_grid.dart';
 import '../shared/custom_text.dart';
+import '../shared/custom_button.dart';
+import '../shared/custom_appbar.dart';
+import '../campaign/campaign.model.dart';
 
 class NotShareholderPage extends StatefulWidget {
   const NotShareholderPage({Key? key}) : super(key: key);
@@ -17,13 +16,11 @@ class NotShareholderPage extends StatefulWidget {
 }
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
-  final CampaignController _controller = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController());
   onPressedMail() {}
+  
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = _controller.campaign;
+    Campaign campaign = VoteController.to.campaign;
 
     return Scaffold(
         appBar: const CustomAppBar(title: '캠페인'),

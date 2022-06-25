@@ -5,7 +5,6 @@ import 'similar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../campaign/campaign.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_grid.dart';
 import '../shared/custom_button.dart';
@@ -19,13 +18,6 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
-  final CampaignController _controller = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController());
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
-
   voteWithExample() {
     Get.toNamed("/vote", arguments: "voteWithExample");
   }
@@ -41,7 +33,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = _controller.campaign;
+    Campaign campaign = VoteController.to.campaign;
 
     var blueBackGroundWidgets = <Widget>[
       const SizedBox(height: 40),
@@ -129,7 +121,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
               const SizedBox(height: 21),
               CustomText(
                   typoType: TypoType.bodyLight,
-                  text: _voteController.shareholder!.sharesNum.toString(),
+                  text: VoteController.to.shareholder!.sharesNum.toString(),
                   colorType: ColorType.white)
             ],
           ),

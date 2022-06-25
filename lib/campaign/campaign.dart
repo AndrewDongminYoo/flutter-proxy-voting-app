@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'campaign.model.dart';
-import 'campaign.controller.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 import '../shared/custom_grid.dart';
@@ -22,7 +21,6 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
-  final CampaignController _controller = Get.find();
   final AuthController _authController = Get.find();
   final VoteController _voteController = Get.isRegistered<VoteController>()
       ? Get.find()
@@ -39,7 +37,7 @@ class _CampaignPageState extends State<CampaignPage> {
                 typoType: TypoType.h1Bold,
                 text: '주주총회의안',
                 colorType: ColorType.white),
-                const Spacer(),
+            const Spacer(),
             CustomButton(
                 label: '의결권권유 공시',
                 width: CustomW.w2,
@@ -122,13 +120,13 @@ class _CampaignPageState extends State<CampaignPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  campaignHeader(_controller.campaign),
+                  campaignHeader(VoteController.to.campaign),
                   const SizedBox(height: 48),
-                  campaignInfoInRow(_controller.campaign),
+                  campaignInfoInRow(VoteController.to.campaign),
                   const SizedBox(height: 86),
-                  campaignAgendaList(_controller.campaign),
+                  campaignAgendaList(VoteController.to.campaign),
                   const SizedBox(height: 24),
-                  _controller.campaign.companyName == "티엘아이"
+                  VoteController.to.campaign.companyName == "티엘아이"
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),

@@ -1,17 +1,14 @@
 import 'dart:math';
-
-import '../auth/auth.controller.dart';
-import '../vote/vote.controller.dart';
-
-import '../shared/custom_button.dart';
-import '../shared/custom_grid.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 import 'vote.model.dart';
 import 'vote_selector.dart';
+import '../shared/custom_grid.dart';
+import '../auth/auth.controller.dart';
+import '../vote/vote.controller.dart';
 import '../shared/custom_appbar.dart';
-import '../campaign/campaign.controller.dart';
+import '../shared/custom_button.dart';
 
 class VotePage extends StatefulWidget {
   const VotePage({Key? key}) : super(key: key);
@@ -21,9 +18,6 @@ class VotePage extends StatefulWidget {
 }
 
 class _VotePageState extends State<VotePage> {
-  final CampaignController _controller = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController());
   final AuthController _authController = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
@@ -76,7 +70,8 @@ class _VotePageState extends State<VotePage> {
 
   @override
   Widget build(BuildContext context) {
-    final agendaLength = _controller.campaign.agendaList.length;
+    final agendaList = VoteController.to.campaign.agendaList;
+    final agendaLength = agendaList.length;
     final useDefault = Get.arguments == 'voteWithExample';
 
     return Scaffold(
@@ -86,8 +81,7 @@ class _VotePageState extends State<VotePage> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children:
-                  _controller.campaign.agendaList.asMap().entries.map((item) {
+              children: agendaList.asMap().entries.map((item) {
                 // Do not show the next item
                 if (item.key > marker['latest']!) {
                   return Container();
