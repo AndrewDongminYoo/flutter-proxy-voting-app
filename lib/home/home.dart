@@ -28,11 +28,11 @@ class _HomePageState extends State<HomePage> {
   DateTime? currentBackPressTime;
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
-      : Get.put(CampaignController());
+      : Get.put(CampaignController(), permanent: true);
   // ignore: unused_field
   final AuthController _authController = Get.isRegistered<AuthController>()
       ? Get.find()
-      : Get.put(AuthController());
+      : Get.put(AuthController(), permanent: true);
 
   void onPress(Campaign campaign) {
     _controller.setCampaign(campaign);
@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     controller = PageController(viewportFraction: 0.2, initialPage: curPage);
     curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
+    _authController.init();
     // initFirebase();
   }
 

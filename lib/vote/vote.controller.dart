@@ -36,10 +36,10 @@ class VoteController extends GetxController {
     stopLoading();
     if (shareholders.length > 1) {
       // FIXME
-      shareholder = shareholders[0];
-      Get.toNamed('/checkvotenum');
-      // print(shareholder);
-      // Get.toNamed('/duplicate');
+      // shareholder = shareholders[0];
+      // Get.toNamed('/checkvotenum');
+      print(shareholder);
+      Get.toNamed('/duplicate');
     } else if (shareholders.length == 1) {
       shareholder = shareholders[0];
       Get.toNamed('/checkvotenum');

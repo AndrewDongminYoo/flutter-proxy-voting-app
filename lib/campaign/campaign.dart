@@ -21,15 +21,11 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
-  final CampaignController _controller = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController());
-  final AuthController _authController = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  final CampaignController _controller = Get.find();
+  final AuthController _authController = Get.find();
   final VoteController _voteController = Get.isRegistered<VoteController>()
       ? Get.find()
-      : Get.put(VoteController());
+      : Get.put(VoteController(), permanent: true);
 
   _buildConfirmButton() {
     // FIXME: 디버깅용
