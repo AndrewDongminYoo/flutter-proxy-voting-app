@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../campaign/campaign.controller.dart';
 import '../campaign/campaign.model.dart';
+import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_grid.dart';
@@ -26,35 +27,45 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
     Campaign campaign = _controller.campaign;
 
     return Scaffold(
-      appBar: CustomAppBar(title: '캠페인'),
+        appBar: const CustomAppBar(title: '캠페인'),
         body: SizedBox(
-      child: ListView(
-        children: [
-          Temp(campaign: campaign),
-          const SizedBox(
-            height: 80,
+          child: ListView(
+            children: [
+              Temp(campaign: campaign),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    CustomOutlinedButton(
+                        label: '다시하기',
+                        textColor: ColorType.orange,
+                        width: CustomW.w4,
+                        onPressed: () {}),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    CustomButton(
+                      label: '처음으로',
+                      bgColor: ColorType.deepPurple,
+                      onPressed: () {
+                        Get.offAllNamed('/');
+                      },
+                      width: CustomW.w4,
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-          CustomOutlinedButton(
-              label: '다시하기', textColor: ColorType.orange, onPressed: () {}),
-          const SizedBox(
-            height: 50,
-          ),
-          CustomButton(
-            label: '처음으로',
-            bgColor: ColorType.deepPurple,
-            onPressed: () {
-              Get.offAllNamed('/');
-            },
-            width: CustomW.w3,
-          ),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
 class Temp extends StatefulWidget {
-  const Temp({
+  Temp({
     Key? key,
     required this.campaign,
   }) : super(key: key);
@@ -87,15 +98,12 @@ class _TempState extends State<Temp> {
           Container(
               margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
               child: const CustomText(
-                  typoType: TypoType.h1,
-                  text: '',
-                  colorType: ColorType.white)),
+                  typoType: TypoType.h1, text: '', colorType: ColorType.white)),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
             child: Align(
               child: CircleAvatar(
-                backgroundImage:
-                    const ExactAssetImage('assets/images/logo.png'),
+                foregroundImage: NetworkImage(widget.campaign.logoImg),
                 radius: 40,
                 backgroundColor: customColor[ColorType.white],
               ),
