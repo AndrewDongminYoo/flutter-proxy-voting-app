@@ -75,7 +75,6 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                   child: TextFormField(
                     maxLength: 7,
                     decoration: const InputDecoration(
-                        labelText: "username",
                         counterStyle: TextStyle(
                           height: double.minPositive,
                         ),
