@@ -88,13 +88,13 @@ class _SignaturePageState extends State<SignaturePage> {
   void onSubmit() async {
     if (_signCtrl.isNotEmpty) {
       final Uint8List? result = await _signCtrl.toPngBytes();
-
-      await custSignCtrl.uploadSignature(
+      final url = await custSignCtrl.uploadSignature(
         cmpCtrl.campaign.companyName,
         '${DateTime.now()}-$username.png',
         result!,
         "signature",
       );
+      print(url);
       Get.toNamed('/idcard');
     }
   }

@@ -6,13 +6,13 @@ import 'package:get/get.dart' show GetxController;
 class CustomSignatureController extends GetxController {
   FirebaseStorage storage = FirebaseStorage.instance;
 
-  Future<void> uploadSignature(
+  Future<String> uploadSignature(
       String company, String filename, Uint8List data, String category) async {
     Reference agendaStorage = storage.ref().child(category).child(company);
     Reference storageReference = agendaStorage.child(filename);
-    UploadTask uploadTask = storageReference.putData(
+    await storageReference.putData(
         data, SettableMetadata(contentType: 'image/jpg'));
-    await uploadTask.whenComplete(() => storageReference.getDownloadURL());
+    return await storageReference.getDownloadURL();
   }
 
   Future<Image> downloadSignature(

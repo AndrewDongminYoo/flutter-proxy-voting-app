@@ -73,12 +73,13 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     if (xfile != null) {
       idcardImage = await File(xfile.path).readAsBytes();
       if (idcardImage != null) {
-        await _controller.uploadSignature(
+        final imgUrl = await _controller.uploadSignature(
           cmpCtrl.campaign.companyName,
           '${authCtrl.user?.username}${xfile.name}',
           idcardImage!,
           "idcard",
         );
+        print(imgUrl);
         setState(() {
           idCardUploaded = true;
         });
