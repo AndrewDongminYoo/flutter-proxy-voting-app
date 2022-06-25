@@ -26,23 +26,56 @@ class _CampaignPageState extends State<CampaignPage> {
   final VoteController _voteController = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController(), permanent: true);
+  bool isLoading = false;
+
+  Widget campaignAgendaList(Campaign campaign) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const CustomText(
+            typoType: TypoType.h1Bold,
+            text: '주주총회의안',
+            colorType: ColorType.white),
+        const SizedBox(height: 16),
+        Column(
+            children: campaign.agendaList.map((item) {
+          return Card(
+            child: ListTile(
+              title: CustomText(
+                  text: item.section,
+                  typoType: TypoType.body,
+                  textAlign: TextAlign.left),
+              subtitle: CustomText(
+                  text: item.head,
+                  typoType: TypoType.bodyLight,
+                  textAlign: TextAlign.left,
+                  colorType: ColorType.black),
+              trailing: TextButton(
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = !isLoading;
+                    });
+                  },
+                  child: Text(item.agendaFrom)),
+            ),
+          );
+        }).toList())
+      ],
+    );
+  }
 
   _buildConfirmButton() {
-    // FIXME: 디버깅용
-    // return CustomButton(
-    //     label: '투표하러가기',
-    //     width: CustomW.w4,
-    //     onPressed: () {
-    //       _voteController.toVote("소재우");
-    //     });
-
     if (_authController.canVote()) {
-      return CustomButton(
+      return AnimatedButton(
+          isLoading: isLoading,
           label: '전자위임 하러가기',
           width: CustomW.w4,
-          onPressed: () {
+          onPressed: () async {
+            isLoading = true;
             print(_authController.user!.username);
-            _voteController.toVote(_authController.user!.id, _authController.user!.username);
+            _voteController.toVote(
+                _authController.user!.id, _authController.user!.username);
+            isLoading = false;
           });
     } else if (!_authController.isLogined) {
       return CustomConfirm(
@@ -159,19 +192,6 @@ Widget campaignInfoInRow(Campaign campaign) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // SizedBox(
-      //   height: 72,
-      //   child: ListView.builder(
-      //       shrinkWrap: true,
-      //       scrollDirection: Axis.horizontal,
-      //       itemCount: actionMenuList.length + 1,
-      //       itemBuilder: (BuildContext context, int index) => index == 0
-      //           ? const SizedBox(
-      //               width: 41,
-      //             )
-      //           : iconButton(actionMenuList[index - 1])),
-      // ),
-      // const SizedBox(height: 16),
       Hero(
         tag: 'companyLogo',
         child: CircleAvatar(
@@ -237,36 +257,5 @@ Widget iconButton(ActionMenu actionMenu) {
         ],
       ),
     ),
-  );
-}
-
-Widget campaignAgendaList(Campaign campaign) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const CustomText(
-          typoType: TypoType.h1Bold,
-          text: '주주총회의안',
-          colorType: ColorType.white),
-      const SizedBox(height: 16),
-      Column(
-          children: campaign.agendaList.map((item) {
-        return Card(
-          child: ListTile(
-            title: CustomText(
-                text: item.section,
-                typoType: TypoType.body,
-                textAlign: TextAlign.left),
-            subtitle: CustomText(
-                text: item.head,
-                typoType: TypoType.bodyLight,
-                textAlign: TextAlign.left,
-                colorType: ColorType.black),
-            trailing:
-                TextButton(onPressed: () {}, child: Text(item.agendaFrom)),
-          ),
-        );
-      }).toList())
-    ],
   );
 }
