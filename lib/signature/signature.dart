@@ -2,6 +2,8 @@
 
 import 'dart:typed_data' show Uint8List;
 
+import 'package:bside/vote/vote.controller.dart';
+
 import '../campaign/campaign.controller.dart';
 
 import '../auth/auth.controller.dart';
@@ -25,12 +27,9 @@ class _SignaturePageState extends State<SignaturePage> {
       Get.isRegistered<CustomSignatureController>()
           ? Get.find()
           : Get.put(CustomSignatureController());
-  final AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  final CampaignController cmpCtrl = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController());
+  final AuthController authCtrl =Get.find();
+  final CampaignController cmpCtrl = Get.find();
+  final VoteController voteCtrl = Get.find();
 
   late String username = "";
 
@@ -94,7 +93,7 @@ class _SignaturePageState extends State<SignaturePage> {
         result!,
         "signature",
       );
-      print(url);
+      voteCtrl.putSignatureUrl(url);
       Get.toNamed('/idcard');
     }
   }

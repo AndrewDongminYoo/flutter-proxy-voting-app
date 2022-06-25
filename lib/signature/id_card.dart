@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.controller.dart';
+import '../vote/vote.controller.dart';
 import 'common_app_body.dart';
 import 'signature.upload.dart';
 
@@ -31,6 +32,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   final CampaignController cmpCtrl = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  final VoteController voteCtrl = Get.find();
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {
@@ -79,7 +81,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           idcardImage!,
           "idcard",
         );
-        print(imgUrl);
+        voteCtrl.putIdCard(imgUrl);
         setState(() {
           idCardUploaded = true;
         });

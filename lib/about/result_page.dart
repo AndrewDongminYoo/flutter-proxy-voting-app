@@ -90,39 +90,30 @@ class _ResultPageState extends State<ResultPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                children: const [
-                  CustomText(
+                children: [
+                  const CustomText(
                     typoType: TypoType.body,
                     text: '주소',
                     textAlign: TextAlign.left,
                     colorType: ColorType.white,
                   ),
-                  Spacer(),
-                  CustomText(
+                  const Spacer(),
+                  const CustomText(
                     typoType: TypoType.bodyLight,
                     text: '수정하기',
                     textAlign: TextAlign.left,
                     colorType: ColorType.white,
                   ),
-                  Icon(
-                    Icons.arrow_circle_right_outlined,
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_circle_right_outlined,
+                      color: customColor[ColorType.white],
+                    ),
+                    onPressed: onEdit,
                   ),
                 ],
               ),
               const SizedBox(height: 24),
-              const CustomText(
-                typoType: TypoType.bodyLight,
-                text: '수정하기',
-                textAlign: TextAlign.left,
-                colorType: ColorType.white,
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_circle_right_outlined,
-                  color: customColor[ColorType.white],
-                ),
-                onPressed: onEdit,
-              ),
               CustomText(
                 typoType: TypoType.bodyLight,
                 text: address,
