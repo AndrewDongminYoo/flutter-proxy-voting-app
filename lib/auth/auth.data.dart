@@ -6,6 +6,7 @@ class User {
   String telecom = 'SKT';
   String phoneNum = '01012341234';
   String ci = '';
+  String di = '';
   String address = "";
 
   User(
@@ -27,5 +28,6 @@ class User {
     phoneNum = json['phoneNum'] ?? '';
     address = json['address'] ?? '';
     ci = json['ci'] ?? '';
+    di = json['di'] ?? '';
   }
 }

@@ -29,6 +29,9 @@ class AuthController extends GetxController {
 
   void signUp() async {
     isLogined = true;
+    var response = await _service.createUser(user!.username, user!.frontId,
+        user!.backId, user!.telecom, user!.phoneNum, user!.ci, user!.di);
+    print(response.bodyString);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('phoneNum', user!.phoneNum);
   }
@@ -51,6 +54,10 @@ class AuthController extends GetxController {
     if (user != null) {
       user!.address = address;
     }
+  }
+
+  void putBackId(String backId) async {
+    await _service.putBackId(user!.id, backId);
   }
 
   Future<void> getUserInfo(String telNum) async {
@@ -78,6 +85,7 @@ class AuthController extends GetxController {
         return;
       }
       user!.ci = response.body['ci'] ?? '';
+      user!.di = response.body['di'] ?? '';
       if (user!.ci.isEmpty) {
         throw Exception('휴대폰 인증 에러');
       }
