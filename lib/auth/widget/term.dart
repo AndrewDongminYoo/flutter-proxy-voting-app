@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'privacy_term_page.dart';
-import 'service_term_page.dart';
 import '../../shared/custom_color.dart';
 import '../../shared/custom_grid.dart';
 import '../../shared/custom_text.dart';
@@ -42,12 +38,12 @@ class _ServiceTermState extends State<ServiceTerm> {
   openPage(int index) async {
     switch (index) {
       case 0:
-        await launchUrl(
-            Uri.parse("https://bsidekr.notion.site/af50b14ac5f148ccabef47c89882dd17"));
+        await launchUrl(Uri.parse(
+            "https://bsidekr.notion.site/af50b14ac5f148ccabef47c89882dd17"));
         break;
       case 1:
-         await launchUrl(
-            Uri.parse("https://bsidekr.notion.site/f951d82e310d45bc85ec533c0267c8eb"));
+        await launchUrl(Uri.parse(
+            "https://bsidekr.notion.site/f951d82e310d45bc85ec533c0267c8eb"));
         break;
       case 2:
         await launchUrl(
@@ -80,7 +76,9 @@ class _ServiceTermState extends State<ServiceTerm> {
           TextSpan(
               text: label,
               style: TextStyle(color: customColor[ColorType.purple])),
-          const TextSpan(text: '에 동의', style: TextStyle(color: Colors.black))
+          TextSpan(
+              text: index != 3 ? '에 동의' : '',
+              style: const TextStyle(color: Colors.black))
         ])),
       ),
       checkboxShape: const CircleBorder(),
