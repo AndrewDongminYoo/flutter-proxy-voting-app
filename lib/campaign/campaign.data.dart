@@ -28,7 +28,7 @@ final campaigns = <Campaign>[
           "정기주주 총회에서 창업주의 재선임을 부결시켰음에도 불구하고, 또 다시 임시 주주총회에서 창업주와 분쟁을 하게 되었습니다. 이번 임시 주주총회에서도 주주 여러분들의 도움으로 반드시 승리할 것이며, 계속 지켜봐 주시고, 앞으로도 주주 여러분의 많은 관심과 성원 부탁드립니다.",
       youtubeUrl: '',
       agendaList: tliAgendaList,
-      status: '준비중',
+      status: '더보기',
       backgroundImg: 'assets/images/home_back_tli.png',
       logoImg:
           'https://d2u3dcdbebyaiu.cloudfront.net/img/companyPage_kr/logo_8569.jpg'),
