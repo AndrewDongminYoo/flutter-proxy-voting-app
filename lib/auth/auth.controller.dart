@@ -21,7 +21,6 @@ class AuthController extends GetxController {
       final phoneNum = prefs.getString('phoneNum');
       print('phoneNum: $phoneNum');
       if (phoneNum != null) {
-        isLogined = true;
         await getUserInfo(phoneNum);
       }
     }
@@ -65,6 +64,7 @@ class AuthController extends GetxController {
     print(response.body);
     if (response.isOk && response.body && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
+      isLogined = true;
     }
   }
 
