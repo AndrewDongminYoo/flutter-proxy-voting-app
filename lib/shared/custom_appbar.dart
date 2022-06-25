@@ -7,29 +7,33 @@ import '../shared/back_button.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color bgColor;
-  const CustomAppBar({
-    Key? key,
-    required this.title,
-    this.bgColor = const Color(0xFF572E67),
-  }) : super(key: key);
+  final bool withoutBack;
+  const CustomAppBar(
+      {Key? key,
+      required this.title,
+      this.bgColor = const Color(0xFF572E67),
+      this.withoutBack = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: SizedBox(
         width: Get.width,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CustomBackButton(),
-            Text(title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ))
-          ],
-        ),
+        child: withoutBack
+            ? Container()
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CustomBackButton(),
+                  Text(title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ))
+                ],
+              ),
       ),
       leadingWidth: 200,
       toolbarHeight: 80,

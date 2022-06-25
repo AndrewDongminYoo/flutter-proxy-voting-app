@@ -26,6 +26,8 @@ class _SimilarPageState extends State<SimilarPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: widget.title,
+        withoutBack: true,
+        bgColor: const Color(0xff60457A),
       ),
       body: SizedBox(
         height: Get.height - 100,
