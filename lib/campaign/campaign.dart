@@ -42,7 +42,7 @@ class _CampaignPageState extends State<CampaignPage> {
           width: CustomW.w4,
           onPressed: () {
             print(_authController.user!.username);
-            _voteController.toVote(_authController.user!.username);
+            _voteController.toVote(_authController.user!.id, _authController.user!.username);
           });
     } else if (!_authController.isLogined) {
       return CustomConfirm(

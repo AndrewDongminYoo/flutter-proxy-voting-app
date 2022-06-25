@@ -34,6 +34,8 @@ class VoteAgenda {
   int agenda2 = 0;
   int agenda3 = 0;
   int agenda4 = 0;
+  String signatureUrl = "";
+  String idCardUrl = "";
 
   VoteAgenda(
     this.id,
@@ -50,10 +52,12 @@ class VoteAgenda {
     id = json['id'] ?? -1;
     company = json['company'] ?? '';
     curStatus = json['curStatus'] ?? '';
-    sharesNum = json['sharesNum'];
-    agenda1 = json['agenda1'];
-    agenda2 = json['agenda2'];
-    agenda3 = json['agenda3'];
-    agenda4 = json['agenda4'];
+    sharesNum = json['sharesNum'] ?? 0;
+    agenda1 = json['agenda1'] ?? 0;
+    agenda2 = json['agenda2'] ?? 0;
+    agenda3 = json['agenda3'] ?? 0;
+    agenda4 = json['agenda4'] ?? 0;
+    signatureUrl = json['signatureUrl'] ?? '';
+    idCardUrl = json['idCardUrl'] ?? '';
   }
 }

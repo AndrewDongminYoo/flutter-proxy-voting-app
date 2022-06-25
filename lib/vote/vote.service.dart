@@ -7,6 +7,10 @@ class VoteService extends GetConnect {
 
   String getURL(String url) => baseURL + url;
 
+  Future<Response> queryAgenda(int uid, String company) {
+    return get(getURL('/agenda?uid=$uid&company=$company'));
+  }
+
   Future<Response> findSharesByName(String company, String name) {
     return get(getURL('/shareholders'),
         query: {'company': company, 'name': name});
