@@ -50,7 +50,6 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            // height: 40,
             margin: const EdgeInsets.all(7),
             decoration: BoxDecoration(
               border: Border.all(width: 3),
@@ -63,46 +62,28 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
               children: [
                 SizedBox(
                   width: Get.width / 4,
-                  child: TextField(
-                    textAlignVertical: TextAlignVertical.bottom,
+                  child: TextFormField(
+                    initialValue: frontId,
+                    textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.right,
                     readOnly: true,
-                    decoration: InputDecoration(
-                      helperText: frontId,
-                    ),
                   ),
                 ),
-                const CustomText(
-                  text: '   -   ',
-                  typoType: TypoType.h1Bold,
-                ),
+                const Text('-', style: TextStyle(fontSize: 20)),
                 SizedBox(
                   width: Get.width / 3,
                   child: TextFormField(
-                      textAlignVertical: TextAlignVertical.bottom,
-                      textAlign: TextAlign.left,
-                      // obscureText: true,
-                      initialValue: backId,
-                      // obscuringCharacter: '●',
-                      maxLength: 7,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      keyboardType: TextInputType.number,
-                      autofocus: true,
-                      onChanged: ((input) {
-                        backId = input;
-                      }),
-                      decoration: const InputDecoration(
-                        // border: OutlineInputBorder(
-                        //     borderRadius: BorderRadius.all(
-                        //       Radius.circular(30),
-                        //     ),
-                        //     borderSide: BorderSide(
-                        //       color: Colors.black,
-                        //       width: 5,
-                        //     )),
-                        hintText: '뒤 7자리',
-                      )),
+                    textAlignVertical: TextAlignVertical.center,
+                    textAlign: TextAlign.left,
+                    initialValue: backId,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    keyboardType: TextInputType.number,
+                    autofocus: true,
+                    onChanged: ((input) {
+                      backId = input;
+                    }),
+                  ),
                 ),
               ],
             ),
