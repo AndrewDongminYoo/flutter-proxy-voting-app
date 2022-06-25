@@ -73,6 +73,13 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                 SizedBox(
                   width: Get.width / 3,
                   child: TextFormField(
+                    maxLength: 7,
+                    decoration: const InputDecoration(
+                        labelText: "username",
+                        counterStyle: TextStyle(
+                          height: double.minPositive,
+                        ),
+                        counterText: ""),
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.left,
                     initialValue: backId,

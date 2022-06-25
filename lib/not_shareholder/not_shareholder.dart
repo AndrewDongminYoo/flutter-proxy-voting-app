@@ -2,8 +2,6 @@ import 'package:bside/shared/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// import '../checkVoteNum/check.dart';
-
 import '../campaign/campaign.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_appbar.dart';
@@ -22,6 +20,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
+  onPressedMail() {}
   @override
   Widget build(BuildContext context) {
     Campaign campaign = _controller.campaign;
@@ -39,20 +38,20 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
                     const SizedBox(
                       height: 50,
                     ),
-                    CustomOutlinedButton(
-                        label: '다시하기',
-                        textColor: ColorType.orange,
-                        width: CustomW.w4,
-                        onPressed: () {}),
+                    const CustomText(
+                        typoType: TypoType.h1, text: 'sjcho0070@naver.com'),
                     const SizedBox(
-                      height: 30,
+                      height: 50,
+                    ),
+                    const CustomText(
+                        typoType: TypoType.h1, text: '010-8697-1669'),
+                    const SizedBox(
+                      height: 50,
                     ),
                     CustomButton(
-                      label: '처음으로',
+                      label: '뒤로가기',
                       bgColor: ColorType.deepPurple,
-                      onPressed: () {
-                        Get.offAllNamed('/');
-                      },
+                      onPressed: () => Get.back(),
                       width: CustomW.w4,
                     ),
                   ],
