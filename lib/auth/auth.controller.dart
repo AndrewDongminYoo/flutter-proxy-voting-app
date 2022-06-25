@@ -54,9 +54,9 @@ class AuthController extends GetxController {
   }
 
   Future<void> getUserInfo(String telNum) async {
-    var response = await _service.getUserByTelNum(telNum);
+    Response response = await _service.getUserByTelNum(telNum);
     print(response.body);
-    if (!response.body['isNew']) {
+    if (response.isOk) {
       user = User.fromJson(response.body['user']);
     }
   }

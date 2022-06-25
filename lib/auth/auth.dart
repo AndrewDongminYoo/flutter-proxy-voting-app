@@ -84,6 +84,12 @@ class _AuthPageState extends State<AuthPage> {
     setState(() {});
   }
 
+  void textFieldOnTap() {
+    Get.bottomSheet(telecomList(),
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
+  }
+
   Widget confirmButton() {
     return CustomButton(
       label: '확인',
@@ -110,7 +116,6 @@ class _AuthPageState extends State<AuthPage> {
   Widget telecomItem(String item) {
     return InkWell(
       onTap: () {
-        // TODO: 통신사 재변경 가능해야
         setState(() {
           telecom = item;
           telecomController.value = TextEditingValue(text: item);
@@ -225,8 +230,12 @@ class _AuthPageState extends State<AuthPage> {
                         curStep >= 2
                             ? TextFormField(
                                 autofocus: true,
+                                enableSuggestions: true,
                                 controller: telecomController,
                                 style: commonStyle,
+                                onTap: () {
+                                  textFieldOnTap();
+                                },
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: '통신사'),
