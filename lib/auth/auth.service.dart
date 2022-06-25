@@ -80,6 +80,11 @@ class AuthService extends GetConnect {
         }));
   }
 
+  Future<Response> putAddress(int uid, String address) {
+    return put(
+        getURL('/users/address'), jsonEncode({'uid': uid, 'address': address}));
+  }
+
   Future<Response> putBackId(int uid, String backId) {
     return put(
         getURL('/users/backid'), jsonEncode({'uid': uid, 'backId': backId}));

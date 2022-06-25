@@ -9,7 +9,7 @@ class VoteController extends GetxController {
   final VoteService _service = VoteService();
   final shareholders = <Shareholder>[];
   Shareholder? shareholder;
-  VoteAgenda? _voteAgenda;
+  VoteAgenda? voteAgenda;
 
   // 전자위임 가능여부를 판단하여 route 이동 진행
   // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
@@ -27,7 +27,7 @@ class VoteController extends GetxController {
       if (response.isOk && response.body['isExist']) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
         print('[VoteController] user is exist');
-        _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+        voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         Get.toNamed('/result');
         return;
       }
@@ -84,17 +84,17 @@ class VoteController extends GetxController {
         _switchVoteValue(voteResult[1]),
         _switchVoteValue(voteResult[2]),
         _switchVoteValue(voteResult[3]));
-    _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+    voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
   }
 
   // === page: 전자서명 ===
   void putSignatureUrl(String url) async {
-    await _service.postSignature(_voteAgenda!.id, url);
+    await _service.postSignature(voteAgenda!.id, url);
   }
 
   // === page: 신분증 업로드 ===
   void putIdCard(String url) async {
-    await _service.postIdCard(_voteAgenda!.id, url);
+    await _service.postIdCard(voteAgenda!.id, url);
   }
 
   // === Common ===

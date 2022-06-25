@@ -22,19 +22,13 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  final AuthController _addressController = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  final CampaignController _controller = Get.isRegistered<CampaignController>()
-      ? Get.find()
-      : Get.put(CampaignController());
+  final AuthController _addressController = Get.find();
+  final CampaignController _controller = Get.find();
+  final VoteController _voteController = Get.find();
+
   onEdit() {
     Get.dialog(EditModal());
   }
-
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +137,7 @@ class _ResultPageState extends State<ResultPage> {
               const SizedBox(height: 21),
               CustomText(
                   typoType: TypoType.bodyLight,
-                  text: _voteController.shareholder!.sharesNum.toString(),
+                  text: _voteController.voteAgenda!.sharesNum.toString(),
                   colorType: ColorType.white)
             ],
           ),

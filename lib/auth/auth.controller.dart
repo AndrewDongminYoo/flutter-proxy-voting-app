@@ -96,6 +96,7 @@ class AuthController extends GetxController {
   void setAddress(String address) {
     if (user != null) {
       user!.address = address;
+      _service.putAddress(user!.id, address);
     }
   }
 

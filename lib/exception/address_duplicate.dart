@@ -16,17 +16,13 @@ class AddressDuplicationPage extends StatefulWidget {
 }
 
 class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
-  final AuthController _controller = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  final AuthController _authCtrl = Get.find();
+  final VoteController _voteController = Get.find();
 
   int selected = 0;
 
   onConfirmed(String address) {
-    _controller.setAddress(address);
+    _authCtrl.setAddress(address);
     _voteController.selectShareholder(selected);
     Get.offNamed('/checkvotenum');
   }
