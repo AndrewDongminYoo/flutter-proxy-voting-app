@@ -9,6 +9,7 @@ class VoteController extends GetxController {
   final VoteService _service = VoteService();
   final shareholders = <Shareholder>[];
   Shareholder? shareholder;
+  VoteAgenda? _voteAgenda;
 
   void startLoading() {
     Get.dialog(const LoadingScreen());
@@ -29,7 +30,7 @@ class VoteController extends GetxController {
     } catch (e) {
       print(e);
     } finally {}
-
+    shareholders.clear();
     (response.body['shareholders'])
         .forEach((e) => shareholders.add(Shareholder.fromSharesJson(e)));
 
@@ -71,7 +72,7 @@ class VoteController extends GetxController {
         _switchVoteValue(voteResult[1]),
         _switchVoteValue(voteResult[2]),
         _switchVoteValue(voteResult[3]));
-    VoteAgenda.fromJson(response.body['agenda']);
+    _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
   }
 
   int _switchVoteValue(VoteType voteType) {
@@ -85,6 +86,14 @@ class VoteController extends GetxController {
       case VoteType.none:
         return -2;
     }
+  }
+
+  void putSignatureUrl(String url) async {
+    await _service.postSignature(_voteAgenda!.id, url);
+  }
+
+  void putIdCard(String url) async {
+    await _service.postIdCard(_voteAgenda!.id, url);
   }
 
   void postBackId(int uid, String backId) async {
