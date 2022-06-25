@@ -1,3 +1,4 @@
+import 'package:bside/shared/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +26,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
     Campaign campaign = _controller.campaign;
 
     return Scaffold(
+      appBar: CustomAppBar(title: '캠페인'),
         body: SizedBox(
       child: ListView(
         children: [
@@ -86,7 +88,7 @@ class _TempState extends State<Temp> {
               margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
               child: const CustomText(
                   typoType: TypoType.h1,
-                  text: '소재우님',
+                  text: '',
                   colorType: ColorType.white)),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
