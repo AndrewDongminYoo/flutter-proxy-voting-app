@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,9 @@ import '../signature/common_app_body.dart';
 import 'package:get/get.dart' show Get, GetNavigation, Inst;
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:signature/signature.dart' show Signature, SignatureController;
+
+const informationString = '''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
+모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);
@@ -25,7 +29,9 @@ class _SignaturePageState extends State<SignaturePage> {
   final AuthController authCtrl = Get.find();
   final VoteController voteCtrl = Get.find();
 
-  late String username = "";
+  Timer? timer;
+  bool _showLottie = true;
+  late String username = '';
 
   @override
   void initState() {
@@ -38,6 +44,9 @@ class _SignaturePageState extends State<SignaturePage> {
     authCtrl.addListener(() {
       _hideLottie();
     });
+    timer = Timer(const Duration(seconds: 2), () {
+      _showLottie = false;
+    });
     super.initState();
   }
 
@@ -47,30 +56,11 @@ class _SignaturePageState extends State<SignaturePage> {
     exportBackgroundColor: Colors.transparent,
   );
 
-  bool _showLottie = true;
-  bool _isAgreed = false;
-  bool _isManaged = false;
-
   void _hideLottie() {
     setState(() {
       _showLottie = false;
     });
   }
-
-  void _setAgreed() {
-    setState(() {
-      _isAgreed = !_isAgreed;
-    });
-  }
-
-  void _setManaged() {
-    setState(() {
-      _isManaged = !_isManaged;
-    });
-  }
-
-  static const informationString = '''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
-모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
 
   void onSubmit() async {
     if (_signCtrl.isNotEmpty) {
@@ -140,28 +130,6 @@ class _SignaturePageState extends State<SignaturePage> {
           ),
         ),
         const SizedBox(height: 30),
-        // Row(
-        //   children: [
-        //     Checkbox(
-        //       value: _isAgreed,
-        //       onChanged: (v) {
-        //         _setAgreed();
-        //       },
-        //     ),
-        //     const Text('전자서명 저장에 동의합니다.'),
-        //   ],
-        // ),
-        // Row(
-        //   children: [
-        //     Checkbox(
-        //       value: _isManaged,
-        //       onChanged: (v) {
-        //         _setManaged();
-        //       },
-        //     ),
-        //     const Text('티엘아이 측에 대한 기존 위임을 철회합니다.'),
-        //   ],
-        // ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             fixedSize: Size(Get.width - 30, 50),
