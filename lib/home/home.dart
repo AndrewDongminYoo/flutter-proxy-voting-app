@@ -12,6 +12,7 @@ import '../campaign/campaign_info.dart';
 import '../campaign/campaign.controller.dart';
 import '../shared/custom_color.dart';
 import '../shared/custom_grid.dart';
+import '../shared/custom_pop_scope.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -25,22 +26,31 @@ class _HomePageState extends State<HomePage> {
   int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
-  DateTime? currentBackPressTime;
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController(), permanent: true);
-  // ignore: unused_field
   final AuthController _authController = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController(), permanent: true);
 
-  void onPress(Campaign campaign) {
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController(viewportFraction: 0.2, initialPage: curPage);
+    curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
+    _authController.init();
+    // initFirebase();
+  }
+
+  @override
+  void dispose() {
+    controller!.dispose();
+    super.dispose();
+  }
+
+  void onConfirmed(Campaign campaign) {
     _controller.setCampaign(campaign);
     Get.toNamed('/campaign');
-    // if (_authController.isLogined) {
-    // } else {
-    // Get.dialog(const HomeDialog());
-    // }
   }
 
   void updateCurPage(int index) {
@@ -86,52 +96,15 @@ class _HomePageState extends State<HomePage> {
   // }
 
   @override
-  void initState() {
-    super.initState();
-    controller = PageController(viewportFraction: 0.2, initialPage: curPage);
-    curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
-    _authController.init();
-    // initFirebase();
-  }
-
-  @override
-  void dispose() {
-    controller!.dispose();
-    super.dispose();
-  }
-
-  Widget backgroundImageLayer(String imgUrl) {
-    return Container(
-        height: Get.height,
-        width: Get.width,
-        color: customColor[ColorType.deepPurple],
-        child: Image(
-          image: AssetImage(imgUrl),
-          fit: BoxFit.cover,
-        ));
-  }
-
-  Future<bool> onWillPop() {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      return Future.value(false);
-    }
-    return Future.value(true);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return CustomPopScope(
       child: Scaffold(
         body: Stack(children: [
           backgroundImageLayer(curCampaign.backgroundImg),
           topBar(),
-          customPageViewLayer(
-              controller!, updateCurPage, curPage, campaigns.length),
-          informationBox(curCampaign, onPress, controller!),
+          customPageViewLayer(controller!, updateCurPage, curPage,
+              campaigns.length, onConfirmed),
+          informationBox(curCampaign, onConfirmed, controller!),
           // loginBox()
         ]),
       ),
@@ -139,17 +112,32 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+Widget backgroundImageLayer(String imgUrl) {
+  return Container(
+      height: Get.height,
+      width: Get.width,
+      color: customColor[ColorType.deepPurple],
+      child: Image(
+        image: AssetImage(imgUrl),
+        fit: BoxFit.cover,
+      ));
+}
+
 Widget topBar() {
   // ignore: unused_local_variable
-  const String assetName = "assets/images/bside_web.svg";
+  const String assetName = "assets/images/bside_logo.png";
   return Positioned(
       top: 40,
       left: 16,
-      child: Image.network("https://bside.ai/_nuxt/img/logo.71a8129.png"));
+      child: SizedBox(width: 56, child: Image.asset(assetName)));
 }
 
-Widget customPageViewLayer(PageController controller,
-    void Function(int) updateCurPage, int curPage, int campaignLength) {
+Widget customPageViewLayer(
+    PageController controller,
+    void Function(int) updateCurPage,
+    int curPage,
+    int campaignLength,
+    void Function(Campaign) onConfirmed) {
   onTap(int page) {
     if (page != curPage) {
       controller.animateToPage(page,
@@ -186,12 +174,18 @@ Widget customPageViewLayer(PageController controller,
           child: isActive
               ? Hero(
                   tag: 'companyLogo',
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(campaign.logoImg),
-                    // FIXME: 하드코딩된 % 3 수정 필요
-                    backgroundColor:
-                        index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
-                    radius: isActive ? 40 : 25,
+                  child: GestureDetector(
+                    onTap: () {
+                      onConfirmed(campaign);
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(campaign.logoImg),
+                      // FIXME: 하드코딩된 % 3 수정 필요
+                      backgroundColor: index % 3 == 0
+                          ? const Color(0xFFFFE0E9)
+                          : Colors.white,
+                      radius: isActive ? 40 : 25,
+                    ),
                   ),
                 )
               : CircleAvatar(
@@ -257,7 +251,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
               iconSize: 36,
               icon:
                   const Icon(Icons.expand_less_rounded, color: Colors.white70)),
-          CampaignInfo(campaign: curCampaign),
+          CampaignInfo(campaign: curCampaign, onPress: onPress),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: CustomButton(
