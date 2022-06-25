@@ -8,10 +8,10 @@ import '../campaign/campaign.controller.dart';
 
 import '../auth/auth.controller.dart';
 import '../auth/auth.data.dart';
+import '../shared/custom_lottie.dart';
 import '../signature/common_app_body.dart';
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;
 import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:get/get.dart' show Get, GetNavigation, Inst;
 
@@ -27,7 +27,7 @@ class _SignaturePageState extends State<SignaturePage> {
       Get.isRegistered<CustomSignatureController>()
           ? Get.find()
           : Get.put(CustomSignatureController());
-  final AuthController authCtrl =Get.find();
+  final AuthController authCtrl = Get.find();
   final CampaignController cmpCtrl = Get.find();
   final VoteController voteCtrl = Get.find();
 
@@ -51,12 +51,6 @@ class _SignaturePageState extends State<SignaturePage> {
     penStrokeWidth: 3,
     penColor: Colors.black,
     exportBackgroundColor: Colors.transparent,
-  );
-
-  final LottieBuilder _lottie = Lottie.network(
-    'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
-    width: Get.width,
-    height: 300,
   );
 
   bool _showLottie = true;
@@ -116,7 +110,7 @@ class _SignaturePageState extends State<SignaturePage> {
         child: (_showLottie
             ? GestureDetector(
                 onTap: _hideLottie,
-                child: _lottie,
+                child: lottie_idcard,
               )
             : Signature(
                 controller: _signCtrl,
