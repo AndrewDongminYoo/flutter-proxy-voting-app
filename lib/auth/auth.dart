@@ -27,9 +27,9 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  final FocusScopeNode _node = FocusScopeNode();
   final AuthController _authCtrl = Get.find();
 
+  final _focusNodes = List.generate(4, (index) => FocusNode());
   final _formKey = GlobalKey<FormState>();
   int curStep = 0;
 
@@ -48,7 +48,6 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   void dispose() {
-    _node.dispose();
     super.dispose();
   }
 
@@ -64,16 +63,14 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void nextStep() {
-    // TODO: Focus 전환 필요
-    print('onNext: $curStep');
     switch (curStep) {
       case 0:
-        var cleaned = phoneNumber.removeAllWhitespace;
-        Future<void> _ = _authCtrl.getUserInfo(cleaned);
-        curStep += 1;
+        curStep = 1;
         _authCtrl.getUserInfo(phoneNumber.replaceAll(' ', ''));
+        _focusNodes[1].requestFocus();
         break;
       case 1:
+        curStep = 2;
         final valueList = frontBackId.split(' ');
         if (_authCtrl.user != null && _authCtrl.user!.frontId == valueList[0]) {
           skipForExistingUser();
@@ -84,13 +81,13 @@ class _AuthPageState extends State<AuthPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)));
         }
-        curStep += 1;
         break;
       case 2:
-        curStep += 1;
+        curStep  = 3;
+        _focusNodes[3].requestFocus();
         break;
       case 3:
-        curStep += 1;
+        curStep = 4;
         break;
     }
     setState(() {});
@@ -120,6 +117,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget nameForm() {
     return TextFormField(
+      focusNode: _focusNodes[3],
       autofocus: true,
       style: style,
       decoration: const InputDecoration(
@@ -193,6 +191,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget koreanIdForm(BuildContext context) {
     return TextFormField(
+      focusNode: _focusNodes[1],
       inputFormatters: [
         CardFormatter(
           sample: 'xxxxxx x',
@@ -252,7 +251,6 @@ class _AuthPageState extends State<AuthPage> {
         child: Form(
           key: _formKey,
           child: FocusScope(
-            node: _node,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -290,7 +288,7 @@ class _AuthPageState extends State<AuthPage> {
                       const SizedBox(height: 40),
                       phoneNumberForm(context),
                       const SizedBox(height: 40),
-                      curStep >= 4 ? ServiceTerm() : Container(),
+                      curStep >= 4 ? const ServiceTerm() : Container(),
                       curStep >= 4 ? confirmButton() : Container()
                     ],
                   )))
