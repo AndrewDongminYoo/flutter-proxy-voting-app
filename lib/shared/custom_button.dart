@@ -10,6 +10,7 @@ class CustomButton extends StatefulWidget {
   final ColorType bgColor;
   final ColorType textColor;
   final String label;
+  final double height;
   final Function() onPressed;
 
   const CustomButton(
@@ -17,6 +18,7 @@ class CustomButton extends StatefulWidget {
       this.width = CustomW.w4,
       this.bgColor = ColorType.deepPurple,
       this.textColor = ColorType.white,
+      this.height = 55.0,
       required this.label,
       required this.onPressed})
       : super(key: key);
@@ -34,7 +36,7 @@ class _CustomButtonState extends State<CustomButton> {
         child: InkWell(
           onTap: widget.onPressed,
           child: Ink(
-            height: 55,
+            height: widget.height,
             width: customW[widget.width],
             decoration: BoxDecoration(
               color: customColor[widget.bgColor],

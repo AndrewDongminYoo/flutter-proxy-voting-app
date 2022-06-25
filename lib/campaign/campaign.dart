@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'campaign.model.dart';
+import 'campaign.controller.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 import '../shared/custom_grid.dart';
-import 'campaign.controller.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_color.dart';
 import '../auth/auth.controller.dart';
@@ -32,10 +33,25 @@ class _CampaignPageState extends State<CampaignPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomText(
-            typoType: TypoType.h1Bold,
-            text: '주주총회의안',
-            colorType: ColorType.white),
+        Row(
+          children: [
+            const CustomText(
+                typoType: TypoType.h1Bold,
+                text: '주주총회의안',
+                colorType: ColorType.white),
+                const Spacer(),
+            CustomButton(
+                label: '의결권권유 공시',
+                width: CustomW.w2,
+                bgColor: ColorType.orange,
+                textColor: ColorType.white,
+                height: 40.0,
+                onPressed: () async {
+                  await launchUrl(Uri.parse(
+                      "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220624000088"));
+                })
+          ],
+        ),
         const SizedBox(height: 16),
         Column(
             children: campaign.agendaList.map((item) {
