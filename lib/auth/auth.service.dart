@@ -62,4 +62,31 @@ class AuthService extends GetConnect {
   Future<Response> getUserByTelNum(String telNum) {
     return get(getURL('/users?phoneNumber=$telNum'));
   }
+
+  Future<Response> createUser(String name, String frontId, String backId,
+      String telecom, String phoneNumber, String ci, String di) {
+    return post(
+        getURL('/users'),
+        jsonEncode({
+          'user': {
+            'name': name,
+            'frontId': frontId,
+            'backId': backId,
+            'telecom': telecom,
+            'phoneNumber': phoneNumber,
+            'ci': ci,
+            'di': di
+          }
+        }));
+  }
+
+  Future<Response> putBackId(int uid, String backId) {
+    return put(
+        getURL('/users/backid'), jsonEncode({'uid': uid, 'backId': backId}));
+  }
+
+  Future<Response> putCiDi(int uid, String ci, String di) {
+    return put(
+        getURL('/users/ci'), jsonEncode({'uid': uid, 'ci': ci, 'di': di}));
+  }
 }

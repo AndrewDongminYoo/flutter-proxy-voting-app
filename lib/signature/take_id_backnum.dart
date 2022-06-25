@@ -15,19 +15,17 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
-  final AuthController _controller = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
   final VoteController _voteController = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
+  final AuthController _authCtrl = Get.find();
   late String frontId = "";
   late String backId = "";
 
   @override
   void initState() {
-    if (_controller.isLogined) {
-      User? user = _controller.user;
+    if (_authCtrl.isLogined) {
+      User? user = _authCtrl.user;
       if (user != null) {
         backId = user.backId;
         frontId = user.frontId;
@@ -37,7 +35,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   }
 
   onConfirmed() {
-    _voteController.postBackId(_controller.user!.id, backId);
+    _authCtrl.putBackId(backId);
     Get.offAllNamed('/result');
   }
 

@@ -18,6 +18,11 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'firebase_options.dart';
 import 'routes.dart' show routes;
 
+clearPref() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.clear();
+}
+
 void main() async {
   // runZonedGuarded<Future<void>>(() async {
   // Keep splash screen
@@ -28,6 +33,9 @@ void main() async {
     FlutterError.presentError(details);
     if (kReleaseMode) exit(1);
   };
+
+  // NOTE: 디버깅용
+  // await clearPref();
 
   // initialize app
   await dotenv.load(fileName: '.env');
@@ -60,7 +68,8 @@ Future<PendingDynamicLinkData?> setupFirebase() async {
 class MyApp extends StatefulWidget {
   final bool firstTime;
   final PendingDynamicLinkData? initialLink;
-  const MyApp({Key? key, this.initialLink, required this.firstTime}) : super(key: key);
+  const MyApp({Key? key, this.initialLink, required this.firstTime})
+      : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -104,7 +113,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    initialRoute = widget.firstTime? '/onboarding': initialRoute;
+    initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
 
     return GetMaterialApp(
       title: 'Bside',

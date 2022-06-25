@@ -95,8 +95,4 @@ class VoteController extends GetxController {
   void putIdCard(String url) async {
     await _service.postIdCard(_voteAgenda!.id, url);
   }
-
-  void postBackId(int uid, String backId) async {
-    await _service.postBackId(uid, backId);
-  }
 }
