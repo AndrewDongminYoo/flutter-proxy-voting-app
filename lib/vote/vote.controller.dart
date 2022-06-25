@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:async';
+
 import 'package:get/get.dart';
 import '../vote/vote.service.dart';
 import '../shared/loading_screen.dart';
@@ -6,6 +9,7 @@ import '../campaign/campaign.model.dart';
 
 import 'vote.model.dart';
 import 'shareholder.data.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class VoteController extends GetxController {
   final VoteService _service = VoteService();
@@ -81,12 +85,24 @@ class VoteController extends GetxController {
     await _service.validateShareholder(index);
   }
 
+  Future<String> deviceInfo() async {
+    String deviceInfo = "unknown";
+    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
+    if (Platform.isIOS) {
+      var response = await deviceInfoPlugin.iosInfo;
+      deviceInfo = response.model.toString();
+    } else if (Platform.isAndroid) {
+      var response = await deviceInfoPlugin.androidInfo;
+      deviceInfo = response.model.toString();
+    }
+    return deviceInfo;
+  }
+
   // === page: 주식수 확인 ===
   void postVoteResult(int uid, List<VoteType> voteResult) async {
-    // TODO: device name
-    const deviceName = "";
-
-    final response = await _service.postVoteResult(
+    String deviceName = await deviceInfo();
+    Response response = await _service.postVoteResult(
         uid,
         shareholder!.id,
         deviceName,
