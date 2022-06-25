@@ -1,10 +1,10 @@
-import '../vote/vote.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../shared/custom_button.dart';
-import '../shared/custom_grid.dart';
 import 'campaign.model.dart';
+import '../shared/custom_button.dart';
+import '../vote/vote.controller.dart';
+import '../shared/custom_grid.dart';
 import 'campaign.controller.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_color.dart';
@@ -72,7 +72,7 @@ class _CampaignPageState extends State<CampaignPage> {
           width: CustomW.w4,
           onPressed: () async {
             isLoading = true;
-            print(_authController.user!.username);
+            print('[campaign] Hello, ${_authController.user!.username}!');
             _voteController.toVote(
                 _authController.user!.id, _authController.user!.username);
             isLoading = false;
@@ -95,7 +95,7 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: ''),
+      appBar: const CustomAppBar(title: '', bgColor: Color(0xFF5E3F74)),
       body: Stack(fit: StackFit.expand, children: [
         gradientLayer(),
         SizedBox(

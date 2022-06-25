@@ -10,6 +10,10 @@ class AuthService extends GetConnect {
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
   String getURL(String url) => baseURL + url;
 
+  Future<Response> getUserByTelNum(String telNum) {
+    return get(getURL('/users?phoneNumber=$telNum'));
+  }
+
   /// 본인인증:
   /// birth: 8자리 ex) 19900110
   /// sex: 남: 1, 여: 2
@@ -57,10 +61,6 @@ class AuthService extends GetConnect {
   /// postPassCode는 putPassCode 호출 이후 3초 뒤에 호출 권장
   Future<Response> getResult(String telNum) {
     return post(lambdaResultURL, jsonEncode({'telNum': telNum}));
-  }
-
-  Future<Response> getUserByTelNum(String telNum) {
-    return get(getURL('/users?phoneNumber=$telNum'));
   }
 
   Future<Response> createUser(String name, String frontId, String backId,

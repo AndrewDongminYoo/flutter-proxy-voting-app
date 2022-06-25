@@ -28,6 +28,7 @@ class _ValidatePageState extends State<ValidatePage> {
   String otpCode = "";
   int remainingOtpTime = 180;
   bool isOtpTimerExpired = false;
+  String title = "인증번호를 입력해주세요";
   bool isIdentificationCompleted = false;
 
   validate(String text) async {
@@ -46,6 +47,11 @@ class _ValidatePageState extends State<ValidatePage> {
   @override
   void initState() {
     super.initState();
+    if (Get.arguments == 'existingUser') {
+      setState(() {
+        title = "다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요";
+      });
+    }
     startTimer();
   }
 
@@ -79,11 +85,11 @@ class _ValidatePageState extends State<ValidatePage> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(children: [
                 const SizedBox(height: 40),
-                const Align(
+                Align(
                     alignment: Alignment.centerLeft,
                     child: CustomText(
                       typoType: TypoType.h1,
-                      text: '인증번호를 입력해주세요',
+                      text: title,
                     )),
                 const SizedBox(height: 40),
                 TextFormField(

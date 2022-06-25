@@ -24,14 +24,16 @@ class VoteController extends GetxController {
 
     try {
       response = await _service.queryAgenda(uid, 'tli');
-      if (response.body['isExist']) {
+      if (response.isOk && response.body['isExist']) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
+        print('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         Get.toNamed('/result');
+        return;
       }
     } catch (e) {
-      print(e);
-    } finally {}
+      print('[VoteController] queryAgenda error: $e');
+    }
 
     try {
       // case B: 신규 사용자 - 주주명부 확인
@@ -40,8 +42,8 @@ class VoteController extends GetxController {
       (response.body['shareholders'])
           .forEach((e) => shareholders.add(Shareholder.fromSharesJson(e)));
     } catch (e) {
-      print(e);
-    } finally {}
+      print('[VoteController] findSharesByName error: $e');
+    }
 
     stopLoading();
     if (shareholders.length > 1) {
