@@ -1,14 +1,15 @@
-import '../shared/card_formatter.dart';
-import '../shared/custom_color.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
 import 'auth.controller.dart';
 import '../shared/unfocused.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_grid.dart';
+import '../shared/custom_color.dart';
+import '../shared/custom_appbar.dart';
+import '../shared/custom_button.dart';
+import '../shared/card_formatter.dart';
+import 'widget/term.dart';
 
 const headlines = [
   '휴대폰번호를\n입력해주세요',
@@ -91,10 +92,13 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Widget confirmButton() {
-    return CustomButton(
-      label: '확인',
-      onPressed: onPressed,
-      width: CustomW.w4,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 100.0),
+      child: CustomButton(
+        label: '확인',
+        onPressed: onPressed,
+        width: CustomW.w4,
+      ),
     );
   }
 
@@ -246,14 +250,8 @@ class _AuthPageState extends State<AuthPage> {
                         const SizedBox(height: 40),
                         phoneNumberForm(context),
                         const SizedBox(height: 40),
-                        // curStep >= 4 ? ServiceTerm() : Container(),
-                        curStep >= 4
-                            ? CustomButton(
-                                label: '확인',
-                                onPressed: onPressed,
-                                width: CustomW.w4,
-                              )
-                            : Container()
+                        curStep >= 4 ? ServiceTerm() : Container(),
+                        curStep >= 4 ? confirmButton() : Container()
                       ],
                     )))
                   ],

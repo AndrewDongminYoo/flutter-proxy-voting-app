@@ -63,13 +63,8 @@ class AuthController extends GetxController {
   Future<void> getUserInfo(String telNum) async {
     Response response = await _service.getUserByTelNum(telNum);
     print(response.body);
-    try {
-      if (response.body['user']) {
-        print(response);
-        user = User.fromJson(response.body['user']);
-      }
-    } catch (e) {
-      e.printError();
+    if (response.isOk && response.body && !response.body['isNew']) {
+      user = User.fromJson(response.body['user']);
     }
   }
 
