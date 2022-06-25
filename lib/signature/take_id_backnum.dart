@@ -83,9 +83,9 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                   child: TextFormField(
                       textAlignVertical: TextAlignVertical.bottom,
                       textAlign: TextAlign.left,
-                      obscureText: true,
+                      // obscureText: true,
                       initialValue: backId,
-                      obscuringCharacter: '●',
+                      // obscuringCharacter: '●',
                       maxLength: 7,
                       enableSuggestions: false,
                       autocorrect: false,
