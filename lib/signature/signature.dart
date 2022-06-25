@@ -110,7 +110,7 @@ class _SignaturePageState extends State<SignaturePage> {
         child: (_showLottie
             ? GestureDetector(
                 onTap: _hideLottie,
-                child: lottie_idcard,
+                child: lottieIDCard,
               )
             : Signature(
                 controller: _signCtrl,

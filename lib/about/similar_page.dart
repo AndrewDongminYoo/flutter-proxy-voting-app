@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../shared/custom_appbar.dart';
+// import '../shared/custom_color.dart';
+// import '../shared/custom_lottie.dart';
 
 class SimilarPage extends StatefulWidget {
   const SimilarPage({
@@ -78,7 +80,7 @@ class _SimilarPageState extends State<SimilarPage> {
       //     //TODO: Add your onPressed code here!
       //   },
       //   backgroundColor: customColor[ColorType.yellow],
-      //   child: const Icon(Icons.chat_rounded, color: Color(0xFFDC721E)),
+      //   child: lottieChat,
       // ),
     );
   }
