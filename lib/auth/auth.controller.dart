@@ -10,6 +10,8 @@ class AuthController extends GetxController {
   bool isLogined = false;
   final AuthService _service = AuthService();
 
+  static AuthController get to => Get.find();
+
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     print('[AuthController] init');
@@ -93,10 +95,11 @@ class AuthController extends GetxController {
     });
   }
 
-  void setAddress(String address) {
+  void setAddress(String newAddress) {
+    // Update in server
     if (user != null) {
-      user!.address = address;
-      _service.putAddress(user!.id, address);
+      user!.address = newAddress;
+      _service.putAddress(user!.id, newAddress);
     }
   }
 

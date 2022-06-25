@@ -19,9 +19,6 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
-  final AuthController _addressController = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
   final CampaignController _controller = Get.isRegistered<CampaignController>()
       ? Get.find()
       : Get.put(CampaignController());
@@ -30,7 +27,6 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       : Get.put(VoteController());
 
   voteWithExample() {
-    // TODO: 자동으로 반찬찬반 투표
     Get.toNamed("/vote", arguments: "voteWithExample");
   }
 
@@ -38,15 +34,13 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
     Get.toNamed("/vote", arguments: "voteWithoutExample");
   }
 
-  onEdit() {
-    Get.dialog(EditModal());
+  onEdit() async {
+    await Get.dialog(EditModal());
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    String address = _addressController.user != null
-        ? _addressController.user!.address
-        : '주소가 없습니다.';
     Campaign campaign = _controller.campaign;
 
     var blueBackGroundWidgets = <Widget>[
@@ -110,7 +104,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
             const SizedBox(height: 24),
             CustomText(
                 typoType: TypoType.bodyLight,
-                text: _voteController.shareholder!.address,
+                text: AuthController.to.user!.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white),
           ]),

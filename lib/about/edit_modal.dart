@@ -5,27 +5,42 @@ import 'package:get/get.dart';
 
 import '../auth/auth.controller.dart';
 
-class EditModal extends StatelessWidget {
+class EditModal extends StatefulWidget {
   EditModal({Key? key}) : super(key: key);
+
+  @override
+  State<EditModal> createState() => _EditModalState();
+}
+
+class _EditModalState extends State<EditModal> {
+  String addressInModal = '';
+
   onClose() {
     Get.back();
   }
 
-  final AuthController _controller = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-
-  onEdit(String address) {
-    _controller.setAddress(address);
+  onEdit() {
     Get.back();
+    AuthController.to.setAddress(addressInModal);
+  }
+
+  Widget addressForm() {
+    return TextFormField(
+      initialValue: AuthController.to.user!.address,
+      autofocus: true,
+      style: const TextStyle(
+          letterSpacing: 2.0, fontSize: 14, fontWeight: FontWeight.bold),
+      keyboardType: TextInputType.text,
+      decoration:
+          const InputDecoration(border: OutlineInputBorder(), labelText: '주소'),
+      onChanged: (text) {
+        addressInModal = text;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    String address = _controller.user?.address != null
-        ? _controller.user!.address
-        : '주소가 없습니다.';
-
     return AlertDialog(
       contentPadding: const EdgeInsets.only(left: 25, right: 25),
       title: Row(
@@ -50,26 +65,13 @@ class EditModal extends StatelessWidget {
               height: 150,
               child: Column(
                 children: [
-                  addressForm(context, address),
+                  addressForm(),
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomButton(label: '확인', onPressed: () => {onEdit(address)}),
+                  CustomButton(label: '확인', onPressed: onEdit),
                 ],
               ))),
     );
   }
-}
-
-Widget addressForm(BuildContext context, String address) {
-  return TextFormField(
-    initialValue: address,
-    autofocus: true,
-    style: const TextStyle(
-        letterSpacing: 2.0, fontSize: 14, fontWeight: FontWeight.bold),
-    keyboardType: TextInputType.text,
-    decoration:
-        const InputDecoration(border: OutlineInputBorder(), labelText: '주소'),
-    onChanged: (text) {},
-  );
 }

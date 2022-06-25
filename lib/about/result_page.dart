@@ -22,20 +22,17 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  final AuthController _addressController = Get.find();
   final CampaignController _controller = Get.find();
   final VoteController _voteController = Get.find();
 
-  onEdit() {
-    Get.dialog(EditModal());
+  onEdit() async {
+    await Get.dialog(EditModal());
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     Campaign campaign = _controller.campaign;
-    String address = _addressController.user?.address != null
-        ? _addressController.user!.address
-        : '주소가 없습니다.';
     var blueBackGroundWidgets = <Widget>[
       Container(
           margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
@@ -110,7 +107,7 @@ class _ResultPageState extends State<ResultPage> {
               const SizedBox(height: 24),
               CustomText(
                 typoType: TypoType.bodyLight,
-                text: address,
+                text: AuthController.to.user!.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white,
               ),
