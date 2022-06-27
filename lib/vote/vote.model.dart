@@ -27,15 +27,15 @@ class VoteButton {
 
 class VoteAgenda {
   int id = -1;
-  String company = "tli";
-  String curStatus = "00000";
+  String company = 'tli';
+  String curStatus = '00000';
   int sharesNum = 0;
   int agenda1 = 0;
   int agenda2 = 0;
   int agenda3 = 0;
   int agenda4 = 0;
-  String signatureUrl = "";
-  String idCardUrl = "";
+  String signatureUrl = '';
+  String idCardUrl = '';
 
   VoteAgenda(
     this.id,

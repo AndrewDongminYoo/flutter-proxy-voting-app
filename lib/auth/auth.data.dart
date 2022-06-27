@@ -7,7 +7,7 @@ class User {
   String phoneNum = '01012341234';
   String ci = '';
   String di = '';
-  String address = "";
+  String address = '';
 
   User(
     this.username,
@@ -21,9 +21,7 @@ class User {
     id = json['id'] ?? -1;
     username = json['name'] ?? '';
     frontId = json['frontId'] ?? '';
-    backId = json['backId'] == null
-        ? '1'
-        : json['backId'].toString();
+    backId = json['backId'] == null ? '1' : json['backId'].toString();
     telecom = json['telecom'] ?? '';
     phoneNum = json['phoneNum'] ?? '';
     address = json['address'] ?? '';

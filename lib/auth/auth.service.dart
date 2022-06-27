@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:get/get_connect.dart';
 
 class AuthService extends GetConnect {
-  String baseURL = "https://api.bside.ai/onboarding";
+  String baseURL = 'https://api.bside.ai/onboarding';
   String lambdaURL =
-      "https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/identification";
+      'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/identification';
   String lambdaResultURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
   String getURL(String url) => baseURL + url;
@@ -20,25 +20,25 @@ class AuthService extends GetConnect {
   /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
   Future<Response> getOtpCode(
       String name, String birth, String sex, String telecom, String telNum) {
-    String telecomCode = "";
+    String telecomCode = '';
     switch (telecom) {
-      case "SKT":
-        telecomCode = "01";
+      case 'SKT':
+        telecomCode = '01';
         break;
-      case "KT":
-        telecomCode = "02";
+      case 'KT':
+        telecomCode = '02';
         break;
-      case "LG U+":
-        telecomCode = "03";
+      case 'LG U+':
+        telecomCode = '03';
         break;
-      case "SKT 알뜰폰":
-        telecomCode = "04";
+      case 'SKT 알뜰폰':
+        telecomCode = '04';
         break;
-      case "KT 알뜰폰":
-        telecomCode = "05";
+      case 'KT 알뜰폰':
+        telecomCode = '05';
         break;
-      case "LG U+ 알뜰폰":
-        telecomCode = "06";
+      case 'LG U+ 알뜰폰':
+        telecomCode = '06';
         break;
     }
     final registCode = birth.startsWith('0') ? '20$birth' : '19$birth';

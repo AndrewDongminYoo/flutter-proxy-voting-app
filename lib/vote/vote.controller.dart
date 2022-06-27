@@ -86,7 +86,7 @@ class VoteController extends GetxController {
   }
 
   Future<String> deviceInfo() async {
-    String deviceInfo = "unknown";
+    String deviceInfo = 'unknown';
     DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
     if (Platform.isIOS) {

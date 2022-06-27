@@ -69,7 +69,7 @@ class _SignaturePageState extends State<SignaturePage> {
         VoteController.to.campaign.companyName,
         '${DateTime.now()}-$username.png',
         result!,
-        "signature",
+        'signature',
       );
       voteCtrl.putSignatureUrl(url);
       Get.toNamed('/idcard');

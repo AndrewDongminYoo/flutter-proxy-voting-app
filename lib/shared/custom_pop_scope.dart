@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CustomPopScope extends StatefulWidget {
   final Widget child;
@@ -26,6 +24,6 @@ class _CustomPopScopeState extends State<CustomPopScope> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: onWillPop, child: widget.child); 
+    return WillPopScope(onWillPop: onWillPop, child: widget.child);
   }
 }

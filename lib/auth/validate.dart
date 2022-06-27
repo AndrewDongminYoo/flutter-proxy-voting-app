@@ -25,10 +25,10 @@ class _ValidatePageState extends State<ValidatePage> {
 
   final _formKey = GlobalKey<FormState>();
   Timer? timer;
-  String otpCode = "";
+  String otpCode = '';
   int remainingOtpTime = 180;
   bool isOtpTimerExpired = false;
-  String title = "인증번호를 입력해주세요";
+  String title = '인증번호를 입력해주세요';
   bool isIdentificationCompleted = false;
 
   validate(String text) async {
@@ -49,7 +49,7 @@ class _ValidatePageState extends State<ValidatePage> {
     super.initState();
     if (Get.arguments == 'existingUser') {
       setState(() {
-        title = "다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요";
+        title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
       });
     }
     startTimer();

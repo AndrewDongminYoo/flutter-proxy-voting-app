@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../auth/auth.controller.dart';
 
 class EditModal extends StatefulWidget {
-  EditModal({Key? key}) : super(key: key);
+  const EditModal({Key? key}) : super(key: key);
 
   @override
   State<EditModal> createState() => _EditModalState();

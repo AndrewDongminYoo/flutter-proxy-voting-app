@@ -9,19 +9,19 @@ final voteButtonList = [
       bgColor: Colors.deepPurple,
       borderColor: Colors.deepPurple,
       textColor: Colors.white,
-      label: "찬성",
+      label: '찬성',
       value: VoteType.agree),
   VoteButton(
       bgColor: Colors.deepOrange,
       borderColor: Colors.deepOrange,
       textColor: Colors.white,
-      label: "반대",
+      label: '반대',
       value: VoteType.disagree),
   VoteButton(
       bgColor: Colors.white,
       borderColor: Colors.deepPurple,
       textColor: Colors.black,
-      label: "기권",
+      label: '기권',
       value: VoteType.abstention),
 ];
 
@@ -29,7 +29,7 @@ final noneButton = VoteButton(
     bgColor: Colors.white,
     borderColor: Colors.deepPurple,
     textColor: Colors.black,
-    label: "미선택",
+    label: '미선택',
     value: VoteType.none);
 
 class VoteSelector extends StatefulWidget {

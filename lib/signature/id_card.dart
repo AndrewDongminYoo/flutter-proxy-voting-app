@@ -75,7 +75,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           VoteController.to.campaign.companyName,
           '${authCtrl.user?.username}${xfile.name}',
           idcardImage!,
-          "idcard",
+          'idcard',
         );
         voteCtrl.putIdCard(imgUrl);
         setState(() {

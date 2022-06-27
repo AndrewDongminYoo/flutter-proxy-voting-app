@@ -20,7 +20,7 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   onEdit() async {
-    await Get.dialog(EditModal());
+    await Get.dialog(const EditModal());
     setState(() {});
   }
 
@@ -137,7 +137,7 @@ class _ResultPageState extends State<ResultPage> {
       CustomButton(
         label: '처음으로',
         width: CustomW.w4,
-        onPressed: () => Get.toNamed("/"),
+        onPressed: () => Get.toNamed('/'),
       ),
       const SizedBox(height: 100)
     ]);

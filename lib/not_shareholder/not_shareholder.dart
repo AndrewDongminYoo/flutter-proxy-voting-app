@@ -17,7 +17,7 @@ class NotShareholderPage extends StatefulWidget {
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
   onPressedMail() {}
-  
+
   @override
   Widget build(BuildContext context) {
     Campaign campaign = VoteController.to.campaign;
@@ -61,7 +61,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
 }
 
 class Temp extends StatefulWidget {
-  Temp({
+  const Temp({
     Key? key,
     required this.campaign,
   }) : super(key: key);

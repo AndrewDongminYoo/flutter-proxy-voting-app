@@ -13,16 +13,16 @@ void main() {
     return SizedBox(
         width: 300,
         child: CustomText(
-          text: ctx.textProperty("text", "다람쥐 현 쳇바퀴에 타고파"),
+          text: ctx.textProperty('text', '다람쥐 현 쳇바퀴에 타고파'),
           colorType:
-              ctx.listProperty("color", ColorType.black, ColorType.values),
+              ctx.listProperty('color', ColorType.black, ColorType.values),
           textAlign: ctx.listProperty(
-            "text align",
+            'text align',
             TextAlign.center,
             TextAlign.values,
           ),
           typoType:
-              ctx.listProperty("typoType", TypoType.body, TypoType.values),
+              ctx.listProperty('typoType', TypoType.body, TypoType.values),
         ));
   });
 
@@ -30,12 +30,12 @@ void main() {
       (ctx) {
     return CustomButton(
       onPressed: () {},
-      label: ctx.textProperty("text", "버튼"),
-      width: ctx.listProperty("width", CustomW.w1, CustomW.values),
+      label: ctx.textProperty('text', '버튼'),
+      width: ctx.listProperty('width', CustomW.w1, CustomW.values),
       bgColor:
-          ctx.listProperty("bgColor", ColorType.deepPurple, ColorType.values),
+          ctx.listProperty('bgColor', ColorType.deepPurple, ColorType.values),
       textColor: ctx.listProperty(
-        "textColor",
+        'textColor',
         ColorType.white,
         ColorType.values,
       ),
@@ -43,10 +43,10 @@ void main() {
   }).add('outlined', (ctx) {
     return CustomOutlinedButton(
       onPressed: () {},
-      label: ctx.textProperty("text", "버튼"),
-      width: ctx.listProperty("width", CustomW.w1, CustomW.values),
+      label: ctx.textProperty('text', '버튼'),
+      width: ctx.listProperty('width', CustomW.w1, CustomW.values),
       textColor: ctx.listProperty(
-        "textColor",
+        'textColor',
         ColorType.orange,
         ColorType.values,
       ),

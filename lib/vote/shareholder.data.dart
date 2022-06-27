@@ -1,7 +1,7 @@
 class Shareholder {
   int id = -1;
   String username = '홍길동';
-  String address = "";
+  String address = '';
   int sharesNum = 0;
 
   Shareholder(this.id, this.username, this.address, this.sharesNum);

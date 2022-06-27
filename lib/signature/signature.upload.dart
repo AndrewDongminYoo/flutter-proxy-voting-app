@@ -17,7 +17,7 @@ class CustomSignatureController extends GetxController {
 
   Future<Image> downloadSignature(
       String company, String filename, String category) async {
-    Reference gsRef = storage.refFromURL("gs://bside-kr.appspot.com/");
+    Reference gsRef = storage.refFromURL('gs://bside-kr.appspot.com/');
     Reference tgRef = gsRef.child(category).child(company).child(filename);
     String imageUrl = await tgRef.getDownloadURL();
     return Image.network(imageUrl);

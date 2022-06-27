@@ -1,9 +1,9 @@
 class Privacy0 {
   static const String headText = '개인정보 수집 및 이용동의';
-  static const String mainContent1 = """
+  static const String mainContent1 = '''
 (주)비사이드코리아는 아래의 목적으로 개인정보를 수집 및 이용하며, 회원의 개인정보를 안전하게 취급하는데 최선을 다합니다.
-""";
-  static const String mainContent2 = """
+''';
+  static const String mainContent2 = '''
 1. 목적 : 서비스 이용에 따른 본인(주주)확인 및 가입자 식별, 주주명부 기재 정보와의 대조, 홈페이지 및 앱 회원 서비스 제공을 위한 회원인증 및 확인
 
 2. 항목 : 아이디(이메일주소), 비밀번호, 이름, 생년월일, 주민등록번호, 휴대폰번호, 집주소, 기기정보, 인증서 정보, 신분증 사본
@@ -13,7 +13,7 @@ class Privacy0 {
 위 개인정보 수집에 대한 동의를 거부할 권리가 있으며, 동의 거부 시에는 서비스 이용에 제한될 수 있습니다.
 
 더 자세한 내용에 대해서는 홈페이지에 있는 비사이드코리아 개인정보처리방침을 참고하시길 바랍니다.
-""";
+''';
 }
 
 class Service0 {

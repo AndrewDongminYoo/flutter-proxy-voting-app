@@ -75,7 +75,7 @@ class _VotePageState extends State<VotePage> {
     final useDefault = Get.arguments == 'voteWithExample';
 
     return Scaffold(
-        appBar: const CustomAppBar(title: "의결수 확인"),
+        appBar: const CustomAppBar(title: '의결수 확인'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),

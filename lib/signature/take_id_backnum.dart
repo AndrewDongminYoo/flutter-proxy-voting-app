@@ -1,4 +1,3 @@
-import '../shared/custom_text.dart';
 import '../vote/vote.controller.dart';
 
 import '../auth/auth.data.dart';
@@ -15,12 +14,13 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
+  // ignore: unused_field
   final VoteController _voteController = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
   final AuthController _authCtrl = Get.find();
-  late String frontId = "";
-  late String backId = "";
+  late String frontId = '';
+  late String backId = '';
 
   @override
   void initState() {
@@ -78,7 +78,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                         counterStyle: TextStyle(
                           height: double.minPositive,
                         ),
-                        counterText: ""),
+                        counterText: ''),
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.left,
                     initialValue: backId,
@@ -122,7 +122,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     );
 
     return AppBodyPage(
-      titleString: "전자서명",
+      titleString: '전자서명',
       helpText: helpText,
       informationString: informationString,
       mainContent: mainContent,

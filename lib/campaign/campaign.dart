@@ -46,7 +46,7 @@ class _CampaignPageState extends State<CampaignPage> {
                 height: 40.0,
                 onPressed: () async {
                   await launchUrl(Uri.parse(
-                      "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220624000088"));
+                      'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220624000088'));
                 })
           ],
         ),
@@ -126,7 +126,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   const SizedBox(height: 86),
                   campaignAgendaList(VoteController.to.campaign),
                   const SizedBox(height: 24),
-                  VoteController.to.campaign.companyName == "티엘아이"
+                  VoteController.to.campaign.companyName == '티엘아이'
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),
@@ -222,7 +222,7 @@ Widget campaignInfoInRow(Campaign campaign) {
       const SizedBox(height: 16),
       CustomText(
         typoType: TypoType.body,
-        text: "${campaign.moderator} | 주주총회 일정: ${campaign.date}",
+        text: '${campaign.moderator} | 주주총회 일정: ${campaign.date}',
         colorType: ColorType.white,
       ),
       const SizedBox(height: 24),

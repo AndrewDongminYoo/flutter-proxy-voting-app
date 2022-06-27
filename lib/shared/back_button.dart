@@ -15,7 +15,7 @@ class CustomBackButton extends StatelessWidget {
       ),
       splashRadius: 20.0,
       iconSize: 24.0,
-      tooltip: "뒤로가기",
+      tooltip: '뒤로가기',
       onPressed: () => Get.back(),
     );
   }

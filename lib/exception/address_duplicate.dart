@@ -1,6 +1,6 @@
 import '../shared/custom_button.dart';
 import '../shared/custom_grid.dart';
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../auth/auth.controller.dart';
@@ -59,7 +59,9 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                 },
               ),
               CustomButton(
-                  width: CustomW.w4, label: '확인', onPressed: () => onConfirmed(addressList[selected]))
+                  width: CustomW.w4,
+                  label: '확인',
+                  onPressed: () => onConfirmed(addressList[selected]))
             ],
           )),
     );

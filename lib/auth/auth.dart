@@ -33,10 +33,10 @@ class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   int curStep = 0;
 
-  String userName = "";
-  String frontBackId = "";
-  String telecom = "";
-  String phoneNumber = "";
+  String userName = '';
+  String frontBackId = '';
+  String telecom = '';
+  String phoneNumber = '';
 
   String header = headlines[0];
   final phoneCtrl = TextEditingController();
@@ -55,11 +55,11 @@ class _AuthPageState extends State<AuthPage> {
     final valueList = frontBackId.split(' ');
     _authCtrl.getOtpCode(userName, valueList[0], valueList[1], telecom,
         phoneNumber.replaceAll(' ', ''));
-    Get.toNamed('/validate', arguments: "newUser");
+    Get.toNamed('/validate', arguments: 'newUser');
   }
 
   skipForExistingUser() {
-    Get.toNamed('/validate', arguments: "existingUser");
+    Get.toNamed('/validate', arguments: 'existingUser');
   }
 
   void nextStep() {
@@ -83,7 +83,7 @@ class _AuthPageState extends State<AuthPage> {
         }
         break;
       case 2:
-        curStep  = 3;
+        curStep = 3;
         _focusNodes[3].requestFocus();
         break;
       case 3:
@@ -195,7 +195,7 @@ class _AuthPageState extends State<AuthPage> {
       inputFormatters: [
         CardFormatter(
           sample: 'xxxxxx x',
-          separator: " ",
+          separator: ' ',
         ),
       ],
       autofocus: true,
@@ -220,7 +220,7 @@ class _AuthPageState extends State<AuthPage> {
         inputFormatters: [
           CardFormatter(
             sample: 'xxx xxxx xxxx',
-            separator: " ",
+            separator: ' ',
           )
         ],
         autofocus: true,

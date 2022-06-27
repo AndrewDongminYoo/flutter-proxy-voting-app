@@ -71,17 +71,17 @@ class _StepperComponentState extends State<StepperComponent> {
           TextButton(
             onPressed: () {
               switch (title) {
-                case ("주주명부 대조"):
-                  Get.toNamed("/checkvotenum");
+                case ('주주명부 대조'):
+                  Get.toNamed('/checkvotenum');
                   break;
-                case ("안건투표"):
-                  Get.toNamed("/vote");
+                case ('안건투표'):
+                  Get.toNamed('/vote');
                   break;
-                case ("전자서명"):
-                  Get.toNamed("/signature");
+                case ('전자서명'):
+                  Get.toNamed('/signature');
                   break;
-                case ("신분증 입력"):
-                  Get.toNamed("/idcard");
+                case ('신분증 입력'):
+                  Get.toNamed('/idcard');
                   break;
               }
             },

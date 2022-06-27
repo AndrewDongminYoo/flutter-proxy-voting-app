@@ -19,15 +19,15 @@ class CheckVoteNumPage extends StatefulWidget {
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   voteWithExample() {
-    Get.toNamed("/vote", arguments: "voteWithExample");
+    Get.toNamed('/vote', arguments: 'voteWithExample');
   }
 
   voteWithoutExample() {
-    Get.toNamed("/vote", arguments: "voteWithoutExample");
+    Get.toNamed('/vote', arguments: 'voteWithoutExample');
   }
 
   onEdit() async {
-    await Get.dialog(EditModal());
+    await Get.dialog(const EditModal());
     setState(() {});
   }
 
@@ -147,7 +147,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: CustomOutlinedButton(
-          label: "작성예시 보기",
+          label: '작성예시 보기',
           onPressed: () {
             voteWithExample();
           },
@@ -158,7 +158,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: CustomButton(
-          label: "투표하러 가기",
+          label: '투표하러 가기',
           onPressed: () {
             voteWithoutExample();
           },
