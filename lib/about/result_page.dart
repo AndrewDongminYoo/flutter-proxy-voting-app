@@ -94,7 +94,7 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               CustomText(
                 typoType: TypoType.bodyLight,
                 text: AuthController.to.user!.address,

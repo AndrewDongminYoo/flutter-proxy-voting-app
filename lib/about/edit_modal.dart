@@ -26,13 +26,20 @@ class _EditModalState extends State<EditModal> {
 
   Widget addressForm() {
     return TextFormField(
+      minLines: 1,
+      maxLines: 3,
       initialValue: AuthController.to.user!.address,
       autofocus: true,
       style: const TextStyle(
-          letterSpacing: 2.0, fontSize: 14, fontWeight: FontWeight.bold),
+        letterSpacing: 2.0,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
       keyboardType: TextInputType.text,
-      decoration:
-          const InputDecoration(border: OutlineInputBorder(), labelText: '주소'),
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: '자택 주소',
+      ),
       onChanged: (text) {
         addressInModal = text;
       },
@@ -62,7 +69,7 @@ class _EditModalState extends State<EditModal> {
       content: Padding(
           padding: const EdgeInsets.only(top: 0),
           child: SizedBox(
-              height: 150,
+              height: 170,
               child: Column(
                 children: [
                   addressForm(),
@@ -70,6 +77,9 @@ class _EditModalState extends State<EditModal> {
                     height: 10,
                   ),
                   CustomButton(label: '확인', onPressed: onEdit),
+                  const SizedBox(
+                    height: 10,
+                  )
                 ],
               ))),
     );

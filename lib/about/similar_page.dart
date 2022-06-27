@@ -70,7 +70,7 @@ class _SimilarPageState extends State<SimilarPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 40),
             widget.animatedWidgets,
           ],
         )),

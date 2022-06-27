@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       : Get.put(AuthController(), permanent: true);
   final VoteController _voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
-      : Get.put(VoteController(), permanent: true);
+      : Get.put(VoteController());
 
   @override
   void initState() {

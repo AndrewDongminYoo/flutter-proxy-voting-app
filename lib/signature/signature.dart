@@ -27,9 +27,7 @@ class _SignaturePageState extends State<SignaturePage> {
           ? Get.find()
           : Get.put(CustomSignatureController());
   final AuthController authCtrl = Get.find();
-  final VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController(), permanent: true);
+  final VoteController voteCtrl = Get.find();
 
   Timer? timer;
   bool _showLottie = true;
@@ -43,11 +41,8 @@ class _SignaturePageState extends State<SignaturePage> {
         username = user.username;
       }
     }
-    authCtrl.addListener(() {
-      _hideLottie();
-    });
     timer = Timer(const Duration(seconds: 2), () {
-      _showLottie = false;
+      _hideLottie();
     });
     super.initState();
   }
