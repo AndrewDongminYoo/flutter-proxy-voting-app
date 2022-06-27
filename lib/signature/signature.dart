@@ -64,7 +64,7 @@ class _SignaturePageState extends State<SignaturePage> {
       final Uint8List? result = await _signCtrl.toPngBytes();
       final url = await custSignCtrl.uploadSignature(
         VoteController.to.campaign.companyName,
-        '${DateTime.now()}-$username.png',
+        '$username-${DateTime.now()}.png',
         result!,
         'signature',
       );

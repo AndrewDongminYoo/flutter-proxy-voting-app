@@ -4,19 +4,16 @@ import 'package:get/get_connect.dart';
 
 class AuthService extends GetConnect {
   String baseURL = 'https://api.bside.ai/onboarding';
+  String getURL(String url) => baseURL + url;
+  Future<Response> getUserByTelNum(String telNum) =>
+      get(getURL('/users?phoneNumber=$telNum'));
+
   String lambdaURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/identification';
   String lambdaResultURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
-  String getURL(String url) => baseURL + url;
-
-  Future<Response> getUserByTelNum(String telNum) {
-    return get(getURL('/users?phoneNumber=$telNum'));
-  }
 
   /// 본인인증:
-  /// birth: 8자리 ex) 19900110
-  /// sex: 남: 1, 여: 2
   /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
   Future<Response> getOtpCode(
       String name, String birth, String backId, String telecom, String telNum) {
@@ -41,7 +38,11 @@ class AuthService extends GetConnect {
         telecomCode = '06';
         break;
     }
+
+    /// birth: 8자리 ex) 19900110
     final registCode = birth.startsWith('0') ? '20$birth' : '19$birth';
+
+    /// sex: 남: 1, 여: 2
     final sexCode = backId.startsWith('2') || backId.startsWith('4') ? 2 : 1;
     return post(
         lambdaURL,

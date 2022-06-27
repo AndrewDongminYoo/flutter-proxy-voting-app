@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../auth/auth.data.dart';
 import 'common_app_body.dart';
 import 'signature.upload.dart';
 import '../vote/vote.controller.dart';
@@ -19,6 +20,7 @@ class UploadIdCardPage extends StatefulWidget {
 class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Uint8List? idcardImage;
   bool idCardUploaded = false;
+  String username = '';
   final ImagePicker picker = ImagePicker();
 
   final CustomSignatureController _controller =
@@ -34,6 +36,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {
+    if (authCtrl.isLogined) {
+      User? user = authCtrl.user;
+      if (user != null) {
+        username = user.username;
+      }
+    }
     var result = await showDialog<ImageSource>(
       context: context,
       builder: (BuildContext context) {
@@ -86,9 +94,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     if (xfile != null) {
       idcardImage = await File(xfile.path).readAsBytes();
       if (idcardImage != null) {
+        final extension = xfile.name.split('.').last;
         final imgUrl = await _controller.uploadSignature(
           VoteController.to.campaign.companyName,
-          '${authCtrl.user?.username}${xfile.name}',
+          '$username-${DateTime.now()}.$extension',
           idcardImage!,
           'idcard',
         );
