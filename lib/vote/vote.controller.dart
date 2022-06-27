@@ -32,7 +32,6 @@ class VoteController extends GetxController {
   //     case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
   //     case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
   void toVote(int uid, String name) async {
-    // ignore: prefer_typing_uninitialized_variables
     Response response;
     startLoading();
 

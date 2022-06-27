@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Chat {
   final String avatar;
   final bool myself;

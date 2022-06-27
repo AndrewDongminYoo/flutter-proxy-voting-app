@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data' show Uint8List;
 import 'package:flutter/material.dart';
 
 import '../auth/auth.data.dart';

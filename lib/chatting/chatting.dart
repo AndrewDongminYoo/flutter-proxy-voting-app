@@ -7,7 +7,7 @@ import 'avatar.dart';
 
 // https://www.youtube.com/watch?v=WgJ6TzNswEo
 class ChattingPage extends StatefulWidget {
-  ChattingPage({Key? key}) : super(key: key);
+  const ChattingPage({Key? key}) : super(key: key);
 
   @override
   State<ChattingPage> createState() => _ChattingPageState();
@@ -17,61 +17,61 @@ class _ChattingPageState extends State<ChattingPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        width: Get.width,
-        height: Get.height * 0.5,
-        color: customColor[ColorType.white],
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(top: 35),
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  _itemChat(
-                    avatar: 'assets/images/logo.png',
-                    myself: false,
-                    message:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    time: '18:00',
-                  ),
-                  _itemChat(
-                    myself: true,
-                    message: 'Okey 🐣',
-                    time: '18:00',
-                  ),
-                  _itemChat(
-                    avatar: 'assets/images/logo.png',
-                    myself: false,
-                    message: 'It has survived not only five centuries, 😀',
-                    time: '18:00',
-                  ),
-                  _itemChat(
-                    myself: true,
-                    message:
-                        'Contrary to popular belief, Lorem Ipsum is not simply random text. 😎',
-                    time: '18:00',
-                  ),
-                  _itemChat(
-                    avatar: 'assets/images/logo.png',
-                    myself: false,
-                    message:
-                        'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-                    time: '18:00',
-                  ),
-                  _itemChat(
-                    avatar: 'assets/images/logo.png',
-                    myself: false,
-                    message: '😅 😂 🤣',
-                    time: '18:00',
-                  ),
-                ],
-              ),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      width: Get.width,
+      height: Get.height * 0.5,
+      color: customColor[ColorType.white],
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.only(top: 35),
+              physics: const BouncingScrollPhysics(),
+              children: [
+                _itemChat(
+                  avatar: 'assets/images/logo.png',
+                  myself: false,
+                  message:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  time: '18:00',
+                ),
+                _itemChat(
+                  myself: true,
+                  message: 'Okey 🐣',
+                  time: '18:00',
+                ),
+                _itemChat(
+                  avatar: 'assets/images/logo.png',
+                  myself: false,
+                  message: 'It has survived not only five centuries, 😀',
+                  time: '18:00',
+                ),
+                _itemChat(
+                  myself: true,
+                  message:
+                      'Contrary to popular belief, Lorem Ipsum is not simply random text. 😎',
+                  time: '18:00',
+                ),
+                _itemChat(
+                  avatar: 'assets/images/logo.png',
+                  myself: false,
+                  message:
+                      'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+                  time: '18:00',
+                ),
+                _itemChat(
+                  avatar: 'assets/images/logo.png',
+                  myself: false,
+                  message: '😅 😂 🤣',
+                  time: '18:00',
+                ),
+              ],
             ),
-            _formChat(),
-          ],
-        ));
-    ;
+          ),
+          _formChat(),
+        ],
+      ),
+    );
   }
 }
 

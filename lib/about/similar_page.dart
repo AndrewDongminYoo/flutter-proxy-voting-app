@@ -30,7 +30,7 @@ class _SimilarPageState extends State<SimilarPage> {
         isScrollControlled: true,
         builder: (context) => Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: ChattingPage(),
+              child: const ChattingPage(),
             ),
         context: context);
   }
@@ -54,7 +54,7 @@ class _SimilarPageState extends State<SimilarPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: onPressFloatingBtn,
         backgroundColor: customColor[ColorType.yellow],
-        child: Icon(Icons.chat_rounded),
+        child: const Icon(Icons.chat_rounded),
       ),
     );
   }

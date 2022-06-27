@@ -11,6 +11,9 @@ class User {
   String _idCardAt = '';
   String _signatureAt = '';
 
+  get signaturedAt => _signatureAt;
+  get idCardUploadAt => _idCardAt;
+
   User(
     this.username,
     this.frontId,
@@ -29,5 +32,7 @@ class User {
     address = json['address'] ?? '';
     ci = json['ci'] ?? '';
     di = json['di'] ?? '';
+    _signatureAt = json['signatureAt'] ?? '';
+    _idCardAt = json['idCardAt'] ?? '';
   }
 }
