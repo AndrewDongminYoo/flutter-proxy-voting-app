@@ -38,7 +38,14 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('신분증을 촬영해주세요.'),
+          elevation: 10,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 20.0,
+          ),
+          title: const Text(
+            '신분증을 촬영해주세요.',
+            style: TextStyle(fontSize: 16),
+          ),
           children: [
             SimpleDialogOption(
               onPressed: () {
@@ -47,7 +54,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 });
                 Navigator.pop(context, source);
               },
-              child: const Text('카메라 촬영'),
+              child: const Text('카메라 촬영',
+                  style: TextStyle(
+                    fontSize: 14,
+                  )),
             ),
             SimpleDialogOption(
               onPressed: () {
@@ -56,7 +66,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 });
                 Navigator.pop(context, source);
               },
-              child: const Text('갤러리 선택'),
+              child: const Text('갤러리 선택',
+                  style: TextStyle(
+                    fontSize: 14,
+                  )),
             ),
           ],
         );

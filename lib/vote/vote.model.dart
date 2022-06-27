@@ -48,16 +48,18 @@ class VoteAgenda {
     this.agenda4,
   );
 
-  VoteAgenda.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? -1;
-    company = json['company'] ?? '';
-    curStatus = json['curStatus'] ?? '';
-    sharesNum = json['sharesNum'] ?? 0;
-    agenda1 = json['agenda1'] ?? 0;
-    agenda2 = json['agenda2'] ?? 0;
-    agenda3 = json['agenda3'] ?? 0;
-    agenda4 = json['agenda4'] ?? 0;
-    signatureUrl = json['signatureUrl'] ?? '';
-    idCardUrl = json['idCardUrl'] ?? '';
+  VoteAgenda.fromJson(Map<String, dynamic>? json) {
+    if (json != null) {
+      id = json['id'] ?? -1;
+      company = json['company'] ?? '';
+      curStatus = json['curStatus'] ?? '';
+      sharesNum = json['sharesNum'] ?? 0;
+      agenda1 = json['agenda1'] ?? 0;
+      agenda2 = json['agenda2'] ?? 0;
+      agenda3 = json['agenda3'] ?? 0;
+      agenda4 = json['agenda4'] ?? 0;
+      signatureUrl = json['signatureUrl'] ?? '';
+      idCardUrl = json['idCardUrl'] ?? '';
+    }
   }
 }

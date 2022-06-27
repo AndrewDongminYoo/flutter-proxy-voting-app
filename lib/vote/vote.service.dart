@@ -30,8 +30,9 @@ class VoteService extends GetConnect {
     int agenda4,
   ) {
     return post(
-        getURL('/agenda/vote'),
-        jsonEncode({
+      getURL('/agenda/vote'),
+      jsonEncode(
+        {
           'uid': uid,
           'agenda': {
             'company': 'tli',
@@ -48,7 +49,9 @@ class VoteService extends GetConnect {
             'agenda9': 0,
             'agenda10': 0
           }
-        }));
+        },
+      ),
+    );
   }
 
   Future<Response> postSignature(int agendaId, String signature) {
