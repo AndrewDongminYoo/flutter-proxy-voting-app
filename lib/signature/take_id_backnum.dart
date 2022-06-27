@@ -14,10 +14,6 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
-  // ignore: unused_field
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
   final AuthController _authCtrl = Get.find();
   late String frontId = '';
   late String backId = '';
@@ -27,7 +23,6 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     if (_authCtrl.isLogined) {
       User? user = _authCtrl.user;
       if (user != null) {
-        backId = user.backId;
         frontId = user.frontId;
       }
     }

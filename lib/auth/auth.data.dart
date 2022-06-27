@@ -23,7 +23,7 @@ class User {
     frontId = json['frontId'] ?? '';
     backId = json['backId'] == null ? '1' : json['backId'].toString();
     telecom = json['telecom'] ?? '';
-    phoneNum = json['phoneNum'] ?? '';
+    phoneNum = json['phoneNumber'] ?? '';
     address = json['address'] ?? '';
     ci = json['ci'] ?? '';
     di = json['di'] ?? '';

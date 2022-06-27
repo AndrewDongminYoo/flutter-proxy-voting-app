@@ -55,18 +55,21 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void onPressed() {
-    _authCtrl.getOtpCode(userName, frontId, backId, telecom, phoneNumber);
+    _authCtrl.getOtpCode(userName, frontId, backId, telecom, phoneNumber, true);
     Get.toNamed('/validate', arguments: 'newUser');
   }
 
   skipForExistingUser() {
+    final user = _authCtrl.user!;
+    _authCtrl.getOtpCode(user.username, user.frontId, user.backId, user.telecom,
+        phoneNumber, false);
     Get.toNamed('/validate', arguments: 'existingUser');
   }
 
   void nextForm(FormStep step, String value) {
     switch (step) {
       case FormStep.phoneNumber:
-        final tempPhoneNum = value.replaceAll(' ', '');
+        final tempPhoneNum = value.removeAllWhitespace;
         _authCtrl.getUserInfo(tempPhoneNum);
         phoneNumber = tempPhoneNum;
         koreanIdNode.requestFocus();

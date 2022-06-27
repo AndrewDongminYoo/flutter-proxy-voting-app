@@ -31,9 +31,10 @@ class _ValidatePageState extends State<ValidatePage> {
   String title = '인증번호를 입력해주세요';
   bool isIdentificationCompleted = false;
 
-  validate(String text) async {
+  validate() async {
     FocusScope.of(context).unfocus();
-    await _controller.validateOtpCode(_controller.user!.phoneNum, text);
+    print('${_controller.user!.phoneNum}, $otpCode');
+    await _controller.validateOtpCode(_controller.user!.phoneNum, otpCode);
     onPressed();
   }
 
@@ -107,7 +108,7 @@ class _ValidatePageState extends State<ValidatePage> {
                   onChanged: (String text) {
                     if (text.length >= 6) {
                       otpCode = text;
-                      validate(text);
+                      validate();
                     }
                   },
                 ),

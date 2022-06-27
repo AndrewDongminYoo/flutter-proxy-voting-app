@@ -17,10 +17,10 @@ class AuthController extends GetxController {
     print('[AuthController] init');
     if (user == null) {
       final prefs = await SharedPreferences.getInstance();
-      final phoneNum = prefs.getString('phoneNum');
-      if (phoneNum != null) {
+      final telNum = prefs.getString('telNum');
+      if (telNum != null) {
         print('[AuthController] SharedPreferences exist');
-        final result = await getUserInfo(phoneNum);
+        final result = await getUserInfo(telNum);
         if (!result) {
           // 잘못된 캐시데이터 삭제
           print('[AuthController] delete useless SharedPreferences');
@@ -51,7 +51,7 @@ class AuthController extends GetxController {
         user!.backId, user!.telecom, user!.phoneNum, user!.ci, user!.di);
     print(response.bodyString);
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('phoneNum', user!.phoneNum);
+    await prefs.setString('telNum', user!.phoneNum);
   }
 
   // 로그인
@@ -65,9 +65,11 @@ class AuthController extends GetxController {
   }
 
   Future<void> getOtpCode(String name, String frontId, String backId,
-      String telecom, String telNum) async {
+      String telecom, String telNum, isNew) async {
     await _service.getOtpCode(name, frontId, backId, telecom, telNum);
-    user = User(name, frontId, backId, telecom, telNum);
+    if (isNew) {
+      user = User(name, frontId, backId, telecom, telNum);
+    }
   }
 
   Future<void> validateOtpCode(String telNum, String otpCode) async {
@@ -75,10 +77,12 @@ class AuthController extends GetxController {
     await _service.putPassCode(telNum, otpCode);
     await Future.delayed(const Duration(seconds: 3), () async {
       var response = await _service.getResult(telNum);
-      if (!response.body['verified']) {
+      var exc = 'ValidationException';
+      if (response.body['errorType'] == exc ||
+          response.body['verified'] != true) {
         stopLoading();
-        // throw Exception('휴대폰 인증 에러');
-        return;
+        throw Exception('휴대폰 인증 에러');
+        // return;
       }
       user!.ci = response.body['ci'] ?? '';
       user!.di = response.body['di'] ?? '';
