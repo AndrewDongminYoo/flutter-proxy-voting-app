@@ -74,10 +74,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 });
                 Navigator.pop(context, source);
               },
-              child: const Text('갤러리 선택',
-                  style: TextStyle(
-                    fontSize: 14,
-                  )),
+              child: const Text(
+                '갤러리 선택',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
             ),
           ],
         );

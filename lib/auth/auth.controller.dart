@@ -1,13 +1,15 @@
-import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    show FirebaseAuth, UserCredential;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'auth.service.dart';
-import 'auth.data.dart';
-import '../shared/loading_screen.dart';
+import '../shared/loading_screen.dart' show LoadingScreen;
+import 'auth.service.dart' show AuthService;
+import 'auth.data.dart' show User;
+import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   User? user;
   bool isLogined = false;
+  UserCredential? cred;
   final AuthService _service = AuthService();
 
   static AuthController get to => Get.find();
@@ -38,6 +40,8 @@ class AuthController extends GetxController {
     print('[AuthController] getUserInfo: ${response.body}');
     if (response.isOk && response.body != null && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
+      cred = await FirebaseAuth.instance.signInAnonymously();
+      print(cred?.credential);
       print('[AuthController] user exist.\n Hello, ${user!.username}!');
       return true;
     }
@@ -51,6 +55,8 @@ class AuthController extends GetxController {
         user!.backId, user!.telecom, user!.phoneNum, user!.ci, user!.di);
     print(response.bodyString);
     final prefs = await SharedPreferences.getInstance();
+    cred = await FirebaseAuth.instance.signInAnonymously();
+    print(cred?.credential);
     await prefs.setString('telNum', user!.phoneNum);
   }
 
@@ -58,6 +64,7 @@ class AuthController extends GetxController {
   // 사용자 데이터는 이미 초기화시 진행되었고, 인증번호까지 진행하여 로그인 여부 확정
   void login() async {
     isLogined = true;
+    print(cred?.credential);
   }
 
   bool canVote() {

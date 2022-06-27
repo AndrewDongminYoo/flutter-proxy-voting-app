@@ -53,6 +53,7 @@ dependencies:
   shared_preferences: ^2.0.15
   firebase_performance_web: ^0.1.0+14
   device_info_plus: ^4.0.0
+  firebase_auth: ^3.3.20
   # amplify_flutter: ^0.5.0
   # amplify_auth_cognito: ^0.5.0
   # amplify_analytics_pinpoint: ^0.5.0
