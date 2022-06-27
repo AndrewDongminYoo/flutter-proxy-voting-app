@@ -1,15 +1,16 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import 'widget/term.dart';
 import 'auth.controller.dart';
+import 'widget/auth_forms.dart';
 import '../shared/unfocused.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_grid.dart';
-import '../shared/custom_color.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
-import '../shared/card_formatter.dart';
 
 const headlines = [
   '휴대폰번호를\n입력해주세요',
@@ -20,26 +21,28 @@ const headlines = [
 ];
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({Key? key}) : super(key: key);
-
   @override
   State<AuthPage> createState() => _AuthPageState();
+  const AuthPage({Key? key}) : super(key: key);
 }
 
 class _AuthPageState extends State<AuthPage> {
+  // controller and nodes
+  final nameNode = FocusNode();
+  final koreanIdNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+  final phoneCtrl = TextEditingController();
   final AuthController _authCtrl = Get.find();
 
-  final _focusNodes = List.generate(4, (index) => FocusNode());
-  final _formKey = GlobalKey<FormState>();
+  // variables
   int curStep = 0;
-
   String userName = '';
-  String frontBackId = '';
+  String frontId = '';
+  String backId = '';
   String telecom = '';
   String phoneNumber = '';
-
   String header = headlines[0];
-  final phoneCtrl = TextEditingController();
+
   final style = const TextStyle(
     letterSpacing: 2.0,
     fontSize: 18,
@@ -52,9 +55,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void onPressed() {
-    final valueList = frontBackId.split(' ');
-    _authCtrl.getOtpCode(userName, valueList[0], valueList[1], telecom,
-        phoneNumber.replaceAll(' ', ''));
+    _authCtrl.getOtpCode(userName, frontId, backId, telecom, phoneNumber);
     Get.toNamed('/validate', arguments: 'newUser');
   }
 
@@ -62,46 +63,41 @@ class _AuthPageState extends State<AuthPage> {
     Get.toNamed('/validate', arguments: 'existingUser');
   }
 
-  void nextStep() {
-    switch (curStep) {
-      case 0:
-        curStep = 1;
-        _authCtrl.getUserInfo(phoneNumber.replaceAll(' ', ''));
-        _focusNodes[1].requestFocus();
+  void nextForm(FormStep step, String value) {
+    switch (step) {
+      case FormStep.phoneNumber:
+        final tempPhoneNum = value.replaceAll(' ', '');
+        _authCtrl.getUserInfo(tempPhoneNum);
+        phoneNumber = tempPhoneNum;
+        koreanIdNode.requestFocus();
         break;
-      case 1:
-        curStep = 2;
-        final valueList = frontBackId.split(' ');
-        if (_authCtrl.user != null && _authCtrl.user!.frontId == valueList[0]) {
+      case FormStep.koreanId:
+        final valueList = value.split(' ');
+        frontId = valueList[0];
+        backId = valueList[1];
+        if (_authCtrl.user != null && _authCtrl.user!.frontId == frontId) {
           skipForExistingUser();
           return;
-        } else {
-          Get.bottomSheet(telecomList(),
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)));
         }
+        Get.bottomSheet(TelcomModal(nextForm: nextForm),
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)));
         break;
-      case 2:
-        curStep = 3;
-        _focusNodes[3].requestFocus();
+      case FormStep.telecom:
+        telecom = value;
+        phoneCtrl.value = TextEditingValue(text: value);
+        nameNode.requestFocus();
         break;
-      case 3:
-        curStep = 4;
+      case FormStep.name:
+        userName = value;
+        break;
+      default:
         break;
     }
-    setState(() {});
-  }
-
-  void bottomSheetOpen() {
-    Get.bottomSheet(
-      telecomList(),
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-    );
-    curStep += 1;
+    setState(() {
+      curStep += 1;
+    });
   }
 
   Widget confirmButton() {
@@ -113,134 +109,6 @@ class _AuthPageState extends State<AuthPage> {
         width: CustomW.w4,
       ),
     );
-  }
-
-  Widget nameForm() {
-    return TextFormField(
-      focusNode: _focusNodes[3],
-      autofocus: true,
-      style: style,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: '이름',
-      ),
-      onChanged: (text) {
-        if (text.length >= 2) {
-          nextStep();
-        }
-        userName = text;
-      },
-    );
-  }
-
-  Widget telecomItem(String item) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          telecom = item;
-          phoneCtrl.value = TextEditingValue(text: item);
-          Get.back();
-          nextStep();
-        });
-      },
-      child: Container(
-        width: customW[CustomW.w4],
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: CustomText(
-          typoType: TypoType.h1Bold,
-          text: item,
-          colorType: ColorType.grey,
-        ),
-      ),
-    );
-  }
-
-  Widget telecomList() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          Container(
-            height: 6,
-            width: 50,
-            decoration: const BoxDecoration(
-              color: Color(0xFFEEEDEF),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-          ),
-          const SizedBox(height: 30),
-          const CustomText(
-            typoType: TypoType.h1Bold,
-            text: '통신사 선택',
-          ),
-          const SizedBox(height: 30),
-          telecomItem('SKT'),
-          telecomItem('KT'),
-          telecomItem('LG U+'),
-          telecomItem('SKT 알뜰폰'),
-          telecomItem('KT 알뜰폰'),
-          telecomItem('LG U+ 알뜰폰'),
-        ],
-      ),
-    );
-  }
-
-  Widget koreanIdForm(BuildContext context) {
-    return TextFormField(
-      focusNode: _focusNodes[1],
-      inputFormatters: [
-        CardFormatter(
-          sample: 'xxxxxx x',
-          separator: ' ',
-        ),
-      ],
-      autofocus: true,
-      style: style,
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '주민등록번호',
-          helperText: '생년월일 6자리와 뒷번호 1자리'),
-      onChanged: (text) {
-        if (text.length >= 8) {
-          FocusScope.of(context).unfocus();
-          nextStep();
-        }
-        frontBackId = text;
-      },
-    );
-  }
-
-  Widget phoneNumberForm(BuildContext context) {
-    return TextFormField(
-        inputFormatters: [
-          CardFormatter(
-            sample: 'xxx xxxx xxxx',
-            separator: ' ',
-          )
-        ],
-        autofocus: true,
-        style: const TextStyle(
-          letterSpacing: 2.0,
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-        ),
-        keyboardType: TextInputType.number,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '휴대폰번호',
-        ),
-        onChanged: (text) {
-          if (text.length >= 13) {
-            FocusScope.of(context).unfocus();
-            nextStep();
-          }
-          phoneNumber = text;
-        });
   }
 
   @override
@@ -259,7 +127,7 @@ class _AuthPageState extends State<AuthPage> {
                       alignment: Alignment.centerLeft,
                       child: CustomText(
                         typoType: TypoType.h1Bold,
-                        text: headlines[curStep],
+                        text: headlines[min(4, curStep)],
                         textAlign: TextAlign.left,
                       )),
                   Expanded(
@@ -267,26 +135,23 @@ class _AuthPageState extends State<AuthPage> {
                           child: Column(
                     children: [
                       const SizedBox(height: 60),
-                      curStep >= 3 ? nameForm() : Container(),
-                      const SizedBox(height: 40),
-                      curStep >= 2
-                          ? GestureDetector(
-                              onTap: bottomSheetOpen,
-                              child: TextFormField(
-                                enableSuggestions: true,
-                                controller: phoneCtrl,
-                                style: style,
-                                enabled: false,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: '통신사'),
-                              ),
-                            )
+                      curStep >= 3
+                          ? NameForm(nextForm: nextForm, focusNode: nameNode)
                           : Container(),
                       const SizedBox(height: 40),
-                      curStep >= 1 ? koreanIdForm(context) : Container(),
+                      curStep >= 2
+                          ? TelecomForm(
+                              nextForm: nextForm,
+                              telecom: telecom,
+                              phoneCtrl: phoneCtrl)
+                          : Container(),
                       const SizedBox(height: 40),
-                      phoneNumberForm(context),
+                      curStep >= 1
+                          ? KoreanIdForm(
+                              nextForm: nextForm, focusNode: koreanIdNode)
+                          : Container(),
+                      const SizedBox(height: 40),
+                      PhoneNumberForm(nextForm: nextForm),
                       const SizedBox(height: 40),
                       curStep >= 4 ? const ServiceTerm() : Container(),
                       curStep >= 4 ? confirmButton() : Container()
