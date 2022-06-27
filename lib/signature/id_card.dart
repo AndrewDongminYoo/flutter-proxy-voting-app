@@ -28,7 +28,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   final AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
-  final VoteController voteCtrl = Get.find();
+  final VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController(), permanent: true);
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {

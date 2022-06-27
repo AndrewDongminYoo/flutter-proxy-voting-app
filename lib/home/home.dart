@@ -1,4 +1,4 @@
-import 'package:bside/vote/vote.controller.dart';
+import '../vote/vote.controller.dart';
 
 import '../shared/custom_button.dart';
 import 'package:get/get.dart';
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   final AuthController _authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController(), permanent: true);
-  final VoteController _voteCtrl = Get.isRegistered<AuthController>()
+  final VoteController _voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController(), permanent: true);
 

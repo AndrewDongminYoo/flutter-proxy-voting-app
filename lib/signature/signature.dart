@@ -27,7 +27,9 @@ class _SignaturePageState extends State<SignaturePage> {
           ? Get.find()
           : Get.put(CustomSignatureController());
   final AuthController authCtrl = Get.find();
-  final VoteController voteCtrl = Get.find();
+  final VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController(), permanent: true);
 
   Timer? timer;
   bool _showLottie = true;
