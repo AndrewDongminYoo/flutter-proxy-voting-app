@@ -18,6 +18,8 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
+  var shareNum = '0';
+
   voteWithExample() {
     Get.toNamed('/vote', arguments: 'voteWithExample');
   }
@@ -29,6 +31,16 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   onEdit() async {
     await Get.dialog(const EditModal());
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    if (VoteController.to.shareholder != null) {
+      shareNum = VoteController.to.shareholder!.sharesNum.toString();
+    } else {
+      shareNum = '확인되지 않음.';
+    }
+    super.initState();
   }
 
   @override
@@ -121,7 +133,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
               const SizedBox(height: 21),
               CustomText(
                   typoType: TypoType.bodyLight,
-                  text: VoteController.to.shareholder!.sharesNum.toString(),
+                  text: shareNum,
                   colorType: ColorType.white)
             ],
           ),

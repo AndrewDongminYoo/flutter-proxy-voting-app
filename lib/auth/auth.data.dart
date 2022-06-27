@@ -8,20 +8,8 @@ class User {
   String ci = '';
   String di = '';
   String address = '';
-  String _idCardImage = '';
-  String _signature = '';
-
-  String get getIdCard => _idCardImage;
-
-  set idCardImage(String idCardImage) {
-    _idCardImage = idCardImage;
-  }
-
-  String get getSign => _signature;
-
-  set signature(String signature) {
-    _signature = signature;
-  }
+  String _idCardAt = '';
+  String _signatureAt = '';
 
   User(
     this.username,
@@ -41,7 +29,5 @@ class User {
     address = json['address'] ?? '';
     ci = json['ci'] ?? '';
     di = json['di'] ?? '';
-    idCardImage = json['idcard'] ?? '';
-    signature = json['signature'] ?? '';
   }
 }

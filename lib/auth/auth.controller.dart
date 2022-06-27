@@ -87,7 +87,7 @@ class AuthController extends GetxController {
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {
         stopLoading();
-        throw Exception('휴대폰 인증 에러');
+        return exc;
       }
       user!.ci = response.body['ci'] ?? '';
       user!.di = response.body['di'] ?? '';

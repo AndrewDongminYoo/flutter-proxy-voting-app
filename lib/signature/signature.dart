@@ -22,16 +22,26 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  final CustomSignatureController custSignCtrl =
+  final CustomSignatureController _controller =
       Get.isRegistered<CustomSignatureController>()
           ? Get.find()
           : Get.put(CustomSignatureController());
-  final AuthController authCtrl = Get.find();
-  final VoteController voteCtrl = Get.find();
+  final AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  final VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController(), permanent: true);
 
   Timer? timer;
   bool _showLottie = true;
   late String username = '';
+
+  void _hideLottie() {
+    setState(() {
+      _showLottie = false;
+    });
+  }
 
   @override
   void initState() {
@@ -44,6 +54,7 @@ class _SignaturePageState extends State<SignaturePage> {
     timer = Timer(const Duration(seconds: 2), () {
       _hideLottie();
     });
+
     super.initState();
   }
 
@@ -53,19 +64,13 @@ class _SignaturePageState extends State<SignaturePage> {
     exportBackgroundColor: Colors.transparent,
   );
 
-  void _hideLottie() {
-    setState(() {
-      _showLottie = false;
-    });
-  }
-
   void onSubmit() async {
     if (_signCtrl.isNotEmpty) {
-      final Uint8List? result = await _signCtrl.toPngBytes();
-      final url = await custSignCtrl.uploadSignature(
+      final signature = await _signCtrl.toPngBytes();
+      final url = await _controller.uploadSignature(
         VoteController.to.campaign.companyName,
         '$username-${DateTime.now()}.png',
-        result!,
+        signature!,
         'signature',
       );
       voteCtrl.putSignatureUrl(url);

@@ -3,7 +3,7 @@ import 'package:get/route_manager.dart' show GetPage;
 import 'about/votes_num.dart';
 import 'auth/auth.dart';
 import 'exception/address_duplicate.dart';
-import 'not_shareholder/not_shareholder.dart';
+import 'exception/not_shareholder.dart';
 import 'signature/take_id_backnum.dart';
 import 'vote/vote.dart';
 import 'home/home.dart';

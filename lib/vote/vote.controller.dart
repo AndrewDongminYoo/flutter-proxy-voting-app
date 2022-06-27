@@ -102,16 +102,18 @@ class VoteController extends GetxController {
   // === page: 주식수 확인 ===
   void postVoteResult(int uid, List<VoteType> voteResult) async {
     String deviceName = await deviceInfo();
-    Response response = await _service.postVoteResult(
-      uid,
-      shareholder!.id,
-      deviceName,
-      _switchVoteValue(voteResult[0]),
-      _switchVoteValue(voteResult[1]),
-      _switchVoteValue(voteResult[2]),
-      _switchVoteValue(voteResult[3]),
-    );
-    voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+    if (shareholder != null) {
+      Response response = await _service.postVoteResult(
+        uid,
+        shareholder!.id,
+        deviceName,
+        _switchVoteValue(voteResult[0]),
+        _switchVoteValue(voteResult[1]),
+        _switchVoteValue(voteResult[2]),
+        _switchVoteValue(voteResult[3]),
+      );
+      voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+    }
   }
 
   // === page: 전자서명 ===
