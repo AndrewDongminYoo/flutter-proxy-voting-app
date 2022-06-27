@@ -1,5 +1,3 @@
-import '../vote/vote.controller.dart';
-
 import '../auth/auth.data.dart';
 import 'package:flutter/material.dart';
 import '../auth/auth.controller.dart';
@@ -16,7 +14,7 @@ class TakeBackNumberPage extends StatefulWidget {
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   final AuthController _authCtrl = Get.find();
   late String frontId = '';
-  late String backId = '';
+  late String backId = '1';
 
   @override
   void initState() {

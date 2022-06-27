@@ -78,8 +78,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     print(result);
 
     final XFile? xfile = await picker.pickImage(
-      maxWidth: 400,
-      maxHeight: 300,
+      maxWidth: 1900,
+      maxHeight: 600,
       source: source,
       preferredCameraDevice: CameraDevice.rear,
     );

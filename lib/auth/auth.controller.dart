@@ -64,10 +64,16 @@ class AuthController extends GetxController {
     return isLogined;
   }
 
-  Future<void> getOtpCode(String name, String frontId, String backId,
-      String telecom, String telNum, isNew) async {
+  Future<void> getOtpCode(
+    String name,
+    String frontId,
+    String backId,
+    String telecom,
+    String telNum,
+    bool isNewAcc,
+  ) async {
     await _service.getOtpCode(name, frontId, backId, telecom, telNum);
-    if (isNew) {
+    if (isNewAcc) {
       user = User(name, frontId, backId, telecom, telNum);
     }
   }
@@ -82,11 +88,10 @@ class AuthController extends GetxController {
           response.body['verified'] != true) {
         stopLoading();
         throw Exception('휴대폰 인증 에러');
-        // return;
       }
       user!.ci = response.body['ci'] ?? '';
       user!.di = response.body['di'] ?? '';
-      if (user!.ci.isEmpty) {
+      if (user!.ci.isEmpty || user!.di.isEmpty) {
         throw Exception('휴대폰 인증 에러');
       }
 

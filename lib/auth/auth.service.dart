@@ -19,7 +19,7 @@ class AuthService extends GetConnect {
   /// sex: 남: 1, 여: 2
   /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
   Future<Response> getOtpCode(
-      String name, String birth, String sex, String telecom, String telNum) {
+      String name, String birth, String backId, String telecom, String telNum) {
     String telecomCode = '';
     switch (telecom) {
       case 'SKT':
@@ -42,7 +42,7 @@ class AuthService extends GetConnect {
         break;
     }
     final registCode = birth.startsWith('0') ? '20$birth' : '19$birth';
-    final sexCode = sex.startsWith('1') || sex.startsWith('3') ? 1 : 2;
+    final sexCode = backId.startsWith('2') || backId.startsWith('4') ? 2 : 1;
     return post(
         lambdaURL,
         jsonEncode({
