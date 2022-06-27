@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import 'guide.dart';
@@ -27,15 +27,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   int _curIndex = 0;
 
   void onTap() {
-    if (tabController!.index < tabs.length - 1) {
-      tabController!.animateTo(2);
-      setState(() {
-        _curIndex = 2;
-      });
-    } else {
-      // analytics.logTutorialComplete();
-      Get.offAllNamed('/');
-    }
+    Get.offAllNamed('/');
   }
 
   void updateIndex() {
