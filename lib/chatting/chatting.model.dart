@@ -2,7 +2,7 @@ class Chat {
   final String avatar;
   final bool myself;
   final String message;
-  final String time;
+  final DateTime time;
 
   Chat({
     required this.avatar,

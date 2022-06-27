@@ -1,10 +1,17 @@
+// ignore_for_file: unnecessary_new
+
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
   final double size;
-  final image;
+  final String image;
   final EdgeInsets margin;
-  Avatar({this.image, this.size = 50, this.margin = const EdgeInsets.all(0)});
+  const Avatar(
+      {Key? key,
+      required this.image,
+      this.size = 50,
+      this.margin = const EdgeInsets.all(0)})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

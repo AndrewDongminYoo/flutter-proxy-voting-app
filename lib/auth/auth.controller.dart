@@ -1,20 +1,35 @@
-import 'package:firebase_auth/firebase_auth.dart'
-    show FirebaseAuth, UserCredential;
-import 'package:shared_preferences/shared_preferences.dart';
-import '../shared/loading_screen.dart' show LoadingScreen;
-import 'auth.service.dart' show AuthService;
-import 'auth.data.dart' show User;
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../chatting/chatting.model.dart';
+import 'auth.service.dart';
+import 'auth.data.dart';
+import '../shared/loading_screen.dart';
 
 class AuthController extends GetxController {
   User? user;
   bool isLogined = false;
-  UserCredential? cred;
   final AuthService _service = AuthService();
-
+  List<Chat> chats = [
+    Chat(
+        avatar: 'assets/images/logo.png',
+        message: '안녕하세요',
+        time: DateTime.now(),
+        myself: true),
+  ];
   static AuthController get to => Get.find();
 
-  // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
+  void addChat(String message) {
+    final newChat = Chat(
+        message: message,
+        myself: true,
+        time: DateTime.now(),
+        avatar: 'assets/images/logo.png');
+    chats.add(newChat);
+    update();
+  }
+
+  // 홈화면에서 Preferecezs의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     print('[AuthController] init');
     if (user == null) {
@@ -40,8 +55,6 @@ class AuthController extends GetxController {
     print('[AuthController] getUserInfo: ${response.body}');
     if (response.isOk && response.body != null && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
-      cred = await FirebaseAuth.instance.signInAnonymously();
-      print(cred?.credential);
       print('[AuthController] user exist.\n Hello, ${user!.username}!');
       return true;
     }
@@ -55,8 +68,6 @@ class AuthController extends GetxController {
         user!.backId, user!.telecom, user!.phoneNum, user!.ci, user!.di);
     print(response.bodyString);
     final prefs = await SharedPreferences.getInstance();
-    cred = await FirebaseAuth.instance.signInAnonymously();
-    print(cred?.credential);
     await prefs.setString('telNum', user!.phoneNum);
   }
 
@@ -64,7 +75,6 @@ class AuthController extends GetxController {
   // 사용자 데이터는 이미 초기화시 진행되었고, 인증번호까지 진행하여 로그인 여부 확정
   void login() async {
     isLogined = true;
-    print(cred?.credential);
   }
 
   bool canVote() {

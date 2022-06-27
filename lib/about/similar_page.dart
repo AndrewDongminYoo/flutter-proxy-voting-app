@@ -27,12 +27,19 @@ class SimilarPage extends StatefulWidget {
 class _SimilarPageState extends State<SimilarPage> {
   onPressFloatingBtn() {
     showModalBottomSheet(
-        isScrollControlled: true,
-        builder: (context) => Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: const ChattingPage(),
-            ),
-        context: context);
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: const ChattingPage(),
+      ),
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          // <-- SEE HERE
+          topLeft: Radius.circular(25.0),
+        ),
+      ),
+    );
   }
 
   @override

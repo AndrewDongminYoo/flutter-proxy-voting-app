@@ -1,7 +1,9 @@
+import 'package:bside/chatting/chatting.model.dart';
 import 'package:bside/shared/custom_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../auth/auth.controller.dart';
 import '../shared/custom_text.dart';
 import 'avatar.dart';
 
@@ -14,6 +16,18 @@ class ChattingPage extends StatefulWidget {
 }
 
 class _ChattingPageState extends State<ChattingPage> {
+  final ScrollController _controller = ScrollController();
+  // FIXME: 스크롤이 끝까지 내려가지 않고 직전 아이템에서 멈춤
+  updateChatList() {
+    setState(() {
+      _controller.animateTo(
+        _controller.position.maxScrollExtent,
+        duration: const Duration(seconds: 1),
+        curve: Curves.fastOutSlowIn,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,80 +38,43 @@ class _ChattingPageState extends State<ChattingPage> {
       child: Column(
         children: [
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.only(top: 35),
-              physics: const BouncingScrollPhysics(),
-              children: [
-                _itemChat(
-                  avatar: 'assets/images/logo.png',
-                  myself: false,
-                  message:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  time: '18:00',
-                ),
-                _itemChat(
-                  myself: true,
-                  message: 'Okey 🐣',
-                  time: '18:00',
-                ),
-                _itemChat(
-                  avatar: 'assets/images/logo.png',
-                  myself: false,
-                  message: 'It has survived not only five centuries, 😀',
-                  time: '18:00',
-                ),
-                _itemChat(
-                  myself: true,
-                  message:
-                      'Contrary to popular belief, Lorem Ipsum is not simply random text. 😎',
-                  time: '18:00',
-                ),
-                _itemChat(
-                  avatar: 'assets/images/logo.png',
-                  myself: false,
-                  message:
-                      'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-                  time: '18:00',
-                ),
-                _itemChat(
-                  avatar: 'assets/images/logo.png',
-                  myself: false,
-                  message: '😅 😂 🤣',
-                  time: '18:00',
-                ),
-              ],
+            child: ListView.builder(
+              controller: _controller,
+              shrinkWrap: true,
+              itemCount: AuthController.to.chats.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _itemChat(AuthController.to.chats[index]);
+              },
             ),
           ),
-          _formChat(),
+          FormChat(
+            updateChatList: updateChatList,
+          ),
         ],
       ),
     );
   }
 }
 
-Widget _itemChat({bool? myself, String? avatar, message, time}) {
+Widget _itemChat(Chat chat) {
   return Row(
     mainAxisAlignment:
-        myself == true ? MainAxisAlignment.end : MainAxisAlignment.start,
+        chat.myself == true ? MainAxisAlignment.end : MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.end,
     children: [
-      avatar != null
-          ? Avatar(
-              image: avatar,
-              size: 50,
-            )
-          : CustomText(
-              text: time,
-              typoType: TypoType.label,
-            ),
+      Avatar(
+        image: chat.avatar,
+        size: 50,
+      ),
       Flexible(
         child: Container(
           margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color:
-                myself == true ? Colors.indigo.shade100 : Colors.indigo.shade50,
-            borderRadius: myself == true
+            color: chat.myself == true
+                ? Colors.indigo.shade100
+                : Colors.indigo.shade50,
+            borderRadius: chat.myself == true
                 ? const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -110,14 +87,14 @@ Widget _itemChat({bool? myself, String? avatar, message, time}) {
                   ),
           ),
           child: CustomText(
-            text: message,
+            text: chat.message,
             typoType: TypoType.label,
           ),
         ),
       ),
-      myself == false
+      chat.myself == false
           ? CustomText(
-              text: time,
+              text: chat.time.toString(),
               typoType: TypoType.label,
             )
           : const SizedBox(),
@@ -125,36 +102,63 @@ Widget _itemChat({bool? myself, String? avatar, message, time}) {
   );
 }
 
-Widget _formChat() {
-  return Container(
-    height: 120,
-    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-    color: customColor[ColorType.white],
-    child: TextField(
-      decoration: InputDecoration(
-        hintText: 'Type your message...',
-        suffixIcon: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: customColor[ColorType.deepPurple]),
-          padding: const EdgeInsets.all(14),
-          child: Icon(
-            Icons.send_rounded,
-            color: customColor[ColorType.white],
-            size: 28,
+class FormChat extends StatefulWidget {
+  final Function() updateChatList;
+
+  const FormChat({
+    Key? key,
+    required this.updateChatList,
+  }) : super(key: key);
+
+  @override
+  State<FormChat> createState() => _FormChatState();
+}
+
+class _FormChatState extends State<FormChat> {
+  TextEditingController chatController = TextEditingController();
+
+  onTap() {
+    if (chatController.text != '') {
+      AuthController.to.addChat(chatController.text);
+      chatController.value = const TextEditingValue(text: '');
+      widget.updateChatList();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: Get.height * 0.14,
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      color: customColor[ColorType.white],
+      child: TextField(
+        controller: chatController,
+        decoration: InputDecoration(
+          hintText: 'Type your message...',
+          suffixIcon: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: customColor[ColorType.deepPurple]),
+              padding: const EdgeInsets.all(14),
+              child: InkWell(
+                  onTap: onTap,
+                  child: Icon(
+                    Icons.send_rounded,
+                    color: customColor[ColorType.white],
+                    size: 28,
+                  ))),
+          filled: true,
+          fillColor: customColor[ColorType.lightGrey],
+          labelStyle: const TextStyle(fontSize: 12),
+          contentPadding: const EdgeInsets.all(20),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
           ),
         ),
-        filled: true,
-        fillColor: customColor[ColorType.lightGrey],
-        labelStyle: const TextStyle(fontSize: 12),
-        contentPadding: const EdgeInsets.all(20),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
       ),
-    ),
-  );
+    );
+  }
 }
