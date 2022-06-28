@@ -22,16 +22,25 @@ class _EditModalState extends State<EditModal> {
     Get.back();
   }
 
-  onEdit() {
+  onSubmit() {
     Get.back();
     authCtrl.setAddress(addressInModal);
+  }
+
+  @override
+  void initState() {
+    var user = authCtrl.user;
+    if (user != null) {
+      addressInModal = user.address;
+    }
+    super.initState();
   }
 
   Widget addressForm() {
     return TextFormField(
       minLines: 1,
       maxLines: 3,
-      initialValue: authCtrl.user!.address,
+      initialValue: addressInModal,
       autofocus: true,
       style: const TextStyle(
         letterSpacing: 2.0,
@@ -52,7 +61,10 @@ class _EditModalState extends State<EditModal> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: const EdgeInsets.only(left: 25, right: 25),
+      contentPadding: const EdgeInsets.only(
+        left: 25,
+        right: 25,
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -62,13 +74,19 @@ class _EditModalState extends State<EditModal> {
           ),
           IconButton(
             onPressed: onClose,
-            icon: const Icon(Icons.close,
-                color: Colors.black, semanticLabel: 'Close modal'),
+            icon: const Icon(
+              Icons.close,
+              color: Colors.black,
+              semanticLabel: 'Close modal',
+            ),
           )
         ],
       ),
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
+        ),
+      ),
       content: Padding(
           padding: const EdgeInsets.only(top: 0),
           child: SizedBox(
@@ -79,7 +97,10 @@ class _EditModalState extends State<EditModal> {
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomButton(label: '확인', onPressed: onEdit),
+                  CustomButton(
+                    label: '확인',
+                    onPressed: onSubmit,
+                  ),
                   const SizedBox(
                     height: 10,
                   )

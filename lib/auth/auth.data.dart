@@ -17,15 +17,17 @@ class User {
     this.phoneNum,
   );
 
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? -1;
-    username = json['name'] ?? '';
-    frontId = json['frontId'] ?? '';
-    backId = json['backId'] == null ? '1' : json['backId'].toString();
-    telecom = json['telecom'] ?? '';
-    phoneNum = json['phoneNumber'] ?? '';
-    address = json['address'] ?? '';
-    ci = json['ci'] ?? '';
-    di = json['di'] ?? '';
+  User.fromJson(Map<String, dynamic>? json) {
+    if (json != null) {
+      id = json['id'] ?? -1;
+      username = json['name'] ?? '';
+      frontId = json['frontId'] ?? '';
+      backId = json['backId'] == null ? '1' : json['backId'].toString();
+      telecom = json['telecom'] ?? '';
+      phoneNum = json['phoneNumber'] ?? '';
+      address = json['address'] ?? '';
+      ci = json['ci'] ?? '';
+      di = json['di'] ?? '';
+    }
   }
 }
