@@ -38,6 +38,7 @@ class _ResultPageState extends State<ResultPage> {
     uid = AuthController.to.user?.id;
     String? company = voteCtrl.voteAgenda?.company;
     void loadAgenda() async {
+      print('uid: $uid, company: $company');
       if (uid != null && company != null) {
         agenda = await voteCtrl.getVoteResult(uid!, company);
         if (agenda != null) {
