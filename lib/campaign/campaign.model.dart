@@ -12,6 +12,7 @@ class Campaign {
   final String logoImg;
   final String status;
   final Color color;
+  final String dartUrl;
   final String youtubeUrl;
   final List<AgendaItem> agendaList;
 
@@ -25,6 +26,7 @@ class Campaign {
     required this.logoImg,
     required this.status,
     required this.color,
+    required this.dartUrl,
     required this.youtubeUrl,
     required this.agendaList,
   });

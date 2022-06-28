@@ -15,6 +15,7 @@ final campaigns = <Campaign>[
       youtubeUrl: 'ic1BKge_d8s',
       agendaList: smAgendaList,
       status: '종료',
+      dartUrl: 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220325000498',
       backgroundImg: 'assets/images/home_back_sm.png',
       logoImg:
           'https://ww.namu.la/s/787256d0ed159737f315038b38e92a6c936c1be03f864489cde02c98863b24e8c7f44635ae2bf8e9a6be332f38025bfb305fc22e2fef3f9a467e7f6475f19fe867311767d935d57c26fd4e95c21a010e'),
@@ -29,6 +30,7 @@ final campaigns = <Campaign>[
       youtubeUrl: '',
       agendaList: tliAgendaList,
       status: '더보기',
+      dartUrl: 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220624000088',
       backgroundImg: 'assets/images/home_back_tli.png',
       logoImg:
           'https://d2u3dcdbebyaiu.cloudfront.net/img/companyPage_kr/logo_8569.jpg'),
@@ -44,6 +46,7 @@ final campaigns = <Campaign>[
       agendaList: sajoAgendaList,
       status: '종료',
       backgroundImg: 'assets/images/home_back_sajo.png',
+      dartUrl: 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220302000474',
       logoImg:
           'http://res.heraldm.com/content/image/2021/06/01/20210601000254_0.jpg'),
 ];

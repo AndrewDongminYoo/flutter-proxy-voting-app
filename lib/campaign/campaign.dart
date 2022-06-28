@@ -43,8 +43,7 @@ class _CampaignPageState extends State<CampaignPage> {
                 textColor: ColorType.white,
                 height: 40.0,
                 onPressed: () async {
-                  await launchUrl(Uri.parse(
-                      'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220624000088'));
+                  await launchUrl(Uri.parse(campaign.dartUrl));
                 })
           ],
         ),
