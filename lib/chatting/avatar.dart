@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
   final double size;
-  final String? image;
+  final String image;
   final EdgeInsets margin;
-  const Avatar({
-    Key? key,
-    this.image,
-    this.size = 50,
-    this.margin = const EdgeInsets.all(0),
-  }) : super(key: key);
+  const Avatar(
+      {Key? key,
+      required this.image,
+      this.size = 50,
+      this.margin = const EdgeInsets.all(0)})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +20,7 @@ class Avatar extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: AssetImage(image!),
+            image: AssetImage(image),
           ),
         ),
       ),

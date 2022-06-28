@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart' show UserCredential;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../shared/loading_screen.dart' show LoadingScreen;
@@ -6,15 +5,35 @@ import 'auth.service.dart' show AuthService;
 import 'auth.data.dart' show User;
 import 'package:get/get.dart';
 
+import '../chatting/chatting.model.dart';
+import 'auth.service.dart';
+import 'auth.data.dart';
+import '../shared/loading_screen.dart';
+
 class AuthController extends GetxController {
   User? user;
   bool isLogined = false;
-  UserCredential? cred;
   final AuthService _service = AuthService();
-
+  List<Chat> chats = [
+    Chat(
+        avatar: 'assets/images/logo.png',
+        message: '안녕하세요',
+        time: DateTime.now(),
+        myself: true),
+  ];
   static AuthController get to => Get.find();
 
-  // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
+  void addChat(String message) {
+    final newChat = Chat(
+        message: message,
+        myself: true,
+        time: DateTime.now(),
+        avatar: 'assets/images/logo.png');
+    chats.add(newChat);
+    update();
+  }
+
+  // 홈화면에서 Preferecezs의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     print('[AuthController] init');
     if (user == null) {
