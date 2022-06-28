@@ -40,12 +40,14 @@ class _VotePageState extends State<VotePage> {
       voteResult[1] = VoteType.agree;
       voteResult[2] = VoteType.agree;
       voteResult[3] = VoteType.disagree;
-      setState(() {
-        marker = {
-          'cur': 4,
-          'latest': 4,
-        };
-      });
+      if (mounted) {
+        setState(() {
+          marker = {
+            'cur': 4,
+            'latest': 4,
+          };
+        });
+      }
     }
   }
 
@@ -54,19 +56,20 @@ class _VotePageState extends State<VotePage> {
   }
 
   onNext() {
-    voteCtrl.postVoteResult(
-        authCtrl.user!.id, voteResult.values.toList());
+    voteCtrl.postVoteResult(authCtrl.user!.id, voteResult.values.toList());
     Get.toNamed('/signature');
   }
 
   onVote(int index, VoteType result) {
-    setState(() {
-      voteResult[index] = result;
-      marker = {
-        'cur': index + 1,
-        'latest': max(marker['latest']!, index + 1),
-      };
-    });
+    if (mounted) {
+      setState(() {
+        voteResult[index] = result;
+        marker = {
+          'cur': index + 1,
+          'latest': max(marker['latest']!, index + 1),
+        };
+      });
+    }
   }
 
   @override

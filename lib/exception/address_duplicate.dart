@@ -56,9 +56,11 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                       value: addressList[index],
                       groupValue: addressList[selected],
                       onChanged: (value) {
-                        setState(() {
-                          selected = index;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            selected = index;
+                          });
+                        }
                       });
                 },
               ),

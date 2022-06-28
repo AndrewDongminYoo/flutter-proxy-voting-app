@@ -48,9 +48,7 @@ class _ValidatePageState extends State<ValidatePage> {
   void initState() {
     super.initState();
     if (Get.arguments == 'existingUser') {
-      setState(() {
-        title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
-      });
+      title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
     }
     startTimer();
   }
@@ -59,9 +57,11 @@ class _ValidatePageState extends State<ValidatePage> {
     remainingOtpTime = 180;
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingOtpTime > 0) {
-        setState(() {
-          remainingOtpTime--;
-        });
+        if (mounted) {
+          setState(() {
+            remainingOtpTime--;
+          });
+        }
       } else {
         isOtpTimerExpired = true;
         timer.cancel();

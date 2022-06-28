@@ -53,9 +53,11 @@ class _VoteSelectorState extends State<VoteSelector> {
   VoteButton curButton = noneButton;
 
   onSelected(VoteButton selected) {
-    setState(() {
-      curButton = selected;
-    });
+    if (mounted) {
+      setState(() {
+        curButton = selected;
+      });
+    }
     widget.onVote(widget.index, selected.value);
   }
 

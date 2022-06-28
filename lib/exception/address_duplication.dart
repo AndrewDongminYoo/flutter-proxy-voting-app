@@ -34,9 +34,11 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                 value: '${authCtrl.user}',
                 groupValue: _adress,
                 onChanged: (value) {
-                  setState(() {
-                    _adress = '주소1';
-                  });
+                  if (mounted) {
+                    setState(() {
+                      _adress = '주소1';
+                    });
+                  }
                 })
           ]),
         ));

@@ -100,9 +100,11 @@ class _AuthPageState extends State<AuthPage> {
       default:
         break;
     }
-    setState(() {
-      curStep += 1;
-    });
+    if (mounted) {
+      setState(() {
+        curStep += 1;
+      });
+    }
   }
 
   Widget confirmButton() {

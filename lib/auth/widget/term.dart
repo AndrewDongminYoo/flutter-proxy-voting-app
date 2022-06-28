@@ -32,7 +32,7 @@ class _ServiceTermState extends State<ServiceTerm> {
     for (var i = 0; i < agreeTerms.length; i++) {
       agreeTerms[i] = value;
     }
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   openPage(int index) async {
@@ -63,9 +63,11 @@ class _ServiceTermState extends State<ServiceTerm> {
     return CheckboxListTile(
       value: agreeTerms[index],
       onChanged: (value) {
-        setState(() {
-          agreeTerms[index] = value;
-        });
+        if (mounted) {
+          setState(() {
+            agreeTerms[index] = value;
+          });
+        }
       },
       title: GestureDetector(
         onTap: () {
@@ -114,9 +116,11 @@ class _ServiceTermState extends State<ServiceTerm> {
               ),
               InkWell(
                 onTap: () {
-                  setState(() {
-                    showDetails = true;
-                  });
+                  if (mounted) {
+                    setState(() {
+                      showDetails = true;
+                    });
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,

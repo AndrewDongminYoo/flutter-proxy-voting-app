@@ -34,9 +34,11 @@ class _SignaturePageState extends State<SignaturePage> {
   String informationString = '';
 
   void _hideLottie() {
-    setState(() {
-      _showLottie = false;
-    });
+    if (mounted) {
+      setState(() {
+        _showLottie = false;
+      });
+    }
   }
 
   @override
@@ -52,7 +54,6 @@ class _SignaturePageState extends State<SignaturePage> {
       _hideLottie();
     });
     print('Get.arguments: ${Get.arguments}');
-    setState(() {});
     super.initState();
   }
 

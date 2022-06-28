@@ -1,3 +1,4 @@
+import 'package:bside/auth/auth.data.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +29,13 @@ class _CampaignPageState extends State<CampaignPage> {
       ? Get.find()
       : Get.put(VoteController());
   bool isLoading = false;
+  User? user;
+
+  @override
+  void initState() {
+    user = authCtrl.user;
+    super.initState();
+  }
 
   Widget campaignAgendaList(Campaign campaign) {
     return Column(
@@ -67,9 +75,11 @@ class _CampaignPageState extends State<CampaignPage> {
                   colorType: ColorType.black),
               trailing: TextButton(
                   onPressed: () async {
-                    setState(() {
-                      isLoading = !isLoading;
-                    });
+                    if (mounted) {
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
+                    }
                   },
                   child: Text(item.agendaFrom)),
             ),
@@ -88,8 +98,9 @@ class _CampaignPageState extends State<CampaignPage> {
           onPressed: () async {
             isLoading = true;
             print('[campaign] Hello, ${authCtrl.user!.username}!');
-            voteCtrl.toVote(
-                authCtrl.user!.id, authCtrl.user!.username);
+            if (user != null) {
+              voteCtrl.toVote(authCtrl.user!.id, authCtrl.user!.username);
+            }
             isLoading = false;
           });
     } else if (!authCtrl.isLogined) {

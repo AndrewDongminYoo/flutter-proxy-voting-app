@@ -50,10 +50,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateCurPage(int index) {
-    setState(() {
-      curPage = index;
-      curCampaign = campaigns[getRealIndex(index, campaigns.length)];
-    });
+    if (mounted) {
+      setState(() {
+        curPage = index;
+        curCampaign = campaigns[getRealIndex(index, campaigns.length)];
+      });
+    }
   }
 
   // Future<void> initFirebase() async {

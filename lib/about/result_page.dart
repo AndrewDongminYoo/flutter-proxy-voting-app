@@ -32,7 +32,7 @@ class _ResultPageState extends State<ResultPage> {
 
   onEdit() async {
     await Get.dialog(const EditModal());
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -46,7 +46,6 @@ class _ResultPageState extends State<ResultPage> {
         if (agenda != null) {
           sharesNum = agenda!.sharesNum;
         }
-        setState(() {});
       }
     }
 

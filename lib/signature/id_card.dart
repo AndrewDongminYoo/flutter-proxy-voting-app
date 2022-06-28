@@ -152,7 +152,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     }
     print('idcardImage: $idcardImage');
     print('Get.arguments: ${Get.arguments}');
-    setState(() {});
     super.initState();
   }
 

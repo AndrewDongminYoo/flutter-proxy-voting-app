@@ -31,9 +31,11 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void updateIndex() {
-    setState(() {
-      _curIndex = tabController!.index;
-    });
+    if (mounted) {
+      setState(() {
+        _curIndex = tabController!.index;
+      });
+    }
   }
 
   @override

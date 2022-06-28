@@ -19,24 +19,30 @@ class _StepperComponentState extends State<StepperComponent> {
   int _currentStep = 0;
 
   void tapped(int step) {
-    setState(() {
-      _currentStep = step;
-    });
+    if (mounted) {
+      setState(() {
+        _currentStep = step;
+      });
+    }
   }
 
   void continued() {
     if (_currentStep < 3) {
-      setState(() {
-        _currentStep++;
-      });
+      if (mounted) {
+        setState(() {
+          _currentStep++;
+        });
+      }
     }
   }
 
   void cancel() {
     if (_currentStep > 0) {
-      setState(() {
-        _currentStep--;
-      });
+      if (mounted) {
+        setState(() {
+          _currentStep--;
+        });
+      }
     }
   }
 
