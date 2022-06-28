@@ -19,7 +19,9 @@ class ValidatePage extends StatefulWidget {
 }
 
 class _ValidatePageState extends State<ValidatePage> {
-  final AuthController _controller = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
   final _formKey = GlobalKey<FormState>();
   Timer? timer;
   String otpCode = '';
@@ -30,13 +32,13 @@ class _ValidatePageState extends State<ValidatePage> {
 
   validate() async {
     FocusScope.of(context).unfocus();
-    print('${_controller.user!.phoneNum}, $otpCode');
-    await _controller.validateOtpCode(_controller.user!.phoneNum, otpCode);
+    print('${authCtrl.user!.phoneNum}, $otpCode');
+    await authCtrl.validateOtpCode(authCtrl.user!.phoneNum, otpCode);
     onPressed();
   }
 
   onPressed() {
-    if (_controller.canVote()) {
+    if (authCtrl.canVote()) {
       timer!.cancel();
       Get.offNamedUntil('/campaign', (route) => route.settings.name == '/');
     }

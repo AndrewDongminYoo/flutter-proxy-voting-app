@@ -22,15 +22,19 @@ class _HomePageState extends State<HomePage> {
   int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
-  final AuthController _authCtrl = Get.find();
-  final VoteController _voteCtrl = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   @override
   void initState() {
     super.initState();
     controller = PageController(viewportFraction: 0.2, initialPage: curPage);
     curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
-    _authCtrl.init();
+    authCtrl.init();
     // initFirebase();
   }
 
@@ -41,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onConfirmed(Campaign campaign) {
-    _voteCtrl.setCampaign(campaign);
+    voteCtrl.setCampaign(campaign);
     Get.toNamed('/campaign');
   }
 
