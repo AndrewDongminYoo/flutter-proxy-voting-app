@@ -1,6 +1,7 @@
 import 'package:get/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'guide.dart';
 import 'guide.data.dart';
@@ -26,16 +27,20 @@ class _OnboardingPageState extends State<OnboardingPage>
   List<Widget> tabs = [];
   int _curIndex = 0;
 
-  void onTap() {
+  void onTap() async {
+    savePref();
     Get.offAllNamed('/');
   }
 
+  void savePref() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('firstTime', false);
+  }
+
   void updateIndex() {
-    if (mounted) {
-      setState(() {
-        _curIndex = tabController!.index;
-      });
-    }
+    setState(() {
+      _curIndex = tabController!.index;
+    });
   }
 
   @override

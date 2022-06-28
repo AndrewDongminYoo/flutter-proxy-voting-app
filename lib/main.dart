@@ -45,6 +45,7 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final prefs = await SharedPreferences.getInstance();
   final firstTime = prefs.getBool('firstTime') ?? true;
+  print('[main] firstTime: $firstTime');
   final initialLink = await setupFirebase();
   timeago.setLocaleMessages('ko', timeago.KoMessages());
   
