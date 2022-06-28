@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../auth/auth.data.dart';
 import 'common_app_body.dart';
 import 'signature.upload.dart';
 import '../vote/vote.controller.dart';
@@ -40,10 +39,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
   void onPressed() async {
     if (authCtrl.isLogined) {
-      User? user = authCtrl.user;
-      if (user != null) {
-        username = user.username;
-      }
+      username = authCtrl.user.username;
     }
     var result = await showDialog<ImageSource>(
       context: context,
@@ -144,12 +140,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
   @override
   void initState() {
-    if (authCtrl.user != null) {
-      username = authCtrl.user!.username;
-      idCardUploadAt = voteCtrl.voteAgenda?.idCardAt;
-      if (idCardUploadAt != null) {
-        idCardUpload = true;
-      }
+    username = authCtrl.user.username;
+    idCardUploadAt = voteCtrl.voteAgenda?.idCardAt;
+    if (idCardUploadAt != null) {
+      idCardUpload = true;
     }
     print('idcardImage: $idcardImage');
     print('Get.arguments: ${Get.arguments}');

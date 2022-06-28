@@ -1,4 +1,3 @@
-import '../auth/auth.data.dart';
 import 'package:flutter/material.dart';
 import '../auth/auth.controller.dart';
 import 'common_app_body.dart';
@@ -21,17 +20,14 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   @override
   void initState() {
     if (authCtrl.isLogined) {
-      User? user = authCtrl.user;
-      if (user != null) {
-        frontId = user.frontId;
-      }
+      frontId = authCtrl.user.frontId;
     }
     super.initState();
   }
 
   onConfirmed() {
     authCtrl.putBackId(backId);
-    Get.offAllNamed('/result');
+    Get.offNamedUntil('/result', (route) => route.settings.name == '/');
   }
 
   @override

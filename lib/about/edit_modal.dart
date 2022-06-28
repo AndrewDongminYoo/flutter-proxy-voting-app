@@ -29,10 +29,7 @@ class _EditModalState extends State<EditModal> {
 
   @override
   void initState() {
-    var user = authCtrl.user;
-    if (user != null) {
-      addressInModal = user.address;
-    }
+    addressInModal = authCtrl.user.address;
     super.initState();
   }
 

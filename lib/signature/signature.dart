@@ -44,9 +44,7 @@ class _SignaturePageState extends State<SignaturePage> {
 
   @override
   void initState() {
-    if (authCtrl.user != null) {
-      username = authCtrl.user!.username;
-    }
+    username = authCtrl.user.username;
     if (voteCtrl.voteAgenda != null) {
       signatureAt = voteCtrl.voteAgenda?.signatureAt;
     }

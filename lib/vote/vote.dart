@@ -56,7 +56,7 @@ class _VotePageState extends State<VotePage> {
   }
 
   onNext() {
-    voteCtrl.postVoteResult(authCtrl.user!.id, voteResult.values.toList());
+    voteCtrl.postVoteResult(authCtrl.user.id, voteResult.values.toList());
     Get.toNamed('/signature');
   }
 

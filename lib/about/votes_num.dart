@@ -117,7 +117,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
             const SizedBox(height: 24),
             CustomText(
                 typoType: TypoType.bodyLight,
-                text: authCtrl.user!.address,
+                text: authCtrl.user.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white),
           ]),

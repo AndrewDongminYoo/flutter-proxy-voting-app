@@ -62,7 +62,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   skipForExistingUser() {
-    final user = authCtrl.user!;
+    final user = authCtrl.user;
     authCtrl.getOtpCode(user.username, user.frontId, user.backId, user.telecom,
         phoneNumber, false);
     Get.toNamed('/validate', arguments: 'existingUser');
@@ -80,7 +80,7 @@ class _AuthPageState extends State<AuthPage> {
         final valueList = value.split(' ');
         frontId = valueList[0];
         backId = valueList[1];
-        if (authCtrl.user != null && authCtrl.user!.frontId == frontId) {
+        if (authCtrl.user.frontId == frontId) {
           skipForExistingUser();
           return;
         }

@@ -15,9 +15,16 @@ import 'package:device_info_plus/device_info_plus.dart';
 class VoteController extends GetxController {
   final VoteService _service = VoteService();
   final shareholders = <Shareholder>[];
-  Campaign campaign = campaigns[0];
+  Campaign campaign = campaigns[1];
   Shareholder? shareholder;
   VoteAgenda? voteAgenda;
+
+  init () {
+    // if (voteAgenda == null) {
+    //   // 돌아가라
+    //   Get.offNamed('vote');
+    // }
+  }
 
   void setCampaign(Campaign newCampaign) {
     campaign = newCampaign;

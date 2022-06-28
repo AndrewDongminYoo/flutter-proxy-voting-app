@@ -37,7 +37,7 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   void initState() {
-    uid = authCtrl.user?.id;
+    uid = authCtrl.user.id;
     String? company = voteCtrl.voteAgenda?.company;
     void loadAgenda() async {
       print('uid: $uid, company: $company');
@@ -50,7 +50,10 @@ class _ResultPageState extends State<ResultPage> {
     }
 
     loadAgenda();
+    
     super.initState();
+
+    // FIXME: 완료한 사용자가 바로 왔을때, 보유주수와 stepper가 안보였다가 리프레시하니까 나옴, setState가 필요할 것으로 예상
   }
 
   @override
@@ -129,7 +132,7 @@ class _ResultPageState extends State<ResultPage> {
               const SizedBox(height: 12),
               CustomText(
                 typoType: TypoType.bodyLight,
-                text: authCtrl.user!.address,
+                text: authCtrl.user.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white,
               ),

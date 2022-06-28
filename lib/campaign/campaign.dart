@@ -97,9 +97,9 @@ class _CampaignPageState extends State<CampaignPage> {
           width: CustomW.w4,
           onPressed: () async {
             isLoading = true;
-            print('[campaign] Hello, ${authCtrl.user!.username}!');
+            print('[campaign] Hello, ${authCtrl.user.username}!');
             if (user != null) {
-              voteCtrl.toVote(authCtrl.user!.id, authCtrl.user!.username);
+              voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
             }
             isLoading = false;
           });

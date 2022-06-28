@@ -7,7 +7,29 @@ import 'package:get/get.dart';
 import '../chatting/chatting.model.dart';
 
 class AuthController extends GetxController {
-  User? user;
+  User? _user;
+
+  User get user {
+    if (_user != null) {
+      return _user!;
+    }
+    printWarning("=========== WARNING =============");
+    printWarning("[AuthController] User is not exist");
+    printWarning("=========== WARNING =============");
+    return User('범인', '000000', '0', 'SKT', '01012345678');
+  }
+
+  set user(User? user) {
+    _user = user;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    printWarning("[AuthController] onInit");
+    init();
+  }
+
   bool isLogined = false;
   final AuthService _service = AuthService();
 
@@ -29,22 +51,20 @@ class AuthController extends GetxController {
     update();
   }
 
-  // 홈화면에서 Preferecezs의 전화번호를 불러와 사용자 데이터 초기화
+  // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     print('[AuthController] init');
-    if (user == null) {
-      final prefs = await SharedPreferences.getInstance();
-      final telNum = prefs.getString('telNum');
-      if (telNum != null) {
-        print('[AuthController] SharedPreferences exist');
-        final result = await getUserInfo(telNum);
-        if (!result) {
-          // 잘못된 캐시데이터 삭제
-          print('[AuthController] delete useless SharedPreferences');
-          await prefs.clear();
-        } else {
-          login();
-        }
+    final prefs = await SharedPreferences.getInstance();
+    final telNum = prefs.getString('telNum');
+    if (telNum != null) {
+      print('[AuthController] SharedPreferences exist');
+      final result = await getUserInfo(telNum);
+      if (!result) {
+        // 잘못된 캐시데이터 삭제
+        print('[AuthController] delete useless SharedPreferences');
+        await prefs.clear();
+      } else {
+        login();
       }
     }
   }
@@ -57,7 +77,7 @@ class AuthController extends GetxController {
     }
     if (response.isOk && response.body != null && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
-      print('[AuthController] user exist.\n Hello, ${user!.username}!');
+      print('[AuthController] user exist.\n Hello, ${user.username}!');
       return true;
     }
     return false;
@@ -66,11 +86,9 @@ class AuthController extends GetxController {
   // 회원가입
   void signUp() async {
     isLogined = true;
-    Response response = await _service.createUser(user!.username, user!.frontId,
-        user!.backId, user!.telecom, user!.phoneNum, user!.ci, user!.di);
+    Response response = await _service.createUser(user.username, user.frontId,
+        user.backId, user.telecom, user.phoneNum, user.ci, user.di);
     print('${response.bodyString}');
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('telNum', user!.phoneNum);
   }
 
   // 로그인
@@ -93,6 +111,7 @@ class AuthController extends GetxController {
   ) async {
     await _service.getOtpCode(name, frontId, backId, telecom, telNum);
     if (isNewAcc) {
+      // FIXME: 사용자가 인증번호까지 완료해야 user 생성 필요
       user = User(name, frontId, backId, telecom, telNum);
     }
   }
@@ -105,34 +124,35 @@ class AuthController extends GetxController {
       var exc = 'ValidationException';
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {
+        // FIXME: 사용자에게 인증번호가 틀렸거나 개인정보가 틀렸다고 알려주어야 함
         stopLoading();
         return exc;
       }
-      user!.ci = response.body['ci'] ?? '';
-      user!.di = response.body['di'] ?? '';
-      if (user!.ci.isEmpty || user!.di.isEmpty) {
+      user.ci = response.body['ci'] ?? '';
+      user.di = response.body['di'] ?? '';
+      if (user.ci.isEmpty || user.di.isEmpty) {
         throw Exception('휴대폰 인증 에러');
       }
 
-      if (user!.id >= 0) {
+      if (user.id >= 0) {
         login();
       } else {
         signUp();
       }
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('telNum', user.phoneNum);
       stopLoading();
     });
   }
 
   void setAddress(String newAddress) {
     // Update in server
-    if (user != null) {
-      user!.address = newAddress;
-      _service.putAddress(user!.id, newAddress);
-    }
+    user.address = newAddress;
+    _service.putAddress(user.id, newAddress);
   }
 
   void putBackId(String backId) async {
-    await _service.putBackId(user!.id, backId);
+    await _service.putBackId(user.id, backId);
   }
 
   void startLoading() {
@@ -143,5 +163,9 @@ class AuthController extends GetxController {
     if (Get.isDialogOpen == true) {
       Get.back();
     }
+  }
+
+  void printWarning(String text) {
+    print('\x1B[33m$text\x1B[0m');
   }
 }
