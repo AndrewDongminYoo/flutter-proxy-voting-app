@@ -4,7 +4,6 @@ import 'edit_modal.dart';
 import 'similar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../campaign/campaign.model.dart';
 import '../shared/custom_grid.dart';
 import '../shared/custom_button.dart';

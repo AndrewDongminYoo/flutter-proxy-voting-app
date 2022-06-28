@@ -1,8 +1,15 @@
+import '../vote/vote.model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class StepperComponent extends StatefulWidget {
-  const StepperComponent({Key? key}) : super(key: key);
+  final VoteAgenda agenda;
+  final int uid;
+  const StepperComponent({
+    Key? key,
+    required this.uid,
+    required this.agenda,
+  }) : super(key: key);
 
   @override
   State<StepperComponent> createState() => _StepperComponentState();
@@ -10,6 +17,7 @@ class StepperComponent extends StatefulWidget {
 
 class _StepperComponentState extends State<StepperComponent> {
   int _currentStep = 0;
+
   void tapped(int step) {
     setState(() {
       _currentStep = step;
@@ -37,10 +45,10 @@ class _StepperComponentState extends State<StepperComponent> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(children: [
-        customStep('주주명부 대조', false),
-        customStep('안건투표', false),
-        customStep('전자서명', false),
-        customStep('신분증 사본', false),
+        customStep('주주명부 대조', widget.uid > 0),
+        customStep('안건투표', widget.agenda.voteAt != ''),
+        customStep('전자서명', widget.agenda.signatureAt != ''),
+        customStep('신분증 사본', widget.agenda.idCardAt != ''),
       ]),
     );
   }
@@ -57,10 +65,10 @@ class _StepperComponentState extends State<StepperComponent> {
             style: ElevatedButton.styleFrom(
               fixedSize: const Size(20, 20),
               primary:
-                  active ? const Color(0xFFDC721E) : const Color(0xFF572E67),
+                  !active ? const Color(0xFFDC721E) : const Color(0xFF572E67),
               shape: const CircleBorder(),
             ),
-            child: active
+            child: !active
                 ? const Icon(Icons.warning_amber_sharp)
                 : const Icon(Icons.check),
           ),
@@ -72,16 +80,17 @@ class _StepperComponentState extends State<StepperComponent> {
             onPressed: () {
               switch (title) {
                 case ('주주명부 대조'):
-                  Get.toNamed('/checkvotenum');
+                  Get.toNamed('/checkvotenum', arguments: widget.uid);
                   break;
                 case ('안건투표'):
-                  Get.toNamed('/vote');
+                  Get.toNamed('/vote', arguments: widget.agenda);
                   break;
                 case ('전자서명'):
-                  Get.toNamed('/signature');
+                  Get.toNamed('/signature',
+                      arguments: widget.agenda.signatureAt);
                   break;
                 case ('신분증 사본'):
-                  Get.toNamed('/idcard');
+                  Get.toNamed('/idcard', arguments: widget.agenda.idCardAt);
                   break;
               }
             },

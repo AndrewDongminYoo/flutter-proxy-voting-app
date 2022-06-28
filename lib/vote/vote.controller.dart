@@ -115,6 +115,17 @@ class VoteController extends GetxController {
     }
   }
 
+  Future<VoteAgenda?> getVoteResult(int uid, String company) async {
+    Response response = await _service.queryAgenda(uid, company);
+    if (response.body['isExist']) {
+      print(response.body);
+      return VoteAgenda.fromJson(response.body['agenda']);
+    } else {
+      print("agenda doesn't exists.");
+      return null;
+    }
+  }
+
   // === page: 전자서명 ===
   void putSignatureUrl(String url) async {
     await _service.postSignature(voteAgenda!.id, url);

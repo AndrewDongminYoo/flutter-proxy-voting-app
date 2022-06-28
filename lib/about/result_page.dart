@@ -20,12 +20,32 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  VoteAgenda? agenda;
+  int? uid = -1;
+
   onEdit() async {
     await Get.dialog(const EditModal());
     setState(() {});
   }
 
-  VoteAgenda? agenda = VoteController.to.voteAgenda;
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
+
+  @override
+  void initState() {
+    uid = AuthController.to.user?.id;
+    String? company = voteCtrl.voteAgenda?.company;
+    void loadAgenda() async {
+      if (uid != null && company != null) {
+        agenda = await voteCtrl.getVoteResult(uid!, company);
+        setState(() {});
+      }
+    }
+
+    loadAgenda();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +157,9 @@ class _ResultPageState extends State<ResultPage> {
       ),
     ];
     var animatedWidgets = Column(children: [
-      const StepperComponent(),
+      ((agenda != null) && (uid! > 0))
+          ? StepperComponent(agenda: agenda!, uid: uid!)
+          : Container(),
       const SizedBox(height: 30),
       CustomButton(
         label: '처음으로',

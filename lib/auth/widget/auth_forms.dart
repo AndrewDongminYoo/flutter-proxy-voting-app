@@ -1,6 +1,6 @@
-import 'package:bside/shared/custom_color.dart';
-import 'package:bside/shared/custom_grid.dart';
-import 'package:bside/shared/custom_text.dart';
+import '../../shared/custom_color.dart';
+import '../../shared/custom_grid.dart';
+import '../../shared/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -90,7 +90,11 @@ class TelecomForm extends StatefulWidget {
   final String telecom;
   final TextEditingController phoneCtrl;
   final Function(FormStep step, String value) nextForm;
-  const TelecomForm({Key? key, required this.nextForm, required this.telecom, required this.phoneCtrl})
+  const TelecomForm(
+      {Key? key,
+      required this.nextForm,
+      required this.telecom,
+      required this.phoneCtrl})
       : super(key: key);
 
   @override

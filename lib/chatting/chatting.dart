@@ -1,5 +1,5 @@
-import 'package:bside/chatting/chatting.model.dart';
-import 'package:bside/shared/custom_color.dart';
+import '../chatting/chatting.model.dart';
+import '../shared/custom_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

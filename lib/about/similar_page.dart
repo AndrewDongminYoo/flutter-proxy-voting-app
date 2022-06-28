@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import '../chatting/chatting.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_color.dart';
-// import '../shared/custom_color.dart';
-// import '../shared/custom_lottie.dart';
 
 class SimilarPage extends StatefulWidget {
   const SimilarPage({

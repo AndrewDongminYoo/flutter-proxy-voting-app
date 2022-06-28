@@ -17,12 +17,13 @@ class VoteButton {
   final String label;
   final VoteType value;
 
-  VoteButton(
-      {required this.borderColor,
-      required this.textColor,
-      required this.bgColor,
-      required this.label,
-      required this.value});
+  VoteButton({
+    required this.borderColor,
+    required this.textColor,
+    required this.bgColor,
+    required this.label,
+    required this.value,
+  });
 }
 
 class VoteAgenda {
@@ -34,8 +35,9 @@ class VoteAgenda {
   int agenda2 = 0;
   int agenda3 = 0;
   int agenda4 = 0;
-  String signatureUrl = '';
-  String idCardUrl = '';
+  String signatureAt = '';
+  String idCardAt = '';
+  String voteAt = '';
 
   VoteAgenda(
     this.id,
@@ -58,8 +60,9 @@ class VoteAgenda {
       agenda2 = json['agenda2'] ?? 0;
       agenda3 = json['agenda3'] ?? 0;
       agenda4 = json['agenda4'] ?? 0;
-      signatureUrl = json['signatureUrl'] ?? '';
-      idCardUrl = json['idCardUrl'] ?? '';
+      signatureAt = json['signatureAt'] ?? '';
+      idCardAt = json['idCardAt'] ?? '';
+      voteAt = json['voteAt'] ?? '';
     }
   }
 }
