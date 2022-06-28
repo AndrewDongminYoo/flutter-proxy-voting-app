@@ -4,8 +4,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../auth/auth.data.dart';
-
 class CustomSignatureController extends GetxController {
   FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -29,24 +27,4 @@ class CustomSignatureController extends GetxController {
   AuthController authController = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
-
-  String? signaturedAt() {
-    if (authController.isLogined) {
-      User? user = authController.user;
-      if (user != null && user.signaturedAt != '') {
-        return user.signaturedAt;
-      }
-    }
-    return null;
-  }
-
-  String? idCardUploadAt() {
-    if (authController.isLogined) {
-      User? user = authController.user;
-      if (user != null && user.idCardUploadAt != '') {
-        return user.idCardUploadAt;
-      }
-    }
-    return null;
-  }
 }

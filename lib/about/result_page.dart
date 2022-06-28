@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import '../vote/vote.model.dart';
 import 'similar_page.dart';
 import 'stepper_example.dart';
 import '../about/edit_modal.dart';
@@ -23,6 +24,8 @@ class _ResultPageState extends State<ResultPage> {
     await Get.dialog(const EditModal());
     setState(() {});
   }
+
+  VoteAgenda? agenda = VoteController.to.voteAgenda;
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +125,12 @@ class _ResultPageState extends State<ResultPage> {
                   text: '보유 주수',
                   colorType: ColorType.white),
               const SizedBox(height: 21),
-              CustomText(
-                  typoType: TypoType.bodyLight,
-                  text: VoteController.to.voteAgenda!.sharesNum.toString(),
-                  colorType: ColorType.white)
+              agenda != null
+                  ? CustomText(
+                      typoType: TypoType.bodyLight,
+                      text: agenda!.sharesNum.toString(),
+                      colorType: ColorType.white)
+                  : Container()
             ],
           ),
         ),

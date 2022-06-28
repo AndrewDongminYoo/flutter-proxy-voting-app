@@ -8,11 +8,6 @@ class User {
   String ci = '';
   String di = '';
   String address = '';
-  String _idCardAt = '';
-  String _signatureAt = '';
-
-  get signaturedAt => _signatureAt;
-  get idCardUploadAt => _idCardAt;
 
   User(
     this.username,
@@ -32,7 +27,5 @@ class User {
     address = json['address'] ?? '';
     ci = json['ci'] ?? '';
     di = json['di'] ?? '';
-    _signatureAt = json['signatureAt'] ?? '';
-    _idCardAt = json['idCardAt'] ?? '';
   }
 }

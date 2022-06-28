@@ -80,7 +80,7 @@ class _StepperComponentState extends State<StepperComponent> {
                 case ('전자서명'):
                   Get.toNamed('/signature');
                   break;
-                case ('신분증 입력'):
+                case ('신분증 사본'):
                   Get.toNamed('/idcard');
                   break;
               }

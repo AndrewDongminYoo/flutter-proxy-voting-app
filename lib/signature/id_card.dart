@@ -21,6 +21,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Uint8List? idcardImage;
   bool idCardUploaded = false;
   String username = '';
+  String informationString = '';
+  String idCardUploadedAt = '';
   final ImagePicker picker = ImagePicker();
 
   final CustomSignatureController _controller =
@@ -57,9 +59,11 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           children: [
             SimpleDialogOption(
               onPressed: () {
-                setState(() {
-                  source = ImageSource.camera;
-                });
+                if (mounted) {
+                  setState(() {
+                    source = ImageSource.camera;
+                  });
+                }
                 Navigator.pop(context, source);
               },
               child: const Text('카메라 촬영',
@@ -69,9 +73,11 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
             ),
             SimpleDialogOption(
               onPressed: () {
-                setState(() {
-                  source = ImageSource.gallery;
-                });
+                if (mounted) {
+                  setState(() {
+                    source = ImageSource.gallery;
+                  });
+                }
                 Navigator.pop(context, source);
               },
               child: const Text(
@@ -95,6 +101,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     );
     if (xfile != null) {
       idcardImage = await File(xfile.path).readAsBytes();
+      print(idcardImage.toString());
       if (idcardImage != null) {
         final extension = xfile.name.split('.').last;
         final imgUrl = await _controller.uploadSignature(
@@ -104,9 +111,11 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           'idcard',
         );
         voteCtrl.putIdCard(imgUrl);
-        setState(() {
-          idCardUploaded = true;
-        });
+        if (mounted) {
+          setState(() {
+            idCardUploaded = true;
+          });
+        }
       }
     }
   }
@@ -133,10 +142,21 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   }
 
   @override
+  void initState() {
+    if (authCtrl.user != null) {
+      idCardUploaded = true;
+    }
+    print('idcardImage: $idcardImage');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';
-    const informationString = '''
+    informationString = idCardUploaded
+        ? '$username 님은 $idCardUploadedAt 신분증을 업로드하였습니다. 수정하시려면 가운데를 클릭하세요.'
+        : '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 
 신분증 원본의 민감한 개인정보는 보안 기술에 의해 자동으로 보이지 않게 삭제됩니다.''';
