@@ -30,9 +30,9 @@ class _ResultPageState extends State<ResultPage> {
   int? sharesNum = 0;
   int? uid = -1;
 
-  onEdit() async {
+  onAddressEdit() async {
     await Get.dialog(const EditModal());
-    if (mounted) setState(() {});
+    setState(() {});
   }
 
   @override
@@ -74,15 +74,18 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
       Container(
-          margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-          child: const CustomText(
-              typoType: TypoType.h1,
-              text: '수고하셨습니다.',
-              colorType: ColorType.white)),
+        margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+        child: const CustomText(
+          typoType: TypoType.h1,
+          text: '수고하셨습니다.',
+          colorType: ColorType.white,
+        ),
+      ),
       const CustomText(
-          typoType: TypoType.bodyLight,
-          text: '성공적으로 전자위임이 완료되었습니다.',
-          colorType: ColorType.white),
+        typoType: TypoType.bodyLight,
+        text: '성공적으로 전자위임이 완료되었습니다.',
+        colorType: ColorType.white,
+      ),
       const SizedBox(height: 20),
     ];
     var whiteBackGroundWidgets = [
@@ -119,7 +122,7 @@ class _ResultPageState extends State<ResultPage> {
                       Icons.arrow_circle_right_outlined,
                       color: customColor[ColorType.white],
                     ),
-                    onPressed: onEdit,
+                    onPressed: onAddressEdit,
                   ),
                 ],
               ),

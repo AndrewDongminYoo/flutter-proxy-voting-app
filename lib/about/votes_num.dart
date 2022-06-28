@@ -35,7 +35,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
 
   onEdit() async {
     await Get.dialog(const EditModal());
-    if (mounted) setState(() {});
+    setState(() {});
   }
 
   @override
