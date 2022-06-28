@@ -18,8 +18,12 @@ class VotePage extends StatefulWidget {
 }
 
 class _VotePageState extends State<VotePage> {
-  final AuthController _authController = Get.find();
-  final VoteController _voteController = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   var marker = <String, int>{
     'cur': 0,
@@ -50,8 +54,8 @@ class _VotePageState extends State<VotePage> {
   }
 
   onNext() {
-    _voteController.postVoteResult(
-        _authController.user!.id, voteResult.values.toList());
+    voteCtrl.postVoteResult(
+        authCtrl.user!.id, voteResult.values.toList());
     Get.toNamed('/signature');
   }
 
@@ -67,7 +71,7 @@ class _VotePageState extends State<VotePage> {
 
   @override
   Widget build(BuildContext context) {
-    final agendaList = VoteController.to.campaign.agendaList;
+    final agendaList = voteCtrl.campaign.agendaList;
     final agendaLength = agendaList.length;
     final useDefault = Get.arguments == 'voteWithExample';
 

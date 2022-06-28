@@ -20,8 +20,12 @@ class _SignaturePageState extends State<SignaturePage> {
       Get.isRegistered<CustomSignatureController>()
           ? Get.find()
           : Get.put(CustomSignatureController());
-  final AuthController authCtrl = Get.find();
-  final VoteController voteCtrl = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   Timer? timer;
   bool _showLottie = true;
@@ -62,7 +66,7 @@ class _SignaturePageState extends State<SignaturePage> {
     if (_signCtrl.isNotEmpty) {
       final signature = await _signCtrl.toPngBytes();
       final url = await _controller.uploadSignature(
-        VoteController.to.campaign.companyName,
+        voteCtrl.campaign.companyName,
         '$username-${DateTime.now()}.png',
         signature!,
         'signature',

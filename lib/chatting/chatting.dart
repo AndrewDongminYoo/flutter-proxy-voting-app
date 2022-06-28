@@ -17,6 +17,10 @@ class ChattingPage extends StatefulWidget {
 
 class _ChattingPageState extends State<ChattingPage> {
   final ScrollController _controller = ScrollController();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+
   // FIXME: 스크롤이 끝까지 내려가지 않고 직전 아이템에서 멈춤
   updateChatList() {
     setState(() {
@@ -41,9 +45,9 @@ class _ChattingPageState extends State<ChattingPage> {
             child: ListView.builder(
               controller: _controller,
               shrinkWrap: true,
-              itemCount: AuthController.to.chats.length,
+              itemCount: authCtrl.chats.length,
               itemBuilder: (BuildContext context, int index) {
-                return _itemChat(AuthController.to.chats[index]);
+                return _itemChat(authCtrl.chats[index]);
               },
             ),
           ),
@@ -116,10 +120,13 @@ class FormChat extends StatefulWidget {
 
 class _FormChatState extends State<FormChat> {
   TextEditingController chatController = TextEditingController();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
 
   onTap() {
     if (chatController.text != '') {
-      AuthController.to.addChat(chatController.text);
+      authCtrl.addChat(chatController.text);
       chatController.value = const TextEditingValue(text: '');
       widget.updateChatList();
     }

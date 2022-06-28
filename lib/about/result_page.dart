@@ -56,7 +56,7 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = VoteController.to.campaign;
+    Campaign campaign = voteCtrl.campaign;
     var blueBackGroundWidgets = <Widget>[
       Container(
           margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),

@@ -19,8 +19,6 @@ class VoteController extends GetxController {
   Shareholder? shareholder;
   VoteAgenda? voteAgenda;
 
-  static VoteController get to => Get.find();
-
   void setCampaign(Campaign newCampaign) {
     campaign = newCampaign;
     update();

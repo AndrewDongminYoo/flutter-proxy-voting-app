@@ -18,6 +18,12 @@ class CheckVoteNumPage extends StatefulWidget {
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   var shareNum = '0';
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
 
   voteWithExample() {
     Get.toNamed('/vote', arguments: 'voteWithExample');
@@ -35,7 +41,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   @override
   void initState() {
     print('Get.arguments: ${Get.arguments}');
-    final shareholder = VoteController.to.shareholder;
+    final shareholder = voteCtrl.shareholder;
     if (shareholder != null) {
       shareNum = '${shareholder.sharesNum}';
     } else if (Get.arguments > 0) {
@@ -48,7 +54,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = VoteController.to.campaign;
+    Campaign campaign = voteCtrl.campaign;
 
     var blueBackGroundWidgets = <Widget>[
       const SizedBox(height: 40),
@@ -111,7 +117,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
             const SizedBox(height: 24),
             CustomText(
                 typoType: TypoType.bodyLight,
-                text: AuthController.to.user!.address,
+                text: authCtrl.user!.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white),
           ]),

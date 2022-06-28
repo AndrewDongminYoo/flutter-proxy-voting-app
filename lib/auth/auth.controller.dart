@@ -18,7 +18,6 @@ class AuthController extends GetxController {
         time: DateTime.now(),
         myself: true),
   ];
-  static AuthController get to => Get.find();
 
   void addChat(String message) {
     final newChat = Chat(

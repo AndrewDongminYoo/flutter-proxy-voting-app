@@ -14,6 +14,9 @@ class EditModal extends StatefulWidget {
 
 class _EditModalState extends State<EditModal> {
   String addressInModal = '';
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
 
   onClose() {
     Get.back();
@@ -21,14 +24,14 @@ class _EditModalState extends State<EditModal> {
 
   onEdit() {
     Get.back();
-    AuthController.to.setAddress(addressInModal);
+    authCtrl.setAddress(addressInModal);
   }
 
   Widget addressForm() {
     return TextFormField(
       minLines: 1,
       maxLines: 3,
-      initialValue: AuthController.to.user!.address,
+      initialValue: authCtrl.user!.address,
       autofocus: true,
       style: const TextStyle(
         letterSpacing: 2.0,

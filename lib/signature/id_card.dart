@@ -25,9 +25,16 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   String idCardUploadAt = '';
   final ImagePicker picker = ImagePicker();
 
-  final CustomSignatureController _controller = Get.find();
-  final AuthController authCtrl = Get.find();
-  final VoteController voteCtrl = Get.find();
+  CustomSignatureController controller =
+      Get.isRegistered<CustomSignatureController>()
+          ? Get.find()
+          : Get.put(CustomSignatureController());
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {
@@ -97,8 +104,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       print(idcardImage.toString());
       if (idcardImage != null) {
         final extension = xfile.name.split('.').last;
-        final imgUrl = await _controller.uploadSignature(
-          VoteController.to.campaign.companyName,
+        final imgUrl = await controller.uploadSignature(
+          voteCtrl.campaign.companyName,
           '$username-${DateTime.now()}.$extension',
           idcardImage!,
           'idcard',
@@ -215,7 +222,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           ),
           onPressed: () {
             if (idCardUpload) {
-              // authCtrl.user.URL = _controller.downloadSignature();
+              // authCtrl.user.URL = controller.downloadSignature();
               // TODO: 이미지 주소 바로 다시 받아 데이터베이스(유저 객체)에 저장하기
               Get.toNamed('/idnumber');
             }

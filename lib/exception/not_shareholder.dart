@@ -16,11 +16,15 @@ class NotShareholderPage extends StatefulWidget {
 }
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
+
   onPressedMail() {}
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = VoteController.to.campaign;
+    Campaign campaign = voteCtrl.campaign;
 
     return Scaffold(
         appBar: const CustomAppBar(title: '캠페인'),
