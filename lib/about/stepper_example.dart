@@ -52,9 +52,9 @@ class _StepperComponentState extends State<StepperComponent> {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(children: [
         customStep('주주명부 대조', widget.sharesNum > 0),
-        customStep('안건투표', widget.agenda.voteAt != ''),
-        customStep('전자서명', widget.agenda.signatureAt != ''),
-        customStep('신분증 사본', widget.agenda.idCardAt != ''),
+        customStep('안건투표', widget.agenda.voteAt != null),
+        customStep('전자서명', widget.agenda.signatureAt != null),
+        customStep('신분증 사본', widget.agenda.idCardAt != null),
       ]),
     );
   }

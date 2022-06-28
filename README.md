@@ -52,6 +52,7 @@ flutterfire configure
 
 # deploy Android & iOS
 flutter build appbundle && cd android && bundle exec fastlane beta & cd ..
+cd ios && pod update && cd .. && flutter build ipa
 flutter build ipa && cd ios && bundle exec fastlane beta & cd ..
 nano ios/Runner.xcodeproj/project.pbxproj # ios version update
 
