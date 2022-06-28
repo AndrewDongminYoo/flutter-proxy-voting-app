@@ -13,15 +13,15 @@ class CustomButton extends StatefulWidget {
   final double height;
   final Function() onPressed;
 
-  const CustomButton(
-      {Key? key,
-      this.width = CustomW.w4,
-      this.bgColor = ColorType.deepPurple,
-      this.textColor = ColorType.white,
-      this.height = 55.0,
-      required this.label,
-      required this.onPressed})
-      : super(key: key);
+  const CustomButton({
+    Key? key,
+    this.width = CustomW.w4,
+    this.bgColor = ColorType.deepPurple,
+    this.textColor = ColorType.white,
+    this.height = 55.0,
+    required this.label,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   State<CustomButton> createState() => _CustomButtonState();

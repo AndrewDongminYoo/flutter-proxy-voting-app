@@ -29,9 +29,7 @@ class _ResultPageState extends State<ResultPage> {
     setState(() {});
   }
 
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  VoteController voteCtrl = Get.find();
 
   @override
   void initState() {

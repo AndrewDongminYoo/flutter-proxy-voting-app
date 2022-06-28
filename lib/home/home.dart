@@ -1,12 +1,7 @@
-import '../vote/vote.controller.dart';
-
-import '../shared/custom_button.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
-
-// import '../utils/firebase.dart';
+import 'package:get/get.dart';
+import '../vote/vote.controller.dart';
+import '../shared/custom_button.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
@@ -27,12 +22,8 @@ class _HomePageState extends State<HomePage> {
   int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
-  final AuthController _authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController(), permanent: true);
-  final VoteController _voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  final AuthController _authCtrl = Get.find();
+  final VoteController _voteCtrl = Get.find();
 
   @override
   void initState() {

@@ -12,13 +12,13 @@ class CustomConfirm extends StatelessWidget {
   final String okLabel;
   final Function() onConfirm;
 
-  const CustomConfirm(
-      {Key? key,
-      required this.buttonLabel,
-      required this.message,
-      required this.okLabel,
-      required this.onConfirm})
-      : super(key: key);
+  const CustomConfirm({
+    Key? key,
+    required this.buttonLabel,
+    required this.message,
+    required this.okLabel,
+    required this.onConfirm,
+  }) : super(key: key);
 
   onPress() {
     Get.bottomSheet(confirmBody(),

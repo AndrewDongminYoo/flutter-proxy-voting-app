@@ -7,12 +7,12 @@ class CustomScaffold extends StatelessWidget {
   final Widget body;
   final String title;
   final Color appBarColor;
-  const CustomScaffold(
-      {Key? key,
-      required this.body,
-      required this.title,
-      this.appBarColor = const Color(0xFF572E67)})
-      : super(key: key);
+  const CustomScaffold({
+    Key? key,
+    required this.body,
+    required this.title,
+    this.appBarColor = const Color(0xFF572E67),
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -25,16 +25,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   String idCardUploadAt = '';
   final ImagePicker picker = ImagePicker();
 
-  final CustomSignatureController _controller =
-      Get.isRegistered<CustomSignatureController>()
-          ? Get.find()
-          : Get.put(CustomSignatureController());
-  final AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  final VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController(), permanent: true);
+  final CustomSignatureController _controller = Get.find();
+  final AuthController authCtrl = Get.find();
+  final VoteController voteCtrl = Get.find();
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {

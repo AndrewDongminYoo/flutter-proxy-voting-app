@@ -8,10 +8,11 @@ class TypoStyle {
   final double fontSize;
   final double letterSpacing;
 
-  TypoStyle(
-      {required this.fontWeight,
-      required this.fontSize,
-      required this.letterSpacing});
+  TypoStyle({
+    required this.fontWeight,
+    required this.fontSize,
+    required this.letterSpacing,
+  });
 }
 
 final typoStyle = {

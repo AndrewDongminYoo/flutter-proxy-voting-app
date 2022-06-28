@@ -18,12 +18,8 @@ class VotePage extends StatefulWidget {
 }
 
 class _VotePageState extends State<VotePage> {
-  final AuthController _authController = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  final AuthController _authController = Get.find();
+  final VoteController _voteController = Get.find();
 
   var marker = <String, int>{
     'cur': 0,

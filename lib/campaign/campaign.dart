@@ -22,9 +22,7 @@ class CampaignPage extends StatefulWidget {
 
 class _CampaignPageState extends State<CampaignPage> {
   final AuthController _authController = Get.find();
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController(), permanent: true);
+  final VoteController _voteController = Get.find();
   bool isLoading = false;
 
   Widget campaignAgendaList(Campaign campaign) {

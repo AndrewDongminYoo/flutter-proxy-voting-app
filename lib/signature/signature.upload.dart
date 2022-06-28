@@ -24,7 +24,5 @@ class CustomSignatureController extends GetxController {
     return Image.network(imageUrl);
   }
 
-  AuthController authController = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authController = Get.find();
 }

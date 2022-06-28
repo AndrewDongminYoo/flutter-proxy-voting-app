@@ -13,9 +13,7 @@ class AddressDuplicationPage extends StatefulWidget {
 }
 
 class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
-  final AuthController _controller = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  final AuthController _controller = Get.find();
   String _adress = '';
 
   @override
