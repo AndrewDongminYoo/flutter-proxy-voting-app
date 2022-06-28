@@ -35,9 +35,9 @@ class VoteAgenda {
   int agenda2 = 0;
   int agenda3 = 0;
   int agenda4 = 0;
-  String signatureAt = '';
-  String idCardAt = '';
-  String voteAt = '';
+  DateTime? signatureAt;
+  DateTime? idCardAt;
+  DateTime? voteAt;
 
   VoteAgenda(
     this.id,
@@ -50,6 +50,11 @@ class VoteAgenda {
     this.agenda4,
   );
 
+  DateTime parseDate(String time) {
+    var dateTime = DateTime.parse(time);
+    return dateTime.toLocal();
+  }
+
   VoteAgenda.fromJson(Map<String, dynamic>? json) {
     if (json != null) {
       id = json['id'] ?? -1;
@@ -60,9 +65,10 @@ class VoteAgenda {
       agenda2 = json['agenda2'] ?? 0;
       agenda3 = json['agenda3'] ?? 0;
       agenda4 = json['agenda4'] ?? 0;
-      signatureAt = json['signatureAt'] ?? '';
-      idCardAt = json['idCardAt'] ?? '';
-      voteAt = json['voteAt'] ?? '';
+      signatureAt =
+          json['signatureAt'] != null ? parseDate(json['signatureAt']) : null;
+      idCardAt = json['idCardAt'] != null ? parseDate(json['idCardAt']) : null;
+      voteAt = json['voteAt'] != null ? parseDate(json['voteAt']) : null;
     }
   }
 }

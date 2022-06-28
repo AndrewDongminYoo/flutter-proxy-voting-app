@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../auth/auth.data.dart';
 import 'common_app_body.dart';
@@ -22,7 +23,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   bool idCardUpload = false;
   String username = '';
   String informationString = '';
-  String idCardUploadAt = '';
+  DateTime? idCardUploadAt;
   final ImagePicker picker = ImagePicker();
 
   CustomSignatureController controller =
@@ -145,8 +146,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   void initState() {
     if (authCtrl.user != null) {
       username = authCtrl.user!.username;
-      idCardUploadAt = voteCtrl.voteAgenda?.idCardAt ?? '';
-      if (idCardUploadAt != '') {
+      idCardUploadAt = voteCtrl.voteAgenda?.idCardAt;
+      if (idCardUploadAt != null) {
         idCardUpload = true;
       }
     }
@@ -160,7 +161,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';
     informationString = idCardUpload
-        ? '$username 님은 $idCardUploadAt 신분증을 업로드하였습니다. 수정하시려면 가운데를 클릭하세요.'
+        ? '${timeago.format(idCardUploadAt!, locale: 'ko')}에 이미 업로드하였습니다. 재 업로드하시려면 가운데를 클릭하세요.'
         : '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 

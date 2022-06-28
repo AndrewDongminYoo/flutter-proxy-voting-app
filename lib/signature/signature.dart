@@ -4,6 +4,7 @@ import '../auth/auth.controller.dart';
 import '../vote/vote.controller.dart';
 import '../shared/custom_lottie.dart';
 import '../signature/common_app_body.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:get/get.dart' show Get, GetNavigation, Inst;
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:signature/signature.dart' show Signature, SignatureController;
@@ -30,7 +31,7 @@ class _SignaturePageState extends State<SignaturePage> {
   Timer? timer;
   bool _showLottie = true;
   late String username = '';
-  String signatureAt = '';
+  DateTime? signatureAt;
   String informationString = '';
 
   void _hideLottie() {
@@ -47,7 +48,7 @@ class _SignaturePageState extends State<SignaturePage> {
       username = authCtrl.user!.username;
     }
     if (voteCtrl.voteAgenda != null) {
-      signatureAt = voteCtrl.voteAgenda?.signatureAt ?? '';
+      signatureAt = voteCtrl.voteAgenda?.signatureAt;
     }
 
     timer = Timer(const Duration(seconds: 2), () {
@@ -74,7 +75,7 @@ class _SignaturePageState extends State<SignaturePage> {
       );
       voteCtrl.putSignatureUrl(url);
       Get.toNamed('/idcard');
-    } else if (signatureAt != '') {
+    } else if (signatureAt != null) {
       Get.toNamed('/idcard');
     }
   }
@@ -83,8 +84,9 @@ class _SignaturePageState extends State<SignaturePage> {
   Widget build(BuildContext context) {
     const titleString = '전자위임';
     const helpText = '전자 서명을 등록해주세요.';
-    informationString = signatureAt != ''
-        ? '$signatureAt 이미 서명한 $username 주주님입니다. 다시 서명하려면 가운데를 클릭하세요.'
+    print('signatureAt: ${signatureAt}');
+    informationString = signatureAt != null
+        ? '${timeago.format(signatureAt!, locale: 'ko')}에 이미 서명하셨습니다. 다시 서명하려면 가운데를 클릭하세요.'
         : '''
 전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
 모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';

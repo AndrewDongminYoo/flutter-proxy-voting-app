@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,7 +46,8 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final firstTime = prefs.getBool('firstTime') ?? true;
   final initialLink = await setupFirebase();
-
+  timeago.setLocaleMessages('ko', timeago.KoMessages());
+  
   runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
   // },
   //     (error, stack) =>
