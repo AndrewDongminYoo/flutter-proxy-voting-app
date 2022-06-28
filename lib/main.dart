@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,6 +18,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 // import 'utils/appsflyer.dart';
 import 'firebase_options.dart';
 import 'routes.dart' show routes;
+import 'package:bside/auth/auth.controller.dart';
+import 'package:bside/vote/vote.controller.dart';
 
 clearPref() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -122,9 +125,14 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Nanum',
       ),
       locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
       defaultTransition: Transition.cupertino,
       initialRoute: initialRoute,
       getPages: routes(),
+      initialBinding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+        Get.lazyPut<VoteController>(() => VoteController());
+      }),
       debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,
       // navigatorObservers: [
