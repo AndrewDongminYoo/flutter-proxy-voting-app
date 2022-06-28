@@ -21,8 +21,12 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
-  final AuthController _authController = Get.find();
-  final VoteController _voteController = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
   bool isLoading = false;
 
   Widget campaignAgendaList(Campaign campaign) {
@@ -76,19 +80,19 @@ class _CampaignPageState extends State<CampaignPage> {
   }
 
   _buildConfirmButton() {
-    if (_authController.canVote()) {
+    if (authCtrl.canVote()) {
       return AnimatedButton(
           isLoading: isLoading,
           label: '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () async {
             isLoading = true;
-            print('[campaign] Hello, ${_authController.user!.username}!');
-            _voteController.toVote(
-                _authController.user!.id, _authController.user!.username);
+            print('[campaign] Hello, ${authCtrl.user!.username}!');
+            voteCtrl.toVote(
+                authCtrl.user!.id, authCtrl.user!.username);
             isLoading = false;
           });
-    } else if (!_authController.isLogined) {
+    } else if (!authCtrl.isLogined) {
       return CustomConfirm(
           buttonLabel: '전자위임 하러가기',
           message: '서비스 이용을 위해\n본인인증이 필요해요.',
@@ -117,13 +121,13 @@ class _CampaignPageState extends State<CampaignPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  campaignHeader(VoteController.to.campaign),
+                  campaignHeader(voteCtrl.campaign),
                   const SizedBox(height: 48),
-                  campaignInfoInRow(VoteController.to.campaign),
+                  campaignInfoInRow(voteCtrl.campaign),
                   const SizedBox(height: 86),
-                  campaignAgendaList(VoteController.to.campaign),
+                  campaignAgendaList(voteCtrl.campaign),
                   const SizedBox(height: 24),
-                  VoteController.to.campaign.companyName == '티엘아이'
+                  voteCtrl.campaign.companyName == '티엘아이'
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),

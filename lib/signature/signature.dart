@@ -16,7 +16,10 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  final CustomSignatureController _controller = Get.find();
+  final CustomSignatureController _controller =
+      Get.isRegistered<CustomSignatureController>()
+          ? Get.find()
+          : Get.put(CustomSignatureController());
   final AuthController authCtrl = Get.find();
   final VoteController voteCtrl = Get.find();
 

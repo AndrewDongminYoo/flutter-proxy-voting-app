@@ -20,6 +20,12 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
   VoteAgenda? agenda;
   int? sharesNum = 0;
   int? uid = -1;
@@ -29,11 +35,9 @@ class _ResultPageState extends State<ResultPage> {
     setState(() {});
   }
 
-  VoteController voteCtrl = Get.find();
-
   @override
   void initState() {
-    uid = AuthController.to.user?.id;
+    uid = authCtrl.user?.id;
     String? company = voteCtrl.voteAgenda?.company;
     void loadAgenda() async {
       print('uid: $uid, company: $company');
@@ -123,7 +127,7 @@ class _ResultPageState extends State<ResultPage> {
               const SizedBox(height: 12),
               CustomText(
                 typoType: TypoType.bodyLight,
-                text: AuthController.to.user!.address,
+                text: authCtrl.user!.address,
                 textAlign: TextAlign.left,
                 colorType: ColorType.white,
               ),
