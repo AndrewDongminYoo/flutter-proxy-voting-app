@@ -13,7 +13,9 @@ class AddressDuplicationPage extends StatefulWidget {
 }
 
 class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
-  final AuthController _controller = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
   String _adress = '';
 
   @override
@@ -29,7 +31,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
           alignment: Alignment.center,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             RadioListTile(
-                value: '${_controller.user}',
+                value: '${authCtrl.user}',
                 groupValue: _adress,
                 onChanged: (value) {
                   setState(() {

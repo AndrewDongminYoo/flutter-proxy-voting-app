@@ -16,20 +16,24 @@ class AddressDuplicationPage extends StatefulWidget {
 }
 
 class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
-  final AuthController _authCtrl = Get.find();
-  final VoteController _voteController = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
 
   int selected = 0;
 
   onConfirmed(String address) {
-    _authCtrl.setAddress(address);
-    _voteController.selectShareholder(selected);
+    authCtrl.setAddress(address);
+    voteCtrl.selectShareholder(selected);
     Get.offNamed('/checkvotenum');
   }
 
   @override
   Widget build(BuildContext context) {
-    final addressList = _voteController.addressList();
+    final addressList = voteCtrl.addressList();
 
     return Scaffold(
       appBar: AppBar(

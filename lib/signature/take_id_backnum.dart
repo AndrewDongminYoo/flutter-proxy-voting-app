@@ -12,14 +12,16 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
-  final AuthController _authCtrl = Get.find();
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
   late String frontId = '';
   late String backId = '1';
 
   @override
   void initState() {
-    if (_authCtrl.isLogined) {
-      User? user = _authCtrl.user;
+    if (authCtrl.isLogined) {
+      User? user = authCtrl.user;
       if (user != null) {
         frontId = user.frontId;
       }
@@ -28,7 +30,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   }
 
   onConfirmed() {
-    _authCtrl.putBackId(backId);
+    authCtrl.putBackId(backId);
     Get.offAllNamed('/result');
   }
 
