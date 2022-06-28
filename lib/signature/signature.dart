@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
-import '../auth/auth.data.dart';
 import '../auth/auth.controller.dart';
 import '../vote/vote.controller.dart';
 import '../shared/custom_lottie.dart';
@@ -9,9 +7,6 @@ import '../signature/common_app_body.dart';
 import 'package:get/get.dart' show Get, GetNavigation, Inst;
 import 'signature.upload.dart' show CustomSignatureController;
 import 'package:signature/signature.dart' show Signature, SignatureController;
-
-const informationString = '''전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
-모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);
@@ -35,6 +30,8 @@ class _SignaturePageState extends State<SignaturePage> {
   Timer? timer;
   bool _showLottie = true;
   late String username = '';
+  String signatureAt = '';
+  String informationString = '';
 
   void _hideLottie() {
     setState(() {
@@ -44,16 +41,18 @@ class _SignaturePageState extends State<SignaturePage> {
 
   @override
   void initState() {
-    if (authCtrl.isLogined) {
-      User? user = authCtrl.user;
-      if (user != null) {
-        username = user.username;
-      }
+    if (authCtrl.user != null) {
+      username = authCtrl.user!.username;
     }
+    if (voteCtrl.voteAgenda != null) {
+      signatureAt = voteCtrl.voteAgenda?.signatureAt ?? '';
+    }
+
     timer = Timer(const Duration(seconds: 2), () {
       _hideLottie();
     });
-
+    print('Get.arguments: ${Get.arguments}');
+    setState(() {});
     super.initState();
   }
 
@@ -74,6 +73,8 @@ class _SignaturePageState extends State<SignaturePage> {
       );
       voteCtrl.putSignatureUrl(url);
       Get.toNamed('/idcard');
+    } else if (signatureAt != '') {
+      Get.toNamed('/idcard');
     }
   }
 
@@ -81,6 +82,11 @@ class _SignaturePageState extends State<SignaturePage> {
   Widget build(BuildContext context) {
     const titleString = '전자위임';
     const helpText = '전자 서명을 등록해주세요.';
+    informationString = signatureAt != ''
+        ? '$signatureAt 이미 서명한 $username 주주님입니다. 다시 서명하려면 가운데를 클릭하세요.'
+        : '''
+전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
+모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
     var mainContent = Container(
       margin: const EdgeInsets.symmetric(vertical: 15),
       foregroundDecoration: BoxDecoration(
@@ -139,7 +145,7 @@ class _SignaturePageState extends State<SignaturePage> {
               borderRadius: BorderRadius.circular(30),
             ),
           ),
-          onPressed: () async {
+          onPressed: () {
             onSubmit();
           },
           child: const Text(

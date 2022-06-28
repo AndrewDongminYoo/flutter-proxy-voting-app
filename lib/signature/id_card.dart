@@ -19,10 +19,10 @@ class UploadIdCardPage extends StatefulWidget {
 
 class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Uint8List? idcardImage;
-  bool idCardUploaded = false;
+  bool idCardUpload = false;
   String username = '';
   String informationString = '';
-  String idCardUploadedAt = '';
+  String idCardUploadAt = '';
   final ImagePicker picker = ImagePicker();
 
   final CustomSignatureController _controller =
@@ -113,7 +113,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
         voteCtrl.putIdCard(imgUrl);
         if (mounted) {
           setState(() {
-            idCardUploaded = true;
+            idCardUpload = true;
           });
         }
       }
@@ -144,9 +144,15 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   @override
   void initState() {
     if (authCtrl.user != null) {
-      idCardUploaded = true;
+      username = authCtrl.user!.username;
+      idCardUploadAt = voteCtrl.voteAgenda?.idCardAt ?? '';
+      if (idCardUploadAt != '') {
+        idCardUpload = true;
+      }
     }
     print('idcardImage: $idcardImage');
+    print('Get.arguments: ${Get.arguments}');
+    setState(() {});
     super.initState();
   }
 
@@ -154,8 +160,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Widget build(BuildContext context) {
     const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';
-    informationString = idCardUploaded
-        ? '$username 님은 $idCardUploadedAt 신분증을 업로드하였습니다. 수정하시려면 가운데를 클릭하세요.'
+    informationString = idCardUpload
+        ? '$username 님은 $idCardUploadAt 신분증을 업로드하였습니다. 수정하시려면 가운데를 클릭하세요.'
         : '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 
@@ -173,7 +179,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       child: SizedBox(
         width: Get.width,
         height: 300,
-        child: (idCardUploaded
+        child: (idCardUpload && idcardImage != null
             ? GestureDetector(
                 onLongPress: onPressed,
                 child: Image.memory(
@@ -215,7 +221,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
             ),
           ),
           onPressed: () {
-            if (idCardUploaded) {
+            if (idCardUpload) {
               // authCtrl.user.URL = _controller.downloadSignature();
               // TODO: 이미지 주소 바로 다시 받아 데이터베이스(유저 객체)에 저장하기
               Get.toNamed('/idnumber');

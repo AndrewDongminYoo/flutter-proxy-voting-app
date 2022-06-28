@@ -158,9 +158,14 @@ Widget gradientLayer() {
 }
 
 Widget campaignHeader(Campaign campaign) {
-  return Text(campaign.slogan,
-      style: const TextStyle(
-          color: Colors.white, fontSize: 28, fontWeight: FontWeight.w800));
+  return Text(
+    campaign.slogan,
+    style: const TextStyle(
+      color: Colors.white,
+      fontSize: 28,
+      fontWeight: FontWeight.w800,
+    ),
+  );
   // return CustomText(
   //   typoType: TypoType.h1,
   //   text: campaign.slogan,

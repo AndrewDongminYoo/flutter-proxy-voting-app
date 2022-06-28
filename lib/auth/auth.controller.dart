@@ -4,16 +4,13 @@ import '../shared/loading_screen.dart' show LoadingScreen;
 import 'auth.service.dart' show AuthService;
 import 'auth.data.dart' show User;
 import 'package:get/get.dart';
-
 import '../chatting/chatting.model.dart';
-import 'auth.service.dart';
-import 'auth.data.dart';
-import '../shared/loading_screen.dart';
 
 class AuthController extends GetxController {
   User? user;
   bool isLogined = false;
   final AuthService _service = AuthService();
+
   List<Chat> chats = [
     Chat(
         avatar: 'assets/images/logo.png',
@@ -72,7 +69,7 @@ class AuthController extends GetxController {
     isLogined = true;
     Response response = await _service.createUser(user!.username, user!.frontId,
         user!.backId, user!.telecom, user!.phoneNum, user!.ci, user!.di);
-    print(response.bodyString);
+    print('${response.bodyString}');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('telNum', user!.phoneNum);
   }

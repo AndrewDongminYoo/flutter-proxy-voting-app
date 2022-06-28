@@ -34,6 +34,7 @@ class _VotePageState extends State<VotePage> {
   @override
   void initState() {
     super.initState();
+    print('Get.arguments: ${Get.arguments}');
     if (Get.arguments == 'voteWithExample') {
       voteResult[0] = VoteType.disagree;
       voteResult[1] = VoteType.agree;

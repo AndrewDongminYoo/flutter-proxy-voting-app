@@ -34,10 +34,14 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
 
   @override
   void initState() {
-    if (VoteController.to.shareholder != null) {
-      shareNum = VoteController.to.shareholder!.sharesNum.toString();
+    print('Get.arguments: ${Get.arguments}');
+    final shareholder = VoteController.to.shareholder;
+    if (shareholder != null) {
+      shareNum = '${shareholder.sharesNum}';
+    } else if (Get.arguments > 0) {
+      shareNum = '${Get.arguments}';
     } else {
-      shareNum = '확인되지 않음.';
+      shareNum = '확인되지 않음';
     }
     super.initState();
   }

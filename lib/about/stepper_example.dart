@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 
 class StepperComponent extends StatefulWidget {
   final VoteAgenda agenda;
-  final int uid;
+  final int sharesNum;
   const StepperComponent({
     Key? key,
-    required this.uid,
+    required this.sharesNum,
     required this.agenda,
   }) : super(key: key);
 
@@ -45,7 +45,7 @@ class _StepperComponentState extends State<StepperComponent> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(children: [
-        customStep('주주명부 대조', widget.uid > 0),
+        customStep('주주명부 대조', widget.sharesNum > 0),
         customStep('안건투표', widget.agenda.voteAt != ''),
         customStep('전자서명', widget.agenda.signatureAt != ''),
         customStep('신분증 사본', widget.agenda.idCardAt != ''),
@@ -80,7 +80,7 @@ class _StepperComponentState extends State<StepperComponent> {
             onPressed: () {
               switch (title) {
                 case ('주주명부 대조'):
-                  Get.toNamed('/checkvotenum', arguments: widget.uid);
+                  Get.toNamed('/checkvotenum', arguments: widget.sharesNum);
                   break;
                 case ('안건투표'):
                   Get.toNamed('/vote', arguments: widget.agenda);

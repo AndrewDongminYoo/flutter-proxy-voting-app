@@ -21,6 +21,7 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   VoteAgenda? agenda;
+  int? sharesNum = 0;
   int? uid = -1;
 
   onEdit() async {
@@ -39,6 +40,9 @@ class _ResultPageState extends State<ResultPage> {
     void loadAgenda() async {
       if (uid != null && company != null) {
         agenda = await voteCtrl.getVoteResult(uid!, company);
+        if (agenda != null) {
+          sharesNum = agenda!.sharesNum;
+        }
         setState(() {});
       }
     }
@@ -148,7 +152,7 @@ class _ResultPageState extends State<ResultPage> {
               agenda != null
                   ? CustomText(
                       typoType: TypoType.bodyLight,
-                      text: agenda!.sharesNum.toString(),
+                      text: '$sharesNum',
                       colorType: ColorType.white)
                   : Container()
             ],
@@ -157,8 +161,8 @@ class _ResultPageState extends State<ResultPage> {
       ),
     ];
     var animatedWidgets = Column(children: [
-      ((agenda != null) && (uid! > 0))
-          ? StepperComponent(agenda: agenda!, uid: uid!)
+      (agenda != null) && (sharesNum! != 0)
+          ? StepperComponent(agenda: agenda!, sharesNum: sharesNum!)
           : Container(),
       const SizedBox(height: 30),
       CustomButton(

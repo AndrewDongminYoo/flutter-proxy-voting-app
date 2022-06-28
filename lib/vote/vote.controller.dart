@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../vote/vote.service.dart';
 import '../shared/loading_screen.dart';
@@ -112,6 +113,9 @@ class VoteController extends GetxController {
         _switchVoteValue(voteResult[3]),
       );
       voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+      if (kDebugMode) {
+        print("voteAgenda: ${response.body['agenda']}");
+      }
     }
   }
 
@@ -119,7 +123,8 @@ class VoteController extends GetxController {
     Response response = await _service.queryAgenda(uid, company);
     if (response.body['isExist']) {
       print(response.body);
-      return VoteAgenda.fromJson(response.body['agenda']);
+      voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+      return voteAgenda;
     } else {
       print("agenda doesn't exists.");
       return null;
