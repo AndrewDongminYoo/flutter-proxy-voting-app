@@ -69,6 +69,7 @@ class VoteController extends GetxController {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
         debugPrint('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+        initShareholder();
         await Get.toNamed('/result');
         return;
       }
@@ -93,9 +94,6 @@ class VoteController extends GetxController {
     } else if (shareholders.length == 1) {
       // case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
       shareholder = shareholders[0];
-      final prefs = await SharedPreferences.getInstance();
-      final company = voteAgenda.company;
-      await prefs.setString('$company-shareholder', shareholder!.username);
       Get.toNamed('/checkvotenum');
     } else {
       // case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동

@@ -31,13 +31,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
 
   onConfirmed() async {
     authCtrl.putBackId(backId);
-    await Get.offNamed(
-      '/result',
-      arguments: {
-        'user': authCtrl.user,
-        'agen': voteCtrl.voteAgenda,
-      },
-    );
+    await Get.offNamed('/result');
   }
 
   @override
