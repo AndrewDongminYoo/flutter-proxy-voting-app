@@ -63,11 +63,11 @@ class _SimilarPageState extends State<SimilarPage> {
               widget: widget, blueWidget: widget, whiteWidget: widget),
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: onPressFloatingBtn,
-        backgroundColor: customColor[ColorType.yellow],
-        child: const Icon(Icons.chat_rounded),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: onPressFloatingBtn,
+      //   backgroundColor: customColor[ColorType.yellow],
+      //   child: const Icon(Icons.chat_rounded),
+      // ),
     );
   }
 }
