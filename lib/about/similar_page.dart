@@ -1,8 +1,10 @@
+import 'package:bside/auth/auth.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../chatting/chatting.dart';
+import '../contact_us/contact_us.dart';
 import '../shared/custom_appbar.dart';
+import '../shared/custom_color.dart';
 
 class SimilarPage extends StatefulWidget {
   const SimilarPage({
@@ -22,12 +24,18 @@ class SimilarPage extends StatefulWidget {
 }
 
 class _SimilarPageState extends State<SimilarPage> {
-  onPressFloatingBtn() {
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+
+  onPressFloatingBtn() async {
+    await authCtrl.getChat();
+    
     showModalBottomSheet(
       isScrollControlled: true,
       builder: (context) => Padding(
         padding: MediaQuery.of(context).viewInsets,
-        child: const ChattingPage(),
+        child: const ContactUsPage(),
       ),
       context: context,
       shape: const RoundedRectangleBorder(
@@ -55,11 +63,11 @@ class _SimilarPageState extends State<SimilarPage> {
               widget: widget, blueWidget: widget, whiteWidget: widget),
         ]),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: onPressFloatingBtn,
-      //   backgroundColor: customColor[ColorType.yellow],
-      //   child: const Icon(Icons.chat_rounded),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: onPressFloatingBtn,
+        backgroundColor: customColor[ColorType.yellow],
+        child: const Icon(Icons.chat_rounded),
+      ),
     );
   }
 }

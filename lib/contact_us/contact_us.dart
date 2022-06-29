@@ -1,21 +1,20 @@
-import '../chatting/chatting.model.dart';
+import '../contact_us/contact_us.model.dart';
 import '../shared/custom_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../auth/auth.controller.dart';
 import '../shared/custom_text.dart';
-import 'avatar.dart';
 
 // https://www.youtube.com/watch?v=WgJ6TzNswEo
-class ChattingPage extends StatefulWidget {
-  const ChattingPage({Key? key}) : super(key: key);
+class ContactUsPage extends StatefulWidget {
+  const ContactUsPage({Key? key}) : super(key: key);
 
   @override
-  State<ChattingPage> createState() => _ChattingPageState();
+  State<ContactUsPage> createState() => _ContactUsPageState();
 }
 
-class _ChattingPageState extends State<ChattingPage> {
+class _ContactUsPageState extends State<ContactUsPage> {
   final ScrollController _controller = ScrollController();
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
@@ -68,10 +67,6 @@ Widget _itemChat(Chat chat) {
         chat.myself == true ? MainAxisAlignment.end : MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.end,
     children: [
-      Avatar(
-        image: chat.avatar,
-        size: 50,
-      ),
       Flexible(
         child: Container(
           margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -128,7 +123,7 @@ class _FormChatState extends State<FormChat> {
 
   onTap() {
     if (chatController.text != '') {
-      authCtrl.addChat(chatController.text);
+      authCtrl.contactUs(chatController.text);
       chatController.value = const TextEditingValue(text: '');
       widget.updateChatList();
     }

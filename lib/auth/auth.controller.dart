@@ -1,13 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+
+import '../contact_us/contact_us.model.dart';
 import '../shared/loading_screen.dart' show LoadingScreen;
 import 'auth.service.dart' show AuthService;
 import 'auth.data.dart' show User;
-import 'package:get/get.dart';
-import '../chatting/chatting.model.dart';
 
 class AuthController extends GetxController {
   User? _user;
+  List<Chat> chats = [];
+  bool isLogined = false;
+  final AuthService _service = AuthService();
 
   User get user {
     if (_user != null) {
@@ -21,34 +25,6 @@ class AuthController extends GetxController {
 
   set user(User? user) {
     _user = user;
-  }
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   printWarning('[AuthController] onInit');
-  //   init();
-  // }
-
-  bool isLogined = false;
-  final AuthService _service = AuthService();
-
-  List<Chat> chats = [
-    Chat(
-        avatar: 'assets/images/logo.png',
-        message: '안녕하세요',
-        time: DateTime.now(),
-        myself: true),
-  ];
-
-  void addChat(String message) {
-    final newChat = Chat(
-        message: message,
-        myself: true,
-        time: DateTime.now(),
-        avatar: 'assets/images/logo.png');
-    chats.add(newChat);
-    update();
   }
 
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
@@ -149,6 +125,22 @@ class AuthController extends GetxController {
     // Update in server
     user.address = newAddress;
     _service.putAddress(user.id, newAddress);
+  }
+
+  void contactUs(String message) {
+    final newChat = Chat(
+      message: message,
+      myself: true,
+      time: DateTime.now(),
+    );
+    chats.add(newChat);
+
+    _service.postMessage(user.phoneNum, newChat);
+    update();
+  }
+
+  Future<void> getChat() async {
+    chats = await _service.getMessage(user.phoneNum);
   }
 
   void putBackId(String backId) async {

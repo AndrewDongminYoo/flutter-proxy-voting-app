@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bside/contact_us/contact_us.model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_connect.dart';
 
 class AuthService extends GetConnect {
@@ -12,6 +14,8 @@ class AuthService extends GetConnect {
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/identification';
   String lambdaResultURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
+
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   /// 본인인증:
   /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
@@ -79,6 +83,38 @@ class AuthService extends GetConnect {
             'di': di
           }
         }));
+  }
+
+  Future<void> postMessage(String phoneNum, Chat message) async {
+    final contact = <String, dynamic>{
+      'message': message.message,
+      'myself': message.myself,
+      'time': message.time
+    };
+    await db
+        .collection('contacts')
+        .doc(phoneNum)
+        .collection('inbox')
+        .add(contact);
+  }
+
+  Future<List<Chat>> getMessage(String phoneNum) async {
+    List<Chat> ref = [];
+    try {
+      await db
+          .collection('contacts')
+          .doc(phoneNum)
+          .collection('inbox')
+          .get()
+          .then((event) {
+        for (var doc in event.docs) {
+          ref.add(Chat.fromFireStore(doc));
+        }
+      });
+    } catch (err) {
+      print(err);
+    }
+    return ref;
   }
 
   Future<Response> putAddress(int uid, String address) {
