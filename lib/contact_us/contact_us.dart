@@ -138,7 +138,7 @@ class _FormChatState extends State<FormChat> {
       child: TextField(
         controller: chatController,
         decoration: InputDecoration(
-          hintText: 'Type your message...',
+          hintText: '문의사항을 남겨주세요',
           suffixIcon: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),

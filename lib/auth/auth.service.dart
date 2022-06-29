@@ -105,6 +105,7 @@ class AuthService extends GetConnect {
           .collection('contacts')
           .doc(phoneNum)
           .collection('inbox')
+          .orderBy('time', descending: false)
           .get()
           .then((event) {
         for (var doc in event.docs) {
