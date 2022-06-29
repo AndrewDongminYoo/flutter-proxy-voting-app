@@ -37,20 +37,20 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   void initState() {
-    uid = authCtrl.user.id;
-    String? company = voteCtrl.voteAgenda?.company;
-    void loadAgenda() async {
-      print('uid: $uid, company: $company');
-      if (uid != null && company != null) {
-        agenda = await voteCtrl.getVoteResult(uid!, company);
-        print('agenda: $agenda');
-        if (agenda != null) {
-          sharesNum = agenda!.sharesNum;
-        }
-      }
-    }
+    // uid = authCtrl.user.id;
+    // String? company = 'tli';
+    // void loadAgenda() async {
+    //   print('uid: $uid, company: $company');
+    //   if (uid != null) {
+    //     agenda = await voteCtrl.getVoteResult(uid!, company);
+    //     print('agenda: $agenda');
+    //     if (agenda != null) {
+    //       sharesNum = agenda!.sharesNum;
+    //     }
+    //   }
+    // }
 
-    loadAgenda();
+    // loadAgenda();
     super.initState();
     // FIXME: 완료한 사용자가 바로 왔을때, 보유주수와 stepper가 안보였다가 리프레시하니까 나옴, setState가 필요할 것으로 예상
   }
@@ -168,9 +168,7 @@ class _ResultPageState extends State<ResultPage> {
       ),
     ];
     var animatedWidgets = Column(children: [
-      agenda != null
-          ? StepperComponent(agenda: agenda!, sharesNum: sharesNum!)
-          : Container(),
+      StepperComponent(agenda: agenda!, sharesNum: sharesNum!),
       const SizedBox(height: 30),
       CustomButton(
         label: '처음으로',

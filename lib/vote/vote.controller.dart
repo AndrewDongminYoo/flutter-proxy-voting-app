@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../vote/vote.service.dart';
 import '../shared/loading_screen.dart';
 import '../campaign/campaign.data.dart';
@@ -13,14 +14,42 @@ import 'shareholder.data.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 class VoteController extends GetxController {
+  // Vote 진행 전 사용 변수
+  bool isCompleted = false;
+  Campaign campaign = campaigns[1]; // TLI 지정
+  Set<String> completedCampaign = {};
+
+  // Vote 진행 중 사용 변수
   final VoteService _service = VoteService();
   final shareholders = <Shareholder>[];
-  Campaign campaign = campaigns[1];
   Shareholder? shareholder;
-  VoteAgenda? voteAgenda;
+  VoteAgenda? _voteAgenda;
+
+  VoteAgenda get voteAgenda {
+    if (_voteAgenda != null) {
+      return _voteAgenda!;
+    } else {
+      print('=========== WARNING =============');
+      print('[VoteController] agenda is empty ');
+      print('=========== WARNING =============');
+      return VoteAgenda(-1, 'tli', '0000', 0, 0, 0, 0, 0);
+    }
+  }
+
+  // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
+  void init() async {
+    print('[VoteController] init');
+    final prefs = await SharedPreferences.getInstance();
+    final campaignList = prefs.getStringList('completedCampaign');
+    if (campaignList != null) {
+      print('[VoteController] SharedPreferences exist');
+      completedCampaign = {...campaignList};
+    }
+  }
 
   void setCampaign(Campaign newCampaign) {
     campaign = newCampaign;
+    isCompleted = completedCampaign.contains(newCampaign.companyName);
     update();
   }
 
@@ -39,7 +68,7 @@ class VoteController extends GetxController {
       if (response.isOk && response.body['isExist']) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
         print('[VoteController] user is exist');
-        voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+        _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         Get.toNamed('/result');
         return;
       }
@@ -98,45 +127,50 @@ class VoteController extends GetxController {
   }
 
   // === page: 주식수 확인 ===
+  // NOTE: 함수명 변경 필요
   void postVoteResult(int uid, List<VoteType> voteResult) async {
     String deviceName = await deviceInfo();
-    if (shareholder != null) {
-      Response response = await _service.postVoteResult(
-        uid,
-        shareholder!.id,
-        deviceName,
-        _switchVoteValue(voteResult[0]),
-        _switchVoteValue(voteResult[1]),
-        _switchVoteValue(voteResult[2]),
-        _switchVoteValue(voteResult[3]),
-      );
-      voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
-      if (kDebugMode) {
-        print("voteAgenda: ${response.body['agenda']}");
-      }
+    Response response = await _service.postVoteResult(
+      uid,
+      shareholder!.id,
+      deviceName,
+      _switchVoteValue(voteResult[0]),
+      _switchVoteValue(voteResult[1]),
+      _switchVoteValue(voteResult[2]),
+      _switchVoteValue(voteResult[3]),
+    );
+    _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+
+    // 현재 캠페인을 완료 목록에 저장
+    completedCampaign.add(campaign.companyName);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('completedCampaign', completedCampaign.toList());
+    print('completedCampaign, $completedCampaign');
+    if (kDebugMode) {
+      print("[VoteController] voteAgenda: ${response.body['agenda']}");
     }
   }
 
   Future<VoteAgenda?> getVoteResult(int uid, String company) async {
     Response response = await _service.queryAgenda(uid, company);
     if (response.body['isExist']) {
-      print(response.body);
-      voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+      print('[VoteController] ${response.body}');
+      _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
       return voteAgenda;
     } else {
-      print("agenda doesn't exists.");
+      print("[VoteController] agenda doesn't exists.");
       return null;
     }
   }
 
   // === page: 전자서명 ===
   void putSignatureUrl(String url) async {
-    await _service.postSignature(voteAgenda!.id, url);
+    await _service.postSignature(voteAgenda.id, url);
   }
 
   // === page: 신분증 업로드 ===
   void putIdCard(String url) async {
-    await _service.postIdCard(voteAgenda!.id, url);
+    await _service.postIdCard(voteAgenda.id, url);
   }
 
   // === Common ===

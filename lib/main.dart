@@ -47,7 +47,7 @@ void main() async {
   print('[main] firstTime: $firstTime');
   final initialLink = await setupFirebase();
   timeago.setLocaleMessages('ko', timeago.KoMessages());
-  
+
   runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
   // },
   //     (error, stack) =>
@@ -120,6 +120,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
 
+    // TODO: 최상단 에러 핸들러 필요, 에러 발생시 팝업 필요
     return GetMaterialApp(
       title: 'Bside',
       theme: ThemeData(

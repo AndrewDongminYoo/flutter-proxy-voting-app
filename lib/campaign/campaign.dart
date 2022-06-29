@@ -29,7 +29,7 @@ class _CampaignPageState extends State<CampaignPage> {
       ? Get.find()
       : Get.put(VoteController());
   bool isLoading = false;
-  User? user;
+  late User user;
 
   @override
   void initState() {
@@ -93,14 +93,13 @@ class _CampaignPageState extends State<CampaignPage> {
     if (authCtrl.canVote()) {
       return AnimatedButton(
           isLoading: isLoading,
-          label: '전자위임 하러가기',
+          label: voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () async {
             isLoading = true;
+            user = authCtrl.user;
             print('[campaign] Hello, ${authCtrl.user.username}!');
-            if (user != null) {
-              voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
-            }
+            voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
             isLoading = false;
           });
     } else if (!authCtrl.isLogined) {

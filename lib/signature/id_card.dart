@@ -140,7 +140,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   @override
   void initState() {
     username = authCtrl.user.username;
-    idCardUploadAt = voteCtrl.voteAgenda?.idCardAt;
+    idCardUploadAt = voteCtrl.voteAgenda.idCardAt;
     if (idCardUploadAt != null) {
       idCardUpload = true;
     }

@@ -13,11 +13,6 @@ class AuthController extends GetxController {
     if (_user != null) {
       return _user!;
     }
-    init();
-    if (_user != null) {
-      printWarning('[AuthController] User is now ${_user!.username}');
-      return _user!;
-    }
     printWarning('=========== WARNING =============');
     printWarning('[AuthController] User is now annonymous');
     printWarning('=========== WARNING =============');
@@ -28,12 +23,12 @@ class AuthController extends GetxController {
     _user = user;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    printWarning('[AuthController] onInit');
-    init();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   printWarning('[AuthController] onInit');
+  //   init();
+  // }
 
   bool isLogined = false;
   final AuthService _service = AuthService();

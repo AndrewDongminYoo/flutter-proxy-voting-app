@@ -45,9 +45,7 @@ class _SignaturePageState extends State<SignaturePage> {
   @override
   void initState() {
     username = authCtrl.user.username;
-    if (voteCtrl.voteAgenda != null) {
-      signatureAt = voteCtrl.voteAgenda?.signatureAt;
-    }
+    signatureAt = voteCtrl.voteAgenda.signatureAt;
 
     timer = Timer(const Duration(seconds: 2), () {
       _hideLottie();
