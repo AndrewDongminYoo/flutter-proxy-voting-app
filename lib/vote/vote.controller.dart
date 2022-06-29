@@ -19,13 +19,6 @@ class VoteController extends GetxController {
   Shareholder? shareholder;
   VoteAgenda? voteAgenda;
 
-  init () {
-    // if (voteAgenda == null) {
-    //   // 돌아가라
-    //   Get.offNamed('vote');
-    // }
-  }
-
   void setCampaign(Campaign newCampaign) {
     campaign = newCampaign;
     update();

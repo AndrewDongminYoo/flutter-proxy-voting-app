@@ -43,6 +43,7 @@ class _ResultPageState extends State<ResultPage> {
       print('uid: $uid, company: $company');
       if (uid != null && company != null) {
         agenda = await voteCtrl.getVoteResult(uid!, company);
+        print('agenda: $agenda');
         if (agenda != null) {
           sharesNum = agenda!.sharesNum;
         }
@@ -50,9 +51,7 @@ class _ResultPageState extends State<ResultPage> {
     }
 
     loadAgenda();
-    
     super.initState();
-
     // FIXME: 완료한 사용자가 바로 왔을때, 보유주수와 stepper가 안보였다가 리프레시하니까 나옴, setState가 필요할 것으로 예상
   }
 
@@ -157,7 +156,7 @@ class _ResultPageState extends State<ResultPage> {
                   text: '보유 주수',
                   colorType: ColorType.white),
               const SizedBox(height: 21),
-              agenda != null
+              sharesNum != null
                   ? CustomText(
                       typoType: TypoType.bodyLight,
                       text: '$sharesNum',
@@ -169,7 +168,7 @@ class _ResultPageState extends State<ResultPage> {
       ),
     ];
     var animatedWidgets = Column(children: [
-      (agenda != null) && (sharesNum! != 0)
+      agenda != null
           ? StepperComponent(agenda: agenda!, sharesNum: sharesNum!)
           : Container(),
       const SizedBox(height: 30),

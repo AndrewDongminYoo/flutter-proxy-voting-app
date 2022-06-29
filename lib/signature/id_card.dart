@@ -98,7 +98,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     );
     if (xfile != null) {
       idcardImage = await File(xfile.path).readAsBytes();
-      print(idcardImage.toString());
       if (idcardImage != null) {
         final extension = xfile.name.split('.').last;
         final imgUrl = await controller.uploadSignature(

@@ -13,10 +13,15 @@ class AuthController extends GetxController {
     if (_user != null) {
       return _user!;
     }
-    printWarning("=========== WARNING =============");
-    printWarning("[AuthController] User is not exist");
-    printWarning("=========== WARNING =============");
-    return User('범인', '000000', '0', 'SKT', '01012345678');
+    init();
+    if (_user != null) {
+      printWarning('[AuthController] User is now ${_user!.username}');
+      return _user!;
+    }
+    printWarning('=========== WARNING =============');
+    printWarning('[AuthController] User is now annonymous');
+    printWarning('=========== WARNING =============');
+    return User('Annonymous', '000000', '0', 'SKT', '01012345678');
   }
 
   set user(User? user) {
@@ -26,7 +31,7 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    printWarning("[AuthController] onInit");
+    printWarning('[AuthController] onInit');
     init();
   }
 

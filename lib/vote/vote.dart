@@ -35,6 +35,21 @@ class _VotePageState extends State<VotePage> {
   void initState() {
     super.initState();
     print('Get.arguments: ${Get.arguments}');
+    if (Get.arguments is VoteAgenda) {
+      VoteAgenda agenda = Get.arguments;
+      voteResult[0] = agenda.agenda1.vote;
+      voteResult[1] = agenda.agenda2.vote;
+      voteResult[2] = agenda.agenda3.vote;
+      voteResult[3] = agenda.agenda4.vote;
+      if (mounted) {
+        setState(() {
+          marker = {
+            'cur': 4,
+            'latest': 4,
+          };
+        });
+      }
+    }
     if (Get.arguments == 'voteWithExample') {
       voteResult[0] = VoteType.disagree;
       voteResult[1] = VoteType.agree;

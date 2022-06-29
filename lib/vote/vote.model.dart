@@ -10,6 +10,21 @@ enum VoteType {
   final int value;
 }
 
+extension IntToType on int {
+  VoteType get vote {
+    switch (this) {
+      case 1:
+        return VoteType.agree;
+      case 0:
+        return VoteType.abstention;
+      case -1:
+        return VoteType.disagree;
+      default:
+        return VoteType.none;
+    }
+  }
+}
+
 class VoteButton {
   final Color borderColor;
   final Color bgColor;
