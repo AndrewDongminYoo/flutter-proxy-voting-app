@@ -186,36 +186,36 @@ Widget campaignHeader(Campaign campaign) {
 }
 
 Widget campaignInfoInRow(Campaign campaign) {
-  final actionMenuList = <ActionMenu>[
-    ActionMenu(
-        icon: Icons.book_rounded,
-        color: Colors.deepOrange,
-        label: '전자위임',
-        onTap: () {
-          Get.toNamed('/vote');
-        }),
-    ActionMenu(
-        icon: Icons.group_add_rounded,
-        color: Colors.deepPurple,
-        label: '라운지',
-        onTap: () {
-          // TODO: 라운지 구현
-        }),
-    ActionMenu(
-        icon: Icons.attach_file_rounded,
-        color: Colors.deepPurple,
-        label: '공시서류',
-        onTap: () {
-          // TODO: 공시서류 페이지
-        }),
-    ActionMenu(
-        icon: Icons.history_rounded,
-        color: Colors.deepPurple,
-        label: '이전기록',
-        onTap: () {
-          // TODO: 이전 기록 보여주기
-        }),
-  ];
+  // final actionMenuList = <ActionMenu>[
+  //   ActionMenu(
+  //       icon: Icons.book_rounded,
+  //       color: Colors.deepOrange,
+  //       label: '전자위임',
+  //       onTap: () {
+  //         Get.toNamed('/vote');
+  //       }),
+  //   ActionMenu(
+  //       icon: Icons.group_add_rounded,
+  //       color: Colors.deepPurple,
+  //       label: '라운지',
+  //       onTap: () {
+  //         // TODO: 라운지 구현
+  //       }),
+  //   ActionMenu(
+  //       icon: Icons.attach_file_rounded,
+  //       color: Colors.deepPurple,
+  //       label: '공시서류',
+  //       onTap: () {
+  //         // TODO: 공시서류 페이지
+  //       }),
+  //   ActionMenu(
+  //       icon: Icons.history_rounded,
+  //       color: Colors.deepPurple,
+  //       label: '이전기록',
+  //       onTap: () {
+  //         // TODO: 이전 기록 보여주기
+  //       }),
+  // ];
 
   return Column(
     mainAxisSize: MainAxisSize.min,

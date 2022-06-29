@@ -19,7 +19,6 @@ class UploadIdCardPage extends StatefulWidget {
 
 class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Uint8List? idcardImage;
-  bool idCardUpload = false;
   String username = '';
   String informationString = '';
   DateTime? idCardUploadAt;
@@ -106,11 +105,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           'idcard',
         );
         voteCtrl.putIdCard(imgUrl);
-        if (mounted) {
-          setState(() {
-            idCardUpload = true;
-          });
-        }
+        setState(() {});
       }
     }
   }
@@ -137,23 +132,11 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   }
 
   @override
-  void initState() {
-    username = authCtrl.user.username;
-    idCardUploadAt = voteCtrl.voteAgenda.idCardAt;
-    if (idCardUploadAt != null) {
-      idCardUpload = true;
-    }
-    debugPrint('idcardImage: $idcardImage');
-    debugPrint('Get.arguments: ${Get.arguments}');
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';
-    informationString = idCardUpload
-        ? '${timeago.format(idCardUploadAt!, locale: 'ko')}에 이미 업로드하였습니다. 재 업로드하시려면 가운데를 클릭하세요.'
+    informationString = voteCtrl.voteAgenda.idCardAt != null
+        ? '${timeago.format(voteCtrl.voteAgenda.idCardAt!, locale: 'ko')}에 이미 업로드하였습니다. 재 업로드하시려면 가운데를 클릭하세요.'
         : '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 
@@ -171,7 +154,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       child: SizedBox(
         width: Get.width,
         height: 300,
-        child: (idCardUpload && idcardImage != null
+        child: (idcardImage != null
             ? GestureDetector(
                 onLongPress: onPressed,
                 child: Image.memory(
@@ -213,9 +196,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
             ),
           ),
           onPressed: () {
-            if (idCardUpload) {
-              // authCtrl.user.URL = controller.downloadSignature();
-              // TODO: 이미지 주소 바로 다시 받아 데이터베이스(유저 객체)에 저장하기
+            if (idcardImage != null) {
               Get.toNamed('/idnumber');
             }
           },

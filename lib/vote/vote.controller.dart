@@ -18,32 +18,44 @@ class VoteController extends GetxController {
   bool isCompleted = false;
   Campaign campaign = campaigns[1]; // TLI 지정
   Set<String> completedCampaign = {};
+  List<Shareholder> completedShareholder = [];
 
   // Vote 진행 중 사용 변수
   final VoteService _service = VoteService();
   final shareholders = <Shareholder>[];
-  Shareholder? shareholder;
+  Shareholder? _shareholder;
   VoteAgenda? _voteAgenda;
 
   VoteAgenda get voteAgenda {
     if (_voteAgenda != null) {
       return _voteAgenda!;
     } else {
-      debugPrint('=========== WARNING =============');
-      debugPrint('[VoteController] agenda is empty ');
-      debugPrint('=========== WARNING =============');
       return VoteAgenda(-1, 'tli', '0000', 0, 0, 0, 0, 0);
     }
   }
 
+  Shareholder get shareholder {
+    if (_shareholder != null) {
+      return _shareholder!;
+    }
+    return Shareholder(-1, '익명', 'address', 0);
+  }
+
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
-    debugPrint('[VoteController] init');
     final prefs = await SharedPreferences.getInstance();
     final campaignList = prefs.getStringList('completedCampaign');
     if (campaignList != null) {
       debugPrint('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
+
+      for (var campaign in completedCampaign) {
+        final shareholderId = prefs.getInt('$campaign-shareholder');
+        if (shareholderId != null) {
+          Response response = await _service.validateShareholder(shareholderId);
+          completedShareholder.add(response.body['shareholder']);
+        }
+      }
     }
   }
 
@@ -64,12 +76,13 @@ class VoteController extends GetxController {
     startLoading();
 
     try {
-      response = await _service.queryAgenda(uid, 'tli');
+      response = await _service.queryAgenda(uid, campaign.companyName);
       if (response.isOk && response.body['isExist']) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
         debugPrint('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
-        initShareholder();
+        _shareholder = completedShareholder
+            .firstWhere((element) => element.company == campaign.companyName);
         await Get.toNamed('/result');
         return;
       }
@@ -93,7 +106,8 @@ class VoteController extends GetxController {
       Get.toNamed('/duplicate');
     } else if (shareholders.length == 1) {
       // case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
-      shareholder = shareholders[0];
+      _shareholder = shareholders[0];
+      await saveShareholder();
       Get.toNamed('/checkvotenum');
     } else {
       // case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
@@ -109,11 +123,9 @@ class VoteController extends GetxController {
   }
 
   void selectShareholder(int index) async {
-    shareholder = shareholders[index];
-    final prefs = await SharedPreferences.getInstance();
-    final company = voteAgenda.company;
-    await prefs.setString('$company-shareholder', shareholder!.username);
-    await _service.validateShareholder(index);
+    _shareholder = shareholders[index];
+    await saveShareholder();
+    await _service.validateShareholder(index); // 주주를 선택했다고 서버에 기록
   }
 
   Future<String> deviceInfo() async {
@@ -136,7 +148,7 @@ class VoteController extends GetxController {
     String deviceName = await deviceInfo();
     Response response = await _service.postVoteResult(
       uid,
-      shareholder!.id,
+      shareholder.id,
       deviceName,
       _switchVoteValue(voteResult[0]),
       _switchVoteValue(voteResult[1]),
@@ -170,11 +182,13 @@ class VoteController extends GetxController {
   // === page: 전자서명 ===
   void putSignatureUrl(String url) async {
     await _service.postSignature(voteAgenda.id, url);
+    _voteAgenda!.signatureAt = DateTime.now();
   }
 
   // === page: 신분증 업로드 ===
   void putIdCard(String url) async {
     await _service.postIdCard(voteAgenda.id, url);
+    _voteAgenda!.idCardAt = DateTime.now();
   }
 
   // === Common ===
@@ -188,6 +202,11 @@ class VoteController extends GetxController {
     }
   }
 
+  Future<void> saveShareholder() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('${campaign.companyName}-shareholder', _shareholder!.id);
+  }
+
   int _switchVoteValue(VoteType voteType) {
     switch (voteType) {
       case VoteType.agree:
@@ -199,20 +218,5 @@ class VoteController extends GetxController {
       case VoteType.none:
         return -2;
     }
-  }
-
-  Future<Shareholder?> initShareholder() async {
-    final prefs = await SharedPreferences.getInstance();
-    var company = _voteAgenda?.company;
-    var strId = prefs.getString('$company-shareholder');
-    debugPrint('$company-shareholder => $strId');
-    if (strId != null && strId != 'null') {
-      var id = int.parse(strId);
-      debugPrint('[VoteController] SharedPreferences active!');
-      var response = await _service.validateShareholder(id);
-      shareholder = Shareholder.fromSharesJson(response.body['shareholder']);
-      return shareholder;
-    }
-    return null;
   }
 }

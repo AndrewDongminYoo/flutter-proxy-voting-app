@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:bside/contact_us/contact_us.model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_connect.dart';
+import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../contact_us/contact_us.model.dart';
 
 class AuthService extends GetConnect {
   String baseURL = 'https://api.bside.ai/onboarding';
@@ -113,7 +115,7 @@ class AuthService extends GetConnect {
         }
       });
     } catch (err) {
-      print(err);
+      debugPrint(err.toString());
     }
     return ref;
   }

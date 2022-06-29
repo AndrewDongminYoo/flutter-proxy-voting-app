@@ -3,6 +3,7 @@ class Shareholder {
   String username = '홍길동';
   String address = '';
   int sharesNum = 0;
+  String company = 'tli';
 
   Shareholder(this.id, this.username, this.address, this.sharesNum);
 
@@ -10,6 +11,7 @@ class Shareholder {
     id = json['id'] ?? -1;
     username = json['name'] ?? '';
     address = json['address'] ?? '';
-    sharesNum = json['sharesNum'] ?? 0;
+    sharesNum = json['sharesNum'] != null ? int.parse(json['sharesNum']) : 0;
+    company = json['company'] ?? 'tli';
   }
 }

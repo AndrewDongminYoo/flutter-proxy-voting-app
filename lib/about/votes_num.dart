@@ -17,7 +17,6 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
-  var shareNum = '0';
   VoteController voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
@@ -36,20 +35,6 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   onEdit() async {
     await Get.dialog(const EditModal());
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    debugPrint('Get.arguments: ${Get.arguments}');
-    final shareholder = voteCtrl.shareholder;
-    if (shareholder != null) {
-      shareNum = '${shareholder.sharesNum}';
-    } else if (Get.arguments > 0) {
-      shareNum = '${Get.arguments}';
-    } else {
-      shareNum = '확인되지 않음';
-    }
-    super.initState();
   }
 
   @override
@@ -142,7 +127,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
               const SizedBox(height: 21),
               CustomText(
                   typoType: TypoType.bodyLight,
-                  text: shareNum,
+                  text: voteCtrl.shareholder.sharesNum.toString(),
                   colorType: ColorType.white)
             ],
           ),

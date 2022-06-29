@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-import '../vote/vote.model.dart';
 import 'similar_page.dart';
 import 'stepper_example.dart';
 import '../about/edit_modal.dart';
@@ -26,21 +25,10 @@ class _ResultPageState extends State<ResultPage> {
   VoteController voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
-  VoteAgenda? agenda;
-  int? shareId;
-  int? sharesNum = 0;
-  int? uid = -1;
 
   onAddressEdit() async {
     await Get.dialog(const EditModal());
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    agenda ??= voteCtrl.voteAgenda;
-    voteCtrl.initShareholder();
-    super.initState();
   }
 
   @override
@@ -144,12 +132,10 @@ class _ResultPageState extends State<ResultPage> {
                   text: '보유 주수',
                   colorType: ColorType.white),
               const SizedBox(height: 21),
-              sharesNum != null
-                  ? CustomText(
-                      typoType: TypoType.bodyLight,
-                      text: '$sharesNum',
-                      colorType: ColorType.white)
-                  : Container()
+              CustomText(
+                  typoType: TypoType.bodyLight,
+                  text: '${voteCtrl.voteAgenda.sharesNum}',
+                  colorType: ColorType.white)
             ],
           ),
         ),
@@ -158,8 +144,8 @@ class _ResultPageState extends State<ResultPage> {
     var animatedWidgets = Column(
       children: [
         StepperComponent(
-          agenda: agenda!,
-          shareId: shareId!,
+          agenda: voteCtrl.voteAgenda,
+          shareId: voteCtrl.shareholder.id,
         ),
         const SizedBox(height: 30),
         CustomButton(
