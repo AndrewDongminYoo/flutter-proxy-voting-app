@@ -64,7 +64,7 @@ class _SignaturePageState extends State<SignaturePage> {
     if (_signCtrl.isNotEmpty) {
       final signature = await _signCtrl.toPngBytes();
       final url = await _controller.uploadSignature(
-        voteCtrl.campaign.companyName,
+        voteCtrl.campaign.enName,
         '$username-${DateTime.now()}.png',
         signature!,
         'signature',

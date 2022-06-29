@@ -99,7 +99,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       if (idcardImage != null) {
         final extension = xfile.name.split('.').last;
         final imgUrl = await controller.uploadSignature(
-          voteCtrl.campaign.companyName,
+          voteCtrl.campaign.enName,
           '$username-${DateTime.now()}.$extension',
           idcardImage!,
           'idcard',

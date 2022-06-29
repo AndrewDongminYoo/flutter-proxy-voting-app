@@ -137,7 +137,8 @@ class _CampaignPageState extends State<CampaignPage> {
                   const SizedBox(height: 86),
                   campaignAgendaList(voteCtrl.campaign),
                   const SizedBox(height: 24),
-                  voteCtrl.campaign.companyName == '티엘아이'
+                  // TODO: 캠페인 진행상황 서버에서 가져오기
+                  voteCtrl.campaign.enName == 'tli'
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),
@@ -231,7 +232,7 @@ Widget campaignInfoInRow(Campaign campaign) {
       const SizedBox(height: 16),
       CustomText(
         typoType: TypoType.h2Bold,
-        text: campaign.companyName,
+        text: campaign.koName,
         colorType: ColorType.white,
       ),
       const SizedBox(height: 16),
@@ -256,8 +257,8 @@ Widget campaignInfoInRow(Campaign campaign) {
               text: '진행상황',
               colorType: ColorType.white),
           const SizedBox(width: 41),
-          // TODO: 캠페인 인디케이터
-          CampaignProgress(value: campaign.companyName == '티엘아이' ? 0.6 : 1.0),
+          // TODO: 캠페인 진행상황 서버에서 가져오기
+          CampaignProgress(value: campaign.enName == 'tli' ? 0.6 : 1.0),
         ],
       )
     ],

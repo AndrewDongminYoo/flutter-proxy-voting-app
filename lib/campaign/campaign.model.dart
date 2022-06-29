@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'agenda.model.dart';
 
 class Campaign {
-  final String companyName;
+  final String koName;
+  final String enName;
   final String moderator;
   final String date;
   final String slogan;
@@ -17,7 +18,8 @@ class Campaign {
   final List<AgendaItem> agendaList;
 
   Campaign({
-    required this.companyName,
+    required this.koName,
+    required this.enName,
     required this.moderator,
     required this.date,
     required this.slogan,

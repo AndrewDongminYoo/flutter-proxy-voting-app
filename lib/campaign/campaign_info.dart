@@ -16,7 +16,7 @@ class CampaignInfo extends StatelessWidget {
       GestureDetector(
         onTap: () => {onPress(campaign)},
         child: Text(
-          campaign.companyName,
+          campaign.koName,
           style: const TextStyle(
               color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
         ),

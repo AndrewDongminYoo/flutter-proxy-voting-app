@@ -39,7 +39,7 @@ class _ResultPageState extends State<ResultPage> {
           margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
           child: CustomText(
               typoType: TypoType.h1,
-              text: campaign.companyName,
+              text: campaign.koName,
               colorType: ColorType.white)),
       Container(
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -151,7 +151,7 @@ class _ResultPageState extends State<ResultPage> {
         CustomButton(
           label: '처음으로',
           width: CustomW.w4,
-          onPressed: () => Get.toNamed('/'),
+          onPressed: () => Get.offNamedUntil('/', (route) => route.settings.name == '/'),
         ),
         const SizedBox(height: 100)
       ],

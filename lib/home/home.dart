@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
     controller = PageController(viewportFraction: 0.2, initialPage: curPage);
     curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
     authCtrl.init();
+    voteCtrl.init();
     // initFirebase();
   }
 

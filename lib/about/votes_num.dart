@@ -45,7 +45,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       const SizedBox(height: 40),
       CustomText(
         typoType: TypoType.h1,
-        text: campaign.companyName,
+        text: campaign.koName,
         colorType: ColorType.white,
       ),
       const SizedBox(height: 16),
@@ -139,7 +139,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       CustomText(
           typoType: TypoType.h1Bold,
           textAlign: TextAlign.left,
-          text: '2022 ${campaign.companyName} 주주총회 의안'),
+          text: '2022 ${campaign.koName} 주주총회 의안'),
       const SizedBox(height: 10),
       const CustomText(
           typoType: TypoType.bodyLight,

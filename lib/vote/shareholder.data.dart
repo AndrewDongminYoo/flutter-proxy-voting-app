@@ -7,7 +7,7 @@ class Shareholder {
 
   Shareholder(this.id, this.username, this.address, this.sharesNum);
 
-  Shareholder.fromSharesJson(Map<String, dynamic> json) {
+  Shareholder.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? -1;
     username = json['name'] ?? '';
     address = json['address'] ?? '';

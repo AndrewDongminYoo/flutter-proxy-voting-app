@@ -5,7 +5,8 @@ import 'campaign.model.dart';
 
 final campaigns = <Campaign>[
   Campaign(
-      companyName: '에스엠',
+      koName: '에스엠',
+      enName: 'sm',
       moderator: '얼라인파트너스',
       date: '22년 3월 31일',
       color: const Color(0xFFEC9296),
@@ -20,7 +21,8 @@ final campaigns = <Campaign>[
       logoImg:
           'https://ww.namu.la/s/787256d0ed159737f315038b38e92a6c936c1be03f864489cde02c98863b24e8c7f44635ae2bf8e9a6be332f38025bfb305fc22e2fef3f9a467e7f6475f19fe867311767d935d57c26fd4e95c21a010e'),
   Campaign(
-      companyName: '티엘아이',
+      koName: '티엘아이',
+      enName: 'tli',
       moderator: '턴어라운드 조합',
       date: '22년 7월 7일',
       color: const Color(0xFFE5657F),
@@ -35,7 +37,8 @@ final campaigns = <Campaign>[
       logoImg:
           'https://d2u3dcdbebyaiu.cloudfront.net/img/companyPage_kr/logo_8569.jpg'),
   Campaign(
-      companyName: '사조산업',
+      koName: '사조산업',
+      enName: 'sajo',
       moderator: '소액주주연대',
       date: '22년 3월 24일',
       color: const Color(0xFF85A8E9),
