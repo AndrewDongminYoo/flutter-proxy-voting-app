@@ -32,40 +32,46 @@ class _VotePageState extends State<VotePage> {
   final voteResult = <int, VoteType>{};
 
   @override
-  void initState() {
-    super.initState();
+  initState() {
     debugPrint('Get.arguments: ${Get.arguments}');
-    if (Get.arguments is VoteAgenda) {
-      debugPrint('Get.arguments is VoteAgenda');
-      VoteAgenda agenda = Get.arguments;
-      voteResult[0] = agenda.agenda1.vote;
-      voteResult[1] = agenda.agenda2.vote;
-      voteResult[2] = agenda.agenda3.vote;
-      voteResult[3] = agenda.agenda4.vote;
-      if (mounted) {
-        setState(() {
-          marker = {
-            'cur': 4,
-            'latest': 4,
-          };
-        });
-      }
+    if (Get.arguments is VoteAgenda) voteWithMemory();
+    if (Get.arguments == 'voteWithExample') voteWithExample();
+    super.initState();
+  }
+
+  voteWithExample() {
+    debugPrint("Get.arguments == 'voteWithExample'");
+    voteResult[0] = VoteType.disagree;
+    voteResult[1] = VoteType.agree;
+    voteResult[2] = VoteType.agree;
+    voteResult[3] = VoteType.disagree;
+    if (mounted) {
+      setState(() {
+        marker = {
+          'cur': 4,
+          'latest': 4,
+        };
+      });
     }
-    if (Get.arguments == 'voteWithExample') {
-      debugPrint("Get.arguments == 'voteWithExample'");
-      voteResult[0] = VoteType.disagree;
-      voteResult[1] = VoteType.agree;
-      voteResult[2] = VoteType.agree;
-      voteResult[3] = VoteType.disagree;
-      if (mounted) {
-        setState(() {
-          marker = {
-            'cur': 4,
-            'latest': 4,
-          };
-        });
-      }
+    return voteResult;
+  }
+
+  voteWithMemory() {
+    debugPrint('Get.arguments is VoteAgenda');
+    VoteAgenda agenda = Get.arguments;
+    voteResult[0] = agenda.agenda1.vote;
+    voteResult[1] = agenda.agenda2.vote;
+    voteResult[2] = agenda.agenda3.vote;
+    voteResult[3] = agenda.agenda4.vote;
+    if (mounted) {
+      setState(() {
+        marker = {
+          'cur': 4,
+          'latest': 4,
+        };
+      });
     }
+    return voteResult;
   }
 
   goBack() {

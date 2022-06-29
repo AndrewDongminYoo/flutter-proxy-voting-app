@@ -10,6 +10,6 @@ class Shareholder {
     id = json['id'] ?? -1;
     username = json['name'] ?? '';
     address = json['address'] ?? '';
-    sharesNum = int.parse(json['sharesNum']);
+    sharesNum = json['sharesNum'] ?? 0;
   }
 }

@@ -18,8 +18,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 // import 'utils/appsflyer.dart';
 import 'firebase_options.dart';
 import 'routes.dart' show routes;
-import 'package:bside/auth/auth.controller.dart';
-import 'package:bside/vote/vote.controller.dart';
+import 'auth/auth.controller.dart';
+import 'vote/vote.controller.dart';
 
 clearPref() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -43,7 +43,8 @@ void main() async {
   // initialize app
   await dotenv.load(fileName: '.env');
   final prefs = await SharedPreferences.getInstance();
-  final firstTime = prefs.getBool('firstTime') ?? true;
+  // final firstTime = prefs.getBool('firstTime') ?? true;
+  const firstTime = true;
   debugPrint('[main] firstTime: $firstTime');
   final initialLink = await setupFirebase();
   timeago.setLocaleMessages('ko', timeago.KoMessages());

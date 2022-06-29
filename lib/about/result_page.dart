@@ -27,6 +27,7 @@ class _ResultPageState extends State<ResultPage> {
       ? Get.find()
       : Get.put(VoteController());
   VoteAgenda? agenda;
+  int? shareId;
   int? sharesNum = 0;
   int? uid = -1;
 
@@ -38,10 +39,8 @@ class _ResultPageState extends State<ResultPage> {
   @override
   void initState() {
     agenda ??= voteCtrl.voteAgenda;
+    voteCtrl.initShareholder();
     super.initState();
-    // FIXME: 완료한 사용자가 바로 왔을 때,
-    // 보유주수와 stepper가 안보였다가 리프레시하니까 나옴.
-    // setState가 필요할 것으로 예상
   }
 
   @override
@@ -156,16 +155,21 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
     ];
-    var animatedWidgets = Column(children: [
-      StepperComponent(agenda: agenda!, sharesNum: sharesNum!),
-      const SizedBox(height: 30),
-      CustomButton(
-        label: '처음으로',
-        width: CustomW.w4,
-        onPressed: () => Get.toNamed('/'),
-      ),
-      const SizedBox(height: 100)
-    ]);
+    var animatedWidgets = Column(
+      children: [
+        StepperComponent(
+          agenda: agenda!,
+          shareId: shareId!,
+        ),
+        const SizedBox(height: 30),
+        CustomButton(
+          label: '처음으로',
+          width: CustomW.w4,
+          onPressed: () => Get.toNamed('/'),
+        ),
+        const SizedBox(height: 100)
+      ],
+    );
     return SimilarPage(
       title: '결과 확인',
       blueBackGroundWidgets: blueBackGroundWidgets,

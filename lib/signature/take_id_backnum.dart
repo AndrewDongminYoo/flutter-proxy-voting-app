@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../auth/auth.controller.dart';
+import '../vote/vote.controller.dart';
 import 'common_app_body.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,9 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
   late String frontId = '';
   late String backId = '1';
 
@@ -25,12 +29,14 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     super.initState();
   }
 
-  onConfirmed() {
+  onConfirmed() async {
     authCtrl.putBackId(backId);
-    Get.offNamedUntil(
+    await Get.offNamed(
       '/result',
-      (route) => route.settings.name == '/',
-      arguments: authCtrl.user,
+      arguments: {
+        'user': authCtrl.user,
+        'agen': voteCtrl.voteAgenda,
+      },
     );
   }
 
