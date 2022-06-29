@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import 'widget/adress_card.dart';
 import 'similar_page.dart';
 import 'stepper_example.dart';
-import '../about/edit_modal.dart';
+import 'widget/edit_modal.dart';
 import '../shared/custom_grid.dart';
 import '../shared/custom_text.dart';
 import '../shared/custom_color.dart';
@@ -67,54 +68,7 @@ class _ResultPageState extends State<ResultPage> {
       const SizedBox(height: 20),
     ];
     var whiteBackGroundWidgets = [
-      Container(
-        width: Get.width,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          color: Color(0xFFDC721E),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const CustomText(
-                    typoType: TypoType.body,
-                    text: '주소',
-                    textAlign: TextAlign.left,
-                    colorType: ColorType.white,
-                  ),
-                  const Spacer(),
-                  const CustomText(
-                    typoType: TypoType.bodyLight,
-                    text: '수정하기',
-                    textAlign: TextAlign.left,
-                    colorType: ColorType.white,
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.arrow_circle_right_outlined,
-                      color: customColor[ColorType.white],
-                    ),
-                    onPressed: onAddressEdit,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              CustomText(
-                typoType: TypoType.bodyLight,
-                text: authCtrl.user.address,
-                textAlign: TextAlign.left,
-                colorType: ColorType.white,
-              ),
-            ],
-          ),
-        ),
-      ),
+      const AdressCard(),
       const SizedBox(height: 20),
       Container(
         width: Get.width,
@@ -151,7 +105,8 @@ class _ResultPageState extends State<ResultPage> {
         CustomButton(
           label: '처음으로',
           width: CustomW.w4,
-          onPressed: () => Get.offNamedUntil('/', (route) => route.settings.name == '/'),
+          onPressed: () =>
+              Get.offNamedUntil('/', (route) => route.settings.name == '/'),
         ),
         const SizedBox(height: 100)
       ],
