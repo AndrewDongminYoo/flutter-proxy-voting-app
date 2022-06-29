@@ -34,9 +34,9 @@ class _VotePageState extends State<VotePage> {
   @override
   void initState() {
     super.initState();
-    print('Get.arguments: ${Get.arguments}');
+    debugPrint('Get.arguments: ${Get.arguments}');
     if (Get.arguments is VoteAgenda) {
-      print('Get.arguments is VoteAgenda');
+      debugPrint('Get.arguments is VoteAgenda');
       VoteAgenda agenda = Get.arguments;
       voteResult[0] = agenda.agenda1.vote;
       voteResult[1] = agenda.agenda2.vote;
@@ -52,7 +52,7 @@ class _VotePageState extends State<VotePage> {
       }
     }
     if (Get.arguments == 'voteWithExample') {
-      print("Get.arguments == 'voteWithExample'");
+      debugPrint("Get.arguments == 'voteWithExample'");
       voteResult[0] = VoteType.disagree;
       voteResult[1] = VoteType.agree;
       voteResult[2] = VoteType.agree;

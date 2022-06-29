@@ -53,15 +53,15 @@ class AuthController extends GetxController {
 
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
-    print('[AuthController] init');
+    debugPrint('[AuthController] init');
     final prefs = await SharedPreferences.getInstance();
     final telNum = prefs.getString('telNum');
     if (telNum != null) {
-      print('[AuthController] SharedPreferences exist');
+      debugPrint('[AuthController] SharedPreferences exist');
       final result = await getUserInfo(telNum);
       if (!result) {
         // 잘못된 캐시데이터 삭제
-        print('[AuthController] delete useless SharedPreferences');
+        debugPrint('[AuthController] delete useless SharedPreferences');
         await prefs.clear();
       } else {
         login();
@@ -73,11 +73,11 @@ class AuthController extends GetxController {
   Future<bool> getUserInfo(String telNum) async {
     Response response = await _service.getUserByTelNum(telNum);
     if (kDebugMode) {
-      print('[AuthController] getUserInfo: ${response.body}');
+      debugPrint('[AuthController] getUserInfo: ${response.body}');
     }
     if (response.isOk && response.body != null && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
-      print('[AuthController] user exist.\n Hello, ${user.username}!');
+      debugPrint('[AuthController] user exist.\n Hello, ${user.username}!');
       return true;
     }
     return false;
@@ -88,7 +88,7 @@ class AuthController extends GetxController {
     isLogined = true;
     Response response = await _service.createUser(user.username, user.frontId,
         user.backId, user.telecom, user.phoneNum, user.ci, user.di);
-    print('${response.bodyString}');
+    debugPrint('${response.bodyString}');
   }
 
   // 로그인
@@ -166,6 +166,6 @@ class AuthController extends GetxController {
   }
 
   void printWarning(String text) {
-    print('\x1B[33m$text\x1B[0m');
+    debugPrint('\x1B[33m$text\x1B[0m');
   }
 }

@@ -29,20 +29,20 @@ class VoteController extends GetxController {
     if (_voteAgenda != null) {
       return _voteAgenda!;
     } else {
-      print('=========== WARNING =============');
-      print('[VoteController] agenda is empty ');
-      print('=========== WARNING =============');
+      debugPrint('=========== WARNING =============');
+      debugPrint('[VoteController] agenda is empty ');
+      debugPrint('=========== WARNING =============');
       return VoteAgenda(-1, 'tli', '0000', 0, 0, 0, 0, 0);
     }
   }
 
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
-    print('[VoteController] init');
+    debugPrint('[VoteController] init');
     final prefs = await SharedPreferences.getInstance();
     final campaignList = prefs.getStringList('completedCampaign');
     if (campaignList != null) {
-      print('[VoteController] SharedPreferences exist');
+      debugPrint('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
     }
   }
@@ -67,13 +67,13 @@ class VoteController extends GetxController {
       response = await _service.queryAgenda(uid, 'tli');
       if (response.isOk && response.body['isExist']) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
-        print('[VoteController] user is exist');
+        debugPrint('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         Get.toNamed('/result');
         return;
       }
     } catch (e) {
-      print('[VoteController] queryAgenda error: $e');
+      debugPrint('[VoteController] queryAgenda error: $e');
     }
 
     try {
@@ -83,7 +83,7 @@ class VoteController extends GetxController {
       (response.body['shareholders'])
           .forEach((e) => shareholders.add(Shareholder.fromSharesJson(e)));
     } catch (e) {
-      print('[VoteController] findSharesByName error: $e');
+      debugPrint('[VoteController] findSharesByName error: $e');
     }
 
     stopLoading();
@@ -145,20 +145,20 @@ class VoteController extends GetxController {
     completedCampaign.add(campaign.companyName);
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('completedCampaign', completedCampaign.toList());
-    print('completedCampaign, $completedCampaign');
+    debugPrint('completedCampaign, $completedCampaign');
     if (kDebugMode) {
-      print("[VoteController] voteAgenda: ${response.body['agenda']}");
+      debugPrint("[VoteController] voteAgenda: ${response.body['agenda']}");
     }
   }
 
   Future<VoteAgenda?> getVoteResult(int uid, String company) async {
     Response response = await _service.queryAgenda(uid, company);
     if (response.body['isExist']) {
-      print('[VoteController] ${response.body}');
+      debugPrint('[VoteController] ${response.body}');
       _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
       return voteAgenda;
     } else {
-      print("[VoteController] agenda doesn't exists.");
+      debugPrint("[VoteController] agenda doesn't exists.");
       return null;
     }
   }

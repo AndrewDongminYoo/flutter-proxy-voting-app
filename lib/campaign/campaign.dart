@@ -98,7 +98,7 @@ class _CampaignPageState extends State<CampaignPage> {
           onPressed: () async {
             isLoading = true;
             user = authCtrl.user;
-            print('[campaign] Hello, ${authCtrl.user.username}!');
+            debugPrint('[campaign] Hello, ${authCtrl.user.username}!');
             voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
             isLoading = false;
           });
@@ -112,7 +112,7 @@ class _CampaignPageState extends State<CampaignPage> {
           });
     } else {
       // NOTE: 전화번호 인증 혹은 본인정보 확인 필요
-      print('Need verify telNumber');
+      debugPrint('Need verify telNumber');
       return Container();
     }
   }
@@ -186,7 +186,6 @@ Widget campaignHeader(Campaign campaign) {
 }
 
 Widget campaignInfoInRow(Campaign campaign) {
-  // ignore: unused_local_variable
   final actionMenuList = <ActionMenu>[
     ActionMenu(
         icon: Icons.book_rounded,

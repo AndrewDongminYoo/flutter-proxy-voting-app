@@ -41,7 +41,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     if (authCtrl.isLogined) {
       username = authCtrl.user.username;
     }
-    var result = await showDialog<ImageSource>(
+    await showDialog<ImageSource>(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
@@ -88,7 +88,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
         );
       },
     );
-    print(result);
 
     final XFile? xfile = await picker.pickImage(
       maxWidth: 1900,
@@ -144,8 +143,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     if (idCardUploadAt != null) {
       idCardUpload = true;
     }
-    print('idcardImage: $idcardImage');
-    print('Get.arguments: ${Get.arguments}');
+    debugPrint('idcardImage: $idcardImage');
+    debugPrint('Get.arguments: ${Get.arguments}');
     super.initState();
   }
 

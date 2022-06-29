@@ -40,7 +40,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
 
   @override
   void initState() {
-    print('Get.arguments: ${Get.arguments}');
+    debugPrint('Get.arguments: ${Get.arguments}');
     final shareholder = voteCtrl.shareholder;
     if (shareholder != null) {
       shareNum = '${shareholder.sharesNum}';

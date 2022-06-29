@@ -62,11 +62,10 @@ class _HomePageState extends State<HomePage> {
   //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
   //     Navigator.pushNamed(context, dynamicLinkData.link.path);
   //   }).onError((error) {
-  //     print('onLink error');
-  //     print(error.message);
+  //     debugPrint('onLink error');
+  //     debugPrint(error.message);
   //   });
 
-  //   // ignore: unused_local_variable
   //   NotificationSettings settings = await messaging.requestPermission(
   //     alert: true,
   //     announcement: false,
@@ -78,17 +77,17 @@ class _HomePageState extends State<HomePage> {
   //   );
 
   //   messaging.onTokenRefresh.listen((fcmToken) {
-  //     print(fcmToken);
+  //     debugPrint(fcmToken);
   //   }).onError((err) {
   //     // Error getting token.
   //   });
 
   //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //     print('Got a message whilst in the foreground!');
-  //     print('Message data: ${message.data}');
+  //     debugPrint('Got a message whilst in the foreground!');
+  //     debugPrint('Message data: ${message.data}');
 
   //     if (message.notification != null) {
-  //       print('Message also contained a notification: ${message.notification}');
+  //       debugPrint('Message also contained a notification: ${message.notification}');
   //     }
   //   });
   // }
@@ -122,7 +121,6 @@ Widget backgroundImageLayer(String imgUrl) {
 }
 
 Widget topBar() {
-  // ignore: unused_local_variable
   const String assetName = 'assets/images/bside_logo.png';
   return Positioned(
       top: 40,

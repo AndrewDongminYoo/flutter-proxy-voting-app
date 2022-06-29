@@ -44,7 +44,7 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final prefs = await SharedPreferences.getInstance();
   final firstTime = prefs.getBool('firstTime') ?? true;
-  print('[main] firstTime: $firstTime');
+  debugPrint('[main] firstTime: $firstTime');
   final initialLink = await setupFirebase();
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
@@ -67,7 +67,7 @@ Future<PendingDynamicLinkData?> setupFirebase() async {
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   print("Handling a background message: ${message.messageId}");
+//   debugPrint("Handling a background message: ${message.messageId}");
 // }
 
 class MyApp extends StatefulWidget {
@@ -102,10 +102,10 @@ class _MyAppState extends State<MyApp> {
 
   // setupAppsFlyer() {
   //   appsflyerSdk.onAppOpenAttribution((res) {
-  //     print("onAppOpenAttribution res: $res");
+  //     debugPrint("onAppOpenAttribution res: $res");
   //   });
   //   appsflyerSdk.onInstallConversionData((res) {
-  //     print("onInstallConversionData res: $res");
+  //     debugPrint("onInstallConversionData res: $res");
   //     setState(() {
   //       _gcd = res;
   //     });

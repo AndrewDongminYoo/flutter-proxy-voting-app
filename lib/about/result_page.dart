@@ -37,22 +37,11 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   void initState() {
-    // uid = authCtrl.user.id;
-    // String? company = 'tli';
-    // void loadAgenda() async {
-    //   print('uid: $uid, company: $company');
-    //   if (uid != null) {
-    //     agenda = await voteCtrl.getVoteResult(uid!, company);
-    //     print('agenda: $agenda');
-    //     if (agenda != null) {
-    //       sharesNum = agenda!.sharesNum;
-    //     }
-    //   }
-    // }
-
-    // loadAgenda();
+    agenda ??= voteCtrl.voteAgenda;
     super.initState();
-    // FIXME: 완료한 사용자가 바로 왔을때, 보유주수와 stepper가 안보였다가 리프레시하니까 나옴, setState가 필요할 것으로 예상
+    // FIXME: 완료한 사용자가 바로 왔을 때,
+    // 보유주수와 stepper가 안보였다가 리프레시하니까 나옴.
+    // setState가 필요할 것으로 예상
   }
 
   @override

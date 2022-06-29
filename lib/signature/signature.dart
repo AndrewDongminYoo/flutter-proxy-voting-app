@@ -50,7 +50,7 @@ class _SignaturePageState extends State<SignaturePage> {
     timer = Timer(const Duration(seconds: 2), () {
       _hideLottie();
     });
-    print('Get.arguments: ${Get.arguments}');
+    debugPrint('Get.arguments: ${Get.arguments}');
     super.initState();
   }
 
@@ -80,7 +80,7 @@ class _SignaturePageState extends State<SignaturePage> {
   Widget build(BuildContext context) {
     const titleString = '전자위임';
     const helpText = '전자 서명을 등록해주세요.';
-    print('signatureAt: $signatureAt');
+    debugPrint('signatureAt: $signatureAt');
     informationString = signatureAt != null
         ? '${timeago.format(signatureAt!, locale: 'ko')}에 이미 서명하셨습니다. 다시 서명하려면 가운데를 클릭하세요.'
         : '''

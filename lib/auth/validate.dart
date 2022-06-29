@@ -32,7 +32,7 @@ class _ValidatePageState extends State<ValidatePage> {
 
   validate() async {
     FocusScope.of(context).unfocus();
-    print('${authCtrl.user.phoneNum}, $otpCode');
+    debugPrint('${authCtrl.user.phoneNum}, $otpCode');
     await authCtrl.validateOtpCode(authCtrl.user.phoneNum, otpCode);
     onPressed();
   }

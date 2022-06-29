@@ -27,7 +27,11 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
 
   onConfirmed() {
     authCtrl.putBackId(backId);
-    Get.offNamedUntil('/result', (route) => route.settings.name == '/');
+    Get.offNamedUntil(
+      '/result',
+      (route) => route.settings.name == '/',
+      arguments: authCtrl.user,
+    );
   }
 
   @override
