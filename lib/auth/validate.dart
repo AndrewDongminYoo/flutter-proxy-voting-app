@@ -1,15 +1,20 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
-import 'package:get/get.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'auth.controller.dart';
-import '../shared/unfocused.dart';
-import '../shared/custom_grid.dart';
+// 🌎 Project imports:
 import '../shared/back_button.dart';
-import '../shared/custom_text.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
+import '../shared/unfocused.dart';
+import '../theme.dart';
+import 'auth.controller.dart';
 
 class ValidatePage extends StatefulWidget {
   const ValidatePage({Key? key}) : super(key: key);

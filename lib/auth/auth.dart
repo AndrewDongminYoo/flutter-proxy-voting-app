@@ -1,16 +1,21 @@
+// 🎯 Dart imports:
 import 'dart:math';
 
-import 'package:get/get.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'widget/term.dart';
-import 'auth.controller.dart';
-import 'widget/auth_forms.dart';
-import '../shared/unfocused.dart';
-import '../shared/custom_text.dart';
-import '../shared/custom_grid.dart';
+// 📦 Package imports:
+import 'package:get/get.dart';
+
+// 🌎 Project imports:
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
+import '../shared/unfocused.dart';
+import '../theme.dart';
+import 'auth.controller.dart';
+import 'widget/auth_forms.dart';
+import 'widget/term.dart';
 
 const headlines = [
   '휴대폰번호를\n입력해주세요',

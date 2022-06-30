@@ -1,10 +1,13 @@
-import '../../shared/custom_color.dart';
-import '../../shared/custom_grid.dart';
-import '../../shared/custom_text.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../../shared/card_formatter.dart';
+import '../../shared/custom_text.dart';
 
 enum FormStep { phoneNumber, koreanId, telecom, name }
 

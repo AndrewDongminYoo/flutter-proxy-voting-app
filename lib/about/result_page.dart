@@ -1,17 +1,20 @@
-import 'package:get/get.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'widget/adress_card.dart';
+// 📦 Package imports:
+import 'package:get/get.dart';
+
+// 🌎 Project imports:
+import '../auth/auth.controller.dart';
+import '../campaign/campaign.model.dart';
+import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
+import '../theme.dart';
+import '../vote/vote.controller.dart';
 import 'similar_page.dart';
 import 'stepper_example.dart';
+import 'widget/adress_card.dart';
 import 'widget/edit_modal.dart';
-import '../shared/custom_grid.dart';
-import '../shared/custom_text.dart';
-import '../shared/custom_color.dart';
-import '../vote/vote.controller.dart';
-import '../auth/auth.controller.dart';
-import '../shared/custom_button.dart';
-import '../campaign/campaign.model.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({Key? key}) : super(key: key);

@@ -1,14 +1,20 @@
+// 🎯 Dart imports:
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:get/get.dart';
+
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+// 🌎 Project imports:
+import '../auth/auth.controller.dart';
+import '../vote/vote.controller.dart';
 import 'common_app_body.dart';
 import 'signature.upload.dart';
-import '../vote/vote.controller.dart';
-import '../auth/auth.controller.dart';
 
 class UploadIdCardPage extends StatefulWidget {
   const UploadIdCardPage({Key? key}) : super(key: key);

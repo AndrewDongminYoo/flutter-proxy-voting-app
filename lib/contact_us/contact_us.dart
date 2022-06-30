@@ -1,9 +1,13 @@
-import '../contact_us/contact_us.model.dart';
-import '../shared/custom_color.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../auth/auth.controller.dart';
+import '../contact_us/contact_us.model.dart';
 import '../shared/custom_text.dart';
 
 // https://www.youtube.com/watch?v=WgJ6TzNswEo

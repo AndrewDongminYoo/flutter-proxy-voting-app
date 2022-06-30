@@ -1,4 +1,7 @@
+// 🎯 Dart imports:
 import 'dart:convert';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
 class VoteService extends GetConnect {

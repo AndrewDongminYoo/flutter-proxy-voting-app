@@ -1,9 +1,13 @@
-import '../../shared/custom_button.dart';
-import '../../shared/custom_text.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
 import '../../auth/auth.controller.dart';
+import '../../shared/custom_button.dart';
+import '../../shared/custom_text.dart';
 
 class EditModal extends StatefulWidget {
   const EditModal({Key? key}) : super(key: key);

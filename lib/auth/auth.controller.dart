@@ -1,11 +1,15 @@
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
 
+// 📦 Package imports:
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
 import '../shared/loading_screen.dart' show LoadingScreen;
-import 'auth.service.dart' show AuthService;
 import 'auth.data.dart' show User;
+import 'auth.service.dart' show AuthService;
 
 class AuthController extends GetxController {
   User? _user;

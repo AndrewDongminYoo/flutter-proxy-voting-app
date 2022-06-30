@@ -1,9 +1,14 @@
+// 🎯 Dart imports:
 import 'dart:convert';
 
-import 'package:get/get_connect.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get_connect.dart';
+
+// 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
 
 class AuthService extends GetConnect {

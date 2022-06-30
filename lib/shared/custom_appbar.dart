@@ -1,8 +1,14 @@
-import 'package:get/get.dart';
-// import 'notice_button.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:get/get.dart';
+
+// 🌎 Project imports:
 import '../shared/back_button.dart';
+
+// import 'notice_button.dart';
+
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

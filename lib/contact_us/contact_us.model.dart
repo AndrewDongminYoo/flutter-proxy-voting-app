@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+// 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat {

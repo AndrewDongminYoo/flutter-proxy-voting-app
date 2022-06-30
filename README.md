@@ -62,6 +62,9 @@ sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer/
 # Debug
 flutter upgrade
 flutter clean && flutter run
+
+# import sorter
+flutter pub run import_sorter:main
 ```
 
 ## 참고사항

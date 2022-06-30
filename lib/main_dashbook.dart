@@ -1,10 +1,13 @@
-import 'package:dashbook/dashbook.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'shared/custom_text.dart';
-import 'shared/custom_grid.dart';
-import 'shared/custom_color.dart';
+// 📦 Package imports:
+import 'package:dashbook/dashbook.dart';
+
+// 🌎 Project imports:
 import 'shared/custom_button.dart';
+import 'shared/custom_text.dart';
+import 'theme.dart';
 
 void main() {
   final dashbook = Dashbook();

@@ -1,9 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../shared/custom_color.dart';
-import '../../shared/custom_grid.dart';
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../../shared/custom_text.dart';
 
 const items = [

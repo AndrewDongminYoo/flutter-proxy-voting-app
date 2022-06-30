@@ -1,14 +1,18 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
-import '../vote/vote.controller.dart';
-import '../shared/custom_button.dart';
+
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
-import '../shared/custom_color.dart';
-import '../shared/custom_grid.dart';
+import '../shared/custom_button.dart';
 import '../shared/custom_pop_scope.dart';
+import '../vote/vote.controller.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {

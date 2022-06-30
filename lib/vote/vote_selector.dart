@@ -1,8 +1,12 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
-import 'vote.model.dart';
+// 🌎 Project imports:
 import '../campaign/agenda.model.dart';
+import 'vote.model.dart';
 
 final voteButtonList = [
   VoteButton(

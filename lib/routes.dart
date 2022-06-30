@@ -1,18 +1,20 @@
+// 📦 Package imports:
 import 'package:get/route_manager.dart' show GetPage;
 
+// 🌎 Project imports:
+import 'about/result_page.dart';
 import 'about/votes_num.dart';
 import 'auth/auth.dart';
+import 'auth/validate.dart';
+import 'campaign/campaign.dart';
 import 'exception/address_duplicate.dart';
 import 'exception/not_shareholder.dart';
-import 'signature/take_id_backnum.dart';
-import 'vote/vote.dart';
 import 'home/home.dart';
-import 'campaign/campaign.dart';
-import 'auth/validate.dart';
+import 'onboarding/onboarding.dart';
 import 'signature/id_card.dart';
 import 'signature/signature.dart';
-import 'onboarding/onboarding.dart';
-import 'about/result_page.dart';
+import 'signature/take_id_backnum.dart';
+import 'vote/vote.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),

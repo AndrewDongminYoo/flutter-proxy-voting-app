@@ -1,10 +1,13 @@
-import 'package:bside/auth/auth.controller.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import 'package:bside/auth/auth.controller.dart';
 import '../contact_us/contact_us.dart';
 import '../shared/custom_appbar.dart';
-import '../shared/custom_color.dart';
 
 class SimilarPage extends StatefulWidget {
   const SimilarPage({

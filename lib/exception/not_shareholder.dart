@@ -1,13 +1,16 @@
-import '../vote/vote.controller.dart';
-import 'package:get/get.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../shared/custom_color.dart';
-import '../shared/custom_grid.dart';
-import '../shared/custom_text.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_appbar.dart';
+// 📦 Package imports:
+import 'package:get/get.dart';
+
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../campaign/campaign.model.dart';
+import '../shared/custom_appbar.dart';
+import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
+import '../vote/vote.controller.dart';
 
 class NotShareholderPage extends StatefulWidget {
   const NotShareholderPage({Key? key}) : super(key: key);

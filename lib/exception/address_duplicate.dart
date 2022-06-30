@@ -1,11 +1,14 @@
-import '../shared/custom_button.dart';
-import '../shared/custom_grid.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../auth/auth.controller.dart';
 import '../shared/back_button.dart';
-import '../shared/custom_color.dart';
+import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 
 class AddressDuplicationPage extends StatefulWidget {

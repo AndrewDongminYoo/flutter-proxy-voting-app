@@ -1,7 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
-import '../../shared/custom_color.dart';
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../../shared/custom_text.dart';
 import '../../vote/vote.controller.dart';
 

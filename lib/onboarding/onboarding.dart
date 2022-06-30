@@ -1,11 +1,15 @@
-import 'package:get/utils.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/route_manager.dart';
+import 'package:get/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import 'guide.dart';
 import 'guide.data.dart';
-import '../shared/custom_color.dart';
 
 /*
   Reference:

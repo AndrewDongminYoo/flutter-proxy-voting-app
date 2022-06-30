@@ -1,8 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'service_term.data.dart';
-import '../../shared/custom_text.dart';
+// 🌎 Project imports:
 import '../../shared/custom_appbar.dart';
+import '../../shared/custom_text.dart';
+import 'service_term.data.dart';
 
 class PrivacyPage extends StatelessWidget {
   const PrivacyPage({Key? key}) : super(key: key);

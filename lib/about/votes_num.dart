@@ -1,15 +1,19 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:get/get.dart';
+
+// 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../campaign/campaign.model.dart';
+import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
+import '../theme.dart';
 import '../vote/vote.controller.dart';
+import 'similar_page.dart';
 import 'widget/adress_card.dart';
 import 'widget/edit_modal.dart';
-import 'similar_page.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../campaign/campaign.model.dart';
-import '../shared/custom_grid.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_color.dart';
-import '../shared/custom_text.dart';
 import 'widget/vote_num_card.dart';
 
 class CheckVoteNumPage extends StatefulWidget {

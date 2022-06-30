@@ -1,9 +1,12 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import '../theme.dart';
 import 'custom_button.dart';
-import 'custom_color.dart';
-import 'custom_grid.dart';
 import 'custom_text.dart';
 
 class CustomConfirm extends StatelessWidget {

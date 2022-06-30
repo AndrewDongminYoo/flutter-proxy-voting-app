@@ -1,8 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'service_term.data.dart';
+// 🌎 Project imports:
 import '../../shared/custom_appbar.dart';
 import '../../shared/custom_text.dart';
+import 'service_term.data.dart';
 
 class ServicePage extends StatelessWidget {
   const ServicePage({Key? key}) : super(key: key);

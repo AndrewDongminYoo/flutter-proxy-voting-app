@@ -1,18 +1,21 @@
-import '../auth/auth.data.dart';
-import 'package:get/get.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'campaign.model.dart';
-import '../shared/custom_button.dart';
-import '../vote/vote.controller.dart';
-import '../shared/custom_grid.dart';
-import '../shared/custom_text.dart';
-import '../shared/custom_color.dart';
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../auth/auth.controller.dart';
+import '../auth/auth.data.dart';
 import '../shared/custom_appbar.dart';
-import '../shared/progress_bar.dart';
+import '../shared/custom_button.dart';
 import '../shared/custom_confirm.dart';
+import '../shared/custom_text.dart';
+import '../shared/progress_bar.dart';
+import '../vote/vote.controller.dart';
+import 'campaign.model.dart';
 
 class CampaignPage extends StatefulWidget {
   const CampaignPage({Key? key}) : super(key: key);

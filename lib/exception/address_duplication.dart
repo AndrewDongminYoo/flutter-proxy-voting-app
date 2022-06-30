@@ -1,9 +1,13 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../auth/auth.controller.dart';
 import '../shared/back_button.dart';
-import '../shared/custom_color.dart';
 
 class AddressDuplicationPage extends StatefulWidget {
   const AddressDuplicationPage({Key? key}) : super(key: key);

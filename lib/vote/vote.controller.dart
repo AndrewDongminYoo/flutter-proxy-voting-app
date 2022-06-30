@@ -1,17 +1,22 @@
-import 'dart:io';
+// 🎯 Dart imports:
 import 'dart:async';
+import 'dart:io';
 
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 📦 Package imports:
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../vote/vote.service.dart';
-import '../shared/loading_screen.dart';
+
+// 🌎 Project imports:
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
-
-import 'vote.model.dart';
+import '../shared/loading_screen.dart';
+import '../vote/vote.service.dart';
 import 'shareholder.data.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'vote.model.dart';
 
 class VoteController extends GetxController {
   // Vote 진행 전 사용 변수

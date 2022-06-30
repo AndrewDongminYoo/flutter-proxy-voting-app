@@ -1,5 +1,8 @@
-import 'custom_color.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import '../theme.dart';
 
 enum TypoType { h1Bold, h1, h2Bold, h2, body, bodyLight, label }
 

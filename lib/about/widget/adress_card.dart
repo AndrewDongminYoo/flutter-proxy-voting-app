@@ -1,8 +1,12 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
+import 'package:bside/theme.dart';
 import '../../auth/auth.controller.dart';
-import '../../shared/custom_color.dart';
 import '../../shared/custom_text.dart';
 import 'edit_modal.dart';
 

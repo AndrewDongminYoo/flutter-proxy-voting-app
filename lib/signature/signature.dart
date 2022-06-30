@@ -1,13 +1,20 @@
+// 🎯 Dart imports:
 import 'dart:async';
+
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:get/get.dart' show Get, GetNavigation, Inst;
+import 'package:signature/signature.dart' show Signature, SignatureController;
+import 'package:timeago/timeago.dart' as timeago;
+
+// 🌎 Project imports:
 import '../auth/auth.controller.dart';
-import '../vote/vote.controller.dart';
 import '../shared/custom_lottie.dart';
 import '../signature/common_app_body.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'package:get/get.dart' show Get, GetNavigation, Inst;
+import '../vote/vote.controller.dart';
 import 'signature.upload.dart' show CustomSignatureController;
-import 'package:signature/signature.dart' show Signature, SignatureController;
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);
