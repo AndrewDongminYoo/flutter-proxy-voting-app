@@ -4,16 +4,15 @@ import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
-import '../utils/mailto.dart';
-import '../theme.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
+import '../theme.dart';
+import '../utils/mailto.dart';
 import '../vote/vote.controller.dart';
 
 class NotShareholderPage extends StatefulWidget {

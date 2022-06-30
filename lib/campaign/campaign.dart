@@ -131,8 +131,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   const SizedBox(height: 86),
                   campaignAgendaList(voteCtrl.campaign),
                   const SizedBox(height: 24),
-                  // TODO: 캠페인 진행상황 서버에서 가져오기
-                  voteCtrl.campaign.enName == 'tli'
+                  voteCtrl.campaign.getStatus() == '더보기'
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),
