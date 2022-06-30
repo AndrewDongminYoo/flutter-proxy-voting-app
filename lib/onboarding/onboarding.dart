@@ -7,7 +7,7 @@ import 'package:get/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../theme.dart';
 import 'guide.dart';
 import 'guide.data.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../../theme.dart';
 import '../../shared/custom_text.dart';
 
 const items = [

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../../theme.dart';
 import '../../shared/card_formatter.dart';
 import '../../shared/custom_text.dart';
 

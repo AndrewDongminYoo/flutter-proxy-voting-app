@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../theme.dart';
 
 class HorizontalProgressBar extends StatelessWidget {
   final double value;

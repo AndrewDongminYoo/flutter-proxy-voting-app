@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../theme.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';

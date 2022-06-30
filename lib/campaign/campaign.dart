@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../theme.dart';
 import '../auth/auth.controller.dart';
 import '../auth/auth.data.dart';
 import '../shared/custom_appbar.dart';
