@@ -2,4 +2,4 @@ repos:
 - repo: https://github.com/fluttercommunity/import_sorter
   rev: "master"
   hooks:
-    - id: dart-import-sorter # use `flutter-import-sorter` for a Flutter project
+    - id: flutter-import-sorter
