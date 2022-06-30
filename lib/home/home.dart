@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../theme.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_pop_scope.dart';
+import '../theme.dart';
 import '../vote/vote.controller.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
@@ -256,7 +256,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: CustomButton(
-              label: curCampaign.status,
+              label: curCampaign.getStatus(),
               onPressed: () => onPress(curCampaign),
               bgColor: ColorType.white,
               textColor: ColorType.deepPurple,

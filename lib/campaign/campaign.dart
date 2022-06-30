@@ -6,14 +6,13 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // 🌎 Project imports:
-import '../theme.dart';
 import '../auth/auth.controller.dart';
-import '../auth/auth.data.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_confirm.dart';
 import '../shared/custom_text.dart';
 import '../shared/progress_bar.dart';
+import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'campaign.model.dart';
 
@@ -32,14 +31,6 @@ class _CampaignPageState extends State<CampaignPage> {
       ? Get.find()
       : Get.put(VoteController());
   bool isLoading = false;
-  late User user;
-
-  @override
-  void initState() {
-    user = authCtrl.user;
-    voteCtrl.loadCampaignName();
-    super.initState();
-  }
 
   Widget campaignAgendaList(Campaign campaign) {
     return Column(
@@ -101,7 +92,6 @@ class _CampaignPageState extends State<CampaignPage> {
           width: CustomW.w4,
           onPressed: () async {
             isLoading = true;
-            user = authCtrl.user;
             debugPrint('[campaign] Hello, ${authCtrl.user.username}!');
             voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
             isLoading = false;

@@ -14,7 +14,6 @@ class Campaign {
   final String details;
   final String backgroundImg;
   final String logoImg;
-  final String status;
   final Color color;
   final String dartUrl;
   final String youtubeUrl;
@@ -30,12 +29,15 @@ class Campaign {
     required this.details,
     required this.backgroundImg,
     required this.logoImg,
-    required this.status,
     required this.color,
     required this.dartUrl,
     required this.youtubeUrl,
     required this.agendaList,
   });
+
+  String getStatus() {
+    return datetime.isAfter(DateTime.now()) ? '더보기' : '종료';
+  }
 }
 
 class ActionMenu {

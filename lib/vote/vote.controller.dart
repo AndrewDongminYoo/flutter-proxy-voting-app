@@ -6,8 +6,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
@@ -222,13 +222,5 @@ class VoteController extends GetxController {
       case VoteType.none:
         return -2;
     }
-  }
-
-  void loadCampaignName() {
-    var now = DateTime.now();
-    campaign = campaigns.firstWhere((cmpn) {
-      return cmpn.datetime.isAfter(now);
-    });
-    update();
   }
 }

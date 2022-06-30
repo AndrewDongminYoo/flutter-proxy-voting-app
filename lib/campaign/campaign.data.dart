@@ -18,7 +18,6 @@ final campaigns = <Campaign>[
           '주주제안 감사 선임에 유효의결권 중 81%의 압도적인 찬성표를 주시는 등 당사의 예상을 훨씬 뛰어넘는 많은 주주분들의 뜨거운 지지에 깊이 감사드리면서, 한편으로는 무거운 책임감을 느낍니다. 당사는 장기 투자자이자 적극적 관여를 통한 가치창출을 추구하는 운용사로서 앞으로 에스엠 경영진과 지속적으로 소통하면서 에스엠에 실질적 변화가 있을수 있도록 끈질기게 치밀하게 실행해 나가겠습니다.',
       youtubeUrl: 'ic1BKge_d8s',
       agendaList: smAgendaList,
-      status: '종료',
       dartUrl: 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220325000498',
       backgroundImg: 'assets/images/home_back_sm.png',
       logoImg:
@@ -35,7 +34,6 @@ final campaigns = <Campaign>[
           '정기주주 총회에서 창업주의 재선임을 부결시켰음에도 불구하고, 또 다시 임시 주주총회에서 창업주와 분쟁을 하게 되었습니다. 이번 임시 주주총회에서도 주주 여러분들의 도움으로 반드시 승리할 것이며, 계속 지켜봐 주시고, 앞으로도 주주 여러분의 많은 관심과 성원 부탁드립니다.',
       youtubeUrl: '',
       agendaList: tliAgendaList,
-      status: '더보기',
       dartUrl: 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220624000088',
       backgroundImg: 'assets/images/home_back_tli.png',
       logoImg:
@@ -52,7 +50,6 @@ final campaigns = <Campaign>[
           '사조산업은 사조그룹의 지주사로, 사조대림, 사조요양, 사조씨푸드, 사조동아원의 상장 자회사를 비롯하여 20여개의 비상장 자회사를 통해 300억~500억의 순이익을 내는 아주 탄탄한 기업입니다.',
       youtubeUrl: 'fAjFO5sQeE4',
       agendaList: sajoAgendaList,
-      status: '종료',
       backgroundImg: 'assets/images/home_back_sajo.png',
       dartUrl: 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20220302000474',
       logoImg:
