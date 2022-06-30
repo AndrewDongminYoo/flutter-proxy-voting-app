@@ -1,10 +1,14 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
+import '../utils/mailto.dart';
 import '../theme.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_appbar.dart';
@@ -19,11 +23,38 @@ class NotShareholderPage extends StatefulWidget {
 }
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
+  final contact = 'sjcho0070@naver.com';
+  final tele = '010-8697-1669';
+
   VoteController voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
 
-  onPressedMail() {}
+  onPressedMail() async {
+    var body = """
+'주주명부에 등록되어 있지 않습니다.'라는 메세지가 나타납니다.
+성함: ${voteCtrl.shareholder.username}
+회사: ${voteCtrl.voteAgenda.company}
+
+받는사람: $tele 조상준 $contact
+기한: ~${voteCtrl.campaign.date} 까지
+>> Bside Co.ltd.
+""";
+    try {
+      final mailTo = Mailto(
+        to: [contact],
+        cc: [
+          'aaron.so@bside.ai',
+          'andrew@bside.ai',
+        ],
+        subject: '주주명부에 등록되어 있지 않습니다.',
+        body: body,
+      );
+      await launchUrlString('$mailTo');
+    } catch (e) {
+      await Clipboard.setData(ClipboardData(text: contact));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +73,11 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
                     const SizedBox(
                       height: 50,
                     ),
-                    const CustomText(
-                        typoType: TypoType.h1, text: 'sjcho0070@naver.com'),
+                    CustomText(typoType: TypoType.h1, text: contact),
                     const SizedBox(
                       height: 50,
                     ),
-                    const CustomText(
-                        typoType: TypoType.h1, text: '010-8697-1669'),
+                    CustomText(typoType: TypoType.h1, text: tele),
                     const SizedBox(
                       height: 50,
                     ),
