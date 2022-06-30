@@ -30,13 +30,16 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   void initState() {
     if (authCtrl.isLogined) {
       frontId = authCtrl.user.frontId;
+      backId = authCtrl.user.backId;
     }
     super.initState();
   }
 
   onConfirmed() async {
-    authCtrl.putBackId(backId);
-    await Get.offNamed('/result');
+    if (backId.length == 7) {
+      authCtrl.putBackId(backId);
+      await Get.offNamed('/result');
+    }
   }
 
   @override

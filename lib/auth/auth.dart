@@ -56,20 +56,28 @@ class _AuthPageState extends State<AuthPage> {
     fontWeight: FontWeight.bold,
   );
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void onPressed() {
-    authCtrl.getOtpCode(userName, frontId, backId, telecom, phoneNumber, true);
+  newUser() {
+    authCtrl.getOtpCode(
+      userName,
+      frontId,
+      backId,
+      telecom,
+      phoneNumber,
+      true,
+    );
     Get.toNamed('/validate', arguments: 'newUser');
   }
 
-  skipForExistingUser() {
+  existingUser() {
     final user = authCtrl.user;
-    authCtrl.getOtpCode(user.username, user.frontId, user.backId, user.telecom,
-        phoneNumber, false);
+    authCtrl.getOtpCode(
+      user.username,
+      user.frontId,
+      user.backId,
+      user.telecom,
+      phoneNumber,
+      false,
+    );
     Get.toNamed('/validate', arguments: 'existingUser');
   }
 
@@ -86,7 +94,7 @@ class _AuthPageState extends State<AuthPage> {
         frontId = valueList[0];
         backId = valueList[1];
         if (authCtrl.user.frontId == frontId) {
-          skipForExistingUser();
+          existingUser();
           return;
         }
         Get.bottomSheet(TelcomModal(nextForm: nextForm),
@@ -117,7 +125,7 @@ class _AuthPageState extends State<AuthPage> {
       padding: const EdgeInsets.only(bottom: 100.0),
       child: CustomButton(
         label: '확인',
-        onPressed: onPressed,
+        onPressed: newUser,
         width: CustomW.w4,
       ),
     );

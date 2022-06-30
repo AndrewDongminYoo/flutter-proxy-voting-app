@@ -37,17 +37,17 @@ final noneButton = VoteButton(
     value: VoteType.none);
 
 class VoteSelector extends StatefulWidget {
-  const VoteSelector(
-      {Key? key,
-      required this.agendaItem,
-      required this.index,
-      required this.onVote,
-      this.useDefault = false})
-      : super(key: key);
+  const VoteSelector({
+    Key? key,
+    required this.agendaItem,
+    required this.index,
+    required this.onVote,
+    this.initialValue = VoteType.none,
+  }) : super(key: key);
   final AgendaItem agendaItem;
   final int index;
   final void Function(int, VoteType) onVote;
-  final bool useDefault;
+  final VoteType initialValue;
 
   @override
   State<VoteSelector> createState() => _VoteSelectorState();
@@ -68,18 +68,18 @@ class _VoteSelectorState extends State<VoteSelector> {
   @override
   void initState() {
     super.initState();
-    if (widget.useDefault) {
-      switch (widget.agendaItem.defaultOption) {
-        case 1:
-          curButton = voteButtonList[0];
-          break;
-        case -1:
-          curButton = voteButtonList[1];
-          break;
-        case 0:
-          curButton = voteButtonList[2];
-          break;
-      }
+    switch (widget.initialValue) {
+      case VoteType.agree:
+        curButton = voteButtonList[0];
+        break;
+      case VoteType.disagree:
+        curButton = voteButtonList[1];
+        break;
+      case VoteType.abstention:
+        curButton = voteButtonList[2];
+        break;
+      default:
+        break;
     }
   }
 

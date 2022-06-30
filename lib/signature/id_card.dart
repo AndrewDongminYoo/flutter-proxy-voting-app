@@ -175,24 +175,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
     Widget subContentList = Column(
       children: [
-        // Row(
-        //   children: [
-        //     const SizedBox(width: 16),
-        //     const Text('주민등록 번호 먼저 입력하기'),
-        //     IconButton(
-        //       tooltip: '주민등록번호 뒷자리를 입력해요.',
-        //       icon: const Icon(
-        //         Icons.arrow_circle_right_outlined,
-        //       ),
-        //       onPressed: () {
-        //         if (idCardUploaded) {
-        //           Get.toNamed("/idnumber");
-        //         }
-        //         // 주민등록번호 먼저 입력하는 페이지로 이동
-        //       },
-        //     )
-        //   ],
-        // ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             fixedSize: Size(Get.width - 30, 50),
@@ -203,6 +185,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           ),
           onPressed: () {
             if (idcardImage != null) {
+              if (authCtrl.user.backId.length > 1) {
+                Get.offNamed('/result');
+              }
               Get.toNamed('/idnumber');
             }
           },

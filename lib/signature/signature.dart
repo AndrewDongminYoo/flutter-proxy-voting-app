@@ -77,10 +77,10 @@ class _SignaturePageState extends State<SignaturePage> {
         'signature',
       );
       voteCtrl.putSignatureUrl(url);
-      Get.toNamed('/idcard');
-    } else if (signatureAt != null) {
-      Get.toNamed('/idcard');
+    } else if (voteCtrl.voteAgenda.idCardAt != null) {
+      await Get.offNamed('/result');
     }
+    await Get.toNamed('/idcard');
   }
 
   @override

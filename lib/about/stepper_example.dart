@@ -85,17 +85,28 @@ class _StepperComponentState extends State<StepperComponent> {
             onPressed: () {
               switch (title) {
                 case ('주주명부 대조'):
-                  Get.toNamed('/checkvotenum', arguments: widget.shareId);
+                  Get.toNamed(
+                    '/checkvotenum',
+                    arguments: widget.shareId,
+                  );
                   break;
                 case ('안건투표'):
-                  Get.toNamed('/vote', arguments: widget.agenda);
+                  Get.toNamed(
+                    '/vote',
+                    arguments: widget.agenda,
+                  );
                   break;
                 case ('전자서명'):
-                  Get.toNamed('/signature',
-                      arguments: widget.agenda.signatureAt);
+                  Get.toNamed(
+                    '/signature',
+                    arguments: widget.agenda.signatureAt,
+                  );
                   break;
                 case ('신분증 사본'):
-                  Get.toNamed('/idcard', arguments: widget.agenda.idCardAt);
+                  Get.toNamed(
+                    '/idcard',
+                    arguments: widget.agenda.idCardAt,
+                  );
                   break;
               }
             },

@@ -31,11 +31,19 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       : Get.put(AuthController());
 
   voteWithExample() {
-    Get.toNamed('/vote', arguments: 'voteWithExample');
+    if (voteCtrl.voteAgenda.voteAt != null) {
+      Get.toNamed('/vote', arguments: 'voteWithExample');
+    } else {
+      Get.offNamed('/result');
+    }
   }
 
   voteWithoutExample() {
-    Get.toNamed('/vote', arguments: 'voteWithoutExample');
+    if (voteCtrl.voteAgenda.voteAt != null) {
+      Get.toNamed('/vote', arguments: 'voteWithoutExample');
+    } else {
+      Get.offNamed('/result');
+    }
   }
 
   onEdit() async {

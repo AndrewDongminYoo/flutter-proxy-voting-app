@@ -108,8 +108,14 @@ class _ResultPageState extends State<ResultPage> {
         CustomButton(
           label: '처음으로',
           width: CustomW.w4,
-          onPressed: () =>
-              Get.offNamedUntil('/', (route) => route.settings.name == '/'),
+          onPressed: () {
+            return Get.offNamedUntil(
+              '/',
+              (route) {
+                return route.settings.name == '/';
+              },
+            );
+          },
         ),
         const SizedBox(height: 100)
       ],

@@ -35,48 +35,54 @@ class _VotePageState extends State<VotePage> {
     'cur': 0,
     'latest': 0,
   };
-  final voteResult = <int, VoteType>{};
+  Map<int, VoteType> voteResult = {
+    0: VoteType.none,
+    1: VoteType.none,
+    2: VoteType.none,
+    3: VoteType.none,
+  };
 
   @override
   initState() {
     debugPrint('Get.arguments: ${Get.arguments}');
-    if (Get.arguments is VoteAgenda) voteWithMemory();
-    if (Get.arguments == 'voteWithExample') voteWithExample();
+    if (Get.arguments is VoteAgenda) {
+      voteResult = voteWithMemory();
+    } else if (Get.arguments == 'voteWithExample') {
+      voteResult = voteWithExample();
+    }
     super.initState();
   }
 
   voteWithExample() {
     debugPrint("Get.arguments == 'voteWithExample'");
-    voteResult[0] = VoteType.disagree;
-    voteResult[1] = VoteType.agree;
-    voteResult[2] = VoteType.agree;
-    voteResult[3] = VoteType.disagree;
-    if (mounted) {
-      setState(() {
-        marker = {
-          'cur': 4,
-          'latest': 4,
-        };
-      });
-    }
+    setState(() {
+      voteResult[0] = VoteType.disagree;
+      voteResult[1] = VoteType.agree;
+      voteResult[2] = VoteType.agree;
+      voteResult[3] = VoteType.disagree;
+      marker = {
+        'cur': 4,
+        'latest': 4,
+      };
+    });
+    debugPrint(voteResult.values.toString());
     return voteResult;
   }
 
   voteWithMemory() {
     debugPrint('Get.arguments is VoteAgenda');
-    VoteAgenda agenda = Get.arguments;
-    voteResult[0] = agenda.agenda1.vote;
-    voteResult[1] = agenda.agenda2.vote;
-    voteResult[2] = agenda.agenda3.vote;
-    voteResult[3] = agenda.agenda4.vote;
-    if (mounted) {
-      setState(() {
-        marker = {
-          'cur': 4,
-          'latest': 4,
-        };
-      });
-    }
+    setState(() {
+      VoteAgenda agenda = Get.arguments;
+      voteResult[0] = agenda.agenda1.vote;
+      voteResult[1] = agenda.agenda2.vote;
+      voteResult[2] = agenda.agenda3.vote;
+      voteResult[3] = agenda.agenda4.vote;
+      marker = {
+        'cur': 4,
+        'latest': 4,
+      };
+    });
+    debugPrint(voteResult.values.toString());
     return voteResult;
   }
 
@@ -86,7 +92,13 @@ class _VotePageState extends State<VotePage> {
 
   onNext() {
     voteCtrl.postVoteResult(authCtrl.user.id, voteResult.values.toList());
-    Get.toNamed('/signature');
+    if (voteCtrl.voteAgenda.signatureAt == null) {
+      Get.toNamed('/signature');
+    } else if (voteCtrl.voteAgenda.idCardAt == null) {
+      Get.toNamed('/idcard');
+    } else {
+      Get.offNamed('/result');
+    }
   }
 
   onVote(int index, VoteType result) {
@@ -105,46 +117,53 @@ class _VotePageState extends State<VotePage> {
   Widget build(BuildContext context) {
     final agendaList = voteCtrl.campaign.agendaList;
     final agendaLength = agendaList.length;
-    final useDefault = Get.arguments == 'voteWithExample';
 
     return Scaffold(
-        appBar: const CustomAppBar(title: '의결수 확인'),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: agendaList.asMap().entries.map((item) {
+      appBar: const CustomAppBar(title: '의결수 확인'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: agendaList.asMap().entries.map(
+              (item) {
                 // Do not show the next item
                 if (item.key > marker['latest']!) {
                   return Container();
                 } else if (item.key == agendaLength - 1) {
-                  return Column(children: [
-                    VoteSelector(
+                  return Column(
+                    children: [
+                      VoteSelector(
                         agendaItem: item.value,
                         index: item.key,
                         onVote: onVote,
-                        useDefault: useDefault),
-                    marker['latest']! < agendaLength
-                        ? Container()
-                        : Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0, 20.0, 0, 100.0),
-                            child: CustomButton(
+                        initialValue: voteResult[item.key]!,
+                      ),
+                      marker['latest']! < agendaLength
+                          ? Container()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(0, 20.0, 0, 100.0),
+                              child: CustomButton(
                                 label: '위임확인',
                                 onPressed: onNext,
-                                width: CustomW.w4),
-                          ),
-                  ]);
+                                width: CustomW.w4,
+                              ),
+                            ),
+                    ],
+                  );
                 }
                 return VoteSelector(
-                    agendaItem: item.value,
-                    index: item.key,
-                    onVote: onVote,
-                    useDefault: useDefault);
-              }).toList(),
-            ),
+                  agendaItem: item.value,
+                  index: item.key,
+                  onVote: onVote,
+                  initialValue: voteResult[item.key]!,
+                );
+              },
+            ).toList(),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

@@ -34,31 +34,36 @@ clearPref() async {
 }
 
 void main() async {
-  // runZonedGuarded<Future<void>>(() async {
-  // Keep splash screen
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runZonedGuarded<Future<void>>(
+    () async {
+      // Keep splash screen
+      WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.presentError(details);
-    if (kReleaseMode) exit(1);
-  };
+      FlutterError.onError = (FlutterErrorDetails details) {
+        FlutterError.presentError(details);
+        if (kReleaseMode) exit(1);
+      };
 
-  // NOTE: 디버깅용
-  // await clearPref();
+      // NOTE: 디버깅용
+      // await clearPref();
 
-  // initialize app
-  await dotenv.load(fileName: '.env');
-  final prefs = await SharedPreferences.getInstance();
-  final firstTime = prefs.getBool('firstTime') ?? true;
-  debugPrint('[main] firstTime: $firstTime');
-  final initialLink = await setupFirebase();
-  timeago.setLocaleMessages('ko', timeago.KoMessages());
+      // initialize app
+      await dotenv.load(fileName: '.env');
+      final prefs = await SharedPreferences.getInstance();
+      final firstTime = prefs.getBool('firstTime') ?? true;
+      debugPrint('[main] firstTime: $firstTime');
+      final initialLink = await setupFirebase();
+      timeago.setLocaleMessages('ko', timeago.KoMessages());
 
-  runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
-  // },
-  //     (error, stack) =>
-  //         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
+      runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
+    },
+    (error, stack) => {
+      debugPrint(error.toString()),
+      debugPrintStack(stackTrace: stack),
+      // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+    },
+  );
 }
 
 Future<PendingDynamicLinkData?> setupFirebase() async {

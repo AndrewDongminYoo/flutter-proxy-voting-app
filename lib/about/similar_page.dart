@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:bside/auth/auth.controller.dart';
+import '../auth/auth.controller.dart';
 import '../contact_us/contact_us.dart';
 import '../shared/custom_appbar.dart';
 
@@ -33,7 +33,7 @@ class _SimilarPageState extends State<SimilarPage> {
 
   onPressFloatingBtn() async {
     await authCtrl.getChat();
-    
+
     showModalBottomSheet(
       isScrollControlled: true,
       builder: (context) => Padding(
