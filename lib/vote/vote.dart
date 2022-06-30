@@ -35,12 +35,7 @@ class _VotePageState extends State<VotePage> {
     'cur': 0,
     'latest': 0,
   };
-  Map<int, VoteType> voteResult = {
-    0: VoteType.none,
-    1: VoteType.none,
-    2: VoteType.none,
-    3: VoteType.none,
-  };
+  Map<int, VoteType> voteResult = {};
 
   @override
   initState() {
@@ -49,13 +44,13 @@ class _VotePageState extends State<VotePage> {
     } else if (Get.arguments == 'voteWithExample') {
       voteResult = voteWithExample();
     } else {
-      debugPrint("Get.arguments == 'voteWithoutDefault'");
+      debugPrint('voteWithoutDefault');
     }
     super.initState();
   }
 
   voteWithExample() {
-    debugPrint("Get.arguments == 'voteWithExample'");
+    debugPrint('voteWithExample');
     setState(() {
       voteResult[0] = VoteType.disagree;
       voteResult[1] = VoteType.agree;
@@ -71,7 +66,7 @@ class _VotePageState extends State<VotePage> {
   }
 
   voteWithMemory() {
-    debugPrint("Get.arguments == 'voteWithLastMemory'");
+    debugPrint('voteWithLastMemory');
     setState(() {
       VoteAgenda agenda = voteCtrl.voteAgenda;
       voteResult[0] = agenda.agenda1.vote;

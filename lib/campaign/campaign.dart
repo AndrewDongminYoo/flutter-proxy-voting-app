@@ -37,6 +37,7 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   void initState() {
     user = authCtrl.user;
+    voteCtrl.loadCampaignName();
     super.initState();
   }
 

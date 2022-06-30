@@ -27,9 +27,7 @@ class AuthController extends GetxController {
     return User('Annonymous', '000000', '0', 'SKT', '01012345678');
   }
 
-  set user(User? user) {
-    _user = user;
-  }
+  set user(User? user) => _user = user;
 
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
@@ -65,21 +63,17 @@ class AuthController extends GetxController {
 
   // 회원가입
   void signUp() async {
-    isLogined = true;
     Response response = await _service.createUser(user.username, user.frontId,
         user.backId, user.telecom, user.phoneNum, user.ci, user.di);
-    debugPrint('${response.bodyString}');
+    debugPrint(response.bodyString);
+    isLogined = true;
   }
 
   // 로그인
   // 사용자 데이터는 이미 초기화시 진행되었고, 인증번호까지 진행하여 로그인 여부 확정
-  void login() async {
-    isLogined = true;
-  }
+  void login() async => isLogined = true;
 
-  bool canVote() {
-    return isLogined;
-  }
+  bool canVote() => isLogined;
 
   Future<void> getOtpCode(
     String name,
@@ -99,7 +93,8 @@ class AuthController extends GetxController {
   Future<void> validateOtpCode(String telNum, String otpCode) async {
     startLoading();
     await _service.putPassCode(telNum, otpCode);
-    await Future.delayed(const Duration(seconds: 3), () async {
+    const duration = Duration(seconds: 3);
+    await Future.delayed(duration, () async {
       var response = await _service.getResult(telNum);
       var exc = 'ValidationException';
       if (response.body['errorType'] == exc ||

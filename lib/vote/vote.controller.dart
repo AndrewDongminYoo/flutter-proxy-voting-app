@@ -6,8 +6,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get/get.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
@@ -43,23 +43,23 @@ class VoteController extends GetxController {
     if (_shareholder != null) {
       return _shareholder!;
     }
-    return Shareholder(-1, '익명', 'address', 0);
+    return Shareholder(-1, 'annonymous', 'address', 0);
   }
 
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
+    // FIXME: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
     final prefs = await SharedPreferences.getInstance();
     final campaignList = prefs.getStringList('completedCampaign');
     if (campaignList != null) {
       debugPrint('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
-
       for (var campaign in completedCampaign) {
-        // FIXME: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
         final shareholderId = prefs.getInt('$campaign-shareholder');
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
-          completedShareholder.add(Shareholder.fromJson(response.body['shareholder']));
+          completedShareholder
+              .add(Shareholder.fromJson(response.body['shareholder']));
         }
       }
     }
@@ -148,11 +148,9 @@ class VoteController extends GetxController {
     return deviceInfo;
   }
 
-  // === page: 주식수 확인 ===
-  // NOTE: 함수명 변경 필요
   void postVoteResult(int uid, List<VoteType> voteResult) async {
     String deviceName = await deviceInfo();
-    Response response = await _service.postVoteResult(
+    Response response = await _service.postResult(
       uid,
       shareholder.id,
       deviceName,
@@ -178,7 +176,7 @@ class VoteController extends GetxController {
     if (response.body['isExist']) {
       debugPrint('[VoteController] ${response.body}');
       _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
-      return voteAgenda;
+      return _voteAgenda;
     } else {
       debugPrint("[VoteController] agenda doesn't exists.");
       return null;
@@ -188,13 +186,13 @@ class VoteController extends GetxController {
   // === page: 전자서명 ===
   void putSignatureUrl(String url) async {
     await _service.postSignature(voteAgenda.id, url);
-    _voteAgenda!.signatureAt = DateTime.now();
+    voteAgenda.signatureAt = DateTime.now();
   }
 
   // === page: 신분증 업로드 ===
   void putIdCard(String url) async {
     await _service.postIdCard(voteAgenda.id, url);
-    _voteAgenda!.idCardAt = DateTime.now();
+    voteAgenda.idCardAt = DateTime.now();
   }
 
   // === Common ===
@@ -210,7 +208,7 @@ class VoteController extends GetxController {
 
   Future<void> saveShareholder() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('${campaign.enName}-shareholder', _shareholder!.id);
+    await prefs.setInt('${campaign.enName}-shareholder', shareholder.id);
   }
 
   int _switchVoteValue(VoteType voteType) {
@@ -224,5 +222,13 @@ class VoteController extends GetxController {
       case VoteType.none:
         return -2;
     }
+  }
+
+  void loadCampaignName() {
+    var now = DateTime.now();
+    campaign = campaigns.firstWhere((cmpn) {
+      return cmpn.datetime.isAfter(now);
+    });
+    update();
   }
 }

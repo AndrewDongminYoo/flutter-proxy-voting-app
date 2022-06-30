@@ -9,6 +9,7 @@ class Campaign {
   final String enName;
   final String moderator;
   final String date;
+  final DateTime datetime;
   final String slogan;
   final String details;
   final String backgroundImg;
@@ -24,6 +25,7 @@ class Campaign {
     required this.enName,
     required this.moderator,
     required this.date,
+    required this.datetime,
     required this.slogan,
     required this.details,
     required this.backgroundImg,

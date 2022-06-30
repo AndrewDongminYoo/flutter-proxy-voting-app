@@ -57,7 +57,6 @@ class _SignaturePageState extends State<SignaturePage> {
     timer = Timer(const Duration(seconds: 2), () {
       _hideLottie();
     });
-    debugPrint('Get.arguments: ${Get.arguments}');
     super.initState();
   }
 

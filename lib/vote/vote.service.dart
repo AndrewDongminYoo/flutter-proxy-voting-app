@@ -22,7 +22,7 @@ class VoteService extends GetConnect {
     return put(getURL('/shareholders/$id'), jsonEncode({}));
   }
 
-  Future<Response> postVoteResult(
+  Future<Response> postResult(
     int uid,
     int shareholderId,
     String deviceName,

@@ -25,33 +25,14 @@ class AuthService extends GetConnect {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   /// 본인인증:
-  /// telecom: 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
   Future<Response> getOtpCode(
       String name, String birth, String backId, String telecom, String telNum) {
-    String telecomCode = '';
-    switch (telecom) {
-      case 'SKT':
-        telecomCode = '01';
-        break;
-      case 'KT':
-        telecomCode = '02';
-        break;
-      case 'LG U+':
-        telecomCode = '03';
-        break;
-      case 'SKT 알뜰폰':
-        telecomCode = '04';
-        break;
-      case 'KT 알뜰폰':
-        telecomCode = '05';
-        break;
-      case 'LG U+ 알뜰폰':
-        telecomCode = '06';
-        break;
-    }
+    /// 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
+    final telecomCode = setTelecom(telecom);
 
     /// birth: 8자리 ex) 19900110
-    final registCode = birth.startsWith('0') ? '20$birth' : '19$birth';
+    final registCode =
+        birth.startsWith(RegExp('[0-1]')) ? '20$birth' : '19$birth';
 
     /// sex: 남: 1, 여: 2
     final sexCode = backId.startsWith('2') || backId.startsWith('4') ? 2 : 1;
@@ -64,6 +45,25 @@ class AuthService extends GetConnect {
           'telecom': telecomCode,
           'telNum': telNum
         }));
+  }
+
+  String setTelecom(telecom) {
+    switch (telecom) {
+      case 'SKT':
+        return '01';
+      case 'KT':
+        return '02';
+      case 'LG U+':
+        return '03';
+      case 'SKT 알뜰폰':
+        return '04';
+      case 'KT 알뜰폰':
+        return '05';
+      case 'LG U+ 알뜰폰':
+        return '06';
+      default:
+        return '00';
+    }
   }
 
   Future<Response> putPassCode(String telNum, String otpNo) {
