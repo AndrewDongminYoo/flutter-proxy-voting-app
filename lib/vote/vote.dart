@@ -44,11 +44,12 @@ class _VotePageState extends State<VotePage> {
 
   @override
   initState() {
-    debugPrint('Get.arguments: ${Get.arguments}');
-    if (Get.arguments is VoteAgenda) {
+    if (Get.arguments == 'voteWithLastMemory') {
       voteResult = voteWithMemory();
     } else if (Get.arguments == 'voteWithExample') {
       voteResult = voteWithExample();
+    } else {
+      debugPrint("Get.arguments == 'voteWithoutDefault'");
     }
     super.initState();
   }
@@ -70,9 +71,9 @@ class _VotePageState extends State<VotePage> {
   }
 
   voteWithMemory() {
-    debugPrint('Get.arguments is VoteAgenda');
+    debugPrint("Get.arguments == 'voteWithLastMemory'");
     setState(() {
-      VoteAgenda agenda = Get.arguments;
+      VoteAgenda agenda = voteCtrl.voteAgenda;
       voteResult[0] = agenda.agenda1.vote;
       voteResult[1] = agenda.agenda2.vote;
       voteResult[2] = agenda.agenda3.vote;
@@ -102,15 +103,13 @@ class _VotePageState extends State<VotePage> {
   }
 
   onVote(int index, VoteType result) {
-    if (mounted) {
-      setState(() {
-        voteResult[index] = result;
-        marker = {
-          'cur': index + 1,
-          'latest': max(marker['latest']!, index + 1),
-        };
-      });
-    }
+    setState(() {
+      voteResult[index] = result;
+      marker = {
+        'cur': index + 1,
+        'latest': max(marker['latest']!, index + 1),
+      };
+    });
   }
 
   @override

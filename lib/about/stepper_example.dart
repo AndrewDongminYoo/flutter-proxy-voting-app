@@ -93,7 +93,7 @@ class _StepperComponentState extends State<StepperComponent> {
                 case ('안건투표'):
                   Get.toNamed(
                     '/vote',
-                    arguments: widget.agenda,
+                    arguments: 'voteWithLastMemory',
                   );
                   break;
                 case ('전자서명'):
