@@ -31,7 +31,8 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       : Get.put(AuthController());
 
   voteWithExample() {
-    if (voteCtrl.voteAgenda.voteAt != null) {
+    debugPrint(voteCtrl.voteAgenda.voteAt.toString());
+    if (voteCtrl.voteAgenda.voteAt == null) {
       Get.toNamed('/vote', arguments: 'voteWithExample');
     } else {
       Get.offNamed('/result');
@@ -39,7 +40,8 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   }
 
   voteWithoutExample() {
-    if (voteCtrl.voteAgenda.voteAt != null) {
+    debugPrint(voteCtrl.voteAgenda.voteAt.toString());
+    if (voteCtrl.voteAgenda.voteAt == null) {
       Get.toNamed('/vote', arguments: 'voteWithoutExample');
     } else {
       Get.offNamed('/result');

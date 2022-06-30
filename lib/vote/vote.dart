@@ -151,7 +151,7 @@ class _VotePageState extends State<VotePage> {
                   agendaItem: item.value,
                   index: item.key,
                   onVote: onVote,
-                  initialValue: voteResult[item.key]!,
+                  initialValue: voteResult[item.key] ?? VoteType.none,
                 );
               },
             ).toList(),
