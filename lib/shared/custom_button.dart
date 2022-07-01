@@ -158,7 +158,13 @@ class StepperButton extends ElevatedButton {
             shape: const CircleBorder(),
           ),
           child: !active
-              ? const Icon(Icons.warning_amber_sharp)
-              : const Icon(Icons.check),
+              ? const Icon(
+                  Icons.warning_amber_sharp,
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ),
         );
 }

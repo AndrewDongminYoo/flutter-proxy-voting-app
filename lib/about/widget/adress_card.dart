@@ -38,39 +38,46 @@ class _AdressCardState extends State<AdressCard> {
         color: Color(0xFFDC721E),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            children: [
-              const CustomText(
-                typoType: TypoType.body,
-                text: '주소',
-                textAlign: TextAlign.left,
-                colorType: ColorType.white,
-              ),
-              const Spacer(),
-              const CustomText(
-                typoType: TypoType.bodyLight,
-                text: '수정하기',
-                textAlign: TextAlign.left,
-                colorType: ColorType.white,
-              ),
-              IconButton(
-                icon: Icon(
-                  CupertinoIcons.arrow_right_square,
-                  color: customColor[ColorType.white],
+        padding: const EdgeInsets.fromLTRB(20, 5, 8, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const CustomText(
+                  typoType: TypoType.body,
+                  text: '주소',
+                  textAlign: TextAlign.left,
+                  colorType: ColorType.white,
                 ),
-                onPressed: onEdit,
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          CustomText(
+                const Spacer(),
+                const CustomText(
+                  typoType: TypoType.bodyLight,
+                  text: '수정하기',
+                  textAlign: TextAlign.left,
+                  colorType: ColorType.white,
+                ),
+                IconButton(
+                  iconSize: 24,
+                  padding: EdgeInsets.zero,
+                  icon: Icon(
+                    CupertinoIcons.arrow_right_square,
+                    color: customColor[ColorType.white],
+                  ),
+                  onPressed: onEdit,
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            CustomText(
               typoType: TypoType.bodyLight,
               text: authCtrl.user.address,
               textAlign: TextAlign.left,
-              colorType: ColorType.white),
-        ]),
+              colorType: ColorType.white,
+              isFullWidth: true,
+            ),
+          ],
+        ),
       ),
     );
   }

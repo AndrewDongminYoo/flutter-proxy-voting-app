@@ -53,14 +53,8 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            margin: const EdgeInsets.all(7),
-            decoration: BoxDecoration(
-              border: Border.all(width: 3),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(30),
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -71,17 +65,32 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.right,
                     readOnly: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 4,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      labelText: '생년월일',
+                    ),
                   ),
                 ),
-                const Text('-', style: TextStyle(fontSize: 20)),
+                const Text(
+                  '  -  ',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(
-                  width: Get.width / 3,
+                  width: Get.width / 2,
                   child: TextFormField(
                     maxLength: 7,
                     decoration: const InputDecoration(
-                        counterStyle: TextStyle(
-                          height: double.minPositive,
-                        ),
+                        labelText: '주민등록번호 뒷자리',
+                        border: OutlineInputBorder(),
                         counterText: ''),
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.left,
@@ -100,7 +109,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
           ),
           const Text(
             '관련법상 위임장에는 주민등록번호 전체가 포함되어야 효력이 인정됩니다.',
-            style: TextStyle(fontSize: 11),
+            style: TextStyle(fontSize: 13),
           ),
         ],
       ),

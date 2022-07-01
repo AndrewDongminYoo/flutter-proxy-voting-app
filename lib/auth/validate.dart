@@ -87,7 +87,7 @@ class _ValidatePageState extends State<ValidatePage> {
               child: Column(children: [
                 const SizedBox(height: 40),
                 Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: CustomText(
                       typoType: TypoType.h1,
                       text: title,
