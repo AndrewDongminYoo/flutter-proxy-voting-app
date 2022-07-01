@@ -35,7 +35,12 @@ class _VotePageState extends State<VotePage> {
     'cur': 0,
     'latest': 0,
   };
-  Map<int, VoteType> voteResult = {};
+  Map<int, VoteType> voteResult = {
+    0: VoteType.none,
+    1: VoteType.none,
+    2: VoteType.none,
+    3: VoteType.none,
+  };
 
   @override
   initState() {
@@ -151,7 +156,7 @@ class _VotePageState extends State<VotePage> {
                   agendaItem: item.value,
                   index: item.key,
                   onVote: onVote,
-                  initialValue: voteResult[item.key] ?? VoteType.none,
+                  initialValue: voteResult[item.key]!,
                 );
               },
             ).toList(),
