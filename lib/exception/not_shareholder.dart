@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
@@ -55,6 +56,10 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
     }
   }
 
+  onCall() {
+    launchUrl(Uri.parse('tel:$tele'));
+  }
+
   @override
   Widget build(BuildContext context) {
     Campaign campaign = voteCtrl.campaign;
@@ -69,14 +74,17 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    CustomText(typoType: TypoType.h1, text: contact),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    CustomText(typoType: TypoType.h1, text: tele),
+                    InkWell(
+                        onTap: onPressedMail,
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: CustomText(
+                                typoType: TypoType.h1, text: '📧 $contact'))),
+                    InkWell(
+                        onTap: onCall,
+                        child: CustomText(
+                            typoType: TypoType.h1, text: '📞 $tele')),
                     const SizedBox(
                       height: 50,
                     ),
