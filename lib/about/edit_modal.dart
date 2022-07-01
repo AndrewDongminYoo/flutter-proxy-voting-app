@@ -85,7 +85,7 @@ class _EditModalState extends State<EditModal> {
       ),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(20.0),
+          Radius.circular(24.0),
         ),
       ),
       content: Padding(

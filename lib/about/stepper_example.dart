@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../shared/custom_button.dart';
 import '../vote/vote.model.dart';
 
 class StepperComponent extends StatefulWidget {
@@ -65,18 +66,7 @@ class _StepperComponentState extends State<StepperComponent> {
       height: 50,
       child: Row(
         children: [
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(20, 20),
-              primary:
-                  !active ? const Color(0xFFDC721E) : const Color(0xFF572E67),
-              shape: const CircleBorder(),
-            ),
-            child: !active
-                ? const Icon(Icons.warning_amber_sharp)
-                : const Icon(Icons.check),
-          ),
+          StepperButton(active: active),
           Expanded(
             flex: 1,
             child: Text(title),

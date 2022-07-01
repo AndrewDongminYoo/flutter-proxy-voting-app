@@ -115,8 +115,8 @@ class _TempState extends State<Temp> {
         height: 400,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
+              bottomLeft: Radius.circular(24.0),
+              bottomRight: Radius.circular(24.0),
             ),
             gradient: LinearGradient(
                 begin: Alignment.topCenter,

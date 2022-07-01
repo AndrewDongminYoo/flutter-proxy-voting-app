@@ -11,6 +11,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../shared/custom_button.dart';
 import '../shared/custom_lottie.dart';
 import '../signature/common_app_body.dart';
 import '../vote/vote.controller.dart';
@@ -142,25 +143,10 @@ class _SignaturePageState extends State<SignaturePage> {
           ),
         ),
         const SizedBox(height: 30),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(Get.width - 30, 50),
-            primary: const Color(0xFF572E67),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-          onPressed: () {
-            onSubmit();
-          },
-          child: const Text(
-            '등록',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-        )
+        CustomButton(
+          label: '등록',
+          onPressed: onSubmit,
+        ),
       ],
     );
     return AppBodyPage(

@@ -87,14 +87,11 @@ class _CampaignPageState extends State<CampaignPage> {
   _buildConfirmButton() {
     if (authCtrl.canVote()) {
       return AnimatedButton(
-          isLoading: isLoading,
           label: voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () async {
-            isLoading = true;
             debugPrint('[campaign] Hello, ${authCtrl.user.username}!');
             voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
-            isLoading = false;
           });
     } else if (!authCtrl.isLogined) {
       return CustomConfirm(

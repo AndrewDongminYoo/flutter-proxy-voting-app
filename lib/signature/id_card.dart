@@ -12,6 +12,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 import 'common_app_body.dart';
 import 'signature.upload.dart';
@@ -175,14 +176,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
     Widget subContentList = Column(
       children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(Get.width - 30, 50),
-            primary: const Color(0xFF572E67),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
+        CustomButton(
+          label: '등록',
           onPressed: () {
             if (idcardImage != null) {
               if (authCtrl.user.backId.length > 1) {
@@ -191,13 +186,6 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
               Get.toNamed('/idnumber');
             }
           },
-          child: const Text(
-            '등록',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
         ),
       ],
     );

@@ -76,7 +76,7 @@ class _ResultPageState extends State<ResultPage> {
       Container(
         width: Get.width,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(24.0)),
           color: Color(0xff582E66),
         ),
         child: Padding(

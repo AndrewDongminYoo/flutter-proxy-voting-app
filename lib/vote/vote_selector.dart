@@ -100,7 +100,7 @@ class _VoteSelectorState extends State<VoteSelector> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: const BoxDecoration(
                   color: Color(0xFFF4F4F4),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                  borderRadius: BorderRadius.all(Radius.circular(24.0))),
               child: Stack(children: [
                 voteSelectorGroup(onSelected),
                 selectedLabel(curButton)

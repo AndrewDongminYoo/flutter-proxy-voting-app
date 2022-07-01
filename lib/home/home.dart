@@ -288,7 +288,7 @@ Widget loginBox() {
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
         decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.0))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

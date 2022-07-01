@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 import 'common_app_body.dart';
 
@@ -104,24 +105,9 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
         ],
       ),
     ));
-    var subContentList = ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        fixedSize: Size(Get.width - 30, 50),
-        primary: const Color(0xFF572E67),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      onPressed: () async {
-        onConfirmed();
-      },
-      child: const Text(
-        '등록',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      ),
+    var subContentList = CustomButton(
+      label: '등록',
+      onPressed: onConfirmed(),
     );
 
     return AppBodyPage(

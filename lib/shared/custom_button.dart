@@ -1,5 +1,5 @@
 // 🐦 Flutter imports:
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' show CupertinoActivityIndicator;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../theme.dart';
 
-class CustomButton extends StatefulWidget {
+class CustomButton extends ClipRRect {
   final CustomW width;
   final ColorType bgColor;
   final ColorType textColor;
@@ -16,7 +16,7 @@ class CustomButton extends StatefulWidget {
   final double height;
   final Function() onPressed;
 
-  const CustomButton({
+  CustomButton({
     Key? key,
     this.width = CustomW.w4,
     this.bgColor = ColorType.deepPurple,
@@ -24,140 +24,139 @@ class CustomButton extends StatefulWidget {
     this.height = 55.0,
     required this.label,
     required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  State<CustomButton> createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends State<CustomButton> {
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: Material(
-        child: InkWell(
-          onTap: widget.onPressed,
-          child: Ink(
-            height: widget.height,
-            width: customW[widget.width],
-            decoration: BoxDecoration(
-              color: customColor[widget.bgColor],
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Center(
-              child: Text(
-                widget.label,
-                style: TextStyle(
-                  color: customColor[widget.textColor],
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
+  }) : super(
+          key: key,
+          borderRadius: BorderRadius.circular(28.0),
+          child: Material(
+            child: InkWell(
+              onTap: onPressed,
+              child: Ink(
+                height: height,
+                width: customW[width],
+                decoration: BoxDecoration(
+                  color: customColor[bgColor],
+                  borderRadius: BorderRadius.circular(28.0),
+                ),
+                child: Center(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      color: customColor[textColor],
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
+        );
 }
 
-class CustomOutlinedButton extends StatefulWidget {
+class CustomOutlinedButton extends InkWell {
   final CustomW width;
   final ColorType textColor;
   final String label;
+  final double height;
   final Function() onPressed;
 
-  const CustomOutlinedButton({
+  CustomOutlinedButton({
     Key? key,
     this.width = CustomW.w1,
+    this.height = 55.0,
     this.textColor = ColorType.white,
     required this.label,
     required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  State<CustomOutlinedButton> createState() => _CustomOutlinedButtonState();
+  }) : super(
+          key: key,
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(28.0),
+          child: Ink(
+              height: height,
+              width: customW[width],
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: customColor[textColor]!,
+                ),
+                borderRadius: BorderRadius.circular(28.0),
+              ),
+              child: Center(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: customColor[textColor],
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              )),
+        );
 }
 
-class _CustomOutlinedButtonState extends State<CustomOutlinedButton> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onPressed,
-      borderRadius: BorderRadius.circular(24),
-      child: Ink(
-          height: 55,
-          width: customW[widget.width],
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: customColor[widget.textColor]!),
-              borderRadius: BorderRadius.circular(24)),
-          child: Center(
-            child: Text(
-              widget.label,
-              style: TextStyle(
-                  color: customColor[widget.textColor],
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400),
-            ),
-          )),
-    );
-  }
-}
-
-class AnimatedButton extends StatefulWidget {
+class AnimatedButton extends ClipRRect {
   final CustomW width;
+  final double height;
   final ColorType bgColor;
   final ColorType textColor;
   final String label;
   final Function() onPressed;
-  final bool isLoading;
+  bool isLoading = false;
 
-  const AnimatedButton({
-    Key? key,
+  AnimatedButton({
+    super.key,
     this.width = CustomW.w4,
+    this.height = 55.0,
     this.bgColor = ColorType.deepPurple,
     this.textColor = ColorType.white,
     required this.label,
     required this.onPressed,
-    required this.isLoading,
-  }) : super(key: key);
-
-  @override
-  State<AnimatedButton> createState() => _AnimatedButtonState();
+    bool isLoading = false,
+  }) : super(
+          borderRadius: BorderRadius.circular(28.0),
+          child: MaterialButton(
+            onPressed: () async {
+              isLoading = true;
+              await onPressed();
+              isLoading = false;
+            },
+            elevation: 4.0,
+            minWidth: Get.width - 32,
+            height: 55.0,
+            color: const Color(0xFF572E67),
+            child: (!isLoading
+                ? Text(
+                    label,
+                    style: TextStyle(
+                      color: customColor[textColor],
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
+                : const CupertinoActivityIndicator(
+                    color: Colors.white,
+                  )),
+          ),
+        );
 }
 
-class _AnimatedButtonState extends State<AnimatedButton> {
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: MaterialButton(
-        onPressed: widget.onPressed,
-        elevation: 4.0,
-        minWidth: Get.width - 32,
-        height: 50.0,
-        color: const Color(0xFF572E67),
-        child: animatedChild(),
-      ),
-    );
-  }
+class StepperButton extends ElevatedButton {
+  final bool active;
 
-  Widget animatedChild() {
-    if (!widget.isLoading) {
-      return Text(
-        widget.label,
-        style: TextStyle(
-          color: customColor[widget.textColor],
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-        ),
-      );
-    } else {
-      return const CupertinoActivityIndicator(
-        color: Colors.white,
-      );
-    }
-  }
+  StepperButton({
+    Key? key,
+    required this.active,
+  }) : super(
+          key: key,
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            fixedSize: const Size(20, 20),
+            primary:
+                !active ? const Color(0xFFDC721E) : const Color(0xFF572E67),
+            shape: const CircleBorder(),
+          ),
+          child: !active
+              ? const Icon(Icons.warning_amber_sharp)
+              : const Icon(Icons.check),
+        );
 }

@@ -32,11 +32,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
 
   voteWithExample() {
     debugPrint(voteCtrl.voteAgenda.voteAt.toString());
-    if (voteCtrl.voteAgenda.voteAt == null) {
-      Get.toNamed('/vote', arguments: 'voteWithExample');
-    } else {
-      Get.offNamed('/result');
-    }
+    Get.toNamed('/vote', arguments: 'voteWithExample');
   }
 
   voteWithoutExample() {
