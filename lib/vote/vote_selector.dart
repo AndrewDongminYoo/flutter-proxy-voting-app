@@ -86,7 +86,7 @@ class _VoteSelectorState extends State<VoteSelector> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 16),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8.0),
         child: Column(children: [

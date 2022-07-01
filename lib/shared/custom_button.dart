@@ -9,11 +9,12 @@ import 'package:get/get.dart';
 import '../theme.dart';
 
 class CustomButton extends ClipRRect {
-  final CustomW width;
   final ColorType bgColor;
   final ColorType textColor;
   final String label;
+  final CustomW width;
   final double height;
+  final double fontSize;
   final Function() onPressed;
 
   CustomButton({
@@ -21,6 +22,7 @@ class CustomButton extends ClipRRect {
     this.width = CustomW.w4,
     this.bgColor = ColorType.deepPurple,
     this.textColor = ColorType.white,
+    this.fontSize = 20,
     this.height = 55.0,
     required this.label,
     required this.onPressed,
@@ -42,7 +44,7 @@ class CustomButton extends ClipRRect {
                     label,
                     style: TextStyle(
                       color: customColor[textColor],
-                      fontSize: 20,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

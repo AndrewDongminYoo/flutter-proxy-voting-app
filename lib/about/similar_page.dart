@@ -57,10 +57,16 @@ class _SimilarPageState extends State<SimilarPage> {
       body: SizedBox(
         height: Get.height - 100,
         width: Get.width,
-        child: Stack(children: [
-          SingleScrollView(
-              widget: widget, blueWidget: widget, whiteWidget: widget),
-        ]),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SingleScrollView(
+              widget: widget,
+              blueWidget: widget,
+              whiteWidget: widget,
+            ),
+          ],
+        ),
       ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: onPressFloatingBtn,
@@ -112,13 +118,10 @@ class SingleScrollView extends StatelessWidget {
         const SizedBox(height: 37),
         Container(
           width: Get.width,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SizedBox(
-            width: Get.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: whiteWidget.whiteBackGroundWidgets,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: whiteWidget.whiteBackGroundWidgets,
           ),
         ),
         const SizedBox(height: 40),

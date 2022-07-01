@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../theme.dart';
@@ -36,31 +37,36 @@ final typoStyle = {
 };
 
 class CustomText extends StatelessWidget {
-  const CustomText(
-      {Key? key,
-      required this.typoType,
-      required this.text,
-      this.textAlign = TextAlign.center,
-      this.colorType = ColorType.black})
-      : super(key: key);
+  const CustomText({
+    Key? key,
+    required this.typoType,
+    required this.text,
+    this.isFullWidth = false,
+    this.textAlign = TextAlign.center,
+    this.colorType = ColorType.black,
+  }) : super(key: key);
 
   final String text;
   final TypoType typoType;
   final TextAlign textAlign;
   final ColorType colorType;
+  final bool isFullWidth;
 
   @override
   Widget build(BuildContext context) {
     final style = typoStyle[typoType]!;
-    return Text(
-      text,
-      textAlign: textAlign,
-      style: TextStyle(
-          color: customColor[colorType],
-          fontWeight: style.fontWeight,
-          fontSize: style.fontSize,
-          letterSpacing: style.letterSpacing),
-      overflow: TextOverflow.visible,
+    return SizedBox(
+      width: isFullWidth ? Get.width : null,
+      child: Text(
+        text,
+        textAlign: textAlign,
+        style: TextStyle(
+            color: customColor[colorType],
+            fontWeight: style.fontWeight,
+            fontSize: style.fontSize,
+            letterSpacing: style.letterSpacing),
+        overflow: TextOverflow.visible,
+      ),
     );
   }
 }

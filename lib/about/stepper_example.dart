@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -111,7 +112,7 @@ class _StepperComponentState extends State<StepperComponent> {
                 ),
                 SizedBox(width: 8.0),
                 Icon(
-                  Icons.arrow_circle_right_outlined,
+                  CupertinoIcons.arrow_right_square,
                   color: Color(0xFF572E67),
                 ),
               ],

@@ -94,7 +94,7 @@ class _SignaturePageState extends State<SignaturePage> {
 전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
 모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
     var mainContent = Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 16),
       foregroundDecoration: BoxDecoration(
         border: Border.all(
           color: Colors.deepOrange,

@@ -82,21 +82,24 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
     ];
     var whiteBackGroundWidgets = [
       CustomText(
+          isFullWidth: true,
           typoType: TypoType.h1Bold,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
           text: '2022 ${campaign.koName} 주주총회 의안'),
       const SizedBox(height: 10),
       const CustomText(
+          isFullWidth: true,
           typoType: TypoType.bodyLight,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
           text: '아래 작성 예시를 통해 정확한 정보를 알아보시고'),
       const CustomText(
+          isFullWidth: true,
           typoType: TypoType.bodyLight,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
           text: '소중한 주주의 의견을 알려주세요!'),
       const SizedBox(height: 20),
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: CustomOutlinedButton(
           label: '작성예시 보기',
           onPressed: () {
@@ -107,7 +110,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
         ),
       ),
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: CustomButton(
           label: '투표하러 가기',
           onPressed: () {

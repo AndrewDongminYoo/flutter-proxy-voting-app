@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -11,10 +12,8 @@ class CustomBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(
-        IconData(
-          0xf05bc,
-          fontFamily: 'MaterialIcons',
-        ),
+        CupertinoIcons.arrow_left_square,
+        color: Colors.white,
       ),
       splashRadius: 20.0,
       iconSize: 24.0,

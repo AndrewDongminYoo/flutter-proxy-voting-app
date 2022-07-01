@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -56,7 +57,7 @@ class _AdressCardState extends State<AdressCard> {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.arrow_circle_right_outlined,
+                  CupertinoIcons.arrow_right_square,
                   color: customColor[ColorType.white],
                 ),
                 onPressed: onEdit,
