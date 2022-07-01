@@ -121,7 +121,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       ),
     ];
     return SimilarPage(
-      title: '의결수 확인',
+      title: '캠페인',
       blueBackGroundWidgets: blueBackGroundWidgets,
       whiteBackGroundWidgets: whiteBackGroundWidgets,
       animatedWidgets: Container(),
