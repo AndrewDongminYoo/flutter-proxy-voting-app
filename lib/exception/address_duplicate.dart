@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../shared/custom_appbar.dart';
 import '../theme.dart';
 import '../auth/auth.controller.dart';
-import '../shared/back_button.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 
@@ -39,12 +39,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
     final addressList = voteCtrl.addressList();
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: customColor[ColorType.deepPurple],
-        elevation: 0,
-        leading: const CustomBackButton(),
-        title: const Text('주소 중복 확인'),
-      ),
+      appBar: CustomAppBar(text: '주소 중복 확인'),
       body: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(

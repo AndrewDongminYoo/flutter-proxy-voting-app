@@ -1,30 +1,22 @@
-// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:get/get.dart';
-
-// 🌎 Project imports:
-import 'custom_appbar.dart';
-
-class CustomScaffold extends StatelessWidget {
-  final Widget body;
-  final String title;
-  final Color appBarColor;
-  const CustomScaffold({
-    Key? key,
-    required this.body,
-    required this.title,
-    this.appBarColor = const Color(0xFF572E67),
-  }) : super(key: key);
+class CutomScaffold extends StatefulWidget {
+  const CutomScaffold({Key? key}) : super(key: key);
 
   @override
+  State<CutomScaffold> createState() => _CutomScaffoldState();
+}
+
+class _CutomScaffoldState extends State<CutomScaffold> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CustomAppBar(title: title, bgColor: appBarColor),
-        body: Container(
-            height: Get.height,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(child: body)));
+    return const Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(),
+          SliverToBoxAdapter(),
+        ],
+      ),
+    );
   }
 }

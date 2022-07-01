@@ -12,17 +12,17 @@ class PrivacyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: '회원가입'),
+        appBar: CustomAppBar(text: '회원가입'),
         body: SingleChildScrollView(
             child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: const [
-        CustomText(text: '', typoType: TypoType.body),
-        CustomText(text: Privacy0.headText, typoType: TypoType.body),
-        CustomText(text: Privacy0.mainContent1, typoType: TypoType.body),
-        CustomText(text: Privacy0.mainContent2, typoType: TypoType.body),
-      ],
-    )));
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            CustomText(text: '', typoType: TypoType.body),
+            CustomText(text: Privacy0.headText, typoType: TypoType.body),
+            CustomText(text: Privacy0.mainContent1, typoType: TypoType.body),
+            CustomText(text: Privacy0.mainContent2, typoType: TypoType.body),
+          ],
+        )));
   }
 }

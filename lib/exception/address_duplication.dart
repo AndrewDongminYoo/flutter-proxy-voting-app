@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../theme.dart';
+import '../shared/custom_appbar.dart';
 import '../auth/auth.controller.dart';
-import '../shared/back_button.dart';
 
 class AddressDuplicationPage extends StatefulWidget {
   const AddressDuplicationPage({Key? key}) : super(key: key);
@@ -25,12 +24,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: customColor[ColorType.deepPurple],
-          elevation: 0,
-          leading: const CustomBackButton(),
-          title: const Text('주소 중복 확인'),
-        ),
+        appBar: CustomAppBar(text: '주소 중복 확인'),
         body: Align(
           alignment: Alignment.center,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

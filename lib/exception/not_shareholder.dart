@@ -60,7 +60,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
     Campaign campaign = voteCtrl.campaign;
 
     return Scaffold(
-        appBar: const CustomAppBar(title: '캠페인'),
+        appBar: CustomAppBar(text: '캠페인'),
         body: SizedBox(
           child: ListView(
             children: [

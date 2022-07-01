@@ -12,16 +12,16 @@ class ServicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: '회원가입'),
+        appBar: CustomAppBar(text: '회원가입'),
         body: SingleChildScrollView(
             child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: const [
-        CustomText(text: '', typoType: TypoType.body),
-        CustomText(text: Service0.headText, typoType: TypoType.body),
-        CustomText(text: Service0.mainContent, typoType: TypoType.body),
-      ],
-    )));
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            CustomText(text: '', typoType: TypoType.body),
+            CustomText(text: Service0.headText, typoType: TypoType.body),
+            CustomText(text: Service0.mainContent, typoType: TypoType.body),
+          ],
+        )));
   }
 }

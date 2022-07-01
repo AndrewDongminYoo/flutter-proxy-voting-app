@@ -53,11 +53,7 @@ class _SimilarPageState extends State<SimilarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: widget.title,
-        withoutBack: true,
-        bgColor: const Color(0xff60457A),
-      ),
+      appBar: CustomAppBar(text: widget.title),
       body: SizedBox(
         height: Get.height - 100,
         width: Get.width,

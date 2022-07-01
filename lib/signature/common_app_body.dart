@@ -28,7 +28,7 @@ class _AppBodyPageState extends State<AppBodyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.titleString),
+      appBar: CustomAppBar(text: widget.titleString),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

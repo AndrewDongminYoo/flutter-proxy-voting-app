@@ -118,7 +118,7 @@ class _VotePageState extends State<VotePage> {
     final agendaLength = agendaList.length;
 
     return Scaffold(
-      appBar: const CustomAppBar(title: '의결수 확인'),
+      appBar: CustomAppBar(text: '의결수 확인'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),

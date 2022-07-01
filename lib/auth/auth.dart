@@ -134,7 +134,7 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: '캠페인', bgColor: Color(0xFFFAFAFA)),
+      appBar: CustomAppBar(text: '캠페인', bgColor: const Color(0xFFFAFAFA)),
       body: Unfocused(
         child: Form(
           key: _formKey,

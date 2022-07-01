@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 
 // 🌎 Project imports:
-import '../shared/back_button.dart';
+import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
 import '../shared/unfocused.dart';
@@ -77,11 +77,7 @@ class _ValidatePageState extends State<ValidatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF5E3F74),
-        elevation: 0,
-        leading: const CustomBackButton(),
-      ),
+      appBar: CustomAppBar(text: ''),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Unfocused(
