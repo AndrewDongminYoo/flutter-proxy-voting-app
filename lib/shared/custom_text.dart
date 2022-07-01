@@ -1,5 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
@@ -33,7 +35,7 @@ final typoStyle = {
   TypoType.bodyLight:
       TypoStyle(fontWeight: FontWeight.w300, fontSize: 16, letterSpacing: 0.28),
   TypoType.label:
-      TypoStyle(fontWeight: FontWeight.w300, fontSize: 12, letterSpacing: 0.55),
+      TypoStyle(fontWeight: FontWeight.w300, fontSize: 11, letterSpacing: 0.16),
 };
 
 class CustomText extends StatelessWidget {

@@ -9,6 +9,8 @@ import '../auth/auth.controller.dart';
 import '../contact_us/contact_us.dart';
 import '../shared/custom_appbar.dart';
 
+// import '../shared/custom_floating_button.dart';
+
 class SimilarPage extends StatefulWidget {
   const SimilarPage({
     Key? key,
@@ -68,11 +70,7 @@ class _SimilarPageState extends State<SimilarPage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: onPressFloatingBtn,
-      //   backgroundColor: customColor[ColorType.yellow],
-      //   child: const Icon(Icons.chat_rounded),
-      // ),
+      // floatingActionButton: const CustomFloatingButton());
     );
   }
 }
