@@ -36,10 +36,10 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     super.initState();
   }
 
-  onConfirmed() async {
+  onConfirmed()  {
     if (backId.length == 7) {
       authCtrl.putBackId(backId);
-      await Get.offNamed('/result');
+      Get.offNamed('/result');
     }
   }
 
@@ -107,7 +107,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     ));
     var subContentList = CustomButton(
       label: '등록',
-      onPressed: onConfirmed(),
+      onPressed: onConfirmed,
     );
 
     return AppBodyPage(
