@@ -138,6 +138,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Nanum',
+        useMaterial3: true
       ),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
