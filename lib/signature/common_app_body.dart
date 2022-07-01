@@ -42,21 +42,12 @@ class _AppBodyPageState extends State<AppBodyPage> {
                     )),
                 const Spacer(),
                 const SizedBox(height: 40)
-                // OutlinedButton(
-                //   onPressed: () {
-                //     // 문의하기 페이지 구현
-                //   },
-                //   style: OutlinedButton.styleFrom(
-                //     primary: const Color(0xFF572E67),
-                //   ),
-                //   child: const Text('문의하기'),
-                // ),
               ],
             ),
             Text(widget.informationString),
             widget.mainContent,
             widget.subContentList,
-            const SizedBox(height: 100)
+            const SizedBox(height: 50)
           ],
         ),
       ),

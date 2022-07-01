@@ -6,19 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../../theme.dart';
 import '../../auth/auth.controller.dart';
 import '../../shared/custom_text.dart';
+import '../../theme.dart';
 import 'edit_modal.dart';
 
-class AdressCard extends StatefulWidget {
-  const AdressCard({Key? key}) : super(key: key);
+class AddressCard extends StatefulWidget {
+  const AddressCard({Key? key}) : super(key: key);
 
   @override
-  State<AdressCard> createState() => _AdressCardState();
+  State<AddressCard> createState() => _AddressCardState();
 }
 
-class _AdressCardState extends State<AdressCard> {
+class _AddressCardState extends State<AddressCard> {
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
@@ -51,11 +51,14 @@ class _AdressCardState extends State<AdressCard> {
                   colorType: ColorType.white,
                 ),
                 const Spacer(),
-                const CustomText(
-                  typoType: TypoType.bodyLight,
-                  text: '수정하기',
-                  textAlign: TextAlign.left,
-                  colorType: ColorType.white,
+                InkWell(
+                  onTap: onEdit,
+                  child: const CustomText(
+                    typoType: TypoType.bodyLight,
+                    text: '수정하기',
+                    textAlign: TextAlign.left,
+                    colorType: ColorType.white,
+                  ),
                 ),
                 IconButton(
                   iconSize: 24,

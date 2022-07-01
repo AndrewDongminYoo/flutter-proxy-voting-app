@@ -98,6 +98,7 @@ class _AuthPageState extends State<AuthPage> {
           return;
         }
         Get.bottomSheet(TelcomModal(nextForm: nextForm),
+            isScrollControlled: true,
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)));

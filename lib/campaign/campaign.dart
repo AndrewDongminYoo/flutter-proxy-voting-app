@@ -112,7 +112,7 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(text: ''),
+      appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
       body: Stack(fit: StackFit.expand, children: [
         gradientLayer(),
         SizedBox(

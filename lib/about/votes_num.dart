@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import 'package:bside/about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_button.dart';
@@ -12,7 +13,6 @@ import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'similar_page.dart';
-import 'widget/adress_card.dart';
 import 'widget/edit_modal.dart';
 import 'widget/vote_num_card.dart';
 
@@ -75,7 +75,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
         colorType: ColorType.white,
       ),
       const SizedBox(height: 16),
-      const AdressCard(),
+      const AddressCard(),
       const SizedBox(height: 8),
       VioletCard(),
       const SizedBox(height: 16),

@@ -39,7 +39,7 @@ class _EditModalState extends State<EditModal> {
 
   Widget addressForm() {
     return TextFormField(
-      minLines: 1,
+      minLines: 2,
       maxLines: 3,
       initialValue: addressInModal,
       autofocus: true,
@@ -91,7 +91,7 @@ class _EditModalState extends State<EditModal> {
       content: Padding(
           padding: const EdgeInsets.only(top: 0),
           child: SizedBox(
-              height: 170,
+              height: Get.height * 0.3,
               child: Column(
                 children: [
                   addressForm(),

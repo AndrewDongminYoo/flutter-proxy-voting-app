@@ -46,7 +46,7 @@ void main() async {
       };
 
       // NOTE: 디버깅용
-      await clearPref();
+      // await clearPref();
 
       // initialize app
       await dotenv.load(fileName: '.env');

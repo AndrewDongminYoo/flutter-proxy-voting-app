@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../../theme.dart';
 import '../../shared/card_formatter.dart';
 import '../../shared/custom_text.dart';
+import '../../theme.dart';
 
 enum FormStep { phoneNumber, koreanId, telecom, name }
 
@@ -108,6 +108,7 @@ class _TelecomFormState extends State<TelecomForm> {
   void openBottomSheet() {
     Get.bottomSheet(
       TelcomModal(nextForm: widget.nextForm),
+      isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -143,7 +144,7 @@ class TelcomModal extends StatelessWidget {
       },
       child: Container(
         width: customW[CustomW.w4],
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: CustomText(
           typoType: TypoType.h1Bold,
           text: item,
@@ -157,33 +158,25 @@ class TelcomModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          Container(
-            height: 6,
-            width: 50,
-            decoration: const BoxDecoration(
-              color: Color(0xFFEEEDEF),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
+      height: Get.height * 0.5,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            const CustomText(
+              typoType: TypoType.h1Bold,
+              text: '통신사 선택',
             ),
-          ),
-          const SizedBox(height: 30),
-          const CustomText(
-            typoType: TypoType.h1Bold,
-            text: '통신사 선택',
-          ),
-          const SizedBox(height: 30),
-          _buildTelecomItem('SKT'),
-          _buildTelecomItem('KT'),
-          _buildTelecomItem('LG U+'),
-          _buildTelecomItem('SKT 알뜰폰'),
-          _buildTelecomItem('KT 알뜰폰'),
-          _buildTelecomItem('LG U+ 알뜰폰'),
-        ],
+            const SizedBox(height: 20),
+            _buildTelecomItem('SKT'),
+            _buildTelecomItem('KT'),
+            _buildTelecomItem('LG U+'),
+            _buildTelecomItem('SKT 알뜰폰'),
+            _buildTelecomItem('KT 알뜰폰'),
+            _buildTelecomItem('LG U+ 알뜰폰'),
+          ],
+        ),
       ),
     );
   }

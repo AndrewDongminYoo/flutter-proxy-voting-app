@@ -13,7 +13,7 @@ import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'similar_page.dart';
 import 'stepper_example.dart';
-import 'widget/adress_card.dart';
+import 'widget/address_card.dart';
 import 'widget/edit_modal.dart';
 
 class ResultPage extends StatefulWidget {
@@ -71,7 +71,7 @@ class _ResultPageState extends State<ResultPage> {
       const SizedBox(height: 20),
     ];
     var whiteBackGroundWidgets = [
-      const AdressCard(),
+      const AddressCard(),
       const SizedBox(height: 20),
       Container(
         width: Get.width,
