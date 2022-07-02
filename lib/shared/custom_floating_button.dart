@@ -12,6 +12,12 @@ import '../shared/custom_text.dart';
 import '../theme.dart';
 import 'custom_card.dart';
 
+const formFieldStyle = TextStyle(
+  letterSpacing: 2.0,
+  fontSize: 20,
+  fontWeight: FontWeight.w900,
+);
+
 class CustomFloatingButton extends StatefulWidget {
   const CustomFloatingButton({Key? key}) : super(key: key);
 
@@ -56,6 +62,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
   }
 }
 
+// Reference: https://github.com/flyerhq/flutter_chat_ui
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -104,28 +111,26 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildUserChat(Chat chat) {
     return Container(
       margin: const EdgeInsets.only(top: 18),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        const SizedBox(width: 6),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const SizedBox(width: 6),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CustomCard(
-                  bgColor: ColorType.orange,
-                    child: CustomText(
+            CustomCard(
+                bgColor: ColorType.orange,
+                child: CustomText(
                   text: chat.message,
                   typoType: TypoType.body,
                   colorType: ColorType.white,
                 )),
-                const SizedBox(height: 6),
-                CustomText(
-                    typoType: TypoType.label,
-                    colorType: ColorType.black,
-                    text: DateFormat('yyyy년 MM월 dd일 HH:mm').format(chat.time))
-              ],
-            )
-          ]),
+            const SizedBox(height: 6),
+            CustomText(
+                typoType: TypoType.label,
+                colorType: ColorType.black,
+                text: DateFormat('yyyy년 MM월 dd일 HH:mm').format(chat.time))
+          ],
+        )
+      ]),
     );
   }
 
@@ -158,13 +163,24 @@ class _ChatScreenState extends State<ChatScreen> {
                       blurRadius: 7,
                       offset: Offset(0, 3))
                 ]),
-            child: ListView.builder(
-                controller: _controller,
-                itemCount: authCtrl.chats.length,
-                padding: const EdgeInsets.only(bottom: 100),
-                itemBuilder: (BuildContext context, int index) {
-                  return _buildChat(authCtrl.chats[index], index);
-                })),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      controller: _controller,
+                      itemCount: authCtrl.chats.length,
+                      padding: const EdgeInsets.only(bottom: 100),
+                      itemBuilder: (BuildContext context, int index) {
+                        return _buildChat(authCtrl.chats[index], index);
+                      }),
+                ),
+                TextFormField(
+                  autofocus: true,
+                  style: formFieldStyle,
+                )
+              ],
+            )),
       ),
     );
   }

@@ -83,15 +83,29 @@ class AuthController extends GetxController {
     String telNum,
     bool isNewAcc,
   ) async {
+    // Super User for apple QA
+    if (telNum == '01086199325' && frontId == '940701') {
+      user = User('소재우', '940701', '1', 'SKT', '01086199325');
+      return;
+    }
+
     await _service.getOtpCode(name, frontId, backId, telecom, telNum);
     if (isNewAcc) {
       // FIXME: 사용자가 인증번호까지 완료해야 user 생성 필요
       user = User(name, frontId, backId, telecom, telNum);
+      user.id = 51;
     }
   }
 
   Future<void> validateOtpCode(String telNum, String otpCode) async {
     startLoading();
+    // Super User for apple QA
+    if (telNum == '01086199325' && otpCode == '210913') {
+      login();
+      stopLoading();
+      return;
+    }
+
     await _service.putPassCode(telNum, otpCode);
     const duration = Duration(seconds: 3);
     await Future.delayed(duration, () async {
