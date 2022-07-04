@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
+import '../vote/vote.model.dart';
 import 'common_app_body.dart';
 
 class TakeBackNumberPage extends StatefulWidget {
@@ -36,9 +37,10 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     super.initState();
   }
 
-  onConfirmed()  {
+  onConfirmed() {
     if (backId.length == 7) {
       authCtrl.putBackId(backId);
+      voteCtrl.trackBackId();
       Get.offNamed('/result');
     }
   }

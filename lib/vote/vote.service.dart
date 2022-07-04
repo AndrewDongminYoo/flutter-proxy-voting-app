@@ -65,4 +65,9 @@ class VoteService extends GetConnect {
     return put(getURL('/agenda/idcard'),
         jsonEncode({'agendaId': agendaId, 'idCard': idCard}));
   }
+
+  Future<Response> postTakeBackNumberAt(int agendaId, String takeBackNumberAt) {
+    return put(getURL('/agenda/idcard'),
+        jsonEncode({'agendaId': agendaId, 'takeBackNumberAt': takeBackNumberAt}));
+  }
 }

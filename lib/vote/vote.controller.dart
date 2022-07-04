@@ -206,6 +206,10 @@ class VoteController extends GetxController {
     }
   }
 
+  void trackBackId() {
+    voteAgenda.backIdAt = DateTime.now();
+  }
+
   Future<void> saveShareholder() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('${campaign.enName}-shareholder', shareholder.id);

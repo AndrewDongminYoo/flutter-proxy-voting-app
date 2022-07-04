@@ -54,6 +54,7 @@ class VoteAgenda {
   DateTime? signatureAt;
   DateTime? idCardAt;
   DateTime? voteAt;
+  DateTime? backIdAt;
 
   VoteAgenda(
     this.id,
@@ -85,6 +86,7 @@ class VoteAgenda {
           json['signatureAt'] != null ? parseDate(json['signatureAt']) : null;
       idCardAt = json['idCardAt'] != null ? parseDate(json['idCardAt']) : null;
       voteAt = json['voteAt'] != null ? parseDate(json['voteAt']) : null;
+      backIdAt = json['backIdAt'] != null ? parseDate(json['backIdAt']) : null;
     }
   }
 }

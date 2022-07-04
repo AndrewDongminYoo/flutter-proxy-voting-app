@@ -56,6 +56,7 @@ class _StepperComponentState extends State<StepperComponent> {
         customStep('안건투표', widget.agenda.voteAt != null),
         customStep('전자서명', widget.agenda.signatureAt != null),
         customStep('신분증 사본', widget.agenda.idCardAt != null),
+        customStep('주민번호 입력', widget.agenda.backIdAt != null),
       ]),
     );
   }
@@ -97,6 +98,12 @@ class _StepperComponentState extends State<StepperComponent> {
                   Get.toNamed(
                     '/idcard',
                     arguments: widget.agenda.idCardAt,
+                  );
+                  break;
+                case ('주민번호 입력'):
+                  Get.toNamed(
+                    '/idnumber',
+                    arguments: widget.agenda.backIdAt,
                   );
                   break;
               }
