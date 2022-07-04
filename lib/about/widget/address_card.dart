@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../../vote/vote.controller.dart';
 import '../../auth/auth.controller.dart';
 import '../../shared/custom_text.dart';
 import '../../theme.dart';
@@ -22,9 +23,25 @@ class _AddressCardState extends State<AddressCard> {
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
+      ? Get.find()
+      : Get.put(VoteController());
+
   onEdit() async {
     await Get.dialog(const EditModal());
     setState(() {});
+  }
+
+  String address = '';
+
+  @override
+  void initState() {
+    if (authCtrl.user.address != '') {
+      address = authCtrl.user.address;
+    } else if (voteCtrl.shareholder.address != '') {
+      address = voteCtrl.shareholder.address;
+    }
+    super.initState();
   }
 
   @override
@@ -74,7 +91,7 @@ class _AddressCardState extends State<AddressCard> {
             const SizedBox(height: 24),
             CustomText(
               typoType: TypoType.bodyLight,
-              text: authCtrl.user.address,
+              text: address,
               textAlign: TextAlign.left,
               colorType: ColorType.white,
               isFullWidth: true,
