@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
@@ -65,7 +66,7 @@ class _AuthPageState extends State<AuthPage> {
       phoneNumber,
       true,
     );
-    Get.toNamed('/validate', arguments: 'newUser');
+    goToValidateNew();
   }
 
   existingUser() {
@@ -78,7 +79,7 @@ class _AuthPageState extends State<AuthPage> {
       phoneNumber,
       false,
     );
-    Get.toNamed('/validate', arguments: 'existingUser');
+    goToValidateOld();
   }
 
   void nextForm(FormStep step, String value) {

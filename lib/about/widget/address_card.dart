@@ -28,7 +28,7 @@ class _AddressCardState extends State<AddressCard> {
       : Get.put(VoteController());
 
   onEdit() async {
-    await Get.dialog(const EditModal());
+    await Get.dialog(const EditModal(), arguments: address);
     setState(() {});
   }
 
@@ -37,8 +37,10 @@ class _AddressCardState extends State<AddressCard> {
   @override
   void initState() {
     if (authCtrl.user.address != '') {
+      debugPrint('load address from userCtrlr');
       address = authCtrl.user.address;
     } else if (voteCtrl.shareholder.address != '') {
+      debugPrint('load address from shareholder');
       address = voteCtrl.shareholder.address;
     }
     super.initState();

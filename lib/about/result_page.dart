@@ -11,10 +11,10 @@ import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
+import '../vote/vote.model.dart';
 import 'similar_page.dart';
 import 'stepper_example.dart';
 import 'widget/address_card.dart';
-import 'widget/edit_modal.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({Key? key}) : super(key: key);
@@ -30,13 +30,18 @@ class _ResultPageState extends State<ResultPage> {
       ? Get.find()
       : Get.put(VoteController());
 
-  onAddressEdit() async {
-    await Get.dialog(const EditModal());
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
+    VoteAgenda voteAgenda = voteCtrl.voteAgenda;
+    final String youAreDoneText;
+    if (voteAgenda.idCardAt != null &&
+        voteAgenda.backIdAt != null &&
+        voteAgenda.signatureAt != null) {
+      youAreDoneText = '성공적으로 전자위임이 완료되었습니다.';
+    } else {
+      youAreDoneText = '잠깐! 부족한 정보를 채워주세요. 🥺 ';
+    }
+
     Campaign campaign = voteCtrl.campaign;
     var blueBackGroundWidgets = <Widget>[
       Container(
@@ -63,9 +68,9 @@ class _ResultPageState extends State<ResultPage> {
           colorType: ColorType.white,
         ),
       ),
-      const CustomText(
+      CustomText(
         typoType: TypoType.bodyLight,
-        text: '성공적으로 전자위임이 완료되었습니다.',
+        text: youAreDoneText,
         colorType: ColorType.white,
       ),
       const SizedBox(height: 20),

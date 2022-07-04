@@ -14,17 +14,15 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
 import 'firebase_options.dart';
 import 'routes.dart' show routes;
 import 'vote/vote.controller.dart';
-
-// import 'package:firebase_analytics/firebase_analytics.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
 // import 'utils/firebase.dart';
 // import 'utils/appsflyer.dart';
 
@@ -136,10 +134,9 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Bside',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        fontFamily: 'Nanum',
-        useMaterial3: true
-      ),
+          primarySwatch: Colors.deepPurple,
+          fontFamily: 'Nanum',
+          useMaterial3: true),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
       defaultTransition: Transition.cupertino,

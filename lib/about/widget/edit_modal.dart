@@ -17,7 +17,7 @@ class EditModal extends StatefulWidget {
 }
 
 class _EditModalState extends State<EditModal> {
-  String addressInModal = '';
+  String address = '';
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
@@ -28,12 +28,17 @@ class _EditModalState extends State<EditModal> {
 
   onSubmit() {
     Get.back();
-    authCtrl.setAddress(addressInModal);
+    authCtrl.setAddress(address);
+    setState(() {});
   }
 
   @override
   void initState() {
-    addressInModal = authCtrl.user.address;
+    if (Get.arguments != null) {
+      address = Get.arguments;
+    } else if (authCtrl.user.address != '') {
+      address = authCtrl.user.address;
+    }
     super.initState();
   }
 
@@ -41,7 +46,7 @@ class _EditModalState extends State<EditModal> {
     return TextFormField(
       minLines: 2,
       maxLines: 3,
-      initialValue: addressInModal,
+      initialValue: address,
       autofocus: true,
       style: const TextStyle(
         letterSpacing: 2.0,
@@ -54,7 +59,7 @@ class _EditModalState extends State<EditModal> {
         labelText: '자택 주소',
       ),
       onChanged: (text) {
-        addressInModal = text;
+        address = text;
       },
     );
   }
@@ -89,24 +94,26 @@ class _EditModalState extends State<EditModal> {
         ),
       ),
       content: Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: SizedBox(
-              height: Get.height * 0.3,
-              child: Column(
-                children: [
-                  addressForm(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomButton(
-                    label: '확인',
-                    onPressed: onSubmit,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  )
-                ],
-              ))),
+        padding: const EdgeInsets.only(top: 0),
+        child: SizedBox(
+          height: Get.height * 0.3,
+          child: Column(
+            children: [
+              addressForm(),
+              const SizedBox(
+                height: 10,
+              ),
+              CustomButton(
+                label: '확인',
+                onPressed: onSubmit,
+              ),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

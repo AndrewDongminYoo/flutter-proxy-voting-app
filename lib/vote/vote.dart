@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../theme.dart';
+import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
@@ -94,11 +95,11 @@ class _VotePageState extends State<VotePage> {
   onNext() {
     voteCtrl.postVoteResult(authCtrl.user.id, voteResult.values.toList());
     if (voteCtrl.voteAgenda.signatureAt == null) {
-      Get.toNamed('/signature');
+      goToSignature();
     } else if (voteCtrl.voteAgenda.idCardAt == null) {
-      Get.toNamed('/idcard');
+      goToIDCard(); //
     } else {
-      Get.offNamed('/result');
+      goToResult();
     }
   }
 

@@ -10,6 +10,7 @@ import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_lottie.dart';
@@ -80,7 +81,7 @@ class _SignaturePageState extends State<SignaturePage> {
     } else if (voteCtrl.voteAgenda.idCardAt != null) {
       await Get.offNamed('/result');
     }
-    await Get.toNamed('/idcard');
+    goToIDCard();
   }
 
   @override

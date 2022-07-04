@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.model.dart';
 
@@ -77,34 +78,19 @@ class _StepperComponentState extends State<StepperComponent> {
             onPressed: () {
               switch (title) {
                 case ('주주명부 대조'):
-                  Get.toNamed(
-                    '/checkvotenum',
-                    arguments: widget.shareId,
-                  );
+                  goToCheckVoteNum();
                   break;
                 case ('안건투표'):
-                  Get.toNamed(
-                    '/vote',
-                    arguments: 'voteWithLastMemory',
-                  );
+                  goToVoteWithLastMemory();
                   break;
                 case ('전자서명'):
-                  Get.toNamed(
-                    '/signature',
-                    arguments: widget.agenda.signatureAt,
-                  );
+                  goToSignature();
                   break;
                 case ('신분증 사본'):
-                  Get.toNamed(
-                    '/idcard',
-                    arguments: widget.agenda.idCardAt,
-                  );
+                  goToIDCard();
                   break;
                 case ('주민번호 입력'):
-                  Get.toNamed(
-                    '/idnumber',
-                    arguments: widget.agenda.backIdAt,
-                  );
+                  goToIDNumber();
                   break;
               }
             },

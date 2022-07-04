@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
-import '../vote/vote.model.dart';
 import 'common_app_body.dart';
 
 class TakeBackNumberPage extends StatefulWidget {

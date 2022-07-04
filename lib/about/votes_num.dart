@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
+import '../get_nav.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
@@ -30,15 +31,10 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
       ? Get.find()
       : Get.put(AuthController());
 
-  voteWithExample() {
-    debugPrint(voteCtrl.voteAgenda.voteAt.toString());
-    Get.toNamed('/vote', arguments: 'voteWithExample');
-  }
-
   voteWithoutExample() {
     debugPrint(voteCtrl.voteAgenda.voteAt.toString());
     if (voteCtrl.voteAgenda.voteAt == null) {
-      Get.toNamed('/vote', arguments: 'voteWithoutExample');
+      goToVoteWithoutExample();
     } else {
       Get.offNamed('/result');
     }
@@ -103,7 +99,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
         child: CustomOutlinedButton(
           label: '작성예시 보기',
           onPressed: () {
-            voteWithExample();
+            goToVoteWithExample();
           },
           textColor: ColorType.orange,
           width: CustomW.w4,

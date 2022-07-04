@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/loading_screen.dart';
@@ -109,15 +110,15 @@ class VoteController extends GetxController {
     stopLoading();
     if (shareholders.length > 1) {
       // case B-1: 주주가 여려명인 경우, 동명이인이 있는 상황. 주소 확인페이지로 이동
-      Get.toNamed('/duplicate');
+      goToDuplicate();
     } else if (shareholders.length == 1) {
       // case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
       _shareholder = shareholders[0];
       await saveShareholder();
-      Get.toNamed('/checkvotenum');
+      goToCheckVoteNum();
     } else {
       // case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
-      Get.toNamed('/not-shareholder');
+      goToNotShareHolders();
     }
   }
 
@@ -187,12 +188,14 @@ class VoteController extends GetxController {
   void putSignatureUrl(String url) async {
     await _service.postSignature(voteAgenda.id, url);
     voteAgenda.signatureAt = DateTime.now();
+    update();
   }
 
   // === page: 신분증 업로드 ===
   void putIdCard(String url) async {
     await _service.postIdCard(voteAgenda.id, url);
     voteAgenda.idCardAt = DateTime.now();
+    update();
   }
 
   // === Common ===

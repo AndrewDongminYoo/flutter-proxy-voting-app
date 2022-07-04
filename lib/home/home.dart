@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   void onConfirmed(Campaign campaign) {
     voteCtrl.setCampaign(campaign);
-    Get.toNamed('/campaign');
+    goToCampaign();
   }
 
   void updateCurPage(int index) {

@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_confirm.dart';
@@ -100,7 +101,7 @@ class _CampaignPageState extends State<CampaignPage> {
           message: '서비스 이용을 위해\n본인인증이 필요해요.',
           okLabel: '인증하러가기',
           onConfirm: () {
-            Get.toNamed('/signup');
+            goToSignUp();
           });
     } else {
       // NOTE: 전화번호 인증 혹은 본인정보 확인 필요
@@ -184,30 +185,22 @@ Widget campaignInfoInRow(Campaign campaign) {
         icon: Icons.book_rounded,
         color: Colors.deepOrange,
         label: '전자위임',
-        onTap: () {
-          Get.toNamed('/vote');
-        }),
+        onTap: () {}),
     ActionMenu(
         icon: Icons.group_add_rounded,
         color: Colors.deepPurple,
         label: '라운지',
-        onTap: () {
-          // Get.toNamed('/lounge');
-        }),
+        onTap: () {}),
     ActionMenu(
         icon: Icons.attach_file_rounded,
         color: Colors.deepPurple,
         label: '공시서류',
-        onTap: () {
-          // Get.toNamed('/dart');
-        }),
+        onTap: () {}),
     ActionMenu(
         icon: Icons.history_rounded,
         color: Colors.deepPurple,
         label: '이전기록',
-        onTap: () {
-          // Get.toNamed('/history');
-        }),
+        onTap: () {}),
   ];
 
   return Column(
