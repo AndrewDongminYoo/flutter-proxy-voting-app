@@ -79,7 +79,7 @@ class _SignaturePageState extends State<SignaturePage> {
       );
       voteCtrl.putSignatureUrl(url);
     } else if (voteCtrl.voteAgenda.idCardAt != null) {
-      await Get.offNamed('/result');
+      await jumpToResult();
     }
     goToIDCard();
   }

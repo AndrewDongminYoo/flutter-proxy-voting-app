@@ -11,6 +11,7 @@ Future<dynamic>? goToNotShareHolders() => Get.toNamed('/not-shareholders');
 Future<dynamic>? goToDuplicate() => Get.toNamed('/duplicate');
 Future<dynamic>? goToResult() => Get.toNamed('/result');
 Future<dynamic>? goToCheckVoteNum() => Get.toNamed('/checkvotenum');
+Future<dynamic>? jumpToCheckVoteNum() => Get.offNamed('/checkvotenum');
 
 Future<dynamic>? goToVoteWithLastMemory() =>
     Get.toNamed('/vote', arguments: 'voteWithLastMemory');
@@ -23,3 +24,15 @@ Future<dynamic>? goToValidateNew() =>
     Get.toNamed('/validate', arguments: 'newUser');
 Future<dynamic>? goToValidateOld() =>
     Get.toNamed('/validate', arguments: 'existingUser');
+
+Future<dynamic>? jumpToResult() {
+  return Get.offNamedUntil('/', (route) {
+    return route.settings.name == '/';
+  });
+}
+
+Future<dynamic>? jumpToCampaign() {
+  return Get.offNamedUntil('/campaign', (route) {
+    return route.settings.name == '/';
+  });
+}

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
@@ -45,7 +46,7 @@ class _ValidatePageState extends State<ValidatePage> {
   onPressed() {
     if (authCtrl.canVote()) {
       timer!.cancel();
-      Get.offNamedUntil('/campaign', (route) => route.settings.name == '/');
+      jumpToCampaign();
     }
   }
 

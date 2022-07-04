@@ -9,6 +9,7 @@ import '../auth/auth.controller.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../theme.dart';
+import '../get_nav.dart';
 import '../vote/vote.controller.dart';
 
 class AddressDuplicationPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
   onConfirmed(String address) {
     authCtrl.setAddress(address);
     voteCtrl.selectShareholder(selected);
-    Get.offNamed('/checkvotenum');
+    jumpToCheckVoteNum();
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../theme.dart';
+import '../get_nav.dart';
 import 'guide.dart';
 import 'guide.data.dart';
 
@@ -33,7 +34,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   void onTap() async {
     savePref();
-    Get.offAllNamed('/');
+    jumpToResult();
   }
 
   void savePref() async {

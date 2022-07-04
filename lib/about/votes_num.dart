@@ -36,7 +36,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
     if (voteCtrl.voteAgenda.voteAt == null) {
       goToVoteWithoutExample();
     } else {
-      Get.offNamed('/result');
+      jumpToResult();
     }
   }
 

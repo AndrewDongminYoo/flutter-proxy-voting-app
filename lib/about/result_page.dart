@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_button.dart';
@@ -114,12 +115,7 @@ class _ResultPageState extends State<ResultPage> {
           label: '처음으로',
           width: CustomW.w4,
           onPressed: () {
-            return Get.offNamedUntil(
-              '/',
-              (route) {
-                return route.settings.name == '/';
-              },
-            );
+            jumpToResult();
           },
         ),
         const SizedBox(height: 100)
