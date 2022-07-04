@@ -1,6 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
 import '../theme.dart';
 import 'unfocused.dart';
 
@@ -18,6 +22,7 @@ class ScrollAppBody extends StatefulWidget {
   final Widget? actions;
 
   @override
+  // ignore: library_private_types_in_public_api
   _ScrollAppBodyState createState() => _ScrollAppBodyState();
 }
 

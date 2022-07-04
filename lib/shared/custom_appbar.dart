@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/back_button.dart';
-
 // import 'notice_button.dart';
 
 class CustomAppBar extends AppBar {

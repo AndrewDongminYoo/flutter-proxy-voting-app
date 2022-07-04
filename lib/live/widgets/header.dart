@@ -1,5 +1,8 @@
-import 'package:bside/shared/custom_text.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import '../../shared/custom_text.dart';
 
 class LiveLoungeHeader extends StatelessWidget {
   const LiveLoungeHeader({Key? key}) : super(key: key);
@@ -24,7 +27,7 @@ class LiveLoungeHeader extends StatelessWidget {
             height: 5,
           ),
           CustomText(
-            text: "장소 : 성동구 왕십리로 83-21 에스엠 본사 2층",
+            text: '장소 : 성동구 왕십리로 83-21 에스엠 본사 2층',
             typoType: TypoType.body,
           ),
         ]);

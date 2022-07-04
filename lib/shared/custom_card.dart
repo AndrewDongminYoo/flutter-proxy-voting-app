@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/theme.dart';
+import '../theme.dart';
 
 class CustomCard extends StatelessWidget {
   final ColorType bgColor;
@@ -19,8 +19,9 @@ class CustomCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: customColor[bgColor]),
+        borderRadius: BorderRadius.circular(20),
+        color: customColor[bgColor],
+      ),
       child: child,
     );
   }

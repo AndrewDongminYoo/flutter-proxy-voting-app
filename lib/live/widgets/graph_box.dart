@@ -1,17 +1,21 @@
-import 'package:bside/shared/custom_text.dart';
-import 'package:easy_debounce/easy_debounce.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+// 📦 Package imports:
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:easy_debounce/easy_debounce.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+// 🌎 Project imports:
+import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../firebase.dart';
 import '../live.model.dart';
-import 'progressBar.dart';
+import 'progress_bar.dart';
 import 'reaction.dart';
-import 'statusBox.dart';
+import 'status_box.dart';
 
 class CustomPanel extends StatefulWidget {
   const CustomPanel({Key? key, required this.index}) : super(key: key);
@@ -28,7 +32,7 @@ class _CustomPanelState extends State<CustomPanel> {
   sendAlert(String title) {
     Get.snackbar(
       '안내',
-      '${title}이 집계중입니다.',
+      '$title이 집계중입니다.',
       icon: const Icon(Icons.campaign, color: Colors.white),
       snackPosition: SnackPosition.TOP,
       backgroundColor: customColor[ColorType.deepPurple],
@@ -82,7 +86,7 @@ class _CustomPanelState extends State<CustomPanel> {
             return const Text('Something went wrong');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading");
+            return const Text('Loading');
           }
           var liveAgenda = LiveAgenda.fromJson(snapshot.data!);
           liveAgenda.index = widget.index;
@@ -151,7 +155,7 @@ class GraphBoxBody extends StatelessWidget {
   const GraphBoxBody({Key? key, required this.liveAgenda}) : super(key: key);
   final LiveAgenda liveAgenda;
 
-  Widget labelWithCircle(Color _color, String _text, bool isLeft) {
+  Widget labelWithCircle(Color color, String text, bool isLeft) {
     return Row(
       mainAxisAlignment:
           isLeft ? MainAxisAlignment.start : MainAxisAlignment.end,
@@ -159,17 +163,17 @@ class GraphBoxBody extends StatelessWidget {
         Container(
           width: 8,
           height: 8,
-          decoration: BoxDecoration(color: _color, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(
           width: 3,
         ),
-        CustomText(text: _text, typoType: TypoType.h2)
+        CustomText(text: text, typoType: TypoType.h2)
       ],
     );
   }
 
-  Widget getRichText(int voteCount, bool isBold, Color _color) {
+  Widget getRichText(int voteCount, bool isBold, Color color) {
     var f = NumberFormat('###,###,###,###');
 
     return RichText(
@@ -181,10 +185,10 @@ class GraphBoxBody extends StatelessWidget {
             style: TextStyle(
                 fontSize: isBold ? 14.0 : 12.0,
                 fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                color: _color),
+                color: color),
           ),
           TextSpan(
-            text: "표",
+            text: '표',
             style: TextStyle(
                 fontSize: isBold ? 14.0 : 12.0,
                 fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
@@ -200,7 +204,7 @@ class GraphBoxBody extends StatelessWidget {
         .doc('sm')
         .collection('agenda')
         .doc((liveAgenda.index + 1).toString())
-        .update({'reaction.${value}': liveAgenda[value] + 1});
+        .update({'reaction.$value': liveAgenda[value] + 1});
   }
 
   @override
@@ -241,7 +245,7 @@ class GraphBoxBody extends StatelessWidget {
                           CustomText(
                               text: liveAgenda.forPercentage == 0
                                   ? '(0%)'
-                                  : "(${(liveAgenda.forPercentage * 100).round()}%)",
+                                  : '(${(liveAgenda.forPercentage * 100).round()}%)',
                               typoType: TypoType.body)
                         ],
                       ),
@@ -256,7 +260,7 @@ class GraphBoxBody extends StatelessWidget {
                           CustomText(
                               text: liveAgenda.againstPercentage == 0
                                   ? '(0%)'
-                                  : "(${(liveAgenda.againstPercentage * 100).round()}%)",
+                                  : '(${(liveAgenda.againstPercentage * 100).round()}%)',
                               typoType: TypoType.body)
                         ],
                       ),

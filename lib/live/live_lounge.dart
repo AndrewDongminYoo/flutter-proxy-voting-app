@@ -1,19 +1,23 @@
+// 🎯 Dart imports:
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_debounce/easy_debounce.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// 🌎 Project imports:
 import '../shared/custom_text.dart';
 import '../shared/scroll_app_body.dart';
 import '../theme.dart';
 import 'comments_sheet.dart';
 import 'firebase.dart';
-import 'widgets/graphBox.dart';
-import 'widgets/totalStatus.dart';
+import 'widgets/graph_box.dart';
+import 'widgets/total_status.dart';
 
 class LiveLounge extends StatefulWidget {
   const LiveLounge({Key? key}) : super(key: key);
@@ -52,7 +56,7 @@ class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
   setupName() async {
     final prefs = await SharedPreferences.getInstance();
     name = prefs.getString('nickname') ?? '';
-    print(name);
+    debugPrint(name);
   }
 
   subtractCount() async {
@@ -79,6 +83,7 @@ class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     const emptySpace = SizedBox(height: 20);
+    // ignore: unused_local_variable
     final boxDecoration = BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         color: customColor[ColorType.white],
@@ -132,18 +137,18 @@ class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
       ]),
       floatingButton: FloatingActionButton(
         onPressed: showCommentSheet,
+        backgroundColor: customColor[ColorType.white],
         child: const Image(
             image: AssetImage('assets/images/chat-bubble.gif'),
             height: 45,
             width: 45),
-        backgroundColor: customColor[ColorType.white],
       ),
       actions: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
           Image(
-              image: AssetImage("assets/images/red_circle.gif"),
+              image: AssetImage('assets/images/red_circle.gif'),
               height: 15,
               width: 15),
           SizedBox(width: 10),

@@ -1,5 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LiveAgenda {
@@ -78,15 +80,15 @@ class LiveAgenda {
       totalCount == 0 ? 0 : totalAgainst / totalCount;
   int operator [](prop) {
     switch (prop) {
-      case "happy":
+      case 'happy':
         return reactionHappy;
-      case "sad":
+      case 'sad':
         return reactionSad;
-      case "angry":
+      case 'angry':
         return reactionAngry;
-      case "surprise":
+      case 'surprise':
         return reactionSurprise;
-      case "love":
+      case 'love':
       default:
         return reactionLove;
     }

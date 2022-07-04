@@ -103,7 +103,7 @@ class AnimatedButton extends ClipRRect {
   final ColorType textColor;
   final String label;
   final Function() onPressed;
-  bool isLoading = false;
+  final bool isLoading = false;
 
   AnimatedButton({
     super.key,

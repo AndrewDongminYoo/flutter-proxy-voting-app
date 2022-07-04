@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:bside/about/widget/address_card.dart';
+import '../about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_button.dart';

@@ -1,20 +1,24 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// 🌎 Project imports:
 import '../../shared/custom_text.dart';
 import '../../shared/progress_bar.dart';
 import '../../theme.dart';
 import '../firebase.dart';
 import '../live.model.dart';
 import 'header.dart';
-import 'statusBox.dart';
+import 'status_box.dart';
 
 class TotalStatus extends StatelessWidget {
   TotalStatus({Key? key}) : super(key: key);
   final Stream<DocumentSnapshot> _statusStream = liveRef.doc('sm').snapshots();
-  var f = NumberFormat('###,###,###,###');
+  final NumberFormat f = NumberFormat('###,###,###,###');
 
   Widget cardWrapper(Widget body) {
     return Container(
@@ -34,7 +38,7 @@ class TotalStatus extends StatelessWidget {
 
   String readTimestamp(Timestamp timestamp) {
     // return timeago.format(timestamp.toDate(), locale: 'ko');
-    return "";
+    return '';
   }
 
   @override
@@ -51,7 +55,7 @@ class TotalStatus extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LiveLoungeHeader();
           }
-          var _live = LiveLounge.fromJson(snapshot.data!);
+          var live = LiveLounge.fromJson(snapshot.data!);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,15 +64,15 @@ class TotalStatus extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const CustomText(
-                    text: "22년 에스엠 주주총회",
+                    text: '22년 에스엠 주주총회',
                     typoType: TypoType.body,
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   StatusBox(
-                    color: _live.getTotalStatusColor(),
-                    text: _live.getTotalStatus(),
+                    color: live.getTotalStatusColor(),
+                    text: live.getTotalStatus(),
                   )
                 ],
               ),
@@ -93,15 +97,15 @@ class TotalStatus extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const CustomText(
-                    text: "사전 집계 현황",
+                    text: '사전 집계 현황',
                     typoType: TypoType.body,
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   StatusBox(
-                      text: _live.getPreVoteStatus(),
-                      color: _live.getPreVoteColor())
+                      text: live.getPreVoteStatus(),
+                      color: live.getPreVoteColor())
                 ],
               ),
               emptySpace,
@@ -112,7 +116,7 @@ class TotalStatus extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: '출석 주식수: ${f.format(_live.preVoteCompany)} 주',
+                        text: '출석 주식수: ${f.format(live.preVoteCompany)} 주',
                         typoType: TypoType.body,
                       ),
                       // HorizontalBarWrapper(
@@ -143,11 +147,11 @@ class TotalStatus extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           const CustomText(
-                            text: "집계 이력 : ",
+                            text: '집계 이력 : ',
                             typoType: TypoType.body,
                           ),
                           CustomText(
-                            text: readTimestamp(_live.updatedAt),
+                            text: readTimestamp(live.updatedAt),
                             typoType: TypoType.body,
                           )
                         ],
@@ -159,7 +163,7 @@ class TotalStatus extends StatelessWidget {
               ),
               const CustomText(
                 typoType: TypoType.body,
-                text: "* 사전집계현황은 변동 가능성이 높고 정확하지 않은 정보일 수 있습니다.",
+                text: '* 사전집계현황은 변동 가능성이 높고 정확하지 않은 정보일 수 있습니다.',
               ),
               emptySpace,
               emptySpace,
@@ -206,13 +210,13 @@ class _HorizontalBarWrapperState extends State<HorizontalBarWrapper> {
             const SizedBox(width: 15),
             CustomText(
               text:
-                  "${f.format(widget.targetVote)}표 (${(percentage * 100).round()}%)",
+                  '${f.format(widget.targetVote)}표 (${(percentage * 100).round()}%)',
               typoType: TypoType.body,
             ),
             const Spacer(),
             widget.updated
                 ? const CustomText(
-                    text: "+ ",
+                    text: '+ ',
                     typoType: TypoType.body,
                     colorType: ColorType.red,
                   )
