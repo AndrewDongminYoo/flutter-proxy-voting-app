@@ -27,9 +27,9 @@ class _EditModalState extends State<EditModal> {
   }
 
   onSubmit() {
-    Get.back();
     authCtrl.setAddress(address);
     setState(() {});
+    Navigator.pop(context, address);
   }
 
   @override

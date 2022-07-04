@@ -90,7 +90,7 @@ class VoteController extends GetxController {
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         _shareholder = completedShareholder
             .firstWhere((element) => element.company == campaign.enName);
-        await jumpToResult();
+        await jumpToHome();
         return;
       }
     } catch (e) {

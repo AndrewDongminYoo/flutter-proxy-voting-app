@@ -41,7 +41,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     if (backId.length == 7) {
       authCtrl.putBackId(backId);
       voteCtrl.trackBackId();
-      jumpToResult();
+      jumpToHome();
     }
   }
 

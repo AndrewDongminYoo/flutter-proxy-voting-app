@@ -77,6 +77,8 @@ class _ValidatePageState extends State<ValidatePage> {
 
   @override
   Widget build(BuildContext context) {
+    var timerText =
+        "${remainingOtpTime ~/ 60} : ${intl.NumberFormat("00").format(remainingOtpTime - (remainingOtpTime ~/ 60) * 60)}";
     return Scaffold(
       appBar: CustomAppBar(text: ''),
       body: Container(
@@ -105,7 +107,9 @@ class _ValidatePageState extends State<ValidatePage> {
                   maxLength: 6,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: '인증번호'),
+                    border: OutlineInputBorder(),
+                    labelText: '인증번호',
+                  ),
                   onChanged: (String text) {
                     if (text.length >= 6) {
                       otpCode = text;
@@ -116,13 +120,15 @@ class _ValidatePageState extends State<ValidatePage> {
                 const SizedBox(height: 10),
                 Center(
                     child: CustomText(
-                  text:
-                      "${remainingOtpTime ~/ 60} : ${intl.NumberFormat("00").format(remainingOtpTime - (remainingOtpTime ~/ 60) * 60)}",
+                  text: timerText,
                   typoType: TypoType.body,
                 )),
                 const SizedBox(height: 40),
                 CustomButton(
-                    label: '확인', onPressed: onPressed, width: CustomW.w4)
+                  label: '확인',
+                  onPressed: onPressed,
+                  width: CustomW.w4,
+                )
               ])),
         ),
       ),

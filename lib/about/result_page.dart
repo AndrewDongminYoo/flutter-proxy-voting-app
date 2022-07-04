@@ -115,7 +115,7 @@ class _ResultPageState extends State<ResultPage> {
           label: '처음으로',
           width: CustomW.w4,
           onPressed: () {
-            jumpToResult();
+            jumpToHome();
           },
         ),
         const SizedBox(height: 100)

@@ -26,13 +26,15 @@ class _AddressCardState extends State<AddressCard> {
   VoteController voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
+  String address = '';
 
   onEdit() async {
-    await Get.dialog(const EditModal(), arguments: address);
+    address = await Get.dialog(
+      const EditModal(),
+      arguments: address,
+    );
     setState(() {});
   }
-
-  String address = '';
 
   @override
   void initState() {

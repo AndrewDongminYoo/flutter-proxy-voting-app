@@ -34,7 +34,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   void onTap() async {
     savePref();
-    jumpToResult();
+    jumpToHome();
   }
 
   void savePref() async {
