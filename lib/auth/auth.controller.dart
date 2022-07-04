@@ -94,7 +94,6 @@ class AuthController extends GetxController {
     if (isNewAcc) {
       // FIXME: 사용자가 인증번호까지 완료해야 user 생성 필요
       user = User(name, frontId, backId, telecom, telNum);
-      user.id = 51;
     }
   }
 
