@@ -34,7 +34,9 @@ clearPref() async {
 }
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Handling a background message: ${message.messageId}');
+  if (kDebugMode) {
+    print('Handling a background message: ${message.messageId}');
+  }
 }
 
 void main() async {
@@ -103,7 +105,6 @@ class _MyAppState extends State<MyApp> {
       FlutterLocalNotificationsPlugin();
   void getToken() {
     messaging.getToken().then((value) {
-      String? token = value;
     });
   }
 
@@ -122,8 +123,8 @@ class _MyAppState extends State<MyApp> {
         NotificationDetails(android: androidDetails, iOS: iosDetails);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
-      var android = message.notification.hashCode;
-      if (notification != null && android != null) {
+      // var android = message.notification.hashCode;
+      if (notification != null) {
         flutterLocalNotificationsPlugin.show(notification.hashCode,
             notification.title, notification.body, generalNotificationDetails);
       }
