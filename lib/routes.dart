@@ -11,9 +11,9 @@ import 'exception/address_duplicate.dart';
 import 'exception/not_shareholder.dart';
 import 'home/home.dart';
 import 'onboarding/onboarding.dart';
-import 'signature/id_card.dart';
-import 'signature/signature.dart';
-import 'signature/take_id_backnum.dart';
+import 'signature/shot_idcard.view.dart';
+import 'signature/signature.view.dart';
+import 'signature/id_number.view.dart';
 import 'vote/vote.view.dart';
 
 routes() => [

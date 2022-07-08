@@ -175,7 +175,7 @@ class TelcomModal extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 20),
-            const CustomText(
+            CustomText(
               typoType: TypoType.h1Bold,
               text: '통신사 선택',
             ),

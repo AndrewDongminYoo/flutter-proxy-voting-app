@@ -75,7 +75,7 @@ class _EditModalState extends State<EditModal> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CustomText(
+          CustomText(
             text: '주소를 입력해주세요!',
             typoType: TypoType.body,
           ),

@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
 import '../../shared/custom_text.dart';
-import '../../shared/progress_bar.dart';
+import '../../campaign/campaign.pg_bar.dart';
 import '../../theme.dart';
 import '../live_firebase.dart';
 import '../live.model.dart';
@@ -61,7 +61,7 @@ class TotalStatus extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const CustomText(
+                  CustomText(
                     text: '22년 에스엠 주주총회',
                     typoType: TypoType.body,
                   ),
@@ -69,7 +69,7 @@ class TotalStatus extends StatelessWidget {
                     width: 10,
                   ),
                   StatusBox(
-                    color: live.getTotalStatusColor(),
+                    boxColor: live.getTotalStatusColor(),
                     text: live.getTotalStatus(),
                   )
                 ],
@@ -77,14 +77,14 @@ class TotalStatus extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const CustomText(
+              CustomText(
                 text: '일시 : 3월 31일 (목) 오전 9시',
                 typoType: TypoType.body,
               ),
               const SizedBox(
                 height: 5,
               ),
-              const CustomText(
+              CustomText(
                 text: '장소 : 성동구 왕십리로 83-21 에스엠 본사 2층',
                 typoType: TypoType.body,
               ),
@@ -94,7 +94,7 @@ class TotalStatus extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const CustomText(
+                  CustomText(
                     text: '사전 집계 현황',
                     typoType: TypoType.body,
                   ),
@@ -103,7 +103,7 @@ class TotalStatus extends StatelessWidget {
                   ),
                   StatusBox(
                     text: live.getPreVoteStatus(),
-                    color: live.getPreVoteColor(),
+                    boxColor: live.getPreVoteColor(),
                   )
                 ],
               ),
@@ -121,7 +121,7 @@ class TotalStatus extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const CustomText(
+                          CustomText(
                             text: '집계 이력 : ',
                             typoType: TypoType.body,
                           ),
@@ -136,7 +136,7 @@ class TotalStatus extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const CustomText(
+              CustomText(
                 typoType: TypoType.body,
                 text: '* 사전집계현황은 변동 가능성이 높고 정확하지 않은 정보일 수 있습니다.',
               ),
@@ -190,7 +190,7 @@ class _HorizontalBarWrapperState extends State<HorizontalBarWrapper> {
             ),
             const Spacer(),
             widget.updated
-                ? const CustomText(
+                ? CustomText(
                     text: '+ ',
                     typoType: TypoType.body,
                     colorType: ColorType.red,
@@ -201,7 +201,7 @@ class _HorizontalBarWrapperState extends State<HorizontalBarWrapper> {
         const SizedBox(
           height: 10,
         ),
-        HorizontalProgressBar(
+        OrangeProgressBar(
           value: percentage,
         ),
         const SizedBox(

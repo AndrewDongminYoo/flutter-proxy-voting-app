@@ -137,7 +137,7 @@ class _TempState extends State<Temp> {
         child: Column(children: <Widget>[
           Container(
               margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child: const CustomText(
+              child: CustomText(
                   typoType: TypoType.h1, text: '', colorType: ColorType.white)),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -151,11 +151,11 @@ class _TempState extends State<Temp> {
           ),
           Container(
               margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: const CustomText(
+              child: CustomText(
                   typoType: TypoType.h1,
                   text: '주주명부에 등록되어있지 않습니다.',
                   colorType: ColorType.white)),
-          const CustomText(
+          CustomText(
               typoType: TypoType.bodyLight,
               text: '주주가 맞으실 경우 문의해주시길 바랍니다.',
               colorType: ColorType.white),

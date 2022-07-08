@@ -113,7 +113,7 @@ class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
         TotalStatus(),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
+          children: [
             CustomText(
               text: '의안 현황',
               typoType: TypoType.h2,
@@ -176,7 +176,7 @@ class _LiveUserCountState extends State<LiveUserCount> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Align(
+            return Align(
                 alignment: Alignment.centerRight,
                 child: CustomText(
                   text: '참여 집계 에러...',
@@ -184,7 +184,7 @@ class _LiveUserCountState extends State<LiveUserCount> {
                 ));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Align(
+            return Align(
                 alignment: Alignment.centerRight,
                 child:
                     CustomText(text: '참여인원 집계중...', typoType: TypoType.body));

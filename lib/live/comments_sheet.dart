@@ -53,12 +53,12 @@ class _CommentsSheetState extends State<CommentsSheet> {
       'createdAt': DateTime.now(),
       'favoriteCount': 0,
     });
-    liveRef.doc('sm').update({'recentComment': commentsController.text.trim()});
+    liveRef.doc('sm').update({
+      'recentComment': commentsController.text.trim(),
+    });
   }
 
-  String readTimestamp(Timestamp timestamp) {
-    return DateFormat.jm().format(timestamp.toDate());
-  }
+  String readTimestamp(Timestamp ts) => DateFormat.jm().format(ts.toDate());
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +70,12 @@ class _CommentsSheetState extends State<CommentsSheet> {
       child: Container(
         height: 400,
         decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0))),
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -89,8 +91,9 @@ class _CommentsSheetState extends State<CommentsSheet> {
                     height: 7,
                     width: 50,
                     decoration: BoxDecoration(
-                        color: Colors.grey[350],
-                        borderRadius: BorderRadius.circular(4)),
+                      color: Colors.grey[350],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -107,9 +110,13 @@ class _CommentsSheetState extends State<CommentsSheet> {
                       return Container(
                         //   height: 100,
                         decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Color(0xFFF4F4F7), width: 5))),
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Color(0xFFF4F4F7),
+                              width: 5,
+                            ),
+                          ),
+                        ),
                         padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child:
@@ -123,8 +130,11 @@ class _CommentsSheetState extends State<CommentsSheet> {
                               typoType: TypoType.body,
                             ),
                             Expanded(
-                                flex: 4,
-                                child: Text(data['comment'].toString())),
+                              flex: 4,
+                              child: Text(
+                                data['comment'].toString(),
+                              ),
+                            ),
                             Text(
                               readTimestamp(data['createdAt']),
                               style: TextStyle(
@@ -152,59 +162,64 @@ class _CommentsSheetState extends State<CommentsSheet> {
                         decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
-                          color: Color.fromRGBO(224, 224, 224, 1),
+                          color: Color(0xFFE0E0E0),
                         ))),
                         child: TextField(
-                            maxLines: 1,
-                            controller: commentsController,
-                            autofocus: true,
-                            focusNode: commentFocusNode,
-                            enableInteractiveSelection: false,
-                            onChanged: (_) {
-                              setState(() {});
-                            },
-                            cursorColor: customColor[ColorType.deepPurple],
-                            keyboardType: TextInputType.multiline,
-                            textInputAction: TextInputAction.send,
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                hintText: '채팅을 남겨주세요',
-                                hintStyle: TextStyle(fontSize: 14))),
+                          maxLines: 1,
+                          controller: commentsController,
+                          autofocus: true,
+                          focusNode: commentFocusNode,
+                          enableInteractiveSelection: false,
+                          onChanged: (_) {
+                            setState(() {});
+                          },
+                          cursorColor: customColor[ColorType.deepPurple],
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.send,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            hintText: '채팅을 남겨주세요',
+                            hintStyle: TextStyle(fontSize: 14),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
                     GestureDetector(
-                        onTap: commentsController.text.isEmpty
-                            ? null
-                            : () async {
-                                await addComment().then(
-                                    (value) => commentsController.clear());
-                              },
-                        child: Container(
-                            alignment: Alignment.center,
-                            height: 36,
-                            width: 36,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: customColor[ColorType.deepPurple],
-                              boxShadow: const [
-                                BoxShadow(
-                                    offset: Offset(0, 2),
-                                    blurRadius: 3,
-                                    color: Color.fromRGBO(0, 0, 0, .16))
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.send,
-                              size: 20.0,
-                              color: Colors.white,
-                            ))),
+                      onTap: commentsController.text.isEmpty
+                          ? null
+                          : () async {
+                              await addComment().then(
+                                (value) => commentsController.clear(),
+                              );
+                            },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 36,
+                        width: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: customColor[ColorType.deepPurple],
+                          boxShadow: const [
+                            BoxShadow(
+                              offset: Offset(0, 2),
+                              blurRadius: 3,
+                              color: Color(0x28000000),
+                            )
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.send,
+                          size: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

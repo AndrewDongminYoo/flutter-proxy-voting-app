@@ -12,7 +12,7 @@ import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_confirm.dart';
 import '../shared/custom_text.dart';
-import '../shared/progress_bar.dart';
+import 'campaign.pg_bar.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'campaign.model.dart';
@@ -39,7 +39,7 @@ class _CampaignPageState extends State<CampaignPage> {
       children: [
         Row(
           children: [
-            const CustomText(
+            CustomText(
                 typoType: TypoType.h1Bold,
                 text: '주주총회의안',
                 colorType: ColorType.white),
@@ -236,12 +236,12 @@ Widget campaignInfoInRow(Campaign campaign) {
       const SizedBox(height: 46),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           CustomText(
               typoType: TypoType.body,
               text: '진행상황',
               colorType: ColorType.white),
-          SizedBox(width: 41),
+          const SizedBox(width: 41),
           // TODO: 캠페인 진행상황 서버에서 가져오기
           CampaignProgress(value: 1.0),
         ],

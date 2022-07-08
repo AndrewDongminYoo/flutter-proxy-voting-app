@@ -11,20 +11,19 @@ class CustomPopScope extends StatefulWidget {
 }
 
 class _CustomPopScopeState extends State<CustomPopScope> {
-  DateTime? currentBackPressTime;
+  DateTime? backButtonPress;
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
-      currentBackPressTime = now;
+    if (backButtonPress == null ||
+        now.difference(backButtonPress!) > const Duration(seconds: 2)) {
+      backButtonPress = now;
       return Future.value(false);
     }
     return Future.value(true);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: onWillPop, child: widget.child);
-  }
+  Widget build(BuildContext context) =>
+      WillPopScope(onWillPop: onWillPop, child: widget.child);
 }

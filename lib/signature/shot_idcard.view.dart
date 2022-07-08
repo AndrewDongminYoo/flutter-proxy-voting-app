@@ -15,8 +15,8 @@ import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
-import 'common_app_body.dart';
-import 'signature.upload.dart';
+import 'sign_appbody.dart';
+import 'signature.controller.dart';
 
 class UploadIdCardPage extends StatefulWidget {
   const UploadIdCardPage({Key? key}) : super(key: key);
@@ -32,10 +32,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   DateTime? idCardUploadAt;
   final ImagePicker picker = ImagePicker();
 
-  CustomSignatureController controller =
-      Get.isRegistered<CustomSignatureController>()
-          ? Get.find()
-          : Get.put(CustomSignatureController());
+  CustomSignController controller = Get.isRegistered<CustomSignController>()
+      ? Get.find()
+      : Get.put(CustomSignController());
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());

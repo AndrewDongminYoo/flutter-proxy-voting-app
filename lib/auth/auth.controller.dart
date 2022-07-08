@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
 import '../get_nav.dart';
-import '../shared/loading_screen.dart' show LoadingScreen;
+import 'widget/loading_screen.dart' show LoadingScreen;
 import 'auth.data.dart' show User;
 import 'auth.service.dart' show AuthService;
 
@@ -156,7 +156,7 @@ class AuthController extends GetxController {
   }
 
   void startLoading() {
-    Get.dialog(const LoadingScreen());
+    Get.dialog(LoadingScreen());
   }
 
   void stopLoading() {

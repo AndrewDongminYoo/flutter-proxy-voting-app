@@ -13,7 +13,7 @@ import '../get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
-import '../shared/unfocused.dart';
+import '../shared/unfocus_builder.dart';
 import '../theme.dart';
 import 'auth.controller.dart';
 

@@ -128,7 +128,7 @@ class _ServiceTermState extends State<ServiceTerm> {
                   alignment: Alignment.center,
                   width: customW[CustomW.w3],
                   child: Ink(
-                      child: const CustomText(
+                      child: CustomText(
                     text: '약관 모두 보기',
                     typoType: TypoType.body,
                   )),

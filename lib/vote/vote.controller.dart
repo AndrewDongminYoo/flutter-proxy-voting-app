@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../get_nav.dart';
 import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
-import '../shared/loading_screen.dart';
+import '../auth/widget/loading_screen.dart';
 import '../vote/vote.service.dart';
 import 'vote.model.dart';
 
@@ -199,7 +199,7 @@ class VoteController extends GetxController {
 
   // === Common ===
   void startLoading() {
-    Get.dialog(const LoadingScreen());
+    Get.dialog(LoadingScreen());
   }
 
   void stopLoading() {

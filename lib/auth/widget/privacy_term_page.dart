@@ -17,7 +17,7 @@ class PrivacyPage extends StatelessWidget {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
+          children: [
             CustomText(text: '', typoType: TypoType.body),
             CustomText(text: Privacy0.headText, typoType: TypoType.body),
             CustomText(text: Privacy0.mainContent1, typoType: TypoType.body),

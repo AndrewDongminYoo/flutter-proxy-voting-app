@@ -1,14 +1,11 @@
 // 🎯 Dart imports:
 import 'dart:typed_data' show Uint8List;
 
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 📦 Package imports:
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
-class CustomSignatureController extends GetxController {
+class CustomSignController extends GetxController {
   FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<String> uploadSignature(
@@ -18,13 +15,5 @@ class CustomSignatureController extends GetxController {
     await storageReference.putData(
         data, SettableMetadata(contentType: 'image/jpg'));
     return await storageReference.getDownloadURL();
-  }
-
-  Future<Image> downloadSignature(
-      String company, String filename, String category) async {
-    Reference gsRef = storage.refFromURL('gs://bside-kr.appspot.com/');
-    Reference tgRef = gsRef.child(category).child(company).child(filename);
-    String imageUrl = await tgRef.getDownloadURL();
-    return Image.network(imageUrl);
   }
 }

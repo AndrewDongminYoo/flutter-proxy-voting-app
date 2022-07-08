@@ -10,7 +10,6 @@ import '../auth/auth.controller.dart';
 import '../contact_us/contact_us.model.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
-import 'custom_card.dart';
 
 const formFieldStyle = TextStyle(
   letterSpacing: 2.0,
@@ -184,4 +183,24 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+}
+
+class CustomCard extends Container {
+  final ColorType bgColor;
+  @override
+  final Widget child;
+
+  CustomCard({
+    Key? key,
+    this.bgColor = ColorType.purple,
+    required this.child,
+  }) : super(
+          key: key,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: customColor[bgColor],
+          ),
+          child: child,
+        );
 }

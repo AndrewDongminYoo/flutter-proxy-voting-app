@@ -9,7 +9,7 @@ import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
-import 'common_app_body.dart';
+import 'sign_appbody.dart';
 
 class TakeBackNumberPage extends StatefulWidget {
   const TakeBackNumberPage({Key? key}) : super(key: key);

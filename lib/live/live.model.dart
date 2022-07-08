@@ -48,7 +48,6 @@ class LiveAgenda {
         return '가결';
       case 3:
         return '부결';
-      case 4:
       default:
         return '집계 전';
     }
@@ -121,7 +120,6 @@ class LiveLounge {
         return '사전 표결 진행중';
       case 2:
         return '종료';
-      case 0:
       default:
         return '진행 전';
     }
@@ -133,7 +131,6 @@ class LiveLounge {
         return '집계 중';
       case 2:
         return '집계 완료';
-      case 0:
       default:
         return '집계 전';
     }
@@ -153,7 +150,6 @@ class LiveLounge {
         return const Color(0xFF572E66);
       case 2:
         return const Color(0x0ff00000);
-      case 0:
       default:
         return const Color(0xFF572E66);
     }

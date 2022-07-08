@@ -90,7 +90,7 @@ class _ResultPageState extends State<ResultPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomText(
+              CustomText(
                   typoType: TypoType.body,
                   text: '보유 주수',
                   colorType: ColorType.white),

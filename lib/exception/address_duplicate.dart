@@ -55,18 +55,17 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                       value: addressList[index],
                       groupValue: addressList[selected],
                       onChanged: (value) {
-                        if (mounted) {
-                          setState(() {
-                            selected = index;
-                          });
-                        }
+                        setState(() {
+                          selected = index;
+                        });
                       });
                 },
               ),
               CustomButton(
-                  width: CustomW.w4,
-                  label: '확인',
-                  onPressed: () => onConfirmed(addressList[selected]))
+                width: CustomW.w4,
+                label: '확인',
+                onPressed: () => onConfirmed(addressList[selected]),
+              )
             ],
           )),
     );

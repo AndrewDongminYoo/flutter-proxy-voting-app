@@ -83,12 +83,12 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
           textAlign: TextAlign.center,
           text: '2022 ${campaign.koName} 주주총회 의안'),
       const SizedBox(height: 10),
-      const CustomText(
+      CustomText(
           isFullWidth: true,
           typoType: TypoType.bodyLight,
           textAlign: TextAlign.center,
           text: '아래 작성 예시를 통해 정확한 정보를 알아보시고'),
-      const CustomText(
+      CustomText(
           isFullWidth: true,
           typoType: TypoType.bodyLight,
           textAlign: TextAlign.center,

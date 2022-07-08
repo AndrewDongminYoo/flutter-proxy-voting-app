@@ -11,7 +11,7 @@ import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
 import '../shared/custom_button.dart';
-import '../shared/custom_pop_scope.dart';
+import 'pop_scope.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
 

@@ -1,12 +1,12 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
 
 // 📦 Package imports:
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../shared/back_button.dart';
-// import 'notice_button.dart';
+import '../get_nav.dart';
 
 class CustomAppBar extends AppBar {
   final String text;
@@ -50,4 +50,32 @@ class CustomAppBar extends AppBar {
   Size get preferredSize {
     return const Size.fromHeight(56.0);
   }
+}
+
+class CustomBackButton extends IconButton {
+  const CustomBackButton({
+    Key? key,
+  }) : super(
+          key: key,
+          icon: const Icon(
+            CupertinoIcons.arrow_left_square,
+            color: Colors.white,
+          ),
+          splashRadius: 20.0,
+          iconSize: 24.0,
+          tooltip: '뒤로가기',
+          onPressed: goBack,
+        );
+}
+
+class NoticeButton extends IconButton {
+  NoticeButton({
+    Key? key,
+  }) : super(
+          key: key,
+          icon: const Icon(Icons.notifications_rounded),
+          onPressed: () {
+            // TODO: 알림 탭 구현
+          },
+        );
 }

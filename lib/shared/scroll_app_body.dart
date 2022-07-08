@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../get_nav.dart';
 import '../theme.dart';
-import 'unfocused.dart';
+import 'unfocus_builder.dart';
 
 class ScrollAppBody extends StatefulWidget {
   const ScrollAppBody(
@@ -23,19 +23,14 @@ class ScrollAppBody extends StatefulWidget {
   final Widget? actions;
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ScrollAppBodyState createState() => _ScrollAppBodyState();
+  ScrollAppBodyState createState() => ScrollAppBodyState();
 }
 
-class _ScrollAppBodyState extends State<ScrollAppBody> {
-  onPress() async {
-    // FirebaseAnalytics.instance.logEvent(name: 'email-subscription');
-    // await launch("https://page.stibee.com/subscriptions/147053");
-  }
-
+class ScrollAppBodyState extends State<ScrollAppBody> {
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
+    const bsidetImage = AssetImage('assets/images/bside_web.png');
 
     return Unfocused(
       child: WillPopScope(
@@ -59,11 +54,13 @@ class _ScrollAppBodyState extends State<ScrollAppBody> {
                       : null,
                 ),
                 const Image(
-                    image: AssetImage('assets/images/bside_web.png'), width: 55)
+                  image: bsidetImage,
+                  width: 55,
+                )
               ],
             ),
             // bottom: ProxyProgressIdicator(),
-            backgroundColor: const Color.fromARGB(255, 66, 28, 94),
+            backgroundColor: const Color(0xFF421C5E),
             actions: widget.actions != null ? [widget.actions!] : null,
           ),
           body: SizedBox(
@@ -71,7 +68,7 @@ class _ScrollAppBodyState extends State<ScrollAppBody> {
             child: SingleChildScrollView(
               padding: EdgeInsets.only(bottom: bottom),
               child: Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
                 child: widget.body,
               ),
             ),

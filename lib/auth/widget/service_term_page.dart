@@ -17,7 +17,7 @@ class ServicePage extends StatelessWidget {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
+          children: [
             CustomText(text: '', typoType: TypoType.body),
             CustomText(text: Service0.headText, typoType: TypoType.body),
             CustomText(text: Service0.mainContent, typoType: TypoType.body),

@@ -151,7 +151,7 @@ class GraphBoxHeader extends StatelessWidget {
               ),
               StatusBox(
                   text: liveAgenda.getStatus(),
-                  color: liveAgenda.getStatusColor())
+                  boxColor: liveAgenda.getStatusColor())
             ],
           ),
           const SizedBox(

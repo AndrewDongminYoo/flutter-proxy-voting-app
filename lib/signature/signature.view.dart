@@ -14,9 +14,9 @@ import '../get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_lottie.dart';
-import '../signature/common_app_body.dart';
+import 'sign_appbody.dart';
 import '../vote/vote.controller.dart';
-import 'signature.upload.dart' show CustomSignatureController;
+import 'signature.controller.dart';
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);
@@ -26,14 +26,13 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  final CustomSignatureController _controller =
-      Get.isRegistered<CustomSignatureController>()
-          ? Get.find()
-          : Get.put(CustomSignatureController());
-  AuthController authCtrl = Get.isRegistered<AuthController>()
+  final _signer = Get.isRegistered<CustomSignController>()
+      ? Get.find()
+      : Get.put(CustomSignController());
+  final authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
+  final voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
 
@@ -71,7 +70,7 @@ class _SignaturePageState extends State<SignaturePage> {
   void onSubmit() async {
     if (_signCtrl.isNotEmpty) {
       final signature = await _signCtrl.toPngBytes();
-      final url = await _controller.uploadSignature(
+      final url = await _signer.uploadSignature(
         voteCtrl.campaign.enName,
         '$username-${DateTime.now()}.png',
         signature!,

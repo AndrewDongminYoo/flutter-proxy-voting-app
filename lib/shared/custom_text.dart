@@ -38,37 +38,32 @@ final typoStyle = {
       TypoStyle(fontWeight: FontWeight.w300, fontSize: 11, letterSpacing: 0.16),
 };
 
-class CustomText extends StatelessWidget {
-  const CustomText({
-    Key? key,
-    required this.typoType,
-    required this.text,
-    this.isFullWidth = false,
-    this.textAlign = TextAlign.center,
-    this.colorType = ColorType.black,
-  }) : super(key: key);
-
+class CustomText extends SizedBox {
   final String text;
   final TypoType typoType;
   final TextAlign textAlign;
   final ColorType colorType;
   final bool isFullWidth;
 
-  @override
-  Widget build(BuildContext context) {
-    final style = typoStyle[typoType]!;
-    return SizedBox(
-      width: isFullWidth ? Get.width : null,
-      child: Text(
-        text,
-        textAlign: textAlign,
-        style: TextStyle(
-            color: customColor[colorType],
-            fontWeight: style.fontWeight,
-            fontSize: style.fontSize,
-            letterSpacing: style.letterSpacing),
-        overflow: TextOverflow.visible,
-      ),
-    );
-  }
+  CustomText({
+    Key? key,
+    required this.typoType,
+    required this.text,
+    this.isFullWidth = false,
+    this.textAlign = TextAlign.center,
+    this.colorType = ColorType.black,
+  }) : super(
+          key: key,
+          width: isFullWidth ? Get.width : null,
+          child: Text(
+            text,
+            textAlign: textAlign,
+            style: TextStyle(
+                color: customColor[colorType],
+                fontWeight: typoStyle[typoType]!.fontWeight,
+                fontSize: typoStyle[typoType]!.fontSize,
+                letterSpacing: typoStyle[typoType]!.letterSpacing),
+            overflow: TextOverflow.visible,
+          ),
+        );
 }

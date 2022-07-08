@@ -65,7 +65,7 @@ class _AddressCardState extends State<AddressCard> {
           children: [
             Row(
               children: [
-                const CustomText(
+                CustomText(
                   typoType: TypoType.body,
                   text: '주소',
                   textAlign: TextAlign.left,
@@ -74,7 +74,7 @@ class _AddressCardState extends State<AddressCard> {
                 const Spacer(),
                 InkWell(
                   onTap: onEdit,
-                  child: const CustomText(
+                  child: CustomText(
                     typoType: TypoType.bodyLight,
                     text: '수정하기',
                     textAlign: TextAlign.left,
