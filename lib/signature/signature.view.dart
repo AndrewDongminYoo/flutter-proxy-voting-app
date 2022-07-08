@@ -10,7 +10,7 @@ import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
-import '../get_nav.dart';
+import '../shared/get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_lottie.dart';

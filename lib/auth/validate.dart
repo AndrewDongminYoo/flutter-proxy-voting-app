@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 
 // 🌎 Project imports:
-import '../get_nav.dart';
+import '../shared/get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';

@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../theme.dart';
-import '../get_nav.dart';
+import '../shared/get_nav.dart';
 import 'guide.data.dart';
 
 /*

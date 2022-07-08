@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../get_nav.dart';
+import 'get_nav.dart';
 
 class CustomAppBar extends AppBar {
   final String text;

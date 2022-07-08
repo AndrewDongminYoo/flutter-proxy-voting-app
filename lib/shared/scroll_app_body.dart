@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../get_nav.dart';
+import 'get_nav.dart';
 import '../theme.dart';
 import 'unfocus_builder.dart';
 
