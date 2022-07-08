@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:async';
+import 'dart:async' show Future;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
 // 🌎 Project imports:
-import '../live/firebase.dart';
+import 'live_firebase.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
 

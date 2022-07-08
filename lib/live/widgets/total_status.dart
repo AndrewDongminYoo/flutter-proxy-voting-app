@@ -10,9 +10,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../shared/custom_text.dart';
 import '../../shared/progress_bar.dart';
 import '../../theme.dart';
-import '../firebase.dart';
+import '../live_firebase.dart';
 import '../live.model.dart';
-import 'header.dart';
+import 'lounge_header.dart';
 import 'status_box.dart';
 
 class TotalStatus extends StatelessWidget {
@@ -36,10 +36,8 @@ class TotalStatus extends StatelessWidget {
         child: body);
   }
 
-  String readTimestamp(Timestamp timestamp) {
-    // return timeago.format(timestamp.toDate(), locale: 'ko');
-    return '';
-  }
+  // String readTimestamp(Timestamp timestamp) => timeago.format(timestamp.toDate(), locale: 'ko');
+  String readTimestamp(Timestamp timestamp) => '';
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +102,9 @@ class TotalStatus extends StatelessWidget {
                     width: 10,
                   ),
                   StatusBox(
-                      text: live.getPreVoteStatus(),
-                      color: live.getPreVoteColor())
+                    text: live.getPreVoteStatus(),
+                    color: live.getPreVoteColor(),
+                  )
                 ],
               ),
               emptySpace,
@@ -119,30 +118,6 @@ class TotalStatus extends StatelessWidget {
                         text: '출석 주식수: ${f.format(live.preVoteCompany)} 주',
                         typoType: TypoType.body,
                       ),
-                      // HorizontalBarWrapper(
-                      //     label: '출석 주식수',
-                      //     mainColor: Palette.primaryColor,
-                      //     targetVote: _live.preVoteCompany,
-                      //     totalVote: _live.totalVote,
-                      //     updated: false),
-                      // HorizontalBarWrapper(
-                      //     label: '에스엠',
-                      //     mainColor: Colors.red,
-                      //     targetVote: _live.preVoteCompany,
-                      //     totalVote: _live.totalVote,
-                      //     updated: false),
-                      // HorizontalBarWrapper(
-                      //     label: '얼라인',
-                      //     mainColor: Colors.blue,
-                      //     targetVote: _live.preVoteAlign,
-                      //     totalVote: _live.totalVote,
-                      //     updated: false),
-                      // HorizontalBarWrapper(
-                      //     label: '현장참여',
-                      //     mainColor: Colors.amber,
-                      //     targetVote: _live.preVoteOnline,
-                      //     totalVote: _live.totalVote,
-                      //     updated: false),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

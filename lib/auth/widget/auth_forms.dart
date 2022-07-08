@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../get_nav.dart';
-import '../../shared/card_formatter.dart';
+import 'card_formatter.dart';
 import '../../shared/custom_text.dart';
 import '../../theme.dart';
 
@@ -20,7 +20,10 @@ const formFieldStyle = TextStyle(
 
 class PhoneNumberForm extends StatefulWidget {
   final Function(FormStep step, String value) nextForm;
-  const PhoneNumberForm({Key? key, required this.nextForm}) : super(key: key);
+  const PhoneNumberForm({
+    Key? key,
+    required this.nextForm,
+  }) : super(key: key);
 
   @override
   State<PhoneNumberForm> createState() => _PhoneNumberFormState();
@@ -55,9 +58,11 @@ class _PhoneNumberFormState extends State<PhoneNumberForm> {
 class KoreanIdForm extends StatefulWidget {
   final FocusNode focusNode;
   final Function(FormStep step, String value) nextForm;
-  const KoreanIdForm(
-      {Key? key, required this.nextForm, required this.focusNode})
-      : super(key: key);
+  const KoreanIdForm({
+    Key? key,
+    required this.nextForm,
+    required this.focusNode,
+  }) : super(key: key);
 
   @override
   State<KoreanIdForm> createState() => _KoreanIdFormState();
@@ -127,7 +132,9 @@ class _TelecomFormState extends State<TelecomForm> {
         style: formFieldStyle,
         enabled: false,
         decoration: const InputDecoration(
-            border: OutlineInputBorder(), labelText: '통신사'),
+          border: OutlineInputBorder(),
+          labelText: '통신사',
+        ),
       ),
     );
   }
@@ -135,7 +142,10 @@ class _TelecomFormState extends State<TelecomForm> {
 
 class TelcomModal extends StatelessWidget {
   final Function(FormStep step, String value) nextForm;
-  const TelcomModal({Key? key, required this.nextForm}) : super(key: key);
+  const TelcomModal({
+    Key? key,
+    required this.nextForm,
+  }) : super(key: key);
 
   Widget _buildTelecomItem(String item) {
     return InkWell(
@@ -186,8 +196,11 @@ class TelcomModal extends StatelessWidget {
 class NameForm extends StatelessWidget {
   final FocusNode focusNode;
   final Function(FormStep step, String value) nextForm;
-  const NameForm({Key? key, required this.focusNode, required this.nextForm})
-      : super(key: key);
+  const NameForm({
+    Key? key,
+    required this.focusNode,
+    required this.nextForm,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

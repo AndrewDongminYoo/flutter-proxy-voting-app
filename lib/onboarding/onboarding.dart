@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 // 🌎 Project imports:
 import '../theme.dart';
 import '../get_nav.dart';
-import 'guide.dart';
 import 'guide.data.dart';
 
 /*
@@ -81,18 +80,6 @@ class _OnboardingPageState extends State<OnboardingPage>
                     children: tabs),
               ),
               Align(alignment: Alignment.topRight, child: nextIcon(_curIndex)),
-              // Align(
-              //   alignment: Alignment.bottomCenter,
-              //   child: Container(
-              //       margin: const EdgeInsets.only(bottom: 30),
-              //       child: TabPageSelector(
-              //         indicatorSize: 10,
-              //         controller: tabController,
-              //         selectedColor: Colors.deepPurple,
-              //         color: Colors.grey,
-              //         borderStyle: BorderStyle.none,
-              //       )),
-              // ),
             ],
           )),
     );

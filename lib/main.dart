@@ -22,7 +22,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'firebase_options.dart';
+import 'utils/firebase_options.dart';
 import 'routes.dart' show routes;
 import 'vote/vote.controller.dart';
 // import 'utils/firebase.dart';
@@ -104,8 +104,7 @@ class _MyAppState extends State<MyApp> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   void getToken() {
-    messaging.getToken().then((value) {
-    });
+    messaging.getToken().then((value) {});
   }
 
   void initMessaging() {

@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:math';
+import 'dart:math' show min;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';

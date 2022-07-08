@@ -1,6 +1,6 @@
 // 🎯 Dart imports:
-import 'dart:async';
-import 'dart:io';
+import 'dart:async' show Future;
+import 'dart:io' show Platform;
 
 // 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
@@ -16,7 +16,6 @@ import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/loading_screen.dart';
 import '../vote/vote.service.dart';
-import 'shareholder.data.dart';
 import 'vote.model.dart';
 
 class VoteController extends GetxController {

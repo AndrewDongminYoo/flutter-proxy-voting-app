@@ -6,7 +6,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
-import '../firebase.dart';
+import '../live_firebase.dart';
 
 class FloatingComment extends StatefulWidget {
   const FloatingComment({Key? key}) : super(key: key);

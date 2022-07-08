@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:convert';
+import 'dart:convert' show jsonEncode;
 
 // 📦 Package imports:
 import 'package:get/get.dart';
@@ -67,7 +67,9 @@ class VoteService extends GetConnect {
   }
 
   Future<Response> postTakeBackNumberAt(int agendaId, String takeBackNumberAt) {
-    return put(getURL('/agenda/idcard'),
-        jsonEncode({'agendaId': agendaId, 'takeBackNumberAt': takeBackNumberAt}));
+    return put(
+        getURL('/agenda/idcard'),
+        jsonEncode(
+            {'agendaId': agendaId, 'takeBackNumberAt': takeBackNumberAt}));
   }
 }

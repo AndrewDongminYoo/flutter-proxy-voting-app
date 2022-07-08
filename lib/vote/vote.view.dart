@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:math';
+import 'dart:math' show max;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 import 'vote.model.dart';
-import 'vote_selector.dart';
+import 'widget/vote_selector.dart';
 
 class VotePage extends StatefulWidget {
   const VotePage({Key? key}) : super(key: key);

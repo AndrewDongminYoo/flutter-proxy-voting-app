@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../campaign/agenda.model.dart';
-import 'vote.model.dart';
+import '../../campaign/agenda.model.dart';
+import '../vote.model.dart';
 
 final voteButtonList = [
   VoteButton(
@@ -88,19 +88,32 @@ class _VoteSelectorState extends State<VoteSelector> {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 16),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 8.0,
+        ),
         child: Column(children: [
           ListTile(
             title: Text(widget.agendaItem.section),
             subtitle: Text(widget.agendaItem.head),
             trailing: TextButton(
-                onPressed: () => {}, child: Text(widget.agendaItem.agendaFrom)),
+              onPressed: () => {},
+              child: Text(
+                widget.agendaItem.agendaFrom,
+              ),
+            ),
           ),
           Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 4,
+              ),
               decoration: const BoxDecoration(
-                  color: Color(0xFFF4F4F4),
-                  borderRadius: BorderRadius.all(Radius.circular(24.0))),
+                color: Color(0xFFF4F4F4),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(24.0),
+                ),
+              ),
               child: Stack(children: [
                 voteSelectorGroup(onSelected),
                 selectedLabel(curButton)
@@ -121,9 +134,11 @@ Widget voteSelectorGroup(void Function(VoteButton) setValue) {
               onTap: () => setValue(item),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: Text(item.label,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 16)),
+                child: Text(
+                  item.label,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
               )),
         );
       }).toList());
@@ -134,7 +149,7 @@ Widget selectedLabel(VoteButton button) {
     return Container();
   }
 
-  Alignment alignment = Alignment(button.value.value.toDouble(), 1);
+  var alignment = Alignment(button.value.value.toDouble(), 1);
 
   return SizedBox(
     width: Get.width,
@@ -146,15 +161,19 @@ Widget selectedLabel(VoteButton button) {
         elevation: 5,
         borderRadius: BorderRadius.circular(30),
         child: Container(
-            width: Get.width / 4,
-            height: 32,
-            decoration: BoxDecoration(
-                border: Border.all(color: button.borderColor),
-                borderRadius: BorderRadius.circular(30),
-                color: button.bgColor),
-            child: Center(
-                child: Text(button.label,
-                    style: TextStyle(fontSize: 16, color: button.textColor)))),
+          width: Get.width / 4,
+          height: 32,
+          decoration: BoxDecoration(
+              border: Border.all(color: button.borderColor),
+              borderRadius: BorderRadius.circular(30),
+              color: button.bgColor),
+          child: Center(
+            child: Text(
+              button.label,
+              style: TextStyle(fontSize: 16, color: button.textColor),
+            ),
+          ),
+        ),
       ),
     ),
   );

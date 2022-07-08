@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:ui';
+import 'dart:ui' show Color;
 
 enum VoteType {
   none(-2),
@@ -88,5 +88,23 @@ class VoteAgenda {
       voteAt = json['voteAt'] != null ? parseDate(json['voteAt']) : null;
       backIdAt = json['backIdAt'] != null ? parseDate(json['backIdAt']) : null;
     }
+  }
+}
+
+class Shareholder {
+  int id = -1;
+  String username = '홍길동';
+  String address = '';
+  int sharesNum = 0;
+  String company = 'tli';
+
+  Shareholder(this.id, this.username, this.address, this.sharesNum);
+
+  Shareholder.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ?? -1;
+    username = json['name'] ?? '';
+    address = json['address'] ?? '';
+    sharesNum = json['sharesNum'] != null ? int.parse(json['sharesNum']) : 0;
+    company = json['company'] ?? 'tli';
   }
 }

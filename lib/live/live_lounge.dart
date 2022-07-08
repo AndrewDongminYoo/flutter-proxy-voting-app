@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:math';
+import 'dart:math' show min;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
@@ -15,8 +15,8 @@ import '../shared/custom_text.dart';
 import '../shared/scroll_app_body.dart';
 import '../theme.dart';
 import 'comments_sheet.dart';
-import 'firebase.dart';
-import 'widgets/graph_box.dart';
+import 'live_firebase.dart';
+import 'widgets/aggr_graph_box.dart';
 import 'widgets/total_status.dart';
 
 class LiveLounge extends StatefulWidget {

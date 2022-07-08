@@ -11,14 +11,17 @@ import 'package:intl/intl.dart';
 // 🌎 Project imports:
 import '../../shared/custom_text.dart';
 import '../../theme.dart';
-import '../firebase.dart';
+import '../live_firebase.dart';
 import '../live.model.dart';
-import 'progress_bar.dart';
-import 'reaction.dart';
+import 'horiz_vert_bar.dart';
+import 'reaction_emozis.dart';
 import 'status_box.dart';
 
 class CustomPanel extends StatefulWidget {
-  const CustomPanel({Key? key, required this.index}) : super(key: key);
+  const CustomPanel({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
   final int index;
 
   @override
@@ -49,7 +52,9 @@ class _CustomPanelState extends State<CustomPanel> {
 
   getDecoration(int status) {
     return BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(15),
+        ),
         color: customColor[ColorType.white],
         boxShadow: [
           BoxShadow(
@@ -73,15 +78,17 @@ class _CustomPanelState extends State<CustomPanel> {
     agendaStream.listen((DocumentSnapshot snapshot) {
       if (snapshot['status'] == 1 && isNoticed == false) {
         isNoticed = true;
-        EasyDebounce.debounce('sendAlert', const Duration(milliseconds: 200),
-            () => sendAlert(snapshot['title']));
+        EasyDebounce.debounce(
+          'sendAlert',
+          const Duration(milliseconds: 200),
+          () => sendAlert(snapshot['title']),
+        );
       }
     });
 
     return StreamBuilder<DocumentSnapshot>(
         stream: agendaStream,
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
           }
@@ -98,11 +105,14 @@ class _CustomPanelState extends State<CustomPanel> {
               animationDuration: const Duration(milliseconds: 1000),
               children: [
                 ExpansionPanel(
-                    isExpanded: isExpanded,
-                    headerBuilder: (context, isExpanded) {
-                      return GraphBoxHeader(liveAgenda: liveAgenda);
-                    },
-                    body: GraphBoxBody(liveAgenda: liveAgenda))
+                  isExpanded: isExpanded,
+                  headerBuilder: (context, isExpanded) {
+                    return GraphBoxHeader(liveAgenda: liveAgenda);
+                  },
+                  body: GraphBoxBody(
+                    liveAgenda: liveAgenda,
+                  ),
+                )
               ],
               expansionCallback: (panelIndex, value) {
                 setState(() {
@@ -116,7 +126,10 @@ class _CustomPanelState extends State<CustomPanel> {
 }
 
 class GraphBoxHeader extends StatelessWidget {
-  const GraphBoxHeader({Key? key, required this.liveAgenda}) : super(key: key);
+  const GraphBoxHeader({
+    Key? key,
+    required this.liveAgenda,
+  }) : super(key: key);
   final LiveAgenda liveAgenda;
 
   @override
@@ -239,9 +252,10 @@ class GraphBoxBody extends StatelessWidget {
                         children: [
                           emptySpace,
                           VerticalProgressBar(
-                              value: liveAgenda.forPercentage,
-                              color: Colors.blue,
-                              height: 100),
+                            value: liveAgenda.forPercentage,
+                            color: Colors.blue,
+                            height: 100,
+                          ),
                           CustomText(
                               text: liveAgenda.forPercentage == 0
                                   ? '(0%)'
@@ -254,9 +268,10 @@ class GraphBoxBody extends StatelessWidget {
                         children: [
                           emptySpace,
                           VerticalProgressBar(
-                              value: liveAgenda.againstPercentage,
-                              color: Colors.red,
-                              height: 100),
+                            value: liveAgenda.againstPercentage,
+                            color: Colors.red,
+                            height: 100,
+                          ),
                           CustomText(
                               text: liveAgenda.againstPercentage == 0
                                   ? '(0%)'

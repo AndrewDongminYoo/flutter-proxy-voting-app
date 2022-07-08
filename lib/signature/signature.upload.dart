@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:typed_data';
+import 'dart:typed_data' show Uint8List;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';

@@ -59,14 +59,13 @@ class LiveAgenda {
       case -1:
         return const Color(0x0ff00000);
       case 1:
-        return const Color.fromARGB(255, 235, 12, 31);
+        return const Color(0xFFEB0C1F);
       case 2:
         return const Color(0x0ff00000);
       case 3:
         return const Color(0x0ff00000);
       case 4:
         return const Color(0xFF572E66);
-      case 0:
       default:
         return const Color(0x0ff00000);
     }

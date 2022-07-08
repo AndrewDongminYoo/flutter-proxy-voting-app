@@ -14,7 +14,7 @@ import 'onboarding/onboarding.dart';
 import 'signature/id_card.dart';
 import 'signature/signature.dart';
 import 'signature/take_id_backnum.dart';
-import 'vote/vote.dart';
+import 'vote/vote.view.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),

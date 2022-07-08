@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:async';
+import 'dart:async' show Timer;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';

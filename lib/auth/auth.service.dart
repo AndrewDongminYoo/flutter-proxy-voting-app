@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:convert';
+import 'dart:convert' show jsonEncode;
 
 // 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
