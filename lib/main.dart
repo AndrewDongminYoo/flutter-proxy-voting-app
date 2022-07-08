@@ -22,6 +22,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
+import 'notificaition/notificaiton_controller.dart';
 import 'utils/firebase_options.dart';
 import 'routes.dart' show routes;
 import 'vote/vote.controller.dart';
@@ -43,6 +44,7 @@ void main() async {
   runZonedGuarded<Future<void>>(
     () async {
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
       // Keep splash screen
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -99,42 +101,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/';
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  void getToken() {
-    messaging.getToken().then((value) {});
-  }
-
-  void initMessaging() {
-    var androiInit = const AndroidInitializationSettings('images/logo.png');
-    var iosInit = const IOSInitializationSettings();
-    var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initSetting);
-    var androidDetails = const AndroidNotificationDetails('1', 'Default',
-        channelDescription: 'Channel Description',
-        importance: Importance.high,
-        priority: Priority.high);
-    var iosDetails = const IOSNotificationDetails();
-    var generalNotificationDetails =
-        NotificationDetails(android: androidDetails, iOS: iosDetails);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      // var android = message.notification.hashCode;
-      if (notification != null) {
-        flutterLocalNotificationsPlugin.show(notification.hashCode,
-            notification.title, notification.body, generalNotificationDetails);
-      }
-    });
-  }
+  String initialRoute = '/result';
+  NotificationController notificaitionCtrl =
+      Get.isRegistered<NotificationController>()
+          ? Get.find()
+          : Get.put(NotificationController());
 
   @override
   void initState() {
     super.initState();
-    getToken();
-    initMessaging();
+    notificaitionCtrl.initMessaging();
     initDynamicLinks();
     // setupAppsFlyer();
 
@@ -167,7 +143,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
+    initialRoute = widget.firstTime ? '/result' : initialRoute;
+    // initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
     // TODO: 최상단 에러 핸들러 필요, 에러 발생시 팝업 필요
     return GetMaterialApp(
       title: 'Bside',
