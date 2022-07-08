@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../auth/auth.controller.dart';
+import '../../get_nav.dart';
 import '../../shared/custom_button.dart';
 import '../../shared/custom_text.dart';
 
@@ -23,18 +24,18 @@ class _EditModalState extends State<EditModal> {
       : Get.put(AuthController());
 
   onClose() {
-    Get.back();
+    goBack();
   }
 
   onSubmit() {
     authCtrl.setAddress(address);
     setState(() {});
-    Navigator.pop(context, address);
+    goBackWithVal(context, address);
   }
 
   @override
   void initState() {
-    if (Get.arguments != null) {
+    if (Get.arguments is String) {
       address = Get.arguments;
     } else if (authCtrl.user.address != '') {
       address = authCtrl.user.address;

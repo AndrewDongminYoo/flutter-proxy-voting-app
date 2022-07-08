@@ -88,10 +88,6 @@ class _VotePageState extends State<VotePage> {
     return voteResult;
   }
 
-  goBack() {
-    Get.back();
-  }
-
   onNext() {
     voteCtrl.postVoteResult(authCtrl.user.id, voteResult.values.toList());
     if (voteCtrl.voteAgenda.signatureAt == null) {

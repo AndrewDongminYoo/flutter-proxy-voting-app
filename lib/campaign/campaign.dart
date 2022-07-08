@@ -236,14 +236,14 @@ Widget campaignInfoInRow(Campaign campaign) {
       const SizedBox(height: 46),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomText(
+        children: const [
+          CustomText(
               typoType: TypoType.body,
               text: '진행상황',
               colorType: ColorType.white),
-          const SizedBox(width: 41),
+          SizedBox(width: 41),
           // TODO: 캠페인 진행상황 서버에서 가져오기
-          CampaignProgress(value: campaign.enName == 'tli' ? 0.6 : 1.0),
+          CampaignProgress(value: 1.0),
         ],
       )
     ],

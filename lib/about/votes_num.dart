@@ -65,9 +65,9 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
         ),
       ),
       const SizedBox(height: 16),
-      const CustomText(
+      CustomText(
         typoType: TypoType.h1,
-        text: '안녕하세요! 주주님',
+        text: '안녕하세요! ${authCtrl.user.username} 주주님',
         colorType: ColorType.white,
       ),
       const SizedBox(height: 16),
@@ -92,7 +92,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
           isFullWidth: true,
           typoType: TypoType.bodyLight,
           textAlign: TextAlign.center,
-          text: '소중한 주주의 의견을 알려주세요!'),
+          text: '소중한 주주님의 의견을 알려주세요!'),
       const SizedBox(height: 20),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -63,9 +63,9 @@ class _ResultPageState extends State<ResultPage> {
       ),
       Container(
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-        child: const CustomText(
+        child: CustomText(
           typoType: TypoType.h1,
-          text: '수고하셨습니다.',
+          text: '${authCtrl.user.username}님 수고하셨습니다.',
           colorType: ColorType.white,
         ),
       ),

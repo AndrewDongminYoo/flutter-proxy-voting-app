@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../theme.dart';
 import 'unfocused.dart';
 
@@ -49,9 +50,7 @@ class _ScrollAppBodyState extends State<ScrollAppBody> {
                   width: 35,
                   child: widget.canGoBack
                       ? IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
+                          onPressed: goBack,
                           icon: Icon(
                             Icons.arrow_back_ios,
                             color: customColor[ColorType.white],

@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+goBack() => Get.back();
+goBackWithVal(context, value) => Navigator.pop(value);
 
 goToOnBoarding() => Get.toNamed('/onboarding');
 goToHome() => Get.toNamed('/');
@@ -25,8 +29,14 @@ goToVoteWithoutExample() {
   return Get.toNamed('/vote', arguments: 'voteWithoutExample');
 }
 
-goToValidateNew() => Get.toNamed('/validate', arguments: 'newUser');
-goToValidateOld() => Get.toNamed('/validate', arguments: 'existingUser');
+goToValidateNew() => Get.toNamed(
+      '/validate',
+      arguments: {'isNew': 'newUser'},
+    );
+goToValidateOld() => Get.toNamed(
+      '/validate',
+      arguments: {'isNew': 'existingUser'},
+    );
 
 jumpToHome() => Get.offNamedUntil('/', (route) {
       return route.settings.name == '/';

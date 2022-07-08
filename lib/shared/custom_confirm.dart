@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../get_nav.dart';
 import '../theme.dart';
 import 'custom_button.dart';
 import 'custom_text.dart';
@@ -52,16 +53,13 @@ class CustomConfirm extends StatelessWidget {
               typoType: TypoType.h2,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              Get.back();
-            },
+          const IconButton(
+            onPressed: goBack,
             splashRadius: 20.0,
             iconSize: 16.0,
-            padding: const EdgeInsets.all(0.0),
-            constraints: const BoxConstraints(minHeight: 20.0, minWidth: 20.0),
-            icon: const Icon(Icons.close,
-                color: Colors.black, semanticLabel: '창 닫기'),
+            padding: EdgeInsets.all(0.0),
+            constraints: BoxConstraints(minHeight: 20.0, minWidth: 20.0),
+            icon: Icon(Icons.close, color: Colors.black, semanticLabel: '창 닫기'),
           )
         ]),
         const SizedBox(height: 36),

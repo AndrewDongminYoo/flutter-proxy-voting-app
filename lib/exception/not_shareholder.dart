@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
 import '../campaign/campaign.model.dart';
+import '../get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
@@ -91,7 +92,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
                     CustomButton(
                       label: '뒤로가기',
                       bgColor: ColorType.deepPurple,
-                      onPressed: () => Get.back(),
+                      onPressed: goBack,
                       width: CustomW.w4,
                     ),
                   ],

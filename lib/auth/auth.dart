@@ -15,6 +15,7 @@ import '../shared/custom_text.dart';
 import '../shared/unfocused.dart';
 import '../theme.dart';
 import 'auth.controller.dart';
+import 'auth.data.dart';
 import 'widget/auth_forms.dart';
 import 'widget/term.dart';
 
@@ -58,27 +59,20 @@ class _AuthPageState extends State<AuthPage> {
   );
 
   newUser() {
-    authCtrl.getOtpCode(
+    authCtrl.user = User(
       userName,
       frontId,
       backId,
       telecom,
       phoneNumber,
-      true,
     );
+    authCtrl.getOtpCode(authCtrl.user);
     goToValidateNew();
   }
 
   existingUser() {
     final user = authCtrl.user;
-    authCtrl.getOtpCode(
-      user.username,
-      user.frontId,
-      user.backId,
-      user.telecom,
-      phoneNumber,
-      false,
-    );
+    authCtrl.getOtpCode(user);
     goToValidateOld();
   }
 

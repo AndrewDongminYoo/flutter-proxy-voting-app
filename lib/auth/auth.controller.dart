@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
+import '../get_nav.dart';
 import '../shared/loading_screen.dart' show LoadingScreen;
 import 'auth.data.dart' show User;
 import 'auth.service.dart' show AuthService;
@@ -37,18 +38,18 @@ class AuthController extends GetxController {
     if (telNum != null) {
       debugPrint('[AuthController] SharedPreferences exist');
       final result = await getUserInfo(telNum);
-      if (!result) {
+      if (result == null) {
         // 잘못된 캐시데이터 삭제
         debugPrint('[AuthController] delete useless SharedPreferences');
         await prefs.clear();
       } else {
-        login();
+        signIn();
       }
     }
   }
 
   // 서버에서 사용자 데이터 불러오기
-  Future<bool> getUserInfo(String telNum) async {
+  Future<User?> getUserInfo(String telNum) async {
     Response response = await _service.getUserByTelNum(telNum);
     if (kDebugMode) {
       debugPrint('[AuthController] getUserInfo: ${response.body}');
@@ -56,52 +57,45 @@ class AuthController extends GetxController {
     if (response.isOk && response.body != null && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
       debugPrint('[AuthController] user exist.\n Hello, ${user.username}!');
-      return true;
+      return user;
     }
-    return false;
+    return null;
   }
 
   // 회원가입
-  void signUp() async {
+  Future<Response> signUp() async {
     Response response = await _service.createUser(user.username, user.frontId,
-        user.backId, user.telecom, user.phoneNum, user.ci, user.di);
+        user.backId, user.telecom, user.phoneNumber, user.ci, user.di);
     debugPrint(response.bodyString);
     isLogined = true;
+    return response;
   }
 
   // 로그인
   // 사용자 데이터는 이미 초기화시 진행되었고, 인증번호까지 진행하여 로그인 여부 확정
-  void login() async => isLogined = true;
+  void signIn() async => isLogined = true;
 
   bool canVote() => isLogined;
 
   Future<void> getOtpCode(
-    String name,
-    String frontId,
-    String backId,
-    String telecom,
-    String telNum,
-    bool isNewAcc,
+    dynamic user,
   ) async {
     // Super User for apple QA
-    if (telNum == '01086199325' && frontId == '940701') {
+    if (user.phoneNumber == '01086199325' && user.frontId == '940701') {
       user = User('소재우', '940701', '1', 'SKT', '01086199325');
       debugPrint('super user for apple QA');
       return;
     }
 
-    await _service.getOtpCode(name, frontId, backId, telecom, telNum);
-    if (isNewAcc) {
-      // FIXME: 사용자가 인증번호까지 완료해야 user 생성 필요
-      user = User(name, frontId, backId, telecom, telNum);
-    }
+    await _service.getOtpCode(user.username, user.frontId, user.backId,
+        user.telecom, user.phoneNumber);
   }
 
   Future<void> validateOtpCode(String telNum, String otpCode) async {
     startLoading();
     // Super User for apple QA
     if (telNum == '01086199325' && otpCode == '210913') {
-      login();
+      signIn();
       stopLoading();
       return;
     }
@@ -113,24 +107,25 @@ class AuthController extends GetxController {
       var exc = 'ValidationException';
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {
-        // FIXME: 사용자에게 인증번호가 틀렸거나 개인정보가 틀렸다고 알려주어야 함
         stopLoading();
-        return exc;
-      }
-      user.ci = response.body['ci'] ?? '';
-      user.di = response.body['di'] ?? '';
-      if (user.ci.isEmpty || user.di.isEmpty) {
-        throw Exception('휴대폰 인증 에러');
-      }
-
-      if (user.id >= 0) {
-        login();
+        _user = null;
+        throw Exception('잘못된 인증번호입니다.');
       } else {
-        signUp();
+        user.ci = response.body['ci'] ?? '';
+        user.di = response.body['di'] ?? '';
+        if (user.ci.isEmpty || user.di.isEmpty) {
+          throw Exception('잘못된 개인고유부호입니다.');
+        }
+        // Annoymous User's id is -1.
+        if (user.id >= 0) {
+          signIn();
+        } else {
+          signUp();
+        }
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('telNum', user.phoneNumber);
+        stopLoading();
       }
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('telNum', user.phoneNum);
-      stopLoading();
     });
   }
 
@@ -148,12 +143,12 @@ class AuthController extends GetxController {
     );
     chats.add(newChat);
 
-    _service.postMessage(user.phoneNum, newChat);
+    _service.postMessage(user.phoneNumber, newChat);
     update();
   }
 
   Future<void> getChat() async {
-    chats = await _service.getMessage(user.phoneNum);
+    chats = await _service.getMessage(user.phoneNumber);
   }
 
   void putBackId(String backId) async {
@@ -166,7 +161,7 @@ class AuthController extends GetxController {
 
   void stopLoading() {
     if (Get.isDialogOpen == true) {
-      Get.back();
+      goBack();
     }
   }
 

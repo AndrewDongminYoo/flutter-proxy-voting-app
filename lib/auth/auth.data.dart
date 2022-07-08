@@ -4,7 +4,7 @@ class User {
   String frontId = '940101';
   String backId = '1';
   String telecom = 'SKT';
-  String phoneNum = '01012341234';
+  String phoneNumber = '01012341234';
   String ci = '';
   String di = '';
   String address = '';
@@ -14,7 +14,7 @@ class User {
     this.frontId,
     this.backId,
     this.telecom,
-    this.phoneNum,
+    this.phoneNumber,
   );
 
   User.fromJson(Map<String, dynamic>? json) {
@@ -24,7 +24,7 @@ class User {
       frontId = json['frontId'] ?? '';
       backId = json['backId'] == null ? '1' : json['backId'].toString();
       telecom = json['telecom'] ?? '';
-      phoneNum = json['phoneNumber'] ?? '';
+      phoneNumber = json['phoneNumber'] ?? '';
       address = json['address'] ?? '';
       ci = json['ci'] ?? '';
       di = json['di'] ?? '';

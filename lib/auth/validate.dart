@@ -38,8 +38,16 @@ class _ValidatePageState extends State<ValidatePage> {
 
   validate() async {
     FocusScope.of(context).unfocus();
-    debugPrint('${authCtrl.user.phoneNum}, $otpCode');
-    await authCtrl.validateOtpCode(authCtrl.user.phoneNum, otpCode);
+    debugPrint('${authCtrl.user.phoneNumber}, $otpCode');
+    try {
+      await authCtrl.validateOtpCode(authCtrl.user.phoneNumber, otpCode);
+    } catch (e) {
+      debugPrint(e.toString());
+      if (e is Exception) {
+        title = '다시 전화번호를 인증해주세요.';
+        Timer(const Duration(seconds: 1), () => goBack());
+      }
+    }
     onPressed();
   }
 
@@ -52,11 +60,11 @@ class _ValidatePageState extends State<ValidatePage> {
 
   @override
   void initState() {
-    super.initState();
-    if (Get.arguments == 'existingUser') {
+    if (Get.arguments['isNew'] == 'existingUser') {
       title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
     }
     startTimer();
+    super.initState();
   }
 
   startTimer() {
@@ -77,8 +85,9 @@ class _ValidatePageState extends State<ValidatePage> {
 
   @override
   Widget build(BuildContext context) {
-    var timerText =
-        "${remainingOtpTime ~/ 60} : ${intl.NumberFormat("00").format(remainingOtpTime - (remainingOtpTime ~/ 60) * 60)}";
+    var minutes = remainingOtpTime ~/ 60;
+    var seconds = remainingOtpTime - minutes * 60;
+    var timerText = "$minutes : ${intl.NumberFormat("00").format(seconds)}";
     return Scaffold(
       appBar: CustomAppBar(text: ''),
       body: Container(

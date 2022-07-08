@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../../get_nav.dart';
 import '../../shared/card_formatter.dart';
 import '../../shared/custom_text.dart';
 import '../../theme.dart';
@@ -140,7 +141,7 @@ class TelcomModal extends StatelessWidget {
     return InkWell(
       onTap: () {
         nextForm(FormStep.telecom, item);
-        Get.back();
+        goBack();
       },
       child: Container(
         width: customW[CustomW.w4],

@@ -205,7 +205,7 @@ class VoteController extends GetxController {
 
   void stopLoading() {
     if (Get.isDialogOpen == true) {
-      Get.back();
+      goBack();
     }
   }
 

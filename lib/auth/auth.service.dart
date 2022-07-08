@@ -10,6 +10,7 @@ import 'package:get/get_connect.dart';
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
+import 'auth.data.dart';
 
 class AuthService extends GetConnect {
   String baseURL = 'https://api.bside.ai/onboarding';
@@ -26,7 +27,12 @@ class AuthService extends GetConnect {
 
   /// 본인인증:
   Future<Response> getOtpCode(
-      String name, String birth, String backId, String telecom, String telNum) {
+    String name,
+    String birth,
+    String backId,
+    String telecom,
+    String telNum,
+  ) {
     /// 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
     final telecomCode = setTelecom(telecom);
 
@@ -76,23 +82,38 @@ class AuthService extends GetConnect {
   }
 
   Future<Response> createUser(String name, String frontId, String backId,
-      String telecom, String phoneNumber, String ci, String di) {
+      String telecom, String phoneNumber, String ci, String di) async {
+    final user = User(
+      name,
+      frontId,
+      backId,
+      telecom,
+      phoneNumber,
+    );
     return post(
         getURL('/users'),
         jsonEncode({
-          'user': {
-            'name': name,
-            'frontId': frontId,
-            'backId': backId,
-            'telecom': telecom,
-            'phoneNumber': phoneNumber,
-            'ci': ci,
-            'di': di
-          }
+          'user': user,
         }));
   }
 
-  Future<void> postMessage(String phoneNum, Chat message) async {
+  Future<Response> putAddress(int uid, String address) async {
+    return await put(
+        getURL('/users/address'), jsonEncode({'uid': uid, 'address': address}));
+  }
+
+  Future<Response> putBackId(int uid, String backId) async {
+    return await put(
+        getURL('/users/backid'), jsonEncode({'uid': uid, 'backId': backId}));
+  }
+
+  Future<Response> putCiDi(int uid, String ci, String di) async {
+    return await put(
+        getURL('/users/ci'), jsonEncode({'uid': uid, 'ci': ci, 'di': di}));
+  }
+
+  /// MESSAGE PART
+  Future<void> postMessage(String phoneNumber, Chat message) async {
     final contact = <String, dynamic>{
       'message': message.message,
       'myself': message.myself,
@@ -100,17 +121,17 @@ class AuthService extends GetConnect {
     };
     await db
         .collection('contacts')
-        .doc(phoneNum)
+        .doc(phoneNumber)
         .collection('inbox')
         .add(contact);
   }
 
-  Future<List<Chat>> getMessage(String phoneNum) async {
+  Future<List<Chat>> getMessage(String phoneNumber) async {
     List<Chat> ref = [];
     try {
       await db
           .collection('contacts')
-          .doc(phoneNum)
+          .doc(phoneNumber)
           .collection('inbox')
           .orderBy('time', descending: false)
           .get()
@@ -123,20 +144,5 @@ class AuthService extends GetConnect {
       debugPrint(err.toString());
     }
     return ref;
-  }
-
-  Future<Response> putAddress(int uid, String address) {
-    return put(
-        getURL('/users/address'), jsonEncode({'uid': uid, 'address': address}));
-  }
-
-  Future<Response> putBackId(int uid, String backId) {
-    return put(
-        getURL('/users/backid'), jsonEncode({'uid': uid, 'backId': backId}));
-  }
-
-  Future<Response> putCiDi(int uid, String ci, String di) {
-    return put(
-        getURL('/users/ci'), jsonEncode({'uid': uid, 'ci': ci, 'di': di}));
   }
 }
