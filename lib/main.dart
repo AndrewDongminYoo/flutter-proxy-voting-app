@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 
 // 🐦 Flutter imports:
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,9 +33,14 @@ clearPref() async {
   await preferences.clear();
 }
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Handling a background message: ${message.messageId}');
+}
+
 void main() async {
   runZonedGuarded<Future<void>>(
     () async {
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
       // Keep splash screen
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -53,7 +60,6 @@ void main() async {
       debugPrint('[main] firstTime: $firstTime');
       final initialLink = await setupFirebase();
       timeago.setLocaleMessages('ko', timeago.KoMessages());
-
       runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
     },
     (error, stack) => {
@@ -92,10 +98,43 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String initialRoute = '/';
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  void getToken() {
+    messaging.getToken().then((value) {
+      String? token = value;
+    });
+  }
+
+  void initMessaging() {
+    var androiInit = const AndroidInitializationSettings('images/logo.png');
+    var iosInit = const IOSInitializationSettings();
+    var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initSetting);
+    var androidDetails = const AndroidNotificationDetails('1', 'Default',
+        channelDescription: 'Channel Description',
+        importance: Importance.high,
+        priority: Priority.high);
+    var iosDetails = const IOSNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      var android = message.notification.hashCode;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(notification.hashCode,
+            notification.title, notification.body, generalNotificationDetails);
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getToken();
+    initMessaging();
     initDynamicLinks();
     // setupAppsFlyer();
 
@@ -129,7 +168,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
-
     // TODO: 최상단 에러 핸들러 필요, 에러 발생시 팝업 필요
     return GetMaterialApp(
       title: 'Bside',
