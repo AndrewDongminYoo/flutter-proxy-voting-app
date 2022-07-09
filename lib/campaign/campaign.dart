@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:bside/shared/avatar.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -209,10 +210,7 @@ Widget campaignInfoInRow(Campaign campaign) {
     children: [
       Hero(
         tag: 'companyLogo',
-        child: CircleAvatar(
-            backgroundImage: NetworkImage(campaign.logoImg),
-            backgroundColor: Colors.white,
-            radius: 16),
+        child: Avatar(image: campaign.logoImg, radius: 16, alignment: Alignment.centerLeft)
       ),
       const SizedBox(height: 16),
       CustomText(

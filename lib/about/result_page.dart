@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../shared/avatar.dart';
 import '../shared/get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
@@ -53,13 +54,7 @@ class _ResultPageState extends State<ResultPage> {
               colorType: ColorType.white)),
       Container(
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-        child: Align(
-          child: CircleAvatar(
-            foregroundImage: NetworkImage(campaign.logoImg),
-            radius: 40,
-            backgroundColor: customColor[ColorType.white],
-          ),
-        ),
+        child: Avatar(image: campaign.logoImg, radius: 40,),
       ),
       Container(
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -129,3 +124,4 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 }
+

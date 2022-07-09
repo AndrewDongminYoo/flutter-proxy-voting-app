@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
+import '../shared/avatar.dart';
 import '../shared/get_nav.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
@@ -57,13 +58,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
         colorType: ColorType.white,
       ),
       const SizedBox(height: 16),
-      Align(
-        child: CircleAvatar(
-          foregroundImage: NetworkImage(campaign.logoImg),
-          radius: 40,
-          backgroundColor: customColor[ColorType.white],
-        ),
-      ),
+      Avatar(image: campaign.logoImg, radius: 40),
       const SizedBox(height: 16),
       CustomText(
         typoType: TypoType.h1,

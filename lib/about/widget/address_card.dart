@@ -28,6 +28,7 @@ class _AddressCardState extends State<AddressCard> {
       : Get.put(VoteController());
   String address = '';
 
+  // FIXME: 주소를 변경하지 않을 시 address가 null 상태로 에러가 발생
   onEdit() async {
     address = await Get.dialog(
       const EditModal(),

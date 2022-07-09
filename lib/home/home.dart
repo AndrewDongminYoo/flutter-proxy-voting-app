@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../shared/avatar.dart';
 import '../shared/get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.data.dart';
@@ -180,23 +181,10 @@ Widget customPageViewLayer(
                     onTap: () {
                       onConfirmed(campaign);
                     },
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(campaign.logoImg),
-                      // FIXME: 하드코딩된 % 3 수정 필요
-                      backgroundColor: index % 3 == 0
-                          ? const Color(0xFFFFE0E9)
-                          : Colors.white,
-                      radius: isActive ? 40 : 25,
-                    ),
+                    child: Avatar(image:campaign.logoImg, backgroundColor: const Color(0xFFFFE0E9),radius: isActive ? 40 : 25),
                   ),
                 )
-              : CircleAvatar(
-                  backgroundImage: NetworkImage(campaign.logoImg),
-                  // FIXME: 하드코딩된 % 3 수정 필요
-                  backgroundColor:
-                      index % 3 == 0 ? const Color(0xFFFFE0E9) : Colors.white,
-                  radius: isActive ? 40 : 25,
-                ),
+              : Avatar(image:campaign.logoImg, backgroundColor: const Color(0xFFFFE0E9),radius: isActive ? 40 : 25)
         ));
   }
 
