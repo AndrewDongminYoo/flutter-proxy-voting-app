@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +21,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'notificaition/notificaiton_controller.dart';
+import 'notificaition/notificaitionpage_controller.dart';
 import 'utils/firebase_options.dart';
 import 'routes.dart' show routes;
 import 'vote/vote.controller.dart';
@@ -41,6 +40,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded<Future<void>>(
     () async {
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -101,7 +101,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/result';
+  String initialRoute = '/checkvotenum';
   NotificationController notificaitionCtrl =
       Get.isRegistered<NotificationController>()
           ? Get.find()
@@ -143,8 +143,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    initialRoute = widget.firstTime ? '/result' : initialRoute;
-    // initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
+    // initialRoute = widget.firstTime ? '/result' : initialRoute;
+    initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
     // TODO: 최상단 에러 핸들러 필요, 에러 발생시 팝업 필요
     return GetMaterialApp(
       title: 'Bside',
