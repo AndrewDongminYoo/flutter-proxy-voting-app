@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
-import '../contact_us/contact_us.dart';
+import '../contact_us/contact_us.view.dart';
 import '../shared/custom_appbar.dart';
 // import '../shared/custom_floating_button.dart';
 

@@ -4,13 +4,13 @@ import 'package:get/route_manager.dart' show GetPage;
 // 🌎 Project imports:
 import 'about/result_page.dart';
 import 'about/votes_num.dart';
-import 'auth/auth.dart';
-import 'auth/validate.dart';
+import 'auth/auth.view.dart';
+import 'auth/validate.view.dart';
 import 'campaign/campaign.dart';
 import 'exception/address_duplicate.dart';
 import 'exception/not_shareholder.dart';
 import 'home/home.dart';
-import 'notificaition/notificaitionpage_page.dart';
+import 'notificaition/notificaition.view.dart';
 import 'onboarding/onboarding.dart';
 import 'signature/shot_idcard.view.dart';
 import 'signature/signature.view.dart';
@@ -31,5 +31,5 @@ routes() => [
       GetPage(name: '/duplicate', page: () => const AddressDuplicationPage()),
       GetPage(name: '/result', page: () => const ResultPage()),
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
-          GetPage(name: '/notification', page: () => const NotificaitionPage()),
+      GetPage(name: '/notification', page: () => const NotificaitionPage()),
     ];

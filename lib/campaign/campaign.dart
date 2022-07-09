@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:bside/shared/avatar.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -8,14 +7,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../shared/avatar.dart';
 import '../shared/get_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_confirm.dart';
 import '../shared/custom_text.dart';
-import 'campaign.pg_bar.dart';
-import '../theme.dart';
 import '../vote/vote.controller.dart';
+import '../theme.dart';
+import 'campaign.pg_bar.dart';
 import 'campaign.model.dart';
 
 class CampaignPage extends StatefulWidget {
@@ -209,9 +209,11 @@ Widget campaignInfoInRow(Campaign campaign) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Hero(
-        tag: 'companyLogo',
-        child: Avatar(image: campaign.logoImg, radius: 16, alignment: Alignment.centerLeft)
-      ),
+          tag: 'companyLogo',
+          child: Avatar(
+              image: campaign.logoImg,
+              radius: 16,
+              alignment: Alignment.centerLeft)),
       const SizedBox(height: 16),
       CustomText(
         typoType: TypoType.h2Bold,

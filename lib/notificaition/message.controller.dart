@@ -1,10 +1,10 @@
+// 📦 Package imports:
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-class AppController extends GetxController {
-  static AppController get to => Get.find();
-
+class MessageController extends GetxController {
+  static MessageController get to => Get.find();
   final Rxn<RemoteMessage> message = Rxn<RemoteMessage>();
 
   Future<bool> initialize() async {

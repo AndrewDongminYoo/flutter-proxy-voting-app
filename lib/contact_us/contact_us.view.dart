@@ -26,15 +26,13 @@ class _ContactUsPageState extends State<ContactUsPage> {
 
   // FIXME: 스크롤이 끝까지 내려가지 않고 직전 아이템에서 멈춤
   updateChatList() {
-    if (mounted) {
-      setState(() {
-        _controller.animateTo(
-          _controller.position.maxScrollExtent,
-          duration: const Duration(seconds: 1),
-          curve: Curves.fastOutSlowIn,
-        );
-      });
-    }
+    setState(() {
+      _controller.animateTo(
+        _controller.position.maxScrollExtent,
+        duration: const Duration(seconds: 1),
+        curve: Curves.fastOutSlowIn,
+      );
+    });
   }
 
   @override

@@ -122,11 +122,7 @@ class VoteController extends GetxController {
   }
 
   // ===  page: 주소 확인페이지 ===
-  List<String> addressList() {
-    return shareholders.map((e) {
-      return e.address;
-    }).toList();
-  }
+  List<String> addressList() => shareholders.map((e) => e.address).toList();
 
   void selectShareholder(int index) async {
     _shareholder = shareholders[index];

@@ -70,7 +70,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
         body: SizedBox(
           child: ListView(
             children: [
-              Temp(campaign: campaign),
+              NotShareholder(campaign: campaign),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
@@ -104,61 +104,54 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
   }
 }
 
-class Temp extends StatefulWidget {
-  const Temp({
-    Key? key,
-    required this.campaign,
-  }) : super(key: key);
-
+class NotShareholder extends Container {
   final Campaign campaign;
 
-  @override
-  State<Temp> createState() => _TempState();
-}
-
-class _TempState extends State<Temp> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        height: 400,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(24.0),
-              bottomRight: Radius.circular(24.0),
-            ),
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xff60457A),
-                  Color(0xff80A1DF),
-                ])),
-        child: Column(children: <Widget>[
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child: CustomText(
-                  typoType: TypoType.h1, text: '', colorType: ColorType.white)),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: Align(
-              child: CircleAvatar(
-                foregroundImage: NetworkImage(widget.campaign.logoImg),
-                radius: 40,
-                backgroundColor: customColor[ColorType.white],
+  NotShareholder({
+    Key? key,
+    required this.campaign,
+  }) : super(
+            key: key,
+            width: double.infinity,
+            height: 400,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24.0),
+                  bottomRight: Radius.circular(24.0),
+                ),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xff60457A),
+                      Color(0xff80A1DF),
+                    ])),
+            child: Column(children: <Widget>[
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 20),
+                  child: CustomText(
+                      typoType: TypoType.h1,
+                      text: '',
+                      colorType: ColorType.white)),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: Align(
+                  child: CircleAvatar(
+                    foregroundImage: NetworkImage(campaign.logoImg),
+                    radius: 40,
+                    backgroundColor: customColor[ColorType.white],
+                  ),
+                ),
               ),
-            ),
-          ),
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: CustomText(
-                  typoType: TypoType.h1,
-                  text: '주주명부에 등록되어있지 않습니다.',
-                  colorType: ColorType.white)),
-          CustomText(
-              typoType: TypoType.bodyLight,
-              text: '주주가 맞으실 경우 문의해주시길 바랍니다.',
-              colorType: ColorType.white),
-        ]));
-  }
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: CustomText(
+                      typoType: TypoType.h1,
+                      text: '주주명부에 등록되어있지 않습니다.',
+                      colorType: ColorType.white)),
+              CustomText(
+                  typoType: TypoType.bodyLight,
+                  text: '주주가 맞으실 경우 문의해주시길 바랍니다.',
+                  colorType: ColorType.white),
+            ]));
 }

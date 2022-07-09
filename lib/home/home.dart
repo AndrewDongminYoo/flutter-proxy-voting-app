@@ -12,9 +12,9 @@ import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
 import '../shared/custom_button.dart';
-import 'pop_scope.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
+import 'pop_scope.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {
@@ -173,19 +173,24 @@ Widget customPageViewLayer(
           ),
         ),
         child: Align(
-          alignment: Alignment.center,
-          child: isActive
-              ? Hero(
-                  tag: 'companyLogo',
-                  child: GestureDetector(
-                    onTap: () {
-                      onConfirmed(campaign);
-                    },
-                    child: Avatar(image:campaign.logoImg, backgroundColor: const Color(0xFFFFE0E9),radius: isActive ? 40 : 25),
-                  ),
-                )
-              : Avatar(image:campaign.logoImg, backgroundColor: const Color(0xFFFFE0E9),radius: isActive ? 40 : 25)
-        ));
+            alignment: Alignment.center,
+            child: isActive
+                ? Hero(
+                    tag: 'companyLogo',
+                    child: GestureDetector(
+                      onTap: () {
+                        onConfirmed(campaign);
+                      },
+                      child: Avatar(
+                          image: campaign.logoImg,
+                          backgroundColor: const Color(0xFFFFE0E9),
+                          radius: isActive ? 40 : 25),
+                    ),
+                  )
+                : Avatar(
+                    image: campaign.logoImg,
+                    backgroundColor: const Color(0xFFFFE0E9),
+                    radius: isActive ? 40 : 25)));
   }
 
   return SizedBox(
@@ -256,8 +261,10 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           IconButton(
               onPressed: onNext,
               iconSize: 36,
-              icon:
-                  const Icon(Icons.expand_more_rounded, color: Colors.white70)),
+              icon: const Icon(
+                Icons.expand_more_rounded,
+                color: Colors.white70,
+              )),
         ],
       ));
 }

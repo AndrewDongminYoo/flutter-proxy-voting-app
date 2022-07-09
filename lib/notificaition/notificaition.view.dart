@@ -1,8 +1,9 @@
-import 'package:bside/shared/custom_appbar.dart';
-import 'package:bside/shared/custom_text.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../shared/avatar.dart';
+// 🌎 Project imports:
+import '../shared/custom_appbar.dart';
+import '../shared/custom_text.dart';
 
 class NotificaitionPage extends StatefulWidget {
   const NotificaitionPage({Key? key}) : super(key: key);
@@ -15,7 +16,9 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(text: '알림', isNoticePage: true), body: listView());
+      appBar: CustomAppBar(text: '알림', isNoticePage: true),
+      body: listView(),
+    );
   }
 
   Widget listView() {
@@ -32,11 +35,14 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   Widget listViewItem(int index) {
     return Container(
       margin: const EdgeInsets.only(left: 10),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // const Avatar(image:'images/logo.png'),
-        message(index),
-        timeAndDate(index)
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // const Avatar(image:'images/logo.png'),
+          message(index),
+          timeAndDate(index)
+        ],
+      ),
     );
   }
 
@@ -47,12 +53,10 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   Widget timeAndDate(int index) {
     return Container(
       margin: const EdgeInsets.only(top: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CustomText(typoType: TypoType.bodyLight, text: '23-01-2021'),
-          CustomText(typoType: TypoType.bodyLight, text: '07:10')
-        ]),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        CustomText(typoType: TypoType.bodyLight, text: '23-01-2021'),
+        CustomText(typoType: TypoType.bodyLight, text: '07:10')
+      ]),
     );
   }
 }

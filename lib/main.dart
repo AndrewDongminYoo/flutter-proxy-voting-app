@@ -1,6 +1,6 @@
 // 🎯 Dart imports:
-import 'dart:async';
-import 'dart:io';
+import 'dart:async' show Future, runZonedGuarded;
+import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,7 +21,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'notificaition/notificaitionpage_controller.dart';
+import 'notificaition/notificaition.controller.dart';
 import 'utils/firebase_options.dart';
 import 'routes.dart' show routes;
 import 'vote/vote.controller.dart';
@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    notificaitionCtrl.initMessaging();
+    notificaitionCtrl.initState();
     initDynamicLinks();
     // setupAppsFlyer();
 
