@@ -6,25 +6,27 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../campaign/agenda.model.dart';
+import '../../shared/custom_text.dart';
+import '../../theme.dart';
 import '../vote.model.dart';
 
 final voteButtonList = [
   VoteButton(
       bgColor: Colors.deepPurple,
       borderColor: Colors.deepPurple,
-      textColor: Colors.white,
+      textColor: ColorType.white,
       label: '찬성',
       value: VoteType.agree),
   VoteButton(
       bgColor: Colors.deepOrange,
       borderColor: Colors.deepOrange,
-      textColor: Colors.white,
+      textColor: ColorType.white,
       label: '반대',
       value: VoteType.disagree),
   VoteButton(
       bgColor: Colors.white,
       borderColor: Colors.deepPurple,
-      textColor: Colors.black,
+      textColor: ColorType.black,
       label: '기권',
       value: VoteType.abstention),
 ];
@@ -32,7 +34,7 @@ final voteButtonList = [
 final noneButton = VoteButton(
     bgColor: Colors.white,
     borderColor: Colors.deepPurple,
-    textColor: Colors.black,
+    textColor: ColorType.black,
     label: '미선택',
     value: VoteType.none);
 
@@ -94,12 +96,18 @@ class _VoteSelectorState extends State<VoteSelector> {
         ),
         child: Column(children: [
           ListTile(
-            title: Text(widget.agendaItem.section),
-            subtitle: Text(widget.agendaItem.head),
+            title: CustomText(
+              text: widget.agendaItem.section,
+              textAlign: TextAlign.left,
+            ),
+            subtitle: CustomText(
+              text: widget.agendaItem.head,
+              textAlign: TextAlign.left,
+            ),
             trailing: TextButton(
               onPressed: () => {},
-              child: Text(
-                widget.agendaItem.agendaFrom,
+              child: CustomText(
+                text: widget.agendaItem.agendaFrom,
               ),
             ),
           ),
@@ -134,10 +142,9 @@ Widget voteSelectorGroup(void Function(VoteButton) setValue) {
               onTap: () => setValue(item),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: Text(
-                  item.label,
+                child: CustomText(
+                  text: item.label,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16),
                 ),
               )),
         );
@@ -168,9 +175,9 @@ Widget selectedLabel(VoteButton button) {
               borderRadius: BorderRadius.circular(30),
               color: button.bgColor),
           child: Center(
-            child: Text(
-              button.label,
-              style: TextStyle(fontSize: 16, color: button.textColor),
+            child: CustomText(
+              text: button.label,
+              colorType: button.textColor,
             ),
           ),
         ),

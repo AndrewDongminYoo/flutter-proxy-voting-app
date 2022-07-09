@@ -21,7 +21,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'notificaition/notificaition_controller.dart';
+import 'notificaition/notificaition.controller.dart';
 import 'routes.dart' show routes;
 import 'utils/firebase_options.dart';
 import 'vote/vote.controller.dart';
@@ -145,9 +145,10 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Bside',
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-          fontFamily: 'Nanum',
-          useMaterial3: true),
+        primarySwatch: Colors.deepPurple,
+        fontFamily: 'Nanum',
+        useMaterial3: true,
+      ),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
       defaultTransition: Transition.cupertino,

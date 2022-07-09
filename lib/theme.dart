@@ -26,6 +26,7 @@ enum ColorType {
   grey,
   lightGrey,
   white,
+  white54,
   black,
   red
 }
@@ -39,5 +40,6 @@ final customColor = {
   ColorType.grey: const Color(0xFFAAAAAA),
   ColorType.lightGrey: const Color(0xFFE9E9E9),
   ColorType.white: const Color(0xFFFFFFFF),
+  ColorType.white54: const Color(0x89FFFFFF),
   ColorType.red: const Color(0xFFFFFFFF),
 };

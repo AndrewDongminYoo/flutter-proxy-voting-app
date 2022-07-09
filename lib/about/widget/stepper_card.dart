@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../../shared/custom_nav.dart';
 import '../../shared/custom_button.dart';
+import '../../shared/custom_text.dart';
 import '../../vote/vote.model.dart';
 
 class StepperCard extends StatefulWidget {
@@ -24,30 +25,6 @@ class StepperCard extends StatefulWidget {
 }
 
 class _StepperCardState extends State<StepperCard> {
-  int _currentStep = 0;
-
-  void tapped(int step) {
-    setState(() {
-      _currentStep = step;
-    });
-  }
-
-  void continued() {
-    if (_currentStep < 3) {
-      setState(() {
-        _currentStep++;
-      });
-    }
-  }
-
-  void cancel() {
-    if (_currentStep > 0) {
-      setState(() {
-        _currentStep--;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -72,7 +49,10 @@ class _StepperCardState extends State<StepperCard> {
           StepperButton(active: active),
           Expanded(
             flex: 1,
-            child: Text(title),
+            child: CustomText(
+              text: title,
+              textAlign: TextAlign.left,
+            ),
           ),
           TextButton(
             onPressed: () {

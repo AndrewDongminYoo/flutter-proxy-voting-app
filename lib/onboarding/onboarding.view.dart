@@ -7,6 +7,7 @@ import 'package:get/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
+import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../shared/custom_nav.dart';
 import 'guide.data.dart';
@@ -96,7 +97,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           ),
           primary: Colors.white,
         ),
-        child: Text(index == 2 ? '시작하기' : '건너뛰기'),
+        child: CustomText(text: index == 2 ? '시작하기' : '건너뛰기'),
       ),
     );
   }

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import '../shared/custom_text.dart';
+import '../theme.dart';
 import 'campaign.model.dart';
 
 class CampaignInfo extends Column {
@@ -19,29 +21,27 @@ class CampaignInfo extends Column {
             const SizedBox(height: 24),
             GestureDetector(
               onTap: () => {onPress(campaign)},
-              child: Text(
-                campaign.koName,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold),
+              child: CustomText(
+                text: campaign.koName,
+                typoType: TypoType.h1Title,
+                colorType: ColorType.white,
               ),
             ),
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () => {onPress(campaign)},
-              child: Text(
-                campaign.moderator,
-                style: const TextStyle(
-                    color: Colors.white, fontSize: 16, height: 1),
+              child: CustomText(
+                text: campaign.moderator,
+                colorType: ColorType.white,
+                typoType: TypoType.body,
               ),
             ),
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () => {onPress(campaign)},
-              child: Text(
-                campaign.date,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+              child: CustomText(
+                text: campaign.date,
+                colorType: ColorType.white,
               ),
             ),
             const SizedBox(height: 16),

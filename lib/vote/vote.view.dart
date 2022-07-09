@@ -95,7 +95,7 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
     } else if (voteCtrl.voteAgenda.idCardAt == null) {
       goToIDCard(); //
     } else {
-      goToResult();
+      jumpToResult();
     }
   }
 

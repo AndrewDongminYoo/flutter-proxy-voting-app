@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
+// 🌎 Project imports:
+import '../../shared/custom_text.dart';
+import '../../theme.dart';
+
 final reactions = [
   Reaction<String>(
     value: 'happy',
@@ -54,13 +58,10 @@ Container _buildTitle(String title) {
       color: Colors.red,
       borderRadius: BorderRadius.circular(15),
     ),
-    child: Text(
-      title,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 10,
-        fontWeight: FontWeight.bold,
-      ),
+    child: CustomText(
+      text: title,
+      typoType: TypoType.boldLabel,
+      colorType: ColorType.white,
     ),
   );
 }

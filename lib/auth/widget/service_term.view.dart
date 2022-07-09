@@ -111,7 +111,7 @@ class _ServiceTermState extends State<ServiceTerm> {
               CheckboxListTile(
                 value: getAllAgreeTerms(),
                 onChanged: setAllAgreeTerms,
-                title: const Text('약관 모두 동의'),
+                title: CustomText(text: '약관 모두 동의'),
                 checkboxShape: const CircleBorder(),
                 activeColor: customColor[ColorType.yellow],
                 controlAffinity: ListTileControlAffinity.leading,

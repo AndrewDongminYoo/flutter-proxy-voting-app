@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import '../../shared/custom_text.dart';
 import '../../theme.dart';
 
 class StatusBox extends Container {
@@ -23,12 +24,10 @@ class StatusBox extends Container {
             ),
           ),
           child: Center(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 12,
-                color: customColor[ColorType.white],
-              ),
+            child: CustomText(
+              text: text,
+              colorType: ColorType.white,
+              typoType: TypoType.label,
             ),
           ),
         );

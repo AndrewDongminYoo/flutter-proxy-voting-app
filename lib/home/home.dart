@@ -12,6 +12,7 @@ import '../campaign/campaign.data.dart';
 import '../campaign/campaign.model.dart';
 import '../campaign/campaign_info.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'pop_scope.dart';
@@ -244,9 +245,14 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           IconButton(
               onPressed: onPrev,
               iconSize: 36,
-              icon:
-                  const Icon(Icons.expand_less_rounded, color: Colors.white70)),
-          CampaignInfo(campaign: curCampaign, onPress: onPress),
+              icon: const Icon(
+                Icons.expand_less_rounded,
+                color: Colors.white70,
+              )),
+          CampaignInfo(
+            campaign: curCampaign,
+            onPress: onPress,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: CustomButton(
@@ -301,9 +307,9 @@ Widget loginBox() {
                 color: Colors.white,
               ),
             ),
-            const Text(
-              '로그인',
-              style: TextStyle(fontSize: 18),
+            CustomText(
+              text: '로그인',
+              typoType: TypoType.h2,
             ),
           ],
         ),

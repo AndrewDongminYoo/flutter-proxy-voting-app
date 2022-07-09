@@ -79,7 +79,7 @@ class _CampaignPageState extends State<CampaignPage> {
                       });
                     }
                   },
-                  child: Text(item.agendaFrom)),
+                  child: CustomText(text: item.agendaFrom)),
             ),
           );
         }).toList())
@@ -163,13 +163,10 @@ Widget gradientLayer() {
 }
 
 Widget campaignHeader(Campaign campaign) {
-  return Text(
-    campaign.slogan,
-    style: const TextStyle(
-      color: Colors.white,
-      fontSize: 28,
-      fontWeight: FontWeight.w800,
-    ),
+  return CustomText(
+    text: campaign.slogan,
+    typoType: TypoType.h1Bold,
+    colorType: ColorType.white,
   );
   // return CustomText(
   //   typoType: TypoType.h1,
@@ -268,7 +265,7 @@ Widget iconButton(ActionMenu actionMenu) {
             actionMenu.icon,
             color: actionMenu.color,
           ),
-          Text(actionMenu.label)
+          CustomText(text: actionMenu.label)
         ],
       ),
     ),

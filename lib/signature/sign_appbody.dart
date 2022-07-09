@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import '../shared/custom_appbar.dart';
+import '../shared/custom_text.dart';
 
 class AppBodyPage extends StatefulWidget {
   const AppBodyPage({
@@ -35,16 +36,20 @@ class _AppBodyPageState extends State<AppBodyPage> {
           children: [
             Row(
               children: [
-                Text(widget.helpText,
-                    style: const TextStyle(
-                      fontSize: 21,
-                      fontWeight: FontWeight.w900,
-                    )),
+                CustomText(
+                  text: widget.helpText,
+                  typoType: TypoType.h1Bold,
+                  textAlign: TextAlign.left,
+                ),
                 const Spacer(),
                 const SizedBox(height: 40)
               ],
             ),
-            Text(widget.informationString),
+            CustomText(
+              text: widget.informationString,
+              typoType: TypoType.body,
+              textAlign: TextAlign.left,
+            ),
             widget.mainContent,
             widget.subContentList,
             const SizedBox(height: 50)

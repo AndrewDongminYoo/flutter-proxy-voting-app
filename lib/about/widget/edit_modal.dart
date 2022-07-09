@@ -41,7 +41,7 @@ class _EditModalState extends State<EditModal> {
   void initState() {
     if (Get.arguments is String) {
       address = Get.arguments;
-    } else if (authCtrl.user.address != '') {
+    } else if (authCtrl.user.address.isNotEmpty) {
       address = authCtrl.user.address;
     }
     super.initState();

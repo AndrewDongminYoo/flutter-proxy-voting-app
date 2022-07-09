@@ -47,7 +47,7 @@ class TotalStatus extends StatelessWidget {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Text('Something went wrong');
+            return CustomText(text: 'Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {

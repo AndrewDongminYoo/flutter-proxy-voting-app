@@ -90,10 +90,10 @@ class _CustomPanelState extends State<CustomPanel> {
         stream: agendaStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            return const Text('Something went wrong');
+            return CustomText(text: 'Something went wrong');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text('Loading');
+            return CustomText(text: 'Loading');
           }
           var liveAgenda = LiveAgenda.fromJson(snapshot.data!);
           liveAgenda.index = widget.index;

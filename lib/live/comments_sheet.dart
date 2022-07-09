@@ -119,9 +119,7 @@ class _CommentsSheetState extends State<CommentsSheet> {
                         ),
                         padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        child:
-                            // Text(time.toString()),
-                            Row(
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -131,15 +129,13 @@ class _CommentsSheetState extends State<CommentsSheet> {
                             ),
                             Expanded(
                               flex: 4,
-                              child: Text(
-                                data['comment'].toString(),
+                              child: CustomText(
+                                text: data['comment'].toString(),
                               ),
                             ),
-                            Text(
-                              readTimestamp(data['createdAt']),
-                              style: TextStyle(
-                                  color: customColor[ColorType.black],
-                                  fontSize: 12),
+                            CustomText(
+                              text: readTimestamp(data['createdAt']),
+                              typoType: TypoType.label,
                             )
                           ],
                         ),

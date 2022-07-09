@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../shared/custom_appbar.dart';
 import '../shared/custom_text.dart';
-import 'notificaition_controller.dart';
+import 'notificaition.controller.dart';
 
 class NotificaitionPage extends StatefulWidget {
   const NotificaitionPage({Key? key}) : super(key: key);

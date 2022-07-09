@@ -16,7 +16,6 @@ goToIDCard() => Get.toNamed('/idcard');
 goToIDNumber() => Get.toNamed('/idnumber');
 goToNotShareHolders() => Get.toNamed('/not-shareholders');
 goToDuplicate() => Get.toNamed('/duplicate');
-goToResult() => Get.toNamed('/result');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
 goToNotificationPage() => Get.toNamed('/notification');
 jumpToCheckVoteNum() => Get.offNamed('/checkvotenum');

@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
-import 'notificaition_model.dart';
+import 'notificaition.model.dart';
 
 class NotificationController extends GetxController {
   late Notificaition notificaitions;

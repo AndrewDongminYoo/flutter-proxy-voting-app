@@ -29,11 +29,13 @@ class _AddressCardState extends State<AddressCard> {
   String address = '';
 
   onEdit() async {
-    address = await Get.dialog(
+    var add = await Get.dialog(
       const EditModal(),
       arguments: address,
     );
-    setState(() {});
+    setState(() {
+      if (add != null) address = add;
+    });
   }
 
   @override

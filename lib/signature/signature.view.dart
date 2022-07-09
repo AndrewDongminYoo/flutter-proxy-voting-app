@@ -14,6 +14,7 @@ import '../shared/custom_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_lottie.dart';
+import '../shared/custom_text.dart';
 import 'sign_appbody.dart';
 import '../vote/vote.controller.dart';
 import 'signature.controller.dart';
@@ -29,10 +30,10 @@ class _SignaturePageState extends State<SignaturePage> {
   final _signer = Get.isRegistered<CustomSignController>()
       ? Get.find()
       : Get.put(CustomSignController());
-  final authCtrl = Get.isRegistered<AuthController>()
+  AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
-  final voteCtrl = Get.isRegistered<VoteController>()
+  VoteController voteCtrl = Get.isRegistered<VoteController>()
       ? Get.find()
       : Get.put(VoteController());
 
@@ -134,12 +135,9 @@ class _SignaturePageState extends State<SignaturePage> {
               width: 2,
             ),
           ),
-          child: const Text(
-            '초기화',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+          child: CustomText(
+            text: '초기화',
+            typoType: TypoType.h2Bold,
           ),
         ),
         const SizedBox(height: 30),

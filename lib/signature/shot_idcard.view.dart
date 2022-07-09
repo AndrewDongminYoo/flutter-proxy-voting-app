@@ -14,6 +14,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../shared/custom_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
 import '../vote/vote.controller.dart';
 import 'sign_appbody.dart';
 import 'signature.controller.dart';
@@ -55,9 +56,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           contentPadding: const EdgeInsets.symmetric(
             vertical: 20.0,
           ),
-          title: const Text(
-            '신분증을 촬영해주세요.',
-            style: TextStyle(fontSize: 16),
+          title: CustomText(
+            text: '신분증을 촬영해주세요.',
+            typoType: TypoType.h2Bold,
           ),
           children: [
             SimpleDialogOption(
@@ -69,10 +70,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 }
                 Navigator.pop(context, source);
               },
-              child: const Text('카메라 촬영',
-                  style: TextStyle(
-                    fontSize: 14,
-                  )),
+              child: CustomText(
+                text: '카메라 촬영',
+                typoType: TypoType.bodyLight,
+              ),
             ),
             SimpleDialogOption(
               onPressed: () {
@@ -83,11 +84,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
                 }
                 Navigator.pop(context, source);
               },
-              child: const Text(
-                '갤러리 선택',
-                style: TextStyle(
-                  fontSize: 14,
-                ),
+              child: CustomText(
+                text: '갤러리 선택',
+                typoType: TypoType.bodyLight,
               ),
             ),
           ],
@@ -122,12 +121,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       onPressed: onPressed,
       icon: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text('촬영 및 업로드하기'),
-          SizedBox(
+        children: [
+          CustomText(text: '촬영 및 업로드하기'),
+          const SizedBox(
             height: 10,
           ),
-          Icon(
+          const Icon(
             Icons.upload_file_rounded,
             size: 50,
             color: Colors.deepOrange,
@@ -181,7 +180,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           onPressed: () {
             if (idcardImage != null) {
               if (authCtrl.user.backId.length > 1) {
-                goToResult();
+                jumpToResult();
               }
               goToIDNumber();
             }

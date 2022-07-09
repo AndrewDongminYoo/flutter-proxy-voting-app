@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../shared/custom_nav.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
 import '../vote/vote.controller.dart';
 import 'sign_appbody.dart';
 
@@ -41,7 +42,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     if (backId.length == 7) {
       authCtrl.putBackId(backId);
       voteCtrl.trackBackId();
-      jumpToHome();
+      jumpToResult();
     }
   }
 
@@ -79,12 +80,9 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                     ),
                   ),
                 ),
-                const Text(
-                  '  -  ',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                CustomText(
+                  text: '  -  ',
+                  typoType: TypoType.h1Bold,
                 ),
                 SizedBox(
                   width: Get.width / 2,
@@ -109,9 +107,9 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
               ],
             ),
           ),
-          const Text(
-            '관련법상 위임장에는 주민등록번호 전체가 포함되어야 효력이 인정됩니다.',
-            style: TextStyle(fontSize: 13),
+          CustomText(
+            text: '관련법상 위임장에는 주민등록번호 전체가 포함되어야 효력이 인정됩니다.',
+            typoType: TypoType.label,
           ),
         ],
       ),

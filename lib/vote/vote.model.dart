@@ -1,6 +1,8 @@
 // 🎯 Dart imports:
 import 'dart:ui' show Color;
 
+import '../theme.dart';
+
 enum VoteType {
   none(-2),
   agree(-1),
@@ -29,7 +31,7 @@ extension IntToType on int {
 class VoteButton {
   final Color borderColor;
   final Color bgColor;
-  final Color textColor;
+  final ColorType textColor;
   final String label;
   final VoteType value;
 

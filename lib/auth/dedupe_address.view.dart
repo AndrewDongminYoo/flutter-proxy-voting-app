@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../auth/auth.controller.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
+import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../shared/custom_nav.dart';
 import '../vote/vote.controller.dart';
@@ -51,7 +52,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                 itemCount: addressList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return RadioListTile(
-                      title: Text(addressList[index]),
+                      title: CustomText(text: addressList[index]),
                       value: addressList[index],
                       groupValue: addressList[selected],
                       onChanged: (value) {
