@@ -91,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomCard(
-                    child: CustomText(
+                    content: CustomText(
                   text: chat.message,
                   typoType: TypoType.body,
                   colorType: ColorType.white,
@@ -117,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             CustomCard(
                 bgColor: ColorType.orange,
-                child: CustomText(
+                content: CustomText(
                   text: chat.message,
                   typoType: TypoType.body,
                   colorType: ColorType.white,
@@ -187,13 +187,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class CustomCard extends Container {
   final ColorType bgColor;
-  @override
-  final Widget child;
+  final Widget content;
 
   CustomCard({
     Key? key,
     this.bgColor = ColorType.purple,
-    required this.child,
+    required this.content,
   }) : super(
           key: key,
           padding: const EdgeInsets.all(16),
@@ -201,6 +200,6 @@ class CustomCard extends Container {
             borderRadius: BorderRadius.circular(20),
             color: customColor[bgColor],
           ),
-          child: child,
+          child: content,
         );
 }

@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 
 class OrangeProgressBar extends LinearProgressIndicator {
-  @override
-  final double value;
+  final double status;
   OrangeProgressBar({
     Key? key,
-    required this.value,
+    required this.status,
   }) : super(
           key: key,
-          value: value,
+          value: status,
           backgroundColor: const Color(0xFFEEB304),
           color: customColor[ColorType.orange],
         );
@@ -27,7 +26,7 @@ class CampaignProgress extends Expanded {
           key: key,
           child: Column(
             children: [
-              OrangeProgressBar(value: value),
+              OrangeProgressBar(status: value),
               const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

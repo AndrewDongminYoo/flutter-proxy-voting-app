@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 
 class Avatar extends Align {
-  @override
-  final Alignment alignment;
+  final Alignment align;
   final String image;
   final double radius;
   final Color backgroundColor;
@@ -13,11 +12,11 @@ class Avatar extends Align {
       {Key? key,
       required this.image,
       required this.radius,
-      this.alignment = Alignment.center,
+      this.align = Alignment.center,
       this.backgroundColor = const Color(0xFFFFE0E9)})
       : super(
           key: key,
-          alignment: alignment,
+          alignment: align,
           child: CircleAvatar(
             foregroundImage: NetworkImage(image),
             radius: radius,

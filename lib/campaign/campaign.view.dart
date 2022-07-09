@@ -213,7 +213,7 @@ Widget campaignInfoInRow(Campaign campaign) {
           child: Avatar(
               image: campaign.logoImg,
               radius: 16,
-              alignment: Alignment.centerLeft)),
+              align: Alignment.centerLeft)),
       const SizedBox(height: 16),
       CustomText(
         typoType: TypoType.h2Bold,

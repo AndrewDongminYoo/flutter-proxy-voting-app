@@ -202,7 +202,7 @@ class _HorizontalBarWrapperState extends State<HorizontalBarWrapper> {
           height: 10,
         ),
         OrangeProgressBar(
-          value: percentage,
+          status: percentage,
         ),
         const SizedBox(
           height: 20,
