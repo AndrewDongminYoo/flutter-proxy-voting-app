@@ -21,7 +21,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'notificaition/notificaition.controller.dart';
+import 'notificaition/notificaition_controller.dart';
 import 'utils/firebase_options.dart';
 import 'routes.dart' show routes;
 import 'vote/vote.controller.dart';
@@ -33,17 +33,13 @@ clearPref() async {
   await preferences.clear();
 }
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (kDebugMode) {
-    print('Handling a background message: ${message.messageId}');
-  }
-}
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded<Future<void>>(
     () async {
-      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+      
 
       // Keep splash screen
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -78,17 +74,17 @@ Future<PendingDynamicLinkData?> setupFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   final PendingDynamicLinkData? initialLink =
       await FirebaseDynamicLinks.instance.getInitialLink();
   return initialLink;
 }
 
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   debugPrint("Handling a background message: ${message.messageId}");
-// }
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  debugPrint('Handling a background message: ${message.messageId}');
+}
 
 class MyApp extends StatefulWidget {
   final bool firstTime;
@@ -101,7 +97,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/checkvotenum';
+  String initialRoute = '/';
   NotificationController notificaitionCtrl =
       Get.isRegistered<NotificationController>()
           ? Get.find()
@@ -110,7 +106,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    notificaitionCtrl.initState();
+    // notificaitionCtrl.initMessaging();
+    notificaitionCtrl.loadFCM();
+    notificaitionCtrl.listenFCM();
+    notificaitionCtrl.requestPermission();
+    notificaitionCtrl.getToken();
     initDynamicLinks();
     // setupAppsFlyer();
 
