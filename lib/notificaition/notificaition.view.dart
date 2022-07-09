@@ -1,5 +1,7 @@
 // 🐦 Flutter imports:
+import 'package:bside/notificaition/notificaition_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/custom_appbar.dart';
@@ -13,6 +15,11 @@ class NotificaitionPage extends StatefulWidget {
 }
 
 class _NotificaitionPageState extends State<NotificaitionPage> {
+  NotificationController notificaitionCtrl =
+      Get.isRegistered<NotificationController>()
+          ? Get.find()
+          : Get.put(NotificationController());
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,34 +36,50 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
         separatorBuilder: (context, index) {
           return const Divider(height: 0);
         },
-        itemCount: 15);
+        itemCount: notificaitionCtrl.pushAlram.length);
   }
 
   Widget listViewItem(int index) {
-    return Container(
-      margin: const EdgeInsets.only(left: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
         children: [
-          // const Avatar(image:'images/logo.png'),
-          message(index),
-          timeAndDate(index)
+          avatar(),
+          Expanded(
+              child: Container(
+            margin: const EdgeInsets.only(left: 10),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              message(index),
+              CustomText(typoType: TypoType.bodyLight, text: notificaitionCtrl.currentTime(notificaitionCtrl.pushAlram[index].createdAt)),
+            ]),
+          )),
+          cacelbutton(index)
         ],
       ),
     );
   }
-
-  Widget message(int index) {
-    return CustomText(typoType: TypoType.body, text: 'test');
+// DateTime.now()
+  Widget cacelbutton(int index) {
+    cancelAlram() {}
+    return IconButton(
+      icon: const Icon(
+        Icons.close,
+        color: Colors.black,
+        semanticLabel: 'Close modal'),
+      onPressed: cancelAlram,
+    );
   }
 
-  Widget timeAndDate(int index) {
-    return Container(
-      margin: const EdgeInsets.only(top: 5),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        CustomText(typoType: TypoType.bodyLight, text: '23-01-2021'),
-        CustomText(typoType: TypoType.bodyLight, text: '07:10')
-      ]),
+  Widget avatar() {
+    return const CircleAvatar(
+      foregroundImage: AssetImage('assets/images/logo.png'),
+      radius: 25,
+      // backgroundColor: customColor[ColorType.white],
     );
+  }
+
+  Widget message(int index) {
+    return CustomText(typoType: TypoType.body, text: notificaitionCtrl.pushAlram[index].title);
   }
 }
