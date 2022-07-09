@@ -1,8 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🐦 Flutter imports:
 import 'package:get/get.dart';
 
 goBack() => Get.back();
-goBackWithVal(context, value) => Navigator.pop(value);
+goBackWithVal(context, value) => Navigator.pop(context, value);
 
 goToOnBoarding() => Get.toNamed('/onboarding');
 goToHome() => Get.toNamed('/');
