@@ -51,7 +51,7 @@ class TotalStatus extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LiveLoungeHeader();
+            return LiveLoungeHeader();
           }
           var live = LiveLounge.fromJson(snapshot.data!);
           return Column(

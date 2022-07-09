@@ -102,22 +102,22 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 }
 
-class GuideItem extends StatelessWidget {
-  const GuideItem({Key? key, required this.guide}) : super(key: key);
+class GuideItem extends Container {
   final Guide guide;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: Get.height - 100,
-      padding: const EdgeInsets.only(top: 100),
-      color: const Color(0xFF572E67),
-      child: Image(
-        image: AssetImage(
-            GetPlatform.isAndroid ? guide.aosImageUrl : guide.iosImageUrl),
-        fit: BoxFit.contain,
-      ),
-    );
-  }
+  GuideItem({
+    Key? key,
+    required this.guide,
+  }) : super(
+          key: key,
+          width: double.infinity,
+          height: Get.height - 100,
+          padding: const EdgeInsets.only(top: 100),
+          color: const Color(0xFF572E67),
+          child: Image(
+            image: AssetImage(
+              GetPlatform.isAndroid ? guide.aosImageUrl : guide.iosImageUrl,
+            ),
+            fit: BoxFit.contain,
+          ),
+        );
 }

@@ -125,43 +125,39 @@ class _CustomPanelState extends State<CustomPanel> {
   }
 }
 
-class GraphBoxHeader extends StatelessWidget {
-  const GraphBoxHeader({
+class GraphBoxHeader extends Container {
+  final LiveAgenda liveAgenda;
+  GraphBoxHeader({
     Key? key,
     required this.liveAgenda,
-  }) : super(key: key);
-  final LiveAgenda liveAgenda;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+  }) : super(
+          key: key,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                text: liveAgenda.title,
-                typoType: TypoType.body,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: liveAgenda.title,
+                    typoType: TypoType.body,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  StatusBox(
+                      text: liveAgenda.getStatus(),
+                      boxColor: liveAgenda.getStatusColor())
+                ],
               ),
               const SizedBox(
-                width: 10,
+                height: 5,
               ),
-              StatusBox(
-                  text: liveAgenda.getStatus(),
-                  boxColor: liveAgenda.getStatusColor())
+              CustomText(text: liveAgenda.subTitle, typoType: TypoType.body),
             ],
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          CustomText(text: liveAgenda.subTitle, typoType: TypoType.body),
-        ],
-      ),
-    );
-  }
+        );
 }
 
 class GraphBoxBody extends StatelessWidget {

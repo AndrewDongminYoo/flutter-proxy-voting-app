@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
 import '../shared/custom_nav.dart';
@@ -87,7 +87,7 @@ class _ValidatePageState extends State<ValidatePage> {
   Widget build(BuildContext context) {
     var minutes = remainingOtpTime ~/ 60;
     var seconds = remainingOtpTime - minutes * 60;
-    var timerText = "$minutes : ${intl.NumberFormat("00").format(seconds)}";
+    var timerText = "$minutes : ${NumberFormat("00").format(seconds)}";
     return Scaffold(
       appBar: CustomAppBar(text: ''),
       body: Container(
