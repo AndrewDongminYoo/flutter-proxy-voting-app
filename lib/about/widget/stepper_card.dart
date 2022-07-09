@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../../shared/get_nav.dart';
+import '../../shared/custom_nav.dart';
 import '../../shared/custom_button.dart';
 import '../../vote/vote.model.dart';
 

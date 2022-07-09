@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
 import '../shared/custom_avatar.dart';
-import '../shared/get_nav.dart';
+import '../shared/custom_nav.dart';
 import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_confirm.dart';

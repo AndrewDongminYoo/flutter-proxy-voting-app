@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 import '../theme.dart';
 import 'custom_text.dart';
-import 'get_nav.dart';
+import 'custom_nav.dart';
 // import 'notice_button.dart';
 
 class CustomAppBar extends AppBar {
@@ -17,8 +17,7 @@ class CustomAppBar extends AppBar {
   final Color bgColor;
   final bool withoutBack;
   final bool isNoticePage;
-  
-  
+
   CustomAppBar({
     Key? key,
     required this.text,
@@ -26,7 +25,6 @@ class CustomAppBar extends AppBar {
     this.bgColor = const Color(0xFF572E67),
     this.withoutBack = false,
   }) : super(
-    
           key: key,
           leading: SizedBox(
             width: Get.width,
@@ -36,22 +34,20 @@ class CustomAppBar extends AppBar {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                          const CustomBackButton(),
-                          CustomText(
-                            text: text, typoType: TypoType.body,
-                            colorType: ColorType.white
-                          ),
+                      const CustomBackButton(),
+                      CustomText(
+                          text: text,
+                          typoType: TypoType.body,
+                          colorType: ColorType.white),
                     ],
                   ),
-                  
           ),
           leadingWidth: 200,
           toolbarHeight: 80,
           backgroundColor: bgColor,
           elevation: 0,
-          
-          actions:  [
-            !isNoticePage ? const NotificiationBtn(): const SizedBox()
+          actions: [
+            !isNoticePage ? const NotificiationBtn() : const SizedBox()
           ],
         );
 
@@ -88,12 +84,13 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
   onPressIconBtn() {
     goToNotificationPage();
   }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-                icon: const Icon(Icons.notifications_rounded),
-          color: customColor[ColorType.white],
-          onPressed: onPressIconBtn,
+      icon: const Icon(Icons.notifications_rounded),
+      color: customColor[ColorType.white],
+      onPressed: onPressIconBtn,
     );
   }
 }

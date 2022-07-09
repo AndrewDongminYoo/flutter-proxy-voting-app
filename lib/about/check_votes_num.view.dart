@@ -9,7 +9,7 @@ import '../about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/custom_avatar.dart';
-import '../shared/get_nav.dart';
+import '../shared/custom_nav.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';

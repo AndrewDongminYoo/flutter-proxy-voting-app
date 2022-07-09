@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'get_nav.dart';
+import 'custom_nav.dart';
 import '../theme.dart';
 import 'custom_button.dart';
 import 'custom_text.dart';
