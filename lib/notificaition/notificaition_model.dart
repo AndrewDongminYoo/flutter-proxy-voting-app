@@ -1,3 +1,4 @@
+// 📦 Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Notificaition {
@@ -12,7 +13,6 @@ class Notificaition {
   });
 
   factory Notificaition.fromFireMessage(RemoteMessage message) {
-    
     return Notificaition(
       title: message.notification!.title!,
       body: message.notification!.body!,
