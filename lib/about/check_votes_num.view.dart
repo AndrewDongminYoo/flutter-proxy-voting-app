@@ -8,13 +8,13 @@ import 'package:get/get.dart';
 import '../about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
+import '../shared/custom_appbar.dart';
 import '../shared/custom_avatar.dart';
 import '../shared/custom_nav.dart';
 import '../shared/custom_button.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
-import 'similar_page.dart';
 import 'widget/edit_modal.dart';
 import 'widget/vote_num_card.dart';
 
@@ -49,73 +49,118 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   @override
   Widget build(BuildContext context) {
     Campaign campaign = voteCtrl.campaign;
+    bool isLoggedIn = authCtrl.user.id > 0;
 
-    var blueBackGroundWidgets = <Widget>[
-      const SizedBox(height: 40),
-      CustomText(
-        typoType: TypoType.h1,
-        text: campaign.koName,
-        colorType: ColorType.white,
+    const boxDecoration = BoxDecoration(
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(24.0),
+        bottomRight: Radius.circular(24.0),
       ),
-      const SizedBox(height: 16),
-      Avatar(image: campaign.logoImg, radius: 40),
-      const SizedBox(height: 16),
-      CustomText(
-        typoType: TypoType.h1,
-        text: '안녕하세요! ${authCtrl.user.username} 주주님',
-        colorType: ColorType.white,
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xff60457A),
+          Color(0xff80A1DF),
+        ],
       ),
-      const SizedBox(height: 16),
-      const AddressCard(),
-      const SizedBox(height: 8),
-      VioletCard(),
-      const SizedBox(height: 16),
-    ];
-    var whiteBackGroundWidgets = [
-      CustomText(
-          isFullWidth: true,
-          typoType: TypoType.h1Bold,
-          textAlign: TextAlign.center,
-          text: '2022 ${campaign.koName} 주주총회 의안'),
-      const SizedBox(height: 10),
-      CustomText(
-          isFullWidth: true,
-          typoType: TypoType.bodyLight,
-          textAlign: TextAlign.center,
-          text: '아래 작성 예시를 통해 정확한 정보를 알아보시고'),
-      CustomText(
-          isFullWidth: true,
-          typoType: TypoType.bodyLight,
-          textAlign: TextAlign.center,
-          text: '소중한 주주님의 의견을 알려주세요!'),
-      const SizedBox(height: 20),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: CustomOutlinedButton(
-          label: '작성예시 보기',
-          onPressed: () {
-            goToVoteWithExample();
-          },
-          textColor: ColorType.orange,
-          width: CustomW.w4,
+    );
+    return Scaffold(
+      appBar: CustomAppBar(text: '캠페인'),
+      body: SizedBox(
+        height: Get.height - 100,
+        width: Get.width,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SingleChildScrollView(
+                child: Column(
+              children: [
+                Container(
+                  width: Get.width,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: boxDecoration,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 40),
+                      CustomText(
+                        typoType: TypoType.h1,
+                        text: campaign.koName,
+                        colorType: ColorType.white,
+                      ),
+                      const SizedBox(height: 16),
+                      Avatar(image: campaign.logoImg, radius: 40),
+                      const SizedBox(height: 16),
+                      CustomText(
+                        typoType: TypoType.h1,
+                        text: isLoggedIn
+                            ? '안녕하세요! ${authCtrl.user.username} 주주님'
+                            : '안녕하세요! 주주님',
+                        colorType: ColorType.white,
+                      ),
+                      const SizedBox(height: 16),
+                      const AddressCard(),
+                      const SizedBox(height: 8),
+                      VioletCard(),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 37),
+                Container(
+                  width: Get.width,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                          isFullWidth: true,
+                          typoType: TypoType.h1Bold,
+                          textAlign: TextAlign.center,
+                          text: '2022 ${campaign.koName} 주주총회 의안'),
+                      const SizedBox(height: 10),
+                      CustomText(
+                          isFullWidth: true,
+                          typoType: TypoType.bodyLight,
+                          textAlign: TextAlign.center,
+                          text: '아래 작성 예시를 통해 정확한 정보를 알아보시고'),
+                      CustomText(
+                          isFullWidth: true,
+                          typoType: TypoType.bodyLight,
+                          textAlign: TextAlign.center,
+                          text: '소중한 주주님의 의견을 알려주세요!'),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: CustomOutlinedButton(
+                          label: '작성예시 보기',
+                          onPressed: () {
+                            goToVoteWithExample();
+                          },
+                          textColor: ColorType.orange,
+                          width: CustomW.w4,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: CustomButton(
+                          label: '투표하러 가기',
+                          onPressed: () {
+                            voteWithoutExample();
+                          },
+                          width: CustomW.w4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 40),
+              ],
+            )),
+          ],
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: CustomButton(
-          label: '투표하러 가기',
-          onPressed: () {
-            voteWithoutExample();
-          },
-          width: CustomW.w4,
-        ),
-      ),
-    ];
-    return SimilarPage(
-      title: '캠페인',
-      blueBackGroundWidgets: blueBackGroundWidgets,
-      whiteBackGroundWidgets: whiteBackGroundWidgets,
-      animatedWidgets: Container(),
+      // floatingActionButton: const CustomFloatingButton()
     );
   }
 }

@@ -2,7 +2,7 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 // 🌎 Project imports:
-import 'about/result_page.view.dart';
+import 'about/show_result_page.view.dart';
 import 'about/check_votes_num.view.dart';
 import 'auth/auth.view.dart';
 import 'auth/validate.view.dart';

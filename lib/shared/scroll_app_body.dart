@@ -10,13 +10,13 @@ import '../theme.dart';
 import 'unfocus_builder.dart';
 
 class ScrollAppBody extends StatefulWidget {
-  const ScrollAppBody(
-      {Key? key,
-      required this.body,
-      this.canGoBack = true,
-      this.floatingButton,
-      this.actions})
-      : super(key: key);
+  const ScrollAppBody({
+    Key? key,
+    required this.body,
+    this.canGoBack = true,
+    this.floatingButton,
+    this.actions,
+  }) : super(key: key);
   final Widget body;
   final bool canGoBack;
   final Widget? floatingButton;
@@ -30,7 +30,7 @@ class ScrollAppBodyState extends State<ScrollAppBody> {
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
-    const bsidetImage = AssetImage('assets/images/bside_web.png');
+    const bsideImage = AssetImage('assets/images/bside_web.png');
 
     return Unfocused(
       child: WillPopScope(
@@ -54,7 +54,7 @@ class ScrollAppBodyState extends State<ScrollAppBody> {
                       : null,
                 ),
                 const Image(
-                  image: bsidetImage,
+                  image: bsideImage,
                   width: 55,
                 )
               ],

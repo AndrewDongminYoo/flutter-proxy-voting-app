@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
 import '../contact_us/contact_us.model.dart';
+import '../contact_us/contact_us.view.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
 
@@ -47,6 +48,24 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
     setState(() {
       isOpend = false;
     });
+  }
+
+  onPressFloatingBtn() async {
+    await authCtrl.getChat();
+    showModalBottomSheet(
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: const ContactUsPage(),
+      ),
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          // <-- SEE HERE
+          topLeft: Radius.circular(25.0),
+        ),
+      ),
+    );
   }
 
   @override

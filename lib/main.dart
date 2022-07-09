@@ -22,8 +22,8 @@ import 'package:timeago/timeago.dart' as timeago;
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
 import 'notificaition/notificaition_controller.dart';
-import 'utils/firebase_options.dart';
 import 'routes.dart' show routes;
+import 'utils/firebase_options.dart';
 import 'vote/vote.controller.dart';
 // import 'utils/firebase.dart';
 // import 'utils/appsflyer.dart';
@@ -33,14 +33,10 @@ clearPref() async {
   await preferences.clear();
 }
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded<Future<void>>(
     () async {
-      
-
       // Keep splash screen
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -110,7 +106,7 @@ class _MyAppState extends State<MyApp> {
     notificaitionCtrl.loadFCM();
     notificaitionCtrl.listenFCM();
     notificaitionCtrl.requestPermission();
-    notificaitionCtrl.getToken();
+    // notificaitionCtrl.getToken();
     initDynamicLinks();
     // setupAppsFlyer();
 

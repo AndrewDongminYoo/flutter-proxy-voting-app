@@ -26,8 +26,8 @@ final campaigns = <Campaign>[
       koName: '티엘아이',
       enName: 'tli',
       moderator: '턴어라운드 조합',
-      datetime: DateTime.utc(2022, 7, 27),
-      date: '22년 7월 27일',
+      datetime: DateTime.utc(2022, 7, 7),
+      date: '22년 7월 7일',
       color: const Color(0xFFE5657F),
       slogan: "시스템반도체 전문\n'주식회사 티엘아이'의\n주인은 창업주가 아닌 주주",
       details:
