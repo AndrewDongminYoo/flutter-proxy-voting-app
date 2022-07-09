@@ -28,9 +28,13 @@ class _EditModalState extends State<EditModal> {
   }
 
   onSubmit() {
-    authCtrl.setAddress(address);
-    setState(() {});
-    goBackWithVal(context, address);
+    if (address.isNotEmpty) {
+      authCtrl.setAddress(address);
+      setState(() {});
+      goBackWithVal(context, address);
+    } else {
+      goBack();
+    }
   }
 
   @override

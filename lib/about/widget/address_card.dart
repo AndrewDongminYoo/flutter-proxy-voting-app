@@ -28,7 +28,6 @@ class _AddressCardState extends State<AddressCard> {
       : Get.put(VoteController());
   String address = '';
 
-  // FIXME: 주소를 변경하지 않을 시 address가 null 상태로 에러가 발생
   onEdit() async {
     address = await Get.dialog(
       const EditModal(),
@@ -39,10 +38,10 @@ class _AddressCardState extends State<AddressCard> {
 
   @override
   void initState() {
-    if (authCtrl.user.address != '') {
+    if (authCtrl.user.address.isNotEmpty) {
       debugPrint('load address from userCtrlr');
       address = authCtrl.user.address;
-    } else if (voteCtrl.shareholder.address != '') {
+    } else if (voteCtrl.shareholder.address.isNotEmpty) {
       debugPrint('load address from shareholder');
       address = voteCtrl.shareholder.address;
     }

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoadingScreen extends Dialog {
-  LoadingScreen({Key? key})
-      : super(
+  LoadingScreen({
+    Key? key,
+  }) : super(
           key: key,
           backgroundColor: Colors.transparent,
           insetPadding: EdgeInsets.zero,

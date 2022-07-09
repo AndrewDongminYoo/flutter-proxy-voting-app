@@ -17,14 +17,14 @@ import '../vote/vote.controller.dart';
 import 'vote.model.dart';
 import 'widget/vote_selector.dart';
 
-class VotePage extends StatefulWidget {
-  const VotePage({Key? key}) : super(key: key);
+class VoteAgendaPage extends StatefulWidget {
+  const VoteAgendaPage({Key? key}) : super(key: key);
 
   @override
-  State<VotePage> createState() => _VotePageState();
+  State<VoteAgendaPage> createState() => _VoteAgendaPageState();
 }
 
-class _VotePageState extends State<VotePage> {
+class _VoteAgendaPageState extends State<VoteAgendaPage> {
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());

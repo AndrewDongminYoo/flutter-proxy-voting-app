@@ -17,7 +17,7 @@ import '../theme.dart';
 import 'auth.controller.dart';
 import 'auth.data.dart';
 import 'widget/auth_forms.dart';
-import 'widget/term.dart';
+import 'widget/service_term.view.dart';
 
 const headlines = [
   '휴대폰번호를\n입력해주세요',

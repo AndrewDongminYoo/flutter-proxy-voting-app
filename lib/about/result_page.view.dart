@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../shared/avatar.dart';
+import '../shared/custom_avatar.dart';
 import '../shared/get_nav.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
@@ -15,16 +15,16 @@ import '../theme.dart';
 import '../vote/vote.controller.dart';
 import '../vote/vote.model.dart';
 import 'similar_page.dart';
-import 'stepper_example.dart';
+import 'widget/stepper_card.dart';
 import 'widget/address_card.dart';
 
-class ResultPage extends StatefulWidget {
-  const ResultPage({Key? key}) : super(key: key);
+class ShowResultPage extends StatefulWidget {
+  const ShowResultPage({Key? key}) : super(key: key);
   @override
-  State<ResultPage> createState() => _ResultPageState();
+  State<ShowResultPage> createState() => _ShowResultPageState();
 }
 
-class _ResultPageState extends State<ResultPage> {
+class _ShowResultPageState extends State<ShowResultPage> {
   AuthController authCtrl = Get.isRegistered<AuthController>()
       ? Get.find()
       : Get.put(AuthController());
@@ -54,7 +54,10 @@ class _ResultPageState extends State<ResultPage> {
               colorType: ColorType.white)),
       Container(
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-        child: Avatar(image: campaign.logoImg, radius: 40,),
+        child: Avatar(
+          image: campaign.logoImg,
+          radius: 40,
+        ),
       ),
       Container(
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -101,7 +104,7 @@ class _ResultPageState extends State<ResultPage> {
     ];
     var animatedWidgets = Column(
       children: [
-        StepperComponent(
+        StepperCard(
           agenda: voteCtrl.voteAgenda,
           shareId: voteCtrl.shareholder.id,
         ),
@@ -124,4 +127,3 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 }
-

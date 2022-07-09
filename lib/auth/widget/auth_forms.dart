@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../shared/get_nav.dart';
-import 'card_formatter.dart';
 import '../../shared/custom_text.dart';
 import '../../theme.dart';
+import 'card_formatter.dart';
 
 enum FormStep { phoneNumber, koreanId, telecom, name }
 
@@ -99,12 +99,12 @@ class TelecomForm extends StatefulWidget {
   final String telecom;
   final TextEditingController phoneCtrl;
   final Function(FormStep step, String value) nextForm;
-  const TelecomForm(
-      {Key? key,
-      required this.nextForm,
-      required this.telecom,
-      required this.phoneCtrl})
-      : super(key: key);
+  const TelecomForm({
+    Key? key,
+    required this.nextForm,
+    required this.telecom,
+    required this.phoneCtrl,
+  }) : super(key: key);
 
   @override
   State<TelecomForm> createState() => _TelecomFormState();
@@ -193,30 +193,26 @@ class TelcomModal extends StatelessWidget {
   }
 }
 
-class NameForm extends StatelessWidget {
+class NameForm extends TextFormField {
   final FocusNode focusNode;
   final Function(FormStep step, String value) nextForm;
-  const NameForm({
+  NameForm({
     Key? key,
     required this.focusNode,
     required this.nextForm,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      focusNode: focusNode,
-      autofocus: true,
-      style: formFieldStyle,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: '이름',
-      ),
-      onChanged: (text) {
-        if (text.length >= 2) {
-          nextForm(FormStep.name, text);
-        }
-      },
-    );
-  }
+  }) : super(
+          key: key,
+          focusNode: focusNode,
+          autofocus: true,
+          style: formFieldStyle,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: '이름',
+          ),
+          onChanged: (text) {
+            if (text.length >= 2) {
+              nextForm(FormStep.name, text);
+            }
+          },
+        );
 }

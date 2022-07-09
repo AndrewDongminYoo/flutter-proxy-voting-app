@@ -6,24 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../shared/get_nav.dart';
-import '../shared/custom_button.dart';
-import '../vote/vote.model.dart';
+import '../../shared/get_nav.dart';
+import '../../shared/custom_button.dart';
+import '../../vote/vote.model.dart';
 
-class StepperComponent extends StatefulWidget {
+class StepperCard extends StatefulWidget {
   final VoteAgenda agenda;
   final int shareId;
-  const StepperComponent({
+  const StepperCard({
     Key? key,
     required this.shareId,
     required this.agenda,
   }) : super(key: key);
 
   @override
-  State<StepperComponent> createState() => _StepperComponentState();
+  State<StepperCard> createState() => _StepperCardState();
 }
 
-class _StepperComponentState extends State<StepperComponent> {
+class _StepperCardState extends State<StepperCard> {
   int _currentStep = 0;
 
   void tapped(int step) {
