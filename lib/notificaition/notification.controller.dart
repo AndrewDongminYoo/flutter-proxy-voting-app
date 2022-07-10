@@ -14,17 +14,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'notification.data.dart';
 
 class NotificationController extends GetxController {
-  late AndroidNotificationChannel channel;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   List<Notificaition> notifications = [];
-  List<String> encodedPushAlrams = [];
+  List<String> localPushAlrams = [];
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   void listenFCM() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
       if (Platform.isAndroid) {
+        AndroidNotificationChannel channel = const AndroidNotificationChannel(
+          'high_importance_channel', // id
+          'High Importance Notifications', // title
+          importance: Importance.high,
+          enableVibration: true,
+        );
+
+        await flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.createNotificationChannel(channel);
         AndroidNotification? android = message.notification?.android;
         if (notification != null && android != null && !kIsWeb) {
           flutterLocalNotificationsPlugin.show(
@@ -42,44 +52,37 @@ class NotificationController extends GetxController {
         }
       }
       Notificaition data = Notificaition.fromFireMessage(message);
-      encodedPushAlrams.add(json.encode(data.toJson(), toEncodable: myEncode));
-      setNotificationsLocal(encodedPushAlrams);
-      getSharedPreferences();
+      localPushAlrams.add(json.encode(data.toJson(), toEncodable: myEncode));
+      setNotificationsLocal(localPushAlrams);
       update();
     });
   }
 
-  void loadFCM() async {
-    if (!kIsWeb) {
-      channel = const AndroidNotificationChannel(
-        'high_importance_channel', // id
-        'High Importance Notifications', // title
-        importance: Importance.high,
-        enableVibration: true,
-      );
+  // void loadFCM() async {
+  //   if (!kIsWeb) {
+  //     channel = const AndroidNotificationChannel(
+  //       'high_importance_channel', // id
+  //       'High Importance Notifications', // title
+  //       importance: Importance.high,
+  //       enableVibration: true,
+  //     );
 
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(channel);
-
-      await messaging.setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-    }
-  }
+  //     await flutterLocalNotificationsPlugin
+  //         .resolvePlatformSpecificImplementation<
+  //             AndroidFlutterLocalNotificationsPlugin>()
+  //         ?.createNotificationChannel(channel);
+  //   }
+  // }
 
   void setNotificationsLocal(messages) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notification', messages);
   }
 
-  void getSharedPreferences() async {
-    notifications = [];
+  void getNotificationsLocal() async {
+    notifications.clear();
     final prefs = await SharedPreferences.getInstance();
-    List<String>? result = prefs.getStringList('notification') ?? [''];
+    List<String> result = prefs.getStringList('notification') ?? [''];
     // ignore: avoid_function_literals_in_foreach_calls
     result.forEach((message) {
       if (!notifications
@@ -90,9 +93,11 @@ class NotificationController extends GetxController {
   }
 
   void removeNotification(int index) async {
-    encodedPushAlrams.removeAt(index);
-    setNotificationsLocal(encodedPushAlrams);
-    getSharedPreferences();
+    final prefs = await SharedPreferences.getInstance();
+    localPushAlrams = prefs.getStringList('notification') ?? [''];
+    localPushAlrams.removeAt(index);
+    setNotificationsLocal(localPushAlrams);
+    getNotificationsLocal();
   }
 
   dynamic myEncode(dynamic item) {
@@ -126,14 +131,22 @@ class NotificationController extends GetxController {
       provisional: false,
       sound: true,
     );
+
+    // Update the iOS foreground notification presentation options to allow
+    // heads up notifications.
+    // await messaging.setForegroundNotificationPresentationOptions(
+    //     alert: true,
+    //     badge: true,
+    //     sound: true,
+    //   );
   }
 
   // 기기의 토큰을 얻고 싶은 경우 main init에 getToken 주석해제
-  // void getToken() async {
-  //   await messaging.getToken().then((value) => {
-  //         print('--------------------------------'),
-  //         print(value),
-  //         print('--------------------------------')
-  //       });
-  // }
+  void getToken() async {
+    await messaging.getToken().then((value) => {
+          print('--------------------------------'),
+          print(value),
+          print('--------------------------------')
+        });
+  }
 }

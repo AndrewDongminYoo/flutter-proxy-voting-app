@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 
+import '../notificaition/notification.controller.dart';
 import '../theme.dart';
 import 'custom_text.dart';
 import 'custom_nav.dart';
@@ -81,8 +82,13 @@ class NotificiationBtn extends StatefulWidget {
 }
 
 class _NotificiationBtnState extends State<NotificiationBtn> {
+  NotificationController notificaitionCtrl =
+      Get.isRegistered<NotificationController>()
+          ? Get.find()
+          : Get.put(NotificationController());
   onPressIconBtn() {
     goToNotificationPage();
+    notificaitionCtrl.getNotificationsLocal();
   }
 
   @override
