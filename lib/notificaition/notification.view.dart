@@ -50,8 +50,8 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
             margin: const EdgeInsets.only(left: 10),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              message(index),
-              CustomText(
+                message(index),
+                CustomText(
                   typoType: TypoType.bodyLight,
                   text: notificaitionCtrl.currentTime(
                       notificaitionCtrl.notifications[index].createdAt)),
@@ -79,8 +79,13 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   }
 
   Widget message(int index) {
-    return CustomText(
+    return Row(children: [
+      CustomText(
         typoType: TypoType.body,
-        text: notificaitionCtrl.notifications[index].title);
+        text: notificaitionCtrl.notifications[index].title),
+      CustomText(
+        typoType: TypoType.bodyLight,
+        text: notificaitionCtrl.notifications[index].body),
+    ],);
   }
 }

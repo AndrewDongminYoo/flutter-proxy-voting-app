@@ -24,7 +24,6 @@ class _ContactUsPageState extends State<ContactUsPage> {
       ? Get.find()
       : Get.put(AuthController());
 
-  // FIXME: 스크롤이 끝까지 내려가지 않고 직전 아이템에서 멈춤
   updateChatList() {
     setState(() {
       _controller.animateTo(

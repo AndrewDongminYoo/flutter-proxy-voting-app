@@ -16,63 +16,48 @@ import 'notification.data.dart';
 class NotificationController extends GetxController {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   List<Notificaition> notifications = [];
-  List<String> localPushAlrams = [];
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  List<String> encodedPushAlrams = [];
 
   void listenFCM() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
-      if (Platform.isAndroid) {
-        AndroidNotificationChannel channel = const AndroidNotificationChannel(
-          'high_importance_channel', // id
-          'High Importance Notifications', // title
-          importance: Importance.high,
-          enableVibration: true,
-        );
-
-        await flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>()
-            ?.createNotificationChannel(channel);
-        AndroidNotification? android = message.notification?.android;
-        if (notification != null && android != null && !kIsWeb) {
-          flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                icon: 'launch_background',
-              ),
-            ),
-          );
-        }
+      if(Platform.isAndroid){
+        await androidNotification(message, notification);
       }
       Notificaition data = Notificaition.fromFireMessage(message);
-      localPushAlrams.add(json.encode(data.toJson(), toEncodable: myEncode));
-      setNotificationsLocal(localPushAlrams);
+      encodedPushAlrams.add(json.encode(data.toJson(), toEncodable: encodeDateTime));
+      setNotificationsLocal(encodedPushAlrams);
       update();
     });
   }
 
-  // void loadFCM() async {
-  //   if (!kIsWeb) {
-  //     channel = const AndroidNotificationChannel(
-  //       'high_importance_channel', // id
-  //       'High Importance Notifications', // title
-  //       importance: Importance.high,
-  //       enableVibration: true,
-  //     );
+  Future<void> androidNotification(RemoteMessage message, RemoteNotification? notification) async {
+    AndroidNotificationChannel channel = const AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      importance: Importance.high,
+      enableVibration: true,
+    );
+    
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null && !kIsWeb) {
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = 
+        FlutterLocalNotificationsPlugin();
 
-  //     await flutterLocalNotificationsPlugin
-  //         .resolvePlatformSpecificImplementation<
-  //             AndroidFlutterLocalNotificationsPlugin>()
-  //         ?.createNotificationChannel(channel);
-  //   }
-  // }
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            icon: 'launch_background',
+          ),
+        ),
+      );
+    }
+  }
 
   void setNotificationsLocal(messages) async {
     final prefs = await SharedPreferences.getInstance();
@@ -94,13 +79,13 @@ class NotificationController extends GetxController {
 
   void removeNotification(int index) async {
     final prefs = await SharedPreferences.getInstance();
-    localPushAlrams = prefs.getStringList('notification') ?? [''];
-    localPushAlrams.removeAt(index);
-    setNotificationsLocal(localPushAlrams);
+    encodedPushAlrams = prefs.getStringList('notification') ?? [''];
+    encodedPushAlrams.removeAt(index);
+    setNotificationsLocal(encodedPushAlrams);
     getNotificationsLocal();
   }
 
-  dynamic myEncode(dynamic item) {
+  dynamic encodeDateTime(dynamic item) {
     if (item is DateTime) {
       return item.toIso8601String();
     }
@@ -108,13 +93,15 @@ class NotificationController extends GetxController {
   }
 
   Map<String, dynamic> decodeJson(String message) {
-    return json.decode(message, reviver: (key, value) {
+    return json.decode(message, reviver: (key, value) => reviverDateTime(key, value));
+  }
+
+  reviverDateTime(key, value) {
       if (key == 'createdAt') {
         return DateTime.parse(value as String);
       }
       return value;
-    });
-  }
+    }
 
   String currentTime(time) {
     return DateFormat('MM월 dd일', 'ko_KR').format(time);
@@ -131,22 +118,14 @@ class NotificationController extends GetxController {
       provisional: false,
       sound: true,
     );
-
-    // Update the iOS foreground notification presentation options to allow
-    // heads up notifications.
-    // await messaging.setForegroundNotificationPresentationOptions(
-    //     alert: true,
-    //     badge: true,
-    //     sound: true,
-    //   );
   }
 
   // 기기의 토큰을 얻고 싶은 경우 main init에 getToken 주석해제
-  void getToken() async {
-    await messaging.getToken().then((value) => {
-          print('--------------------------------'),
-          print(value),
-          print('--------------------------------')
-        });
-  }
+  // void getToken() async {
+  //   await messaging.getToken().then((value) => {
+  //         print('--------------------------------'),
+  //         print(value),
+  //         print('--------------------------------')
+  //       });
+  // }
 }

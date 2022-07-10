@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initializeDateFormatting('ko_KR', null);
-    notificaitionCtrl.loadFCM();
+    // notificaitionCtrl.loadFCM();
     notificaitionCtrl.listenFCM();
     notificaitionCtrl.requestPermission();
     // notificaitionCtrl.getToken();
