@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../shared/custom_appbar.dart';
 import '../shared/custom_text.dart';
-import 'notificaition.controller.dart';
+import 'notification.controller.dart';
 
 class NotificaitionPage extends StatefulWidget {
   const NotificaitionPage({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
         separatorBuilder: (context, index) {
           return const Divider(height: 0);
         },
-        itemCount: notificaitionCtrl.pushAlram.length);
+        itemCount: notificaitionCtrl.notifications.length);
   }
 
   Widget listViewItem(int index) {
@@ -54,22 +54,20 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
               CustomText(
                   typoType: TypoType.bodyLight,
                   text: notificaitionCtrl.currentTime(
-                      notificaitionCtrl.pushAlram[index].createdAt)),
+                      notificaitionCtrl.notifications[index].createdAt)),
             ]),
           )),
-          cacelbutton(index)
+          IconButton(
+            icon: const Icon(Icons.close,
+                color: Colors.black, semanticLabel: 'Close modal'),
+            onPressed: () {
+              setState(() {
+                notificaitionCtrl.removeNotification(index);
+              });
+            },
+          )
         ],
       ),
-    );
-  }
-
-// DateTime.now()
-  Widget cacelbutton(int index) {
-    cancelAlram() {}
-    return IconButton(
-      icon: const Icon(Icons.close,
-          color: Colors.black, semanticLabel: 'Close modal'),
-      onPressed: cancelAlram,
     );
   }
 
@@ -77,13 +75,12 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
     return const CircleAvatar(
       foregroundImage: AssetImage('assets/images/logo.png'),
       radius: 25,
-      // backgroundColor: customColor[ColorType.white],
     );
   }
 
   Widget message(int index) {
     return CustomText(
         typoType: TypoType.body,
-        text: notificaitionCtrl.pushAlram[index].title);
+        text: notificaitionCtrl.notifications[index].title);
   }
 }

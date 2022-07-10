@@ -10,7 +10,7 @@ import 'auth/dedupe_address.view.dart';
 import 'auth/not_shareholder.view.dart';
 import 'campaign/campaign.view.dart';
 import 'home/home.dart';
-import 'notificaition/notificaition.view.dart';
+import 'notificaition/notification.view.dart';
 import 'onboarding/onboarding.view.dart';
 import 'signature/shot_idcard.view.dart';
 import 'signature/signature.view.dart';

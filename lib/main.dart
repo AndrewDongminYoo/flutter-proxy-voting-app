@@ -13,6 +13,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 // import 'package:firebase_analytics/firebase_analytics.dart';
@@ -21,7 +22,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'notificaition/notificaition.controller.dart';
+import 'notificaition/notification.controller.dart';
 import 'routes.dart' show routes;
 import 'utils/firebase_options.dart';
 import 'vote/vote.controller.dart';
@@ -102,14 +103,13 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // notificaitionCtrl.initMessaging();
+    initializeDateFormatting('ko_KR', null);
     notificaitionCtrl.loadFCM();
     notificaitionCtrl.listenFCM();
     notificaitionCtrl.requestPermission();
     // notificaitionCtrl.getToken();
     initDynamicLinks();
     // setupAppsFlyer();
-
     // Remove splash screen
     FlutterNativeSplash.remove();
   }
