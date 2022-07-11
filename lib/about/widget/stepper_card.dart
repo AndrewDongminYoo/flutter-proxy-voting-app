@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../shared/shared.dart';
-import '../../shared/shared.dart';
-import '../../shared/shared.dart';
 import '../../vote/vote.model.dart';
 
 class StepperCard extends StatefulWidget {

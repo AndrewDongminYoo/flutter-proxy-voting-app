@@ -3,11 +3,11 @@ import 'dart:async' show Future, runZonedGuarded;
 import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -18,10 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
-import 'auth/auth.controller.dart';
-
-import 'notification/notification.dart';
+import '../services.dart';
 import 'routes.dart' show routes;
+import 'auth/auth.controller.dart';
+import 'notification/notification.dart';
 import 'utils/firebase_options.dart';
 import 'vote/vote.controller.dart';
 
@@ -30,11 +30,12 @@ clearPref() async {
   await preferences.clear();
 }
 
-void main() async {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Keep splash screen
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  MainService service = MainService();
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
@@ -47,16 +48,19 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final prefs = await SharedPreferences.getInstance();
   final firstTime = prefs.getBool('firstTime') ?? true;
-  debugPrint('[main] firstTime: $firstTime');
   final initialLink = await setupFirebase();
+  debugPrint('[main] firstTime: $firstTime');
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
   runZonedGuarded(() {
+    service.logAppVersion();
     runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
-  }, (Object e, StackTrace s) {});
+  }, (Object error, StackTrace trace) {
+    service.reportUncaughtError(error, trace);
+  });
 }
 
-Future<PendingDynamicLinkData?> setupFirebase() async {
+setupFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -90,17 +94,18 @@ class _MyAppState extends State<MyApp> {
           : Get.put(NotificationController());
 
   @override
-  void initState() {
+  initState() {
     super.initState();
     initializeDateFormatting('ko_KR', null);
+    initNotification();
+    initDynamicLinks();
+  }
+
+  initNotification() {
     // notificaitionCtrl.loadFCM();
     notificaitionCtrl.listenFCM();
     notificaitionCtrl.requestPermission();
     // notificaitionCtrl.getToken();
-    initDynamicLinks();
-    // setupAppsFlyer();
-    // Remove splash screen
-    FlutterNativeSplash.remove();
   }
 
   initDynamicLinks() {
@@ -112,9 +117,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // initialRoute = widget.firstTime ? '/result' : initialRoute;
     initialRoute = widget.firstTime ? '/onboarding' : initialRoute;
-    // TODO: 최상단 에러 핸들러 필요, 에러 발생시 팝업 필요
     return GetMaterialApp(
       title: 'Bside',
       theme: ThemeData(

@@ -2,10 +2,11 @@
 import 'dart:convert' show jsonEncode;
 
 // 📦 Package imports:
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 // 🌎 Project imports:
-import 'utils/package_info.dart';
 import 'vote/vote.controller.dart';
 
 class MainService extends GetConnect {
@@ -15,20 +16,18 @@ class MainService extends GetConnect {
       : Get.put(VoteController());
   String getURL(String url) => baseURL + url;
 
-  Future<Response> logAppVersion(int uid, String company) async {
+  Future<Response> logAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String appVersion = packageInfo.version;
-    String appName = packageInfo.appName;
-    String buildNumber = packageInfo.buildNumber;
-    String deviceName = await voteCtrl.deviceInfo();
-    return put(
-        getURL('/app_version'),
-        jsonEncode({
-          'app_name': appName,
-          'build_number': buildNumber,
-          'app_version': appVersion,
-          'device_name': deviceName,
-        }));
+    var data = {
+      'app_name': packageInfo.appName,
+      'build_number': packageInfo.buildNumber,
+      'app_version': packageInfo.version,
+      'device_name': await voteCtrl.deviceInfo(),
+    };
+    if (kDebugMode) {
+      print(data);
+    }
+    return put(getURL('/app_version'), jsonEncode(data));
   }
 
   Future<Response> reportUncaughtError(Object error, StackTrace trace) {

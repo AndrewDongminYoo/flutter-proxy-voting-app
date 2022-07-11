@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../../auth/auth.controller.dart';
 import '../../shared/shared.dart';
-import '../../shared/shared.dart';
-import '../../shared/shared.dart';
 
 class EditModal extends StatefulWidget {
   const EditModal({Key? key}) : super(key: key);
