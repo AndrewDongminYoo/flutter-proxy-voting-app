@@ -7,12 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
-import '../shared/custom_avatar.dart';
-import '../shared/custom_nav.dart';
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_confirm.dart';
-import '../shared/custom_text.dart';
+import '../shared/shared.dart';
 import '../vote/vote.controller.dart';
 import '../theme.dart';
 import 'campaign.pg_bar.dart';

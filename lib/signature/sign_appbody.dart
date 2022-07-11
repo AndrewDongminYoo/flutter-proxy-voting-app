@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_appbar.dart';
-import '../shared/custom_text.dart';
+import '../shared/shared.dart';
 
 class AppBodyPage extends StatefulWidget {
   const AppBodyPage({

@@ -11,10 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
-import '../shared/custom_nav.dart';
+import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_text.dart';
 import '../vote/vote.controller.dart';
 import 'sign_appbody.dart';
 import 'signature.controller.dart';

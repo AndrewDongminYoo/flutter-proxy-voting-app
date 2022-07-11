@@ -2,19 +2,13 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 // 🌎 Project imports:
-import 'about/show_result_page.view.dart';
-import 'about/check_votes_num.view.dart';
-import 'auth/auth.view.dart';
-import 'auth/auth_validation.view.dart';
-import 'auth/dedupe_address.view.dart';
-import 'auth/not_shareholder.view.dart';
+import 'about/about.dart';
+import 'auth/auth.dart';
 import 'campaign/campaign.view.dart';
-import 'home/home.dart';
+import 'home/home.view.dart';
 import 'notificaition/notification.view.dart';
 import 'onboarding/onboarding.view.dart';
-import 'signature/shot_idcard.view.dart';
-import 'signature/signature.view.dart';
-import 'signature/id_number.view.dart';
+import 'signature/signature.dart';
 import 'vote/vote.view.dart';
 
 routes() => [

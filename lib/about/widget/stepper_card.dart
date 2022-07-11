@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../../shared/custom_nav.dart';
-import '../../shared/custom_button.dart';
-import '../../shared/custom_text.dart';
+import '../../shared/shared.dart';
+import '../../shared/shared.dart';
+import '../../shared/shared.dart';
 import '../../vote/vote.model.dart';
 
 class StepperCard extends StatefulWidget {

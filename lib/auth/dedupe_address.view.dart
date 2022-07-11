@@ -6,11 +6,8 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_text.dart';
+import '../shared/shared.dart';
 import '../theme.dart';
-import '../shared/custom_nav.dart';
 import '../vote/vote.controller.dart';
 
 class AddressDuplicationPage extends StatefulWidget {

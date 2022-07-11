@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../../shared/custom_nav.dart';
+import '../../shared/shared.dart';
 import '../../theme.dart';
-import '../../shared/unfocus_builder.dart';
 
 class ScrollAppBody extends StatefulWidget {
   const ScrollAppBody({

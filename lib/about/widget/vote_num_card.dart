@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../theme.dart';
-import '../../shared/custom_text.dart';
+import '../../shared/shared.dart';
 import '../../vote/vote.controller.dart';
 
 class VioletCard extends StatelessWidget {

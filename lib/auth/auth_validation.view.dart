@@ -9,11 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_nav.dart';
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_text.dart';
-import '../shared/unfocus_builder.dart';
+import '../shared/shared.dart';
 import '../theme.dart';
 import 'auth.controller.dart';
 

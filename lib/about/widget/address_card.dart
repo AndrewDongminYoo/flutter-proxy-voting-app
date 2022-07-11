@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../../vote/vote.controller.dart';
 import '../../auth/auth.controller.dart';
-import '../../shared/custom_text.dart';
+import '../../shared/shared.dart';
 import '../../theme.dart';
 import 'edit_modal.dart';
 

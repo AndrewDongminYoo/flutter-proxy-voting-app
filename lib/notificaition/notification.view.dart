@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_appbar.dart';
-import '../shared/custom_text.dart';
+import '../shared/shared.dart';
 import 'notification.controller.dart';
 
 class NotificaitionPage extends StatefulWidget {
@@ -50,8 +49,8 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
             margin: const EdgeInsets.only(left: 10),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                message(index),
-                CustomText(
+              message(index),
+              CustomText(
                   typoType: TypoType.bodyLight,
                   text: notificaitionCtrl.currentTime(
                       notificaitionCtrl.notifications[index].createdAt)),
@@ -79,13 +78,15 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   }
 
   Widget message(int index) {
-    return Row(children: [
-      CustomText(
-        typoType: TypoType.body,
-        text: notificaitionCtrl.notifications[index].title),
-      CustomText(
-        typoType: TypoType.bodyLight,
-        text: notificaitionCtrl.notifications[index].body),
-    ],);
+    return Row(
+      children: [
+        CustomText(
+            typoType: TypoType.body,
+            text: notificaitionCtrl.notifications[index].title),
+        CustomText(
+            typoType: TypoType.bodyLight,
+            text: notificaitionCtrl.notifications[index].body),
+      ],
+    );
   }
 }

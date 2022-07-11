@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_nav.dart';
+import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_text.dart';
 import '../vote/vote.controller.dart';
 import 'sign_appbody.dart';
 

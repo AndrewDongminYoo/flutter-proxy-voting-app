@@ -10,11 +10,8 @@ import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
-import '../shared/custom_nav.dart';
+import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_lottie.dart';
-import '../shared/custom_text.dart';
 import 'sign_appbody.dart';
 import '../vote/vote.controller.dart';
 import 'signature.controller.dart';

@@ -9,10 +9,8 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../theme.dart';
-import '../shared/custom_nav.dart';
+import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
 import '../vote/vote.controller.dart';
 import 'vote.model.dart';
 import 'widget/vote_selector.dart';

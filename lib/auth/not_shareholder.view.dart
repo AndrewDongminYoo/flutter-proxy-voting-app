@@ -9,10 +9,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
 import '../campaign/campaign.model.dart';
-import '../shared/custom_nav.dart';
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
-import '../shared/custom_text.dart';
+import '../shared/shared.dart';
 import '../theme.dart';
 import '../utils/mailto.dart';
 import '../vote/vote.controller.dart';
