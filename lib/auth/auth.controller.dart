@@ -104,12 +104,13 @@ class AuthController extends GetxController {
     const duration = Duration(seconds: 3);
     await Future.delayed(duration, () async {
       var response = await _service.getResult(telNum);
+      debugPrint(response.bodyString);
       var exc = 'ValidationException';
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {
         stopLoading();
         _user = null;
-        throw Exception('잘못된 인증번호입니다.');
+        throw Exception('잘못된 인증번호입니다. 전화번호를 확인하세요.');
       } else {
         user.ci = response.body['ci'] ?? '';
         user.di = response.body['di'] ?? '';

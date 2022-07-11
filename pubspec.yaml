@@ -108,5 +108,5 @@ flutter_icons:
   image_path: "assets/images/logo.png"
   remove_alpha_ios: true
 flutter_native_splash:
-  color: "#572E66"
+  color: "#5c2b65"
   image: assets/images/logo.png

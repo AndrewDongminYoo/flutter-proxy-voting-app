@@ -36,6 +36,11 @@ class _ValidatePageState extends State<ValidatePage> {
   String title = '인증번호를 입력해주세요';
   bool isIdentificationCompleted = false;
 
+  alertGoBack() {
+    title = '인증에 실패하였습니다. 다시 전화번호를 확인해 주세요.';
+    Timer(const Duration(seconds: 1), () => goBack());
+  }
+
   validate() async {
     FocusScope.of(context).unfocus();
     debugPrint('${authCtrl.user.phoneNumber}, $otpCode');
@@ -44,8 +49,7 @@ class _ValidatePageState extends State<ValidatePage> {
     } catch (e) {
       debugPrint(e.toString());
       if (e is Exception) {
-        title = '다시 전화번호를 인증해주세요.';
-        Timer(const Duration(seconds: 1), () => goBack());
+        alertGoBack();
       }
     }
     onPressed();

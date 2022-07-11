@@ -168,39 +168,9 @@ Widget campaignHeader(Campaign campaign) {
     typoType: TypoType.h1Bold,
     colorType: ColorType.white,
   );
-  // return CustomText(
-  //   typoType: TypoType.h1,
-  //   text: campaign.slogan,
-  //   textAlign: TextAlign.left,
-  //   colorType: ColorType.white,
-  // );
 }
 
 Widget campaignInfoInRow(Campaign campaign) {
-  // ignore: unused_local_variable
-  final actionMenuList = <ActionMenu>[
-    ActionMenu(
-        icon: Icons.book_rounded,
-        color: Colors.deepOrange,
-        label: '전자위임',
-        onTap: () {}),
-    ActionMenu(
-        icon: Icons.group_add_rounded,
-        color: Colors.deepPurple,
-        label: '라운지',
-        onTap: () {}),
-    ActionMenu(
-        icon: Icons.attach_file_rounded,
-        color: Colors.deepPurple,
-        label: '공시서류',
-        onTap: () {}),
-    ActionMenu(
-        icon: Icons.history_rounded,
-        color: Colors.deepPurple,
-        label: '이전기록',
-        onTap: () {}),
-  ];
-
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +225,6 @@ Widget iconButton(ActionMenu actionMenu) {
       height: 72,
       margin: const EdgeInsets.only(right: 10),
       decoration: const BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
