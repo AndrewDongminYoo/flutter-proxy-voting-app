@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 
-
 import '../notification/notification.dart';
 import '../theme.dart';
 import 'shared.dart';
@@ -88,7 +87,9 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
           : Get.put(NotificationController());
   onPressIconBtn() {
     goToNotificationPage();
-    notificaitionCtrl.getNotificationsLocal();
+    if (notificaitionCtrl.notifications.isNotEmpty) {
+      notificaitionCtrl.getNotificationsLocal();
+    }
   }
 
   @override
