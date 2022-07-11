@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
+import 'animated_text_kit.dart';
 import '../live_firebase.dart';
 
 class FloatingComment extends StatefulWidget {

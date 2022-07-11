@@ -7,3 +7,4 @@ export 'scroll_appbody.dart';
 export 'status_box.dart';
 export 'total_status.dart';
 export 'easy_debounce.dart';
+export 'linear_percent_indicator.dart';

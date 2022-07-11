@@ -3,10 +3,8 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:percent_indicator/linear_percent_indicator.dart';
-
 // 🌎 Project imports:
+import 'linear_percent_indicator.dart';
 import '../../theme.dart';
 
 class HorizontalProgressBar extends LinearPercentIndicator {
