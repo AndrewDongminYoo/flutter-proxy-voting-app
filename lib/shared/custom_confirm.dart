@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'custom_nav.dart';
 import '../theme.dart';
-import 'custom_button.dart';
-import 'custom_text.dart';
+import 'shared.dart';
 
 class CustomConfirm extends StatelessWidget {
   final String buttonLabel;

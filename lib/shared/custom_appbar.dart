@@ -9,8 +9,7 @@ import 'package:get/get.dart';
 
 import '../notificaition/notification.controller.dart';
 import '../theme.dart';
-import 'custom_text.dart';
-import 'custom_nav.dart';
+import 'shared.dart';
 // import 'notice_button.dart';
 
 class CustomAppBar extends AppBar {

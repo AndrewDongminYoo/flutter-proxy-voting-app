@@ -12,8 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../shared/custom_nav.dart';
-import '../campaign/campaign.data.dart';
-import '../campaign/campaign.model.dart';
+import '../campaign/campaign.dart';
 import '../auth/widget/loading_screen.dart';
 import '../vote/vote.service.dart';
 import 'vote.model.dart';

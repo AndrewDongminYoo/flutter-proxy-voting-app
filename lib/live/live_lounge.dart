@@ -15,9 +15,7 @@ import '../shared/custom_text.dart';
 import '../theme.dart';
 import 'comments_sheet.dart';
 import 'live_firebase.dart';
-import 'widgets/aggr_graph_box.dart';
-import 'widgets/scroll_appbody.dart';
-import 'widgets/total_status.dart';
+import 'widget/widgets.dart';
 
 class LiveLounge extends StatefulWidget {
   const LiveLounge({Key? key}) : super(key: key);

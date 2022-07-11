@@ -13,9 +13,7 @@ import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../live_firebase.dart';
 import '../live.model.dart';
-import 'horiz_vert_bar.dart';
-import 'reaction_emozis.dart';
-import 'status_box.dart';
+import 'widgets.dart';
 
 class CustomPanel extends StatefulWidget {
   const CustomPanel({

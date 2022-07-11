@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison
-
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -26,9 +24,9 @@ class Chat {
 
   Map<String, dynamic> toFirestore() {
     return {
-      if (myself != null) 'myself': myself,
-      if (message != null) 'message': message,
-      if (time != null) 'time': time,
+      'myself': myself,
+      'message': message,
+      'time': time,
     };
   }
 }

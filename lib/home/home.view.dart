@@ -6,11 +6,8 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
-import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import '../campaign/campaign.data.dart';
-import '../campaign/campaign.model.dart';
-import '../campaign/campaign_info.dart';
+import '../campaign/campaign.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'pop_scope.dart';
