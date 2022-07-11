@@ -32,43 +32,52 @@ dependencies:
   flutter_native_splash:
     ^2.2.3+1
 
-    # The following adds the Cupertino Icons font to your application.
+  # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+  # Get X and intl.
   get: ^4.6.5
-  dashbook: ^0.1.8
+  intl: ^0.17.0
+
+  # Draw Signature
   signature: ^5.0.0
   lottie: ^1.3.0
   image_picker: ^0.8.5+3
+
+  # firebase
   firebase_core: ^1.18.0
-  # firebase_analytics: ^9.1.10
-  # firebase_crashlytics: ^2.8.2 # for debugging
-  # firebase_performance: ^0.8.0+14
   firebase_dynamic_links: ^4.2.6
-  # firebase_messaging: ^11.4.2
-  # appsflyer_sdk: ^6.5.2+2 # for debugging
-  flutter_dotenv: ^5.0.2
-  url_launcher: ^6.1.4
-  intl: ^0.17.0
   firebase_storage: ^10.2.18
-  shared_preferences: ^2.0.15
-  # firebase_performance_web: ^0.1.0+14
-  device_info_plus: ^4.0.0
   firebase_auth: ^3.4.0
-  cloud_firestore: ^3.2.0
-  paginate_firestore: ^1.0.3+1
-  easy_debounce: ^2.0.2+1
   firebase_analytics: ^9.1.11
+  firebase_messaging: ^11.4.4
+  paginate_firestore: ^1.0.3+1
+  cloud_firestore: ^3.2.0
+
+  # environment
+  flutter_dotenv: ^5.0.2
+
+  # url_launcher
+  url_launcher: ^6.1.4
+
+  # storage
+  shared_preferences: ^2.0.15
+
+  # UI
   animated_text_kit: ^4.2.2
   flutter_reaction_button: ^2.0.1+1
   percent_indicator: ^4.2.2
+
+  # moment
   timeago: ^3.2.2
-  firebase_messaging: ^11.4.4
+
+  # notice
   flutter_local_notifications: ^9.6.1
+
+  # information
+  device_info_plus: ^4.0.0
   package_info_plus: ^1.4.2
-  # amplify_flutter: ^0.5.0
-  # amplify_auth_cognito: ^0.5.0
-  # amplify_analytics_pinpoint: ^0.5.0
 
 dev_dependencies:
   flutter_test:

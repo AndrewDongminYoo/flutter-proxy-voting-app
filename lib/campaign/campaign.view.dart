@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
 import '../shared/shared.dart';
 import '../vote/vote.controller.dart';
 import '../theme.dart';
-import 'campaign.pg_bar.dart';
-import 'campaign.model.dart';
+import 'campaign.dart';
 
 class CampaignPage extends StatefulWidget {
   const CampaignPage({Key? key}) : super(key: key);
@@ -48,7 +47,7 @@ class _CampaignPageState extends State<CampaignPage> {
                 fontSize: 18,
                 height: 40.0,
                 onPressed: () async {
-                  await launchUrl(Uri.parse(campaign.dartUrl));
+                  await launchUrlString(campaign.dartUrl);
                 })
           ],
         ),

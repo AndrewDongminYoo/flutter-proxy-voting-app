@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
 import '../../theme.dart';
@@ -40,21 +40,21 @@ class _ServiceTermState extends State<ServiceTerm> {
   openPage(int index) async {
     switch (index) {
       case 0:
-        await launchUrl(Uri.parse(
-            'https://bsidekr.notion.site/af50b14ac5f148ccabef47c89882dd17'));
+        await launchUrlString(
+            'https://bsidekr.notion.site/af50b14ac5f148ccabef47c89882dd17');
         break;
       case 1:
-        await launchUrl(Uri.parse(
-            'https://bsidekr.notion.site/f951d82e310d45bc85ec533c0267c8eb'));
+        await launchUrlString(
+            'https://bsidekr.notion.site/f951d82e310d45bc85ec533c0267c8eb');
         break;
       case 2:
-        await launchUrl(
-            Uri.parse('https://safe.ok-name.co.kr/eterms/agreement002.jsp'));
+        await launchUrlString(
+            'https://safe.ok-name.co.kr/eterms/agreement002.jsp');
         break;
-      case 3:
-        // await launchUrl(
-        //     Uri.parse("https://safe.ok-name.co.kr/eterms/agreement001.jsp"));
-        break;
+      // case 3:
+      //   await launchUrlString(
+      //       'https://safe.ok-name.co.kr/eterms/agreement001.jsp');
+      //   break;
       default:
         break;
     }

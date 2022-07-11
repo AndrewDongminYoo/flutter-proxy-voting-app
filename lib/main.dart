@@ -11,7 +11,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,9 +31,6 @@ clearPref() async {
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Keep splash screen
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   MainService service = MainService();
 
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -99,7 +95,6 @@ class _MyAppState extends State<MyApp> {
     initializeDateFormatting('ko_KR', null);
     initNotification();
     initDynamicLinks();
-    FlutterNativeSplash.remove();
   }
 
   initNotification() {
