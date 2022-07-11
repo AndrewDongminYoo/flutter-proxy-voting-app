@@ -10,8 +10,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import '../theme.dart';
-import 'auth.controller.dart';
-import 'auth.data.dart';
+import 'auth.dart';
 import 'widget/auth_forms.dart';
 import 'widget/service_term.view.dart';
 

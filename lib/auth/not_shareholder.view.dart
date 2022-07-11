@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
@@ -55,7 +54,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
   }
 
   onCall() {
-    launchUrl(Uri.parse('tel:$tele'));
+    launchUrlString('tel:$tele');
   }
 
   @override

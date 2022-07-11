@@ -16,9 +16,6 @@ import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
-// import 'package:firebase_analytics/firebase_analytics.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
@@ -26,8 +23,6 @@ import 'notificaition/notification.controller.dart';
 import 'routes.dart' show routes;
 import 'utils/firebase_options.dart';
 import 'vote/vote.controller.dart';
-// import 'utils/firebase.dart';
-// import 'utils/appsflyer.dart';
 
 clearPref() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -36,35 +31,28 @@ clearPref() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runZonedGuarded<Future<void>>(
-    () async {
-      // Keep splash screen
-      WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // Keep splash screen
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-      FlutterError.onError = (FlutterErrorDetails details) {
-        FlutterError.presentError(details);
-        if (kReleaseMode) exit(1);
-      };
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    if (kReleaseMode) exit(1);
+  };
 
-      // NOTE: 디버깅용
-      // await clearPref();
+  // await clearPref(); // NOTE: 디버깅용
 
-      // initialize app
-      await dotenv.load(fileName: '.env');
-      final prefs = await SharedPreferences.getInstance();
-      final firstTime = prefs.getBool('firstTime') ?? true;
-      debugPrint('[main] firstTime: $firstTime');
-      final initialLink = await setupFirebase();
-      timeago.setLocaleMessages('ko', timeago.KoMessages());
-      runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
-    },
-    (error, stack) => {
-      debugPrint(error.toString()),
-      debugPrintStack(stackTrace: stack),
-      // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
-    },
-  );
+  // initialize app
+  await dotenv.load(fileName: '.env');
+  final prefs = await SharedPreferences.getInstance();
+  final firstTime = prefs.getBool('firstTime') ?? true;
+  debugPrint('[main] firstTime: $firstTime');
+  final initialLink = await setupFirebase();
+  timeago.setLocaleMessages('ko', timeago.KoMessages());
+
+  runZonedGuarded(() {
+    runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
+  }, (Object e, StackTrace s) {});
 }
 
 Future<PendingDynamicLinkData?> setupFirebase() async {
@@ -121,22 +109,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // setupAppsFlyer() {
-  //   appsflyerSdk.onAppOpenAttribution((res) {
-  //     debugPrint("onAppOpenAttribution res: $res");
-  //   });
-  //   appsflyerSdk.onInstallConversionData((res) {
-  //     debugPrint("onInstallConversionData res: $res");
-  //     setState(() {
-  //       _gcd = res;
-  //     });
-  //   });
-  //   appsflyerSdk.initSdk(
-  //       registerConversionDataCallback: true,
-  //       registerOnAppOpenAttributionCallback: true,
-  //       registerOnDeepLinkingCallback: false);
-  // }
-
   @override
   Widget build(BuildContext context) {
     // initialRoute = widget.firstTime ? '/result' : initialRoute;
@@ -160,11 +132,6 @@ class _MyAppState extends State<MyApp> {
       }),
       debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,
-      // navigatorObservers: [
-      //   FirebaseAnalyticsObserver(
-      //     analytics: analytics,
-      //   ),
-      // ],
     );
   }
 }
