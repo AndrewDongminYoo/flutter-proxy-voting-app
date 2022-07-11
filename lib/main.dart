@@ -19,7 +19,8 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'auth/auth.controller.dart';
-import 'notificaition/notification.controller.dart';
+
+import 'notification/notification.dart';
 import 'routes.dart' show routes;
 import 'utils/firebase_options.dart';
 import 'vote/vote.controller.dart';

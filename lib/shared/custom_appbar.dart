@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 
-import '../notificaition/notification.controller.dart';
+
+import '../notification/notification.dart';
 import '../theme.dart';
 import 'shared.dart';
 // import 'notice_button.dart';

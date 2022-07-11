@@ -22,7 +22,7 @@ class NotificationController extends GetxController {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
       if(Platform.isAndroid){
-        await androidNotification(message, notification);
+        await androidLocalNotification(message, notification);
       }
       Notificaition data = Notificaition.fromFireMessage(message);
       encodedPushAlrams.add(json.encode(data.toJson(), toEncodable: encodeDateTime));
@@ -31,7 +31,7 @@ class NotificationController extends GetxController {
     });
   }
 
-  Future<void> androidNotification(RemoteMessage message, RemoteNotification? notification) async {
+  Future<void> androidLocalNotification(RemoteMessage message, RemoteNotification? notification) async {
     AndroidNotificationChannel channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
