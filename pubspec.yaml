@@ -36,24 +36,27 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  # Get X and intl.
-  get: ^4.6.5
+  # intl.
   intl: ^0.17.0
+
+  # state management
+  get: ^4.6.5
+  flutter_bloc: ^8.0.1
+  provider: ^6.0.3
 
   # Draw Signature
   signature: ^5.0.0
   lottie: ^1.3.0
   image_picker: ^0.8.5+3
 
-  # firebase
+  # https://pub.dev/publishers/firebase.google.com/packages
+  cloud_firestore: ^3.2.0
+  firebase_analytics: ^9.1.11
+  firebase_auth: ^3.4.0
   firebase_core: ^1.18.0
   firebase_dynamic_links: ^4.2.6
-  firebase_storage: ^10.2.18
-  firebase_auth: ^3.4.0
-  firebase_analytics: ^9.1.11
   firebase_messaging: ^11.4.4
-  paginate_firestore: ^1.0.3+1
-  cloud_firestore: ^3.2.0
+  firebase_storage: ^10.2.18
 
   # environment
   flutter_dotenv: ^5.0.2

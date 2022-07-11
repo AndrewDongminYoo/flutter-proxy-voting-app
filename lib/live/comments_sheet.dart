@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 
 // 🌎 Project imports:
 import 'live_firebase.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
+import 'widget/widgets.dart';
 
 class CommentsSheet extends StatefulWidget {
   final String name;
@@ -63,166 +63,163 @@ class _CommentsSheetState extends State<CommentsSheet> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        commentsController.clear();
-      },
-      child: Container(
-        height: 400,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(
-                    bottom: 25,
-                  ),
-                  child: Container(
-                    height: 7,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[350],
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 300,
-                  child: PaginateFirestore(
-                    query: commentStream,
-                    isLive: true,
-                    reverse: true,
-                    itemBuilder: (BuildContext context, snapshot, index) {
-                      final data = snapshot[index].data() as Map?;
-                      // ignore: unused_local_variable
-                      DateTime time =
-                          (data!['createdAt'] as Timestamp).toDate();
-                      return Container(
-                        //   height: 100,
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xFFF4F4F7),
-                              width: 5,
-                            ),
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          commentsController.clear();
+        },
+        child: Container(
+            height: 400,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+            ),
+            child: SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(children: [
+                      Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.only(
+                          bottom: 25,
+                        ),
+                        child: Container(
+                          height: 7,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[350],
+                            borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                      SizedBox(
+                        height: 300,
+                        child: PaginateFirestore(
+                          query: commentStream,
+                          isLive: true,
+                          reverse: true,
+                          itemBuilder: (BuildContext context, snapshot, index) {
+                            final data = snapshot[index].data() as Map?;
+                            // ignore: unused_local_variable
+                            DateTime time =
+                                (data!['createdAt'] as Timestamp).toDate();
+                            return Container(
+                              //   height: 100,
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Color(0xFFF4F4F7),
+                                    width: 5,
+                                  ),
+                                ),
+                              ),
+                              padding:
+                                  const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                              margin: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        '${data['nickname'] ?? data['author']}: ',
+                                    typoType: TypoType.body,
+                                  ),
+                                  Expanded(
+                                    flex: 4,
+                                    child: CustomText(
+                                      text: data['comment'].toString(),
+                                    ),
+                                  ),
+                                  CustomText(
+                                    text: readTimestamp(data['createdAt']),
+                                    typoType: TypoType.label,
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          itemBuilderType: PaginateBuilderType.listView,
+                        ),
+                      ),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomText(
-                              text: '${data['nickname'] ?? data['author']}: ',
+                              text: '${widget.name} :',
                               typoType: TypoType.body,
                             ),
                             Expanded(
                               flex: 4,
-                              child: CustomText(
-                                text: data['comment'].toString(),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.only(top: 0.0, left: 10),
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                  color: Color(0xFFE0E0E0),
+                                ))),
+                                child: TextField(
+                                  maxLines: 1,
+                                  controller: commentsController,
+                                  autofocus: true,
+                                  focusNode: commentFocusNode,
+                                  enableInteractiveSelection: false,
+                                  onChanged: (_) {
+                                    setState(() {});
+                                  },
+                                  cursorColor:
+                                      customColor[ColorType.deepPurple],
+                                  keyboardType: TextInputType.multiline,
+                                  textInputAction: TextInputAction.send,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    hintText: '채팅을 남겨주세요',
+                                    hintStyle: TextStyle(fontSize: 14),
+                                  ),
+                                ),
                               ),
                             ),
-                            CustomText(
-                              text: readTimestamp(data['createdAt']),
-                              typoType: TypoType.label,
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                    itemBuilderType: PaginateBuilderType.listView,
-                  ),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CustomText(
-                      text: '${widget.name} :',
-                      typoType: TypoType.body,
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                        padding: const EdgeInsets.only(top: 0.0, left: 10),
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                          color: Color(0xFFE0E0E0),
-                        ))),
-                        child: TextField(
-                          maxLines: 1,
-                          controller: commentsController,
-                          autofocus: true,
-                          focusNode: commentFocusNode,
-                          enableInteractiveSelection: false,
-                          onChanged: (_) {
-                            setState(() {});
-                          },
-                          cursorColor: customColor[ColorType.deepPurple],
-                          keyboardType: TextInputType.multiline,
-                          textInputAction: TextInputAction.send,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            hintText: '채팅을 남겨주세요',
-                            hintStyle: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: commentsController.text.isEmpty
-                          ? null
-                          : () async {
-                              await addComment().then(
-                                (value) => commentsController.clear(),
-                              );
-                            },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 36,
-                        width: 36,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: customColor[ColorType.deepPurple],
-                          boxShadow: const [
-                            BoxShadow(
-                              offset: Offset(0, 2),
-                              blurRadius: 3,
-                              color: Color(0x28000000),
-                            )
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.send,
-                          size: 20.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                                onTap: commentsController.text.isEmpty
+                                    ? null
+                                    : () async {
+                                        await addComment().then(
+                                          (value) => commentsController.clear(),
+                                        );
+                                      },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 36,
+                                    width: 36,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: customColor[ColorType.deepPurple],
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          offset: Offset(0, 2),
+                                          blurRadius: 3,
+                                          color: Color(0x28000000),
+                                        )
+                                      ],
+                                    ),
+                                    child: const Icon(
+                                      Icons.send,
+                                      size: 20.0,
+                                      color: Colors.white,
+                                    )))
+                          ])
+                    ])))));
   }
 }

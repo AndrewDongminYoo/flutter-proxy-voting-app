@@ -308,7 +308,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
@@ -562,13 +562,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  paginate_firestore:
-    dependency: "direct main"
-    description:
-      name: paginate_firestore
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3+1"
   path:
     dependency: transitive
     description:
@@ -626,7 +619,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
