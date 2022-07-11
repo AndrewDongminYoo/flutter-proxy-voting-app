@@ -99,6 +99,7 @@ class _MyAppState extends State<MyApp> {
     initializeDateFormatting('ko_KR', null);
     initNotification();
     initDynamicLinks();
+    FlutterNativeSplash.remove();
   }
 
   initNotification() {
