@@ -58,6 +58,7 @@ class CustomAppBar extends AppBar {
 }
 
 class CustomBackButton extends IconButton {
+  // TODO: offNamed로 결과페이지에 도달했을 때, 사실상 동작하지 않는 뒤로가기 버튼이 여전히 보임.
   const CustomBackButton({
     Key? key,
   }) : super(

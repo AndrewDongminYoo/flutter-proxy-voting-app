@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
@@ -27,14 +26,39 @@ class _ValidatePageState extends State<ValidatePage> {
   final _formKey = GlobalKey<FormState>();
   Timer? timer;
   String otpCode = '';
-  int remainingOtpTime = 180;
-  bool isOtpTimerExpired = false;
+  Duration remainingOtpTime = const Duration(minutes: 3);
   String title = '인증번호를 입력해주세요';
   bool isIdentificationCompleted = false;
+
+  @override
+  void initState() {
+    if (Get.arguments['isNew'] == 'existingUser') {
+      title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
+    }
+    startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.dispose();
+  }
 
   alertGoBack() {
     title = '인증에 실패하였습니다. 다시 전화번호를 확인해 주세요.';
     Timer(const Duration(seconds: 1), () => goBack());
+  }
+
+  onPressed() {
+    setState(() {
+      timer!.cancel();
+    });
+    if (authCtrl.canVote()) {
+      jumpToCampaign();
+    }
   }
 
   validate() async {
@@ -51,43 +75,29 @@ class _ValidatePageState extends State<ValidatePage> {
     onPressed();
   }
 
-  onPressed() {
-    if (authCtrl.canVote()) {
-      timer!.cancel();
-      jumpToCampaign();
-    }
-  }
-
-  @override
-  void initState() {
-    if (Get.arguments['isNew'] == 'existingUser') {
-      title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
-    }
-    startTimer();
-    super.initState();
-  }
-
   startTimer() {
-    remainingOtpTime = 180;
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (remainingOtpTime > 0) {
-        if (mounted) {
-          setState(() {
-            remainingOtpTime--;
-          });
-        }
+    var seconds = const Duration(seconds: 1);
+    timer = Timer.periodic(seconds, (timer) => setCountDown());
+  }
+
+  setCountDown() {
+    setState(() {
+      final seconds = remainingOtpTime.inSeconds - 1;
+      if (seconds < 0) {
+        timer!.cancel();
+        alertGoBack();
       } else {
-        isOtpTimerExpired = true;
-        timer.cancel();
+        remainingOtpTime = Duration(seconds: seconds);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var minutes = remainingOtpTime ~/ 60;
-    var seconds = remainingOtpTime - minutes * 60;
-    var timerText = "$minutes : ${NumberFormat("00").format(seconds)}";
+    String strDigits(int n) => n.toString().padLeft(2, '0');
+    var minutes = remainingOtpTime.inMinutes;
+    var seconds = remainingOtpTime.inSeconds - minutes * 60;
+    var timerText = '${strDigits(minutes)} : ${strDigits(seconds)}';
     return Scaffold(
       appBar: CustomAppBar(text: ''),
       body: Container(

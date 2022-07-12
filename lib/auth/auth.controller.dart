@@ -82,7 +82,7 @@ class AuthController extends GetxController {
   ) async {
     // Super User for apple QA
     if (user.phoneNumber == '01086199325' && user.frontId == '940701') {
-      user = getUserInfo('01086199325');
+      user = getUserInfo(user.phoneNumber);
       debugPrint('super user for apple QA');
       return;
     }

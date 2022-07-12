@@ -10,7 +10,6 @@ import 'package:get/get_connect.dart';
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
-import 'auth.data.dart';
 
 class AuthService extends GetConnect {
   String baseURL = 'https://api.bside.ai/onboarding';
@@ -83,17 +82,18 @@ class AuthService extends GetConnect {
 
   Future<Response> createUser(String name, String frontId, String backId,
       String telecom, String phoneNumber, String ci, String di) async {
-    final user = User(
-      name,
-      frontId,
-      backId,
-      telecom,
-      phoneNumber,
-    );
     return post(
         getURL('/users'),
         jsonEncode({
-          'user': user,
+          'user': {
+            'name': name,
+            'frontId': frontId,
+            'backId': backId,
+            'telecom': telecom,
+            'phoneNumber': phoneNumber,
+            'ci': ci,
+            'di': di
+          },
         }));
   }
 
