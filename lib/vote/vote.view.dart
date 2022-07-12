@@ -11,8 +11,7 @@ import 'package:get/get.dart';
 import '../theme.dart';
 import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import '../vote/vote.controller.dart';
-import 'vote.model.dart';
+import 'vote.dart';
 import 'widget/vote_selector.dart';
 
 class VoteAgendaPage extends StatefulWidget {

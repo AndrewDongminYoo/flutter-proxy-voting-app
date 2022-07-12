@@ -7,12 +7,11 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../shared/custom_text.dart';
 import '../theme.dart';
-import '../utils/firebase.dart';
+import '../utils/utils.dart';
 import 'comments_sheet.dart';
 import 'widget/widgets.dart';
 
@@ -35,7 +34,7 @@ class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     addCount();
-    setupName();
+    setNickname();
   }
 
   @override
@@ -48,12 +47,6 @@ class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
     final ref = liveRef.doc('sm');
     var snapshot = await ref.get();
     ref.update({'liveUserCount': snapshot['liveUserCount'] + 1});
-  }
-
-  setupName() async {
-    final prefs = await SharedPreferences.getInstance();
-    name = prefs.getString('nickname') ?? '';
-    debugPrint(name);
   }
 
   subtractCount() async {

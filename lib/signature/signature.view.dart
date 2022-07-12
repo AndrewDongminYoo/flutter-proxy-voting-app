@@ -12,9 +12,8 @@ import 'package:timeago/timeago.dart' as timeago;
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
-import 'sign_appbody.dart';
 import '../vote/vote.controller.dart';
-import 'signature.controller.dart';
+import 'signature.dart';
 
 class SignaturePage extends StatefulWidget {
   const SignaturePage({Key? key}) : super(key: key);

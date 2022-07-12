@@ -3,14 +3,12 @@ import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
 import '../shared/custom_nav.dart';
-import 'widget/loading_screen.dart' show LoadingScreen;
-import 'auth.data.dart' show User;
-import 'auth.service.dart' show AuthService;
+import '../utils/shared_prefs.dart';
+import 'auth.dart';
 
 class AuthController extends GetxController {
   User? _user;
@@ -33,15 +31,14 @@ class AuthController extends GetxController {
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     debugPrint('[AuthController] init');
-    final prefs = await SharedPreferences.getInstance();
-    final telNum = prefs.getString('telNum');
-    if (telNum != null) {
+    final telNum = await getTelephoneNumber();
+    if (telNum.isNotEmpty) {
       debugPrint('[AuthController] SharedPreferences exist');
       final result = await getUserInfo(telNum);
       if (result == null) {
         // 잘못된 캐시데이터 삭제
         debugPrint('[AuthController] delete useless SharedPreferences');
-        await prefs.clear();
+        await clearPref();
       } else {
         signIn();
       }
@@ -123,8 +120,7 @@ class AuthController extends GetxController {
         } else {
           signUp();
         }
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('telNum', user.phoneNumber);
+        setTelephoneNumber(user.phoneNumber);
         stopLoading();
       }
     });

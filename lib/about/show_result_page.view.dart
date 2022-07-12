@@ -9,10 +9,8 @@ import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../theme.dart';
-import '../vote/vote.controller.dart';
-import '../vote/vote.model.dart';
-import 'widget/stepper_card.dart';
-import 'widget/address_card.dart';
+import '../vote/vote.dart';
+import 'about.dart';
 
 class ShowResultPage extends StatefulWidget {
   const ShowResultPage({Key? key}) : super(key: key);

@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../about/widget/address_card.dart';
 import '../auth/auth.controller.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
-import 'widget/edit_modal.dart';
-import 'widget/vote_num_card.dart';
+import 'widget/widget.dart';
 
 class CheckVoteNumPage extends StatefulWidget {
   const CheckVoteNumPage({Key? key}) : super(key: key);

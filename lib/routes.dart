@@ -6,7 +6,6 @@ import 'about/about.dart';
 import 'auth/auth.dart';
 import 'campaign/campaign.view.dart';
 import 'home/home.view.dart';
-
 import 'notification/notification.dart';
 import 'onboarding/onboarding.view.dart';
 import 'signature/signature.dart';

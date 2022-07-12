@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:async' show Future, runZonedGuarded;
+import 'dart:async' show runZonedGuarded;
 import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
@@ -11,7 +11,6 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
@@ -19,13 +18,8 @@ import 'services.dart';
 import 'routes.dart' show routes;
 import 'auth/auth.controller.dart';
 import 'notification/notification.dart';
-import 'utils/firebase.dart';
+import 'utils/utils.dart';
 import 'vote/vote.controller.dart';
-
-clearPref() async {
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.clear();
-}
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +30,7 @@ main() async {
       service.reportUncaughtError(details.exception, details.stack!);
     }
     FlutterError.presentError(details);
+    // 배포된 앱은 종료 코드 1(비정상적 종료)로 종료
     if (kReleaseMode) exit(1);
   };
 
@@ -44,7 +39,7 @@ main() async {
   // initialize app
   await dotenv.load(fileName: '.env');
   final initialLink = await setupFirebase();
-  bool firstTime = await checkIfFirstTime();
+  bool firstTime = await getIfFirstTime();
   debugPrint('[main] firstTime: $firstTime');
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
@@ -54,12 +49,6 @@ main() async {
   }, (Object error, StackTrace trace) {
     service.reportUncaughtError(error, trace);
   });
-}
-
-Future<bool> checkIfFirstTime() async {
-  final prefs = await SharedPreferences.getInstance();
-  final firstTime = prefs.getBool('firstTime') ?? true;
-  return firstTime;
 }
 
 class MyApp extends StatefulWidget {
@@ -125,7 +114,7 @@ class _MyAppState extends State<MyApp> {
     }
     ErrorWidget.builder = ((details) => error);
     if (child != null) return child;
-    throw ('widget is null something is wrong');
+    throw ('widget is null. something is wrong.');
   }
 
   ThemeData theme() {

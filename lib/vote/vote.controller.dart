@@ -8,14 +8,13 @@ import 'package:flutter/foundation.dart';
 // 📦 Package imports:
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
 import '../shared/custom_nav.dart';
 import '../campaign/campaign.dart';
 import '../auth/widget/loading_screen.dart';
-import '../vote/vote.service.dart';
-import 'vote.model.dart';
+import '../utils/shared_prefs.dart';
+import 'vote.dart';
 
 class VoteController extends GetxController {
   // Vote 진행 전 사용 변수
@@ -48,13 +47,12 @@ class VoteController extends GetxController {
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
     // TODO: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
-    final prefs = await SharedPreferences.getInstance();
-    final campaignList = prefs.getStringList('completedCampaign');
+    final campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
       debugPrint('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
       for (var campaign in completedCampaign) {
-        final shareholderId = prefs.getInt('$campaign-shareholder');
+        final shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
           completedShareholder
@@ -112,7 +110,7 @@ class VoteController extends GetxController {
     } else if (shareholders.length == 1) {
       // case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
       _shareholder = shareholders[0];
-      await saveShareholder();
+      await setShareholderId(campaign.enName, shareholder.id);
       goToCheckVoteNum();
     } else {
       // case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
@@ -125,7 +123,7 @@ class VoteController extends GetxController {
 
   void selectShareholder(int index) async {
     _shareholder = shareholders[index];
-    await saveShareholder();
+    await setShareholderId(campaign.enName, shareholder.id);
     await _service.validateShareholder(index); // 주주를 선택했다고 서버에 기록
   }
 
@@ -158,7 +156,7 @@ class VoteController extends GetxController {
 
     // 현재 캠페인을 완료 목록에 저장
     completedCampaign.add(campaign.enName);
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await getPrefs();
     prefs.setStringList('completedCampaign', completedCampaign.toList());
     debugPrint('completedCampaign, $completedCampaign');
     if (kDebugMode) {
@@ -205,11 +203,6 @@ class VoteController extends GetxController {
 
   void trackBackId() {
     voteAgenda.backIdAt = DateTime.now();
-  }
-
-  Future<void> saveShareholder() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('${campaign.enName}-shareholder', shareholder.id);
   }
 
   int _switchVoteValue(VoteType voteType) {

@@ -14,8 +14,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
 import '../vote/vote.controller.dart';
-import 'sign_appbody.dart';
-import 'signature.controller.dart';
+import 'signature.dart';
 
 class UploadIdCardPage extends StatefulWidget {
   const UploadIdCardPage({Key? key}) : super(key: key);

@@ -2,13 +2,12 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/route_manager.dart';
-import 'package:get/utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import '../theme.dart';
+import '../utils/shared_prefs.dart';
 import 'guide.data.dart';
 
 /*
@@ -32,13 +31,8 @@ class _OnboardingPageState extends State<OnboardingPage>
   int _curIndex = 0;
 
   void onTap() async {
-    savePref();
+    setIamFirstTime();
     jumpToHome();
-  }
-
-  void savePref() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('firstTime', false);
   }
 
   void updateIndex() {

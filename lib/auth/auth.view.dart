@@ -11,8 +11,6 @@ import 'package:get/get.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 import 'auth.dart';
-import 'widget/auth_forms.dart';
-import 'widget/service_term.view.dart';
 
 const headlines = [
   '휴대폰번호를\n입력해주세요',

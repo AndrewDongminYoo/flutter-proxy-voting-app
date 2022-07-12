@@ -2,15 +2,17 @@
 import 'dart:convert' show json;
 import 'dart:io' show Platform;
 
+// 🐦 Flutter imports:
+import 'package:flutter/foundation.dart';
+
 // 📦 Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // 🌎 Project imports:
+import '../utils/shared_prefs.dart';
 import 'notification.data.dart';
 
 class NotificationController extends GetxController {
@@ -27,7 +29,7 @@ class NotificationController extends GetxController {
       Notificaition data = Notificaition.fromFireMessage(message);
       encodedPushAlrams
           .add(json.encode(data.toJson(), toEncodable: encodeDateTime));
-      setNotificationsLocal(encodedPushAlrams);
+      setNotifications(encodedPushAlrams);
       update();
     });
   }
@@ -61,15 +63,9 @@ class NotificationController extends GetxController {
     }
   }
 
-  void setNotificationsLocal(messages) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('notification', messages);
-  }
-
   void getNotificationsLocal() async {
     notifications.clear();
-    final prefs = await SharedPreferences.getInstance();
-    List<String> result = prefs.getStringList('notification') ?? [''];
+    List<String> result = getNotifications();
     // ignore: avoid_function_literals_in_foreach_calls
     result.forEach((message) {
       if (!notifications
@@ -80,11 +76,9 @@ class NotificationController extends GetxController {
   }
 
   void removeNotification(int index) async {
-    final prefs = await SharedPreferences.getInstance();
-    encodedPushAlrams = prefs.getStringList('notification') ?? [''];
+    List<String> encodedPushAlrams = getNotifications();
     encodedPushAlrams.removeAt(index);
-    setNotificationsLocal(encodedPushAlrams);
-    getNotificationsLocal();
+    setNotifications(encodedPushAlrams);
   }
 
   dynamic encodeDateTime(dynamic item) {

@@ -7,8 +7,7 @@ import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
-import '../contact_us/contact_us.model.dart';
-import '../contact_us/contact_us.view.dart';
+import '../contact_us/contact_us.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
 
