@@ -20,6 +20,7 @@ import 'auth/auth.controller.dart';
 import 'notification/notification.dart';
 import 'utils/utils.dart';
 import 'vote/vote.controller.dart';
+import 'utils/validate_app_version.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,6 +75,7 @@ class _MyAppState extends State<MyApp> {
     initializeDateFormatting('ko_KR', null);
     initNotification();
     initDynamicLinks();
+    compareAppVersion();
   }
 
   initNotification() {

@@ -79,6 +79,7 @@ dependencies:
   # information
   device_info_plus: ^4.0.0
   package_info_plus: ^1.4.2
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:
