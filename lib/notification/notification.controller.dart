@@ -76,7 +76,7 @@ class NotificationController extends GetxController {
     });
   }
 
-  void removeNotification(int index) async {
+  Future<void> removeNotification(int index) async {
     List<String> encodedPushAlrams = await getNotifications();
     encodedPushAlrams.removeAt(index);
     setNotifications(encodedPushAlrams);
@@ -105,7 +105,7 @@ class NotificationController extends GetxController {
     return DateFormat('MM월 dd일', 'ko_KR').format(time);
   }
 
-  void requestPermission() async {
+  Future<void> requestPermission() async {
     await messaging.setAutoInitEnabled(true);
     await messaging.requestPermission(
       alert: true,

@@ -88,7 +88,7 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
           : Get.put(NotificationController());
   onPressIconBtn() {
     goToNotificationPage();
-    if (notificaitionCtrl.notifications.isNotEmpty) {
+    if (notificaitionCtrl.encodedPushAlrams.isNotEmpty) {
       notificaitionCtrl.getNotificationsLocal();
     }
   }
