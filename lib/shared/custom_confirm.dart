@@ -8,13 +8,48 @@ import 'package:get/get.dart';
 import '../theme.dart';
 import 'shared.dart';
 
-class CustomConfirm extends StatelessWidget {
+Widget confirmBody(String message, String okLabel, void Function() onConfirm) {
+  return Container(
+    height: 220,
+    padding: const EdgeInsets.symmetric(horizontal: 25),
+    child: Column(children: [
+      const SizedBox(height: 20),
+      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Expanded(
+          child: CustomText(
+            text: message,
+            typoType: TypoType.h2,
+          ),
+        ),
+        const IconButton(
+          onPressed: goBack,
+          splashRadius: 20.0,
+          iconSize: 16.0,
+          padding: EdgeInsets.all(0.0),
+          constraints: BoxConstraints(minHeight: 20.0, minWidth: 20.0),
+          icon: Icon(Icons.close, color: Colors.black, semanticLabel: '창 닫기'),
+        )
+      ]),
+      const SizedBox(height: 36),
+      CustomButton(
+        label: okLabel,
+        onPressed: onConfirm,
+        width: CustomW.w4,
+      ),
+    ]),
+  );
+}
+
+// JS의 Window.confirm() 참고
+// 확인 버튼을 누르면 함수 실행시 메세지와 함께 모달 대화 상자를 띄웁니다.
+// CustomWindowConfirm와 유사하지만 모달을 실행하는 버튼 UI까지 포함된 UI Component.
+class CustomConfirmWithButton extends StatelessWidget {
   final String buttonLabel;
   final String message;
   final String okLabel;
   final Function() onConfirm;
 
-  const CustomConfirm({
+  const CustomConfirmWithButton({
     Key? key,
     required this.buttonLabel,
     required this.message,
@@ -23,10 +58,7 @@ class CustomConfirm extends StatelessWidget {
   }) : super(key: key);
 
   onPress() {
-    Get.bottomSheet(confirmBody(),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
+    customWindowConfirm(this.message, this.okLabel, this.onConfirm);
   }
 
   @override
@@ -37,36 +69,15 @@ class CustomConfirm extends StatelessWidget {
         bgColor: ColorType.deepPurple,
         onPressed: onPress);
   }
+}
 
-  Widget confirmBody() {
-    return Container(
-      height: 220,
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(children: [
-        const SizedBox(height: 20),
-        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-            child: CustomText(
-              text: message,
-              typoType: TypoType.h2,
-            ),
-          ),
-          const IconButton(
-            onPressed: goBack,
-            splashRadius: 20.0,
-            iconSize: 16.0,
-            padding: EdgeInsets.all(0.0),
-            constraints: BoxConstraints(minHeight: 20.0, minWidth: 20.0),
-            icon: Icon(Icons.close, color: Colors.black, semanticLabel: '창 닫기'),
-          )
-        ]),
-        const SizedBox(height: 36),
-        CustomButton(
-          label: okLabel,
-          onPressed: onConfirm,
-          width: CustomW.w4,
-        ),
-      ]),
-    );
-  }
+// JS의 Window.confirm() 참고
+// 함수 실행시 메세지와 함께 모달 대화 상자를 띄웁니다.
+// CustomConfirmWithButton와 유사하지만, 모달만 띄우는 함수.
+void customWindowConfirm(
+    String message, String okLabel, void Function() onConfirm) {
+  Get.bottomSheet(confirmBody(message, okLabel, onConfirm),
+      backgroundColor: Colors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
 }
