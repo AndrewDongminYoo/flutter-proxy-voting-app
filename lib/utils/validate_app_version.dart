@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 
@@ -79,7 +80,7 @@ class AppVersionValidator {
 
   Future<VersionStatus?> _getiOSStoreVersion(PackageInfo packageInfo) async {
     final id = iOSId ?? packageInfo.packageName;
-    final parameters = {'bundleId': '$id'};
+    final parameters = {'bundleId': id};
     if (iOSAppStoreCountry != null) {
       parameters.addAll({'country': iOSAppStoreCountry!});
     }
@@ -110,7 +111,7 @@ class AppVersionValidator {
       PackageInfo packageInfo) async {
     final id = androidId ?? packageInfo.packageName;
     final uri = Uri.https(
-        'play.google.com', '/store/apps/details', {'id': '$id', 'hl': 'kr'});
+        'play.google.com', '/store/apps/details', {'id': id, 'hl': 'kr'});
     final response = await http.get(uri);
     if (response.statusCode != 200) {
       debugPrint('Can\'t find an app in the Play Store with the id: $id');

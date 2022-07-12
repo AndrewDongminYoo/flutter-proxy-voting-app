@@ -19,6 +19,7 @@ class NotificationController extends GetxController {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   List<Notificaition> notifications = [];
   List<String> encodedPushAlrams = [];
+  late String token;
 
   void listenFCM() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -65,7 +66,7 @@ class NotificationController extends GetxController {
 
   void getNotificationsLocal() async {
     notifications.clear();
-    List<String> result = getNotifications();
+    List<String> result = await getNotifications();
     // ignore: avoid_function_literals_in_foreach_calls
     result.forEach((message) {
       if (!notifications
@@ -76,7 +77,7 @@ class NotificationController extends GetxController {
   }
 
   void removeNotification(int index) async {
-    List<String> encodedPushAlrams = getNotifications();
+    List<String> encodedPushAlrams = await getNotifications();
     encodedPushAlrams.removeAt(index);
     setNotifications(encodedPushAlrams);
   }
@@ -117,12 +118,10 @@ class NotificationController extends GetxController {
     );
   }
 
-  // 기기의 토큰을 얻고 싶은 경우 main init에 getToken 주석해제
-  // void getToken() async {
-  //   await messaging.getToken().then((value) => {
-  //         print('--------------------------------'),
-  //         print(value),
-  //         print('--------------------------------')
-  //       });
-  // }
+  Future<void> getToken() async {
+    await messaging.getToken().then((value) => {
+      token = value!
+    });
+  }
+  
 }

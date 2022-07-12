@@ -112,6 +112,11 @@ class AuthService extends GetConnect {
         getURL('/users/ci'), jsonEncode({'uid': uid, 'ci': ci, 'di': di}));
   }
 
+  Future<Response> putUuid(int uid, String uuid) async {
+    return await put(
+        getURL('/users/uuid'), jsonEncode({'uid': uid, 'uuid': uuid}));
+  }
+
   /// MESSAGE PART
   Future<void> postMessage(String phoneNumber, Chat message) async {
     final contact = <String, dynamic>{

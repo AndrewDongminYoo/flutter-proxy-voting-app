@@ -79,10 +79,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   initNotification() {
-    // notificaitionCtrl.loadFCM();
     notificaitionCtrl.listenFCM();
     notificaitionCtrl.requestPermission();
-    // notificaitionCtrl.getToken();
+    notificaitionCtrl.getToken();
   }
 
   initDynamicLinks() {

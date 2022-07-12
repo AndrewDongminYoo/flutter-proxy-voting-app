@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
+import '../notification/notification.dart';
 import '../shared/custom_nav.dart';
 import '../utils/shared_prefs.dart';
 import 'auth.dart';
@@ -15,6 +16,11 @@ class AuthController extends GetxController {
   List<Chat> chats = [];
   bool isLogined = false;
   final AuthService _service = AuthService();
+
+  NotificationController notificaitionCtrl =
+      Get.isRegistered<NotificationController>()
+          ? Get.find()
+          : Get.put(NotificationController());
 
   User get user {
     if (_user != null) {
@@ -120,6 +126,7 @@ class AuthController extends GetxController {
         } else {
           signUp();
         }
+        putUuid();
         setTelephoneNumber(user.phoneNumber);
         stopLoading();
       }
@@ -150,6 +157,11 @@ class AuthController extends GetxController {
 
   void putBackId(String backId) async {
     await _service.putBackId(user.id, backId);
+  }
+
+  // FIXME: user의 id값이 -1로 덮어 쓰이는 현상이 있음
+  void putUuid() async {
+    await _service.putUuid(60, notificaitionCtrl.token);
   }
 
   void startLoading() {
