@@ -18,18 +18,31 @@ goToNotShareHolders() => Get.toNamed('/not-shareholders');
 goToDuplicate() => Get.toNamed('/duplicate');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
 goToNotificationPage() => Get.toNamed('/notification');
-jumpToCheckVoteNum() => Get.offNamed('/checkvotenum');
+
+backToSignUp() =>
+    Get.offNamedUntil('/signup', (route) => route.settings.name == '/signup');
+jumpToCheckVoteNum() => Get.offNamedUntil(
+    '/checkvotenum', (route) => route.settings.name == '/checkvotenum');
 
 goToVoteWithExample() {
-  return Get.toNamed('/vote', arguments: 'voteWithExample');
+  return Get.toNamed(
+    '/vote',
+    arguments: 'voteWithExample',
+  );
 }
 
 goToVoteWithLastMemory() {
-  return Get.toNamed('/vote', arguments: 'voteWithLastMemory');
+  return Get.toNamed(
+    '/vote',
+    arguments: 'voteWithLastMemory',
+  );
 }
 
 goToVoteWithoutExample() {
-  return Get.toNamed('/vote', arguments: 'voteWithoutExample');
+  return Get.toNamed(
+    '/vote',
+    arguments: 'voteWithoutExample',
+  );
 }
 
 goToValidateNew() => Get.toNamed(
@@ -41,14 +54,10 @@ goToValidateOld() => Get.toNamed(
       arguments: {'isNew': 'existingUser'},
     );
 
-jumpToHome() => Get.offNamedUntil('/', (route) {
-      return route.settings.name == '/';
-    });
+jumpToHome() => Get.offNamedUntil('/', (route) => route.settings.name == '/');
 
-jumpToCampaign() => Get.offNamedUntil('/campaign', (route) {
-      return route.settings.name == '/';
-    });
+jumpToCampaign() => Get.offNamedUntil(
+    '/campaign', (route) => route.settings.name == '/campaign');
 
-jumpToResult() => Get.offNamedUntil('/result', (route) {
-      return route.settings.name == '/result';
-    });
+jumpToResult() =>
+    Get.offNamedUntil('/result', (route) => route.settings.name == '/result');

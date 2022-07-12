@@ -25,7 +25,7 @@ Widget confirmBody(String message, String okLabel, void Function() onConfirm) {
           onPressed: goBack,
           splashRadius: 20.0,
           iconSize: 16.0,
-          padding: EdgeInsets.all(0.0),
+          padding: EdgeInsets.zero,
           constraints: BoxConstraints(minHeight: 20.0, minWidth: 20.0),
           icon: Icon(Icons.close, color: Colors.black, semanticLabel: '창 닫기'),
         )
@@ -58,7 +58,7 @@ class CustomConfirmWithButton extends StatelessWidget {
   }) : super(key: key);
 
   onPress() {
-    customWindowConfirm(this.message, this.okLabel, this.onConfirm);
+    customWindowConfirm(message, okLabel, onConfirm);
   }
 
   @override
@@ -74,10 +74,17 @@ class CustomConfirmWithButton extends StatelessWidget {
 // JS의 Window.confirm() 참고
 // 함수 실행시 메세지와 함께 모달 대화 상자를 띄웁니다.
 // CustomConfirmWithButton와 유사하지만, 모달만 띄우는 함수.
-void customWindowConfirm(
-    String message, String okLabel, void Function() onConfirm) {
-  Get.bottomSheet(confirmBody(message, okLabel, onConfirm),
-      backgroundColor: Colors.white,
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
+customWindowConfirm(
+  String message,
+  String okLabel,
+  void Function() onConfirm,
+) {
+  Get.bottomSheet(
+    confirmBody(message, okLabel, onConfirm),
+    backgroundColor: Colors.white,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
 }

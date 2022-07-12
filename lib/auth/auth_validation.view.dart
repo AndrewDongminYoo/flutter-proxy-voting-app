@@ -49,7 +49,14 @@ class _ValidatePageState extends State<ValidatePage> {
 
   alertGoBack() {
     title = '인증에 실패하였습니다. 다시 전화번호를 확인해 주세요.';
-    Timer(const Duration(seconds: 1), () => goBack());
+    Get.bottomSheet(
+      confirmBody(title, '뒤로가기', () => backToSignUp()),
+      backgroundColor: Colors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
   }
 
   onPressed() {
