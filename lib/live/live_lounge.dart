@@ -12,8 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 // 🌎 Project imports:
 import '../shared/custom_text.dart';
 import '../theme.dart';
+import '../utils/firebase.dart';
 import 'comments_sheet.dart';
-import 'live_firebase.dart';
 import 'widget/widgets.dart';
 
 class LiveLounge extends StatefulWidget {

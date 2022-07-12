@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 // 🌎 Project imports:
-import 'live_firebase.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
+import '../utils/firebase.dart';
 import 'widget/widgets.dart';
 
 class CommentsSheet extends StatefulWidget {

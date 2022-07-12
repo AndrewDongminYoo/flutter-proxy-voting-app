@@ -47,7 +47,7 @@ class VoteController extends GetxController {
 
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
-    // FIXME: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
+    // TODO: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
     final prefs = await SharedPreferences.getInstance();
     final campaignList = prefs.getStringList('completedCampaign');
     if (campaignList != null) {
@@ -87,7 +87,7 @@ class VoteController extends GetxController {
         debugPrint('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         _shareholder = completedShareholder
-            .firstWhere((element) => element.company == campaign.enName);
+            .firstWhere((sh) => sh.company == campaign.enName);
         await jumpToResult();
         return;
       }
@@ -121,7 +121,7 @@ class VoteController extends GetxController {
   }
 
   // ===  page: 주소 확인페이지 ===
-  List<String> addressList() => shareholders.map((e) => e.address).toList();
+  List<String> addressList() => shareholders.map((sh) => sh.address).toList();
 
   void selectShareholder(int index) async {
     _shareholder = shareholders[index];

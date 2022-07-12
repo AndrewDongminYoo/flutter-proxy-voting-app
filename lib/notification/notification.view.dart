@@ -1,9 +1,11 @@
 // 🐦 Flutter imports:
-import 'package:bside/theme.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../theme.dart';
 import '../shared/shared.dart';
 import 'notification.dart';
 
@@ -24,14 +26,16 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(text: '알림', isNoticePage: true),
-      body: notificaitionCtrl.notifications.isEmpty ? noNotification(): listView(),
+      body: notificaitionCtrl.notifications.isEmpty
+          ? noNotification()
+          : listView(),
     );
   }
 
   Widget listView() {
     return ListView.separated(
         itemBuilder: (context, index) {
-          return  notificationCard(index);
+          return notificationCard(index);
         },
         separatorBuilder: (context, index) {
           return const Divider(height: 0);
@@ -41,15 +45,22 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
 
   Widget noNotification() {
     return Center(
-      child: SizedBox(
-        height: Get.height * 0.5,
-        child: Column(
+        child: SizedBox(
+      height: Get.height * 0.5,
+      child: Column(
         children: [
-          Icon(Icons.notifications_rounded, color: customColor[ColorType.lightGrey],size: Get.height * 0.3,),
-          CustomText(text: '새로운 소식이 없습니다.',typoType: TypoType.body,)
+          Icon(
+            Icons.notifications_rounded,
+            color: customColor[ColorType.lightGrey],
+            size: Get.height * 0.3,
+          ),
+          CustomText(
+            text: '새로운 소식이 없습니다.',
+            typoType: TypoType.body,
+          )
         ],
-      ),)
-    );
+      ),
+    ));
   }
 
   Widget notificationCard(int index) {

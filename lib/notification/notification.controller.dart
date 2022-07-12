@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:convert';
+import 'dart:convert' show json;
 import 'dart:io' show Platform;
 
 // 📦 Package imports:
@@ -21,28 +21,30 @@ class NotificationController extends GetxController {
   void listenFCM() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
-      if(Platform.isAndroid){
+      if (Platform.isAndroid) {
         await androidLocalNotification(message, notification);
       }
       Notificaition data = Notificaition.fromFireMessage(message);
-      encodedPushAlrams.add(json.encode(data.toJson(), toEncodable: encodeDateTime));
+      encodedPushAlrams
+          .add(json.encode(data.toJson(), toEncodable: encodeDateTime));
       setNotificationsLocal(encodedPushAlrams);
       update();
     });
   }
 
-  Future<void> androidLocalNotification(RemoteMessage message, RemoteNotification? notification) async {
+  Future<void> androidLocalNotification(
+      RemoteMessage message, RemoteNotification? notification) async {
     AndroidNotificationChannel channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
       importance: Importance.high,
       enableVibration: true,
     );
-    
+
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null && !kIsWeb) {
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = 
-        FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
 
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
@@ -93,15 +95,16 @@ class NotificationController extends GetxController {
   }
 
   Map<String, dynamic> decodeJson(String message) {
-    return json.decode(message, reviver: (key, value) => reviverDateTime(key, value));
+    return json.decode(message,
+        reviver: (key, value) => reviverDateTime(key, value));
   }
 
   reviverDateTime(key, value) {
-      if (key == 'createdAt') {
-        return DateTime.parse(value as String);
-      }
-      return value;
+    if (key == 'createdAt') {
+      return DateTime.parse(value as String);
     }
+    return value;
+  }
 
   String currentTime(time) {
     return DateFormat('MM월 dd일', 'ko_KR').format(time);

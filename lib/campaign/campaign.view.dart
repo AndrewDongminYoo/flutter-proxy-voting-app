@@ -99,7 +99,7 @@ class _CampaignPageState extends State<CampaignPage> {
             goToSignUp();
           });
     } else {
-      // NOTE: 전화번호 인증 혹은 본인정보 확인 필요
+      // TODO: 전화번호 인증 혹은 본인정보 확인 필요
       debugPrint('Need verify telNumber');
       return Container();
     }
