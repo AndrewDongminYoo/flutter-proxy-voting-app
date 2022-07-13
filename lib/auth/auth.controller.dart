@@ -128,7 +128,7 @@ class AuthController extends GetxController {
           signUp();
         }
         putUuid();
-        setTelephoneNumber(user.phoneNumber);
+        await setTelephoneNumber(user.phoneNumber);
         stopLoading();
       }
     });
