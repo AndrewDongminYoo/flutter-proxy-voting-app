@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import '../contact_us/contact_us.model.dart';
 import '../notification/notification.dart';
 import '../shared/custom_nav.dart';
-import '../utils/shared_prefs.dart';
+import '../utils/utils.dart';
 import 'auth.dart';
 
 class AuthController extends GetxController {
@@ -82,17 +82,16 @@ class AuthController extends GetxController {
   bool canVote() => isLogined;
 
   Future<void> getOtpCode(
-    dynamic user,
+    dynamic userLike,
   ) async {
     // Super User for apple QA
-    if (user.phoneNumber == '01086199325' && user.frontId == '940701') {
-      user = getUserInfo(user.phoneNumber);
+    if (userLike.phoneNumber == '01086199325' && userLike.frontId == '940701') {
+      user = await getUserInfo(userLike.phoneNumber);
       debugPrint('super user for apple QA');
       return;
     }
-
-    await _service.getOtpCode(user.username, user.frontId, user.backId,
-        user.telecom, user.phoneNumber);
+    await _service.getOtpCode(user.username, user.regist, user.sexCode,
+        user.telecomCode, user.phoneNumber);
   }
 
   Future<void> validateOtpCode(String telNum, String otpCode) async {
@@ -114,12 +113,12 @@ class AuthController extends GetxController {
           response.body['verified'] != true) {
         stopLoading();
         _user = null;
-        throw Exception('잘못된 인증번호입니다. 전화번호를 확인하세요.');
+        throw CustomException('잘못된 인증번호입니다. 전화번호를 확인하세요.');
       } else {
         user.ci = response.body['ci'] ?? '';
         user.di = response.body['di'] ?? '';
         if (user.ci.isEmpty || user.di.isEmpty) {
-          throw Exception('잘못된 개인고유부호입니다.');
+          throw CustomException('인증이 잘못되었습니다. 다시 인증해주시길 바랍니다.');
         }
         // Annoymous User's id is -1.
         if (user.id >= 0) {

@@ -35,9 +35,7 @@ class Campaign {
     required this.agendaList,
   });
 
-  String getStatus() {
-    return datetime.isAfter(DateTime.now()) ? '더보기' : '종료';
-  }
+  String get status => datetime.isAfter(DateTime.now()) ? '더보기' : '종료';
 }
 
 class ActionMenu {

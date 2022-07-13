@@ -121,7 +121,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   const SizedBox(height: 86),
                   campaignAgendaList(voteCtrl.campaign),
                   const SizedBox(height: 24),
-                  voteCtrl.campaign.getStatus() == '더보기'
+                  voteCtrl.campaign.status == '더보기'
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),

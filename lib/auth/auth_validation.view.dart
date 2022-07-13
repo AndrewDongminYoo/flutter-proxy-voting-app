@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import '../theme.dart';
+import '../utils/exceptions.dart';
 import 'auth.controller.dart';
 
 class ValidatePage extends StatefulWidget {
@@ -45,12 +46,11 @@ class _ValidatePageState extends State<ValidatePage> {
     super.dispose();
   }
 
-  alertGoBack() {
-    title = '인증에 실패하였습니다. 다시 전화번호를 확인해 주세요.';
+  alertGoBack(String exception) {
     Get.bottomSheet(
-      confirmBody(title, '뒤로가기', () => backToSignUp()),
+      confirmBody(exception, '뒤로가기', () => backToSignUp()),
       backgroundColor: Colors.white,
-      elevation: 0,
+      elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -73,8 +73,8 @@ class _ValidatePageState extends State<ValidatePage> {
       await authCtrl.validateOtpCode(authCtrl.user.phoneNumber, otpCode);
     } catch (e) {
       debugPrint(e.toString());
-      if (e is Exception) {
-        alertGoBack();
+      if (e is CustomException) {
+        alertGoBack(e.message);
       }
     }
     onPressed();
@@ -90,7 +90,7 @@ class _ValidatePageState extends State<ValidatePage> {
       final seconds = remainingOtpTime.inSeconds - 1;
       if (seconds < 0) {
         timer!.cancel();
-        alertGoBack();
+        alertGoBack('시간이 초과되었습니다. 전화번호를 다시 입력해주세요.');
       } else {
         remainingOtpTime = Duration(seconds: seconds);
       }

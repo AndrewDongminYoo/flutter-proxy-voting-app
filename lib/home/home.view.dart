@@ -247,7 +247,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: CustomButton(
-              label: curCampaign.getStatus(),
+              label: curCampaign.status,
               onPressed: () => onPress(curCampaign),
               bgColor: ColorType.white,
               textColor: ColorType.deepPurple,
