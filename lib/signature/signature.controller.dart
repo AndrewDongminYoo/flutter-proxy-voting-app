@@ -10,11 +10,11 @@ class CustomSignController extends GetxController {
       ? Get.find<CustomSignController>()
       : Get.put(CustomSignController());
 
-  FirebaseStorage storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<String> uploadSignature(
       String company, String filename, Uint8List data, String category) async {
-    Reference agendaStorage = storage.ref().child(category).child(company);
+    Reference agendaStorage = _storage.ref().child(category).child(company);
     Reference storageReference = agendaStorage.child(filename);
     await storageReference.putData(
         data, SettableMetadata(contentType: 'image/jpg'));

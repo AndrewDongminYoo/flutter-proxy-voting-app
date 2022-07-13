@@ -61,7 +61,7 @@ class _ValidatePageState extends State<ValidatePage> {
     setState(() {
       timer!.cancel();
     });
-    if (authCtrl.canVote()) {
+    if (authCtrl.canVote) {
       jumpToCampaign();
     }
   }

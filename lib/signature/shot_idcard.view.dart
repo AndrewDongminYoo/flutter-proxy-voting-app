@@ -36,7 +36,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {
-    if (authCtrl.isLogined) {
+    if (authCtrl.canVote) {
       username = authCtrl.user.username;
     }
     await showDialog<ImageSource>(

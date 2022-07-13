@@ -25,7 +25,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
 
   @override
   void initState() {
-    if (authCtrl.isLogined) {
+    if (authCtrl.canVote) {
       frontId = authCtrl.user.frontId;
       backId = authCtrl.user.backId;
     }

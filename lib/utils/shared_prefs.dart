@@ -1,12 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+Future<SharedPreferences> getPrefs() async {
+  return await SharedPreferences.getInstance();
+}
+
 clearPref() async {
   final prefs = await getPrefs();
   await prefs.clear();
-}
-
-Future<SharedPreferences> getPrefs() async {
-  return await SharedPreferences.getInstance();
 }
 
 getIfFirstTime() async {

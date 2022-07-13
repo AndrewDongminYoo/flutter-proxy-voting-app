@@ -50,40 +50,38 @@ class _CampaignPageState extends State<CampaignPage> {
         const SizedBox(height: 16),
         Column(
             children: campaign.agendaList.map((item) {
-          return
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5 ),
-                child: CustomCard(
-                  content: ListTile(
-                    title: CustomText(
-                        text: item.section,
-                        typoType: TypoType.body,
-                        textAlign: TextAlign.left),
-                    subtitle: CustomText(
-                        text: item.head,
-                        typoType: TypoType.bodyLight,
-                        textAlign: TextAlign.left,
-                        colorType: ColorType.black),
-                    trailing: TextButton(
-                        onPressed: () async {
-                          if (mounted) {
-                            setState(() {
-                              isLoading = !isLoading;
-                            });
-                          }
-                        },
-                        child: CustomText(text: item.agendaFrom)),
-                  ),
-                  cardPadding:0
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: CustomCard(
+                content: ListTile(
+                  title: CustomText(
+                      text: item.section,
+                      typoType: TypoType.body,
+                      textAlign: TextAlign.left),
+                  subtitle: CustomText(
+                      text: item.head,
+                      typoType: TypoType.bodyLight,
+                      textAlign: TextAlign.left,
+                      colorType: ColorType.black),
+                  trailing: TextButton(
+                      onPressed: () async {
+                        if (mounted) {
+                          setState(() {
+                            isLoading = !isLoading;
+                          });
+                        }
+                      },
+                      child: CustomText(text: item.agendaFrom)),
                 ),
-              );
+                cardPadding: 0),
+          );
         }).toList())
       ],
     );
   }
 
   _buildConfirmButton() {
-    if (authCtrl.canVote()) {
+    if (authCtrl.canVote) {
       return AnimatedButton(
           label: voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
           width: CustomW.w4,
@@ -91,7 +89,7 @@ class _CampaignPageState extends State<CampaignPage> {
             debugPrint('[campaign] Hello, ${authCtrl.user.username}!');
             voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
           });
-    } else if (!authCtrl.isLogined) {
+    } else if (!authCtrl.canVote) {
       return CustomConfirmWithButton(
           buttonLabel: '전자위임 하러가기',
           message: '서비스 이용을 위해\n본인인증이 필요해요.',

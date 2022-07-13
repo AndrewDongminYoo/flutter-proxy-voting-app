@@ -1,5 +1,5 @@
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
 import 'package:get/get.dart';
@@ -19,8 +19,10 @@ class AuthController extends GetxController {
 
   User? _user;
   List<Chat> chats = [];
-  bool isLogined = false;
+  bool _isLogined = false;
   final AuthService _service = AuthService();
+
+  bool get canVote => _isLogined;
 
   // FIXME: user의 id값이 -1로 덮어 쓰이는 현상이 있음
   User get user {
@@ -71,19 +73,15 @@ class AuthController extends GetxController {
     Response response = await _service.createUser(user.username, user.frontId,
         user.backId, user.telecom, user.phoneNumber, user.ci, user.di);
     debugPrint(response.bodyString);
-    isLogined = true;
+    _isLogined = true;
     return response;
   }
 
   // 로그인
   // 사용자 데이터는 이미 초기화시 진행되었고, 인증번호까지 진행하여 로그인 여부 확정
-  void signIn() async => isLogined = true;
+  void signIn() async => _isLogined = true;
 
-  bool canVote() => isLogined;
-
-  Future<void> getOtpCode(
-    dynamic userLike,
-  ) async {
+  Future<void> getOtpCode(dynamic userLike) async {
     // Super User for apple QA
     if (userLike.phoneNumber == '01086199325' && userLike.frontId == '940701') {
       user = await getUserInfo(userLike.phoneNumber);
@@ -105,8 +103,7 @@ class AuthController extends GetxController {
     }
 
     await _service.putPassCode(telNum, otpCode);
-    const duration = Duration(seconds: 3);
-    await Future.delayed(duration, () async {
+    await Future.delayed(const Duration(seconds: 3), () async {
       var response = await _service.getResult(telNum);
       debugPrint(response.bodyString);
       var exc = 'ValidationException';
@@ -137,7 +134,7 @@ class AuthController extends GetxController {
   void setAddress(String newAddress) {
     // Update in server
     user.address = newAddress;
-    _service.putAddress(user.id, newAddress);
+    if (user.id >= 0) _service.putAddress(user.id, newAddress);
   }
 
   void contactUs(String message) {
