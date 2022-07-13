@@ -25,36 +25,36 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage>
     with SingleTickerProviderStateMixin {
-  TabController? tabController;
-  late List<Guide> guideList;
-  List<Widget> tabs = [];
+  TabController? _tabController;
+  late List<Guide> _guideList;
+  List<Widget> _tabs = [];
   int _curIndex = 0;
 
-  void onTap() async {
+  void _onTap() async {
     setIamFirstTime();
     jumpToHome();
   }
 
-  void updateIndex() {
+  void _updateIndex() {
     setState(() {
-      _curIndex = tabController!.index;
+      _curIndex = _tabController!.index;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    guideList = mockGuideList;
-    tabs = guideList.map((item) => GuideItem(guide: item)).toList();
-    tabController = TabController(length: guideList.length, vsync: this);
-    tabController!.addListener(updateIndex);
+    _guideList = mockGuideList;
+    _tabs = _guideList.map((item) => GuideItem(guide: item)).toList();
+    _tabController = TabController(length: _guideList.length, vsync: this);
+    _tabController!.addListener(_updateIndex);
     // analytics.logTutorialBegin();
   }
 
   @override
   void dispose() {
-    tabController!.removeListener(updateIndex);
-    tabController!.dispose();
+    _tabController!.removeListener(_updateIndex);
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -63,27 +63,27 @@ class _OnboardingPageState extends State<OnboardingPage>
     return Container(
       color: customColor[ColorType.deepPurple],
       child: DefaultTabController(
-          length: guideList.length,
+          length: _guideList.length,
           child: Stack(
             children: [
               Align(
                 alignment: Alignment.bottomCenter,
                 child: TabBarView(
-                    controller: tabController,
+                    controller: _tabController,
                     physics: const ScrollPhysics(),
-                    children: tabs),
+                    children: _tabs),
               ),
-              Align(alignment: Alignment.topRight, child: nextIcon(_curIndex)),
+              Align(alignment: Alignment.topRight, child: _nextIcon(_curIndex)),
             ],
           )),
     );
   }
 
-  Widget nextIcon(int index) {
+  Widget _nextIcon(int index) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 40, 20, 0),
       child: TextButton(
-        onPressed: onTap,
+        onPressed: _onTap,
         style: TextButton.styleFrom(
           textStyle: const TextStyle(
             fontSize: 16,

@@ -24,12 +24,12 @@ class VoteController extends GetxController {
   // Vote 진행 전 사용 변수
   bool isCompleted = false;
   Campaign campaign = campaigns[1]; // TLI 지정
-  Set<String> completedCampaign = {};
-  List<Shareholder> completedShareholder = [];
+  Set<String> _completedCampaign = {};
+  final List<Shareholder> _completedShareholder = [];
 
   // Vote 진행 중 사용 변수
   final VoteService _service = VoteService();
-  final shareholders = <Shareholder>[];
+  final _shareholders = <Shareholder>[];
   Shareholder? _shareholder;
   VoteAgenda? _voteAgenda;
 
@@ -45,7 +45,7 @@ class VoteController extends GetxController {
     if (_shareholder != null) {
       return _shareholder!;
     }
-    return Shareholder(-1, 'annonymous', 'address', 0);
+    return Shareholder(-1, 'annonymous', 'address', 0, 'tli');
   }
 
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
@@ -54,12 +54,12 @@ class VoteController extends GetxController {
     final campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
       debugPrint('[VoteController] SharedPreferences exist');
-      completedCampaign = {...campaignList};
-      for (var campaign in completedCampaign) {
+      _completedCampaign = {...campaignList};
+      for (var campaign in _completedCampaign) {
         final shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
-          completedShareholder
+          _completedShareholder
               .add(Shareholder.fromJson(response.body['shareholder']));
         }
       }
@@ -68,7 +68,7 @@ class VoteController extends GetxController {
 
   void setCampaign(Campaign newCampaign) {
     campaign = newCampaign;
-    isCompleted = completedCampaign.contains(newCampaign.enName);
+    isCompleted = _completedCampaign.contains(newCampaign.enName);
     update();
   }
 
@@ -80,7 +80,7 @@ class VoteController extends GetxController {
   //     case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
   void toVote(int uid, String name) async {
     Response response;
-    startLoading();
+    _startLoading();
 
     try {
       response = await _service.queryAgenda(uid, campaign.enName);
@@ -88,7 +88,7 @@ class VoteController extends GetxController {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
         debugPrint('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
-        _shareholder = completedShareholder
+        _shareholder = _completedShareholder
             .firstWhere((sh) => sh.company == campaign.enName);
         await jumpToResult();
         return;
@@ -100,20 +100,20 @@ class VoteController extends GetxController {
     try {
       // case B: 신규 사용자 - 주주명부 확인
       response = await _service.findSharesByName('tli', name);
-      shareholders.clear(); // 기존 데이터 초기화
+      _shareholders.clear(); // 기존 데이터 초기화
       (response.body['shareholders'])
-          .forEach((e) => shareholders.add(Shareholder.fromJson(e)));
+          .forEach((e) => _shareholders.add(Shareholder.fromJson(e)));
     } catch (e) {
       debugPrint('[VoteController] findSharesByName error: $e');
     }
 
-    stopLoading();
-    if (shareholders.length > 1) {
+    _stopLoading();
+    if (_shareholders.length > 1) {
       // case B-1: 주주가 여려명인 경우, 동명이인이 있는 상황. 주소 확인페이지로 이동
       goToDuplicate();
-    } else if (shareholders.length == 1) {
+    } else if (_shareholders.length == 1) {
       // case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
-      _shareholder = shareholders[0];
+      _shareholder = _shareholders[0];
       await setShareholderId(campaign.enName, shareholder.id);
       goToCheckVoteNum();
     } else {
@@ -123,10 +123,11 @@ class VoteController extends GetxController {
   }
 
   // ===  page: 주소 확인페이지 ===
-  List<String> addressList() => shareholders.map((sh) => sh.address).toList();
+  List<String> get addressList =>
+      _shareholders.map((sh) => sh.address).toList();
 
-  void selectShareholder(int index) async {
-    _shareholder = shareholders[index];
+  selectShareholder(int index) async {
+    _shareholder = _shareholders[index];
     await setShareholderId(campaign.enName, shareholder.id);
     await _service.validateShareholder(index); // 주주를 선택했다고 서버에 기록
   }
@@ -159,24 +160,11 @@ class VoteController extends GetxController {
     _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
 
     // 현재 캠페인을 완료 목록에 저장
-    completedCampaign.add(campaign.enName);
-    final prefs = await getPrefs();
-    prefs.setStringList('completedCampaign', completedCampaign.toList());
-    debugPrint('completedCampaign, $completedCampaign');
+    _completedCampaign.add(campaign.enName);
+    await setCompletedCampaignList(_completedCampaign.toList());
+    debugPrint('completedCampaign, $_completedCampaign');
     if (kDebugMode) {
       debugPrint("[VoteController] voteAgenda: ${response.body['agenda']}");
-    }
-  }
-
-  Future<VoteAgenda?> getVoteResult(int uid, String company) async {
-    Response response = await _service.queryAgenda(uid, company);
-    if (response.body['isExist']) {
-      debugPrint('[VoteController] ${response.body}');
-      _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
-      return _voteAgenda;
-    } else {
-      debugPrint("[VoteController] agenda doesn't exists.");
-      return null;
     }
   }
 
@@ -195,11 +183,11 @@ class VoteController extends GetxController {
   }
 
   // === Common ===
-  void startLoading() {
+  void _startLoading() {
     Get.dialog(LoadingScreen());
   }
 
-  void stopLoading() {
+  void _stopLoading() {
     if (Get.isDialogOpen == true) {
       goBack();
     }

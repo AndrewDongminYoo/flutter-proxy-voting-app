@@ -82,11 +82,12 @@ class NotificiationBtn extends StatefulWidget {
 }
 
 class _NotificiationBtnState extends State<NotificiationBtn> {
-  NotificationController notificaitionCtrl = NotificationController.get();
-  onPressIconBtn() {
+  final NotificationController _notificaitionCtrl =
+      NotificationController.get();
+  _onPressIconBtn() {
     goToNotificationPage();
-    if (notificaitionCtrl.encodedPushAlrams.isNotEmpty) {
-      notificaitionCtrl.getNotificationsLocal();
+    if (_notificaitionCtrl.encodedPushAlrams.isNotEmpty) {
+      _notificaitionCtrl.getNotificationsLocal();
     }
   }
 
@@ -95,7 +96,7 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
     return IconButton(
       icon: const Icon(Icons.notifications_rounded),
       color: customColor[ColorType.white],
-      onPressed: onPressIconBtn,
+      onPressed: _onPressIconBtn,
     );
   }
 }

@@ -19,24 +19,24 @@ class NotShareholderPage extends StatefulWidget {
 }
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
-  final contact = 'sjcho0070@naver.com';
-  final tele = '010-8697-1669';
+  final _contact = 'sjcho0070@naver.com';
+  final _tele = '010-8697-1669';
 
-  VoteController voteCtrl = VoteController.get();
+  final VoteController _voteCtrl = VoteController.get();
 
-  onPressedMail() async {
+  _onPressedMail() async {
     var body = """
 '주주명부에 등록되어 있지 않습니다.'라는 메세지가 나타납니다.
-성함: ${voteCtrl.shareholder.username}
-회사: ${voteCtrl.voteAgenda.company}
+성함: ${_voteCtrl.shareholder.username}
+회사: ${_voteCtrl.voteAgenda.company}
 
-받는사람: $tele 조상준 $contact
-기한: ~${voteCtrl.campaign.date} 까지
+받는사람: $_tele 조상준 $_contact
+기한: ~${_voteCtrl.campaign.date} 까지
 >> Bside Co.ltd.
 """;
     try {
       final mailTo = Mailto(
-        to: [contact],
+        to: [_contact],
         cc: [
           'aaron.so@bside.ai',
           'andrew@bside.ai',
@@ -46,18 +46,17 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
       );
       await launchUrlString('$mailTo');
     } catch (e) {
-      await Clipboard.setData(ClipboardData(text: contact));
+      await Clipboard.setData(ClipboardData(text: _contact));
     }
   }
 
-  onCall() {
-    launchUrlString('tel:$tele');
+  _onCall() {
+    launchUrlString('tel:$_tele');
   }
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = voteCtrl.campaign;
-
+    Campaign campaign = _voteCtrl.campaign;
     return Scaffold(
         appBar: CustomAppBar(text: '캠페인'),
         body: SizedBox(
@@ -69,16 +68,16 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
                 child: Column(
                   children: [
                     InkWell(
-                        onTap: onPressedMail,
+                        onTap: _onPressedMail,
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             margin: const EdgeInsets.symmetric(vertical: 10),
                             child: CustomText(
-                                typoType: TypoType.h1, text: '📧 $contact'))),
+                                typoType: TypoType.h1, text: '📧 $_contact'))),
                     InkWell(
-                        onTap: onCall,
+                        onTap: _onCall,
                         child: CustomText(
-                            typoType: TypoType.h1, text: '📞 $tele')),
+                            typoType: TypoType.h1, text: '📞 $_tele')),
                     const SizedBox(
                       height: 50,
                     ),

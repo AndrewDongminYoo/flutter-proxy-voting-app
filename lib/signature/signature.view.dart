@@ -1,6 +1,3 @@
-// 🎯 Dart imports:
-import 'dart:async' show Timer;
-
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -24,14 +21,13 @@ class SignaturePage extends StatefulWidget {
 
 class _SignaturePageState extends State<SignaturePage> {
   final _signer = CustomSignController.get();
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
 
-  Timer? timer;
   bool _showLottie = true;
-  late String username = '';
-  DateTime? signatureAt;
-  String informationString = '';
+  late String _username = '';
+  DateTime? _signatureAt;
+  String _informationString = '';
 
   void _hideLottie() {
     if (mounted) {
@@ -43,12 +39,9 @@ class _SignaturePageState extends State<SignaturePage> {
 
   @override
   void initState() {
-    username = authCtrl.user.username;
-    signatureAt = voteCtrl.voteAgenda.signatureAt;
+    _username = _authCtrl.user.username;
+    _signatureAt = _voteCtrl.voteAgenda.signatureAt;
 
-    timer = Timer(const Duration(seconds: 2), () {
-      _hideLottie();
-    });
     super.initState();
   }
 
@@ -58,17 +51,17 @@ class _SignaturePageState extends State<SignaturePage> {
     exportBackgroundColor: Colors.transparent,
   );
 
-  void onSubmit() async {
+  void _onSubmit() async {
     if (_signCtrl.isNotEmpty) {
       final signature = await _signCtrl.toPngBytes();
       final url = await _signer.uploadSignature(
-        voteCtrl.campaign.enName,
-        '$username-${DateTime.now()}.png',
+        _voteCtrl.campaign.enName,
+        '$_username-${DateTime.now()}.png',
         signature!,
         'signature',
       );
-      voteCtrl.putSignatureUrl(url);
-    } else if (voteCtrl.voteAgenda.idCardAt != null) {
+      _voteCtrl.putSignatureUrl(url);
+    } else if (_voteCtrl.voteAgenda.idCardAt != null) {
       await jumpToResult();
     }
     goToIDCard();
@@ -78,9 +71,9 @@ class _SignaturePageState extends State<SignaturePage> {
   Widget build(BuildContext context) {
     const titleString = '전자위임';
     const helpText = '전자 서명을 등록해주세요.';
-    debugPrint('signatureAt: $signatureAt');
-    informationString = signatureAt != null
-        ? '${timeago.format(signatureAt!, locale: 'ko')}에 이미 서명하셨습니다. 다시 서명하려면 가운데를 클릭하세요.'
+    debugPrint('signatureAt: $_signatureAt');
+    _informationString = _signatureAt != null
+        ? '${timeago.format(_signatureAt!, locale: 'ko')}에 이미 서명하셨습니다. 다시 서명하려면 가운데를 클릭하세요.'
         : '''
 전자서명을 저장하고 다음에 간편하게 불러올 수 있어요.
 모든 개인정보는 안전하게 보관되며 지정된 용도 이외에 절대 사용되지 않습니다.''';
@@ -133,14 +126,14 @@ class _SignaturePageState extends State<SignaturePage> {
         const SizedBox(height: 30),
         CustomButton(
           label: '등록',
-          onPressed: onSubmit,
+          onPressed: _onSubmit,
         ),
       ],
     );
     return AppBodyPage(
       titleString: titleString,
       helpText: helpText,
-      informationString: informationString,
+      informationString: _informationString,
       mainContent: mainContent,
       subContentList: subContentList,
     );

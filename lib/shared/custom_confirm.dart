@@ -57,7 +57,7 @@ class CustomConfirmWithButton extends StatelessWidget {
     required this.onConfirm,
   }) : super(key: key);
 
-  onPress() {
+  _onPress() {
     customWindowConfirm(message, okLabel, onConfirm);
   }
 
@@ -67,7 +67,7 @@ class CustomConfirmWithButton extends StatelessWidget {
         label: buttonLabel,
         width: CustomW.w4,
         bgColor: ColorType.deepPurple,
-        onPressed: onPress);
+        onPressed: _onPress);
   }
 }
 

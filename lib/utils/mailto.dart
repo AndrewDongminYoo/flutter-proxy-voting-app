@@ -14,44 +14,44 @@ class Mailto {
     String? subject,
     String? body,
   }) {
-    bool isEmptyString(String e) => e.isEmpty;
-    bool containsLineBreak(String e) => e.contains('\n');
-    if (to?.any(isEmptyString) == true) {
+    bool _isEmptyString(String e) => e.isEmpty;
+    bool _containsLineBreak(String e) => e.contains('\n');
+    if (to?.any(_isEmptyString) == true) {
       throw ArgumentError.value(
         to,
         'to',
         'elements in "to" list must not be empty',
       );
     }
-    if (to?.any(containsLineBreak) == true) {
+    if (to?.any(_containsLineBreak) == true) {
       throw ArgumentError.value(
         to,
         'to',
         'elements in "to" list must not contain line breaks',
       );
     }
-    if (cc?.any(isEmptyString) == true) {
+    if (cc?.any(_isEmptyString) == true) {
       throw ArgumentError.value(
         cc,
         'cc',
         'elements in "cc" list must not be empty. ',
       );
     }
-    if (cc?.any(containsLineBreak) == true) {
+    if (cc?.any(_containsLineBreak) == true) {
       throw ArgumentError.value(
         cc,
         'cc',
         'elements in "cc" list must not contain line breaks',
       );
     }
-    if (bcc?.any(isEmptyString) == true) {
+    if (bcc?.any(_isEmptyString) == true) {
       throw ArgumentError.value(
         bcc,
         'bcc',
         'elements in "bcc" list must not be empty. ',
       );
     }
-    if (bcc?.any(containsLineBreak) == true) {
+    if (bcc?.any(_containsLineBreak) == true) {
       throw ArgumentError.value(
         bcc,
         'bcc',

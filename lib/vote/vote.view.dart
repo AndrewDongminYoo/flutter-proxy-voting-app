@@ -21,14 +21,14 @@ class VoteAgendaPage extends StatefulWidget {
 }
 
 class _VoteAgendaPageState extends State<VoteAgendaPage> {
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
 
-  var marker = <String, int>{
+  var _marker = <String, int>{
     'cur': 0,
     'latest': 0,
   };
-  Map<int, VoteType> voteResult = {
+  Map<int, VoteType> _voteResult = {
     0: VoteType.none,
     1: VoteType.none,
     2: VoteType.none,
@@ -38,72 +38,72 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
   @override
   initState() {
     if (Get.arguments == 'voteWithLastMemory') {
-      voteResult = voteWithMemory();
+      _voteResult = _voteWithMemory();
     } else if (Get.arguments == 'voteWithExample') {
-      voteResult = voteWithExample();
+      _voteResult = _voteWithExample();
     } else {
       debugPrint('voteWithoutDefault');
     }
     super.initState();
   }
 
-  voteWithExample() {
+  _voteWithExample() {
     debugPrint('voteWithExample');
     setState(() {
-      voteResult[0] = VoteType.disagree;
-      voteResult[1] = VoteType.agree;
-      voteResult[2] = VoteType.agree;
-      voteResult[3] = VoteType.disagree;
-      marker = {
+      _voteResult[0] = VoteType.disagree;
+      _voteResult[1] = VoteType.agree;
+      _voteResult[2] = VoteType.agree;
+      _voteResult[3] = VoteType.disagree;
+      _marker = {
         'cur': 4,
         'latest': 4,
       };
     });
-    debugPrint(voteResult.values.toString());
-    return voteResult;
+    debugPrint(_voteResult.values.toString());
+    return _voteResult;
   }
 
-  voteWithMemory() {
+  _voteWithMemory() {
     debugPrint('voteWithLastMemory');
     setState(() {
-      VoteAgenda agenda = voteCtrl.voteAgenda;
-      voteResult[0] = agenda.agenda1.vote;
-      voteResult[1] = agenda.agenda2.vote;
-      voteResult[2] = agenda.agenda3.vote;
-      voteResult[3] = agenda.agenda4.vote;
-      marker = {
+      VoteAgenda agenda = _voteCtrl.voteAgenda;
+      _voteResult[0] = agenda.agenda1.vote;
+      _voteResult[1] = agenda.agenda2.vote;
+      _voteResult[2] = agenda.agenda3.vote;
+      _voteResult[3] = agenda.agenda4.vote;
+      _marker = {
         'cur': 4,
         'latest': 4,
       };
     });
-    debugPrint(voteResult.values.toString());
-    return voteResult;
+    debugPrint(_voteResult.values.toString());
+    return _voteResult;
   }
 
-  onNext() {
-    voteCtrl.postVoteResult(authCtrl.user.id, voteResult.values.toList());
-    if (voteCtrl.voteAgenda.signatureAt == null) {
+  _onNext() {
+    _voteCtrl.postVoteResult(_authCtrl.user.id, _voteResult.values.toList());
+    if (_voteCtrl.voteAgenda.signatureAt == null) {
       goToSignature();
-    } else if (voteCtrl.voteAgenda.idCardAt == null) {
+    } else if (_voteCtrl.voteAgenda.idCardAt == null) {
       goToIDCard(); //
     } else {
       jumpToResult();
     }
   }
 
-  onVote(int index, VoteType result) {
+  _onVote(int index, VoteType result) {
     setState(() {
-      voteResult[index] = result;
-      marker = {
+      _voteResult[index] = result;
+      _marker = {
         'cur': index + 1,
-        'latest': max(marker['latest']!, index + 1),
+        'latest': max(_marker['latest']!, index + 1),
       };
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final agendaList = voteCtrl.campaign.agendaList;
+    final agendaList = _voteCtrl.campaign.agendaList;
     final agendaLength = agendaList.length;
 
     return Scaffold(
@@ -116,7 +116,7 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
             children: agendaList.asMap().entries.map(
               (item) {
                 // Do not show the next item
-                if (item.key > marker['latest']!) {
+                if (item.key > _marker['latest']!) {
                   return Container();
                 } else if (item.key == agendaLength - 1) {
                   return Column(
@@ -124,17 +124,17 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
                       VoteSelector(
                         agendaItem: item.value,
                         index: item.key,
-                        onVote: onVote,
-                        initialValue: voteResult[item.key]!,
+                        onVote: _onVote,
+                        initialValue: _voteResult[item.key]!,
                       ),
-                      marker['latest']! < agendaLength
+                      _marker['latest']! < agendaLength
                           ? Container()
                           : Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(0, 20.0, 0, 100.0),
                               child: CustomButton(
                                 label: '위임확인',
-                                onPressed: onNext,
+                                onPressed: _onNext,
                                 width: CustomW.w4,
                               ),
                             ),
@@ -144,8 +144,8 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
                 return VoteSelector(
                   agendaItem: item.value,
                   index: item.key,
-                  onVote: onVote,
-                  initialValue: voteResult[item.key]!,
+                  onVote: _onVote,
+                  initialValue: _voteResult[item.key]!,
                 );
               },
             ).toList(),

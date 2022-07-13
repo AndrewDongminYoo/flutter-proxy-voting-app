@@ -25,52 +25,32 @@ class CustomFloatingButton extends StatefulWidget {
 }
 
 class _CustomFloatingButtonState extends State<CustomFloatingButton> {
-  bool hasNew = false;
-  bool isOpend = false;
-  AuthController authCtrl = AuthController.get();
+  bool _isOpend = false;
+  final AuthController _authCtrl = AuthController.get();
 
   @override
   void initState() {
     super.initState();
-    authCtrl.getChat();
+    _authCtrl.getChat();
     // TODO: 메세지를 확인하여 hasNew 갱신 여부 결정
   }
 
-  onPressed() async {
+  _onPressed() async {
     setState(() {
-      hasNew = false;
-      isOpend = true;
+      _isOpend = true;
     });
     await Get.dialog(const ChatScreen());
     setState(() {
-      isOpend = false;
+      _isOpend = false;
     });
-  }
-
-  onPressFloatingBtn() async {
-    await authCtrl.getChat();
-    showModalBottomSheet(
-      isScrollControlled: true,
-      builder: (context) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: const ContactUsPage(),
-      ),
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          // <-- SEE HERE
-          topLeft: Radius.circular(25.0),
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: onPressed,
+      onPressed: _onPressed,
       backgroundColor: customColor[ColorType.yellow],
-      child: isOpend
+      child: _isOpend
           ? const Icon(Icons.close_outlined)
           : const Icon(Icons.chat_rounded),
     );
@@ -87,7 +67,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _controller = ScrollController();
-  AuthController authCtrl = AuthController.get();
+  final AuthController _authCtrl = AuthController.get();
 
   Widget _buildBsideChat(Chat chat) {
     return Container(
@@ -182,10 +162,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: ListView.builder(
                       shrinkWrap: true,
                       controller: _controller,
-                      itemCount: authCtrl.chats.length,
+                      itemCount: _authCtrl.chats.length,
                       padding: const EdgeInsets.only(bottom: 100),
                       itemBuilder: (BuildContext context, int index) {
-                        return _buildChat(authCtrl.chats[index], index);
+                        return _buildChat(_authCtrl.chats[index], index);
                       }),
                 ),
                 TextFormField(
@@ -210,17 +190,16 @@ class CustomCard extends Container {
     this.bgColor = ColorType.white,
     this.cardPadding = 16,
     this.cardBoardRadius = 20,
-
     required this.content,
   }) : super(
           key: key,
           padding: EdgeInsets.all(cardPadding),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(cardBoardRadius),
-            border: Border.all(width: 2, color: customColor[ColorType.deepPurple]!),
+            border:
+                Border.all(width: 2, color: customColor[ColorType.deepPurple]!),
             color: customColor[bgColor],
           ),
           child: content,
-          
         );
 }

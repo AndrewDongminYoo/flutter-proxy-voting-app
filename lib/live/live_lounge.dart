@@ -27,36 +27,36 @@ class _LiveLoungePageState extends State<LiveLoungePage>
   int notiVer = -1;
   String name = '';
 
-  showCommentSheet() {
+  _showCommentSheet() {
     Get.bottomSheet(CommentsSheet(name: name));
   }
 
   @override
   void initState() {
     super.initState();
-    addCount();
+    _addCount();
     setNickname();
   }
 
   @override
   void dispose() {
     super.dispose();
-    subtractCount();
+    _subtractCount();
   }
 
-  addCount() async {
+  _addCount() async {
     final ref = liveRef.doc('sm');
     var snapshot = await ref.get();
     ref.update({'liveUserCount': snapshot['liveUserCount'] + 1});
   }
 
-  subtractCount() async {
+  _subtractCount() async {
     final ref = liveRef.doc('sm');
     var snapshot = await ref.get();
     ref.update({'liveUserCount': min(snapshot['liveUserCount'] - 1, 0)});
   }
 
-  sendAlert(String title, String message) {
+  _sendAlert(String title, String message) {
     Get.snackbar(
       title,
       message,
@@ -94,7 +94,7 @@ class _LiveLoungePageState extends State<LiveLoungePage>
         EasyDebounce.debounce(
             'sendAlert',
             const Duration(milliseconds: 200),
-            () => sendAlert(snapshot['notification']['title'],
+            () => _sendAlert(snapshot['notification']['title'],
                 snapshot['notification']['message']));
       }
     });
@@ -127,7 +127,7 @@ class _LiveLoungePageState extends State<LiveLoungePage>
         const SizedBox(height: 100),
       ]),
       floatingButton: FloatingActionButton(
-        onPressed: showCommentSheet,
+        onPressed: _showCommentSheet,
         backgroundColor: customColor[ColorType.white],
         child: const Image(
             image: AssetImage('assets/images/chat-bubble.gif'),
@@ -159,11 +159,12 @@ class LiveUserCount extends StatefulWidget {
 }
 
 class _LiveUserCountState extends State<LiveUserCount> {
-  final Stream<DocumentSnapshot> documentStream = liveRef.doc('sm').snapshots();
+  final Stream<DocumentSnapshot> _documentStream =
+      liveRef.doc('sm').snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-        stream: documentStream,
+        stream: _documentStream,
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {

@@ -29,9 +29,9 @@ class AuthController extends GetxController {
     if (_user != null) {
       return _user!;
     }
-    printWarning('=========== WARNING =============');
-    printWarning('[AuthController] User is now annonymous');
-    printWarning('=========== WARNING =============');
+    debugPrint('============== WARNING ================');
+    debugPrint('[AuthController] User is now annonymous');
+    debugPrint('============== WARNING ================');
     return User('Annonymous', '000000', '0', 'SKT', '01012345678');
   }
 
@@ -49,7 +49,7 @@ class AuthController extends GetxController {
         debugPrint('[AuthController] delete useless SharedPreferences');
         await clearPref();
       } else {
-        signIn();
+        _signIn();
       }
     }
   }
@@ -69,7 +69,7 @@ class AuthController extends GetxController {
   }
 
   // 회원가입
-  Future<Response> signUp() async {
+  Future<Response> _signUp() async {
     Response response = await _service.createUser(user.username, user.frontId,
         user.backId, user.telecom, user.phoneNumber, user.ci, user.di);
     debugPrint(response.bodyString);
@@ -79,12 +79,13 @@ class AuthController extends GetxController {
 
   // 로그인
   // 사용자 데이터는 이미 초기화시 진행되었고, 인증번호까지 진행하여 로그인 여부 확정
-  void signIn() async => _isLogined = true;
+  void _signIn() async => _isLogined = true;
 
   Future<void> getOtpCode(dynamic userLike) async {
     // Super User for apple QA
-    if (userLike.phoneNumber == '01086199325' && userLike.frontId == '940701') {
-      user = await getUserInfo(userLike.phoneNumber);
+    if (userLike._phoneNumber == '01086199325' &&
+        userLike._frontId == '940701') {
+      user = await getUserInfo(userLike._phoneNumber);
       debugPrint('super user for apple QA');
       return;
     }
@@ -93,12 +94,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> validateOtpCode(String telNum, String otpCode) async {
-    startLoading();
+    _startLoading();
     // Super User for apple QA
     if (telNum == '01086199325' && otpCode == '210913') {
-      signIn();
-      putUuid();
-      stopLoading();
+      _signIn();
+      _putUuid();
+      _stopLoading();
       return;
     }
 
@@ -109,7 +110,7 @@ class AuthController extends GetxController {
       var exc = 'ValidationException';
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {
-        stopLoading();
+        _stopLoading();
         _user = null;
         throw CustomException('잘못된 인증번호입니다. 전화번호를 확인하세요.');
       } else {
@@ -120,13 +121,13 @@ class AuthController extends GetxController {
         }
         // Annoymous User's id is -1.
         if (user.id >= 0) {
-          signIn();
+          _signIn();
         } else {
-          signUp();
+          _signUp();
         }
-        putUuid();
+        _putUuid();
         await setTelephoneNumber(user.phoneNumber);
-        stopLoading();
+        _stopLoading();
       }
     });
   }
@@ -157,21 +158,17 @@ class AuthController extends GetxController {
     await _service.putBackId(user.id, backId);
   }
 
-  void putUuid() async {
+  void _putUuid() async {
     await _service.putUuid(60, _notificaitionCtrl.token);
   }
 
-  void startLoading() {
+  void _startLoading() {
     Get.dialog(LoadingScreen());
   }
 
-  void stopLoading() {
+  void _stopLoading() {
     if (Get.isDialogOpen == true) {
       goBack();
     }
-  }
-
-  void printWarning(String text) {
-    debugPrint('\x1B[33m$text\x1B[0m');
   }
 }

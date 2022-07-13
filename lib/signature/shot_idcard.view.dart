@@ -24,20 +24,19 @@ class UploadIdCardPage extends StatefulWidget {
 }
 
 class _UploadIdCardPageState extends State<UploadIdCardPage> {
-  Uint8List? idcardImage;
-  String username = '';
-  String informationString = '';
-  DateTime? idCardUploadAt;
-  final ImagePicker picker = ImagePicker();
+  Uint8List? _idcardImage;
+  String _username = '';
+  String _informationString = '';
+  final ImagePicker _picker = ImagePicker();
 
   CustomSignController controller = CustomSignController.get();
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
-  ImageSource source = ImageSource.camera;
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
+  ImageSource _source = ImageSource.camera;
 
-  void onPressed() async {
-    if (authCtrl.canVote) {
-      username = authCtrl.user.username;
+  void _onPressed() async {
+    if (_authCtrl.canVote) {
+      _username = _authCtrl.user.username;
     }
     await showDialog<ImageSource>(
       context: context,
@@ -56,10 +55,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
               onPressed: () {
                 if (mounted) {
                   setState(() {
-                    source = ImageSource.camera;
+                    _source = ImageSource.camera;
                   });
                 }
-                Navigator.pop(context, source);
+                Navigator.pop(context, _source);
               },
               child: CustomText(
                 text: '카메라 촬영',
@@ -70,10 +69,10 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
               onPressed: () {
                 if (mounted) {
                   setState(() {
-                    source = ImageSource.gallery;
+                    _source = ImageSource.gallery;
                   });
                 }
-                Navigator.pop(context, source);
+                Navigator.pop(context, _source);
               },
               child: CustomText(
                 text: '갤러리 선택',
@@ -85,31 +84,31 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       },
     );
 
-    final XFile? xfile = await picker.pickImage(
+    final XFile? xfile = await _picker.pickImage(
       maxWidth: 1900,
       maxHeight: 600,
-      source: source,
+      source: _source,
       preferredCameraDevice: CameraDevice.rear,
     );
     if (xfile != null) {
-      idcardImage = await File(xfile.path).readAsBytes();
-      if (idcardImage != null) {
+      _idcardImage = await File(xfile.path).readAsBytes();
+      if (_idcardImage != null) {
         final extension = xfile.name.split('.').last;
         final imgUrl = await controller.uploadSignature(
-          voteCtrl.campaign.enName,
-          '$username-${DateTime.now()}.$extension',
-          idcardImage!,
+          _voteCtrl.campaign.enName,
+          '$_username-${DateTime.now()}.$extension',
+          _idcardImage!,
           'idcard',
         );
-        voteCtrl.putIdCard(imgUrl);
+        _voteCtrl.putIdCard(imgUrl);
         setState(() {});
       }
     }
   }
 
-  Widget uploadImageButton() {
+  Widget _uploadImageButton() {
     return IconButton(
-      onPressed: onPressed,
+      onPressed: _onPressed,
       icon: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -132,8 +131,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   Widget build(BuildContext context) {
     const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';
-    informationString = voteCtrl.voteAgenda.idCardAt != null
-        ? '${timeago.format(voteCtrl.voteAgenda.idCardAt!, locale: 'ko')}에 이미 업로드하였습니다. 재 업로드하시려면 가운데를 클릭하세요.'
+    _informationString = _voteCtrl.voteAgenda.idCardAt != null
+        ? '${timeago.format(_voteCtrl.voteAgenda.idCardAt!, locale: 'ko')}에 이미 업로드하였습니다. 재 업로드하시려면 가운데를 클릭하세요.'
         : '''
 신분증 사본은 위임장 본인확인 증빙 자료로 활용됩니다. 
 촬영 시 주민등록번호의 뒷자리를 가려주세요. 
@@ -151,16 +150,16 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       child: SizedBox(
         width: Get.width,
         height: 300,
-        child: (idcardImage != null
+        child: (_idcardImage != null
             ? GestureDetector(
-                onLongPress: onPressed,
+                onLongPress: _onPressed,
                 child: Image.memory(
-                  idcardImage!,
+                  _idcardImage!,
                   fit: BoxFit.contain,
                   alignment: Alignment.center,
                 ),
               )
-            : uploadImageButton()),
+            : _uploadImageButton()),
       ),
     );
 
@@ -169,8 +168,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
         CustomButton(
           label: '등록',
           onPressed: () {
-            if (idcardImage != null) {
-              if (authCtrl.user.backId.length > 1) {
+            if (_idcardImage != null) {
+              if (_authCtrl.user.backId.length > 1) {
                 jumpToResult();
               }
               goToIDNumber();
@@ -182,7 +181,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     return AppBodyPage(
       titleString: titleString,
       helpText: helpText,
-      informationString: informationString,
+      informationString: _informationString,
       mainContent: mainContent,
       subContentList: subContentList,
     );

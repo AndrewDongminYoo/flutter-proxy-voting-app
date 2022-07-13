@@ -21,7 +21,7 @@ class NotificationController extends GetxController {
           ? Get.find<NotificationController>()
           : Get.put(NotificationController());
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   List<Notificaition> notifications = [];
   List<String> encodedPushAlrams = [];
   late String token;
@@ -30,17 +30,17 @@ class NotificationController extends GetxController {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
       if (Platform.isAndroid) {
-        await androidLocalNotification(message, notification);
+        await _androidLocalNotification(message, notification);
       }
       Notificaition data = Notificaition.fromFireMessage(message);
       encodedPushAlrams
-          .add(json.encode(data.toJson(), toEncodable: encodeDateTime));
+          .add(json.encode(data.toJson(), toEncodable: _encodeDateTime));
       setNotifications(encodedPushAlrams);
       update();
     });
   }
 
-  Future<void> androidLocalNotification(
+  Future<void> _androidLocalNotification(
       RemoteMessage message, RemoteNotification? notification) async {
     const channel = AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -75,8 +75,8 @@ class NotificationController extends GetxController {
     // ignore: avoid_function_literals_in_foreach_calls
     result.forEach((message) {
       if (!notifications
-          .contains(Notificaition.fromJson(decodeJson(message)))) {
-        notifications.add(Notificaition.fromJson(decodeJson(message)));
+          .contains(Notificaition.fromJson(_decodeJson(message)))) {
+        notifications.add(Notificaition.fromJson(_decodeJson(message)));
       }
     });
   }
@@ -87,7 +87,7 @@ class NotificationController extends GetxController {
     setNotifications(encodedPushAlrams);
   }
 
-  String encodeDateTime(dynamic item) {
+  String _encodeDateTime(dynamic item) {
     if (item is DateTime) {
       return item.toIso8601String();
     } else if (item is String) {
@@ -96,12 +96,12 @@ class NotificationController extends GetxController {
     throw ("It's not a valid date string.");
   }
 
-  Map<String, dynamic> decodeJson(String message) {
+  Map<String, dynamic> _decodeJson(String message) {
     return json.decode(message,
-        reviver: (key, value) => reviverDateTime(key, value));
+        reviver: (key, value) => _reviverDateTime(key, value));
   }
 
-  DateTime reviverDateTime(key, value) {
+  DateTime _reviverDateTime(key, value) {
     if (key == 'createdAt') {
       return DateTime.parse(value as String);
     }
@@ -113,8 +113,8 @@ class NotificationController extends GetxController {
   }
 
   Future<void> requestPermission() async {
-    await messaging.setAutoInitEnabled(true);
-    await messaging.requestPermission(
+    await _messaging.setAutoInitEnabled(true);
+    await _messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -124,7 +124,7 @@ class NotificationController extends GetxController {
       sound: true,
     );
 
-    await messaging.setForegroundNotificationPresentationOptions(
+    await _messaging.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
@@ -132,6 +132,6 @@ class NotificationController extends GetxController {
   }
 
   Future<void> getToken() async {
-    await messaging.getToken().then((value) => {token = value!});
+    await _messaging.getToken().then((value) => {token = value!});
   }
 }

@@ -144,8 +144,8 @@ class GraphBoxHeader extends Container {
                     width: 10,
                   ),
                   StatusBox(
-                      text: liveAgenda.getStatus(),
-                      boxColor: liveAgenda.getStatusColor())
+                      text: liveAgenda.statusString,
+                      boxColor: liveAgenda.statusColor)
                 ],
               ),
               const SizedBox(

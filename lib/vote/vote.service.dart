@@ -5,21 +5,21 @@ import 'dart:convert' show jsonEncode;
 import 'package:get/get.dart';
 
 class VoteService extends GetConnect {
-  String baseURL = 'https://api.bside.ai/onboarding';
+  final String _baseURL = 'https://api.bside.ai/onboarding';
 
-  String getURL(String url) => baseURL + url;
+  String _getURL(String url) => _baseURL + url;
 
   Future<Response> queryAgenda(int uid, String company) {
-    return get(getURL('/agenda?uid=$uid&company=$company'));
+    return get(_getURL('/agenda?uid=$uid&company=$company'));
   }
 
   Future<Response> findSharesByName(String company, String name) {
-    return get(getURL('/shareholders'),
+    return get(_getURL('/shareholders'),
         query: {'company': company, 'name': name});
   }
 
   Future<Response> validateShareholder(int id) {
-    return put(getURL('/shareholders/$id'), jsonEncode({}));
+    return put(_getURL('/shareholders/$id'), jsonEncode({}));
   }
 
   Future<Response> postResult(
@@ -32,7 +32,7 @@ class VoteService extends GetConnect {
     int agenda4,
   ) {
     return post(
-      getURL('/agenda/vote'),
+      _getURL('/agenda/vote'),
       jsonEncode(
         {
           'uid': uid,
@@ -57,18 +57,18 @@ class VoteService extends GetConnect {
   }
 
   Future<Response> postSignature(int agendaId, String signature) {
-    return put(getURL('/agenda/signature'),
+    return put(_getURL('/agenda/signature'),
         jsonEncode({'agendaId': agendaId, 'signature': signature}));
   }
 
   Future<Response> postIdCard(int agendaId, String idCard) {
-    return put(getURL('/agenda/idcard'),
+    return put(_getURL('/agenda/idcard'),
         jsonEncode({'agendaId': agendaId, 'idCard': idCard}));
   }
 
   Future<Response> postTakeBackNumberAt(int agendaId, String takeBackNumberAt) {
     return put(
-        getURL('/agenda/idcard'),
+        _getURL('/agenda/idcard'),
         jsonEncode(
             {'agendaId': agendaId, 'takeBackNumberAt': takeBackNumberAt}));
   }

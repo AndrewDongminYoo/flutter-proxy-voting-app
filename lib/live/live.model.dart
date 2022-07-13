@@ -9,12 +9,12 @@ class LiveAgenda {
   String title = '';
   String subTitle = '';
   int status = 0;
-  int forCompany = 0;
-  int forAlign = 0;
-  int forOffline = 0;
-  int againstCompany = 0;
-  int againstAlign = 0;
-  int againstOffline = 0;
+  int _forCompany = 0;
+  int _forAlign = 0;
+  int _forOffline = 0;
+  int _againstCompany = 0;
+  int _againstAlign = 0;
+  int _againstOffline = 0;
   int reactionHappy = 0;
   int reactionAngry = 0;
   int reactionLove = 0;
@@ -25,12 +25,12 @@ class LiveAgenda {
     title = json['title'];
     subTitle = json['subTitle'];
     status = json['status'];
-    forCompany = json['for']['company'];
-    forAlign = json['for']['align'];
-    forOffline = json['for']['offline'];
-    againstCompany = json['against']['company'];
-    againstAlign = json['against']['align'];
-    againstOffline = json['against']['offline'];
+    _forCompany = json['for']['company'];
+    _forAlign = json['for']['align'];
+    _forOffline = json['for']['offline'];
+    _againstCompany = json['against']['company'];
+    _againstAlign = json['against']['align'];
+    _againstOffline = json['against']['offline'];
     reactionHappy = json['reaction']['happy'];
     reactionAngry = json['reaction']['angry'];
     reactionLove = json['reaction']['love'];
@@ -38,7 +38,7 @@ class LiveAgenda {
     reactionSurprise = json['reaction']['surprise'];
   }
 
-  String getStatus() {
+  get statusString {
     switch (status) {
       case -1:
         return '안건 철회';
@@ -53,7 +53,7 @@ class LiveAgenda {
     }
   }
 
-  Color getStatusColor() {
+  get statusColor {
     switch (status) {
       case -1:
         return const Color(0x0ff00000);
@@ -70,8 +70,8 @@ class LiveAgenda {
     }
   }
 
-  int get totalFor => forCompany + forAlign + forOffline;
-  int get totalAgainst => againstCompany + againstAlign + againstOffline;
+  int get totalFor => _forCompany + _forAlign + _forOffline;
+  int get totalAgainst => _againstCompany + _againstAlign + _againstOffline;
   int get totalCount => totalFor + totalAgainst;
   double get forPercentage => totalCount == 0 ? 0 : totalFor / totalCount;
   double get againstPercentage =>
@@ -94,28 +94,26 @@ class LiveAgenda {
 }
 
 class LiveLounge {
-  int preVoteStatus = 0;
-  int preVoteOnline = 0;
+  int _preVoteStatus = 0;
+  int _preVoteOnline = 0;
   int preVoteCompany = 0;
-  int preVoteAlign = 0;
-  int totalStatus = 0;
-  int agendaCount = 0;
+  int _preVoteAlign = 0;
+  int _totalStatus = 0;
   Timestamp updatedAt = Timestamp.now();
 
   LiveLounge.fromJson(DocumentSnapshot json) {
-    preVoteStatus = json['preVoteStatus'];
-    preVoteOnline = json['preVoteOnline'];
+    _preVoteStatus = json['preVoteStatus'];
+    _preVoteOnline = json['preVoteOnline'];
     preVoteCompany = json['preVoteCompany'];
-    preVoteAlign = json['preVoteAlign'];
-    totalStatus = json['totalStatus'];
-    agendaCount = json['agendaCount'];
+    _preVoteAlign = json['preVoteAlign'];
+    _totalStatus = json['totalStatus'];
     updatedAt = json['updatedAt'];
   }
 
-  int get totalVote => preVoteOnline + preVoteAlign + preVoteCompany;
+  int get totalVote => _preVoteOnline + _preVoteAlign + preVoteCompany;
 
-  String getTotalStatus() {
-    switch (totalStatus) {
+  get totalStatus {
+    switch (_totalStatus) {
       case 1:
         return '사전 표결 진행중';
       case 2:
@@ -125,8 +123,8 @@ class LiveLounge {
     }
   }
 
-  String getPreVoteStatus() {
-    switch (preVoteStatus) {
+  get preVoteStatus {
+    switch (_preVoteStatus) {
       case 1:
         return '집계 중';
       case 2:
@@ -136,15 +134,15 @@ class LiveLounge {
     }
   }
 
-  Color getTotalStatusColor() {
-    return getColor(totalStatus);
+  get totalStatusColor {
+    return toColor(_totalStatus);
   }
 
-  Color getPreVoteColor() {
-    return getColor(preVoteStatus);
+  get preVoteColor {
+    return toColor(_preVoteStatus);
   }
 
-  Color getColor(int status) {
+  Color toColor(int status) {
     switch (status) {
       case 1:
         return const Color(0xFF572E66);

@@ -20,11 +20,11 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
   bool isLoading = false;
 
-  Widget campaignAgendaList(Campaign campaign) {
+  Widget _campaignAgendaList(Campaign campaign) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -81,15 +81,15 @@ class _CampaignPageState extends State<CampaignPage> {
   }
 
   _buildConfirmButton() {
-    if (authCtrl.canVote) {
+    if (_authCtrl.canVote) {
       return AnimatedButton(
-          label: voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
+          label: _voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () async {
-            debugPrint('[campaign] Hello, ${authCtrl.user.username}!');
-            voteCtrl.toVote(authCtrl.user.id, authCtrl.user.username);
+            debugPrint('[campaign] Hello, ${_authCtrl.user.username}!');
+            _voteCtrl.toVote(_authCtrl.user.id, _authCtrl.user.username);
           });
-    } else if (!authCtrl.canVote) {
+    } else if (!_authCtrl.canVote) {
       return CustomConfirmWithButton(
           buttonLabel: '전자위임 하러가기',
           message: '서비스 이용을 위해\n본인인증이 필요해요.',
@@ -109,7 +109,7 @@ class _CampaignPageState extends State<CampaignPage> {
     return Scaffold(
       appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
       body: Stack(fit: StackFit.expand, children: [
-        gradientLayer(),
+        _gradientLayer(),
         SizedBox(
           height: Get.height,
           child: SingleChildScrollView(
@@ -118,13 +118,13 @@ class _CampaignPageState extends State<CampaignPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  campaignHeader(voteCtrl.campaign),
+                  _campaignHeader(_voteCtrl.campaign),
                   const SizedBox(height: 48),
-                  campaignInfoInRow(voteCtrl.campaign),
+                  _campaignInfoInRow(_voteCtrl.campaign),
                   const SizedBox(height: 86),
-                  campaignAgendaList(voteCtrl.campaign),
+                  _campaignAgendaList(_voteCtrl.campaign),
                   const SizedBox(height: 24),
-                  voteCtrl.campaign.status == '더보기'
+                  _voteCtrl.campaign.status == '더보기'
                       ? _buildConfirmButton()
                       : Container(),
                   const SizedBox(height: 80),
@@ -138,7 +138,7 @@ class _CampaignPageState extends State<CampaignPage> {
   }
 }
 
-Widget gradientLayer() {
+Widget _gradientLayer() {
   return Positioned.fill(
       child: Container(
     width: Get.width,
@@ -155,7 +155,7 @@ Widget gradientLayer() {
   ));
 }
 
-Widget campaignHeader(Campaign campaign) {
+Widget _campaignHeader(Campaign campaign) {
   return CustomText(
     text: campaign.slogan,
     typoType: TypoType.h1Bold,
@@ -163,7 +163,7 @@ Widget campaignHeader(Campaign campaign) {
   );
 }
 
-Widget campaignInfoInRow(Campaign campaign) {
+Widget _campaignInfoInRow(Campaign campaign) {
   return Column(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,29 +207,5 @@ Widget campaignInfoInRow(Campaign campaign) {
         ],
       )
     ],
-  );
-}
-
-Widget iconButton(ActionMenu actionMenu) {
-  return InkWell(
-    onTap: actionMenu.onTap,
-    child: Container(
-      width: 82,
-      height: 72,
-      margin: const EdgeInsets.only(right: 10),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            actionMenu.icon,
-            color: actionMenu.color,
-          ),
-          CustomText(text: actionMenu.label)
-        ],
-      ),
-    ),
   );
 }

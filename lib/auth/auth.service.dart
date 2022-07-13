@@ -12,17 +12,17 @@ import 'package:get/get_connect.dart';
 import '../contact_us/contact_us.model.dart';
 
 class AuthService extends GetConnect {
-  String baseURL = 'https://api.bside.ai/onboarding';
-  String getURL(String url) => baseURL + url;
+  final String _baseURL = 'https://api.bside.ai/onboarding';
+  String _getURL(String url) => _baseURL + url;
   Future<Response> getUserByTelNum(String telNum) =>
-      get(getURL('/users?phoneNumber=$telNum'));
+      get(_getURL('/users?phoneNumber=$telNum'));
 
-  String lambdaURL =
+  final String _lambdaURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/identification';
-  String lambdaResultURL =
+  final String _lambdaResultURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
 
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   /// 본인인증:
   Future<Response> getOtpCode(
@@ -33,7 +33,7 @@ class AuthService extends GetConnect {
     String telNum,
   ) {
     return post(
-        lambdaURL,
+        _lambdaURL,
         jsonEncode({
           'name': name,
           'birth': regist,
@@ -44,18 +44,18 @@ class AuthService extends GetConnect {
   }
 
   Future<Response> putPassCode(String telNum, String otpNo) {
-    return put(lambdaURL, jsonEncode({'telNum': telNum, 'otpNo': otpNo}));
+    return put(_lambdaURL, jsonEncode({'telNum': telNum, 'otpNo': otpNo}));
   }
 
   /// postPassCode는 putPassCode 호출 이후 3초 뒤에 호출 권장
   Future<Response> getResult(String telNum) {
-    return post(lambdaResultURL, jsonEncode({'telNum': telNum}));
+    return post(_lambdaResultURL, jsonEncode({'telNum': telNum}));
   }
 
   Future<Response> createUser(String name, String frontId, String backId,
       String telecom, String phoneNumber, String ci, String di) async {
     return post(
-        getURL('/users'),
+        _getURL('/users'),
         jsonEncode({
           'user': {
             'name': name,
@@ -70,23 +70,23 @@ class AuthService extends GetConnect {
   }
 
   Future<Response> putAddress(int uid, String address) async {
-    return await put(
-        getURL('/users/address'), jsonEncode({'uid': uid, 'address': address}));
+    return await put(_getURL('/users/address'),
+        jsonEncode({'uid': uid, 'address': address}));
   }
 
   Future<Response> putBackId(int uid, String backId) async {
     return await put(
-        getURL('/users/backid'), jsonEncode({'uid': uid, 'backId': backId}));
+        _getURL('/users/backid'), jsonEncode({'uid': uid, 'backId': backId}));
   }
 
   Future<Response> putCiDi(int uid, String ci, String di) async {
     return await put(
-        getURL('/users/ci'), jsonEncode({'uid': uid, 'ci': ci, 'di': di}));
+        _getURL('/users/ci'), jsonEncode({'uid': uid, 'ci': ci, 'di': di}));
   }
 
   Future<Response> putUuid(int uid, String uuid) async {
     return await put(
-        getURL('/users/uuid'), jsonEncode({'uid': uid, 'uuid': uuid}));
+        _getURL('/users/uuid'), jsonEncode({'uid': uid, 'uuid': uuid}));
   }
 
   /// MESSAGE PART
@@ -96,7 +96,7 @@ class AuthService extends GetConnect {
       'myself': message.myself,
       'time': message.time
     };
-    await db
+    await _db
         .collection('contacts')
         .doc(phoneNumber)
         .collection('inbox')
@@ -106,7 +106,7 @@ class AuthService extends GetConnect {
   Future<List<Chat>> getMessage(String phoneNumber) async {
     List<Chat> ref = [];
     try {
-      await db
+      await _db
           .collection('contacts')
           .doc(phoneNumber)
           .collection('inbox')

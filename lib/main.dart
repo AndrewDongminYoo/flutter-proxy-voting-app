@@ -57,49 +57,50 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String initialRoute = '/';
-  NotificationController notificaitionCtrl = NotificationController.get();
+  String _initialRoute = '/';
+  final NotificationController _notificaitionCtrl =
+      NotificationController.get();
 
   @override
   initState() {
     super.initState();
     initializeDateFormatting('ko_KR', null);
-    initNotification();
-    initDynamicLinks();
+    _initNotification();
+    _initDynamicLinks();
     compareAppVersion();
   }
 
-  initNotification() {
-    notificaitionCtrl.listenFCM();
-    notificaitionCtrl.requestPermission();
-    notificaitionCtrl.getToken();
+  _initNotification() {
+    _notificaitionCtrl.listenFCM();
+    _notificaitionCtrl.requestPermission();
+    _notificaitionCtrl.getToken();
   }
 
-  initDynamicLinks() {
+  _initDynamicLinks() {
     if (widget.initialLink != null) {
       final Uri deepLink = widget.initialLink!.link;
-      initialRoute = deepLink.path;
+      _initialRoute = deepLink.path;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      builder: errorWidgetBuilder,
+      builder: _errorWidgetBuilder,
       title: 'Bside',
-      theme: theme(),
+      theme: _theme(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
       defaultTransition: Transition.cupertino,
-      initialRoute: widget.firstTime ? '/onboarding' : initialRoute,
+      initialRoute: widget.firstTime ? '/onboarding' : _initialRoute,
       getPages: routes(),
-      initialBinding: initialBinding(),
+      initialBinding: _initialBinding(),
       debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,
     );
   }
 
-  Widget errorWidgetBuilder(context, child) {
+  Widget _errorWidgetBuilder(context, child) {
     Widget error = const Text('...rendering error...');
     if (child is Scaffold || child is Navigator) {
       error = Scaffold(body: Center(child: error));
@@ -109,7 +110,7 @@ class _MyAppState extends State<MyApp> {
     throw ('widget is null. something is wrong.');
   }
 
-  ThemeData theme() {
+  ThemeData _theme() {
     return ThemeData(
       primarySwatch: Colors.deepPurple,
       fontFamily: 'Nanum',
@@ -117,7 +118,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  BindingsBuilder<dynamic> initialBinding() {
+  BindingsBuilder<dynamic> _initialBinding() {
     return BindingsBuilder(() {
       Get.lazyPut<AuthController>(() => AuthController());
       Get.lazyPut<VoteController>(() => VoteController());

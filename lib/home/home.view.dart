@@ -21,38 +21,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int curPage = 100;
-  late Campaign curCampaign;
-  PageController? controller;
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
+  int _curPage = 100;
+  late Campaign _curCampaign;
+  PageController? _controller;
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
 
   @override
   void initState() {
     super.initState();
-    controller = PageController(viewportFraction: 0.2, initialPage: curPage);
-    curCampaign = campaigns[getRealIndex(curPage, campaigns.length)];
-    authCtrl.init();
-    voteCtrl.init();
+    _controller = PageController(viewportFraction: 0.2, initialPage: _curPage);
+    _curCampaign = campaigns[getRealIndex(_curPage, campaigns.length)];
+    _authCtrl.init();
+    _voteCtrl.init();
     // initFirebase();
   }
 
   @override
   void dispose() {
-    controller!.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
-  void onConfirmed(Campaign campaign) {
-    voteCtrl.setCampaign(campaign);
+  void _onConfirmed(Campaign campaign) {
+    _voteCtrl.setCampaign(campaign);
     goToCampaign();
   }
 
   void updateCurPage(int index) {
     if (mounted) {
       setState(() {
-        curPage = index;
-        curCampaign = campaigns[getRealIndex(index, campaigns.length)];
+        _curPage = index;
+        _curCampaign = campaigns[getRealIndex(index, campaigns.length)];
       });
     }
   }
@@ -96,11 +96,11 @@ class _HomePageState extends State<HomePage> {
     return CustomPopScope(
       child: Scaffold(
         body: Stack(children: [
-          backgroundImageLayer(curCampaign.backgroundImg),
+          backgroundImageLayer(_curCampaign.backgroundImg),
           topBar(),
-          customPageViewLayer(controller!, updateCurPage, curPage,
-              campaigns.length, onConfirmed),
-          informationBox(curCampaign, onConfirmed, controller!),
+          customPageViewLayer(_controller!, updateCurPage, _curPage,
+              campaigns.length, _onConfirmed),
+          informationBox(_curCampaign, _onConfirmed, _controller!),
           // loginBox()
         ]),
       ),

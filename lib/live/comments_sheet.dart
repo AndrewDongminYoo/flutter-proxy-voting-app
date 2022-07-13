@@ -23,9 +23,9 @@ class CommentsSheet extends StatefulWidget {
 }
 
 class _CommentsSheetState extends State<CommentsSheet> {
-  late FocusNode commentFocusNode;
-  TextEditingController commentsController = TextEditingController();
-  final Query commentStream = liveRef
+  late FocusNode _commentFocusNode;
+  final TextEditingController _commentsController = TextEditingController();
+  final Query _commentStream = liveRef
       .doc('sm')
       .collection('chat')
       .limit(10)
@@ -34,38 +34,38 @@ class _CommentsSheetState extends State<CommentsSheet> {
   @override
   void initState() {
     super.initState();
-    commentFocusNode = FocusNode();
+    _commentFocusNode = FocusNode();
   }
 
   // 폼이 삭제될 때 호출
   @override
   void dispose() {
-    commentFocusNode.dispose();
+    _commentFocusNode.dispose();
     super.dispose();
   }
 
-  Future<void> addComment() async {
+  Future<void> _addComment() async {
     var ref = liveRef.doc('sm').collection('chat').doc();
     ref.set({
       'id': ref.id,
       'author': widget.name,
-      'comment': commentsController.text.trim(),
+      'comment': _commentsController.text.trim(),
       'createdAt': DateTime.now(),
       'favoriteCount': 0,
     });
     liveRef.doc('sm').update({
-      'recentComment': commentsController.text.trim(),
+      'recentComment': _commentsController.text.trim(),
     });
   }
 
-  String readTimestamp(Timestamp ts) => DateFormat.jm().format(ts.toDate());
+  String _readTimestamp(Timestamp ts) => DateFormat.jm().format(ts.toDate());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          commentsController.clear();
+          _commentsController.clear();
         },
         child: Container(
             height: 400,
@@ -98,7 +98,7 @@ class _CommentsSheetState extends State<CommentsSheet> {
                       SizedBox(
                         height: 300,
                         child: PaginateFirestore(
-                          query: commentStream,
+                          query: _commentStream,
                           isLive: true,
                           reverse: true,
                           itemBuilder: (BuildContext context, snapshot, index) {
@@ -136,7 +136,7 @@ class _CommentsSheetState extends State<CommentsSheet> {
                                     ),
                                   ),
                                   CustomText(
-                                    text: readTimestamp(data['createdAt']),
+                                    text: _readTimestamp(data['createdAt']),
                                     typoType: TypoType.label,
                                   )
                                 ],
@@ -165,9 +165,9 @@ class _CommentsSheetState extends State<CommentsSheet> {
                                 ))),
                                 child: TextField(
                                   maxLines: 1,
-                                  controller: commentsController,
+                                  controller: _commentsController,
                                   autofocus: true,
-                                  focusNode: commentFocusNode,
+                                  focusNode: _commentFocusNode,
                                   enableInteractiveSelection: false,
                                   onChanged: (_) {
                                     setState(() {});
@@ -192,11 +192,12 @@ class _CommentsSheetState extends State<CommentsSheet> {
                             ),
                             const SizedBox(width: 10),
                             GestureDetector(
-                                onTap: commentsController.text.isEmpty
+                                onTap: _commentsController.text.isEmpty
                                     ? null
                                     : () async {
-                                        await addComment().then(
-                                          (value) => commentsController.clear(),
+                                        await _addComment().then(
+                                          (value) =>
+                                              _commentsController.clear(),
                                         );
                                       },
                                 child: Container(

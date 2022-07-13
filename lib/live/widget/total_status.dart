@@ -68,8 +68,8 @@ class TotalStatus extends StatelessWidget {
                     width: 10,
                   ),
                   StatusBox(
-                    boxColor: live.getTotalStatusColor(),
-                    text: live.getTotalStatus(),
+                    boxColor: live.totalStatusColor,
+                    text: live.totalStatus,
                   )
                 ],
               ),
@@ -101,8 +101,8 @@ class TotalStatus extends StatelessWidget {
                     width: 10,
                   ),
                   StatusBox(
-                    text: live.getPreVoteStatus(),
-                    boxColor: live.getPreVoteColor(),
+                    text: live.preVoteStatus,
+                    boxColor: live.preVoteColor,
                   )
                 ],
               ),

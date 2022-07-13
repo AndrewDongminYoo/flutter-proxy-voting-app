@@ -20,9 +20,9 @@ class ContactUsPage extends StatefulWidget {
 
 class _ContactUsPageState extends State<ContactUsPage> {
   final ScrollController _controller = ScrollController();
-  AuthController authCtrl = AuthController.get();
+  final AuthController _authCtrl = AuthController.get();
 
-  updateChatList() {
+  _updateChatList() {
     setState(() {
       _controller.animateTo(
         _controller.position.maxScrollExtent,
@@ -45,14 +45,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
             child: ListView.builder(
               controller: _controller,
               shrinkWrap: true,
-              itemCount: authCtrl.chats.length,
+              itemCount: _authCtrl.chats.length,
               itemBuilder: (BuildContext context, int index) {
-                return _itemChat(authCtrl.chats[index]);
+                return _itemChat(_authCtrl.chats[index]);
               },
             ),
           ),
           FormChat(
-            updateChatList: updateChatList,
+            updateChatList: _updateChatList,
           ),
         ],
       ),

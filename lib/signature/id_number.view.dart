@@ -18,24 +18,24 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
-  late String frontId = '';
-  late String backId = '1';
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
+  late String _frontId = '';
+  late String _backId = '1';
 
   @override
   void initState() {
-    if (authCtrl.canVote) {
-      frontId = authCtrl.user.frontId;
-      backId = authCtrl.user.backId;
+    if (_authCtrl.canVote) {
+      _frontId = _authCtrl.user.frontId;
+      _backId = _authCtrl.user.backId;
     }
     super.initState();
   }
 
-  onConfirmed() {
-    if (backId.length == 7) {
-      authCtrl.putBackId(backId);
-      voteCtrl.trackBackId();
+  _onConfirmed() {
+    if (_backId.length == 7) {
+      _authCtrl.putBackId(_backId);
+      _voteCtrl.trackBackId();
       jumpToResult();
     }
   }
@@ -58,7 +58,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                 SizedBox(
                   width: Get.width / 4,
                   child: TextFormField(
-                    initialValue: frontId,
+                    initialValue: _frontId,
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.right,
                     readOnly: true,
@@ -88,13 +88,13 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                         counterText: ''),
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.left,
-                    initialValue: backId,
+                    initialValue: _backId,
                     enableSuggestions: false,
                     autocorrect: false,
                     keyboardType: TextInputType.number,
                     autofocus: true,
                     onChanged: ((input) {
-                      backId = input;
+                      _backId = input;
                     }),
                   ),
                 ),
@@ -110,7 +110,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
     ));
     var subContentList = CustomButton(
       label: '등록',
-      onPressed: onConfirmed,
+      onPressed: _onConfirmed,
     );
 
     return AppBodyPage(

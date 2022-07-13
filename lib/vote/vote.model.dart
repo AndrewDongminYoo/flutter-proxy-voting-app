@@ -69,7 +69,7 @@ class VoteAgenda {
     this.agenda4,
   );
 
-  DateTime parseDate(String time) {
+  DateTime _parseDate(String time) {
     var dateTime = DateTime.parse(time);
     return dateTime.toLocal();
   }
@@ -85,10 +85,10 @@ class VoteAgenda {
       agenda3 = json['agenda3'] ?? 0;
       agenda4 = json['agenda4'] ?? 0;
       signatureAt =
-          json['signatureAt'] != null ? parseDate(json['signatureAt']) : null;
-      idCardAt = json['idCardAt'] != null ? parseDate(json['idCardAt']) : null;
-      voteAt = json['voteAt'] != null ? parseDate(json['voteAt']) : null;
-      backIdAt = json['backIdAt'] != null ? parseDate(json['backIdAt']) : null;
+          json['signatureAt'] != null ? _parseDate(json['signatureAt']) : null;
+      idCardAt = json['idCardAt'] != null ? _parseDate(json['idCardAt']) : null;
+      voteAt = json['voteAt'] != null ? _parseDate(json['voteAt']) : null;
+      backIdAt = json['backIdAt'] != null ? _parseDate(json['backIdAt']) : null;
     }
   }
 }
@@ -100,7 +100,8 @@ class Shareholder {
   int sharesNum = 0;
   String company = 'tli';
 
-  Shareholder(this.id, this.username, this.address, this.sharesNum);
+  Shareholder(
+      this.id, this.username, this.address, this.sharesNum, this.company);
 
   Shareholder.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? -1;

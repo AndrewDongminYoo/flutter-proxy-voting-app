@@ -27,82 +27,77 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   // controller and nodes
-  final nameNode = FocusNode();
-  final koreanIdNode = FocusNode();
+  final _nameNode = FocusNode();
+  final _koreanIdNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
-  final phoneCtrl = TextEditingController();
-  AuthController authCtrl = AuthController.get();
+  final _phoneCtrl = TextEditingController();
+  final AuthController _authCtrl = AuthController.get();
 
-  final scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   // variables
-  int curStep = 0;
-  String userName = '';
-  String frontId = '';
-  String backId = '';
-  String telecom = '';
-  String phoneNumber = '';
-  String header = headlines[0];
+  int _curStep = 0;
+  String _userName = '';
+  String _frontId = '';
+  String _backId = '';
+  String _telecom = '';
+  String _phoneNumber = '';
 
-  final style = const TextStyle(
-    letterSpacing: 2.0,
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-  );
-
-  newUserInfo() {
-    authCtrl.user = User(
-      userName,
-      frontId,
-      backId,
-      telecom,
-      phoneNumber,
+  _newUser() {
+    _authCtrl.user = User(
+      _userName,
+      _frontId,
+      _backId,
+      _telecom,
+      _phoneNumber,
     );
+    _authCtrl.getOtpCode(_authCtrl.user);
+    goToValidateNew();
   }
 
-  existingUser() {
-    final user = authCtrl.user;
-    authCtrl.getOtpCode(user);
+  _existingUser() {
+    final user = _authCtrl.user;
+    _authCtrl.getOtpCode(user);
     goToValidateOld();
   }
 
-  void nextForm(FormStep step, String value) {
+  _nextForm(FormStep step, String value) {
     switch (step) {
       case FormStep.phoneNumber:
         final tempPhoneNum = value.removeAllWhitespace;
-        authCtrl.getUserInfo(tempPhoneNum);
-        phoneNumber = tempPhoneNum;
-        koreanIdNode.requestFocus();
+        _authCtrl.getUserInfo(tempPhoneNum);
+        _phoneNumber = tempPhoneNum;
+        _koreanIdNode.requestFocus();
         break;
       case FormStep.koreanId:
         final valueList = value.split(' ');
-        frontId = valueList[0];
-        backId = valueList[1];
-        if (authCtrl.user.frontId == frontId) {
-          existingUser();
+        _frontId = valueList[0];
+        _backId = valueList[1];
+        if (_authCtrl.user.frontId == _frontId) {
+          _existingUser();
           return;
         }
-        Get.bottomSheet(TelcomModal(nextForm: nextForm),
+        Get.bottomSheet(TelcomModal(nextForm: _nextForm),
             isScrollControlled: true,
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)));
         break;
       case FormStep.telecom:
-        telecom = value;
-        phoneCtrl.value = TextEditingValue(text: value);
-        nameNode.requestFocus();
+        _telecom = value;
+        _phoneCtrl.value = TextEditingValue(text: value);
+        _nameNode.requestFocus();
         break;
       case FormStep.name:
-        userName = value;
+        _userName = value;
         break;
       default:
         break;
     }
     if (mounted) {
       setState(() {
-        newUserInfo();
-        curStep += 1;
+        _newUser();
+        _curStep += 1;
       });
     }
   }
@@ -123,37 +118,37 @@ class _AuthPageState extends State<AuthPage> {
                       alignment: Alignment.centerLeft,
                       child: CustomText(
                         typoType: TypoType.h1Bold,
-                        text: headlines[min(4, curStep)],
+                        text: headlines[min(4, _curStep)],
                         textAlign: TextAlign.left,
                       )),
                   Expanded(
                       child: SingleChildScrollView(
-                          controller: scrollController,
+                          controller: _scrollController,
                           child: Column(
                             children: [
                               const SizedBox(height: 60),
-                              curStep >= 3
+                              _curStep >= 3
                                   ? NameForm(
-                                      nextForm: nextForm, focusNode: nameNode)
+                                      nextForm: _nextForm, focusNode: _nameNode)
                                   : Container(),
                               const SizedBox(height: 40),
-                              curStep >= 2
+                              _curStep >= 2
                                   ? TelecomForm(
-                                      nextForm: nextForm,
-                                      telecom: telecom,
-                                      phoneCtrl: phoneCtrl)
+                                      nextForm: _nextForm,
+                                      telecom: _telecom,
+                                      phoneCtrl: _phoneCtrl)
                                   : Container(),
                               const SizedBox(height: 40),
-                              curStep >= 1
+                              _curStep >= 1
                                   ? KoreanIdForm(
-                                      nextForm: nextForm,
-                                      focusNode: koreanIdNode)
+                                      nextForm: _nextForm,
+                                      focusNode: _koreanIdNode)
                                   : Container(),
                               const SizedBox(height: 40),
-                              PhoneNumberForm(nextForm: nextForm),
+                              PhoneNumberForm(nextForm: _nextForm),
                               const SizedBox(height: 40),
-                              curStep >= 4
-                                  ? ServiceTerm(controller: scrollController)
+                              _curStep >= 4
+                                  ? ServiceTerm(controller: _scrollController)
                                   : Container(),
                             ],
                           )))

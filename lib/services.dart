@@ -10,9 +10,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'vote/vote.controller.dart';
 
 class MainService extends GetConnect {
-  String baseURL = 'https://api.bside.ai/crashlytics';
-  VoteController voteCtrl = VoteController.get();
-  String getURL(String url) => baseURL + url;
+  final String _baseURL = 'https://api.bside.ai/crashlytics';
+  final VoteController _voteCtrl = VoteController.get();
+  String _getURL(String url) => _baseURL + url;
 
   Future<Response> logAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -20,17 +20,17 @@ class MainService extends GetConnect {
       'app_name': packageInfo.appName,
       'build_number': packageInfo.buildNumber,
       'app_version': packageInfo.version,
-      'device_name': await voteCtrl.deviceInfo(),
+      'device_name': await _voteCtrl.deviceInfo(),
     };
     if (kDebugMode) {
       print(data);
     }
-    return put(getURL('/app_version'), jsonEncode(data));
+    return put(_getURL('/app_version'), jsonEncode(data));
   }
 
   Future<Response> reportUncaughtError(Object error, StackTrace trace) {
     return post(
-        getURL('/error_handler'),
+        _getURL('/error_handler'),
         jsonEncode({
           'error': error.toString(),
           'trace': trace.toString(),

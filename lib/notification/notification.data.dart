@@ -2,9 +2,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Notificaition {
-    String title = '';
-    String body = '';
-    DateTime createdAt = DateTime.now();
+  String title = '';
+  String body = '';
+  DateTime createdAt = DateTime.now();
 
   Notificaition.fromFireMessage(RemoteMessage message) {
     title = message.notification!.title!;
@@ -12,7 +12,7 @@ class Notificaition {
     createdAt = message.sentTime!;
   }
 
-  Notificaition.fromJson(Map<String, dynamic> json){
+  Notificaition.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     body = json['body'];
     createdAt = json['createdAt'];

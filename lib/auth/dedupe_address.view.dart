@@ -15,26 +15,26 @@ class AddressDuplicationPage extends StatefulWidget {
 }
 
 class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
 
-  int selected = 0;
+  int _selected = 0;
 
-  onConfirmed(String address) {
-    authCtrl.setAddress(address);
-    voteCtrl.selectShareholder(selected);
+  _onConfirmed(String address) {
+    _authCtrl.setAddress(address);
+    _voteCtrl.selectShareholder(_selected);
     jumpToCheckVoteNum();
   }
 
-  onSelectAddress(int index) {
+  _onSelectAddress(int index) {
     setState(() {
-      selected = index;
+      _selected = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final addressList = voteCtrl.addressList();
+    final addressList = _voteCtrl.addressList;
     return Scaffold(
       appBar: CustomAppBar(text: '캠페인'),
       body: Padding(
@@ -53,9 +53,9 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                           activeColor: customColor[ColorType.yellow],
                           title: CustomText(text: addressList[index]),
                           value: addressList[index],
-                          groupValue: addressList[selected],
+                          groupValue: addressList[_selected],
                           onChanged: (value) {
-                            onSelectAddress(index);
+                            _onSelectAddress(index);
                           }),
                     ),
                   );
@@ -64,7 +64,7 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
               CustomButton(
                 width: CustomW.w4,
                 label: '확인',
-                onPressed: () => onConfirmed(addressList[selected]),
+                onPressed: () => _onConfirmed(addressList[_selected]),
               )
             ],
           )),

@@ -17,11 +17,12 @@ class NotificaitionPage extends StatefulWidget {
 }
 
 class _NotificaitionPageState extends State<NotificaitionPage> {
-  NotificationController notificaitionCtrl = NotificationController.get();
+  final NotificationController _notificaitionCtrl =
+      NotificationController.get();
 
-  onTabNotification(int index) {
+  _onTabNotification(int index) {
     setState(() {
-      notificaitionCtrl.removeNotification(index);
+      _notificaitionCtrl.removeNotification(index);
     });
   }
 
@@ -29,25 +30,25 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(text: '알림', isNoticePage: true),
-      body: notificaitionCtrl.notifications.isEmpty
-          ? noNotification()
-          : listView(),
+      body: _notificaitionCtrl.notifications.isEmpty
+          ? _noNotification()
+          : _listView(),
     );
   }
 
-  Widget listView() {
+  Widget _listView() {
     return ListView.builder(
         itemBuilder: (context, index) {
           return InkWell(
-              child: notificationCard(index),
+              child: _notificationCard(index),
               onTap: () {
-                onTabNotification(index);
+                _onTabNotification(index);
               });
         },
-        itemCount: notificaitionCtrl.notifications.length);
+        itemCount: _notificaitionCtrl.notifications.length);
   }
 
-  Widget noNotification() {
+  Widget _noNotification() {
     return Center(
         child: SizedBox(
       height: Get.height * 0.5,
@@ -67,54 +68,42 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
     ));
   }
 
-  Widget notificationCard(int index) {
+  Widget _notificationCard(int index) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: CustomCard(
           content: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            avatar(),
-            Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(left: 10),
-                    child: message(index))),
-                CustomText(
-                    typoType: TypoType.boldLabel,
-                    text: notificaitionCtrl.currentTime(
-                        notificaitionCtrl.notifications[index].createdAt))
-          ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _avatar(),
+          Expanded(
+              child: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  child: _message(index))),
+          CustomText(
+              typoType: TypoType.boldLabel,
+              text: _notificaitionCtrl.currentTime(
+                  _notificaitionCtrl.notifications[index].createdAt))
+        ],
       )),
     );
   }
 
-  Widget cancelBtn(int index) {
-    return InkWell(
-      child: const Icon(Icons.close,
-          color: Colors.black, semanticLabel: 'Close modal'),
-      onTap: () {
-        setState(() {
-          notificaitionCtrl.removeNotification(index);
-        });
-      },
-    );
-  }
-
-  Widget avatar() {
+  Widget _avatar() {
     return const CircleAvatar(
       foregroundImage: AssetImage('assets/images/logo.png'),
       radius: 25,
     );
   }
 
-  Widget message(int index) {
+  Widget _message(int index) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       CustomText(
           typoType: TypoType.body,
-          text: notificaitionCtrl.notifications[index].title),
+          text: _notificaitionCtrl.notifications[index].title),
       CustomText(
           typoType: TypoType.bodyLight,
-          text: notificaitionCtrl.notifications[index].body),
+          text: _notificaitionCtrl.notifications[index].body),
     ]);
   }
 }

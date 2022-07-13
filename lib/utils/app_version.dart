@@ -22,6 +22,13 @@ class VersionStatus {
   final String appStoreLink;
   final String? releaseNotes;
 
+  VersionStatus._({
+    required this.localVersion,
+    required this.storeVersion,
+    required this.appStoreLink,
+    this.releaseNotes,
+  });
+
   bool get canUpdate {
     final local = localVersion.split('.').map(int.parse).toList();
     final store = storeVersion.split('.').map(int.parse).toList();
@@ -47,22 +54,19 @@ class VersionStatus {
     debugPrint('canUpdate: $canUpdate');
     debugPrint('===== Version Status  From. updatealert =====');
   }
-
-  VersionStatus._({
-    required this.localVersion,
-    required this.storeVersion,
-    required this.appStoreLink,
-    this.releaseNotes,
-  });
 }
 
 class AppVersionValidator {
   final String? iOSId;
   final String? androidId;
   final String? iOSAppStoreCountry;
-  AppVersionValidator({this.androidId, this.iOSId, this.iOSAppStoreCountry});
+  AppVersionValidator({
+    this.androidId,
+    this.iOSId,
+    this.iOSAppStoreCountry,
+  });
 
-  Future<VersionStatus?> getVersionStatus() async {
+  Future<VersionStatus?> _getVersionStatus() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (Platform.isIOS) {
       return _getiOSStoreVersion(packageInfo);
@@ -167,7 +171,7 @@ class AppVersionValidator {
     );
   }
 
-  Future<void> launchAppStore(String appStoreLink) async {
+  Future<void> _launchAppStore(String appStoreLink) async {
     final Uri url = Uri.parse('https://bside.page.link/download');
     if (!await launchUrl(url)) throw 'Could not launch $url';
   }
@@ -176,11 +180,11 @@ class AppVersionValidator {
 compareAppVersion() async {
   if (!Platform.isAndroid) {
     final versionValidator = AppVersionValidator();
-    final version = await versionValidator.getVersionStatus();
+    final version = await versionValidator._getVersionStatus();
     version!.printVersion();
     if (version.canUpdate) {
       customWindowConfirm('새로운 앱 버전이 있습니다.', '업데이트 하러가기', () {
-        versionValidator.launchAppStore(version.appStoreLink);
+        versionValidator._launchAppStore(version.appStoreLink);
       });
     }
   }

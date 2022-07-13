@@ -21,32 +21,31 @@ class ValidatePage extends StatefulWidget {
 }
 
 class _ValidatePageState extends State<ValidatePage> {
-  AuthController authCtrl = AuthController.get();
+  final AuthController _authCtrl = AuthController.get();
   final _formKey = GlobalKey<FormState>();
-  Timer? timer;
-  String otpCode = '';
-  Duration remainingOtpTime = const Duration(minutes: 3);
-  String title = '인증번호를 입력해주세요';
-  bool isIdentificationCompleted = false;
+  Timer? _timer;
+  String _otpCode = '';
+  Duration _remainingOtpTime = const Duration(minutes: 3);
+  String _title = '인증번호를 입력해주세요';
 
   @override
   void initState() {
     if (Get.arguments['isNew'] == 'existingUser') {
-      title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
+      _title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
     }
-    startTimer();
+    _startTimer();
     super.initState();
   }
 
   @override
   void dispose() {
-    if (timer != null) {
-      timer!.cancel();
+    if (_timer != null) {
+      _timer!.cancel();
     }
     super.dispose();
   }
 
-  alertGoBack(String exception) {
+  _alertGoBack(String exception) {
     Get.bottomSheet(
       confirmBody(exception, '뒤로가기', () => backToSignUp()),
       backgroundColor: Colors.white,
@@ -57,42 +56,42 @@ class _ValidatePageState extends State<ValidatePage> {
     );
   }
 
-  onPressed() {
+  _onPressed() {
     setState(() {
-      timer!.cancel();
+      _timer!.cancel();
     });
-    if (authCtrl.canVote) {
+    if (_authCtrl.canVote) {
       jumpToCampaign();
     }
   }
 
-  validate() async {
+  _validate() async {
     FocusScope.of(context).unfocus();
-    debugPrint('${authCtrl.user.phoneNumber}, $otpCode');
+    debugPrint('${_authCtrl.user.phoneNumber}, $_otpCode');
     try {
-      await authCtrl.validateOtpCode(authCtrl.user.phoneNumber, otpCode);
+      await _authCtrl.validateOtpCode(_authCtrl.user.phoneNumber, _otpCode);
     } catch (e) {
       debugPrint(e.toString());
       if (e is CustomException) {
-        alertGoBack(e.message);
+        _alertGoBack(e.message);
       }
     }
-    onPressed();
+    _onPressed();
   }
 
-  startTimer() {
+  _startTimer() {
     var seconds = const Duration(seconds: 1);
-    timer = Timer.periodic(seconds, (timer) => setCountDown());
+    _timer = Timer.periodic(seconds, (timer) => _setCountDown());
   }
 
-  setCountDown() {
+  _setCountDown() {
     setState(() {
-      final seconds = remainingOtpTime.inSeconds - 1;
+      final seconds = _remainingOtpTime.inSeconds - 1;
       if (seconds < 0) {
-        timer!.cancel();
-        alertGoBack('시간이 초과되었습니다. 전화번호를 다시 입력해주세요.');
+        _timer!.cancel();
+        _alertGoBack('시간이 초과되었습니다. 전화번호를 다시 입력해주세요.');
       } else {
-        remainingOtpTime = Duration(seconds: seconds);
+        _remainingOtpTime = Duration(seconds: seconds);
       }
     });
   }
@@ -100,8 +99,8 @@ class _ValidatePageState extends State<ValidatePage> {
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
-    var minutes = remainingOtpTime.inMinutes;
-    var seconds = remainingOtpTime.inSeconds - minutes * 60;
+    var minutes = _remainingOtpTime.inMinutes;
+    var seconds = _remainingOtpTime.inSeconds - minutes * 60;
     var timerText = '${strDigits(minutes)} : ${strDigits(seconds)}';
     return Scaffold(
       appBar: CustomAppBar(text: ''),
@@ -117,7 +116,7 @@ class _ValidatePageState extends State<ValidatePage> {
                     alignment: Alignment.center,
                     child: CustomText(
                       typoType: TypoType.h1,
-                      text: title,
+                      text: _title,
                     )),
                 const SizedBox(height: 40),
                 TextFormField(
@@ -136,8 +135,8 @@ class _ValidatePageState extends State<ValidatePage> {
                   ),
                   onChanged: (String text) {
                     if (text.length >= 6) {
-                      otpCode = text;
-                      validate();
+                      _otpCode = text;
+                      _validate();
                     }
                   },
                 ),
@@ -150,7 +149,7 @@ class _ValidatePageState extends State<ValidatePage> {
                 const SizedBox(height: 40),
                 CustomButton(
                   label: '확인',
-                  onPressed: onPressed,
+                  onPressed: _onPressed,
                   width: CustomW.w4,
                 )
               ])),

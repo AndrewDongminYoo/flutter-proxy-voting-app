@@ -26,9 +26,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-FirebaseFirestore firestore = FirebaseFirestore.instance;
+FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 // final Uuid uuid = Uuid();
 
 // Collection refs
-CollectionReference liveRef = firestore.collection('live');
+CollectionReference liveRef = _firestore.collection('live');
