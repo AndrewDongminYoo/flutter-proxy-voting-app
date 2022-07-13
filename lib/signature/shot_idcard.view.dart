@@ -30,15 +30,9 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   DateTime? idCardUploadAt;
   final ImagePicker picker = ImagePicker();
 
-  CustomSignController controller = Get.isRegistered<CustomSignController>()
-      ? Get.find()
-      : Get.put(CustomSignController());
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  CustomSignController controller = CustomSignController.get();
+  AuthController authCtrl = AuthController.get();
+  VoteController voteCtrl = VoteController.get();
   ImageSource source = ImageSource.camera;
 
   void onPressed() async {

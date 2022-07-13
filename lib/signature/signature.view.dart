@@ -23,15 +23,9 @@ class SignaturePage extends StatefulWidget {
 }
 
 class _SignaturePageState extends State<SignaturePage> {
-  final _signer = Get.isRegistered<CustomSignController>()
-      ? Get.find()
-      : Get.put(CustomSignController());
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  final _signer = CustomSignController.get();
+  AuthController authCtrl = AuthController.get();
+  VoteController voteCtrl = VoteController.get();
 
   Timer? timer;
   bool _showLottie = true;

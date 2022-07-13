@@ -27,9 +27,7 @@ class CustomFloatingButton extends StatefulWidget {
 class _CustomFloatingButtonState extends State<CustomFloatingButton> {
   bool hasNew = false;
   bool isOpend = false;
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
 
   @override
   void initState() {
@@ -89,9 +87,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _controller = ScrollController();
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
 
   Widget _buildBsideChat(Chat chat) {
     return Container(

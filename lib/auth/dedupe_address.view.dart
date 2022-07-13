@@ -1,9 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:get/get.dart';
-
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
 import '../shared/shared.dart';
@@ -18,12 +15,8 @@ class AddressDuplicationPage extends StatefulWidget {
 }
 
 class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  AuthController authCtrl = AuthController.get();
+  VoteController voteCtrl = VoteController.get();
 
   int selected = 0;
 

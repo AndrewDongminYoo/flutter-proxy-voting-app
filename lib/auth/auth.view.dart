@@ -32,9 +32,7 @@ class _AuthPageState extends State<AuthPage> {
   final koreanIdNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   final phoneCtrl = TextEditingController();
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
 
   // variables
   int curStep = 0;

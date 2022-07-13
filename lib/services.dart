@@ -11,9 +11,7 @@ import 'vote/vote.controller.dart';
 
 class MainService extends GetConnect {
   String baseURL = 'https://api.bside.ai/crashlytics';
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  VoteController voteCtrl = VoteController.get();
   String getURL(String url) => baseURL + url;
 
   Future<Response> logAppVersion() async {

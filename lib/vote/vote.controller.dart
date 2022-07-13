@@ -17,6 +17,10 @@ import '../utils/shared_prefs.dart';
 import 'vote.dart';
 
 class VoteController extends GetxController {
+  static VoteController get() => Get.isRegistered<VoteController>()
+      ? Get.find<VoteController>()
+      : Get.put(VoteController());
+
   // Vote 진행 전 사용 변수
   bool isCompleted = false;
   Campaign campaign = campaigns[1]; // TLI 지정

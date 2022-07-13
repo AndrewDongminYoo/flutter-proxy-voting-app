@@ -16,6 +16,11 @@ import '../utils/shared_prefs.dart';
 import 'notification.data.dart';
 
 class NotificationController extends GetxController {
+  static NotificationController get() =>
+      Get.isRegistered<NotificationController>()
+          ? Get.find<NotificationController>()
+          : Get.put(NotificationController());
+
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   List<Notificaition> notifications = [];
   List<String> encodedPushAlrams = [];
@@ -119,9 +124,6 @@ class NotificationController extends GetxController {
   }
 
   Future<void> getToken() async {
-    await messaging.getToken().then((value) => {
-      token = value!
-    });
+    await messaging.getToken().then((value) => {token = value!});
   }
-  
 }

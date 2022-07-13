@@ -17,10 +17,7 @@ class NotificaitionPage extends StatefulWidget {
 }
 
 class _NotificaitionPageState extends State<NotificaitionPage> {
-  NotificationController notificaitionCtrl =
-      Get.isRegistered<NotificationController>()
-          ? Get.find()
-          : Get.put(NotificationController());
+  NotificationController notificaitionCtrl = NotificationController.get();
 
   @override
   Widget build(BuildContext context) {

@@ -12,16 +12,17 @@ import '../utils/shared_prefs.dart';
 import 'auth.dart';
 
 class AuthController extends GetxController {
+  final _notificaitionCtrl = NotificationController.get();
+  static AuthController get() => Get.isRegistered<AuthController>()
+      ? Get.find<AuthController>()
+      : Get.put(AuthController());
+
   User? _user;
   List<Chat> chats = [];
   bool isLogined = false;
   final AuthService _service = AuthService();
 
-  NotificationController notificaitionCtrl =
-      Get.isRegistered<NotificationController>()
-          ? Get.find()
-          : Get.put(NotificationController());
-
+  // FIXME: user의 id값이 -1로 덮어 쓰이는 현상이 있음
   User get user {
     if (_user != null) {
       return _user!;
@@ -159,9 +160,8 @@ class AuthController extends GetxController {
     await _service.putBackId(user.id, backId);
   }
 
-  // FIXME: user의 id값이 -1로 덮어 쓰이는 현상이 있음
   void putUuid() async {
-    await _service.putUuid(60, notificaitionCtrl.token);
+    await _service.putUuid(60, _notificaitionCtrl.token);
   }
 
   void startLoading() {

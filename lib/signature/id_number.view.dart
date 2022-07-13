@@ -18,12 +18,8 @@ class TakeBackNumberPage extends StatefulWidget {
 }
 
 class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  AuthController authCtrl = AuthController.get();
+  VoteController voteCtrl = VoteController.get();
   late String frontId = '';
   late String backId = '1';
 

@@ -20,9 +20,7 @@ class ValidatePage extends StatefulWidget {
 }
 
 class _ValidatePageState extends State<ValidatePage> {
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
   final _formKey = GlobalKey<FormState>();
   Timer? timer;
   String otpCode = '';

@@ -20,9 +20,7 @@ class ContactUsPage extends StatefulWidget {
 
 class _ContactUsPageState extends State<ContactUsPage> {
   final ScrollController _controller = ScrollController();
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
 
   updateChatList() {
     setState(() {
@@ -118,9 +116,7 @@ class FormChat extends StatefulWidget {
 
 class _FormChatState extends State<FormChat> {
   TextEditingController chatController = TextEditingController();
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
 
   onTap() {
     if (chatController.text != '') {

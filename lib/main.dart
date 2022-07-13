@@ -64,10 +64,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String initialRoute = '/';
-  NotificationController notificaitionCtrl =
-      Get.isRegistered<NotificationController>()
-          ? Get.find()
-          : Get.put(NotificationController());
+  NotificationController notificaitionCtrl = NotificationController.get();
 
   @override
   initState() {

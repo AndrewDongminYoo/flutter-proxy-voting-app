@@ -82,10 +82,7 @@ class NotificiationBtn extends StatefulWidget {
 }
 
 class _NotificiationBtnState extends State<NotificiationBtn> {
-  NotificationController notificaitionCtrl =
-      Get.isRegistered<NotificationController>()
-          ? Get.find()
-          : Get.put(NotificationController());
+  NotificationController notificaitionCtrl = NotificationController.get();
   onPressIconBtn() {
     goToNotificationPage();
     if (notificaitionCtrl.encodedPushAlrams.isNotEmpty) {

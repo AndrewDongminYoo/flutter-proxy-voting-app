@@ -17,9 +17,7 @@ class EditModal extends StatefulWidget {
 
 class _EditModalState extends State<EditModal> {
   String address = '';
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  AuthController authCtrl = AuthController.get();
 
   onClose() {
     goBack();

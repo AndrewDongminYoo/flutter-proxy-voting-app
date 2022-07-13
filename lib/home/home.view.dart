@@ -24,12 +24,8 @@ class _HomePageState extends State<HomePage> {
   int curPage = 100;
   late Campaign curCampaign;
   PageController? controller;
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  AuthController authCtrl = AuthController.get();
+  VoteController voteCtrl = VoteController.get();
 
   @override
   void initState() {

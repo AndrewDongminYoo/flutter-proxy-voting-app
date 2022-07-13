@@ -19,12 +19,8 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
+  VoteController voteCtrl = VoteController.get();
+  AuthController authCtrl = AuthController.get();
 
   voteWithoutExample() {
     debugPrint(voteCtrl.voteAgenda.voteAt.toString());

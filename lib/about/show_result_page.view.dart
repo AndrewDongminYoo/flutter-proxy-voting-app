@@ -19,12 +19,8 @@ class ShowResultPage extends StatefulWidget {
 }
 
 class _ShowResultPageState extends State<ShowResultPage> {
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  AuthController authCtrl = AuthController.get();
+  VoteController voteCtrl = VoteController.get();
 
   @override
   Widget build(BuildContext context) {

@@ -11,9 +11,7 @@ import '../../vote/vote.controller.dart';
 
 class VioletCard extends StatelessWidget {
   VioletCard({Key? key}) : super(key: key);
-  final VoteController _voteController = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  final VoteController _voteController = VoteController.get();
   @override
   Widget build(BuildContext context) {
     return Container(

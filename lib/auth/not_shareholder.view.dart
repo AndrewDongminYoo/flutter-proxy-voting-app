@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
@@ -23,9 +22,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
   final contact = 'sjcho0070@naver.com';
   final tele = '010-8697-1669';
 
-  VoteController voteCtrl = Get.isRegistered<VoteController>()
-      ? Get.find()
-      : Get.put(VoteController());
+  VoteController voteCtrl = VoteController.get();
 
   onPressedMail() async {
     var body = """

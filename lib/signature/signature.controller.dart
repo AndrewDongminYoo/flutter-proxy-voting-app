@@ -6,6 +6,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 class CustomSignController extends GetxController {
+  static CustomSignController get() => Get.isRegistered<CustomSignController>()
+      ? Get.find<CustomSignController>()
+      : Get.put(CustomSignController());
+
   FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<String> uploadSignature(
