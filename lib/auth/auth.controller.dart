@@ -99,6 +99,7 @@ class AuthController extends GetxController {
     // Super User for apple QA
     if (telNum == '01086199325' && otpCode == '210913') {
       signIn();
+      putUuid();
       stopLoading();
       return;
     }

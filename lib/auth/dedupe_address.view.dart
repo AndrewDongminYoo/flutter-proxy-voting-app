@@ -26,10 +26,15 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
     jumpToCheckVoteNum();
   }
 
+  onSelectAddress(int index) {
+    setState(() {
+      selected = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final addressList = voteCtrl.addressList();
-
     return Scaffold(
       appBar: CustomAppBar(text: '캠페인'),
       body: Padding(
@@ -41,15 +46,19 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                 shrinkWrap: true,
                 itemCount: addressList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return RadioListTile(
-                      title: CustomText(text: addressList[index]),
-                      value: addressList[index],
-                      groupValue: addressList[selected],
-                      onChanged: (value) {
-                        setState(() {
-                          selected = index;
-                        });
-                      });
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CustomCard(
+                      content: RadioListTile(
+                          activeColor: customColor[ColorType.yellow],
+                          title: CustomText(text: addressList[index]),
+                          value: addressList[index],
+                          groupValue: addressList[selected],
+                          onChanged: (value) {
+                            onSelectAddress(index);
+                          }),
+                    ),
+                  );
                 },
               ),
               CustomButton(

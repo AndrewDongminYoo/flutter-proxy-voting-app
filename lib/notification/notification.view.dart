@@ -19,6 +19,12 @@ class NotificaitionPage extends StatefulWidget {
 class _NotificaitionPageState extends State<NotificaitionPage> {
   NotificationController notificaitionCtrl = NotificationController.get();
 
+  onTabNotification(int index) {
+    setState(() {
+      notificaitionCtrl.removeNotification(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +36,13 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   }
 
   Widget listView() {
-    return ListView.separated(
+    return ListView.builder(
         itemBuilder: (context, index) {
-          return notificationCard(index);
-        },
-        separatorBuilder: (context, index) {
-          return const Divider(height: 0);
+          return InkWell(
+              child: notificationCard(index),
+              onTap: () {
+                onTabNotification(index);
+              });
         },
         itemCount: notificaitionCtrl.notifications.length);
   }
@@ -61,29 +68,24 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
   }
 
   Widget notificationCard(int index) {
-    return Card(
-        child: Padding(
+    return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Row(
-        children: [
-          avatar(),
-          Expanded(
-              child: Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: message(index))),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              cancelBtn(index),
-              CustomText(
-                  typoType: TypoType.boldLabel,
-                  text: notificaitionCtrl.currentTime(
-                      notificaitionCtrl.notifications[index].createdAt))
-            ],
-          )
-        ],
-      ),
-    ));
+      child: CustomCard(
+          content: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            avatar(),
+            Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: message(index))),
+                CustomText(
+                    typoType: TypoType.boldLabel,
+                    text: notificaitionCtrl.currentTime(
+                        notificaitionCtrl.notifications[index].createdAt))
+          ],
+      )),
+    );
   }
 
   Widget cancelBtn(int index) {

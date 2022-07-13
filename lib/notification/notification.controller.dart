@@ -121,6 +121,13 @@ class NotificationController extends GetxController {
       provisional: false,
       sound: true,
     );
+
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   Future<void> getToken() async {

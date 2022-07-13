@@ -202,18 +202,25 @@ class _ChatScreenState extends State<ChatScreen> {
 class CustomCard extends Container {
   final ColorType bgColor;
   final Widget content;
+  final double cardPadding;
+  final double cardBoardRadius;
 
   CustomCard({
     Key? key,
-    this.bgColor = ColorType.purple,
+    this.bgColor = ColorType.white,
+    this.cardPadding = 16,
+    this.cardBoardRadius = 20,
+
     required this.content,
   }) : super(
           key: key,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(cardPadding),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(cardBoardRadius),
+            border: Border.all(width: 2, color: customColor[ColorType.deepPurple]!),
             color: customColor[bgColor],
           ),
           child: content,
+          
         );
 }

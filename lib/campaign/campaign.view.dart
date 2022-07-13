@@ -50,28 +50,33 @@ class _CampaignPageState extends State<CampaignPage> {
         const SizedBox(height: 16),
         Column(
             children: campaign.agendaList.map((item) {
-          return Card(
-            child: ListTile(
-              title: CustomText(
-                  text: item.section,
-                  typoType: TypoType.body,
-                  textAlign: TextAlign.left),
-              subtitle: CustomText(
-                  text: item.head,
-                  typoType: TypoType.bodyLight,
-                  textAlign: TextAlign.left,
-                  colorType: ColorType.black),
-              trailing: TextButton(
-                  onPressed: () async {
-                    if (mounted) {
-                      setState(() {
-                        isLoading = !isLoading;
-                      });
-                    }
-                  },
-                  child: CustomText(text: item.agendaFrom)),
-            ),
-          );
+          return
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5 ),
+                child: CustomCard(
+                  content: ListTile(
+                    title: CustomText(
+                        text: item.section,
+                        typoType: TypoType.body,
+                        textAlign: TextAlign.left),
+                    subtitle: CustomText(
+                        text: item.head,
+                        typoType: TypoType.bodyLight,
+                        textAlign: TextAlign.left,
+                        colorType: ColorType.black),
+                    trailing: TextButton(
+                        onPressed: () async {
+                          if (mounted) {
+                            setState(() {
+                              isLoading = !isLoading;
+                            });
+                          }
+                        },
+                        child: CustomText(text: item.agendaFrom)),
+                  ),
+                  cardPadding:0
+                ),
+              );
         }).toList())
       ],
     );
