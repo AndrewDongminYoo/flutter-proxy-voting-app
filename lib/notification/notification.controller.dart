@@ -3,7 +3,7 @@ import 'dart:convert' show json;
 import 'dart:io' show Platform;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -42,7 +42,7 @@ class NotificationController extends GetxController {
 
   Future<void> _androidLocalNotification(
       RemoteMessage message, RemoteNotification? notification) async {
-    const channel = AndroidNotificationChannel(
+    AndroidNotificationChannel channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
       importance: Importance.high,
@@ -90,18 +90,16 @@ class NotificationController extends GetxController {
   String _encodeDateTime(dynamic item) {
     if (item is DateTime) {
       return item.toIso8601String();
-    } else if (item is String) {
-      return item;
     }
-    throw ("It's not a valid date string.");
+    return item;
   }
 
   Map<String, dynamic> _decodeJson(String message) {
     return json.decode(message,
-        reviver: (key, value) => _reviverDateTime(key, value));
+        reviver: (key, value) => reviverDateTime(key, value));
   }
 
-  DateTime _reviverDateTime(key, value) {
+  dynamic reviverDateTime(key, value) {
     if (key == 'createdAt') {
       return DateTime.parse(value as String);
     }
@@ -124,7 +122,8 @@ class NotificationController extends GetxController {
       sound: true,
     );
 
-    await _messaging.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
