@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
-import '../theme.dart';
 import 'auth.dart';
 
 const headlines = [
@@ -34,6 +33,8 @@ class _AuthPageState extends State<AuthPage> {
   final phoneCtrl = TextEditingController();
   AuthController authCtrl = AuthController.get();
 
+  final scrollController = ScrollController();
+
   // variables
   int curStep = 0;
   String userName = '';
@@ -49,7 +50,7 @@ class _AuthPageState extends State<AuthPage> {
     fontWeight: FontWeight.bold,
   );
 
-  newUser() {
+  newUserInfo() {
     authCtrl.user = User(
       userName,
       frontId,
@@ -57,8 +58,6 @@ class _AuthPageState extends State<AuthPage> {
       telecom,
       phoneNumber,
     );
-    authCtrl.getOtpCode(authCtrl.user);
-    goToValidateNew();
   }
 
   existingUser() {
@@ -102,20 +101,10 @@ class _AuthPageState extends State<AuthPage> {
     }
     if (mounted) {
       setState(() {
+        newUserInfo();
         curStep += 1;
       });
     }
-  }
-
-  Widget confirmButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 100.0),
-      child: CustomButton(
-        label: '확인',
-        onPressed: newUser,
-        width: CustomW.w4,
-      ),
-    );
   }
 
   @override
@@ -139,31 +128,35 @@ class _AuthPageState extends State<AuthPage> {
                       )),
                   Expanded(
                       child: SingleChildScrollView(
+                          controller: scrollController,
                           child: Column(
-                    children: [
-                      const SizedBox(height: 60),
-                      curStep >= 3
-                          ? NameForm(nextForm: nextForm, focusNode: nameNode)
-                          : Container(),
-                      const SizedBox(height: 40),
-                      curStep >= 2
-                          ? TelecomForm(
-                              nextForm: nextForm,
-                              telecom: telecom,
-                              phoneCtrl: phoneCtrl)
-                          : Container(),
-                      const SizedBox(height: 40),
-                      curStep >= 1
-                          ? KoreanIdForm(
-                              nextForm: nextForm, focusNode: koreanIdNode)
-                          : Container(),
-                      const SizedBox(height: 40),
-                      PhoneNumberForm(nextForm: nextForm),
-                      const SizedBox(height: 40),
-                      curStep >= 4 ? const ServiceTerm() : Container(),
-                      curStep >= 4 ? confirmButton() : Container()
-                    ],
-                  )))
+                            children: [
+                              const SizedBox(height: 60),
+                              curStep >= 3
+                                  ? NameForm(
+                                      nextForm: nextForm, focusNode: nameNode)
+                                  : Container(),
+                              const SizedBox(height: 40),
+                              curStep >= 2
+                                  ? TelecomForm(
+                                      nextForm: nextForm,
+                                      telecom: telecom,
+                                      phoneCtrl: phoneCtrl)
+                                  : Container(),
+                              const SizedBox(height: 40),
+                              curStep >= 1
+                                  ? KoreanIdForm(
+                                      nextForm: nextForm,
+                                      focusNode: koreanIdNode)
+                                  : Container(),
+                              const SizedBox(height: 40),
+                              PhoneNumberForm(nextForm: nextForm),
+                              const SizedBox(height: 40),
+                              curStep >= 4
+                                  ? ServiceTerm(controller: scrollController)
+                                  : Container(),
+                            ],
+                          )))
                 ],
               ),
             ),

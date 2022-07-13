@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../../shared/custom_button.dart';
+import '../../shared/custom_nav.dart';
 import '../../theme.dart';
 import '../../shared/custom_text.dart';
+import '../auth.dart';
 
 const items = [
   '[필수]서비스 이용약관',
@@ -16,15 +20,27 @@ const items = [
 ];
 
 class ServiceTerm extends StatefulWidget {
-  const ServiceTerm({Key? key}) : super(key: key);
+  final ScrollController controller;
+  const ServiceTerm({Key? key, required this.controller}) : super(key: key);
 
   @override
-  State<ServiceTerm> createState() => _ServiceTermState();
+  State<ServiceTerm> createState() => _ServiceTermState(controller);
 }
 
 class _ServiceTermState extends State<ServiceTerm> {
   final List agreeTerms = [false, false, false, false];
   bool showDetails = false;
+  AuthController authCtrl = Get.isRegistered<AuthController>()
+      ? Get.find()
+      : Get.put(AuthController());
+  final ScrollController controller;
+  _ServiceTermState(this.controller);
+
+  newUser() {
+    authCtrl.user;
+    authCtrl.getOtpCode(authCtrl.user);
+    goToValidateNew();
+  }
 
   getAllAgreeTerms() {
     return agreeTerms.every((element) => element);
@@ -82,7 +98,7 @@ class _ServiceTermState extends State<ServiceTerm> {
               style: TextStyle(color: customColor[ColorType.purple])),
           TextSpan(
               text: index != 3 ? '에 동의' : '',
-              style: const TextStyle(color: Colors.black))
+              style: const TextStyle(color: Colors.black)),
         ])),
       ),
       checkboxShape: const CircleBorder(),
@@ -92,13 +108,38 @@ class _ServiceTermState extends State<ServiceTerm> {
   }
 
   Widget _buildTerms() {
-    return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return _buildCheckBox(index, items[index]);
-        });
+    return Column(
+      children: [
+        ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return _buildCheckBox(index, items[index]);
+            }),
+        const SizedBox(height: 50),
+        (agreeTerms[0] && agreeTerms[1] && agreeTerms[2])
+            ? confirmButton()
+            : Container(),
+      ],
+    );
+  }
+
+  Widget confirmButton() {
+    if (mounted) {
+      if (controller.hasClients) {
+        controller.animateTo(240.0,
+            duration: const Duration(milliseconds: 500), curve: Curves.ease);
+      }
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 100.0),
+      child: CustomButton(
+        label: '확인',
+        onPressed: newUser,
+        width: CustomW.w4,
+      ),
+    );
   }
 
   @override
@@ -135,7 +176,10 @@ class _ServiceTermState extends State<ServiceTerm> {
                   )),
                 ),
               ),
-              const SizedBox(height: 50)
+              const SizedBox(height: 50),
+              (agreeTerms[0] && agreeTerms[1] && agreeTerms[2])
+                  ? confirmButton()
+                  : Container()
             ]),
           );
   }
