@@ -32,7 +32,7 @@ class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   final _phoneCtrl = TextEditingController();
   final AuthController _authCtrl = AuthController.get();
-  final _scrollController = ScrollController();
+  final controller = ScrollController();
 
   // variables
   int _curStep = 0;
@@ -121,7 +121,7 @@ class _AuthPageState extends State<AuthPage> {
                               )),
                           Expanded(
                               child: SingleChildScrollView(
-                                  controller: _scrollController,
+                                  controller: controller,
                                   child: Column(children: [
                                     const SizedBox(height: 60),
                                     _curStep >= 3
@@ -146,7 +146,7 @@ class _AuthPageState extends State<AuthPage> {
                                     PhoneNumberForm(nextForm: _nextForm),
                                     const SizedBox(height: 40),
                                     _curStep >= 4
-                                        ? const ServiceTerm()
+                                        ? ServiceTerm(controller: controller)
                                         : Container(),
                                   ])))
                         ]))))));

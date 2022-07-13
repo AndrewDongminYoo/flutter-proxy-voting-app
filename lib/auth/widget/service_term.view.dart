@@ -19,7 +19,8 @@ const items = [
 ];
 
 class ServiceTerm extends StatefulWidget {
-  const ServiceTerm({Key? key}) : super(key: key);
+  final ScrollController controller;
+  const ServiceTerm({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<ServiceTerm> createState() => _ServiceTermState();
@@ -29,7 +30,6 @@ class _ServiceTermState extends State<ServiceTerm> {
   final List _agreeTerms = [false, false, false, false];
   bool _showDetails = false;
   final AuthController _authCtrl = AuthController.get();
-  final ScrollController _controller = ScrollController();
 
   _newUser() {
     _authCtrl.user;
@@ -122,8 +122,8 @@ class _ServiceTermState extends State<ServiceTerm> {
 
   Widget _confirmButton() {
     if (mounted) {
-      if (_controller.hasClients) {
-        _controller.animateTo(240.0,
+      if (widget.controller.hasClients) {
+        widget.controller.animateTo(240.0,
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
       }
     }

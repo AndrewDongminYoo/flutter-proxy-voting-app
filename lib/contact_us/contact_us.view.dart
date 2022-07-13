@@ -115,13 +115,13 @@ class FormChat extends StatefulWidget {
 }
 
 class _FormChatState extends State<FormChat> {
-  TextEditingController chatController = TextEditingController();
-  AuthController authCtrl = AuthController.get();
+  final TextEditingController _chatController = TextEditingController();
+  final AuthController _authCtrl = AuthController.get();
 
-  onTap() {
-    if (chatController.text != '') {
-      authCtrl.contactUs(chatController.text);
-      chatController.value = const TextEditingValue(text: '');
+  _onTap() {
+    if (_chatController.text != '') {
+      _authCtrl.contactUs(_chatController.text);
+      _chatController.value = const TextEditingValue(text: '');
       widget.updateChatList();
     }
   }
@@ -133,7 +133,7 @@ class _FormChatState extends State<FormChat> {
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       color: customColor[ColorType.white],
       child: TextField(
-        controller: chatController,
+        controller: _chatController,
         decoration: InputDecoration(
           hintText: '문의사항을 남겨주세요',
           suffixIcon: Container(
@@ -142,7 +142,7 @@ class _FormChatState extends State<FormChat> {
                   color: customColor[ColorType.deepPurple]),
               padding: const EdgeInsets.all(14),
               child: InkWell(
-                  onTap: onTap,
+                  onTap: _onTap,
                   child: Icon(
                     Icons.send_rounded,
                     color: customColor[ColorType.white],
