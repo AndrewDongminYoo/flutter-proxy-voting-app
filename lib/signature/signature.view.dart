@@ -5,7 +5,7 @@ import 'dart:async' show Timer;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart' show Get, GetNavigation, Inst;
+import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
 

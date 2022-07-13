@@ -12,7 +12,7 @@ import '../../campaign/campaign.pg_bar.dart';
 import '../../theme.dart';
 import '../../utils/firebase.dart';
 import '../live.model.dart';
-import 'widgets.dart';
+import 'widget.dart';
 
 class TotalStatus extends StatelessWidget {
   TotalStatus({Key? key}) : super(key: key);

@@ -11,7 +11,7 @@ import 'card_formatter.dart';
 
 enum FormStep { phoneNumber, koreanId, telecom, name }
 
-const formFieldStyle = TextStyle(
+const authFormFieldStyle = TextStyle(
   letterSpacing: 2.0,
   fontSize: 20,
   fontWeight: FontWeight.w900,
@@ -39,7 +39,7 @@ class _PhoneNumberFormState extends State<PhoneNumberForm> {
             separator: ' ',
           )
         ],
-        style: formFieldStyle,
+        style: authFormFieldStyle,
         keyboardType: TextInputType.number,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
@@ -78,7 +78,7 @@ class _KoreanIdFormState extends State<KoreanIdForm> {
           separator: ' ',
         ),
       ],
-      style: formFieldStyle,
+      style: authFormFieldStyle,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
           border: OutlineInputBorder(),
@@ -128,7 +128,7 @@ class _TelecomFormState extends State<TelecomForm> {
       child: TextFormField(
         enableSuggestions: true,
         controller: widget.phoneCtrl,
-        style: formFieldStyle,
+        style: authFormFieldStyle,
         enabled: false,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
@@ -203,7 +203,7 @@ class NameForm extends TextFormField {
           key: key,
           focusNode: focusNode,
           autofocus: true,
-          style: formFieldStyle,
+          style: authFormFieldStyle,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             labelText: '이름',

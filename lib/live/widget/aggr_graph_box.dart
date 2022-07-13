@@ -12,7 +12,7 @@ import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../../utils/firebase.dart';
 import '../live.model.dart';
-import 'widgets.dart';
+import 'widget.dart';
 
 class CustomPanel extends StatefulWidget {
   const CustomPanel({

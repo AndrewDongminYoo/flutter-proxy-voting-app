@@ -11,7 +11,7 @@ import '../contact_us/contact_us.dart';
 import '../shared/custom_text.dart';
 import '../theme.dart';
 
-const formFieldStyle = TextStyle(
+const fabFormFieldStyle = TextStyle(
   letterSpacing: 2.0,
   fontSize: 20,
   fontWeight: FontWeight.w900,
@@ -190,7 +190,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 TextFormField(
                   autofocus: true,
-                  style: formFieldStyle,
+                  style: fabFormFieldStyle,
                 )
               ],
             )),

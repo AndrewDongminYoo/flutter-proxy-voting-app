@@ -13,16 +13,17 @@ import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../utils/utils.dart';
 import 'comments_sheet.dart';
-import 'widget/widgets.dart';
+import 'widget/widget.dart';
 
-class LiveLounge extends StatefulWidget {
-  const LiveLounge({Key? key}) : super(key: key);
+class LiveLoungePage extends StatefulWidget {
+  const LiveLoungePage({Key? key}) : super(key: key);
 
   @override
-  State<LiveLounge> createState() => _LiveLoungeState();
+  State<LiveLoungePage> createState() => _LiveLoungePageState();
 }
 
-class _LiveLoungeState extends State<LiveLounge> with WidgetsBindingObserver {
+class _LiveLoungePageState extends State<LiveLoungePage>
+    with WidgetsBindingObserver {
   int notiVer = -1;
   String name = '';
 

@@ -14,13 +14,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
-import 'services.dart';
-import 'routes.dart' show routes;
-import 'auth/auth.controller.dart';
-import 'notification/notification.dart';
-import 'utils/utils.dart';
-import 'vote/vote.controller.dart';
-import 'utils/validate_app_version.dart';
+import 'lib.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -2,14 +2,7 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 // 🌎 Project imports:
-import 'about/about.dart';
-import 'auth/auth.dart';
-import 'campaign/campaign.view.dart';
-import 'home/home.view.dart';
-import 'notification/notification.dart';
-import 'onboarding/onboarding.view.dart';
-import 'signature/signature.dart';
-import 'vote/vote.view.dart';
+import 'lib.dart';
 
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),

@@ -12,7 +12,6 @@ import '../theme.dart';
 import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
 import 'vote.dart';
-import 'widget/vote_selector.dart';
 
 class VoteAgendaPage extends StatefulWidget {
   const VoteAgendaPage({Key? key}) : super(key: key);

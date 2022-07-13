@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show StreamSubscription;
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart' show Cubit;

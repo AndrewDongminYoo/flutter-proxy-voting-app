@@ -1,3 +1,4 @@
+export 'app_version.dart';
 export 'date_util.dart';
 export 'firebase.dart';
 export 'firebase_options.dart';

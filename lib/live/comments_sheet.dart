@@ -12,7 +12,7 @@ import 'package:intl/intl.dart' show DateFormat;
 import '../shared/custom_text.dart';
 import '../theme.dart';
 import '../utils/firebase.dart';
-import 'widget/widgets.dart';
+import 'widget/widget.dart';
 
 class CommentsSheet extends StatefulWidget {
   final String name;

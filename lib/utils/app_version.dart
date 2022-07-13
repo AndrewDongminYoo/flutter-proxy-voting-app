@@ -1,8 +1,7 @@
 // 🐦 Flutter imports:
-import 'dart:convert';
-import 'dart:io';
+import 'dart:convert' show json;
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
