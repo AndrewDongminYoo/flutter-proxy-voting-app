@@ -19,14 +19,14 @@ class ShowResultPage extends StatefulWidget {
 }
 
 class _ShowResultPageState extends State<ShowResultPage> {
-  AuthController authCtrl = AuthController.get();
-  VoteController voteCtrl = VoteController.get();
+  final AuthController _authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
 
   @override
   Widget build(BuildContext context) {
     const white = ColorType.white;
-    Campaign campaign = voteCtrl.campaign;
-    VoteAgenda voteAgenda = voteCtrl.voteAgenda;
+    Campaign campaign = _voteCtrl.campaign;
+    VoteAgenda voteAgenda = _voteCtrl.voteAgenda;
     final String youAreDoneText;
     if (voteAgenda.idCardAt != null &&
         voteAgenda.backIdAt != null &&
@@ -83,7 +83,7 @@ class _ShowResultPageState extends State<ShowResultPage> {
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                         child: CustomText(
                           typoType: TypoType.h1,
-                          text: '${authCtrl.user.username}님 수고하셨습니다.',
+                          text: '${_authCtrl.user.username}님 수고하셨습니다.',
                           colorType: white,
                         ),
                       ),
@@ -123,7 +123,7 @@ class _ShowResultPageState extends State<ShowResultPage> {
                               const SizedBox(height: 21),
                               CustomText(
                                   typoType: TypoType.bodyLight,
-                                  text: '${voteCtrl.voteAgenda.sharesNum}',
+                                  text: '${_voteCtrl.voteAgenda.sharesNum}',
                                   colorType: white)
                             ],
                           ),
@@ -136,8 +136,8 @@ class _ShowResultPageState extends State<ShowResultPage> {
                 Column(
                   children: [
                     StepperCard(
-                      agenda: voteCtrl.voteAgenda,
-                      shareId: voteCtrl.shareholder.id,
+                      agenda: _voteCtrl.voteAgenda,
+                      shareId: _voteCtrl.shareholder.id,
                     ),
                     const SizedBox(height: 30),
                     CustomButton(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../../shared/custom_button.dart';
@@ -20,40 +19,36 @@ const items = [
 ];
 
 class ServiceTerm extends StatefulWidget {
-  final ScrollController controller;
-  const ServiceTerm({Key? key, required this.controller}) : super(key: key);
+  const ServiceTerm({Key? key}) : super(key: key);
 
   @override
-  State<ServiceTerm> createState() => _ServiceTermState(controller);
+  State<ServiceTerm> createState() => _ServiceTermState();
 }
 
 class _ServiceTermState extends State<ServiceTerm> {
-  final List agreeTerms = [false, false, false, false];
-  bool showDetails = false;
-  AuthController authCtrl = Get.isRegistered<AuthController>()
-      ? Get.find()
-      : Get.put(AuthController());
-  final ScrollController controller;
-  _ServiceTermState(this.controller);
+  final List _agreeTerms = [false, false, false, false];
+  bool _showDetails = false;
+  final AuthController _authCtrl = AuthController.get();
+  final ScrollController _controller = ScrollController();
 
-  newUser() {
-    authCtrl.user;
-    authCtrl.getOtpCode(authCtrl.user);
+  _newUser() {
+    _authCtrl.user;
+    _authCtrl.getOtpCode(_authCtrl.user);
     goToValidateNew();
   }
 
-  getAllAgreeTerms() {
-    return agreeTerms.every((element) => element);
+  _getAllAgreeTerms() {
+    return _agreeTerms.every((element) => element);
   }
 
-  setAllAgreeTerms(value) {
-    for (var i = 0; i < agreeTerms.length; i++) {
-      agreeTerms[i] = value;
+  _setAllAgreeTerms(value) {
+    for (var i = 0; i < _agreeTerms.length; i++) {
+      _agreeTerms[i] = value;
     }
     if (mounted) setState(() {});
   }
 
-  openPage(int index) async {
+  _openPage(int index) async {
     switch (index) {
       case 0:
         await launchUrlString(
@@ -79,17 +74,17 @@ class _ServiceTermState extends State<ServiceTerm> {
 
   Widget _buildCheckBox(int index, String label) {
     return CheckboxListTile(
-      value: agreeTerms[index],
+      value: _agreeTerms[index],
       onChanged: (value) {
         if (mounted) {
           setState(() {
-            agreeTerms[index] = value;
+            _agreeTerms[index] = value;
           });
         }
       },
       title: GestureDetector(
         onTap: () {
-          openPage(index);
+          _openPage(index);
         },
         child: RichText(
             text: TextSpan(children: [
@@ -118,17 +113,17 @@ class _ServiceTermState extends State<ServiceTerm> {
               return _buildCheckBox(index, items[index]);
             }),
         const SizedBox(height: 50),
-        (agreeTerms[0] && agreeTerms[1] && agreeTerms[2])
-            ? confirmButton()
+        (_agreeTerms[0] && _agreeTerms[1] && _agreeTerms[2])
+            ? _confirmButton()
             : Container(),
       ],
     );
   }
 
-  Widget confirmButton() {
+  Widget _confirmButton() {
     if (mounted) {
-      if (controller.hasClients) {
-        controller.animateTo(240.0,
+      if (_controller.hasClients) {
+        _controller.animateTo(240.0,
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
       }
     }
@@ -136,7 +131,7 @@ class _ServiceTermState extends State<ServiceTerm> {
       padding: const EdgeInsets.only(bottom: 100.0),
       child: CustomButton(
         label: '확인',
-        onPressed: newUser,
+        onPressed: _newUser,
         width: CustomW.w4,
       ),
     );
@@ -144,14 +139,14 @@ class _ServiceTermState extends State<ServiceTerm> {
 
   @override
   Widget build(BuildContext context) {
-    return showDetails
+    return _showDetails
         ? _buildTerms()
         : Align(
             alignment: Alignment.topCenter,
             child: Column(children: [
               CheckboxListTile(
-                value: getAllAgreeTerms(),
-                onChanged: setAllAgreeTerms,
+                value: _getAllAgreeTerms(),
+                onChanged: _setAllAgreeTerms,
                 title: CustomText(
                   text: '약관 모두 동의',
                   textAlign: TextAlign.left,
@@ -163,7 +158,7 @@ class _ServiceTermState extends State<ServiceTerm> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    showDetails = true;
+                    _showDetails = true;
                   });
                 },
                 child: Container(
@@ -177,8 +172,8 @@ class _ServiceTermState extends State<ServiceTerm> {
                 ),
               ),
               const SizedBox(height: 50),
-              (agreeTerms[0] && agreeTerms[1] && agreeTerms[2])
-                  ? confirmButton()
+              (_agreeTerms[0] && _agreeTerms[1] && _agreeTerms[2])
+                  ? _confirmButton()
                   : Container()
             ]),
           );

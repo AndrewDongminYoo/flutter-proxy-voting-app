@@ -19,27 +19,27 @@ class CheckVoteNumPage extends StatefulWidget {
 }
 
 class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
-  VoteController voteCtrl = VoteController.get();
-  AuthController authCtrl = AuthController.get();
+  final VoteController _voteCtrl = VoteController.get();
+  final AuthController _authCtrl = AuthController.get();
 
-  voteWithoutExample() {
-    debugPrint(voteCtrl.voteAgenda.voteAt.toString());
-    if (voteCtrl.voteAgenda.voteAt == null) {
+  _voteWithoutExample() {
+    debugPrint(_voteCtrl.voteAgenda.voteAt.toString());
+    if (_voteCtrl.voteAgenda.voteAt == null) {
       goToVoteWithoutExample();
     } else {
       jumpToResult();
     }
   }
 
-  onEdit() async {
+  _onEdit() async {
     await Get.dialog(const EditModal());
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    Campaign campaign = voteCtrl.campaign;
-    bool isLoggedIn = authCtrl.user.id > 0;
+    Campaign campaign = _voteCtrl.campaign;
+    bool isLoggedIn = _authCtrl.user.id > 0;
 
     const boxDecoration = BoxDecoration(
       borderRadius: BorderRadius.only(
@@ -84,7 +84,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
                       CustomText(
                         typoType: TypoType.h1,
                         text: isLoggedIn
-                            ? '안녕하세요! ${authCtrl.user.username} 주주님'
+                            ? '안녕하세요! ${_authCtrl.user.username} 주주님'
                             : '안녕하세요! 주주님',
                         colorType: ColorType.white,
                       ),
@@ -136,7 +136,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
                         child: CustomButton(
                           label: '투표하러 가기',
                           onPressed: () {
-                            voteWithoutExample();
+                            _voteWithoutExample();
                           },
                           width: CustomW.w4,
                         ),

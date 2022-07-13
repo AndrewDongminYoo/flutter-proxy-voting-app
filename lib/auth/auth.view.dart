@@ -32,7 +32,6 @@ class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   final _phoneCtrl = TextEditingController();
   final AuthController _authCtrl = AuthController.get();
-
   final _scrollController = ScrollController();
 
   // variables
@@ -105,59 +104,51 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(text: '캠페인', bgColor: const Color(0xFFFAFAFA)),
-      body: Unfocused(
-        child: Form(
-          key: _formKey,
-          child: FocusScope(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: CustomText(
-                        typoType: TypoType.h1Bold,
-                        text: headlines[min(4, _curStep)],
-                        textAlign: TextAlign.left,
-                      )),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          controller: _scrollController,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 60),
-                              _curStep >= 3
-                                  ? NameForm(
-                                      nextForm: _nextForm, focusNode: _nameNode)
-                                  : Container(),
-                              const SizedBox(height: 40),
-                              _curStep >= 2
-                                  ? TelecomForm(
-                                      nextForm: _nextForm,
-                                      telecom: _telecom,
-                                      phoneCtrl: _phoneCtrl)
-                                  : Container(),
-                              const SizedBox(height: 40),
-                              _curStep >= 1
-                                  ? KoreanIdForm(
-                                      nextForm: _nextForm,
-                                      focusNode: _koreanIdNode)
-                                  : Container(),
-                              const SizedBox(height: 40),
-                              PhoneNumberForm(nextForm: _nextForm),
-                              const SizedBox(height: 40),
-                              _curStep >= 4
-                                  ? ServiceTerm(controller: _scrollController)
-                                  : Container(),
-                            ],
-                          )))
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+        appBar: CustomAppBar(text: '캠페인', bgColor: const Color(0xFFFAFAFA)),
+        body: Unfocused(
+            child: Form(
+                key: _formKey,
+                child: FocusScope(
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomText(
+                                typoType: TypoType.h1Bold,
+                                text: headlines[min(4, _curStep)],
+                                textAlign: TextAlign.left,
+                              )),
+                          Expanded(
+                              child: SingleChildScrollView(
+                                  controller: _scrollController,
+                                  child: Column(children: [
+                                    const SizedBox(height: 60),
+                                    _curStep >= 3
+                                        ? NameForm(
+                                            nextForm: _nextForm,
+                                            focusNode: _nameNode)
+                                        : Container(),
+                                    const SizedBox(height: 40),
+                                    _curStep >= 2
+                                        ? TelecomForm(
+                                            nextForm: _nextForm,
+                                            telecom: _telecom,
+                                            phoneCtrl: _phoneCtrl)
+                                        : Container(),
+                                    const SizedBox(height: 40),
+                                    _curStep >= 1
+                                        ? KoreanIdForm(
+                                            nextForm: _nextForm,
+                                            focusNode: _koreanIdNode)
+                                        : Container(),
+                                    const SizedBox(height: 40),
+                                    PhoneNumberForm(nextForm: _nextForm),
+                                    const SizedBox(height: 40),
+                                    _curStep >= 4
+                                        ? const ServiceTerm()
+                                        : Container(),
+                                  ])))
+                        ]))))));
   }
 }
