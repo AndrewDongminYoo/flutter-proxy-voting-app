@@ -26,6 +26,7 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
   _onTabNotification(int index) {
     setState(() {
       _notificaitionCtrl.removeNotification(index);
+      _notificaitionCtrl.getNotificationsLocal();
     });
   }
 
@@ -36,18 +37,22 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
           side: BorderSide(color: customColor[ColorType.deepPurple]!, width: 1),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          children: [
-            _notificaitionCtrl.notifications.isEmpty
-                ? _noNotification()
-                : _listView(),
-            IconButton(
-              icon: const Icon(Icons.cancel_outlined),
-              iconSize: 48,
-              color: customColor[ColorType.deepPurple],
-              onPressed: onTapCancel,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Column(
+            children: [
+              _notificaitionCtrl.notifications.isEmpty
+                  ? _noNotification()
+                  : _listView(),
+              Divider(height: 0, color: customColor[ColorType.deepPurple]),
+              IconButton(
+                icon: const Icon(Icons.cancel_outlined),
+                iconSize: 48,
+                color: customColor[ColorType.deepPurple],
+                onPressed: onTapCancel,
+              )
+            ],
+          ),
         ));
   }
 
@@ -88,11 +93,11 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
   }
 
   Widget _notificationCard(int index) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: Column(children: [
-        Divider(color: customColor[ColorType.deepPurple]),
-        Stack(children: [
+    return Column(children: [
+      Divider(height:0, color: customColor[ColorType.deepPurple]),
+      Padding(
+        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+        child: Stack(children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -110,9 +115,9 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
                   text: _notificaitionCtrl.currentTime(
                       _notificaitionCtrl.notifications[index].createdAt)))
         ]),
-        Divider(color: customColor[ColorType.deepPurple]),
-      ]),
-    );
+      ),
+      Divider(height: 0, color: customColor[ColorType.deepPurple]),
+    ]);
   }
 
   Widget _avatar() {

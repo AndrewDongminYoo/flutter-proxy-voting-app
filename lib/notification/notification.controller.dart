@@ -80,7 +80,6 @@ class NotificationController extends GetxController {
   }
 
   Future<void> removeNotification(int index) async {
-    List<String> encodedPushAlrams = await getNotifications();
     encodedPushAlrams.removeAt(index);
     setNotifications(encodedPushAlrams);
   }
@@ -130,5 +129,8 @@ class NotificationController extends GetxController {
 
   Future<void> getToken() async {
     await _messaging.getToken().then((value) => {token = value!});
+    debugPrint('========================================');
+    debugPrint(token);
+    debugPrint('========================================');
   }
 }

@@ -89,9 +89,9 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
       curve: Curves.fastOutSlowIn,
       duration: const Duration(seconds: 1),
     );
-    if (_notificaitionCtrl.encodedPushAlrams.isNotEmpty) {
+    setState(() {
       _notificaitionCtrl.getNotificationsLocal();
-    }
+      });
   }
 
   @override
