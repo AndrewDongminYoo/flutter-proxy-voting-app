@@ -119,12 +119,11 @@ class _ServiceTermState extends State<ServiceTerm> {
   }
 
   Widget _confirmButton() {
-    if (mounted) {
-      if (widget.controller.hasClients) {
-        widget.controller.animateTo(240.0,
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
-      }
+    if (widget.controller.hasClients) {
+      widget.controller.animateTo(400.0,
+          duration: const Duration(milliseconds: 500), curve: Curves.ease);
     }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 100.0),
       child: CustomButton(
