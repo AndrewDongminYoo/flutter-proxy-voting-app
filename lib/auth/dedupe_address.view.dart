@@ -46,12 +46,22 @@ class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
                 shrinkWrap: true,
                 itemCount: addressList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  List<String> arr = [];
+                  RegExp regExp =
+                      RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$');
+                  for (int i = 0; i < addressList[index].length; i++) {
+                    if (addressList[index][i] == ' ' &&
+                        regExp.hasMatch(addressList[index][i + 1])) {
+                      arr.add('${addressList[index].substring(0, i)}...');
+                      break;
+                    }
+                  }
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: CustomCard(
                       content: RadioListTile(
                           activeColor: customColor[ColorType.yellow],
-                          title: CustomText(text: addressList[index]),
+                          title: CustomText(text: arr[0]),
                           value: addressList[index],
                           groupValue: addressList[_selected],
                           onChanged: (value) {
