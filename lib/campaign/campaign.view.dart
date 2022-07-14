@@ -24,6 +24,78 @@ class _CampaignPageState extends State<CampaignPage> {
   final VoteController _voteCtrl = VoteController.get();
   bool isLoading = false;
 
+  Widget _gradientLayer() {
+    return Positioned.fill(
+        child: Container(
+      width: Get.width,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF5E3F74),
+            Color(0xFF82A5E1),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  Widget _campaignHeader(Campaign campaign) {
+    return CustomText(
+      text: campaign.slogan,
+      typoType: TypoType.h1Bold,
+      colorType: ColorType.white,
+      textAlign: TextAlign.left,
+    );
+  }
+
+  Widget _campaignInfoInRow(Campaign campaign) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Hero(
+            tag: 'companyLogo',
+            child: Avatar(
+                image: campaign.logoImg,
+                radius: 16,
+                align: Alignment.centerLeft)),
+        const SizedBox(height: 16),
+        CustomText(
+          typoType: TypoType.h2Bold,
+          text: campaign.koName,
+          colorType: ColorType.white,
+        ),
+        const SizedBox(height: 16),
+        CustomText(
+          typoType: TypoType.body,
+          text: '${campaign.moderator} | 주주총회 일정: ${campaign.date}',
+          colorType: ColorType.white,
+        ),
+        const SizedBox(height: 24),
+        CustomText(
+          typoType: TypoType.bodyLight,
+          text: campaign.details,
+          colorType: ColorType.white,
+          textAlign: TextAlign.left,
+        ),
+        const SizedBox(height: 46),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomText(
+                typoType: TypoType.body,
+                text: '진행상황',
+                colorType: ColorType.white),
+            const SizedBox(width: 41),
+            CampaignProgress(value: 1.0),
+          ],
+        )
+      ],
+    );
+  }
+
   Widget _campaignAgendaList(Campaign campaign) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +132,7 @@ class _CampaignPageState extends State<CampaignPage> {
                       textAlign: TextAlign.left),
                   subtitle: CustomText(
                       text: item.head,
-                      typoType: TypoType.bodyLight,
+                      typoType: TypoType.bodySmaller,
                       textAlign: TextAlign.left,
                       colorType: ColorType.black),
                   trailing: TextButton(
@@ -71,7 +143,10 @@ class _CampaignPageState extends State<CampaignPage> {
                           });
                         }
                       },
-                      child: CustomText(text: item.agendaFrom)),
+                      child: CustomText(
+                        text: item.agendaFrom,
+                        typoType: TypoType.bodySmaller,
+                      )),
                 ),
                 cardPadding: 0),
           );
@@ -80,7 +155,7 @@ class _CampaignPageState extends State<CampaignPage> {
     );
   }
 
-  _buildConfirmButton() {
+  Widget _buildConfirmButton() {
     if (_authCtrl.canVote) {
       return AnimatedButton(
           label: _voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
@@ -89,7 +164,7 @@ class _CampaignPageState extends State<CampaignPage> {
             debugPrint('[campaign] Hello, ${_authCtrl.user.username}!');
             _voteCtrl.toVote(_authCtrl.user.id, _authCtrl.user.username);
           });
-    } else if (!_authCtrl.canVote) {
+    } else {
       return CustomConfirmWithButton(
           buttonLabel: '전자위임 하러가기',
           message: '서비스 이용을 위해\n본인인증이 필요해요.',
@@ -97,115 +172,34 @@ class _CampaignPageState extends State<CampaignPage> {
           onConfirm: () {
             goToSignUp();
           });
-    } else {
-      // TODO: 전화번호 인증 혹은 본인정보 확인 필요
-      debugPrint('Need verify telNumber');
-      return Container();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
-      body: Stack(fit: StackFit.expand, children: [
-        _gradientLayer(),
-        SizedBox(
-          height: Get.height,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _campaignHeader(_voteCtrl.campaign),
-                  const SizedBox(height: 48),
-                  _campaignInfoInRow(_voteCtrl.campaign),
-                  const SizedBox(height: 86),
-                  _campaignAgendaList(_voteCtrl.campaign),
-                  const SizedBox(height: 24),
-                  _voteCtrl.campaign.status == '더보기'
-                      ? _buildConfirmButton()
-                      : Container(),
-                  const SizedBox(height: 80),
-                ],
-              ),
-            ),
-          ),
-        )
-      ]),
-    );
+        appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
+        body: Stack(fit: StackFit.expand, children: [
+          _gradientLayer(),
+          SizedBox(
+              height: Get.height,
+              child: SingleChildScrollView(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _campaignHeader(_voteCtrl.campaign),
+                            const SizedBox(height: 48),
+                            _campaignInfoInRow(_voteCtrl.campaign),
+                            const SizedBox(height: 86),
+                            _campaignAgendaList(_voteCtrl.campaign),
+                            const SizedBox(height: 24),
+                            _voteCtrl.campaign.status == '더보기'
+                                ? _buildConfirmButton()
+                                : Container(),
+                            const SizedBox(height: 80),
+                          ]))))
+        ]));
   }
-}
-
-Widget _gradientLayer() {
-  return Positioned.fill(
-      child: Container(
-    width: Get.width,
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color(0xFF5E3F74),
-          Color(0xFF82A5E1),
-        ],
-      ),
-    ),
-  ));
-}
-
-Widget _campaignHeader(Campaign campaign) {
-  return CustomText(
-    text: campaign.slogan,
-    typoType: TypoType.h1Bold,
-    colorType: ColorType.white,
-  );
-}
-
-Widget _campaignInfoInRow(Campaign campaign) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Hero(
-          tag: 'companyLogo',
-          child: Avatar(
-              image: campaign.logoImg,
-              radius: 16,
-              align: Alignment.centerLeft)),
-      const SizedBox(height: 16),
-      CustomText(
-        typoType: TypoType.h2Bold,
-        text: campaign.koName,
-        colorType: ColorType.white,
-      ),
-      const SizedBox(height: 16),
-      CustomText(
-        typoType: TypoType.body,
-        text: '${campaign.moderator} | 주주총회 일정: ${campaign.date}',
-        colorType: ColorType.white,
-      ),
-      const SizedBox(height: 24),
-      CustomText(
-        typoType: TypoType.bodyLight,
-        text: campaign.details,
-        colorType: ColorType.white,
-        textAlign: TextAlign.left,
-      ),
-      const SizedBox(height: 46),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomText(
-              typoType: TypoType.body,
-              text: '진행상황',
-              colorType: ColorType.white),
-          const SizedBox(width: 41),
-          // TODO: 캠페인 진행상황 서버에서 가져오기
-          CampaignProgress(value: 1.0),
-        ],
-      )
-    ],
-  );
 }

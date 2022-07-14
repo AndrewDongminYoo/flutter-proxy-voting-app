@@ -34,18 +34,22 @@ class CampaignProgress extends Expanded {
                 children: [
                   CustomText(
                       text: '공개',
+                      typoType: TypoType.label,
                       colorType:
                           (value == 0.0 ? ColorType.white : ColorType.white54)),
                   CustomText(
                       text: '주주제안',
+                      typoType: TypoType.label,
                       colorType:
                           (value == 0.3 ? ColorType.white : ColorType.white54)),
                   CustomText(
                       text: '의결권 위임',
+                      typoType: TypoType.label,
                       colorType:
                           (value == 0.6 ? ColorType.white : ColorType.white54)),
                   CustomText(
                       text: '주주총회',
+                      typoType: TypoType.label,
                       colorType:
                           (value == 1.0 ? ColorType.white : ColorType.white54))
                 ],

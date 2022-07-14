@@ -15,6 +15,7 @@ enum TypoType {
   h2,
   body,
   bodyLight,
+  bodySmaller,
   label,
   boldLabel
 }
@@ -46,6 +47,8 @@ final typoStyle = {
       TypoStyle(fontWeight: FontWeight.w400, fontSize: 16, letterSpacing: 0.28),
   TypoType.bodyLight:
       TypoStyle(fontWeight: FontWeight.w300, fontSize: 16, letterSpacing: 0.28),
+  TypoType.bodySmaller:
+      TypoStyle(fontWeight: FontWeight.w300, fontSize: 14, letterSpacing: 0.28),
   TypoType.label:
       TypoStyle(fontWeight: FontWeight.w300, fontSize: 11, letterSpacing: 0.16),
   TypoType.boldLabel:

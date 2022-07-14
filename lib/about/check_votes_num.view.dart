@@ -31,11 +31,6 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
     }
   }
 
-  _onEdit() async {
-    await Get.dialog(const EditModal());
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     Campaign campaign = _voteCtrl.campaign;
