@@ -105,30 +105,7 @@ class _ShowResultPageState extends State<ShowResultPage> {
                     children: [
                       const AddressCard(),
                       const SizedBox(height: 20),
-                      Container(
-                        width: Get.width,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                          color: Color(0xff582E66),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                  typoType: TypoType.body,
-                                  text: '보유 주수',
-                                  colorType: white),
-                              const SizedBox(height: 21),
-                              CustomText(
-                                  typoType: TypoType.bodyLight,
-                                  text: '${_voteCtrl.voteAgenda.sharesNum}',
-                                  colorType: white)
-                            ],
-                          ),
-                        ),
-                      ),
+                      VioletCard(),
                     ],
                   ),
                 ),
