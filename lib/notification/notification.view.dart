@@ -1,4 +1,3 @@
-// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -9,14 +8,14 @@ import '../theme.dart';
 import '../shared/shared.dart';
 import 'notification.dart';
 
-class NotificaitionPage extends StatefulWidget {
-  const NotificaitionPage({Key? key}) : super(key: key);
+class NotificaitionCard extends StatefulWidget {
+  const NotificaitionCard({Key? key}) : super(key: key);
 
   @override
-  State<NotificaitionPage> createState() => _NotificaitionPageState();
+  State<NotificaitionCard> createState() => _NotificaitionCardState();
 }
 
-class _NotificaitionPageState extends State<NotificaitionPage> {
+class _NotificaitionCardState extends State<NotificaitionCard> {
   final NotificationController _notificaitionCtrl =
       NotificationController.get();
 
@@ -28,24 +27,30 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(text: '알림', isNoticePage: true),
-      body: _notificaitionCtrl.notifications.isEmpty
+    return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: customColor[ColorType.deepPurple]!, width: 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: _notificaitionCtrl.notifications.isEmpty
           ? _noNotification()
           : _listView(),
     );
   }
 
   Widget _listView() {
-    return ListView.builder(
-        itemBuilder: (context, index) {
-          return InkWell(
-              child: _notificationCard(index),
-              onTap: () {
-                _onTabNotification(index);
-              });
-        },
-        itemCount: _notificaitionCtrl.notifications.length);
+    return SizedBox(
+      height: Get.height * 0.5,
+      child: ListView.builder(
+          itemBuilder: (context, index) {
+            return InkWell(
+                child: _notificationCard(index),
+                onTap: () {
+                  _onTabNotification(index);
+                });
+          },
+          itemCount: _notificaitionCtrl.notifications.length),
+    );
   }
 
   Widget _noNotification() {
@@ -53,11 +58,12 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
         child: SizedBox(
       height: Get.height * 0.5,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.notifications_rounded,
             color: customColor[ColorType.lightGrey],
-            size: Get.height * 0.3,
+            size: Get.height * 0.1,
           ),
           CustomText(
             text: '새로운 소식이 없습니다.',
@@ -70,29 +76,36 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
 
   Widget _notificationCard(int index) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: CustomCard(
-          content: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _avatar(),
-          Expanded(
-              child: Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: _message(index))),
-          CustomText(
-              typoType: TypoType.boldLabel,
-              text: _notificaitionCtrl.currentTime(
-                  _notificaitionCtrl.notifications[index].createdAt))
-        ],
-      )),
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: Column(children: [
+        Divider(color: customColor[ColorType.deepPurple]),
+        Stack(children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _avatar(),
+              Expanded(
+                  child: Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: _message(index))),
+            ],
+          ),
+          Positioned(
+              right: 0,
+              child: CustomText(
+                  typoType: TypoType.boldLabel,
+                  text: _notificaitionCtrl.currentTime(
+                      _notificaitionCtrl.notifications[index].createdAt)))
+        ]),
+        Divider(color: customColor[ColorType.deepPurple]),
+      ]),
     );
   }
 
   Widget _avatar() {
     return const CircleAvatar(
       foregroundImage: AssetImage('assets/images/logo.png'),
-      radius: 25,
+      radius: 16,
     );
   }
 
@@ -102,6 +115,7 @@ class _NotificaitionPageState extends State<NotificaitionPage> {
           typoType: TypoType.body,
           text: _notificaitionCtrl.notifications[index].title),
       CustomText(
+          textAlign: TextAlign.start,
           typoType: TypoType.bodyLight,
           text: _notificaitionCtrl.notifications[index].body),
     ]);

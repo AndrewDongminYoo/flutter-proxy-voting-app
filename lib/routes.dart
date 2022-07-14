@@ -18,5 +18,4 @@ routes() => [
       GetPage(name: '/duplicate', page: () => const AddressDuplicationPage()),
       GetPage(name: '/result', page: () => const ShowResultPage()),
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
-      GetPage(name: '/notification', page: () => const NotificaitionPage()),
     ];
