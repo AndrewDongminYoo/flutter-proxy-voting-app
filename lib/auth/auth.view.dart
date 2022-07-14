@@ -50,6 +50,8 @@ class _AuthPageState extends State<AuthPage> {
       _telecom,
       _phoneNumber,
     );
+    _authCtrl.getOtpCode(_authCtrl.user);
+    goToValidateNew();
   }
 
   _existingUser() {

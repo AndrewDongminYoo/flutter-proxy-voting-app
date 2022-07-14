@@ -25,7 +25,7 @@ class CustomFloatingButton extends StatefulWidget {
 }
 
 class _CustomFloatingButtonState extends State<CustomFloatingButton> {
-  bool _isOpend = false;
+  bool _isOpened = false;
   final AuthController _authCtrl = AuthController.get();
 
   @override
@@ -37,11 +37,11 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
 
   _onPressed() async {
     setState(() {
-      _isOpend = true;
+      _isOpened = true;
     });
     await Get.dialog(const ChatScreen());
     setState(() {
-      _isOpend = false;
+      _isOpened = false;
     });
   }
 
@@ -50,7 +50,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
     return FloatingActionButton(
       onPressed: _onPressed,
       backgroundColor: customColor[ColorType.yellow],
-      child: _isOpend
+      child: _isOpened
           ? const Icon(Icons.close_outlined)
           : const Icon(Icons.chat_rounded),
     );

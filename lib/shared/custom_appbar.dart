@@ -10,13 +10,12 @@ import 'package:get/get.dart';
 import '../notification/notification.dart';
 import '../theme.dart';
 import 'shared.dart';
-// import 'notice_button.dart';
 
+// ignore: must_be_immutable
 class CustomAppBar extends AppBar {
   final String text;
   final Color bgColor;
   final bool isNoticePage;
-
   CustomAppBar({
     Key? key,
     required this.text,
@@ -46,28 +45,30 @@ class CustomAppBar extends AppBar {
             !isNoticePage ? const NotificiationBtn() : const SizedBox()
           ],
         );
-
-  @override
-  Size get preferredSize {
-    return const Size.fromHeight(56.0);
-  }
 }
 
-class CustomBackButton extends IconButton {
-  // TODO: offNamed로 결과페이지에 도달했을 때, 사실상 동작하지 않는 뒤로가기 버튼이 여전히 보임.
-  const CustomBackButton({
-    Key? key,
-  }) : super(
-          key: key,
-          icon: const Icon(
-            CupertinoIcons.arrow_left_square,
-            color: Colors.white,
-          ),
-          splashRadius: 20.0,
-          iconSize: 24.0,
-          tooltip: '뒤로가기',
-          onPressed: goBack,
-        );
+class CustomBackButton extends StatelessWidget {
+  const CustomBackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator.canPop(context)
+        ? IconButton(
+            key: key,
+            icon: const Icon(
+              CupertinoIcons.arrow_left_square,
+              color: Colors.white,
+            ),
+            splashRadius: 20.0,
+            iconSize: 24.0,
+            tooltip: '뒤로가기',
+            onPressed: goBack,
+          )
+        : const SizedBox(
+            height: 24.0,
+            width: 24.0,
+          );
+  }
 }
 
 class NotificiationBtn extends StatefulWidget {

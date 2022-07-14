@@ -63,7 +63,6 @@ class AuthController extends GetxController {
       debugPrint('[AuthController] user exist.\n Hello, ${user.username}!');
       return user;
     }
-    print('getUserInfo error');
     return user;
   }
 

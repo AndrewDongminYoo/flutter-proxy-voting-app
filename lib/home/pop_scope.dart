@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:bside/lib.dart';
 import 'package:flutter/material.dart';
 
 class CustomPopScope extends StatefulWidget {
@@ -13,14 +14,32 @@ class CustomPopScope extends StatefulWidget {
 class _CustomPopScopeState extends State<CustomPopScope> {
   DateTime? _backButtonPress;
 
-  Future<bool> _onWillPop() {
+  Future<bool> _onWillPop() async {
     DateTime now = DateTime.now();
+    const duration = Duration(seconds: 2);
     if (_backButtonPress == null ||
-        now.difference(_backButtonPress!) > const Duration(seconds: 2)) {
+        now.difference(_backButtonPress!) > duration) {
       _backButtonPress = now;
-      return Future.value(false);
+      return false;
     }
-    return Future.value(true);
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('뒤로가기를 두번 클릭하셨습니다.'),
+            content: const Text('앱을 종료하시겠습니까?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => goBackWithVal(context, false),
+                child: const Text('No'),
+              ),
+              TextButton(
+                onPressed: () => goBackWithVal(context, true),
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
   }
 
   @override
