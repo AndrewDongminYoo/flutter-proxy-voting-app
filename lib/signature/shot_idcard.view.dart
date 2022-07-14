@@ -29,7 +29,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   String _informationString = '';
   final ImagePicker _picker = ImagePicker();
 
-  CustomSignController controller = CustomSignController.get();
+  final CustomSignController _controller = CustomSignController.get();
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
   ImageSource _source = ImageSource.camera;
@@ -94,7 +94,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
       _idcardImage = await File(xfile.path).readAsBytes();
       if (_idcardImage != null) {
         final extension = xfile.name.split('.').last;
-        final imgUrl = await controller.uploadSignature(
+        final imgUrl = await _controller.uploadSignature(
           _voteCtrl.campaign.enName,
           '$_username-${DateTime.now()}.$extension',
           _idcardImage!,

@@ -2,7 +2,7 @@
 import 'dart:async' show StreamSubscription;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show immutable, listEquals;
+import 'package:flutter/foundation.dart' show debugPrint, immutable, listEquals;
 import 'package:flutter/services.dart' show PlatformException;
 
 // 📦 Package imports:
@@ -138,8 +138,7 @@ class PaginationCubit extends Cubit<PaginationState> {
         );
       }
     } on PlatformException catch (exception) {
-      // ignore: avoid_print
-      print(exception);
+      debugPrint(exception.message);
       rethrow;
     }
   }

@@ -24,7 +24,7 @@ class VoteController extends GetxController {
   // Vote 진행 전 사용 변수
   bool isCompleted = false;
   Campaign campaign = campaigns[1]; // TLI 지정
-  Set<String> _completedCampaign = {};
+  Set<String> completedCampaign = {};
   final List<Shareholder> _completedShareholder = [];
 
   // Vote 진행 중 사용 변수
@@ -68,8 +68,8 @@ class VoteController extends GetxController {
     final campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
       debugPrint('[VoteController] SharedPreferences exist');
-      _completedCampaign = {...campaignList};
-      for (var campaign in _completedCampaign) {
+      completedCampaign = {...campaignList};
+      for (var campaign in completedCampaign) {
         final shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
@@ -82,7 +82,7 @@ class VoteController extends GetxController {
 
   void setCampaign(Campaign newCampaign) {
     campaign = newCampaign;
-    isCompleted = _completedCampaign.contains(newCampaign.enName);
+    isCompleted = completedCampaign.contains(newCampaign.enName);
     update();
   }
 
@@ -187,9 +187,9 @@ class VoteController extends GetxController {
     _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
 
     // 현재 캠페인을 완료 목록에 저장
-    _completedCampaign.add(campaign.enName);
-    await setCompletedCampaignList(_completedCampaign.toList());
-    debugPrint('completedCampaign, $_completedCampaign');
+    completedCampaign.add(campaign.enName);
+    await setCompletedCampaignList(completedCampaign.toList());
+    debugPrint('completedCampaign, $completedCampaign');
     if (kDebugMode) {
       debugPrint("[VoteController] voteAgenda: ${response.body['agenda']}");
     }

@@ -1,4 +1,6 @@
 // 📦 Package imports:
+import 'package:bside/lib.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 _() async {
@@ -20,7 +22,7 @@ setIamFirstTime() async {
   await prefs.setBool('firstTime', false);
 }
 
-setNickname() async {
+getNickname() async {
   final prefs = await _();
   return prefs.getString('nickname') ?? '';
 }
@@ -64,4 +66,30 @@ getNotifications() async {
 setNotifications(messages) async {
   final prefs = await _();
   await prefs.setStringList('notification', messages);
+}
+
+loadAll() async {
+  try {
+    final authCtrl = AuthController.get();
+    final notiCtrl = NotificationController.get();
+    final voteCtrl = VoteController.get();
+    final phoneNumber = await getTelephoneNumber();
+    authCtrl.getUserInfo(phoneNumber);
+    notiCtrl.getNotificationsLocal();
+    voteCtrl.init();
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+}
+
+saveAll() async {
+  try {
+    final authCtrl = AuthController.get();
+    final voteCtrl = VoteController.get();
+    setTelephoneNumber(authCtrl.user.phoneNumber);
+    setCompletedCampaignList(voteCtrl.completedCampaign.toList());
+    setShareholderId(voteCtrl.campaign.enName, voteCtrl.shareholder.id);
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 }

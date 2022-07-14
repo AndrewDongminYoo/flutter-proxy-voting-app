@@ -103,9 +103,6 @@ class _CommentsSheetState extends State<CommentsSheet> {
                           reverse: true,
                           itemBuilder: (BuildContext context, snapshot, index) {
                             final data = snapshot[index].data() as Map?;
-                            // ignore: unused_local_variable
-                            DateTime time =
-                                (data!['createdAt'] as Timestamp).toDate();
                             return Container(
                               //   height: 100,
                               decoration: const BoxDecoration(
@@ -126,7 +123,7 @@ class _CommentsSheetState extends State<CommentsSheet> {
                                 children: [
                                   CustomText(
                                     text:
-                                        '${data['nickname'] ?? data['author']}: ',
+                                        '${data!['nickname'] ?? data['author']}: ',
                                     typoType: TypoType.body,
                                   ),
                                   Expanded(

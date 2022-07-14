@@ -72,13 +72,11 @@ class NotificationController extends GetxController {
   void getNotificationsLocal() async {
     notifications.clear();
     List<String> result = await getNotifications();
-    // ignore: avoid_function_literals_in_foreach_calls
-    result.forEach((message) {
-      if (!notifications
-          .contains(Notification.fromJson(_decodeJson(message)))) {
-        notifications.add(Notification.fromJson(_decodeJson(message)));
+    for (var message in result) {
+      if (!notifications.contains(Notification.fromJson(decodeJson(message)))) {
+        notifications.add(Notification.fromJson(decodeJson(message)));
       }
-    });
+    }
   }
 
   Future<void> removeNotification(int index) async {
@@ -94,7 +92,7 @@ class NotificationController extends GetxController {
     return item;
   }
 
-  Map<String, dynamic> _decodeJson(String message) {
+  Map<String, dynamic> decodeJson(String message) {
     return json.decode(message,
         reviver: (key, value) => reviverDateTime(key, value));
   }

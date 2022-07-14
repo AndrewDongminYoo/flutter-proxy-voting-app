@@ -24,18 +24,18 @@ class LiveLoungePage extends StatefulWidget {
 
 class _LiveLoungePageState extends State<LiveLoungePage>
     with WidgetsBindingObserver {
-  int notiVer = -1;
-  String name = '';
+  int _notiVer = -1;
+  final String _name = '';
 
   _showCommentSheet() {
-    Get.bottomSheet(CommentsSheet(name: name));
+    Get.bottomSheet(CommentsSheet(name: _name));
   }
 
   @override
   void initState() {
     super.initState();
     _addCount();
-    setNickname();
+    getNickname();
   }
 
   @override
@@ -45,13 +45,13 @@ class _LiveLoungePageState extends State<LiveLoungePage>
   }
 
   _addCount() async {
-    final ref = liveRef.doc('sm');
+    final ref = liveRef.doc('tli');
     var snapshot = await ref.get();
     ref.update({'liveUserCount': snapshot['liveUserCount'] + 1});
   }
 
   _subtractCount() async {
-    final ref = liveRef.doc('sm');
+    final ref = liveRef.doc('tli');
     var snapshot = await ref.get();
     ref.update({'liveUserCount': min(snapshot['liveUserCount'] - 1, 0)});
   }
@@ -74,23 +74,11 @@ class _LiveLoungePageState extends State<LiveLoungePage>
   @override
   Widget build(BuildContext context) {
     const emptySpace = SizedBox(height: 20);
-    // ignore: unused_local_variable
-    final boxDecoration = BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-        color: customColor[ColorType.white],
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-          ),
-        ]);
-
-    Stream<DocumentSnapshot> agendaStream = liveRef.doc('sm').snapshots();
+    Stream<DocumentSnapshot> agendaStream = liveRef.doc('tli').snapshots();
 
     agendaStream.listen((DocumentSnapshot snapshot) {
-      if (snapshot['notiVer'] > notiVer) {
-        notiVer = snapshot['notiVer'];
+      if (snapshot['notiVer'] > _notiVer) {
+        _notiVer = snapshot['notiVer'];
         EasyDebounce.debounce(
             'sendAlert',
             const Duration(milliseconds: 200),
@@ -160,7 +148,7 @@ class LiveUserCount extends StatefulWidget {
 
 class _LiveUserCountState extends State<LiveUserCount> {
   final Stream<DocumentSnapshot> _documentStream =
-      liveRef.doc('sm').snapshots();
+      liveRef.doc('tli').snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(

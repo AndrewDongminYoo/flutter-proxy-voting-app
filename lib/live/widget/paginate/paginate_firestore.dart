@@ -252,7 +252,6 @@ class PaginateFirestoreState extends State<PaginateFirestore> {
                 if (localIndex.isEven) {
                   return localIndex ~/ 2;
                 }
-                // ignore: avoid_returning_null
                 return null;
               },
               childCount: max(

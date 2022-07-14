@@ -11,7 +11,6 @@ import '../notification/notification.dart';
 import '../theme.dart';
 import 'shared.dart';
 
-// ignore: must_be_immutable
 class CustomAppBar extends AppBar {
   final String text;
   final Color bgColor;
@@ -79,11 +78,10 @@ class NotificiationBtn extends StatefulWidget {
 }
 
 class _NotificiationBtnState extends State<NotificiationBtn> {
-  Offset offset = Offset.zero;
   final _notificaitionCtrl = NotificationController.get();
 
-  onPressNotification() {
-    showAnimatedDialog(
+  _onPressNotification() {
+    _showAnimatedDialog(
       context: context,
       builder: (BuildContext context) {
         return const NotificaitionCard();
@@ -101,12 +99,12 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
     return IconButton(
       icon: const Icon(Icons.notifications_rounded),
       color: customColor[ColorType.white],
-      onPressed: onPressNotification,
+      onPressed: _onPressNotification,
     );
   }
 }
 
-showAnimatedDialog<T extends Object?>({
+_showAnimatedDialog<T extends Object?>({
   required BuildContext context,
   bool barrierDismissible = true,
   required WidgetBuilder builder,
