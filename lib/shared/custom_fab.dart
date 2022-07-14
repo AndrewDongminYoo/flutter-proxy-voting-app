@@ -32,7 +32,6 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
   void initState() {
     super.initState();
     _authCtrl.getChat();
-    // TODO: 메세지를 확인하여 hasNew 갱신 여부 결정
   }
 
   _onPressed() async {
