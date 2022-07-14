@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🐦 Flutter imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetNavigation;
 
 goBack() => Get.back();
 goBackWithVal(context, value) => Navigator.pop(context, value);

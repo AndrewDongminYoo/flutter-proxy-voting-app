@@ -3,7 +3,7 @@ import 'dart:typed_data' show Uint8List;
 
 // 📦 Package imports:
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetxController, Inst;
 
 class CustomSignController extends GetxController {
   static CustomSignController get() => Get.isRegistered<CustomSignController>()

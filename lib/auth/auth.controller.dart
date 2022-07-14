@@ -2,7 +2,8 @@
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart'
+    show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';

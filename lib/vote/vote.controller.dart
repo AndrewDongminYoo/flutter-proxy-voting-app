@@ -7,7 +7,8 @@ import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart'
+    show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
 
 // 🌎 Project imports:
 import '../shared/custom_nav.dart';

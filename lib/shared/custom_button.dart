@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart' show CupertinoActivityIndicator;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
 import '../theme.dart';

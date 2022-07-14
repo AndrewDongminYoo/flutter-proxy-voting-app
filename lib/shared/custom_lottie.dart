@@ -1,5 +1,5 @@
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:lottie/lottie.dart';
 
 final LottieBuilder lottieIDCard = Lottie.network(

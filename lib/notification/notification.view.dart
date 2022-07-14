@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
 import '../theme.dart';
@@ -22,7 +22,7 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
   onTapCancel() {
     Navigator.of(context).pop();
   }
-  
+
   _onTabNotification(int index) {
     setState(() {
       _notificaitionCtrl.removeNotification(index);
@@ -31,25 +31,24 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: customColor[ColorType.deepPurple]!, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(children: [
-        _notificaitionCtrl.notifications.isEmpty
-          ? _noNotification()
-          : _listView(),
-
-          IconButton(
-            icon: const Icon(Icons.cancel_outlined),
-            iconSize: 48,
-            color: customColor[ColorType.deepPurple],
-            onPressed: onTapCancel,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: customColor[ColorType.deepPurple]!, width: 1),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: [
+            _notificaitionCtrl.notifications.isEmpty
+                ? _noNotification()
+                : _listView(),
+            IconButton(
+              icon: const Icon(Icons.cancel_outlined),
+              iconSize: 48,
+              color: customColor[ColorType.deepPurple],
+              onPressed: onTapCancel,
             )
-      ],)
-    );
+          ],
+        ));
   }
 
   Widget _listView() {

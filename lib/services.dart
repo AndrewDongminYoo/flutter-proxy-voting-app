@@ -5,7 +5,7 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/foundation.dart' show kDebugMode;
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show GetConnect, Response;
 import 'package:package_info_plus/package_info_plus.dart';
 
 // 🌎 Project imports:

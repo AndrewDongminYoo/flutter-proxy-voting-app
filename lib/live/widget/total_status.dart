@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,8 +11,7 @@ import '../../shared/custom_text.dart';
 import '../../campaign/campaign.pg_bar.dart';
 import '../../theme.dart';
 import '../../utils/firebase.dart';
-import '../live.model.dart';
-import 'widget.dart';
+import '../live.dart';
 
 class TotalStatus extends StatelessWidget {
   TotalStatus({Key? key}) : super(key: key);

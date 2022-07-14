@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show ExtensionDialog, Get, GetNavigation;
 import 'package:intl/intl.dart';
 
 // 🌎 Project imports:

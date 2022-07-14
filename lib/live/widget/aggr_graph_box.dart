@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart'
+    show ExtensionSnackbar, Get, GetNavigation, SnackPosition;
 import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
 import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../../utils/firebase.dart';
-import '../live.model.dart';
-import 'widget.dart';
+import '../live.dart';
 
 class CustomPanel extends StatefulWidget {
   const CustomPanel({

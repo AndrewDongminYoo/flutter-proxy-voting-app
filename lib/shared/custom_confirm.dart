@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show ExtensionBottomSheet, Get;
 
 // 🌎 Project imports:
 import '../theme.dart';

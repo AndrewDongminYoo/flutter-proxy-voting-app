@@ -5,7 +5,7 @@ import 'dart:math' show min;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show ExtensionBottomSheet, Get, GetStringUtils;
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
