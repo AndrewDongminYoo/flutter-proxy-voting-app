@@ -103,8 +103,8 @@ class AppVersionValidator {
         appStoreLink: jsonObj['results'][0]['trackViewUrl'],
       );
     } catch (e) {
-      print('Get ios Version Error!!!');
-      print(e);
+      debugPrint('Get ios Version Error!!!');
+      debugPrint(e.toString());
       return VersionStatus._(
           localVersion: storeVersion,
           storeVersion: storeVersion,
@@ -147,8 +147,8 @@ class AppVersionValidator {
         appStoreLink: uri.toString(),
       );
     } catch (e) {
-      print('Get Android Version Error!!!');
-      print(e);
+      debugPrint('Get Android Version Error!!!');
+      debugPrint(e.toString());
       return VersionStatus._(
           localVersion: storeVersion,
           storeVersion: storeVersion,
