@@ -7,20 +7,16 @@ class Notification {
   DateTime createdAt = DateTime.now();
   Notification({title, body, createdAt});
 
-  factory Notification.fromFireMessage(RemoteMessage message) {
-    return Notification(
-      title: message.notification!.title!,
-      body: message.notification!.body!,
-      createdAt: message.sentTime!,
-    );
+  Notification.fromFireMessage(RemoteMessage message) {
+    title = message.notification!.title!;
+    body = message.notification!.body!;
+    createdAt = message.sentTime!;
   }
 
-  factory Notification.fromJson(Map<String, dynamic> json) {
-    return Notification(
-      title: json['title'],
-      body: json['body'],
-      createdAt: json['createdAt'],
-    );
+  Notification.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    body = json['body'];
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() => {

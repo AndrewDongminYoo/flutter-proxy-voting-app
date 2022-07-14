@@ -21,22 +21,21 @@ class CustomAppBar extends AppBar {
     required this.text,
     this.isNoticePage = false,
     this.bgColor = const Color(0xFF572E67),
-
   }) : super(
           key: key,
           leading: SizedBox(
             width: Get.width,
             child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CustomBackButton(),
-                      CustomText(
-                          text: text,
-                          typoType: TypoType.body,
-                          colorType: ColorType.white),
-                    ],
-                  ),
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CustomBackButton(),
+                CustomText(
+                    text: text,
+                    typoType: TypoType.body,
+                    colorType: ColorType.white),
+              ],
+            ),
           ),
           leadingWidth: 200,
           toolbarHeight: 80,
@@ -83,24 +82,26 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
   Offset offset = Offset.zero;
   final _notificaitionCtrl = NotificationController.get();
 
+  onPressNotification() {
+    showAnimatedDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const NotificaitionCard();
+      },
+      curve: Curves.fastOutSlowIn,
+      duration: const Duration(seconds: 1),
+    );
+    if (_notificaitionCtrl.encodedPushAlrams.isNotEmpty) {
+      _notificaitionCtrl.getNotificationsLocal();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.notifications_rounded),
       color: customColor[ColorType.white],
-      onPressed: () {
-        showAnimatedDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const NotificaitionCard();
-          },
-          curve: Curves.fastOutSlowIn,
-          duration: const Duration(seconds: 1),
-        );
-        if (_notificaitionCtrl.encodedPushAlrams.isNotEmpty) {
-          _notificaitionCtrl.getNotificationsLocal();
-        }
-      },
+      onPressed: onPressNotification,
     );
   }
 }

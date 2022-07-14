@@ -19,6 +19,10 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
   final NotificationController _notificaitionCtrl =
       NotificationController.get();
 
+  onTapCancel() {
+    Navigator.of(context).pop();
+  }
+  
   _onTabNotification(int index) {
     setState(() {
       _notificaitionCtrl.removeNotification(index);
@@ -27,14 +31,24 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(color: customColor[ColorType.deepPurple]!, width: 1),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: _notificaitionCtrl.notifications.isEmpty
+      child: Column(children: [
+        _notificaitionCtrl.notifications.isEmpty
           ? _noNotification()
           : _listView(),
+
+          IconButton(
+            icon: const Icon(Icons.cancel_outlined),
+            iconSize: 48,
+            color: customColor[ColorType.deepPurple],
+            onPressed: onTapCancel,
+            )
+      ],)
     );
   }
 
