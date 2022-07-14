@@ -85,10 +85,9 @@ class _OnboardingPageState extends State<OnboardingPage>
       child: TextButton(
         onPressed: _onTap,
         style: TextButton.styleFrom(
-          textStyle: const TextStyle(
+          foregroundColor: Colors.white, textStyle: const TextStyle(
             fontSize: 16,
           ),
-          primary: Colors.white,
         ),
         child: CustomText(text: index == 2 ? '시작하기' : '건너뛰기'),
       ),
