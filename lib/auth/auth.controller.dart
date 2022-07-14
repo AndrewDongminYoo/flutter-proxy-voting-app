@@ -83,8 +83,8 @@ class AuthController extends GetxController {
 
   Future<void> getOtpCode(dynamic userLike) async {
     // Super User for apple QA
-    if (userLike._phoneNumber == '01086199325' &&
-        userLike._frontId == '940701') {
+    if (userLike.phoneNumber == '01086199325' &&
+        userLike.frontId == '940701') {
       user = await getUserInfo(userLike._phoneNumber);
       debugPrint('super user for apple QA');
       return;
