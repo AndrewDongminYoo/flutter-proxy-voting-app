@@ -3,7 +3,7 @@ import 'dart:async' show Future;
 import 'dart:io' show Platform;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
 import 'package:device_info_plus/device_info_plus.dart';

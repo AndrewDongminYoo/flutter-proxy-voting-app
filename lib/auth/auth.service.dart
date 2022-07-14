@@ -2,7 +2,7 @@
 import 'dart:convert' show jsonEncode;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';

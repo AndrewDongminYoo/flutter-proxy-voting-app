@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
-import '../../shared/custom_button.dart';
-import '../../shared/custom_nav.dart';
-import '../../theme.dart';
-import '../../shared/custom_text.dart';
-import '../auth.dart';
+import '../shared/shared.dart';
+import '../theme.dart';
+import 'auth.dart';
 
 const items = [
   '[필수]서비스 이용약관',

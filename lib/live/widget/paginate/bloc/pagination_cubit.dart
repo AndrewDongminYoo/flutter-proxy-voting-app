@@ -1,10 +1,14 @@
+// 🎯 Dart imports:
 import 'dart:async' show StreamSubscription;
 
+// 🐦 Flutter imports:
+import 'package:flutter/foundation.dart' show immutable, listEquals;
+import 'package:flutter/services.dart' show PlatformException;
+
+// 📦 Package imports:
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart' show Cubit;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
 @immutable
 abstract class PaginationState {}

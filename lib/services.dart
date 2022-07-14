@@ -1,8 +1,10 @@
 // 🎯 Dart imports:
 import 'dart:convert' show jsonEncode;
 
+// 🐦 Flutter imports:
+import 'package:flutter/foundation.dart' show kDebugMode;
+
 // 📦 Package imports:
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
