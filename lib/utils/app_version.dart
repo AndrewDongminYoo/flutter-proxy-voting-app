@@ -6,7 +6,6 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
@@ -22,13 +21,11 @@ class VersionStatus {
   final String localVersion;
   final String storeVersion;
   final String appStoreLink;
-  final String? releaseNotes;
 
   VersionStatus._({
     required this.localVersion,
     required this.storeVersion,
     required this.appStoreLink,
-    this.releaseNotes,
   });
 
   bool get canUpdate {
@@ -61,11 +58,9 @@ class VersionStatus {
 class AppVersionValidator {
   final String? iOSId;
   final String? androidId;
-  final String? iOSAppStoreCountry;
   AppVersionValidator({
     this.androidId,
     this.iOSId,
-    this.iOSAppStoreCountry,
   });
 
   Future<VersionStatus?> _getVersionStatus() async {
@@ -84,71 +79,57 @@ class AppVersionValidator {
       RegExp(r'\d+\.\d+\.\d+').stringMatch(version) ?? '0.0.0';
 
   Future<VersionStatus?> _getiOSStoreVersion(PackageInfo packageInfo) async {
-    final id = iOSId ?? packageInfo.packageName;
-    final parameters = {'bundleId': id};
-    if (iOSAppStoreCountry != null) {
-      parameters.addAll({'country': iOSAppStoreCountry!});
+    String storeVersion = packageInfo.version;
+    try {
+      final id = iOSId ?? packageInfo.packageName;
+      final parameters = {'bundleId': id};
+      final uri = Uri.https('itunes.apple.com', '/lookup', parameters);
+      final response = await http.get(uri);
+      if (response.statusCode != 200) {
+        debugPrint('Failed to query iOS App Store');
+        return null;
+      }
+
+      final jsonObj = json.decode(response.body);
+      final List results = jsonObj['results'];
+      if (results.isEmpty) {
+        debugPrint('Can\'t find an app in the App Store with the id: $id');
+        return null;
+      }
+      storeVersion = jsonObj['results'][0]['version'];
+      return VersionStatus._(
+        localVersion: _getCleanVersion(packageInfo.version),
+        storeVersion: _getCleanVersion(storeVersion),
+        appStoreLink: jsonObj['results'][0]['trackViewUrl'],
+      );
+    } catch (e) {
+      print('Get ios Version Error!!!');
+      print(e);
+      return VersionStatus._(
+          localVersion: storeVersion,
+          storeVersion: storeVersion,
+          appStoreLink: '');
     }
-    var uri = Uri.https('itunes.apple.com', '/lookup', parameters);
-    final response = await http.get(uri);
-    if (response.statusCode != 200) {
-      debugPrint('Failed to query iOS App Store');
-      return null;
-    }
-    final jsonObj = json.decode(response.body);
-    final List results = jsonObj['results'];
-    if (results.isEmpty) {
-      debugPrint('Can\'t find an app in the App Store with the id: $id');
-      return null;
-    }
-    return VersionStatus._(
-      // localVersion: '1.3.8',
-      localVersion: _getCleanVersion(packageInfo.version),
-      storeVersion:
-          // _getCleanVersion(forceAppVersion ?? jsonObj['results'][0]['version']),
-          _getCleanVersion(jsonObj['results'][0]['version']),
-      appStoreLink: jsonObj['results'][0]['trackViewUrl'],
-      releaseNotes: jsonObj['results'][0]['releaseNotes'],
-    );
   }
 
   Future<VersionStatus?> _getAndroidStoreVersion(
       PackageInfo packageInfo) async {
-    final id = androidId ?? packageInfo.packageName;
-    final uri = Uri.https(
-        'play.google.com', '/store/apps/details', {'id': id, 'hl': 'kr'});
-    final response = await http.get(uri);
-    if (response.statusCode != 200) {
-      debugPrint('Can\'t find an app in the Play Store with the id: $id');
-      return null;
-    }
+    String storeVersion = packageInfo.version;
+    try {
+      final id = androidId ?? packageInfo.packageName;
+      final uri =
+          Uri.https('play.google.com', '/store/apps/details', {'id': id});
+      final response = await http.get(uri);
+      if (response.statusCode != 200) {
+        debugPrint('Can\'t find an app in the Play Store with the id: $id');
+        return null;
+      }
 
-    final document = parse(response.body);
-
-    String storeVersion = '0.0.0';
-    String? releaseNotes;
-
-    final additionalInfoElements = document.getElementsByClassName('hAyfc');
-    if (additionalInfoElements.isNotEmpty) {
-      final versionElement = additionalInfoElements.firstWhere(
-        (elm) => elm.querySelector('.BgcNfc')!.text == 'Current Version',
-      );
-      storeVersion = versionElement.querySelector('.htlgb')!.text;
-
-      final sectionElements = document.getElementsByClassName('W4P4ne');
-      final releaseNotesElement = sectionElements.firstWhereOrNull(
-        (elm) => elm.querySelector('.wSaTQd')!.text == 'What\'s New',
-      );
-      releaseNotes = releaseNotesElement
-          ?.querySelector('.PHBdkd')
-          ?.querySelector('.DWPxHb')
-          ?.text;
-    } else {
+      final document = parse(response.body);
       final scriptElements = document.getElementsByTagName('script');
       final infoScriptElement = scriptElements.firstWhere(
-        (elm) => elm.text.contains('key: \'ds:4\''),
+        (elm) => elm.text.contains("key: 'ds:5'"),
       );
-
       final param = infoScriptElement.text
           .substring(20, infoScriptElement.text.length - 2)
           .replaceAll('key:', '"key":')
@@ -160,34 +141,39 @@ class AppVersionValidator {
       final data = parsed['data'];
 
       storeVersion = data[1][2][140][0][0][0];
-      releaseNotes = data[1][2][144][1][1];
+      return VersionStatus._(
+        localVersion: _getCleanVersion(packageInfo.version),
+        storeVersion: _getCleanVersion(storeVersion),
+        appStoreLink: uri.toString(),
+      );
+    } catch (e) {
+      print('Get Android Version Error!!!');
+      print(e);
+      return VersionStatus._(
+          localVersion: storeVersion,
+          storeVersion: storeVersion,
+          appStoreLink: '');
     }
-
-    return VersionStatus._(
-      // localVersion: '1.3.8',
-      localVersion: _getCleanVersion(packageInfo.version),
-      // storeVersion: _getCleanVersion(forceAppVersion ?? storeVersion),
-      storeVersion: _getCleanVersion(storeVersion),
-      appStoreLink: uri.toString(),
-      releaseNotes: releaseNotes,
-    );
   }
 
   Future<void> _launchAppStore(String appStoreLink) async {
-    final Uri url = Uri.parse('https://bside.page.link/download');
-    if (!await launchUrl(url)) throw 'Could not launch $url';
+    if (Platform.isIOS) {
+      final Uri url = Uri.parse('https://bside.page.link/download');
+      if (!await launchUrl(url)) throw 'Could not launch $url';
+    } else if (Platform.isAndroid) {
+      final Uri url = Uri.parse(appStoreLink);
+      if (!await launchUrl(url)) throw 'Could not launch $url';
+    }
   }
 }
 
 compareAppVersion() async {
-  if (!Platform.isAndroid) {
-    final versionValidator = AppVersionValidator();
-    final version = await versionValidator._getVersionStatus();
-    version!.printVersion();
-    if (version.canUpdate) {
-      customWindowConfirm('새로운 앱 버전이 있습니다.', '업데이트 하러가기', () {
-        versionValidator._launchAppStore(version.appStoreLink);
-      });
-    }
+  final versionValidator = AppVersionValidator();
+  final version = await versionValidator._getVersionStatus();
+  version!.printVersion();
+  if (version.canUpdate) {
+    customWindowConfirm('새로운 앱 버전이 있습니다.', '업데이트 하러가기', () {
+      versionValidator._launchAppStore(version.appStoreLink);
+    });
   }
 }
