@@ -21,13 +21,20 @@ Widget confirmBody(String message, String okLabel, void Function() onConfirm) {
             typoType: TypoType.h2,
           ),
         ),
-        const IconButton(
-          onPressed: goBack,
+        IconButton(
+          onPressed: onConfirm,
           splashRadius: 20.0,
           iconSize: 16.0,
           padding: EdgeInsets.zero,
-          constraints: BoxConstraints(minHeight: 20.0, minWidth: 20.0),
-          icon: Icon(Icons.close, color: Colors.black, semanticLabel: '창 닫기'),
+          constraints: const BoxConstraints(
+            minHeight: 20.0,
+            minWidth: 20.0,
+          ),
+          icon: const Icon(
+            Icons.close,
+            color: Colors.black,
+            semanticLabel: '창 닫기',
+          ),
         )
       ]),
       const SizedBox(height: 36),

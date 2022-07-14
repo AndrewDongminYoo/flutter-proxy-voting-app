@@ -112,7 +112,7 @@ class _CampaignPageState extends State<CampaignPage> {
                 width: CustomW.w2,
                 bgColor: ColorType.orange,
                 textColor: ColorType.white,
-                fontSize: 18,
+                fontSize: 16,
                 height: 40.0,
                 onPressed: () async {
                   await launchUrlString(campaign.dartUrl);
@@ -158,6 +158,7 @@ class _CampaignPageState extends State<CampaignPage> {
   Widget _buildConfirmButton() {
     if (_authCtrl.canVote) {
       return AnimatedButton(
+          isLoading: isLoading,
           label: _voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () async {

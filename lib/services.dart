@@ -30,6 +30,7 @@ class MainService extends GetConnect {
     return put(_getURL('/app_version'), jsonEncode(data));
   }
 
+  /// TODO: Crashlytics API로 대체할 예정
   Future<Response> reportUncaughtError(Object error, StackTrace trace) {
     return post(
         _getURL('/error_handler'),

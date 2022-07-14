@@ -1,5 +1,5 @@
 // 📦 Package imports:
-import 'package:timeago/timeago.dart';
+import 'package:timeago/timeago.dart' show LookupMessages;
 
 class KoMessages implements LookupMessages {
   @override

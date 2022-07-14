@@ -19,10 +19,14 @@ goToDuplicate() => Get.toNamed('/duplicate');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
 goToNotificationPage() => Get.toNamed('/notification');
 
-backToSignUp() =>
-    Get.offNamedUntil('/signup', (route) => route.settings.name == '/signup');
+backToSignUp() => Get.offNamedUntil(
+      '/signup',
+      (route) => route.settings.name == '/signup',
+    );
 jumpToCheckVoteNum() => Get.offNamedUntil(
-    '/checkvotenum', (route) => route.settings.name == '/checkvotenum');
+      '/checkvotenum',
+      (route) => route.settings.name == '/checkvotenum',
+    );
 
 goToVoteWithExample() {
   return Get.toNamed(

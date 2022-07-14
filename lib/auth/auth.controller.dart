@@ -20,11 +20,9 @@ class AuthController extends GetxController {
   User? _user;
   List<Chat> chats = [];
   bool _isLogined = false;
+  bool get canVote => _isLogined;
   final AuthService _service = AuthService();
 
-  bool get canVote => _isLogined;
-
-  // FIXME: user의 id값이 -1로 덮어 쓰이는 현상이 있음
   User get user {
     if (_user != null) {
       return _user!;
@@ -42,11 +40,11 @@ class AuthController extends GetxController {
     debugPrint('[AuthController] init');
     final telNum = await getTelephoneNumber();
     if (telNum.isNotEmpty) {
-      debugPrint('[AuthController] SharedPreferences exist');
+      debugPrint('[AuthController] Yor left the phoneNumber.');
       final result = await getUserInfo(telNum);
       if (result == null) {
         // 잘못된 캐시데이터 삭제
-        debugPrint('[AuthController] delete useless SharedPreferences');
+        debugPrint('[AuthController] deleted useless SharedPreferences');
         await clearPref();
       } else {
         _signIn();
@@ -65,11 +63,13 @@ class AuthController extends GetxController {
       debugPrint('[AuthController] user exist.\n Hello, ${user.username}!');
       return user;
     }
-    return null;
+    print('getUserInfo error');
+    return user;
   }
 
   // 회원가입
   Future<Response> _signUp() async {
+    debugPrint('[AuthController] signUp');
     Response response = await _service.createUser(user.username, user.frontId,
         user.backId, user.telecom, user.phoneNumber, user.ci, user.di);
     debugPrint(response.bodyString);
@@ -83,8 +83,7 @@ class AuthController extends GetxController {
 
   Future<void> getOtpCode(dynamic userLike) async {
     // Super User for apple QA
-    if (userLike.phoneNumber == '01086199325' &&
-        userLike.frontId == '940701') {
+    if (userLike.phoneNumber == '01086199325' && userLike.frontId == '940701') {
       user = await getUserInfo(userLike._phoneNumber);
       debugPrint('super user for apple QA');
       return;

@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import '../theme.dart';
-import 'auth.dart';
 
 const items = [
   '[필수]서비스 이용약관',
@@ -18,7 +17,12 @@ const items = [
 
 class ServiceTerm extends StatefulWidget {
   final ScrollController controller;
-  const ServiceTerm({Key? key, required this.controller}) : super(key: key);
+  final dynamic Function() newUserFunc;
+  const ServiceTerm({
+    Key? key,
+    required this.controller,
+    required this.newUserFunc,
+  }) : super(key: key);
 
   @override
   State<ServiceTerm> createState() => _ServiceTermState();
@@ -27,13 +31,6 @@ class ServiceTerm extends StatefulWidget {
 class _ServiceTermState extends State<ServiceTerm> {
   final List _agreeTerms = [false, false, false, false];
   bool _showDetails = false;
-  final AuthController _authCtrl = AuthController.get();
-
-  _newUser() {
-    _authCtrl.user;
-    _authCtrl.getOtpCode(_authCtrl.user);
-    goToValidateNew();
-  }
 
   _getAllAgreeTerms() {
     return _agreeTerms.every((element) => element);
@@ -128,7 +125,7 @@ class _ServiceTermState extends State<ServiceTerm> {
       padding: const EdgeInsets.only(bottom: 100.0),
       child: CustomButton(
         label: '확인',
-        onPressed: _newUser,
+        onPressed: widget.newUserFunc,
         width: CustomW.w4,
       ),
     );

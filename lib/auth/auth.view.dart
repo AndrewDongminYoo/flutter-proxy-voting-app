@@ -42,7 +42,7 @@ class _AuthPageState extends State<AuthPage> {
   String _telecom = '';
   String _phoneNumber = '';
 
-  _newUser() {
+  newUser() {
     _authCtrl.user = User(
       _userName,
       _frontId,
@@ -91,12 +91,9 @@ class _AuthPageState extends State<AuthPage> {
       default:
         break;
     }
-    if (mounted) {
-      setState(() {
-        _newUser();
-        _curStep += 1;
-      });
-    }
+    setState(() {
+      _curStep += 1;
+    });
   }
 
   @override
@@ -144,7 +141,10 @@ class _AuthPageState extends State<AuthPage> {
                                     PhoneNumberForm(nextForm: _nextForm),
                                     const SizedBox(height: 40),
                                     _curStep >= 4
-                                        ? ServiceTerm(controller: controller)
+                                        ? ServiceTerm(
+                                            controller: controller,
+                                            newUserFunc: newUser,
+                                          )
                                         : Container(),
                                   ])))
                         ]))))));

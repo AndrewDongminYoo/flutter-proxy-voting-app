@@ -15,7 +15,6 @@ import 'shared.dart';
 class CustomAppBar extends AppBar {
   final String text;
   final Color bgColor;
-  final bool withoutBack;
   final bool isNoticePage;
 
   CustomAppBar({
@@ -23,24 +22,21 @@ class CustomAppBar extends AppBar {
     required this.text,
     this.isNoticePage = false,
     this.bgColor = const Color(0xFF572E67),
-    this.withoutBack = false,
   }) : super(
           key: key,
           leading: SizedBox(
             width: Get.width,
-            child: withoutBack
-                ? Container()
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CustomBackButton(),
-                      CustomText(
-                          text: text,
-                          typoType: TypoType.body,
-                          colorType: ColorType.white),
-                    ],
-                  ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CustomBackButton(),
+                CustomText(
+                    text: text,
+                    typoType: TypoType.body,
+                    colorType: ColorType.white),
+              ],
+            ),
           ),
           leadingWidth: 200,
           toolbarHeight: 80,
