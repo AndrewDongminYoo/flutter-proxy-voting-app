@@ -179,28 +179,31 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
-        body: Stack(fit: StackFit.expand, children: [
-          _gradientLayer(),
-          SizedBox(
-              height: Get.height,
-              child: SingleChildScrollView(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _campaignHeader(_voteCtrl.campaign),
-                            const SizedBox(height: 48),
-                            _campaignInfoInRow(_voteCtrl.campaign),
-                            const SizedBox(height: 86),
-                            _campaignAgendaList(_voteCtrl.campaign),
-                            const SizedBox(height: 24),
-                            _voteCtrl.campaign.status == '더보기'
-                                ? _buildConfirmButton()
-                                : Container(),
-                            const SizedBox(height: 80),
-                          ]))))
-        ]));
+      appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
+      body: Stack(fit: StackFit.expand, children: [
+        _gradientLayer(),
+        SizedBox(
+          height: Get.height,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _campaignHeader(_voteCtrl.campaign),
+                  const SizedBox(height: 48),
+                  _campaignInfoInRow(_voteCtrl.campaign),
+                  const SizedBox(height: 86),
+                  _campaignAgendaList(_voteCtrl.campaign),
+                  const SizedBox(height: 24),
+                  const SizedBox(height: 80),
+                ],
+              ),
+            ),
+          ),
+        )
+      ]),
+      floatingActionButton: _buildConfirmButton(),
+    );
   }
 }
