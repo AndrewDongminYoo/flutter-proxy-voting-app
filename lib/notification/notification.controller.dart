@@ -22,7 +22,7 @@ class NotificationController extends GetxController {
           : Get.put(NotificationController());
 
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  List<Notificaition> notifications = [];
+  List<Notification> notifications = [];
   List<String> encodedPushAlrams = [];
   late String token;
 
@@ -32,7 +32,7 @@ class NotificationController extends GetxController {
       if (Platform.isAndroid) {
         await _androidLocalNotification(message, notification);
       }
-      Notificaition data = Notificaition.fromFireMessage(message);
+      Notification data = Notification.fromFireMessage(message);
       encodedPushAlrams
           .add(json.encode(data.toJson(), toEncodable: _encodeDateTime));
       setNotifications(encodedPushAlrams);
@@ -75,8 +75,8 @@ class NotificationController extends GetxController {
     // ignore: avoid_function_literals_in_foreach_calls
     result.forEach((message) {
       if (!notifications
-          .contains(Notificaition.fromJson(_decodeJson(message)))) {
-        notifications.add(Notificaition.fromJson(_decodeJson(message)));
+          .contains(Notification.fromJson(_decodeJson(message)))) {
+        notifications.add(Notification.fromJson(_decodeJson(message)));
       }
     });
   }

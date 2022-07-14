@@ -45,6 +45,7 @@ class AuthController extends GetxController {
       if (result == null) {
         // 잘못된 캐시데이터 삭제
         debugPrint('[AuthController] deleted useless SharedPreferences');
+        // NOTE: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
         await clearPref();
       } else {
         _signIn();
@@ -101,7 +102,7 @@ class AuthController extends GetxController {
       return;
     }
 
-    await _service.putPassCode(telNum, otpCode);
+    await _service.putOtpCode(telNum, otpCode);
     await Future.delayed(const Duration(seconds: 3), () async {
       var response = await _service.getResult(telNum);
       debugPrint(response.bodyString);
@@ -148,25 +149,19 @@ class AuthController extends GetxController {
     update();
   }
 
-  Future<void> getChat() async {
+  Future<List<Chat>> getChat() async {
     chats = await _service.getMessage(user.phoneNumber);
+    return chats;
   }
 
   void putBackId(String backId) async {
-    await _service.putBackId(user.id, backId);
+    if (user.id >= 0) await _service.putBackId(user.id, backId);
   }
 
   void _putUuid() async {
-    await _service.putUuid(60, _notificaitionCtrl.token);
+    if (user.id >= 0) await _service.putUuid(user.id, _notificaitionCtrl.token);
   }
 
-  void _startLoading() {
-    Get.dialog(LoadingScreen());
-  }
-
-  void _stopLoading() {
-    if (Get.isDialogOpen == true) {
-      goBack();
-    }
-  }
+  void _startLoading() => Get.dialog(LoadingScreen());
+  void _stopLoading() => Get.isDialogOpen! ? goBack() : null;
 }

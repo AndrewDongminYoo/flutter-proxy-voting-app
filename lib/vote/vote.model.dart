@@ -58,39 +58,43 @@ class VoteAgenda {
   DateTime? voteAt;
   DateTime? backIdAt;
 
-  VoteAgenda(
-    this.id,
-    this.company,
-    this.curStatus,
-    this.sharesNum,
-    this.agenda1,
-    this.agenda2,
-    this.agenda3,
-    this.agenda4,
-  );
+  VoteAgenda({
+    required int id,
+    required String company,
+    required String curStatus,
+    required int sharesNum,
+    required int agenda1,
+    required int agenda2,
+    required int agenda3,
+    required int agenda4,
+    DateTime? signatureAt,
+    DateTime? idCardAt,
+    DateTime? voteAt,
+    DateTime? backIdAt,
+  });
 
-  DateTime _parseDate(String time) {
-    var dateTime = DateTime.parse(time);
-    return dateTime.toLocal();
+  factory VoteAgenda.fromJson(Map<String, dynamic> json) {
+    return VoteAgenda(
+      id: json['id'] ?? -1,
+      company: json['company'] ?? '',
+      curStatus: json['curStatus'] ?? '',
+      sharesNum: json['sharesNum'] ?? 0,
+      agenda1: json['agenda1'] ?? 0,
+      agenda2: json['agenda2'] ?? 0,
+      agenda3: json['agenda3'] ?? 0,
+      agenda4: json['agenda4'] ?? 0,
+      signatureAt:
+          json['signatureAt'] != null ? parseDate(json['signatureAt']) : null,
+      idCardAt: json['idCardAt'] != null ? parseDate(json['idCardAt']) : null,
+      voteAt: json['voteAt'] != null ? parseDate(json['voteAt']) : null,
+      backIdAt: json['backIdAt'] != null ? parseDate(json['backIdAt']) : null,
+    );
   }
+}
 
-  VoteAgenda.fromJson(Map<String, dynamic>? json) {
-    if (json != null) {
-      id = json['id'] ?? -1;
-      company = json['company'] ?? '';
-      curStatus = json['curStatus'] ?? '';
-      sharesNum = json['sharesNum'] ?? 0;
-      agenda1 = json['agenda1'] ?? 0;
-      agenda2 = json['agenda2'] ?? 0;
-      agenda3 = json['agenda3'] ?? 0;
-      agenda4 = json['agenda4'] ?? 0;
-      signatureAt =
-          json['signatureAt'] != null ? _parseDate(json['signatureAt']) : null;
-      idCardAt = json['idCardAt'] != null ? _parseDate(json['idCardAt']) : null;
-      voteAt = json['voteAt'] != null ? _parseDate(json['voteAt']) : null;
-      backIdAt = json['backIdAt'] != null ? _parseDate(json['backIdAt']) : null;
-    }
-  }
+DateTime parseDate(String time) {
+  var dateTime = DateTime.parse(time);
+  return dateTime.toLocal();
 }
 
 class Shareholder {
@@ -100,14 +104,15 @@ class Shareholder {
   int sharesNum = 0;
   String company = 'tli';
 
-  Shareholder(
-      this.id, this.username, this.address, this.sharesNum, this.company);
+  Shareholder({id, username, address, sharesNum, company});
 
-  Shareholder.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? -1;
-    username = json['name'] ?? '';
-    address = json['address'] ?? '';
-    sharesNum = json['sharesNum'] != null ? int.parse(json['sharesNum']) : 0;
-    company = json['company'] ?? 'tli';
+  factory Shareholder.fromJson(Map<String, dynamic> json) {
+    return Shareholder(
+      id: json['id'] ?? -1,
+      username: json['name'] ?? '',
+      address: json['address'] ?? '',
+      sharesNum: json['sharesNum'] != null ? int.parse(json['sharesNum']) : 0,
+      company: json['company'] ?? 'tli',
+    );
   }
 }

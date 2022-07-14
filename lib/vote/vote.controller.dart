@@ -37,7 +37,16 @@ class VoteController extends GetxController {
     if (_voteAgenda != null) {
       return _voteAgenda!;
     } else {
-      return VoteAgenda(-1, 'tli', '0000', 0, 0, 0, 0, 0);
+      return VoteAgenda(
+        id: -1,
+        company: 'tli',
+        curStatus: '0000',
+        sharesNum: 0,
+        agenda1: 0,
+        agenda2: 0,
+        agenda3: 0,
+        agenda4: 0,
+      );
     }
   }
 
@@ -45,12 +54,17 @@ class VoteController extends GetxController {
     if (_shareholder != null) {
       return _shareholder!;
     }
-    return Shareholder(-1, 'annonymous', 'address', 0, 'tli');
+    return Shareholder(
+      id: -1,
+      username: 'annonymous',
+      address: 'address',
+      sharesNum: 0,
+      company: 'tli',
+    );
   }
 
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
-    // TODO: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
     final campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
       debugPrint('[VoteController] SharedPreferences exist');
@@ -148,14 +162,27 @@ class VoteController extends GetxController {
 
   void postVoteResult(int uid, List<VoteType> voteResult) async {
     String deviceName = await deviceInfo();
+    int _switch(VoteType voteType) {
+      switch (voteType) {
+        case VoteType.agree:
+          return 1;
+        case VoteType.abstention:
+          return 0;
+        case VoteType.disagree:
+          return -1;
+        case VoteType.none:
+          return -2;
+      }
+    }
+
     Response response = await _service.postResult(
       uid,
       shareholder.id,
       deviceName,
-      _switchVoteValue(voteResult[0]),
-      _switchVoteValue(voteResult[1]),
-      _switchVoteValue(voteResult[2]),
-      _switchVoteValue(voteResult[3]),
+      _switch(voteResult[0]),
+      _switch(voteResult[1]),
+      _switch(voteResult[2]),
+      _switch(voteResult[3]),
     );
     _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
 
@@ -195,18 +222,5 @@ class VoteController extends GetxController {
 
   void trackBackId() {
     voteAgenda.backIdAt = DateTime.now();
-  }
-
-  int _switchVoteValue(VoteType voteType) {
-    switch (voteType) {
-      case VoteType.agree:
-        return 1;
-      case VoteType.abstention:
-        return 0;
-      case VoteType.disagree:
-        return -1;
-      case VoteType.none:
-        return -2;
-    }
   }
 }

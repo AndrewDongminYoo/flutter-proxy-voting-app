@@ -120,8 +120,8 @@ class _MyAppState extends State<MyApp> {
 
   BindingsBuilder<dynamic> _initialBinding() {
     return BindingsBuilder(() {
-      Get.lazyPut<AuthController>(() => AuthController());
-      Get.lazyPut<VoteController>(() => VoteController());
+      Get.put<AuthController>(AuthController());
+      Get.put<VoteController>(VoteController());
     });
   }
 }

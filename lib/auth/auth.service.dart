@@ -43,7 +43,7 @@ class AuthService extends GetConnect {
         }));
   }
 
-  Future<Response> putPassCode(String telNum, String otpNo) {
+  Future<Response> putOtpCode(String telNum, String otpNo) {
     return put(_lambdaURL, jsonEncode({'telNum': telNum, 'otpNo': otpNo}));
   }
 

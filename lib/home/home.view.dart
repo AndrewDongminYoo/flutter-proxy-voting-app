@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _controller = PageController(viewportFraction: 0.2, initialPage: _curPage);
-    _curCampaign = campaigns[getRealIndex(_curPage, campaigns.length)];
+    _curCampaign = campaigns[_getRealIndex(_curPage, campaigns.length)];
     _authCtrl.init();
     _voteCtrl.init();
     // initFirebase();
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     if (mounted) {
       setState(() {
         _curPage = index;
-        _curCampaign = campaigns[getRealIndex(index, campaigns.length)];
+        _curCampaign = campaigns[_getRealIndex(index, campaigns.length)];
       });
     }
   }
@@ -96,11 +96,11 @@ class _HomePageState extends State<HomePage> {
     return CustomPopScope(
       child: Scaffold(
         body: Stack(children: [
-          backgroundImageLayer(_curCampaign.backgroundImg),
-          topBar(),
-          customPageViewLayer(_controller!, updateCurPage, _curPage,
+          _backgroundImageLayer(_curCampaign.backgroundImg),
+          _topBar(),
+          _customPageViewLayer(_controller!, updateCurPage, _curPage,
               campaigns.length, _onConfirmed),
-          informationBox(_curCampaign, _onConfirmed, _controller!),
+          _informationBox(_curCampaign, _onConfirmed, _controller!),
           // loginBox()
         ]),
       ),
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget backgroundImageLayer(String imgUrl) {
+Widget _backgroundImageLayer(String imgUrl) {
   return Container(
       height: Get.height,
       width: Get.width,
@@ -119,7 +119,7 @@ Widget backgroundImageLayer(String imgUrl) {
       ));
 }
 
-Widget topBar() {
+Widget _topBar() {
   const String assetName = 'assets/images/bside_logo.png';
   return Positioned(
       top: 40,
@@ -127,7 +127,7 @@ Widget topBar() {
       child: SizedBox(width: 56, child: Image.asset(assetName)));
 }
 
-Widget customPageViewLayer(
+Widget _customPageViewLayer(
     PageController controller,
     void Function(int) updateCurPage,
     int curPage,
@@ -141,7 +141,7 @@ Widget customPageViewLayer(
     }
   }
 
-  AnimatedContainer slider(Campaign campaign, int index, int active) {
+  AnimatedContainer _slider(Campaign campaign, int index, int active) {
     bool isActive = index == active;
     return AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -202,18 +202,18 @@ Widget customPageViewLayer(
                     controller: controller,
                     onPageChanged: updateCurPage,
                     itemBuilder: (context, index) {
-                      int realIndex = getRealIndex(index, campaigns.length);
+                      int realIndex = _getRealIndex(index, campaigns.length);
                       return Container(
                           margin: const EdgeInsets.all(13),
                           child: GestureDetector(
                               onTap: () => onTap(index),
-                              child: slider(
+                              child: _slider(
                                   campaigns[realIndex], index, curPage)));
                     })))
       ]));
 }
 
-Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
+Widget _informationBox(Campaign curCampaign, void Function(Campaign) onPress,
     PageController controller) {
   onPrev() {
     controller.previousPage(
@@ -221,7 +221,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
         curve: Curves.easeInOutCubic);
   }
 
-  onNext() {
+  _onNext() {
     controller.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic);
@@ -257,7 +257,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           ),
           const SizedBox(height: 24),
           IconButton(
-              onPressed: onNext,
+              onPressed: _onNext,
               iconSize: 36,
               icon: const Icon(
                 Icons.expand_more_rounded,
@@ -267,50 +267,7 @@ Widget informationBox(Campaign curCampaign, void Function(Campaign) onPress,
       ));
 }
 
-Widget loginBox() {
-  void onClicked() {
-    // Force a test crash to finish setup
-    // throw Exception("Throw Test Exception");
-  }
-
-  return Positioned(
-    bottom: 0,
-    right: 12,
-    child: InkWell(
-      onTap: onClicked,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24.0))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Icon(
-                Icons.login_rounded,
-                size: 24,
-                color: Colors.white,
-              ),
-            ),
-            CustomText(
-              text: '로그인',
-              typoType: TypoType.h2,
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-int getRealIndex(int position, int? length) {
+int _getRealIndex(int position, int? length) {
   if (length == 0) return 0;
   final int result = position % length!;
   return result < 0 ? length + result : result;

@@ -1,21 +1,26 @@
 // 📦 Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-class Notificaition {
+class Notification {
   String title = '';
   String body = '';
   DateTime createdAt = DateTime.now();
+  Notification({title, body, createdAt});
 
-  Notificaition.fromFireMessage(RemoteMessage message) {
-    title = message.notification!.title!;
-    body = message.notification!.body!;
-    createdAt = message.sentTime!;
+  factory Notification.fromFireMessage(RemoteMessage message) {
+    return Notification(
+      title: message.notification!.title!,
+      body: message.notification!.body!,
+      createdAt: message.sentTime!,
+    );
   }
 
-  Notificaition.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    body = json['body'];
-    createdAt = json['createdAt'];
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
+      title: json['title'],
+      body: json['body'],
+      createdAt: json['createdAt'],
+    );
   }
 
   Map<String, dynamic> toJson() => {
