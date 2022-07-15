@@ -73,7 +73,7 @@ class NotificationController extends GetxController {
     notifications.clear();
     List<String> result = await getNotifications();
     for (var message in result) {
-      if (!notifications.contains(Notification.fromJson(decodeJson(message)))) {
+      if (message.length > 1 && !notifications.contains(Notification.fromJson(decodeJson(message)))) {
         notifications.add(Notification.fromJson(decodeJson(message)));
       }
     }

@@ -1,11 +1,12 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
-import '../theme.dart';
 import '../shared/shared.dart';
+import '../theme.dart';
 import 'notification.dart';
 
 class NotificaitionCard extends StatefulWidget {
