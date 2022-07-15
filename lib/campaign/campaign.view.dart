@@ -8,8 +8,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
 import '../shared/shared.dart';
-import '../vote/vote.controller.dart';
 import '../theme.dart';
+import '../vote/vote.controller.dart';
 import 'campaign.dart';
 
 class CampaignPage extends StatefulWidget {
@@ -156,6 +156,11 @@ class _CampaignPageState extends State<CampaignPage> {
   }
 
   Widget _buildConfirmButton() {
+    // 종료된 캠페인은 전자위임 버튼
+    if(!_voteCtrl.campaign.onGoing) {
+      return Container();
+    }
+
     if (_authCtrl.canVote) {
       return AnimatedButton(
           isLoading: isLoading,

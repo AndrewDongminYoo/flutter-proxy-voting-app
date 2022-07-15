@@ -1,7 +1,11 @@
-// 📦 Package imports:
-import 'package:bside/lib.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
+
+// 🌎 Project imports:
+import 'package:bside/lib.dart';
 
 _() async {
   return await SharedPreferences.getInstance();

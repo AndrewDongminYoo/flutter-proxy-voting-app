@@ -7,8 +7,8 @@ import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
-import '../shared/shared.dart';
 import '../auth/auth.controller.dart';
+import '../shared/shared.dart';
 import '../vote/vote.controller.dart';
 import 'signature.dart';
 

@@ -4,8 +4,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'linear_percent_indicator.dart';
 import '../../theme.dart';
+import 'linear_percent_indicator.dart';
 
 class HorizontalProgressBar extends LinearPercentIndicator {
   var color = Colors.transparent;

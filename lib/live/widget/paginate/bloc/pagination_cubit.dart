@@ -6,9 +6,11 @@ import 'package:flutter/foundation.dart' show debugPrint, immutable, listEquals;
 import 'package:flutter/services.dart' show PlatformException;
 
 // 📦 Package imports:
-// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart' show Cubit;
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
 
 @immutable
 abstract class PaginationState {}

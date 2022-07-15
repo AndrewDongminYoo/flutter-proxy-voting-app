@@ -1,15 +1,17 @@
 // 🐦 Flutter imports:
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
+import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
-
 import '../notification/notification.dart';
 import '../theme.dart';
 import 'shared.dart';
+
+// 🌎 Project imports:
+
 
 class CustomAppBar extends AppBar {
   final String text;

@@ -1,6 +1,8 @@
 // 🐦 Flutter imports:
-import 'package:bside/lib.dart';
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:bside/lib.dart';
 
 class CustomPopScope extends StatefulWidget {
   final Widget child;

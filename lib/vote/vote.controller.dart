@@ -7,15 +7,17 @@ import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
 import 'package:device_info_plus/device_info_plus.dart';
+
+// 🌎 Project imports:
+import '../auth/widget/loading_screen.dart';
+import '../campaign/campaign.dart';
+import '../shared/custom_nav.dart';
+import '../utils/shared_prefs.dart';
+import 'vote.dart';
+
 import 'package:get/get.dart'
     show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
 
-// 🌎 Project imports:
-import '../shared/custom_nav.dart';
-import '../campaign/campaign.dart';
-import '../auth/widget/loading_screen.dart';
-import '../utils/shared_prefs.dart';
-import 'vote.dart';
 
 class VoteController extends GetxController {
   static VoteController get() => Get.isRegistered<VoteController>()
@@ -74,8 +76,10 @@ class VoteController extends GetxController {
         final shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
-          _completedShareholder
-              .add(Shareholder.fromJson(response.body['shareholder']));
+          if (response.statusCode != 500) {
+            _completedShareholder
+                .add(Shareholder.fromJson(response.body['shareholder']));
+          }
         }
       }
     }

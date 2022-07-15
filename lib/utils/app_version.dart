@@ -6,14 +6,16 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' show parse;
 
 // 🌎 Project imports:
 import '../shared/custom_confirm.dart';
+
+// ignore: depend_on_referenced_packages
+
 
 // 참조
 // https://github.com/timtraversy/new_version/blob/master/lib/new_version.dart

@@ -1,7 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 🐦 Flutter imports:
+// 📦 Package imports:
 import 'package:get/get.dart' show Get, GetNavigation;
 
 goBack() => Get.back();

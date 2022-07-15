@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' show ExtensionDialog, Get, GetNavigation;
 
 // 🌎 Project imports:
-import '../../vote/vote.controller.dart';
 import '../../auth/auth.controller.dart';
 import '../../shared/shared.dart';
 import '../../theme.dart';
+import '../../vote/vote.controller.dart';
 import 'edit_modal.dart';
 
 class AddressCard extends StatefulWidget {

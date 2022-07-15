@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
-import '../../shared/custom_text.dart';
 import '../../campaign/campaign.pg_bar.dart';
+import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../../utils/firebase.dart';
 import '../live.dart';

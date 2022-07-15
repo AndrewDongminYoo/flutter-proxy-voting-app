@@ -1,16 +1,17 @@
 // 🐦 Flutter imports:
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
-// 📦 Package imports:
-import 'package:get/get.dart'
-    show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
-
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
 import '../notification/notification.dart';
 import '../shared/custom_nav.dart';
 import '../utils/utils.dart';
 import 'auth.dart';
+
+// 📦 Package imports:
+import 'package:get/get.dart'
+    show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
+
 
 class AuthController extends GetxController {
   final _notificaitionCtrl = NotificationController.get();

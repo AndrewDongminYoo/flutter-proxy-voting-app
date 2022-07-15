@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
-import '../../theme.dart';
 import '../../shared/shared.dart';
+import '../../theme.dart';
 import '../../vote/vote.controller.dart';
 
 class VioletCard extends StatelessWidget {

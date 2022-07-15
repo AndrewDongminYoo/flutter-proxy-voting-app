@@ -36,6 +36,7 @@ class Campaign {
   });
 
   String get status => datetime.isAfter(DateTime.now()) ? '더보기' : '종료';
+  bool get onGoing => datetime.isAfter(DateTime.now());
 }
 
 class ActionMenu {

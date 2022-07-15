@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
-import '../theme.dart';
 import '../auth/auth.controller.dart';
 import '../contact_us/contact_us.model.dart';
 import '../shared/custom_text.dart';
+import '../theme.dart';
 
 // https://www.youtube.com/watch?v=WgJ6TzNswEo
 class ContactUsPage extends StatefulWidget {

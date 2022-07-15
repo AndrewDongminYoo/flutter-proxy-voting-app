@@ -6,11 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:uuid/uuid.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 
 // 🌎 Project imports:
 import 'firebase_options.dart';
+
+// import 'package:uuid/uuid.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+
 
 setupFirebase() async {
   await Firebase.initializeApp(
