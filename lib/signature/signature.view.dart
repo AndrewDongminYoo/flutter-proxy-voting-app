@@ -108,7 +108,8 @@ class _SignaturePageState extends State<SignaturePage> {
             _signCtrl.clear();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.deepOrange, fixedSize: Size(Get.width - 30, 50),
+            primary: Colors.deepOrange,
+            fixedSize: Size(Get.width - 30, 50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),

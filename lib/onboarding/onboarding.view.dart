@@ -85,7 +85,8 @@ class _OnboardingPageState extends State<OnboardingPage>
       child: TextButton(
         onPressed: _onTap,
         style: TextButton.styleFrom(
-          foregroundColor: Colors.white, textStyle: const TextStyle(
+          primary: Colors.white,
+          textStyle: const TextStyle(
             fontSize: 16,
           ),
         ),
