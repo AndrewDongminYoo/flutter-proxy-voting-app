@@ -1,9 +1,13 @@
 // ignore_for_file: constant_identifier_names, prefer_collection_literals
 
+// 🎯 Dart imports:
 import 'dart:collection' show IterableBase, LinkedHashMap, ListMixin;
 
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart' show FileSpan;
 
+// 🌎 Project imports:
 import 'dom_parsing.dart';
 import 'html.parser.dart';
 import 'src/constants.dart';

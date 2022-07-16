@@ -1,9 +1,15 @@
 library treebuilder;
 
+// 🎯 Dart imports:
 import 'dart:collection';
+
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
+import 'package:source_span/source_span.dart';
+
+// 🌎 Project imports:
 import '../dom.dart';
 import '../html.parser.dart' show getElementNameTuple;
-import 'package:source_span/source_span.dart';
 import 'constants.dart';
 import 'list_proxy.dart';
 import 'token.dart';

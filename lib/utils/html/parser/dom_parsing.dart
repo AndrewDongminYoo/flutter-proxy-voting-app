@@ -1,7 +1,7 @@
 library dom_parsing;
 
-import 'dom.dart'
-    show Comment, Document, DocumentFragment, DocumentType, Element, Node, Text;
+// 🌎 Project imports:
+import 'dom.dart';
 import 'html.escape.dart' show htmlSerializeEscape;
 import 'src/constants.dart' show rcdataElements;
 

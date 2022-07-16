@@ -1,4 +1,8 @@
+// 🎯 Dart imports:
 import 'dart:collection';
+
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart';
 
 abstract class Token {

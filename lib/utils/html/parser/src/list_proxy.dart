@@ -1,6 +1,7 @@
 library list_proxy;
 
-import 'dart:collection';
+// 🎯 Dart imports:
+import 'dart:collection' show ListBase;
 
 abstract class ListProxy<E> extends ListBase<E> {
   final List<E> _list = <E>[];

@@ -1,7 +1,8 @@
+// 🌎 Project imports:
 import '../../csslib/parser.dart' as css;
 import '../../csslib/parser.dart' show TokenKind, Message;
 import '../../csslib/visitor.dart';
-import '../dom.dart';
+import '../dom.dart' show Element, Node, Text;
 import '../src/constants.dart' show isWhitespaceCC;
 
 bool matches(Element node, String selector) =>

@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_initializing_formals
 part of '../visitor.dart';
 
 class Identifier extends TreeNode {

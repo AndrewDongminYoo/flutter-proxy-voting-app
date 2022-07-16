@@ -1,4 +1,7 @@
+// 🎯 Dart imports:
 import 'dart:collection';
+
+// 🌎 Project imports:
 import '../html.parser.dart';
 import 'constants.dart';
 import 'html_input_stream.dart';

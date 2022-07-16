@@ -1,8 +1,14 @@
+library parser;
+
+// 🎯 Dart imports:
 import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show min;
-import 'package:source_span/source_span.dart'
-    show FileSpan, SourceSpan, SourceSpanException;
 
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
+import 'package:source_span/source_span.dart';
+
+// 🌎 Project imports:
 import 'dom.dart';
 import 'src/constants.dart';
 import 'src/encoding_parser.dart';

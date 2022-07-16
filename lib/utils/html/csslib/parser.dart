@@ -1,8 +1,12 @@
+// 🎯 Dart imports:
 import 'dart:math' as math;
 
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart'
     show FileSpan, SourceFile, SourceSpan;
 
+// 🌎 Project imports:
 import 'src/messages.dart';
 import 'src/preprocessor_options.dart';
 import 'visitor.dart';

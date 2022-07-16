@@ -1,5 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart' show kDebugMode;
+
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart' show SourceSpan;
+
+// 🌎 Project imports:
 import 'parser.dart';
 
 part 'src/css_printer.dart';

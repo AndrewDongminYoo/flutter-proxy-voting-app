@@ -1,8 +1,12 @@
+// 🎯 Dart imports:
 import 'dart:collection';
 import 'dart:convert' show ascii, utf8;
 
+// 📦 Package imports:
+// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart';
 
+// 🌎 Project imports:
 import 'constants.dart';
 import 'encoding_parser.dart';
 import 'utils.dart';
