@@ -1,3 +1,4 @@
+// ignore_for_file: depend_on_referenced_packages
 // 🎯 Dart imports:
 import 'dart:async' show StreamSubscription;
 
@@ -8,9 +9,6 @@ import 'package:flutter/services.dart' show PlatformException;
 // 📦 Package imports:
 import 'package:bloc/bloc.dart' show Cubit;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-// 📦 Package imports:
-// ignore: depend_on_referenced_packages
 
 @immutable
 abstract class PaginationState {}
