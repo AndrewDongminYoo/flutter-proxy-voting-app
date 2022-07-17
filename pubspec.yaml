@@ -51,8 +51,6 @@ dependencies:
 
   # https://pub.dev/publishers/firebase.google.com/packages
   cloud_firestore: ^3.2.0
-  firebase_analytics: ^9.1.11
-  firebase_auth: ^3.4.0
   firebase_core: ^1.18.0
   firebase_dynamic_links: ^4.2.6
   firebase_messaging: ^11.4.4

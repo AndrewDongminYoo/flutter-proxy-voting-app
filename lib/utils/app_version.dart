@@ -1,4 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
 // 🎯 Dart imports:
 import 'dart:convert' show json;
 import 'dart:io' show Platform;

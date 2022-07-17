@@ -13,8 +13,7 @@ import 'firebase_options.dart';
 // import 'package:uuid/uuid.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
-
-setupFirebase() async {
+Future<PendingDynamicLinkData?>? setupFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

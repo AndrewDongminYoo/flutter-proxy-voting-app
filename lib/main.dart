@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -50,9 +49,12 @@ main() async {
 
 class MyApp extends StatefulWidget {
   final bool firstTime;
-  final PendingDynamicLinkData? initialLink;
-  const MyApp({Key? key, this.initialLink, required this.firstTime})
-      : super(key: key);
+  final dynamic initialLink;
+  const MyApp({
+    Key? key,
+    this.initialLink,
+    required this.firstTime,
+  }) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();

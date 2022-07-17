@@ -6,6 +6,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 // 🌎 Project imports:
@@ -14,10 +15,6 @@ import '../campaign/campaign.dart';
 import '../shared/custom_nav.dart';
 import '../utils/shared_prefs.dart';
 import 'vote.dart';
-
-import 'package:get/get.dart'
-    show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
-
 
 class VoteController extends GetxController {
   static VoteController get() => Get.isRegistered<VoteController>()
