@@ -2,17 +2,14 @@
 import 'dart:math' as math;
 
 // 📦 Package imports:
-// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart'
     show FileSpan, SourceFile, SourceSpan;
 
 // 🌎 Project imports:
-import 'src/messages.dart';
-import 'src/preprocessor_options.dart';
+import 'src/src.dart';
 import 'visitor.dart';
 
-export 'src/messages.dart' show Message, MessageLevel;
-export 'src/preprocessor_options.dart';
+export 'src/src.dart';
 
 part 'src/analyzer.dart';
 part 'src/polyfill.dart';

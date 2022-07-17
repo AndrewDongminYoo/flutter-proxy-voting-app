@@ -4,16 +4,12 @@ library treebuilder;
 import 'dart:collection';
 
 // 📦 Package imports:
-// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart';
 
 // 🌎 Project imports:
 import '../dom.dart';
 import '../html.parser.dart' show getElementNameTuple;
-import 'constants.dart';
-import 'list_proxy.dart';
-import 'token.dart';
-import 'utils.dart';
+import 'src.dart';
 
 class ActiveFormattingElements extends ListProxy<Element?> {
   @override

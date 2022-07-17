@@ -1,6 +1,5 @@
 // 🌎 Project imports:
-import 'constants.dart';
-import 'html_input_stream.dart';
+import 'src.dart';
 
 class EncodingBytes {
   final String _bytes;

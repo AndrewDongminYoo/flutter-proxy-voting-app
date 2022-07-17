@@ -5,17 +5,11 @@ import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show min;
 
 // 📦 Package imports:
-// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart';
 
 // 🌎 Project imports:
 import 'dom.dart';
-import 'src/constants.dart';
-import 'src/encoding_parser.dart';
-import 'src/token.dart';
-import 'src/tokenizer.dart';
-import 'src/treebuilder.dart';
-import 'src/utils.dart';
+import 'src/src.dart';
 
 Document parse(input,
     {String? encoding, bool generateSpans = false, String? sourceUrl}) {

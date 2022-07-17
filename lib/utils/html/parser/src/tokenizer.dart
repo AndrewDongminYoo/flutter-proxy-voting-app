@@ -3,10 +3,7 @@ import 'dart:collection';
 
 // 🌎 Project imports:
 import '../html.parser.dart';
-import 'constants.dart';
-import 'html_input_stream.dart';
-import 'token.dart';
-import 'utils.dart';
+import 'src.dart';
 
 Map<String, List<String>> entitiesByFirstChar = (() {
   final result = <String, List<String>>{};

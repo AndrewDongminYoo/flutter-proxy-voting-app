@@ -4,18 +4,17 @@
 import 'dart:collection' show IterableBase, LinkedHashMap, ListMixin;
 
 // 📦 Package imports:
-// ignore: depend_on_referenced_packages
 import 'package:source_span/source_span.dart' show FileSpan;
 
 // 🌎 Project imports:
 import 'dom_parsing.dart';
-import 'html.parser.dart';
-import 'src/constants.dart';
-import 'src/css_class_set.dart';
-import 'src/list_proxy.dart';
+import 'html.parser.dart' show parse, parseFragment;
+import 'src/constants.dart' show Namespaces;
+import 'src/css_class_set.dart' show CssClassSet, ElementCssClassSet;
+import 'src/list_proxy.dart' show ListProxy;
+import 'src/token.dart' show StartTagToken;
+import 'src/tokenizer.dart' show HtmlTokenizer;
 import 'src/query_selector.dart' as query;
-import 'src/token.dart';
-import 'src/tokenizer.dart';
 export 'src/css_class_set.dart' show CssClassSet;
 
 class AttributeName implements Comparable<Object> {
