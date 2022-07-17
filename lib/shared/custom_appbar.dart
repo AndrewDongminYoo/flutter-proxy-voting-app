@@ -12,7 +12,6 @@ import 'shared.dart';
 
 // 🌎 Project imports:
 
-
 class CustomAppBar extends AppBar {
   final String text;
   final Color bgColor;
@@ -80,7 +79,7 @@ class NotificiationBtn extends StatefulWidget {
 }
 
 class _NotificiationBtnState extends State<NotificiationBtn> {
-  final _notificaitionCtrl = NotificationController.get();
+  final _notificaitionCtrl = NotiController.get();
 
   _onPressNotification() {
     _showAnimatedDialog(
@@ -93,7 +92,7 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
     );
     setState(() {
       _notificaitionCtrl.getNotificationsLocal();
-      });
+    });
   }
 
   @override

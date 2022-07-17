@@ -11,6 +11,7 @@ import 'package:get/get.dart' show ExtensionBottomSheet, Get, GetNavigation;
 import '../shared/shared.dart';
 import '../theme.dart';
 import '../utils/exceptions.dart';
+import '../notification/notification.controller.dart';
 import 'auth.controller.dart';
 
 class ValidatePage extends StatefulWidget {
@@ -22,6 +23,7 @@ class ValidatePage extends StatefulWidget {
 
 class _ValidatePageState extends State<ValidatePage> {
   final AuthController _authCtrl = AuthController.get();
+  final NotiController _notiCtrl = NotiController.get();
   final _formKey = GlobalKey<FormState>();
   Timer? _timer;
   String _otpCode = '';
@@ -69,7 +71,8 @@ class _ValidatePageState extends State<ValidatePage> {
     FocusScope.of(context).unfocus();
     debugPrint('${_authCtrl.user.phoneNumber}, $_otpCode');
     try {
-      await _authCtrl.validateOtpCode(_authCtrl.user.phoneNumber, _otpCode);
+      await _authCtrl.validateOtpCode(
+          _authCtrl.user.phoneNumber, _otpCode, _notiCtrl.token);
     } catch (e) {
       debugPrint(e.toString());
       if (e is CustomException) {

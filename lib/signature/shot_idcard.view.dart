@@ -128,6 +128,12 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const titleString = '전자서명';
     const helpText = '신분증을 촬영해주세요';

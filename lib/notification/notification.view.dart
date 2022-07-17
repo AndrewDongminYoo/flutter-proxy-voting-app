@@ -17,8 +17,7 @@ class NotificaitionCard extends StatefulWidget {
 }
 
 class _NotificaitionCardState extends State<NotificaitionCard> {
-  final NotificationController _notificaitionCtrl =
-      NotificationController.get();
+  final NotiController _notificaitionCtrl = NotiController.get();
 
   onTapCancel() {
     Navigator.of(context).pop();
@@ -95,9 +94,9 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
 
   Widget _notificationCard(int index) {
     return Column(children: [
-      Divider(height:0, color: customColor[ColorType.deepPurple]),
+      Divider(height: 0, color: customColor[ColorType.deepPurple]),
       Padding(
-        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: Stack(children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

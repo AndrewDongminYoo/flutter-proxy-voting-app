@@ -18,7 +18,6 @@ import 'lib.dart';
 import 'package:get/get.dart'
     show BindingsBuilder, Get, GetMaterialApp, GetNavigation, Inst, Transition;
 
-
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MainService service = MainService();
@@ -61,8 +60,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _initialRoute = '/';
-  final NotificationController _notificaitionCtrl =
-      NotificationController.get();
+  final NotiController _notificaitionCtrl = NotiController.get();
 
   @override
   initState() {

@@ -15,16 +15,28 @@ import 'package:intl/intl.dart';
 import '../utils/shared_prefs.dart';
 import 'notification.data.dart';
 
-class NotificationController extends GetxController {
-  static NotificationController get() =>
-      Get.isRegistered<NotificationController>()
-          ? Get.find<NotificationController>()
-          : Get.put(NotificationController());
+class NotiController extends GetxController {
+  static NotiController get() => Get.isRegistered<NotiController>()
+      ? Get.find<NotiController>()
+      : Get.put(NotiController());
 
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   List<Notification> notifications = [];
   List<String> encodedPushAlrams = [];
-  late String token;
+  String? _token;
+
+  String get token {
+    if (_token != null) {
+      return _token!;
+    } else {
+      getToken();
+    }
+    return _token ?? '';
+  }
+
+  set token(String token) {
+    _token = token;
+  }
 
   void listenFCM() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -73,7 +85,8 @@ class NotificationController extends GetxController {
     notifications.clear();
     List<String> result = await getNotifications();
     for (var message in result) {
-      if (message.length > 1 && !notifications.contains(Notification.fromJson(decodeJson(message)))) {
+      if (message.length > 1 &&
+          !notifications.contains(Notification.fromJson(decodeJson(message)))) {
         notifications.add(Notification.fromJson(decodeJson(message)));
       }
     }

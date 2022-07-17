@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
-import '../notification/notification.dart';
 import '../shared/custom_nav.dart';
 import '../utils/utils.dart';
 import 'auth.dart';
@@ -12,9 +11,7 @@ import 'auth.dart';
 import 'package:get/get.dart'
     show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
 
-
 class AuthController extends GetxController {
-  final _notificaitionCtrl = NotificationController.get();
   static AuthController get() => Get.isRegistered<AuthController>()
       ? Get.find<AuthController>()
       : Get.put(AuthController());
@@ -94,12 +91,13 @@ class AuthController extends GetxController {
         user.telecomCode, user.phoneNumber);
   }
 
-  Future<void> validateOtpCode(String telNum, String otpCode) async {
+  Future<void> validateOtpCode(
+      String telNum, String otpCode, String token) async {
     _startLoading();
     // Super User for apple QA
     if (telNum == '01086199325' && otpCode == '210913') {
       _signIn();
-      _putUuid();
+      _putUuid(token);
       _stopLoading();
       return;
     }
@@ -126,7 +124,7 @@ class AuthController extends GetxController {
         } else {
           _signUp();
         }
-        _putUuid();
+        _putUuid(token);
         await setTelephoneNumber(user.phoneNumber);
         _stopLoading();
       }
@@ -160,8 +158,8 @@ class AuthController extends GetxController {
     if (user.id >= 0) await _service.putBackId(user.id, backId);
   }
 
-  void _putUuid() async {
-    if (user.id >= 0) await _service.putUuid(user.id, _notificaitionCtrl.token);
+  void _putUuid(String token) async {
+    if (user.id >= 0) await _service.putUuid(user.id, token);
   }
 
   void _startLoading() => Get.dialog(LoadingScreen());

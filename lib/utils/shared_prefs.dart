@@ -75,7 +75,7 @@ setNotifications(messages) async {
 loadAll() async {
   try {
     final authCtrl = AuthController.get();
-    final notiCtrl = NotificationController.get();
+    final notiCtrl = NotiController.get();
     final voteCtrl = VoteController.get();
     final phoneNumber = await getTelephoneNumber();
     authCtrl.getUserInfo(phoneNumber);
