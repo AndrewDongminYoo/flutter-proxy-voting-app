@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:intl/intl.dart';
@@ -11,10 +12,6 @@ import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../../utils/firebase.dart';
 import '../live.dart';
-
-import 'package:get/get.dart'
-    show ExtensionSnackbar, Get, GetNavigation, SnackPosition;
-
 
 class CustomPanel extends StatefulWidget {
   const CustomPanel({

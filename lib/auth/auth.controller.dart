@@ -1,15 +1,14 @@
 // 🐦 Flutter imports:
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
+// 📦 Package imports:
+import 'package:get/get.dart';
+
 // 🌎 Project imports:
 import '../contact_us/contact_us.model.dart';
 import '../shared/custom_nav.dart';
 import '../utils/utils.dart';
 import 'auth.dart';
-
-// 📦 Package imports:
-import 'package:get/get.dart'
-    show ExtensionDialog, Get, GetNavigation, GetxController, Inst, Response;
 
 class AuthController extends GetxController {
   static AuthController get() => Get.isRegistered<AuthController>()

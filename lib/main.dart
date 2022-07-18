@@ -7,15 +7,13 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 // 🌎 Project imports:
 import 'lib.dart';
-
-import 'package:get/get.dart'
-    show BindingsBuilder, Get, GetMaterialApp, GetNavigation, Inst, Transition;
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
