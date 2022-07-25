@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
     _initNotification();
     _initDynamicLinks();
     compareAppVersion();
+    Battery.getBattery();
   }
 
   _initNotification() {
