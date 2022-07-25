@@ -142,8 +142,8 @@ class NotiController extends GetxController {
 
   Future<void> getToken() async {
     await _messaging.getToken().then((value) => {token = value!});
-    debugPrint('========================================');
-    debugPrint(token);
-    debugPrint('========================================');
+    debugPrint('===========NotiController.getToken()===========');
+    debugPrint('token: ${token.substring(0, 43)}...');
+    debugPrint('===========NotiController.getToken()===========');
   }
 }
