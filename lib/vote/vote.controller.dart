@@ -7,13 +7,12 @@ import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 
 // 🌎 Project imports:
 import '../auth/widget/loading_screen.dart';
 import '../campaign/campaign.dart';
 import '../shared/custom_nav.dart';
-import '../utils/shared_prefs.dart';
+import '../utils/utils.dart';
 import 'vote.dart';
 
 class VoteController extends GetxController {
