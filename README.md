@@ -1,41 +1,20 @@
-# bside_pie
+<p align="center">
+  <img src="./docs/bside-pie.webp" width="200" />
+  <h1 align="center">Bside Pie</h1>
+</p>
 
-A new Flutter project.
+비사이드 파이는 **인증된 소액주주들이 전문투자기관들과 함께 기업에 대해 심도 깊은 의견을 나누고 유용한 정보를 공유 하고 행동할 수 있는 앱**입니다. 비사이드 파이는 소액주주를 만나는 주요 창구로서, 비사이드가 구축하고자 하는 '주주인증, 결집 및 실행이 가능한 주주 행동주의 플랫폼'를 구성하는 핵심 서비스중 하나 입니다. MTS 기능으로 주주를 인증하고, 라운지로 결집시킨 뒤에 전자위임으로 행동하고자 합니다.
 
-## 기능
+## Quick Start
 
-**핵심 기능**
+### Requirements
 
-- 본인인증 + 주주 명부 대조
-- 안건 투표
-- 전자 서명, 신분증 업로드
-
-**부가 기능**
-
-- 등기 관리
-- 내역 관리 (알림, 위임, 문의)
-- 히스토리 (이전 전자위임 기록)
-
-## 구현 방식
-
-- State management: GetX
-- Router: GetX
-- Test: flutter_test, integration_test
-- Network: Amplify GraphQL
-- Database: Amplify DataStore (DynamoDB+AppSync), Amplify Storage (S3)
-- Signature: signature
-- Upload image: image_picker, amplify
-- i18n: Getx
-- asset: FlutterGen
-- Other libraries: FlutterFire, AppsFlyer, AppCenter, Fastlane
-
-## 필수 파일
-
+- Flutter (>=3.0.x)
 - .env
 - android/key.properties
 - android/upload-keystore.jks
 
-## Scripts
+### Scripts
 
 ```bash
 # install
@@ -44,6 +23,21 @@ flutter pub get
 # create .env
 touch .env
 
+# Run
+flutter run
+```
+
+### App Screenshots
+
+<p float="left">
+  <img src="./docs/intro_1.png" width="100" />
+  <img src="./docs/intro_2.png" width="100" /> 
+  <img src="./docs/intro_3.png" width="100" />
+</p>
+
+## Tutorial
+
+```bash
 # run storybook
 flutter run -t lib/main_dashbook.dart
 
@@ -67,14 +61,8 @@ flutter clean && flutter run
 flutter pub run import_sorter:main
 ```
 
-## 참고사항
+## Roadmap
 
-- [History of everything](https://github.com/2d-inc/HistoryOfEverything)
-- [Official samples - component 위주](https://github.com/flutter/samples)
-- [Flutter samples - UI 위주](https://github.com/diegoveloper/flutter-samples)
-- [Planets app tutorial](https://github.com/sergiandreplace/flutter_planets_tutorial)
-- [NewsBuzz](https://github.com/theankurkedia/NewsBuzz)
-- [BookSearch](https://github.com/Norbert515/BookSearch)
-- [Beer Me Up](https://github.com/benoitletondor/Beer-Me-Up)
-- [SpaceX Go](https://github.com/jesusrp98/spacex-go)
-- [Flutter quiz app](https://github.com/fireship-io/flutter-firebase-quizapp-course)
+1. 7월 초: 디자인 시스템 반영 후 서비스 출시 ()
+2. 8월 중순: 디자인 시스템 완전 반영, 애니메이션 적용, 테스트 셋업 (8월 중순 목표)
+3. 8월 말: 자동 테스트 및 배포 셋업 (8월 말 목표)
