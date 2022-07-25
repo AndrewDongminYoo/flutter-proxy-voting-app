@@ -9,15 +9,13 @@ import '../device_info_plus/device_info_interface.dart';
 class MethodChannelDeviceInfo extends DeviceInfoPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  MethodChannel channel =
-      const MethodChannel('dev.fluttercommunity.plus/device_info');
+  MethodChannel channel = const MethodChannel('bside.native.dev/info');
 
   // Method channel for Android devices
   @override
   Future<AndroidDeviceInfo> androidInfo() async {
     return AndroidDeviceInfo.fromMap(
-      (await channel.invokeMethod('getAndroidDeviceInfo'))
-          .cast<String, dynamic>(),
+      (await channel.invokeMethod('getDeviceInfo')).cast<String, dynamic>(),
     );
   }
 
@@ -25,7 +23,7 @@ class MethodChannelDeviceInfo extends DeviceInfoPlatform {
   @override
   Future<IosDeviceInfo> iosInfo() async {
     return IosDeviceInfo.fromMap(
-      (await channel.invokeMethod('getIosDeviceInfo')).cast<String, dynamic>(),
+      (await channel.invokeMethod('getDeviceInfo')).cast<String, dynamic>(),
     );
   }
 }

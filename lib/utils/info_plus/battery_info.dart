@@ -2,7 +2,7 @@
 import 'package:flutter/services.dart';
 
 class Battery {
-  static const platform = MethodChannel('samples.flutter.dev/battery');
+  static const platform = MethodChannel('bside.native.dev/info');
   static void getBattery() async {
     String battery = 'empty';
     try {
