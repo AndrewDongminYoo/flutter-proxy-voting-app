@@ -75,7 +75,6 @@ dependencies:
   flutter_local_notifications: ^9.6.1
 
   # information
-  # device_info_plus: ^4.0.0
   package_info_plus: ^1.4.2
 
 dev_dependencies:
