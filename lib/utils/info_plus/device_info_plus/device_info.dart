@@ -15,9 +15,7 @@ export 'device_info_interface.dart'
 class DeviceInfoPlugin {
   DeviceInfoPlugin();
 
-  static DeviceInfoPlatform get _platform {
-    return DeviceInfoPlatform.instance;
-  }
+  static DeviceInfoPlatform get _platform => DeviceInfoPlatform.instance;
 
   AndroidDeviceInfo? _cachedAndroidDeviceInfo;
 

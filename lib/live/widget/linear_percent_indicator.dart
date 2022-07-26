@@ -6,87 +6,60 @@ enum LinearStrokeCap { butt, round, roundAll }
 
 // ignore: must_be_immutable
 class LinearPercentIndicator extends StatefulWidget {
-  ///Percent value between 0.0 and 1.0
   final double percent;
   final double? width;
 
-  ///Height of the line
   final double lineHeight;
 
-  ///Color of the background of the Line , default = transparent
   final Color fillColor;
 
-  ///First color applied to the complete line
   Color get backgroundColor => _backgroundColor;
+
   late Color _backgroundColor;
 
-  ///First color applied to the complete line
   final LinearGradient? linearGradientBackgroundColor;
 
   Color get progressColor => _progressColor;
 
   late Color _progressColor;
 
-  ///true if you want the Line to have animation
   final bool animation;
 
-  ///duration of the animation in milliseconds, It only applies if animation attribute is true
   final int animationDuration;
 
-  ///widget at the left of the Line
   final Widget? leading;
 
-  ///widget at the right of the Line
   final Widget? trailing;
 
-  ///widget inside the Line
   final Widget? center;
 
-  ///The kind of finish to place on the end of lines drawn, values supported: butt, round, roundAll
   @Deprecated('This property is no longer used, please use barRadius instead.')
   final LinearStrokeCap? linearStrokeCap;
 
-  /// The border radius of the progress bar (Will replace linearStrokeCap)
   final Radius? barRadius;
 
-  ///alignment of the Row (leading-widget-center-trailing)
   final MainAxisAlignment alignment;
 
-  ///padding to the LinearPercentIndicator
   final EdgeInsets padding;
 
-  /// set true if you want to animate the linear from the last percent value you set
   final bool animateFromLastPercent;
 
-  /// If present, this will make the progress bar colored by this gradient.
-  ///
-  /// This will override [progressColor]. It is an error to provide both.
   final LinearGradient? linearGradient;
 
-  /// set false if you don't want to preserve the state of the widget
   final bool addAutomaticKeepAlive;
 
-  /// set true if you want to animate the linear from the right to left (RTL)
   final bool isRTL;
 
-  /// Creates a mask filter that takes the progress shape being drawn and blurs it.
   final MaskFilter? maskFilter;
 
-  /// Set true if you want to display only part of [linearGradient] based on percent value
-  /// (ie. create 'VU effect'). If no [linearGradient] is specified this option is ignored.
   final bool clipLinearGradient;
 
-  /// set a linear curve animation type
   final Curve curve;
 
-  /// set true when you want to restart the animation, it restarts only when reaches 1.0 as a value
-  /// defaults to false
   final bool restartAnimation;
 
-  /// Callback called when the animation ends (only if `animation` is true)
   final VoidCallback? onAnimationEnd;
 
-  /// Display a widget indicator at the end of the progress. It only works when `animation` is true
   final Widget? widgetIndicator;
 
   LinearPercentIndicator({

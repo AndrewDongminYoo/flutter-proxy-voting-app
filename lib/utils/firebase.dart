@@ -10,9 +10,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 // 🌎 Project imports:
 import 'firebase_options.dart';
 
-// import 'package:uuid/uuid.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
 Future<PendingDynamicLinkData?>? setupFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -26,10 +23,5 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('Handling a background message: ${message.messageId}');
 }
 
-// FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-// final Uuid uuid = Uuid();
-
-// Collection refs
 CollectionReference liveRef = _firestore.collection('live');

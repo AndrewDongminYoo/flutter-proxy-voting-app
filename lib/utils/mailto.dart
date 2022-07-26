@@ -86,11 +86,9 @@ class Mailto {
 
   @override
   String toString() {
-    // Use a string buffer as input is of unknown length.
     final stringBuffer = StringBuffer('mailto:');
     if (to != null) stringBuffer.writeAll(to!.map(_encodeTo), _comma);
-    // We need this flag to know whether we should use & or ? when creating
-    // the string.
+
     var parameterAdded = false;
     final parameterMap = {
       'subject': subject,
@@ -99,15 +97,8 @@ class Mailto {
       'bcc': bcc?.join(','),
     };
     for (final parameter in parameterMap.entries) {
-      // Do not add key-value pair where the value is missing or empty
       if (parameter.value == null || parameter.value!.isEmpty) continue;
-      // We don't need to encode the keys because all keys are under the
-      // package's control currently and all of those keys are simple keys
-      // without any special characters.
-      // The values need to be encoded.
-      // The RFC also mentions that the body should use '%0D%0A' for
-      // line-breaks, however,we didn't find any difference between
-      // '%0A' and '%0D%0A', so we keep it at '%0A'.
+
       stringBuffer
         ..write(parameterAdded ? '&' : '?')
         ..write(parameter.key)

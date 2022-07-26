@@ -26,7 +26,6 @@ class User {
     this.phoneNumber,
   );
 
-  /// 'SKT':01, 'KT':02, 'LG U+':03, 'SKT 알뜰폰':04, 'KT 알뜰폰':05, 'LG U+ 알뜰폰':06
   String get telecomCode {
     switch (telecom) {
       case 'SKT':
@@ -49,7 +48,6 @@ class User {
   String get regist =>
       frontId.startsWith(RegExp('[01]')) ? '20$frontId' : '19$frontId';
 
-  /// sex: 남: 1, 여: 2
   int get sexCode => backId.startsWith(RegExp('[13]')) ? 1 : 2;
 
   User.fromJson(Map<String, dynamic> json) {
