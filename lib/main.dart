@@ -59,7 +59,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _initialRoute = '/';
+  String _initialRoute = '/mts';
   final NotiController _notificaitionCtrl = NotiController.get();
 
   @override

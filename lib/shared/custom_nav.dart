@@ -17,7 +17,8 @@ goToIDNumber() => Get.toNamed('/idnumber');
 goToNotShareHolders() => Get.toNamed('/not-shareholder');
 goToDuplicate() => Get.toNamed('/duplicate');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
-
+goToMtsLink() => Get.toNamed('/mts-link');
+goToMtsCertification() => Get.toNamed('/mts-certification');
 backToSignUp() => Get.offNamedUntil(
       '/signup',
       (route) => route.settings.name == '/signup',

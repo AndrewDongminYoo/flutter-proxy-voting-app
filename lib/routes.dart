@@ -2,6 +2,7 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 // 🌎 Project imports:
+import 'MTS/mts.dart';
 import 'lib.dart';
 
 routes() => [
@@ -18,4 +19,7 @@ routes() => [
       GetPage(name: '/duplicate', page: () => const AddressDuplicationPage()),
       GetPage(name: '/result', page: () => const ShowResultPage()),
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
+      GetPage(name: '/mts', page: () => const MtsPage()),
+      GetPage(name: '/mts-link', page: () => const MtsLinkPage()),
+      GetPage(name: '/mts-certification', page: () => const SecuritiesPage())
     ];
