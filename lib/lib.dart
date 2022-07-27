@@ -14,3 +14,4 @@ export 'signature/signature.dart';
 export 'theme.dart';
 export 'utils/utils.dart';
 export 'vote/vote.dart';
+export 'campaign_preview/campaign_preview.view.dart';

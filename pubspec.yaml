@@ -76,6 +76,7 @@ dependencies:
 
   # information
   package_info_plus: ^1.4.2
+  youtube_player_iframe: ^2.3.0
 
 dev_dependencies:
   flutter_test:

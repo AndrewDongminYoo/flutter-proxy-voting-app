@@ -6,6 +6,7 @@ import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
+import 'package:bside/shared/yotube.dart';
 import '../auth/auth.controller.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
@@ -23,23 +24,6 @@ class _CampaignPageState extends State<CampaignPage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
   bool isLoading = false;
-
-  Widget _gradientLayer() {
-    return Positioned.fill(
-        child: Container(
-      width: Get.width,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF5E3F74),
-            Color(0xFF82A5E1),
-          ],
-        ),
-      ),
-    ));
-  }
 
   Widget _campaignHeader(Campaign campaign) {
     return CustomText(
@@ -157,7 +141,7 @@ class _CampaignPageState extends State<CampaignPage> {
 
   Widget _buildConfirmButton() {
     // 종료된 캠페인은 전자위임 버튼
-    if(!_voteCtrl.campaign.onGoing) {
+    if (!_voteCtrl.campaign.onGoing) {
       return Container();
     }
 
@@ -186,7 +170,7 @@ class _CampaignPageState extends State<CampaignPage> {
     return Scaffold(
       appBar: CustomAppBar(text: '', bgColor: const Color(0xFF5E3F74)),
       body: Stack(fit: StackFit.expand, children: [
-        _gradientLayer(),
+        const GradientWidget(),
         SizedBox(
           height: Get.height,
           child: SingleChildScrollView(
@@ -196,6 +180,8 @@ class _CampaignPageState extends State<CampaignPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _campaignHeader(_voteCtrl.campaign),
+                  const SizedBox(height: 48),
+                  const YoutubeApp(),
                   const SizedBox(height: 48),
                   _campaignInfoInRow(_voteCtrl.campaign),
                   const SizedBox(height: 86),
@@ -210,5 +196,45 @@ class _CampaignPageState extends State<CampaignPage> {
       ]),
       floatingActionButton: _buildConfirmButton(),
     );
+  }
+}
+
+class CampaignHeaderWidget extends StatelessWidget {
+  final Campaign campaign;
+  const CampaignHeaderWidget({Key? key, required this.campaign})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomText(
+      text: campaign.slogan,
+      typoType: TypoType.h1Bold,
+      colorType: ColorType.white,
+      textAlign: TextAlign.left,
+    );
+  }
+}
+
+class GradientWidget extends StatelessWidget {
+  const GradientWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+        child: Container(
+      width: Get.width,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF5E3F74),
+            Color(0xFF82A5E1),
+          ],
+        ),
+      ),
+    ));
   }
 }

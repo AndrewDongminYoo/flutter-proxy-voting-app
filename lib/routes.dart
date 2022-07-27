@@ -21,5 +21,7 @@ routes() => [
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
       GetPage(name: '/mts', page: () => const MtsPage()),
       GetPage(name: '/mts-link', page: () => const MtsLinkPage()),
-      GetPage(name: '/mts-certification', page: () => const SecuritiesPage())
+      GetPage(name: '/mts-certification', page: () => const SecuritiesPage()),
+      GetPage(
+          name: '/preview-campaign', page: () => const PreviewCampaignPage()),
     ];

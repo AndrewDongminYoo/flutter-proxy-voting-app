@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onConfirmed(Campaign campaign) {
     _voteCtrl.setCampaign(campaign);
-    goToCampaign();
+    goToPreviewCampaign();
   }
 
   void updateCurPage(int index) {
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
     return CustomPopScope(
       child: Scaffold(
         body: Stack(children: [
-          _backgroundImageLayer(_curCampaign.backgroundImg),
+          backgroundImageLayer(_curCampaign.backgroundImg),
           _topBar(),
           _customPageViewLayer(_controller!, updateCurPage, _curPage,
               campaigns.length, _onConfirmed),
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget _backgroundImageLayer(String imgUrl) {
+Widget backgroundImageLayer(String imgUrl) {
   return Container(
       height: Get.height,
       width: Get.width,
@@ -168,7 +168,7 @@ Widget _customPageViewLayer(
             alignment: Alignment.center,
             child: isActive
                 ? Hero(
-                    tag: 'companyLogo',
+                    tag: 'previewCampaign',
                     child: GestureDetector(
                       onTap: () {
                         onConfirmed(campaign);

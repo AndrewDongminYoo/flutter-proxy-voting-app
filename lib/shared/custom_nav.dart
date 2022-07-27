@@ -19,6 +19,8 @@ goToDuplicate() => Get.toNamed('/duplicate');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
 goToMtsLink() => Get.toNamed('/mts-link');
 goToMtsCertification() => Get.toNamed('/mts-certification');
+goToPreviewCampaign() => Get.toNamed('/preview-campaign');
+
 backToSignUp() => Get.offNamedUntil(
       '/signup',
       (route) => route.settings.name == '/signup',
