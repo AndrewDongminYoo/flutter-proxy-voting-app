@@ -2,10 +2,8 @@
 import 'dart:async';
 
 // 🌎 Project imports:
-import '../plugin_platform_interface.dart';
-
 import '../method_channel/method_channel_device_info.dart';
-
+import '../plugin_platform_interface.dart';
 import 'model/android_device_info.dart';
 import 'model/ios_device_info.dart';
 

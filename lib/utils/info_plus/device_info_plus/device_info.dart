@@ -1,9 +1,10 @@
 // 🎯 Dart imports:
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
 // 🌎 Project imports:
 import 'device_info_interface.dart';
+
 export 'device_info_interface.dart'
     show
         AndroidBuildVersion,

@@ -1,9 +1,12 @@
 // 🎯 Dart imports:
 import 'dart:async';
+
 // 🐦 Flutter imports:
 import 'package:flutter/services.dart';
+
 // 📦 Package imports:
 import 'package:meta/meta.dart';
+
 // 🌎 Project imports:
 import '../device_info_plus/device_info_interface.dart';
 

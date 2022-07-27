@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' show ExtensionBottomSheet, Get, GetNavigation;
 
 // 🌎 Project imports:
+import '../notification/notification.controller.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 import '../utils/exceptions.dart';
-import '../notification/notification.controller.dart';
 import 'auth.controller.dart';
 
 class ValidatePage extends StatefulWidget {

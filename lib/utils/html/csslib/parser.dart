@@ -1,13 +1,14 @@
 // 🎯 Dart imports:
 import 'dart:math' as math;
 
+// 🌎 Project imports:
+import 'src/src.dart';
+import 'visitor.dart';
+
 // 📦 Package imports:
 import 'package:source_span/source_span.dart'
     show FileSpan, SourceFile, SourceSpan;
 
-// 🌎 Project imports:
-import 'src/src.dart';
-import 'visitor.dart';
 
 export 'src/src.dart';
 
