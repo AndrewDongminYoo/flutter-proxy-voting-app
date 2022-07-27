@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -28,13 +28,12 @@ main() async {
     if (kReleaseMode) exit(1);
   };
 
-  // await clearPref(); // NOTE: 디버깅용
+  // await CustomStorage.clear(); // NOTE: 디버깅용
 
   // initialize app
   await dotenv.load(fileName: '.env');
   final initialLink = await setupFirebase();
-  bool firstTime = await getIfFirstTime();
-  debugPrint('[main] firstTime: $firstTime');
+  bool firstTime = await CustomStorage.needOnBoarding();
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
   runZonedGuarded(() {

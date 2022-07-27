@@ -47,7 +47,7 @@ class NotiController extends GetxController {
       Notification data = Notification.fromFireMessage(message);
       encodedPushAlrams
           .add(json.encode(data.toJson(), toEncodable: _encodeDateTime));
-      setNotifications(encodedPushAlrams);
+      CustomStorage.setNotifications(encodedPushAlrams);
       update();
     });
   }
@@ -83,7 +83,7 @@ class NotiController extends GetxController {
 
   void getNotificationsLocal() async {
     notifications.clear();
-    List<String> result = await getNotifications();
+    List<String> result = await CustomStorage.getNotifications();
     for (var message in result) {
       if (message.length > 1 &&
           !notifications.contains(Notification.fromJson(decodeJson(message)))) {
@@ -94,7 +94,7 @@ class NotiController extends GetxController {
 
   Future<void> removeNotification(int index) async {
     encodedPushAlrams.removeAt(index);
-    setNotifications(encodedPushAlrams);
+    CustomStorage.setNotifications(encodedPushAlrams);
   }
 
   String _encodeDateTime(dynamic item) {
