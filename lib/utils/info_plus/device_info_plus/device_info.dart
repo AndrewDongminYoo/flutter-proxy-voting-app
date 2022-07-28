@@ -10,8 +10,7 @@ export 'device_info_interface.dart'
         AndroidBuildVersion,
         AndroidDeviceInfo,
         BaseDeviceInfo,
-        IosDeviceInfo,
-        IosUtsname;
+        IosDeviceInfo;
 
 class DeviceInfoPlugin {
   DeviceInfoPlugin();

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,5 +22,5 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('Handling a background message: ${message.messageId}');
 }
 
-FirebaseFirestore _firestore = FirebaseFirestore.instance;
-CollectionReference liveRef = _firestore.collection('live');
+// FirebaseFirestore _firestore = FirebaseFirestore.instance;
+// CollectionReference liveRef = _firestore.collection('live');
