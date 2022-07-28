@@ -1,15 +1,11 @@
 // 🎯 Dart imports:
 import 'dart:convert' show jsonEncode;
 
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show debugPrint;
-
 // 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_connect.dart';
 
-// 🌎 Project imports:
-import '../contact_us/contact_us.model.dart';
+// 📦 Package imports:
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService extends GetConnect {
   final String _baseURL = 'https://api.bside.ai/onboarding';
@@ -22,7 +18,7 @@ class AuthService extends GetConnect {
   final String _lambdaResultURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
 
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  // final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   /// 본인인증:
   Future<Response> getOtpCode(
@@ -90,36 +86,36 @@ class AuthService extends GetConnect {
   }
 
   /// MESSAGE PART
-  Future<void> postMessage(String phoneNumber, Chat message) async {
-    final contact = <String, dynamic>{
-      'message': message.message,
-      'myself': message.myself,
-      'time': message.time
-    };
-    await _db
-        .collection('contacts')
-        .doc(phoneNumber)
-        .collection('inbox')
-        .add(contact);
-  }
+  // Future<void> postMessage(String phoneNumber, Chat message) async {
+  //   final contact = <String, dynamic>{
+  //     'message': message.message,
+  //     'myself': message.myself,
+  //     'time': message.time
+  //   };
+  //   await _db
+  //       .collection('contacts')
+  //       .doc(phoneNumber)
+  //       .collection('inbox')
+  //       .add(contact);
+  // }
 
-  Future<List<Chat>> getMessage(String phoneNumber) async {
-    List<Chat> ref = [];
-    try {
-      await _db
-          .collection('contacts')
-          .doc(phoneNumber)
-          .collection('inbox')
-          .orderBy('time', descending: false)
-          .get()
-          .then((event) {
-        for (var doc in event.docs) {
-          ref.add(Chat.fromFireStore(doc));
-        }
-      });
-    } catch (err) {
-      debugPrint(err.toString());
-    }
-    return ref;
-  }
+  // Future<List<Chat>> getMessage(String phoneNumber) async {
+  //   List<Chat> ref = [];
+  //   try {
+  //     await _db
+  //         .collection('contacts')
+  //         .doc(phoneNumber)
+  //         .collection('inbox')
+  //         .orderBy('time', descending: false)
+  //         .get()
+  //         .then((event) {
+  //       for (var doc in event.docs) {
+  //         ref.add(Chat.fromFireStore(doc));
+  //       }
+  //     });
+  //   } catch (err) {
+  //     debugPrint(err.toString());
+  //   }
+  //   return ref;
+  // }
 }

@@ -50,7 +50,6 @@ dependencies:
   image_picker: ^0.8.5+3
 
   # https://pub.dev/publishers/firebase.google.com/packages
-  cloud_firestore: ^3.2.0
   firebase_core: ^1.18.0
   firebase_dynamic_links: ^4.2.6
   firebase_messaging: ^11.4.4
@@ -64,9 +63,6 @@ dependencies:
 
   # storage
   shared_preferences: ^2.0.15
-
-  # UI
-  flutter_reaction_button: ^2.0.1+1
 
   # moment
   timeago: ^3.2.2

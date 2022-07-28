@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../contact_us/contact_us.model.dart';
 import '../shared/custom_nav.dart';
 import '../utils/utils.dart';
 import 'auth.dart';
@@ -16,7 +15,6 @@ class AuthController extends GetxController {
       : Get.put(AuthController());
 
   User? _user;
-  List<Chat> chats = [];
   bool _isLogined = false;
   bool get canVote => _isLogined;
   final AuthService _service = AuthService();
@@ -136,22 +134,22 @@ class AuthController extends GetxController {
     if (user.id >= 0) _service.putAddress(user.id, newAddress);
   }
 
-  void contactUs(String message) {
-    final newChat = Chat(
-      message: message,
-      myself: true,
-      time: DateTime.now(),
-    );
-    chats.add(newChat);
+  // void contactUs(String message) {
+  //   final newChat = Chat(
+  //     message: message,
+  //     myself: true,
+  //     time: DateTime.now(),
+  //   );
+  //   chats.add(newChat);
 
-    _service.postMessage(user.phoneNumber, newChat);
-    update();
-  }
+  //   _service.postMessage(user.phoneNumber, newChat);
+  //   update();
+  // }
 
-  Future<List<Chat>> getChat() async {
-    chats = await _service.getMessage(user.phoneNumber);
-    return chats;
-  }
+  // Future<List<Chat>> getChat() async {
+  //   chats = await _service.getMessage(user.phoneNumber);
+  //   return chats;
+  // }
 
   void putBackId(String backId) async {
     if (user.id >= 0) await _service.putBackId(user.id, backId);
