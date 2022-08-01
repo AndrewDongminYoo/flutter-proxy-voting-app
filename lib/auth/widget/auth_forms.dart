@@ -19,6 +19,7 @@ const authFormFieldStyle = TextStyle(
 
 class PhoneNumberForm extends StatefulWidget {
   final Function(FormStep step, String value) nextForm;
+
   const PhoneNumberForm({
     Key? key,
     required this.nextForm,
@@ -29,28 +30,99 @@ class PhoneNumberForm extends StatefulWidget {
 }
 
 class _PhoneNumberFormState extends State<PhoneNumberForm> {
+  bool _validation = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        autofocus: true,
-        inputFormatters: [
-          CardFormatter(
-            sample: 'xxx xxxx xxxx',
-            separator: ' ',
-          )
-        ],
-        style: authFormFieldStyle,
-        keyboardType: TextInputType.number,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '휴대폰번호',
+      autofocus: true,
+      inputFormatters: [
+        CardFormatter(
+          sample: 'xxx xxxx xxxx',
+          separator: ' ',
+        )
+      ],
+      style: authFormFieldStyle,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        floatingLabelStyle: TextStyle(
+          color: _validation
+              ? Colors.deepPurple
+              : const Color.fromARGB(255, 255, 55, 0),
         ),
-        onChanged: (text) {
-          if (text.length >= 13) {
-            FocusScope.of(context).unfocus();
-            widget.nextForm(FormStep.phoneNumber, text);
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: _validation
+                ? Colors.deepPurple
+                : const Color.fromARGB(255, 255, 55, 0),
+          ),
+        ),
+        border: const OutlineInputBorder(),
+        labelText: '휴대폰번호',
+        helperText: _validation ? '' : '숫자만 입력할 수 있습니다.',
+        helperStyle: const TextStyle(
+          color: Color.fromARGB(255, 255, 55, 0),
+        ),
+      ),
+      onChanged: (text) {
+        if (text.isEmpty) {
+          setState(() {
+            _validation = true;
+          });
+        } else {
+          for (int i = 0; i < text.length; i++) {
+            if (i == 3) {
+              if (text[i] == ' ') {
+                setState(() {
+                  _validation = true;
+                });
+                continue;
+              } else {
+                setState(() {
+                  _validation = false;
+                });
+                break;
+              }
+            } else if (i == 8) {
+              if (text[i] == ' ') {
+                setState(() {
+                  _validation = true;
+                });
+                continue;
+              } else {
+                setState(() {
+                  _validation = false;
+                });
+                break;
+              }
+            } else {
+              if (RegExp(r'[0-9]').hasMatch(text[i])) {
+                setState(() {
+                  _validation = true;
+                });
+                continue;
+              } else {
+                setState(() {
+                  _validation = false;
+                });
+                break;
+              }
+            }
           }
-        });
+        }
+
+        if (text.length >= 13 && _validation) {
+          FocusScope.of(context).unfocus();
+          widget.nextForm(FormStep.phoneNumber, text);
+        }
+      },
+    );
   }
 }
 
@@ -68,6 +140,12 @@ class KoreanIdForm extends StatefulWidget {
 }
 
 class _KoreanIdFormState extends State<KoreanIdForm> {
+  bool _validation = true;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -80,12 +158,63 @@ class _KoreanIdFormState extends State<KoreanIdForm> {
       ],
       style: authFormFieldStyle,
       keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '주민등록번호',
-          helperText: '생년월일 6자리와 뒷번호 1자리'),
+      decoration: InputDecoration(
+        floatingLabelStyle: TextStyle(
+          color: _validation
+              ? Colors.deepPurple
+              : const Color.fromARGB(255, 255, 55, 0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: _validation
+                ? Colors.deepPurple
+                : const Color.fromARGB(255, 255, 55, 0),
+          ),
+        ),
+        border: const OutlineInputBorder(),
+        labelText: '주민등록번호',
+        helperText: _validation ? '생년월일 6자리와 뒷번호 1자리' : '숫자만 입력할 수 있습니다.',
+        helperStyle: TextStyle(
+          color: _validation
+              ? Colors.deepPurple
+              : const Color.fromARGB(255, 255, 55, 0),
+        ),
+      ),
       onChanged: (text) {
-        if (text.length >= 8) {
+        if (text.isEmpty) {
+          setState(() {
+            _validation = true;
+          });
+        } else {
+          for (int i = 0; i < text.length; i++) {
+            if (i == 6) {
+              if (text[6] == ' ') {
+                setState(() {
+                  _validation = true;
+                });
+              } else {
+                setState(() {
+                  _validation = false;
+                });
+                break;
+              }
+            } else {
+              if (RegExp(r'[0-9]').hasMatch(text[i])) {
+                setState(() {
+                  _validation = true;
+                });
+              } else {
+                setState(() {
+                  _validation = false;
+                });
+                break;
+              }
+            }
+          }
+        }
+
+        if (_validation && text.length >= 8) {
           FocusScope.of(context).unfocus();
           widget.nextForm(FormStep.koreanId, text);
         }
@@ -192,26 +321,114 @@ class TelcomModal extends StatelessWidget {
   }
 }
 
-class NameForm extends TextFormField {
+// class NameForm extends TextFormField {
+
+//   final FocusNode focusNode;
+//   final Function(FormStep step, String value) nextForm;
+//   NameForm({
+//     Key? key,
+//     required this.focusNode,
+//     required this.nextForm,
+//   }) : super(
+//           key: key,
+//           focusNode: focusNode,
+//           autofocus: true,
+//           style: authFormFieldStyle,
+//           decoration: const InputDecoration(
+//             border: OutlineInputBorder(),
+//             labelText: '이름',
+//           ),
+//           onChanged: (text) {
+//             final listText = [text];
+//             for (int i = 0; i < text.length;i++){
+//               RegExp(r'[0-9]').hasMatch(text[i])
+//               ? setState(() {
+//                   validation = true;
+//                 })
+//               : setState(() {
+//                   validation = false;
+//                 });
+//             }
+//               if (text.length >= 2) {
+//                 nextForm(FormStep.name, text);
+//               }
+//           },
+//         );
+// }
+
+class NameForm extends StatefulWidget {
   final FocusNode focusNode;
   final Function(FormStep step, String value) nextForm;
-  NameForm({
+  const NameForm({
     Key? key,
     required this.focusNode,
     required this.nextForm,
-  }) : super(
-          key: key,
-          focusNode: focusNode,
-          autofocus: true,
-          style: authFormFieldStyle,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: '이름',
+  }) : super(key: key);
+
+  @override
+  State<NameForm> createState() => _NameFormState();
+}
+
+class _NameFormState extends State<NameForm> {
+  bool _validation = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: widget.focusNode,
+      autofocus: true,
+      style: authFormFieldStyle,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: _validation
+                ? Colors.deepPurple
+                : const Color.fromARGB(255, 255, 55, 0),
           ),
-          onChanged: (text) {
-            if (text.length >= 2) {
-              nextForm(FormStep.name, text);
+        ),
+        floatingLabelStyle: TextStyle(
+          color: _validation
+              ? Colors.deepPurple
+              : const Color.fromARGB(255, 255, 55, 0),
+        ),
+        labelText: '이름',
+        helperText: _validation ? '' : '한글만 입력할 수 있습니다.',
+        helperStyle: TextStyle(
+          color: _validation
+              ? Colors.deepPurple
+              : const Color.fromARGB(255, 255, 55, 0),
+        ),
+      ),
+      onChanged: (text) {
+        if (text.isEmpty) {
+          setState(() {
+            _validation = true;
+          });
+        } else {
+          for (int i = 0; i < text.length; i++) {
+            if (RegExp(r'^[ㄱ-ㅎ가-힣]*$').hasMatch(text[i])) {
+              setState(() {
+                _validation = true;
+              });
+            } else {
+              setState(() {
+                _validation = false;
+              });
+              break;
             }
-          },
-        );
+          }
+          if (_validation && text.length >= 2) {
+            widget.nextForm(FormStep.name, text);
+          }
+        }
+      },
+    );
+  }
 }

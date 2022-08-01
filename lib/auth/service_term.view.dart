@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
@@ -117,7 +118,7 @@ class _ServiceTermState extends State<ServiceTerm> {
 
   Widget _confirmButton() {
     if (widget.controller.hasClients) {
-      widget.controller.animateTo(400.0,
+      widget.controller.animateTo(Get.height * 0.4,
           duration: const Duration(milliseconds: 500), curve: Curves.ease);
     }
 

@@ -22,6 +22,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
   final VoteController _voteCtrl = VoteController.get();
   late String _frontId = '';
   late String _backId = '1';
+  bool _validation = true;
 
   @override
   void initState() {
@@ -54,6 +55,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
             padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   width: Get.width / 4,
@@ -71,20 +73,41 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                         ),
                       ),
                       labelText: '생년월일',
+                      helperText: '',
                     ),
                   ),
                 ),
                 CustomText(
                   text: '  -  ',
                   typoType: TypoType.h1Bold,
+                  textAlign: TextAlign.start,
                 ),
                 SizedBox(
                   width: Get.width / 2,
                   child: TextFormField(
                     maxLength: 7,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                        floatingLabelStyle: TextStyle(
+                          color: _validation
+                              ? Colors.deepPurple
+                              : const Color.fromARGB(255, 255, 55, 0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 2,
+                            color: _validation
+                                ? Colors.deepPurple
+                                : const Color.fromARGB(255, 255, 55, 0),
+                          ),
+                        ),
                         labelText: '주민등록번호 뒷자리',
-                        border: OutlineInputBorder(),
+                        helperText: _validation ? '' : '숫자만 입력할 수 있습니다.',
+                        helperStyle: TextStyle(
+                          color: _validation
+                              ? Colors.deepPurple
+                              : const Color.fromARGB(255, 255, 55, 0),
+                        ),
+                        border: const OutlineInputBorder(),
                         counterText: ''),
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.left,
@@ -94,6 +117,16 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
                     keyboardType: TextInputType.number,
                     autofocus: true,
                     onChanged: ((input) {
+                      if (!input.contains(RegExp(r'^[0-9]*$'))) {
+                        setState(() {
+                          _validation = false;
+                        });
+                      } else {
+                        setState(() {
+                          _validation = true;
+                        });
+                      }
+
                       _backId = input;
                     }),
                   ),

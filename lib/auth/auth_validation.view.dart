@@ -29,7 +29,7 @@ class _ValidatePageState extends State<ValidatePage> {
   String _otpCode = '';
   Duration _remainingOtpTime = const Duration(minutes: 3);
   String _title = '인증번호를 입력해주세요';
-
+  bool validation = true;
   @override
   void initState() {
     if (Get.arguments['isNew'] == 'existingUser') {
@@ -59,10 +59,10 @@ class _ValidatePageState extends State<ValidatePage> {
   }
 
   _onPressed() {
-    setState(() {
-      _timer!.cancel();
-    });
     if (_authCtrl.canVote) {
+      setState(() {
+        _timer!.cancel();
+      });
       jumpToCampaign();
     }
   }
@@ -76,7 +76,10 @@ class _ValidatePageState extends State<ValidatePage> {
     } catch (e) {
       debugPrint(e.toString());
       if (e is CustomException) {
-        _alertGoBack(e.message);
+        // _alertGoBack(e.message);
+        setState(() {
+          validation = false;
+        });
       }
     }
     _onPressed();
@@ -132,9 +135,28 @@ class _ValidatePageState extends State<ValidatePage> {
                   },
                   maxLength: 6,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    floatingLabelStyle: TextStyle(
+                      color: validation
+                          ? Colors.deepPurple
+                          : const Color.fromARGB(255, 255, 55, 0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: validation
+                            ? Colors.deepPurple
+                            : const Color.fromARGB(255, 255, 55, 0),
+                      ),
+                    ),
+                    border: const OutlineInputBorder(),
                     labelText: '인증번호',
+                    helperText: validation ? '' : '인증번호가 틀렸습니다.',
+                    helperStyle: TextStyle(
+                      color: validation
+                          ? Colors.deepPurple
+                          : const Color.fromARGB(255, 255, 55, 0),
+                    ),
                   ),
                   onChanged: (String text) {
                     if (text.length >= 6) {

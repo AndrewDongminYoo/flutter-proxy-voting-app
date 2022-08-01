@@ -24,7 +24,7 @@ class _YoutubeAppState extends State<YoutubeApp> {
     String youtubeUrl = _voteCtrl.campaign.youtubeUrl;
 
     _controller = YoutubePlayerController(
-      initialVideoId: 'K18cpp_-gP8',
+      initialVideoId: 'DQR8JgqvjUQ',
       params: YoutubePlayerParams(
         playlist: [youtubeUrl],
         startAt: const Duration(seconds: 30),
