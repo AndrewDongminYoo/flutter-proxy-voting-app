@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 // 🐦 Flutter imports:
-import 'dart:convert' show jsonEncode;
-
 import 'package:flutter/services.dart';
 
 class CooconMTSService {
@@ -32,7 +30,7 @@ class CooconMTSService {
     'Job': '전계좌조회',
     'Input': {
       '사용자비밀번호': '', // 키움 증권만 사용
-      '조회구분': '', // "S: 키움 간편조회, 메리츠 전체계좌, 삼성 계좌잔고
+      '조회구분': '', // "S": 키움 간편조회, 메리츠 전체계좌, 삼성 계좌잔고
     }, // 없음: 키움 일반조회, 메리츠 계좌평가, 삼성 종합잔고평가
   }; // "D": 대신,크레온 종합번호+계좌번호, 없음: 일반조회
 
@@ -82,11 +80,11 @@ class CooconMTSService {
     try {
       print('mts.service.dart shoot data');
       await fetchData(cooconSignIn);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       await fetchData(cooconInput2);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       await fetchData(cooconInput3);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       await fetchData(cooconLogout);
     } on Exception catch (e, s) {
       print('error alert!: $e');
