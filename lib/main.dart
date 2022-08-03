@@ -7,10 +7,10 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 🌎 Project imports:
 import 'lib.dart';
@@ -47,6 +47,7 @@ main() async {
 class MyApp extends StatefulWidget {
   final bool firstTime;
   final dynamic initialLink;
+
   const MyApp({
     Key? key,
     this.initialLink,
@@ -58,8 +59,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _initialRoute = '/mts';
-  final NotiController _notificaitionCtrl = NotiController.get();
+  String _initialRoute = '/';
+  final NotiController _notificationCtrl = NotiController.get();
 
   @override
   initState() {
@@ -72,9 +73,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   _initNotification() {
-    _notificaitionCtrl.listenFCM();
-    _notificaitionCtrl.requestPermission();
-    _notificaitionCtrl.getToken();
+    _notificationCtrl.listenFCM();
+    _notificationCtrl.requestPermission();
+    _notificationCtrl.getToken();
   }
 
   _initDynamicLinks() {

@@ -6,11 +6,7 @@ import 'dart:io';
 import 'device_info_interface.dart';
 
 export 'device_info_interface.dart'
-    show
-        AndroidBuildVersion,
-        AndroidDeviceInfo,
-        BaseDeviceInfo,
-        IosDeviceInfo;
+    show AndroidBuildVersion, AndroidDeviceInfo, BaseDeviceInfo, IosDeviceInfo;
 
 class DeviceInfoPlugin {
   DeviceInfoPlugin();
