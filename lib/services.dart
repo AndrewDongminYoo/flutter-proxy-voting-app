@@ -6,10 +6,10 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 
 // 📦 Package imports:
 import 'package:get/get.dart' show GetConnect, Response;
-import 'package:package_info_plus/package_info_plus.dart';
 
 // 🌎 Project imports:
 import 'vote/vote.controller.dart';
+import 'utils/info_plus/package_info_plus/package_info.dart';
 
 class MainService extends GetConnect {
   final String _baseURL = 'https://api.bside.ai/crashlytics';

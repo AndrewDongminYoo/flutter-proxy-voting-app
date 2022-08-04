@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 // 🌎 Project imports:
-import '../device_info_plus/device_info_interface.dart';
+import 'device_info_interface.dart';
 
 class MethodChannelDeviceInfo extends DeviceInfoPlatform {
   @visibleForTesting
