@@ -6,7 +6,6 @@ import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
-import 'package:bside/shared/yotube.dart';
 import '../auth/auth.controller.dart';
 import '../shared/shared.dart';
 import '../theme.dart';

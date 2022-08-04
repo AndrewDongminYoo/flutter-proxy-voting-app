@@ -7,6 +7,7 @@ import 'lib.dart';
 routes() => [
       GetPage(name: '/onboarding', page: () => const OnboardingPage()),
       GetPage(name: '/', page: () => const HomePage()),
+      GetPage(name: '/preview', page: () => const PreviewCampaignPage()),
       GetPage(name: '/signup', page: () => const AuthPage()),
       GetPage(name: '/validate', page: () => const ValidatePage()),
       GetPage(name: '/campaign', page: () => const CampaignPage()),
@@ -19,8 +20,5 @@ routes() => [
       GetPage(name: '/result', page: () => const ShowResultPage()),
       GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
       GetPage(name: '/mts', page: () => const MtsPage()),
-      GetPage(name: '/mts-link', page: () => const MtsLinkPage()),
-      GetPage(name: '/mts-certification', page: () => const SecuritiesPage()),
-      GetPage(
-          name: '/preview-campaign', page: () => const PreviewCampaignPage()),
+      GetPage(name: '/mts-cert', page: () => const SecuritiesPage()),
     ];

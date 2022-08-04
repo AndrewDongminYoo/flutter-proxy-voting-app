@@ -2,28 +2,30 @@
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'mts.data.dart';
+import 'mts.dart';
 
 class MtsController extends GetxController {
   static MtsController get() => Get.isRegistered<MtsController>()
       ? Get.find<MtsController>()
       : Get.put(MtsController());
 
-  MTS? _securitiesFirmId;
+  FIRM? _securitiesFirm;
+  String userLoginID = '';
+  String userLoginPW = ''; // it's a word made of number, but "String"
 
-  MTS get securitiesFirmId {
-    if (_securitiesFirmId != null) {
-      return _securitiesFirmId!;
+  FIRM get securitiesFirmId {
+    if (_securitiesFirm != null) {
+      return _securitiesFirm!;
     }
-    return MTS('secDaishin', '', 0);
+    return FIRM('secDaishin', 0, '', '');
   }
 
-  void setSecuritiesModule(String module) {
-    securitiesFirmId.setModule(module);
+  void setMTSFirm(dynamic firm) {
+    _securitiesFirm = FIRM.fromJson(firm);
   }
 
-  void setMts(String id, int password) {
-    securitiesFirmId.setId(id);
-    securitiesFirmId.setPassword(password);
+  void setIDPW(String id, String password) {
+    userLoginID = id;
+    userLoginPW = password;
   }
 }

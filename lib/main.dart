@@ -71,7 +71,6 @@ class _MyAppState extends State<MyApp> {
     _initDynamicLinks();
     compareAppVersion();
     Battery.getBattery();
-    CooconMTSService.getData();
   }
 
   _initNotification() {

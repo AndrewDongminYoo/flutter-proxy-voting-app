@@ -20,15 +20,15 @@ class _CertificaitionIdFormState extends State<CertificaitionIdForm> {
         CardFormatter(
           sample: 'xxxxxxxxxx',
           separator: '',
-          ),
-        ],
+        ),
+      ],
       style: authFormFieldStyle,
       keyboardType: TextInputType.name,
       decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '아이디',
-          helperText: '아이디를 입력해주세요',
-          ),
+        border: OutlineInputBorder(),
+        labelText: '아이디',
+        helperText: '아이디를 입력해주세요',
+      ),
     );
   }
 }
@@ -37,10 +37,12 @@ class CertificaitionPasswordForm extends StatefulWidget {
   const CertificaitionPasswordForm({Key? key}) : super(key: key);
 
   @override
-  State<CertificaitionPasswordForm> createState() => _CertificaitionPasswordFormState();
+  State<CertificaitionPasswordForm> createState() =>
+      _CertificaitionPasswordFormState();
 }
 
-class _CertificaitionPasswordFormState extends State<CertificaitionPasswordForm> {
+class _CertificaitionPasswordFormState
+    extends State<CertificaitionPasswordForm> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -49,15 +51,15 @@ class _CertificaitionPasswordFormState extends State<CertificaitionPasswordForm>
         CardFormatter(
           sample: 'xxxxxxxxxx',
           separator: '',
-          ),
-        ],
+        ),
+      ],
       style: authFormFieldStyle,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '비밀번호',
-          helperText: '비밀번호를 입력해주세요',
-          ),
+        border: OutlineInputBorder(),
+        labelText: '비밀번호',
+        helperText: '비밀번호를 입력해주세요',
+      ),
     );
   }
 }

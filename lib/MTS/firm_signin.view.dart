@@ -4,24 +4,23 @@ import 'package:flutter/material.dart';
 // 🌎 Project imports:
 import 'package:bside/MTS/mts.controller.dart';
 import 'package:bside/shared/shared.dart';
-import 'widgets/certification_form.dart';
+import 'widgets/idpw_form.dart';
 
 class SecuritiesPage extends StatefulWidget {
   const SecuritiesPage({Key? key}) : super(key: key);
 
   @override
-  State<SecuritiesPage> createState() =>
-      _SecuritiesPageState();
+  State<SecuritiesPage> createState() => _SecuritiesPageState();
 }
 
 class _SecuritiesPageState extends State<SecuritiesPage> {
   final MtsController _mtsController = MtsController.get();
 
-  final String _securitiesId = '';
-  final int _securitiesPassword = 0;
+  final String _securitiesID = '';
+  final String _securitiesPW = '';
 
   onPressed() {
-    _mtsController.setMts(_securitiesId, _securitiesPassword);
+    _mtsController.setIDPW(_securitiesID, _securitiesPW);
   }
 
   @override
@@ -34,8 +33,8 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(text: '증권사 연동하기'),
-            const CertificaitionIdForm(),
-            const CertificaitionPasswordForm(),
+            const TradingFirmIdForm(),
+            const TradingFirmPasswordForm(),
             CustomButton(label: '확인', onPressed: onPressed)
           ],
         ));
