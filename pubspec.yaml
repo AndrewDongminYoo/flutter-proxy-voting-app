@@ -94,7 +94,40 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/live_images/
+    - assets/firm_images/
     - .env
+    - assets/firm_images/금융아이콘_PNG_DB.png
+    - assets/firm_images/금융아이콘_PNG_DGB.png
+    - assets/firm_images/금융아이콘_PNG_IBK.png
+    - assets/firm_images/금융아이콘_PNG_KB.png
+    - assets/firm_images/금융아이콘_PNG_KDB.png
+    - assets/firm_images/금융아이콘_PNG_KTB투자증권.png
+    - assets/firm_images/금융아이콘_PNG_SK.png
+    - assets/firm_images/금융아이콘_PNG_교보.png
+    - assets/firm_images/금융아이콘_PNG_나무.png
+    - assets/firm_images/금융아이콘_PNG_농협.png
+    - assets/firm_images/금융아이콘_PNG_대신증권.png
+    - assets/firm_images/금융아이콘_PNG_롯데.png
+    - assets/firm_images/금융아이콘_PNG_메리츠.png
+    - assets/firm_images/금융아이콘_PNG_미래에셋.png
+    - assets/firm_images/금융아이콘_PNG_삼성.png
+    - assets/firm_images/금융아이콘_PNG_신영증권.png
+    - assets/firm_images/금융아이콘_PNG_신한.png
+    - assets/firm_images/금융아이콘_PNG_우리.png
+    - assets/firm_images/금융아이콘_PNG_유안타.png
+    - assets/firm_images/금융아이콘_PNG_유진.png
+    - assets/firm_images/금융아이콘_PNG_이베스트.png
+    - assets/firm_images/금융아이콘_PNG_케이프.jpeg
+    - assets/firm_images/금융아이콘_PNG_케이프.png
+    - assets/firm_images/금융아이콘_PNG_크레온.png
+    - assets/firm_images/금융아이콘_PNG_키움.png
+    - assets/firm_images/금융아이콘_PNG_하나.png
+    - assets/firm_images/금융아이콘_PNG_한국투자.png
+    - assets/firm_images/금융아이콘_PNG_한국포스.png
+    - assets/firm_images/금융아이콘_PNG_한화.png
+    - assets/firm_images/금융아이콘_PNG_현대차증권.png
+    - assets/firm_images/금융아이콘_PNG_현대카드.png
   fonts:
     - family: Nanum
       fonts:

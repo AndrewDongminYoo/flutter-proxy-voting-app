@@ -321,41 +321,6 @@ class TelcomModal extends StatelessWidget {
   }
 }
 
-// class NameForm extends TextFormField {
-
-//   final FocusNode focusNode;
-//   final Function(FormStep step, String value) nextForm;
-//   NameForm({
-//     Key? key,
-//     required this.focusNode,
-//     required this.nextForm,
-//   }) : super(
-//           key: key,
-//           focusNode: focusNode,
-//           autofocus: true,
-//           style: authFormFieldStyle,
-//           decoration: const InputDecoration(
-//             border: OutlineInputBorder(),
-//             labelText: '이름',
-//           ),
-//           onChanged: (text) {
-//             final listText = [text];
-//             for (int i = 0; i < text.length;i++){
-//               RegExp(r'[0-9]').hasMatch(text[i])
-//               ? setState(() {
-//                   validation = true;
-//                 })
-//               : setState(() {
-//                   validation = false;
-//                 });
-//             }
-//               if (text.length >= 2) {
-//                 nextForm(FormStep.name, text);
-//               }
-//           },
-//         );
-// }
-
 class NameForm extends StatefulWidget {
   final FocusNode focusNode;
   final Function(FormStep step, String value) nextForm;

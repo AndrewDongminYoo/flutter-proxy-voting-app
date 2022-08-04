@@ -1,6 +1,7 @@
 // 🎯 Dart imports:
 import 'dart:convert' show jsonEncode;
 
+// SecuritiesFirm or TradingFirm
 class FIRM {
   String _module = '';
   String _image = '';
@@ -17,14 +18,14 @@ class FIRM {
   FIRM.fromJson(Map<String, dynamic> json) {
     _module = json['module'];
     _id = json['id'];
-    _image = json['iamge'];
+    _image = json['image'];
     _name = json['name'];
   }
 
-  toJsonString() => jsonEncode({
+  String toJsonString() => jsonEncode({
         'module': _module,
         'id': _id,
-        'iamge': _image,
+        'image': _image,
         'name': _name,
       });
 }

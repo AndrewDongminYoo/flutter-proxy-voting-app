@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import 'package:bside/lib.dart';
-import 'package:bside/shared/yotube.dart';
-import './widget/widget.dart';
 
 class PreviewCampaignPage extends StatefulWidget {
   const PreviewCampaignPage({Key? key}) : super(key: key);

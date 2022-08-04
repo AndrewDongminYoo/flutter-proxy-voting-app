@@ -22,34 +22,6 @@ class _MtsPageState extends State<MtsPage> {
     goToMtsLink(firm['module']);
   }
 
-  Widget securitiesFirmCard(dynamic firm) {
-    return InkWell(
-      onTap: () => onPressed(firm),
-      child: Container(
-          margin: const EdgeInsets.all(8),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            color: customColor[ColorType.lightGrey]!,
-          ),
-          //  POINT: BoxDecoration
-          child: Column(
-            children: [
-              CustomText(
-                text: firm['name'],
-                typoType: TypoType.bodySmaller,
-              ),
-              const SizedBox(height: 8),
-              Avatar(
-                image: firm['image'] ?? '',
-                radius: 20,
-              ),
-            ],
-          )),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +31,6 @@ class _MtsPageState extends State<MtsPage> {
           height: Get.height,
           width: Get.width,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
                 text: '증권사 선택',
@@ -70,13 +41,46 @@ class _MtsPageState extends State<MtsPage> {
                 typoType: TypoType.body,
               ),
               CustomText(text: '더 많은 증권사와 연동하기 위해 준비 중입니다.'),
-              SizedBox(
-                child: GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 3,
-                  children: stockTradingFirms
-                      .map((firm) => securitiesFirmCard(firm))
-                      .toList(),
+              Expanded(
+                child: GridView.builder(
+                  primary: false,
+                  itemCount: stockTradingFirms.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemBuilder: (_, int index) {
+                    dynamic firm = stockTradingFirms[index];
+                    return InkWell(
+                      onTap: () => onPressed(firm),
+                      child: Container(
+                          margin: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 8),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15.0)),
+                            color: customColor[ColorType.lightGrey]!,
+                          ),
+                          //  POINT: BoxDecoration
+                          child: Column(
+                            children: [
+                              CustomText(
+                                text: firm['name'],
+                                typoType: TypoType.bodySmaller,
+                              ),
+                              const SizedBox(height: 8),
+                              CircleAvatar(
+                                radius: 20,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.asset(firm['image'] ?? ''),
+                                ),
+                              ),
+                            ],
+                          )),
+                    );
+                  },
                 ),
               ),
             ],

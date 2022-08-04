@@ -3,7 +3,6 @@ import 'dart:async' show runZonedGuarded;
 import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
-import 'package:bside/mts/mts.service.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 

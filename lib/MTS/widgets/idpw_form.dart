@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import '../../lib.dart';
+import '../../auth/widget/auth_forms.dart';
+import '../../auth/widget/card_formatter.dart';
 
 class TradingFirmIdForm extends StatefulWidget {
   const TradingFirmIdForm({Key? key}) : super(key: key);
