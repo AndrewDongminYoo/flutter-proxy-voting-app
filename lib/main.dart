@@ -3,7 +3,7 @@ import 'dart:async' show runZonedGuarded;
 import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
-import 'package:bside/utils/coocon/mts.service.dart';
+import 'package:bside/mts/mts.service.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
@@ -60,7 +60,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _initialRoute = '/';
+  String _initialRoute = '/mts';
   final NotiController _notificationCtrl = NotiController.get();
 
   @override
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
       defaultTransition: Transition.cupertino,
-      initialRoute: widget.firstTime ? '/onboarding' : _initialRoute,
+      initialRoute: _initialRoute,
       getPages: routes(),
       initialBinding: _initialBinding(),
       debugShowCheckedModeBanner: false,

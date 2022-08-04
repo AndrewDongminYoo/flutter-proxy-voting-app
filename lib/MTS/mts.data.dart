@@ -1,4 +1,7 @@
-class Mts {
+// 🎯 Dart imports:
+import 'dart:convert' show jsonEncode;
+
+class MTS {
   String _module = '';
   String _id = '';
   int _password = 0;
@@ -7,29 +10,32 @@ class Mts {
   String get id => _id;
   int get password => _password;
 
-  set setModule(String securitiesFirmModule) {
+  setModule(String securitiesFirmModule) {
+    // some check to make sure the module is not already set
     _module = securitiesFirmModule;
   }
 
-  set setId(String securitiesFirmId) {
+  setId(String securitiesFirmId) {
+    // some check to make sure the id is not already set
     _id = securitiesFirmId;
   }
 
-  set setPassword(int securitiesFirmPassword) {
+  setPassword(int securitiesFirmPassword) {
+    // some check to make sure the password is not already set
     _password = securitiesFirmPassword;
   }
 
-  Mts(this._module, this._id, this._password);
+  MTS(this._module, this._id, this._password);
 
-  Mts.fromJson(Map<String, dynamic> json) {
+  MTS.fromJson(Map<String, dynamic> json) {
     _module = json['module'];
     _id = json['id'];
     _password = json['password'];
   }
 
-  Map<String, dynamic> toJson() => {
-        '_module': module,
-        '_id': id,
-        '_password': password,
-      };
+  toJsonString() => jsonEncode({
+        'module': module,
+        'id': id,
+        'password': password,
+      });
 }

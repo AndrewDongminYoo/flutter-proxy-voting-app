@@ -9,23 +9,21 @@ class MtsController extends GetxController {
       ? Get.find<MtsController>()
       : Get.put(MtsController());
 
-  Mts? _securitiesFirmId;
+  MTS? _securitiesFirmId;
 
-  Mts get securitiesFirmId {
+  MTS get securitiesFirmId {
     if (_securitiesFirmId != null) {
       return _securitiesFirmId!;
     }
-    return Mts('secDaishin', '', 0);
+    return MTS('secDaishin', '', 0);
   }
 
-  void setSecuritiesModule(String module){
-    securitiesFirmId.setModule = module;
+  void setSecuritiesModule(String module) {
+    securitiesFirmId.setModule(module);
   }
 
   void setMts(String id, int password) {
-    securitiesFirmId.setId = id;
-    securitiesFirmId.setPassword = password;
+    securitiesFirmId.setId(id);
+    securitiesFirmId.setPassword(password);
   }
-
-  void getMts() {}
 }

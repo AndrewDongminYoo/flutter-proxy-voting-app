@@ -2,7 +2,6 @@
 import 'package:get/route_manager.dart' show GetPage;
 
 // 🌎 Project imports:
-import 'MTS/mts.dart';
 import 'lib.dart';
 
 routes() => [

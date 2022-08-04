@@ -2,10 +2,18 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart';
+import 'package:bside/lib.dart'
+    show
+        Campaign,
+        ColorType,
+        CustomButton,
+        CustomText,
+        CustomW,
+        TypoType,
+        goBack;
 
 class CampaignInfoWidget extends StatelessWidget {
   const CampaignInfoWidget({
