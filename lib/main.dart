@@ -3,6 +3,7 @@ import 'dart:async' show runZonedGuarded;
 import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
+import 'package:bside/utils/coocon/mts.service.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
@@ -70,6 +71,7 @@ class _MyAppState extends State<MyApp> {
     _initDynamicLinks();
     compareAppVersion();
     Battery.getBattery();
+    CooconMTSService.getData();
   }
 
   _initNotification() {

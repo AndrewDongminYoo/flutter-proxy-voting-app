@@ -79,13 +79,10 @@ class CooconMTSService {
 
     try {
       print('mts.service.dart shoot data');
-      await fetchData(cooconSignIn);
-      await Future.delayed(const Duration(seconds: 2));
-      await fetchData(cooconInput2);
-      await Future.delayed(const Duration(seconds: 2));
-      await fetchData(cooconInput3);
-      await Future.delayed(const Duration(seconds: 2));
-      await fetchData(cooconLogout);
+      await fetchData(cooconSignIn)
+          .whenComplete(() => fetchData(cooconInput2))
+          .whenComplete(() => fetchData(cooconInput3))
+          .whenComplete(() => fetchData(cooconLogout));
     } on Exception catch (e, s) {
       print('error alert!: $e');
       print('stack trace!: $s');
