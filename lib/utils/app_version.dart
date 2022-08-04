@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:http/http.dart' as http;
-import 'package:package_info_plus/package_info_plus.dart' show PackageInfo;
 import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 // 🌎 Project imports:
 import '../shared/custom_confirm.dart';
 import 'html/parser/html.parser.dart' show parse;
+import 'info_plus/package_info_plus/package_info.dart' show PackageInfo;
 
 // 참조
 // https://github.com/timtraversy/new_version/blob/master/lib/new_version.dart
