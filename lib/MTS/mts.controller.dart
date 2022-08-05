@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
@@ -8,16 +9,18 @@ class MtsController extends GetxController {
   static MtsController get() => Get.isRegistered<MtsController>()
       ? Get.find<MtsController>()
       : Get.put(MtsController());
+  CooconMTSService service = CooconMTSService();
 
   FIRM? _securitiesFirm;
-  String userLoginID = '';
-  String userLoginPW = ''; // it's a word made of number, but "String"
+  String userLoginID = ''; // username123
+  String userLoginPW = ''; // PaSsWoRd!@#
+  String bankPassword = ''; // 4-num password
 
   FIRM get securitiesFirmId {
     if (_securitiesFirm != null) {
       return _securitiesFirm!;
     }
-    return FIRM('secDaishin', 0, '', '');
+    return FIRM('secShinhan', 0, '', '');
   }
 
   void setMTSFirm(dynamic firm) {
@@ -27,5 +30,15 @@ class MtsController extends GetxController {
   void setIDPW(String id, String password) {
     userLoginID = id;
     userLoginPW = password;
+    debugPrint('id: $id, password: $password');
+  }
+
+  loadMTSDataAndProcess() {
+    service.fetchMTSData(
+      module: securitiesFirmId.module,
+      username: userLoginID,
+      password: userLoginPW,
+      passNum: bankPassword,
+    );
   }
 }

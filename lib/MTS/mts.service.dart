@@ -1,20 +1,23 @@
 // ignore_for_file: avoid_print
 // 🐦 Flutter imports:
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
+import 'package:get/get_connect/connect.dart';
 import 'package:intl/intl.dart';
 
-class CooconMTSService {
-  static const platform = MethodChannel('bside.native.dev/info');
-  static DateFormat formatter = DateFormat('YYYYMMDD');
+class CooconMTSService extends GetConnect {
+  MethodChannel platform = const MethodChannel('bside.native.dev/info');
+  DateFormat formatter = DateFormat('YYYYMMDD');
 
-  static commonBody(String action) {
+  commonBody(String action) {
     return {
       'Class': '증권서비스',
       'Job': action,
     };
   }
 
-  static makeSignInData(
+  makeSignInData(
     String module,
     String username,
     String password, {
@@ -32,7 +35,7 @@ class CooconMTSService {
     };
   }
 
-  static accountInquiry(
+  accountInquiry(
     String module,
   ) {
     return {
@@ -42,7 +45,7 @@ class CooconMTSService {
     };
   }
 
-  static accountInquiryAll(
+  accountInquiryAll(
     String module,
     String password, {
     String code = '',
@@ -57,7 +60,7 @@ class CooconMTSService {
     }; // "D": 대신,크레온 종합번호+계좌번호, 없음: 일반조회
   }
 
-  static accountInquiryDetails(
+  accountInquiryDetails(
     String module,
     String accountNum,
     String password, {
@@ -76,7 +79,7 @@ class CooconMTSService {
     };
   }
 
-  static accountInquiryTransactions(
+  accountInquiryTransactions(
     String module,
     String accountNum,
     String password, {
@@ -106,7 +109,7 @@ class CooconMTSService {
     };
   }
 
-  static logOut(String module) {
+  logOut(String module) {
     return {
       'Module': module,
       ...commonBody('로그아웃'),
@@ -114,50 +117,67 @@ class CooconMTSService {
     };
   }
 
-  static Future<dynamic> fetchData(dynamic input) async {
+  Future<dynamic> fetch(dynamic input) async {
     var data = {'data': input};
     var response = await platform.invokeMethod('getMTSData', data);
-    print("======${input['Class']} ${input['Job']}======");
+    String cls = input['Class'];
+    String job = input['Job'];
+    print('===========$cls ${job.padLeft(6, ' ')}===========');
     print(response);
-    return response;
+    return jsonDecode(response);
   }
 
-  static void getData({
+  today() {
+    DateTime dateTime = DateTime.now();
+    return formatter.format(dateTime);
+  }
+
+  oneMonthAgo(String dDay) {
+    final now = DateTime.tryParse(dDay);
+    Duration duration = const Duration(days: 30);
+    DateTime monthAgo = now!.subtract(duration);
+    return formatter.format(monthAgo);
+  }
+
+  fetchMTSData({
     required String module,
     required String username,
     required String password,
-    required String accountNum,
     String start = '',
     String end = '',
     String code = '',
     String unit = '',
     required String passNum,
   }) async {
-    try {
-      print('mts.service.dart shoot data');
-      var input1 = makeSignInData(module, username, password);
-      var input2 = accountInquiryAll(module, passNum);
-      var input3 = accountInquiryDetails(module, accountNum, passNum,
-          code: code, unit: unit);
-      await fetchData(input1)
-          .whenComplete(() => fetchData(input2))
-          .whenComplete(() => fetchData(input3))
-          .whenComplete(() => fetchData(logOut(module)));
-    } on Exception catch (e, s) {
-      print('error alert!: $e');
-      print('stack trace!: $s');
+    print('mts.service.dart shoot data');
+    dynamic input1 = makeSignInData(module, username, password);
+    dynamic resp1 = await fetch(input1);
+    if (resp1['Output']['ErrorCode'] != '00000000') {
+      print('아이디와 비밀번호를 확인해주세요.');
+      return;
     }
-  }
-
-  static today() {
-    DateTime dateTime = DateTime.now();
-    return formatter.format(dateTime);
-  }
-
-  static oneMonthAgo(String dDay) {
-    final now = DateTime.tryParse(dDay);
-    Duration duration = const Duration(days: 30);
-    DateTime monthAgo = now!.subtract(duration);
-    return formatter.format(monthAgo);
+    String name = resp1['Output']['Result']['사용자이름'];
+    print('HELLO, $name.');
+    dynamic input2 = accountInquiryAll(module, passNum);
+    dynamic resp2 = await fetch(input2);
+    List<dynamic> accountPool = resp2['Output']['Result']['전계좌조회'];
+    for (int i = 0; i < accountPool.length; i++) {
+      String accountNum = accountPool[i]['계좌번호'];
+      print('계좌번호 : $accountNum');
+      print("출금가능금액 : ${accountPool[i]['출금가능금액']}");
+      print("총자산 : ${accountPool[i]['총자산']}");
+      dynamic input3 = accountInquiryDetails(module, accountNum, passNum,
+          code: code, unit: unit);
+      dynamic resp3 = await fetch(input3);
+      List<dynamic> transactions = resp3['Output']['Result']['계좌상세조회'];
+      for (int j = 0; j < transactions.length; j++) {
+        dynamic transaction = transactions[j];
+        print('상품명: ${transaction['상품명']}');
+        print('상품_종목명: ${transaction['상품_종목명']}');
+        print('매입금액: ${transaction['매입금액']}');
+        print('평가금액: ${transaction['평가금액']}');
+      }
+    }
+    await fetch(logOut(module));
   }
 }

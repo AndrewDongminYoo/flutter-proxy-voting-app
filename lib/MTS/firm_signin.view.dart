@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/MTS/mts.controller.dart';
-import 'package:bside/shared/shared.dart';
-import 'widgets/idpw_form.dart';
+import '../mts/mts.controller.dart';
+import '../shared/shared.dart';
+import '../auth/widget/widget.dart';
 
 class SecuritiesPage extends StatefulWidget {
   const SecuritiesPage({Key? key}) : super(key: key);
@@ -16,11 +16,15 @@ class SecuritiesPage extends StatefulWidget {
 class _SecuritiesPageState extends State<SecuritiesPage> {
   final MtsController _mtsController = MtsController.get();
 
-  final String _securitiesID = '';
-  final String _securitiesPW = '';
+  String _securitiesID = '';
+  String _securitiesPW = '';
+  bool _visible = false;
+  get visible => _visible;
+  setVisible(bool val) => _visible = val;
 
   onPressed() {
     _mtsController.setIDPW(_securitiesID, _securitiesPW);
+    _mtsController.loadMTSDataAndProcess();
   }
 
   @override
@@ -29,14 +33,75 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
         appBar: CustomAppBar(
           text: '연동하기',
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomText(text: '증권사 연동하기'),
-            const TradingFirmIdForm(),
-            const TradingFirmPasswordForm(),
-            CustomButton(label: '확인', onPressed: onPressed)
-          ],
+        body: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(
+                text: '증권사 연동하기',
+                typoType: TypoType.h2Bold,
+                isFullWidth: true,
+              ),
+              TextFormField(
+                autofocus: true,
+                initialValue: _securitiesID,
+                onChanged: (val) => {
+                  setState(() {
+                    _securitiesID = val;
+                  })
+                },
+                inputFormatters: [
+                  CardFormatter(
+                    sample: 'xxxxxxxxxx',
+                    separator: '',
+                  ),
+                ],
+                style: authFormFieldStyle,
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '아이디',
+                  helperText: '아이디를 입력해주세요',
+                ),
+              ),
+              TextFormField(
+                  initialValue: _securitiesPW,
+                  onChanged: (val) => {
+                        setState(() {
+                          _securitiesPW = val;
+                        })
+                      },
+                  autofocus: true,
+                  inputFormatters: [
+                    CardFormatter(
+                      sample: 'xxxxxxxxxx',
+                      separator: '',
+                    ),
+                  ],
+                  style: authFormFieldStyle,
+                  obscureText: !visible,
+                  keyboardType: visible
+                      ? TextInputType.visiblePassword
+                      : TextInputType.text,
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: '비밀번호',
+                      helperText: '비밀번호를 입력해주세요',
+                      suffixIcon: InkWell(
+                        onTap: () => setState(() {
+                          setVisible(!visible);
+                        }),
+                        child: visible
+                            ? const Icon(Icons.remove_red_eye_outlined)
+                            : const Icon(Icons.remove_red_eye),
+                      ))),
+              CustomButton(
+                label: '확인',
+                onPressed: onPressed,
+              )
+            ],
+          ),
         ));
   }
 }
