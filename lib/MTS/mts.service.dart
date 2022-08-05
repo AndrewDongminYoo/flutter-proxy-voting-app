@@ -9,13 +9,7 @@ import 'package:intl/intl.dart';
 class CooconMTSService extends GetConnect {
   MethodChannel platform = const MethodChannel('bside.native.dev/info');
   DateFormat formatter = DateFormat('YYYYMMDD');
-
-  commonBody(String action) {
-    return {
-      'Class': '증권서비스',
-      'Job': action,
-    };
-  }
+  commonBody(String action) => {'Class': '증권서비스', 'Job': action};
 
   makeSignInData(
     String module,
@@ -101,7 +95,7 @@ class CooconMTSService extends GetConnect {
         '상품구분': '', // "01"위탁 "02"펀드 "05"CMA
         '조회구분': code, // "1"종합거래내역 "2"입출금내역 "D"종합거래내역 없음:간단히
         '계좌번호': accountNum,
-        '계좌비밀번호': password,
+        '계좌비밀번호': password, // 입력 안해도 되지만 안하면 구매종목 안나옴.
         '계좌번호확장': ext, // 하나증권만 사용("000"~"002")
         '조회시작일': start, // YYYYMMDD
         '조회종료일': end, // YYYYMMDD
@@ -133,10 +127,17 @@ class CooconMTSService extends GetConnect {
   }
 
   oneMonthAgo(String dDay) {
-    final now = DateTime.tryParse(dDay);
+    final now = DateTime.tryParse(dDay) ?? DateTime.now();
     Duration duration = const Duration(days: 30);
-    DateTime monthAgo = now!.subtract(duration);
+    DateTime monthAgo = now.subtract(duration);
     return formatter.format(monthAgo);
+  }
+
+  numberWithComma(String number) {
+    var num = int.tryParse(number.trim());
+    var comma = NumberFormat.decimalPattern();
+    if (num == null) return '';
+    return comma.format(num);
   }
 
   fetchMTSData({
@@ -162,20 +163,27 @@ class CooconMTSService extends GetConnect {
     dynamic resp2 = await fetch(input2);
     List<dynamic> accountPool = resp2['Output']['Result']['전계좌조회'];
     for (int i = 0; i < accountPool.length; i++) {
+      print('-----------------------');
       String accountNum = accountPool[i]['계좌번호'];
       print('계좌번호 : $accountNum');
-      print("출금가능금액 : ${accountPool[i]['출금가능금액']}");
-      print("총자산 : ${accountPool[i]['총자산']}");
+      print("출금가능금액 : ${numberWithComma(accountPool[i]['출금가능금액'] ?? 0)}");
+      print("총자산 : ${numberWithComma(accountPool[i]['총자산'] ?? 0)}");
       dynamic input3 = accountInquiryDetails(module, accountNum, passNum,
           code: code, unit: unit);
       dynamic resp3 = await fetch(input3);
       List<dynamic> transactions = resp3['Output']['Result']['계좌상세조회'];
       for (int j = 0; j < transactions.length; j++) {
         dynamic transaction = transactions[j];
-        print('상품명: ${transaction['상품명']}');
-        print('상품_종목명: ${transaction['상품_종목명']}');
-        print('매입금액: ${transaction['매입금액']}');
-        print('평가금액: ${transaction['평가금액']}');
+        print('======================');
+        print('상품명: ${transaction['상품명'] ?? 'none'}');
+        print('상품_종목명: ${transaction['상품_종목명'] ?? 'none'}');
+        print('매입금액: ${numberWithComma(transaction['매입금액'] ?? 0)}');
+        print('평가금액: ${numberWithComma(transaction['평가금액'] ?? 0)}');
+        print('수량: ${transaction['수량'] ?? 0}');
+        print('평균매입가: ${numberWithComma(transaction['평균매입가'] ?? 0)}');
+        print('현재가: ${numberWithComma(transaction['현재가'] ?? 0)}');
+        print('평가손익: ${numberWithComma(transaction['평가손익'] ?? 0)}');
+        print('수익률: ${transaction['수익률'] ?? 0}%');
       }
     }
     await fetch(logOut(module));

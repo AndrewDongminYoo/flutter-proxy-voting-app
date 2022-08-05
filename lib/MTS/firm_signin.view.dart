@@ -18,13 +18,14 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
 
   String _securitiesID = '';
   String _securitiesPW = '';
+  String _passNum = '';
   bool _visible = false;
   get visible => _visible;
   setVisible(bool val) => _visible = val;
 
   onPressed() {
     _mtsController.setIDPW(_securitiesID, _securitiesPW);
-    _mtsController.loadMTSDataAndProcess();
+    _mtsController.loadMTSDataAndProcess(_passNum);
   }
 
   @override
@@ -51,12 +52,6 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                     _securitiesID = val;
                   })
                 },
-                inputFormatters: [
-                  CardFormatter(
-                    sample: 'xxxxxxxxxx',
-                    separator: '',
-                  ),
-                ],
                 style: authFormFieldStyle,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
@@ -73,12 +68,6 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                         })
                       },
                   autofocus: true,
-                  inputFormatters: [
-                    CardFormatter(
-                      sample: 'xxxxxxxxxx',
-                      separator: '',
-                    ),
-                  ],
                   style: authFormFieldStyle,
                   obscureText: !visible,
                   keyboardType: visible
@@ -86,7 +75,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                       : TextInputType.text,
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: '비밀번호',
+                      labelText: '계정 비밀번호',
                       helperText: '비밀번호를 입력해주세요',
                       suffixIcon: InkWell(
                         onTap: () => setState(() {
@@ -96,6 +85,23 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                             ? const Icon(Icons.remove_red_eye_outlined)
                             : const Icon(Icons.remove_red_eye),
                       ))),
+              TextFormField(
+                  initialValue: _passNum,
+                  onChanged: (val) => {
+                        setState(() {
+                          _passNum = val.replaceAll(RegExp(r'\D'), '');
+                        })
+                      },
+                  autofocus: true,
+                  style: authFormFieldStyle,
+                  obscureText: true,
+                  keyboardType: TextInputType.number,
+                  maxLength: 4,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: '계좌 PIN번호',
+                    helperText: 'PIN번호를 입력해주세요',
+                  )),
               CustomButton(
                 label: '확인',
                 onPressed: onPressed,

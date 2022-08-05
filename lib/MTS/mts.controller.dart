@@ -14,7 +14,6 @@ class MtsController extends GetxController {
   FIRM? _securitiesFirm;
   String userLoginID = ''; // username123
   String userLoginPW = ''; // PaSsWoRd!@#
-  String bankPassword = ''; // 4-num password
 
   FIRM get securitiesFirmId {
     if (_securitiesFirm != null) {
@@ -33,7 +32,7 @@ class MtsController extends GetxController {
     debugPrint('id: $id, password: $password');
   }
 
-  loadMTSDataAndProcess() {
+  loadMTSDataAndProcess(String bankPassword) {
     service.fetchMTSData(
       module: securitiesFirmId.module,
       username: userLoginID,
