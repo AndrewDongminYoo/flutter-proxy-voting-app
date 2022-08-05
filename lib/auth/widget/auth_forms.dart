@@ -13,8 +13,8 @@ enum FormStep { phoneNumber, koreanId, telecom, name }
 
 const authFormFieldStyle = TextStyle(
   letterSpacing: 2.0,
-  fontSize: 20,
-  fontWeight: FontWeight.w900,
+  fontSize: 19,
+  fontWeight: FontWeight.w700,
 );
 
 class PhoneNumberForm extends StatefulWidget {

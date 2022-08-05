@@ -1,5 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../mts/mts.controller.dart';
@@ -23,9 +25,18 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
   get visible => _visible;
   setVisible(bool val) => _visible = val;
 
-  onPressed() {
+  onPressed() async {
     _mtsController.setIDPW(_securitiesID, _securitiesPW);
-    _mtsController.loadMTSDataAndProcess(_passNum);
+    List<String> res = await _mtsController.loadMTSDataAndProcess(_passNum);
+    List<Text> children = res.map((e) => Text(e)).toList();
+    Get.bottomSheet(Container(
+        padding: const EdgeInsets.all(36),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            )),
+        child: ListView(children: children)));
   }
 
   @override
@@ -34,7 +45,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
         appBar: CustomAppBar(
           text: '연동하기',
         ),
-        body: Container(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +67,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: '아이디',
+                  labelText: '증권사 아이디',
                   helperText: '아이디를 입력해주세요',
                 ),
               ),
@@ -75,7 +86,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                       : TextInputType.text,
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: '계정 비밀번호',
+                      labelText: '증권사 비밀번호',
                       helperText: '비밀번호를 입력해주세요',
                       suffixIcon: InkWell(
                         onTap: () => setState(() {
@@ -89,17 +100,18 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                   initialValue: _passNum,
                   onChanged: (val) => {
                         setState(() {
-                          _passNum = val.replaceAll(RegExp(r'\D'), '');
+                          _passNum = val;
                         })
                       },
                   autofocus: true,
                   style: authFormFieldStyle,
                   obscureText: true,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   maxLength: 4,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: '계좌 PIN번호',
+                    labelText: '계좌 비밀번호',
                     helperText: 'PIN번호를 입력해주세요',
                   )),
               CustomButton(

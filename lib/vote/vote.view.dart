@@ -42,13 +42,13 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
     } else if (Get.arguments == 'voteWithExample') {
       _voteResult = _voteWithExample();
     } else {
-      debugPrint('voteWithoutDefault');
+      print('voteWithoutDefault');
     }
     super.initState();
   }
 
   _voteWithExample() {
-    debugPrint('voteWithExample');
+    print('voteWithExample');
     setState(() {
       _voteResult[0] = VoteType.disagree;
       _voteResult[1] = VoteType.agree;
@@ -59,12 +59,12 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
         'latest': 4,
       };
     });
-    debugPrint(_voteResult.values.toString());
+    print(_voteResult.values.toString());
     return _voteResult;
   }
 
   _voteWithMemory() {
-    debugPrint('voteWithLastMemory');
+    print('voteWithLastMemory');
     setState(() {
       VoteAgenda agenda = _voteCtrl.voteAgenda;
       _voteResult[0] = agenda.agenda1.vote;
@@ -76,7 +76,7 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
         'latest': 4,
       };
     });
-    debugPrint(_voteResult.values.toString());
+    print(_voteResult.values.toString());
     return _voteResult;
   }
 

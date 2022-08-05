@@ -114,7 +114,7 @@ class AuthService extends GetConnect {
   //       }
   //     });
   //   } catch (err) {
-  //     debugPrint(err.toString());
+  //     print(err.toString());
   //   }
   //   return ref;
   // }

@@ -17,7 +17,7 @@ class _MtsPageState extends State<MtsPage> {
   final MtsController _controller = MtsController.get();
 
   onPressed(dynamic firm) {
-    debugPrint(firm['module']);
+    print(firm['module']);
     _controller.setMTSFirm(firm);
     goToMtsLink(firm['module']);
   }

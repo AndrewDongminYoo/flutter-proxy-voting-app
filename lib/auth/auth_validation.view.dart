@@ -69,12 +69,12 @@ class _ValidatePageState extends State<ValidatePage> {
 
   _validate() async {
     FocusScope.of(context).unfocus();
-    debugPrint('${_authCtrl.user.phoneNumber}, $_otpCode');
+    print('${_authCtrl.user.phoneNumber}, $_otpCode');
     try {
       await _authCtrl.validateOtpCode(
           _authCtrl.user.phoneNumber, _otpCode, _notiCtrl.token);
     } catch (e) {
-      debugPrint(e.toString());
+      print(e.toString());
       if (e is CustomException) {
         // _alertGoBack(e.message);
         setState(() {

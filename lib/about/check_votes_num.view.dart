@@ -23,7 +23,7 @@ class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
   final AuthController _authCtrl = AuthController.get();
 
   _voteWithoutExample() {
-    debugPrint(_voteCtrl.voteAgenda.voteAt.toString());
+    print(_voteCtrl.voteAgenda.voteAt.toString());
     if (_voteCtrl.voteAgenda.voteAt == null) {
       goToVoteWithoutExample();
     } else {

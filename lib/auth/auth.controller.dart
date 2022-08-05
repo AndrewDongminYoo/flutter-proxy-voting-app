@@ -1,5 +1,5 @@
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 // 📦 Package imports:
 import 'package:get/get.dart';
@@ -23,9 +23,9 @@ class AuthController extends GetxController {
     if (_user != null) {
       return _user!;
     }
-    debugPrint('============== WARNING ================');
-    debugPrint('[AuthController] User is now annonymous');
-    debugPrint('============== WARNING ================');
+    print('============== WARNING ================');
+    print('[AuthController] User is now annonymous');
+    print('============== WARNING ================');
     return User('Annonymous', '000000', '0', 'SKT', '01012345678');
   }
 
@@ -33,14 +33,14 @@ class AuthController extends GetxController {
 
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
-    debugPrint('[AuthController] init');
+    print('[AuthController] init');
     final telNum = await CustomStorage.getTelNum();
     if (telNum.isNotEmpty) {
-      debugPrint('[AuthController] Yor left the phoneNumber.');
+      print('[AuthController] Yor left the phoneNumber.');
       final result = await getUserInfo(telNum);
       if (result == null) {
         // 잘못된 캐시데이터 삭제
-        debugPrint('[AuthController] deleted useless SharedPreferences');
+        print('[AuthController] deleted useless SharedPreferences');
         // NOTE: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
         await CustomStorage.clear();
       } else {
@@ -53,11 +53,11 @@ class AuthController extends GetxController {
   Future<User?> getUserInfo(String telNum) async {
     Response response = await _service.getUserByTelNum(telNum);
     if (kDebugMode) {
-      debugPrint('[AuthController] getUserInfo: ${response.body}');
+      print('[AuthController] getUserInfo: ${response.body}');
     }
     if (response.isOk && response.body != null && !response.body['isNew']) {
       user = User.fromJson(response.body['user']);
-      debugPrint('[AuthController] user exist.\n Hello, ${user.username}!');
+      print('[AuthController] user exist.\n Hello, ${user.username}!');
       return user;
     }
     return user;
@@ -65,10 +65,10 @@ class AuthController extends GetxController {
 
   // 회원가입
   Future<Response> _signUp() async {
-    debugPrint('[AuthController] signUp');
+    print('[AuthController] signUp');
     Response response = await _service.createUser(user.username, user.frontId,
         user.backId, user.telecom, user.phoneNumber, user.ci, user.di);
-    debugPrint(response.bodyString);
+    print(response.bodyString);
     _isLogined = true;
     return response;
   }
@@ -81,7 +81,7 @@ class AuthController extends GetxController {
     // Super User for apple QA
     if (userLike.phoneNumber == '01086199325' && userLike.frontId == '940701') {
       user = await getUserInfo(userLike._phoneNumber);
-      debugPrint('super user for apple QA');
+      print('super user for apple QA');
       return;
     }
     await _service.getOtpCode(user.username, user.regist, user.sexCode,
@@ -102,7 +102,7 @@ class AuthController extends GetxController {
     await _service.putOtpCode(telNum, otpCode);
     await Future.delayed(const Duration(seconds: 3), () async {
       var response = await _service.getResult(telNum);
-      debugPrint(response.bodyString);
+      print(response.bodyString);
       var exc = 'ValidationException';
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {

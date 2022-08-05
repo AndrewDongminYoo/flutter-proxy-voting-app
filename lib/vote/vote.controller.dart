@@ -3,7 +3,7 @@ import 'dart:async' show Future;
 import 'dart:io' show Platform;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 // 📦 Package imports:
 import 'package:get/get.dart';
@@ -66,7 +66,7 @@ class VoteController extends GetxController {
   void init() async {
     final campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
-      debugPrint('[VoteController] SharedPreferences exist');
+      print('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
       for (var campaign in completedCampaign) {
         final shareholderId = await getShareholderId(campaign);
@@ -101,7 +101,7 @@ class VoteController extends GetxController {
       response = await _service.queryAgenda(uid, campaign.enName);
       if (response.isOk && response.body['isExist']) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
-        debugPrint('[VoteController] user is exist');
+        print('[VoteController] user is exist');
         _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
         _shareholder = _completedShareholder
             .firstWhere((sh) => sh.company == campaign.enName);
@@ -109,7 +109,7 @@ class VoteController extends GetxController {
         return;
       }
     } catch (e) {
-      debugPrint('[VoteController] queryAgenda error: $e');
+      print('[VoteController] queryAgenda error: $e');
     }
 
     try {
@@ -119,7 +119,7 @@ class VoteController extends GetxController {
       (response.body['shareholders'])
           .forEach((e) => _shareholders.add(Shareholder.fromJson(e)));
     } catch (e) {
-      debugPrint('[VoteController] findSharesByName error: $e');
+      print('[VoteController] findSharesByName error: $e');
     }
 
     _stopLoading();
@@ -190,9 +190,9 @@ class VoteController extends GetxController {
     // 현재 캠페인을 완료 목록에 저장
     completedCampaign.add(campaign.enName);
     await setCompletedCampaignList(completedCampaign.toList());
-    debugPrint('completedCampaign, $completedCampaign');
+    print('completedCampaign, $completedCampaign');
     if (kDebugMode) {
-      debugPrint("[VoteController] voteAgenda: ${response.body['agenda']}");
+      print("[VoteController] voteAgenda: ${response.body['agenda']}");
     }
   }
 

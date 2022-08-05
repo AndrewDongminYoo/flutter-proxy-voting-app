@@ -2,9 +2,6 @@
 import 'dart:convert' show json;
 import 'dart:io' show Platform;
 
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 📦 Package imports:
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart' show launchUrl;
@@ -45,12 +42,12 @@ class VersionStatus {
   }
 
   void printVersion() {
-    debugPrint('===== Version Status =====');
-    debugPrint('localVersion: $localVersion');
-    debugPrint('storeVersion: $storeVersion');
-    debugPrint('appStoreLink: $appStoreLink');
-    debugPrint('canUpdate: $canUpdate');
-    debugPrint('===== Version Status  From. updatealert =====');
+    print('===== Version Status =====');
+    print('localVersion: $localVersion');
+    print('storeVersion: $storeVersion');
+    print('appStoreLink: $appStoreLink');
+    print('canUpdate: $canUpdate');
+    print('===== Version Status  From. updatealert =====');
   }
 }
 
@@ -69,7 +66,7 @@ class AppVersionValidator {
     } else if (Platform.isAndroid) {
       return _getAndroidStoreVersion(packageInfo);
     }
-    debugPrint(
+    print(
         'The target platform "${Platform.operatingSystem}" is not yet supported by this package.');
     return null;
   }
@@ -85,14 +82,14 @@ class AppVersionValidator {
       final uri = Uri.https('itunes.apple.com', '/lookup', parameters);
       final response = await http.get(uri);
       if (response.statusCode != 200) {
-        debugPrint('Failed to query iOS App Store');
+        print('Failed to query iOS App Store');
         return null;
       }
 
       final jsonObj = json.decode(response.body);
       final List results = jsonObj['results'];
       if (results.isEmpty) {
-        debugPrint('Can\'t find an app in the App Store with the id: $id');
+        print('Can\'t find an app in the App Store with the id: $id');
         return null;
       }
       storeVersion = jsonObj['results'][0]['version'];
@@ -102,8 +99,8 @@ class AppVersionValidator {
         appStoreLink: jsonObj['results'][0]['trackViewUrl'],
       );
     } catch (e) {
-      debugPrint('Get ios Version Error!!!');
-      debugPrint(e.toString());
+      print('Get ios Version Error!!!');
+      print(e.toString());
       return VersionStatus._(
           localVersion: storeVersion,
           storeVersion: storeVersion,
@@ -120,7 +117,7 @@ class AppVersionValidator {
           Uri.https('play.google.com', '/store/apps/details', {'id': id});
       final response = await http.get(uri);
       if (response.statusCode != 200) {
-        debugPrint('Can\'t find an app in the Play Store with the id: $id');
+        print('Can\'t find an app in the Play Store with the id: $id');
         return null;
       }
 
@@ -146,8 +143,8 @@ class AppVersionValidator {
         appStoreLink: uri.toString(),
       );
     } catch (e) {
-      debugPrint('Get Android Version Error!!!');
-      debugPrint(e.toString());
+      print('Get Android Version Error!!!');
+      print(e.toString());
       return VersionStatus._(
           localVersion: storeVersion,
           storeVersion: storeVersion,

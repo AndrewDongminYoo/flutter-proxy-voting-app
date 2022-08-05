@@ -1,5 +1,4 @@
 // 📦 Package imports:
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
@@ -15,7 +14,7 @@ class MtsController extends GetxController {
   String userLoginID = ''; // username123
   String userLoginPW = ''; // PaSsWoRd!@#
 
-  FIRM get securitiesFirmId {
+  FIRM get securitiesFirm {
     if (_securitiesFirm != null) {
       return _securitiesFirm!;
     }
@@ -29,12 +28,12 @@ class MtsController extends GetxController {
   void setIDPW(String id, String password) {
     userLoginID = id;
     userLoginPW = password;
-    debugPrint('id: $id, password: $password');
+    print('id: $id, password: $password, module: ${securitiesFirm.module}');
   }
 
-  loadMTSDataAndProcess(String bankPassword) {
-    service.fetchMTSData(
-      module: securitiesFirmId.module,
+  loadMTSDataAndProcess(String bankPassword) async {
+    return await service.fetchMTSData(
+      module: securitiesFirm.module,
       username: userLoginID,
       password: userLoginPW,
       passNum: bankPassword,

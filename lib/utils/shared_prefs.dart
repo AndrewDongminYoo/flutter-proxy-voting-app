@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 📦 Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,13 +10,13 @@ class CustomStorage {
   static Future<bool> needOnBoarding() async {
     final prefs = await SharedPreferences.getInstance();
     final onBoarding = prefs.getBool('onBoarding') ?? true;
-    debugPrint('[pref] onBoarding: $onBoarding');
+    print('[pref] onBoarding: $onBoarding');
     return onBoarding;
   }
 
   static Future<bool> doneOnBoarding() async {
     final prefs = await SharedPreferences.getInstance();
-    debugPrint('[pref] doneOnBoarding');
+    print('[pref] doneOnBoarding');
     return prefs.setBool('onBoarding', false);
   }
 
@@ -78,7 +75,7 @@ setShareholderId(campaignName, shareholderId) async {
 //     notiCtrl.getNotificationsLocal();
 //     voteCtrl.init();
 //   } catch (e) {
-//     debugPrint(e.toString());
+//     print(e.toString());
 //   }
 // }
 
@@ -90,6 +87,6 @@ setShareholderId(campaignName, shareholderId) async {
 //     setCompletedCampaignList(voteCtrl.completedCampaign.toList());
 //     setShareholderId(voteCtrl.campaign.enName, voteCtrl.shareholder.id);
 //   } catch (e) {
-//     debugPrint(e.toString());
+//     print(e.toString());
 //   }
 // }

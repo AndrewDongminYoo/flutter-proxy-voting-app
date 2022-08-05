@@ -61,8 +61,8 @@ class _HomePageState extends State<HomePage> {
   //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
   //     Navigator.pushNamed(context, dynamicLinkData.link.path);
   //   }).onError((error) {
-  //     debugPrint('onLink error');
-  //     debugPrint(error.message);
+  //     print('onLink error');
+  //     print(error.message);
   //   });
 
   //   NotificationSettings settings = await messaging.requestPermission(
@@ -76,17 +76,17 @@ class _HomePageState extends State<HomePage> {
   //   );
 
   //   messaging.onTokenRefresh.listen((fcmToken) {
-  //     debugPrint(fcmToken);
+  //     print(fcmToken);
   //   }).onError((err) {
   //     // Error getting token.
   //   });
 
   //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //     debugPrint('Got a message whilst in the foreground!');
-  //     debugPrint('Message data: ${message.data}');
+  //     print('Got a message whilst in the foreground!');
+  //     print('Message data: ${message.data}');
 
   //     if (message.notification != null) {
-  //       debugPrint('Message also contained a notification: ${message.notification}');
+  //       print('Message also contained a notification: ${message.notification}');
   //     }
   //   });
   // }

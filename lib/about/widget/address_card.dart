@@ -37,10 +37,10 @@ class _AddressCardState extends State<AddressCard> {
   @override
   void initState() {
     if (authCtrl.user.address.isNotEmpty) {
-      debugPrint('load address from userCtrlr');
+      print('load address from userCtrlr');
       address = authCtrl.user.address;
     } else if (voteCtrl.shareholder.address.isNotEmpty) {
-      debugPrint('load address from shareholder');
+      print('load address from shareholder');
       address = voteCtrl.shareholder.address;
     }
     super.initState();

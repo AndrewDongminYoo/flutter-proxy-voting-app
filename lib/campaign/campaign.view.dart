@@ -150,7 +150,7 @@ class _CampaignPageState extends State<CampaignPage> {
           label: _voteCtrl.isCompleted ? '위임내역 확인하기' : '전자위임 하러가기',
           width: CustomW.w4,
           onPressed: () async {
-            debugPrint('[campaign] Hello, ${_authCtrl.user.username}!');
+            print('[campaign] Hello, ${_authCtrl.user.username}!');
             _voteCtrl.toVote(_authCtrl.user.id, _authCtrl.user.username);
           });
     } else {
