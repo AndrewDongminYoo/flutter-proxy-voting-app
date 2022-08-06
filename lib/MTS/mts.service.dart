@@ -151,20 +151,20 @@ class CooconMTSService extends GetConnect {
     required String passNum,
   }) async {
     List<String> results = [];
-    dynamic RESULT;
+    dynamic resultNullCheck;
     dynamic input0 = makeSignInData(module, username, password);
     dynamic resp0 = await fetch(input0);
     if (resp0['Output']['ErrorCode'] != '00000000') {
       results.add('아이디와 비밀번호를 확인해주세요.');
       return;
     }
-    RESULT = resp0['Output']['Result'];
-    results.add('HELLO, ${RESULT['사용자이름']}.');
+    resultNullCheck = resp0['Output']['Result'];
+    results.add('HELLO, ${resultNullCheck['사용자이름']}.');
     dynamic input1 = accountInquiryAll(module, passNum);
     dynamic resp1 = await fetch(input1);
-    RESULT = resp1['Output']['Result'];
-    if (RESULT == null) throw Exception('Log in failed');
-    List<dynamic> pool = RESULT['전계좌조회'];
+    resultNullCheck = resp1['Output']['Result'];
+    if (resultNullCheck == null) throw Exception('Log in failed');
+    List<dynamic> pool = resultNullCheck['전계좌조회'];
     if (pool.isEmpty) results.add('증권사 계좌 없음.');
     for (int i = 0; i < pool.length; i++) {
       results.add('-----------------------');
@@ -177,9 +177,9 @@ class CooconMTSService extends GetConnect {
     }
     var input2 = accountInquiry(module);
     dynamic resp2 = await fetch(input2);
-    RESULT = resp2['Output']['Result'];
-    if (RESULT == null) return;
-    List<dynamic> stocks = RESULT['증권보유계좌조회'];
+    resultNullCheck = resp2['Output']['Result'];
+    if (resultNullCheck == null) return;
+    List<dynamic> stocks = resultNullCheck['증권보유계좌조회'];
     if (stocks.isEmpty) results.add('증권 보유 계좌 없음.');
     for (int i = 0; i < stocks.length; i++) {
       results.add('........................');
@@ -191,9 +191,9 @@ class CooconMTSService extends GetConnect {
       dynamic input3 = accountInquiryDetails(module, accountNum, passNum,
           code: code, unit: unit);
       dynamic resp3 = await fetch(input3);
-      RESULT = resp3['Output']['Result'];
-      if (RESULT == null) break;
-      List<dynamic> accountDetails = RESULT['계좌상세조회'];
+      resultNullCheck = resp3['Output']['Result'];
+      if (resultNullCheck == null) break;
+      List<dynamic> accountDetails = resultNullCheck['계좌상세조회'];
       if (accountDetails.isEmpty) results.add('거래내역 없음.');
       for (int j = 0; j < accountDetails.length; j++) {
         dynamic detail = accountDetails[j];
@@ -210,9 +210,9 @@ class CooconMTSService extends GetConnect {
       }
       dynamic input4 = accountInquiryTransactions(module, accountNum, passNum);
       dynamic resp4 = await fetch(input4);
-      RESULT = resp4['Output']['Result'];
-      if (RESULT == null) break;
-      List<dynamic> transactions = RESULT['거래내역조회'];
+      resultNullCheck = resp4['Output']['Result'];
+      if (resultNullCheck == null) break;
+      List<dynamic> transactions = resultNullCheck['거래내역조회'];
       for (int j = 0; j < transactions.length; j++) {
         dynamic action = transactions[j];
         results.add('=+=+=+=+=+=+=+=+=+=+=+');
