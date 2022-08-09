@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../auth/widget/loading_screen.dart';
 import 'mts.dart';
 
 class MtsController extends GetxController {
@@ -32,6 +33,7 @@ class MtsController extends GetxController {
   }
 
   loadMTSDataAndProcess(String bankPassword) async {
+    Get.dialog(LoadingScreen());
     return await service.fetchMTSData(
       module: securitiesFirm.module,
       username: userLoginID,
