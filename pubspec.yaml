@@ -50,10 +50,11 @@ dependencies:
   image_picker: ^0.8.5+3
 
   # https://pub.dev/publishers/firebase.google.com/packages
-  firebase_core: ^1.18.0
+  firebase_core: ^1.20.0
   firebase_dynamic_links: ^4.2.6
   firebase_messaging: ^11.4.4
   firebase_storage: ^10.2.18
+  cloud_firestore: ^3.4.3
 
   # environment
   flutter_dotenv: ^5.0.2

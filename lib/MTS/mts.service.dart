@@ -2,17 +2,19 @@
 // 🐦 Flutter imports:
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_connect/connect.dart';
 import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 
 class CooconMTSService extends GetConnect {
   MethodChannel platform = const MethodChannel('bside.native.dev/info');
+  FirebaseFirestore db = FirebaseFirestore.instance;
   DateFormat formatter = DateFormat('yyyyMMdd');
   DateFormat formattor = DateFormat('yyyy-MM-dd');
   commonBody(String action) => {'Class': '증권서비스', 'Job': action};
 
-  makeSignInData(
+  login(
     String module,
     String username,
     String password, {
@@ -34,8 +36,8 @@ class CooconMTSService extends GetConnect {
     String module,
   ) {
     return {
-      'Module': module,
       ...commonBody('증권보유계좌조회'),
+      'Module': module,
       'Input': {},
     };
   }
@@ -46,8 +48,8 @@ class CooconMTSService extends GetConnect {
     String code = '',
   }) {
     return {
-      'Module': module,
       ...commonBody('전계좌조회'),
+      'Module': module,
       'Input': {
         '사용자비밀번호': password, // 키움 증권만 사용
         '조회구분': code, // "S": 키움 간편조회, 메리츠 전체계좌, 삼성 계좌잔고
@@ -63,8 +65,8 @@ class CooconMTSService extends GetConnect {
     String unit = '',
   }) {
     return {
-      'Module': module,
       ...commonBody('계좌상세조회'), // 상세잔고조회
+      'Module': module,
       'Input': {
         '계좌번호': accountNum,
         '계좌비밀번호': password, // 입력 안해도 되지만 안하면 구매종목 안나옴.
@@ -90,8 +92,8 @@ class CooconMTSService extends GetConnect {
     if (start.isEmpty) start = three(start);
     if (end.isEmpty) end = today();
     return {
-      'Module': module,
       ...commonBody('거래내역조회'), // 상세거래내역조회
+      'Module': module,
       'Input': {
         '상품구분': '', // "01"위탁 "02"펀드 "05"CMA
         '조회구분': code, // "1"종합거래내역 "2"입출금내역 "D"종합거래내역 간단히
@@ -106,8 +108,8 @@ class CooconMTSService extends GetConnect {
 
   logOut(String module) {
     return {
-      'Module': module,
       ...commonBody('로그아웃'),
+      'Module': module,
       'Input': {},
     };
   }
@@ -118,7 +120,7 @@ class CooconMTSService extends GetConnect {
     return jsonDecode(response);
   }
 
-  getto(dynamic input, List results, String target) async {
+  getto(String userid, dynamic input, List results, String target) async {
     dynamic response = await fetch(input);
     print(response);
     List accounts = [];
@@ -128,6 +130,8 @@ class CooconMTSService extends GetConnect {
     }
     results.add('=====================================');
     var result = response['Output']['Result'];
+    var dbRef = db.collection('transactions').doc(userid);
+    await dbRef.collection(today()).add(result);
     if (result == null) results.add('$target 값이 없음.');
     if (result is String && result.isEmpty) return;
     var output = result[target];
@@ -151,9 +155,7 @@ class CooconMTSService extends GetConnect {
         output.forEach((key, value) {
           results.add('$key: ${check(value)}');
         });
-        break;
-      case String:
-        results.add('$target: $output');
+        return output;
     }
   }
 
@@ -194,6 +196,7 @@ class CooconMTSService extends GetConnect {
   fetchMTSData(
       {required String module,
       required String username,
+      required String loginID,
       required String password,
       String start = '',
       String end = '',
@@ -202,22 +205,21 @@ class CooconMTSService extends GetConnect {
       required String passNum}) async {
     try {
       List<String> results = [];
-      dynamic input1 = makeSignInData(module, username, password);
-      await getto(input1, results, '사용자이름');
+      results.add('"사용자이름": $username');
       dynamic input2 = accountInquiryAll(module, passNum);
-      await getto(input2, results, '전계좌조회');
+      await getto(loginID, input2, results, '전계좌조회');
       dynamic input3 = accountInquiry(module);
-      var accounts = await getto(input3, results, '증권보유계좌조회');
+      var accounts = await getto(loginID, input3, results, '증권보유계좌조회');
       if (accounts != null) {
         for (var accountNum in accounts) {
           dynamic input4 = accountInquiryDetails(module, accountNum, passNum,
               code: code, unit: unit);
-          await getto(input4, results, '계좌상세조회');
+          await getto(loginID, input4, results, '계좌상세조회');
         }
         for (var accountNum in accounts) {
           dynamic input5 =
               accountInquiryTransactions(module, accountNum, passNum);
-          await getto(input5, results, '거래내역조회');
+          await getto(loginID, input5, results, '거래내역조회');
         }
       }
       await fetch(logOut(module));

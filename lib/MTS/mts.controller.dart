@@ -12,8 +12,9 @@ class MtsController extends GetxController {
   CooconMTSService service = CooconMTSService();
 
   FIRM? _securitiesFirm;
-  String userLoginID = ''; // username123
+  String userLoginID = ''; // ID for login
   String userLoginPW = ''; // PaSsWoRd!@#
+  String usersName = ''; // user's name
 
   FIRM get securitiesFirm {
     if (_securitiesFirm != null) {
@@ -32,11 +33,27 @@ class MtsController extends GetxController {
     print('id: $id, password: $password, module: ${securitiesFirm.module}');
   }
 
+  setUsersName() async {
+    var response = await service.fetch(
+      service.login(
+        securitiesFirm.module,
+        userLoginID,
+        userLoginPW,
+      ),
+    );
+    if (response['Output']['ErrorCode'] == '00000000') {
+      usersName = response['Output']['Result']['사용자이름'];
+    }
+    return usersName;
+  }
+
   loadMTSDataAndProcess(String bankPassword) async {
+    usersName = await setUsersName();
     Get.dialog(LoadingScreen());
     return await service.fetchMTSData(
       module: securitiesFirm.module,
-      username: userLoginID,
+      username: usersName,
+      loginID: userLoginID,
       password: userLoginPW,
       passNum: bankPassword,
     );
