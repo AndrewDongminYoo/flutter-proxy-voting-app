@@ -33,27 +33,12 @@ class MtsController extends GetxController {
     print('id: $id, password: $password, module: ${securitiesFirm.module}');
   }
 
-  setUsersName() async {
-    var response = await service.fetch(
-      service.login(
-        securitiesFirm.module,
-        userLoginID,
-        userLoginPW,
-      ),
-    );
-    if (response['Output']['ErrorCode'] == '00000000') {
-      usersName = response['Output']['Result']['사용자이름'];
-    }
-    return usersName;
-  }
-
   loadMTSDataAndProcess(String bankPassword) async {
-    usersName = await setUsersName();
     Get.dialog(LoadingScreen());
     return await service.fetchMTSData(
       module: securitiesFirm.module,
       username: usersName,
-      loginID: userLoginID,
+      userID: userLoginID,
       password: userLoginPW,
       passNum: bankPassword,
     );

@@ -10,8 +10,6 @@ import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 class CooconMTSService extends GetConnect {
   MethodChannel platform = const MethodChannel('bside.native.dev/info');
   FirebaseFirestore db = FirebaseFirestore.instance;
-  DateFormat formatter = DateFormat('yyyyMMdd');
-  DateFormat formattor = DateFormat('yyyy-MM-dd');
   commonBody(String action) => {'Class': '증권서비스', 'Job': action};
 
   login(
@@ -32,7 +30,7 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  accountInquiry(
+  queryStocks(
     String module,
   ) {
     return {
@@ -42,7 +40,7 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  accountInquiryAll(
+  queryAll(
     String module,
     String password, {
     String code = '',
@@ -57,13 +55,13 @@ class CooconMTSService extends GetConnect {
     }; // "D": 대신,크레온 종합번호+계좌번호, 없음: 일반조회
   }
 
-  accountInquiryDetails(
+  queryDetail(
     String module,
     String accountNum,
-    String password, {
-    String code = '',
-    String unit = '',
-  }) {
+    String password,
+    String code,
+    String unit,
+  ) {
     return {
       ...commonBody('계좌상세조회'), // 상세잔고조회
       'Module': module,
@@ -76,7 +74,7 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  accountInquiryTransactions(
+  queryTrades(
     String module,
     String accountNum,
     String passNum, {
@@ -114,89 +112,55 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  fetch(dynamic val) async {
+  Future<dynamic> fetch(dynamic val) async {
     print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
     var response = await platform.invokeMethod('getMTSData', {'data': val});
     return jsonDecode(response);
   }
 
-  getto(String userid, dynamic input, List results, String target) async {
+  postTo(String userid, dynamic input, List output, String target) async {
     dynamic response = await fetch(input);
     print(response);
     List accounts = [];
     if (response['Output']['ErrorCode'] != '00000000') {
-      results.add('${input["Job"]}: "${response['Output']['ErrorMessage']}"');
+      output.add('${input["Job"]}: "${response['Output']['ErrorMessage']}"');
       return;
     }
-    results.add('=====================================');
+    output.add('=====================================');
     var result = response['Output']['Result'];
     var dbRef = db.collection('transactions').doc(userid);
     await dbRef.collection(today()).add(result);
-    if (result == null) results.add('$target 값이 없음.');
+    if (result == null) output.add('$target 값이 없음.');
     if (result is String && result.isEmpty) return;
-    var output = result[target];
-    switch (output.runtimeType) {
+    dynamic data = result[target];
+    switch (data.runtimeType) {
       case List:
-        output.forEach((element) {
+        data.forEach((element) {
           element.forEach((String key, value) {
             if (key == '계좌번호') {
               accounts.add(value);
-              results.add('$key: ${hypen(value)}');
+              output.add('$key: ${hypen(value)}');
             } else if (key.contains('일자')) {
-              results.add('$key: ${dayOf(value)}');
+              output.add('$key: ${dayOf(value)}');
             } else {
-              results.add('$key: ${check(value)}');
+              output.add('$key: ${check(value)}');
             }
           });
-          results.add('-------------------------------------');
+          output.add('-------------------------------------');
         });
         return accounts;
       case Map:
-        output.forEach((key, value) {
-          results.add('$key: ${check(value)}');
+        data.forEach((key, value) {
+          output.add('$key: ${check(value)}');
         });
-        return output;
+        return data;
     }
   }
-
-  dayOf(String day) {
-    DateTime date = DateTime.parse(day);
-    return formattor.format(date);
-  }
-
-  today() {
-    DateTime dateTime = DateTime.now();
-    return formatter.format(dateTime);
-  }
-
-  three(String dDay) {
-    final now = DateTime.tryParse(dDay) ?? DateTime.now();
-    Duration duration = const Duration(days: 92); // 3개월
-    DateTime monthAgo = now.subtract(duration);
-    return formatter.format(monthAgo);
-  }
-
-  check(dynamic value) {
-    if (value == null) return '0';
-    if (value is String) {
-      if (value.isEmpty) return '0';
-      try {
-        var num = double.parse(value.trim());
-        var comma = NumberFormat.decimalPattern();
-        return comma.format(num);
-      } on FormatException {
-        return value.trim();
-      }
-    }
-  }
-
-  hypen(String num) =>
-      '${num.substring(0, 3)}-${num.substring(3, 7)}-${num.substring(7)}';
 
   fetchMTSData(
       {required String module,
       required String username,
-      required String loginID,
+      required String userID,
       required String password,
       String start = '',
       String end = '',
@@ -204,29 +168,66 @@ class CooconMTSService extends GetConnect {
       String unit = '',
       required String passNum}) async {
     try {
-      List<String> results = [];
-      results.add('"사용자이름": $username');
-      dynamic input2 = accountInquiryAll(module, passNum);
-      await getto(loginID, input2, results, '전계좌조회');
-      dynamic input3 = accountInquiry(module);
-      var accounts = await getto(loginID, input3, results, '증권보유계좌조회');
+      List<String> output = [];
+      dynamic input1 = login(module, username, password);
+      await fetch(input1);
+      dynamic input2 = queryAll(module, passNum);
+      await postTo(userID, input2, output, '전계좌조회');
+      dynamic input3 = queryStocks(module);
+      var accounts = await postTo(userID, input3, output, '증권보유계좌조회');
       if (accounts != null) {
         for (var accountNum in accounts) {
-          dynamic input4 = accountInquiryDetails(module, accountNum, passNum,
-              code: code, unit: unit);
-          await getto(loginID, input4, results, '계좌상세조회');
+          dynamic input4 = queryDetail(module, accountNum, passNum, code, unit);
+          await postTo(userID, input4, output, '계좌상세조회');
         }
         for (var accountNum in accounts) {
-          dynamic input5 =
-              accountInquiryTransactions(module, accountNum, passNum);
-          await getto(loginID, input5, results, '거래내역조회');
+          dynamic input5 = queryTrades(module, accountNum, passNum);
+          await postTo(userID, input5, output, '거래내역조회');
         }
       }
-      await fetch(logOut(module));
-      return results;
+      return output;
     } catch (e, t) {
       print(e.toString());
       print(t.toString());
+    } finally {
+      await fetch(logOut(module));
+    }
+  }
+}
+
+DateFormat formatter = DateFormat('yyyyMMdd');
+DateFormat formattor = DateFormat('yyyy-MM-dd');
+
+hypen(String num) =>
+    '${num.substring(0, 3)}-${num.substring(3, 7)}-${num.substring(7)}';
+
+String dayOf(String day) {
+  DateTime date = DateTime.parse(day);
+  return formattor.format(date);
+}
+
+String today() {
+  DateTime dateTime = DateTime.now();
+  return formatter.format(dateTime);
+}
+
+String three(String dDay) {
+  final now = DateTime.tryParse(dDay) ?? DateTime.now();
+  Duration duration = const Duration(days: 92); // 3개월
+  DateTime monthAgo = now.subtract(duration);
+  return formatter.format(monthAgo);
+}
+
+dynamic check(dynamic value) {
+  if (value == null) return '0';
+  if (value is String) {
+    if (value.isEmpty) return '0';
+    try {
+      var num = double.parse(value.trim());
+      var comma = NumberFormat.decimalPattern();
+      return comma.format(num);
+    } on FormatException {
+      return value.trim();
     }
   }
 }
