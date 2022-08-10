@@ -144,13 +144,14 @@ class CooconMTSService extends GetConnect {
               results.add('$key: ${check(value)}');
             }
           });
+          results.add('-------------------------------------');
         });
         return accounts;
       case Map:
         output.forEach((key, value) {
           results.add('$key: ${check(value)}');
         });
-        return;
+        break;
       case String:
         results.add('$target: $output');
     }
@@ -206,23 +207,24 @@ class CooconMTSService extends GetConnect {
       dynamic input2 = accountInquiryAll(module, passNum);
       await getto(input2, results, '전계좌조회');
       dynamic input3 = accountInquiry(module);
-      List accounts = await getto(input3, results, '증권보유계좌조회');
-      for (var accountNum in accounts) {
-        dynamic input4 = accountInquiryDetails(module, accountNum, passNum,
-            code: code, unit: unit);
-        await getto(input4, results, '계좌상세조회');
-      }
-      for (var accountNum in accounts) {
-        dynamic input5 =
-            accountInquiryTransactions(module, accountNum, passNum);
-        await getto(input5, results, '거래내역조회');
+      var accounts = await getto(input3, results, '증권보유계좌조회');
+      if (accounts != null) {
+        for (var accountNum in accounts) {
+          dynamic input4 = accountInquiryDetails(module, accountNum, passNum,
+              code: code, unit: unit);
+          await getto(input4, results, '계좌상세조회');
+        }
+        for (var accountNum in accounts) {
+          dynamic input5 =
+              accountInquiryTransactions(module, accountNum, passNum);
+          await getto(input5, results, '거래내역조회');
+        }
       }
       await fetch(logOut(module));
       return results;
     } catch (e, t) {
       print(e.toString());
       print(t.toString());
-      return ['잘못된 값을 입력하셨습니다. 다시 한번 확인해주세요.'];
     }
   }
 }

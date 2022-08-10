@@ -33,8 +33,8 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
         padding: const EdgeInsets.all(36),
         decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(30),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30),
             )),
         child: ListView(children: children)));
   }
