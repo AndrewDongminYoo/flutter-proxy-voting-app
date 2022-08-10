@@ -166,10 +166,12 @@ class AppVersionValidator {
 compareAppVersion() async {
   final versionValidator = AppVersionValidator();
   final version = await versionValidator._getVersionStatus();
-  version!.printVersion();
-  if (version.canUpdate) {
-    customWindowConfirm('새로운 앱 버전이 있습니다.', '업데이트 하러가기', () {
-      versionValidator._launchAppStore(version.appStoreLink);
-    });
+  if (version != null) {
+    version.printVersion();
+    if (version.canUpdate) {
+      customWindowConfirm('새로운 앱 버전이 있습니다.', '업데이트 하러가기', () {
+        versionValidator._launchAppStore(version.appStoreLink);
+      });
+    }
   }
 }

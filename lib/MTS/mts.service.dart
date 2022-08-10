@@ -9,6 +9,7 @@ import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 class CooconMTSService extends GetConnect {
   MethodChannel platform = const MethodChannel('bside.native.dev/info');
   DateFormat formatter = DateFormat('yyyyMMdd');
+  DateFormat formattor = DateFormat('yyyy-MM-dd');
   commonBody(String action) => {'Class': '증권서비스', 'Job': action};
 
   makeSignInData(
@@ -86,7 +87,7 @@ class CooconMTSService extends GetConnect {
     if (!['000', '001', '002', ''].contains(ext)) return;
     if (!['01', '02', '05', ''].contains(type)) return;
     if (!['1', '2', 'D'].contains(code)) return;
-    if (start.isEmpty) start = oneMonthAgo(start);
+    if (start.isEmpty) start = three(start);
     if (end.isEmpty) end = today();
     return {
       'Module': module,
@@ -111,14 +112,53 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  Future<dynamic> fetch(dynamic input) async {
-    var data = {'data': input};
-    var response = await platform.invokeMethod('getMTSData', data);
-    String cls = input['Class'];
-    String job = input['Job'];
-    print('===========$cls ${job.padLeft(6, ' ')}===========');
-    print(response);
+  fetch(dynamic val) async {
+    print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
+    var response = await platform.invokeMethod('getMTSData', {'data': val});
     return jsonDecode(response);
+  }
+
+  getto(dynamic input, List results, String target) async {
+    dynamic response = await fetch(input);
+    print(response);
+    List accounts = [];
+    if (response['Output']['ErrorCode'] != '00000000') {
+      results.add('${input["Job"]}: "${response['Output']['ErrorMessage']}"');
+      return;
+    }
+    results.add('=====================================');
+    var result = response['Output']['Result'];
+    if (result == null) results.add('$target 값이 없음.');
+    if (result is String && result.isEmpty) return;
+    var output = result[target];
+    switch (output.runtimeType) {
+      case List:
+        output.forEach((element) {
+          element.forEach((String key, value) {
+            if (key == '계좌번호') {
+              accounts.add(value);
+              results.add('$key: ${hypen(value)}');
+            } else if (key.contains('일자')) {
+              results.add('$key: ${dayOf(value)}');
+            } else {
+              results.add('$key: ${check(value)}');
+            }
+          });
+        });
+        return accounts;
+      case Map:
+        output.forEach((key, value) {
+          results.add('$key: ${check(value)}');
+        });
+        return;
+      case String:
+        results.add('$target: $output');
+    }
+  }
+
+  dayOf(String day) {
+    DateTime date = DateTime.parse(day);
+    return formattor.format(date);
   }
 
   today() {
@@ -126,121 +166,63 @@ class CooconMTSService extends GetConnect {
     return formatter.format(dateTime);
   }
 
-  oneMonthAgo(String dDay) {
+  three(String dDay) {
     final now = DateTime.tryParse(dDay) ?? DateTime.now();
     Duration duration = const Duration(days: 92); // 3개월
     DateTime monthAgo = now.subtract(duration);
     return formatter.format(monthAgo);
   }
 
-  priceNum(String number) {
-    var num = double.tryParse(number.trim());
-    var comma = NumberFormat.decimalPattern();
-    if (num == null) return '';
-    return comma.format(num);
+  check(dynamic value) {
+    if (value == null) return '0';
+    if (value is String) {
+      if (value.isEmpty) return '0';
+      try {
+        var num = double.parse(value.trim());
+        var comma = NumberFormat.decimalPattern();
+        return comma.format(num);
+      } on FormatException {
+        return value.trim();
+      }
+    }
   }
 
-  fetchMTSData({
-    required String module,
-    required String username,
-    required String password,
-    String start = '',
-    String end = '',
-    String code = '',
-    String unit = '',
-    required String passNum,
-  }) async {
-    List<String> results = [];
-    dynamic resultNullCheck;
-    dynamic input0 = makeSignInData(module, username, password);
-    dynamic resp0 = await fetch(input0);
-    if (resp0['Output']['ErrorCode'] != '00000000') {
-      results.add('아이디와 비밀번호를 확인해주세요.');
-      return;
-    }
-    resultNullCheck = resp0['Output']['Result'];
-    results.add('HELLO, ${resultNullCheck['사용자이름']}.');
-    dynamic input1 = accountInquiryAll(module, passNum);
-    dynamic resp1 = await fetch(input1);
-    resultNullCheck = resp1['Output']['Result'];
-    if (resultNullCheck == null) throw Exception('Log in failed');
-    List<dynamic> pool = resultNullCheck['전계좌조회'];
-    if (pool.isEmpty) results.add('증권사 계좌 없음.');
-    for (int i = 0; i < pool.length; i++) {
-      results.add('-----------------------');
-      dynamic account = pool[i];
-      results.add('계좌번호 : ${account['계좌번호']}');
-      results.add("대출금액 : ${priceNum(account['대출금액'] ?? '0')}");
-      results.add("출금가능금액 : ${priceNum(account['출금가능금액'] ?? '0')}");
-      results.add("예수금 : ${priceNum(account['예수금'] ?? '0')}");
-      results.add("총자산 : ${priceNum(account['총자산'] ?? '0')}");
-    }
-    var input2 = accountInquiry(module);
-    dynamic resp2 = await fetch(input2);
-    resultNullCheck = resp2['Output']['Result'];
-    if (resultNullCheck == null) return;
-    List<dynamic> stocks = resultNullCheck['증권보유계좌조회'];
-    if (stocks.isEmpty) results.add('증권 보유 계좌 없음.');
-    for (int i = 0; i < stocks.length; i++) {
-      results.add('........................');
-      dynamic stock = stocks[i];
-      String accountNum = stock['계좌번호'];
-      results.add('계좌번호 : $accountNum');
-      results.add("상품코드 : ${stock['상품코드']}");
-      results.add("상품명 : ${stock['상품명']}");
-      dynamic input3 = accountInquiryDetails(module, accountNum, passNum,
-          code: code, unit: unit);
-      dynamic resp3 = await fetch(input3);
-      resultNullCheck = resp3['Output']['Result'];
-      if (resultNullCheck == null) break;
-      List<dynamic> accountDetails = resultNullCheck['계좌상세조회'];
-      if (accountDetails.isEmpty) results.add('거래내역 없음.');
-      for (int j = 0; j < accountDetails.length; j++) {
-        dynamic detail = accountDetails[j];
-        results.add('======================');
-        results.add('상품명: ${detail['상품명'] ?? 'none'}');
-        results.add('상품_종목명: ${detail['상품_종목명'] ?? 'none'}');
-        results.add('매입금액: ${priceNum(detail['매입금액'] ?? '0')}');
-        results.add('평가금액: ${priceNum(detail['평가금액'] ?? '0')}');
-        results.add('수량: ${detail['수량'] ?? 0}');
-        results.add('평균매입가: ${priceNum(detail['평균매입가'] ?? '0')}');
-        results.add('현재가: ${priceNum(detail['현재가'] ?? '0')}');
-        results.add('평가손익: ${priceNum(detail['평가손익'] ?? '0')}');
-        results.add('수익률: ${detail['수익률'] ?? 0}%');
+  hypen(String num) =>
+      '${num.substring(0, 3)}-${num.substring(3, 7)}-${num.substring(7)}';
+
+  fetchMTSData(
+      {required String module,
+      required String username,
+      required String password,
+      String start = '',
+      String end = '',
+      String code = '',
+      String unit = '',
+      required String passNum}) async {
+    try {
+      List<String> results = [];
+      dynamic input1 = makeSignInData(module, username, password);
+      await getto(input1, results, '사용자이름');
+      dynamic input2 = accountInquiryAll(module, passNum);
+      await getto(input2, results, '전계좌조회');
+      dynamic input3 = accountInquiry(module);
+      List accounts = await getto(input3, results, '증권보유계좌조회');
+      for (var accountNum in accounts) {
+        dynamic input4 = accountInquiryDetails(module, accountNum, passNum,
+            code: code, unit: unit);
+        await getto(input4, results, '계좌상세조회');
       }
-      dynamic input4 = accountInquiryTransactions(module, accountNum, passNum);
-      dynamic resp4 = await fetch(input4);
-      resultNullCheck = resp4['Output']['Result'];
-      if (resultNullCheck == null) break;
-      List<dynamic> transactions = resultNullCheck['거래내역조회'];
-      for (int j = 0; j < transactions.length; j++) {
-        dynamic action = transactions[j];
-        results.add('=+=+=+=+=+=+=+=+=+=+=+');
-        results.add("거래일자: ${action['거래일자']}");
-        results.add("거래시각: ${action['거래시각']}");
-        results.add("거래유형: ${action['거래유형']}");
-        results.add("적요: ${action['적요']}");
-        results.add("종목명: ${action['종목명']}");
-        results.add("거래수량: ${action['거래수량']}");
-        results.add("거래금액: ${priceNum(action['거래금액'] ?? '0')}");
-        results.add("수수료: ${priceNum(action['수수료'] ?? '0')}");
-        results.add("금잔수량: ${action['금잔수량']}");
-        results.add("금잔금액: ${priceNum(action['금잔금액'] ?? '0')}");
-        results.add("금잔금액2: ${priceNum(action['금잔금액2'] ?? '0')}");
-        results.add("통화코드: ${action['통화코드']}");
-        results.add("정산금액: ${priceNum(action['정산금액'] ?? '0')}");
-        results.add("외화거래금액: ${priceNum(action['외화거래금액'] ?? '0')}");
-        results.add("세금: ${priceNum(action['세금'] ?? '0')}");
-        results.add("원화거래금액: ${priceNum(action['원화거래금액'] ?? '0')}");
-        results.add("국외수수료: ${priceNum(action['국외수수료'] ?? '0')}");
-        results.add("입금통장표시내용: ${action['입금통장표시내용']}");
-        results.add("출금통장표시내용: ${action['출금통장표시내용']}");
-        results.add("처리점: ${action['처리점']}");
-        results.add("입금은행: ${action['입금은행']}");
-        results.add("입금계좌번호: ${action['입금계좌번호']}");
+      for (var accountNum in accounts) {
+        dynamic input5 =
+            accountInquiryTransactions(module, accountNum, passNum);
+        await getto(input5, results, '거래내역조회');
       }
+      await fetch(logOut(module));
+      return results;
+    } catch (e, t) {
+      print(e.toString());
+      print(t.toString());
+      return ['잘못된 값을 입력하셨습니다. 다시 한번 확인해주세요.'];
     }
-    await fetch(logOut(module));
-    return results;
   }
 }
