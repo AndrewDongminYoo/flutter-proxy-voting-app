@@ -1,11 +1,15 @@
 // ignore_for_file: avoid_print
-// 🐦 Flutter imports:
+// 🎯 Dart imports:
 import 'dart:convert';
 
+// 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get_connect/connect.dart';
+import 'package:flutter/services.dart' show MethodChannel;
+import 'package:get/get_connect/connect.dart' show GetConnect;
 import 'package:intl/intl.dart' show DateFormat, NumberFormat;
+
+// 🌎 Project imports:
+import 'mts.data.dart' show errorMsg;
 
 class CooconMTSService extends GetConnect {
   final _platform = const MethodChannel('bside.native.dev/info');
@@ -86,7 +90,7 @@ class CooconMTSService extends GetConnect {
     if (!['000', '001', '002', ''].contains(ext)) return;
     if (!['01', '02', '05', ''].contains(type)) return;
     if (!['1', '2', 'D'].contains(code)) return;
-    if (start.isEmpty) start = _three(start);
+    if (start.isEmpty) start = _sixAgo(start);
     if (end.isEmpty) end = _today();
     return {
       ..._commonBody(module, '거래내역조회'), // 상세거래내역조회
@@ -104,6 +108,20 @@ class CooconMTSService extends GetConnect {
 
   _logOut(String module) => _commonBody(module, '로그아웃');
 
+  _handleError(dynamic response, List output, String job) {
+    dynamic data = response['Output'];
+    String errorCode = data['ErrorCode'];
+    switch (errorCode) {
+      case ('00000000'):
+        print(data.toString());
+        return data;
+      default:
+        String? log = errorMsg[errorCode];
+        if (log != null) output.add('$job: "$log"');
+        return data;
+    }
+  }
+
   Future<dynamic> _fetch(dynamic val) async {
     print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
     var response = await _platform.invokeMethod('getMTSData', {'data': val});
@@ -112,16 +130,13 @@ class CooconMTSService extends GetConnect {
 
   _postTo(String userid, dynamic input, List output, String target) async {
     dynamic response = await _fetch(input);
-    print(response);
+    CollectionReference col = _db.collection('transactions');
+    DocumentReference dbRef = col.doc('${userid}_${input['Module']}');
+    await dbRef.collection(_today()).add(response);
     Set accounts = {};
-    if (response['Output']['ErrorCode'] != '00000000') {
-      output.add('${input["Job"]}: "${response['Output']['ErrorMessage']}"');
-      return;
-    }
+    var data = _handleError(response, output, input['Job']);
     output.add('=====================================');
-    var result = response['Output']['Result'];
-    var dbRef = _db.collection('transactions').doc(userid);
-    await dbRef.collection(_today()).add(result);
+    var result = data['Result'];
     if (result == null) output.add('$target 값이 없음.');
     if (result is String && result.isEmpty) return;
     switch (result[target].runtimeType) {
@@ -136,12 +151,14 @@ class CooconMTSService extends GetConnect {
                 }
               } else if (key.contains('일자')) {
                 output.add('$key: ${_dayOf(value)}');
+              } else if (key.contains('수익률')) {
+                output.add('$key: ${_check(value)}%');
               } else if (key != '상품코드') {
                 output.add('$key: ${_check(value)}');
               }
             }
           });
-          output.add('-------------------------------------');
+          if (output.last != '-') output.add('-');
         }
         return accounts;
       case Map:
@@ -161,8 +178,8 @@ class CooconMTSService extends GetConnect {
       String code = '',
       String unit = '',
       required String passNum}) async {
+    List<String> output = [];
     try {
-      List<String> output = [];
       dynamic input1 = _login(module, userID, password);
       await _fetch(input1);
       dynamic input2 = _queryAll(module, passNum);
@@ -179,13 +196,13 @@ class CooconMTSService extends GetConnect {
           await _postTo(userID, input5, output, '거래내역조회');
         }
       }
-      return output;
     } catch (e, t) {
       print(e.toString());
       print(t.toString());
     } finally {
       await _fetch(_logOut(module));
     }
+    return output;
   }
 }
 
@@ -205,9 +222,9 @@ String _today() {
   return _formatter.format(dateTime);
 }
 
-String _three(String dDay) {
+String _sixAgo(String dDay) {
   final now = DateTime.tryParse(dDay) ?? DateTime.now();
-  Duration duration = const Duration(days: 92); // 3개월
+  Duration duration = const Duration(days: 180); // 6개월
   DateTime monthAgo = now.subtract(duration);
   return _formatter.format(monthAgo);
 }
