@@ -23,9 +23,9 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
   String _passNum = '';
   bool _visible = false;
   get visible => _visible;
-  setVisible(bool val) => _visible = val;
+  _setVisible(bool val) => _visible = val;
 
-  onPressed() async {
+  _onPressed() async {
     _mtsController.setIDPW(_securitiesID, _securitiesPW);
     List<String> res = await _mtsController.loadMTSDataAndProcess(_passNum);
     List<Text> children = res.map((e) => Text(e)).toList();
@@ -90,7 +90,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                       helperText: '비밀번호를 입력해주세요',
                       suffixIcon: InkWell(
                         onTap: () => setState(() {
-                          setVisible(!visible);
+                          _setVisible(!visible);
                         }),
                         child: visible
                             ? const Icon(Icons.remove_red_eye_outlined)
@@ -116,7 +116,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                   )),
               CustomButton(
                 label: '확인',
-                onPressed: onPressed,
+                onPressed: _onPressed,
               )
             ],
           ),

@@ -12,9 +12,8 @@ class MtsController extends GetxController {
   CooconMTSService service = CooconMTSService();
 
   FIRM? _securitiesFirm;
-  String userLoginID = ''; // ID for login
-  String userLoginPW = ''; // PaSsWoRd!@#
-  String usersName = ''; // user's name
+  String _userLoginID = ''; // ID for login
+  String _userLoginPW = ''; // PaSsWoRd!@#
 
   FIRM get securitiesFirm {
     if (_securitiesFirm != null) {
@@ -28,8 +27,8 @@ class MtsController extends GetxController {
   }
 
   void setIDPW(String id, String password) {
-    userLoginID = id;
-    userLoginPW = password;
+    _userLoginID = id;
+    _userLoginPW = password;
     print('id: $id, password: $password, module: ${securitiesFirm.module}');
   }
 
@@ -37,9 +36,8 @@ class MtsController extends GetxController {
     Get.dialog(LoadingScreen());
     return await service.fetchMTSData(
       module: securitiesFirm.module,
-      username: usersName,
-      userID: userLoginID,
-      password: userLoginPW,
+      userID: _userLoginID,
+      password: _userLoginPW,
       passNum: bankPassword,
     );
   }

@@ -16,7 +16,7 @@ class MtsPage extends StatefulWidget {
 class _MtsPageState extends State<MtsPage> {
   final MtsController _controller = MtsController.get();
 
-  onPressed(dynamic firm) {
+  _onPressed(dynamic firm) {
     print(firm['module']);
     _controller.setMTSFirm(firm);
     goToMtsLink(firm['module']);
@@ -51,7 +51,7 @@ class _MtsPageState extends State<MtsPage> {
                   itemBuilder: (_, int index) {
                     dynamic firm = stockTradingFirms[index];
                     return InkWell(
-                      onTap: () => onPressed(firm),
+                      onTap: () => _onPressed(firm),
                       child: Container(
                           margin: const EdgeInsets.all(8),
                           padding: const EdgeInsets.symmetric(
