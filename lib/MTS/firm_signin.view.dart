@@ -29,6 +29,7 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
     _mtsController.setIDPW(_securitiesID, _securitiesPW);
     List<String> res = await _mtsController.loadMTSDataAndProcess(_passNum);
     List<Text> children = res.map((e) => Text(e)).toList();
+    Get.isDialogOpen! ? goBack() : null;
     Get.bottomSheet(Container(
         padding: const EdgeInsets.all(36),
         decoration: const BoxDecoration(
@@ -107,7 +108,9 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                   style: authFormFieldStyle,
                   obscureText: true,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                   maxLength: 4,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),

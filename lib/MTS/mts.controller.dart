@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../auth/widget/loading_screen.dart';
+import '../auth/widget/loading_screen.dart' show LoadingScreen;
 import 'mts.dart';
 
 class MtsController extends GetxController {

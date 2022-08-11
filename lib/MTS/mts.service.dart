@@ -10,7 +10,17 @@ import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 class CooconMTSService extends GetConnect {
   final _platform = const MethodChannel('bside.native.dev/info');
   final _db = FirebaseFirestore.instance;
-  _commonBody(String action) => {'Class': '증권서비스', 'Job': action};
+
+  _commonBody(
+    String module,
+    String action,
+  ) =>
+      {
+        'Class': '증권서비스',
+        'Module': module,
+        'Job': action,
+        'Input': {},
+      };
 
   _login(
     String module,
@@ -19,8 +29,7 @@ class CooconMTSService extends GetConnect {
     bool idLogin = true,
   }) {
     return {
-      'Module': module,
-      ..._commonBody('로그인'),
+      ..._commonBody(module, '로그인'),
       'Input': {
         '로그인방식': idLogin ? 'ID' : 'CERT', // CERT: 인증서, ID: 아이디
         '사용자아이디': username, // required // IBK, KTB 필수 입력
@@ -30,15 +39,7 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  _queryStocks(
-    String module,
-  ) {
-    return {
-      ..._commonBody('증권보유계좌조회'),
-      'Module': module,
-      'Input': {},
-    };
-  }
+  _queryStocks(String module) => _commonBody(module, '증권보유계좌조회');
 
   _queryAll(
     String module,
@@ -46,8 +47,7 @@ class CooconMTSService extends GetConnect {
     String code = '',
   }) {
     return {
-      ..._commonBody('전계좌조회'),
-      'Module': module,
+      ..._commonBody(module, '전계좌조회'),
       'Input': {
         '사용자비밀번호': password, // 키움 증권만 사용
         '조회구분': code, // "S": 키움 간편조회, 메리츠 전체계좌, 삼성 계좌잔고
@@ -63,8 +63,7 @@ class CooconMTSService extends GetConnect {
     String unit,
   ) {
     return {
-      ..._commonBody('계좌상세조회'), // 상세잔고조회
-      'Module': module,
+      ..._commonBody(module, '계좌상세조회'), // 상세잔고조회
       'Input': {
         '계좌번호': accountNum,
         '계좌비밀번호': password, // 입력 안해도 되지만 안하면 구매종목 안나옴.
@@ -90,8 +89,7 @@ class CooconMTSService extends GetConnect {
     if (start.isEmpty) start = _three(start);
     if (end.isEmpty) end = _today();
     return {
-      ..._commonBody('거래내역조회'), // 상세거래내역조회
-      'Module': module,
+      ..._commonBody(module, '거래내역조회'), // 상세거래내역조회
       'Input': {
         '상품구분': '', // "01"위탁 "02"펀드 "05"CMA
         '조회구분': code, // "1"종합거래내역 "2"입출금내역 "D"종합거래내역 간단히
@@ -104,13 +102,7 @@ class CooconMTSService extends GetConnect {
     };
   }
 
-  _logOut(String module) {
-    return {
-      ..._commonBody('로그아웃'),
-      'Module': module,
-      'Input': {},
-    };
-  }
+  _logOut(String module) => _commonBody(module, '로그아웃');
 
   Future<dynamic> _fetch(dynamic val) async {
     print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
@@ -121,7 +113,7 @@ class CooconMTSService extends GetConnect {
   _postTo(String userid, dynamic input, List output, String target) async {
     dynamic response = await _fetch(input);
     print(response);
-    List accounts = [];
+    Set accounts = {};
     if (response['Output']['ErrorCode'] != '00000000') {
       output.add('${input["Job"]}: "${response['Output']['ErrorMessage']}"');
       return;
@@ -132,18 +124,19 @@ class CooconMTSService extends GetConnect {
     await dbRef.collection(_today()).add(result);
     if (result == null) output.add('$target 값이 없음.');
     if (result is String && result.isEmpty) return;
-    dynamic data = result[target];
-    switch (data.runtimeType) {
+    switch (result[target].runtimeType) {
       case List:
-        for (Map element in data) {
+        for (Map element in result[target]) {
           element.forEach((key, value) {
             if (value.isNotEmpty) {
               if (key == '계좌번호') {
-                accounts.add(value);
-                output.add('$key: ${_hypen(value)}');
+                if (!accounts.contains(value)) {
+                  accounts.add(value);
+                  output.add('$key: ${_hypen(value)}');
+                }
               } else if (key.contains('일자')) {
                 output.add('$key: ${_dayOf(value)}');
-              } else {
+              } else if (key != '상품코드') {
                 output.add('$key: ${_check(value)}');
               }
             }
@@ -152,10 +145,10 @@ class CooconMTSService extends GetConnect {
         }
         return accounts;
       case Map:
-        data.forEach((key, value) {
+        result[target].forEach((key, value) {
           output.add('$key: ${_check(value)}');
         });
-        return data;
+        return result[target];
     }
   }
 
