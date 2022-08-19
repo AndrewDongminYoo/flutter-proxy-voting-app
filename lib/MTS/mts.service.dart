@@ -204,6 +204,11 @@ class CooconMTSService extends GetConnect {
     }
     return output;
   }
+
+  loadFunctionVal(String functionName) async {
+    var response = await _platform.invokeMethod(functionName.trim());
+    return jsonDecode(response);
+  }
 }
 
 DateFormat _formatter = DateFormat('yyyyMMdd');

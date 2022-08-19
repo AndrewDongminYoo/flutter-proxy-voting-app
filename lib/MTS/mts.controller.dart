@@ -9,7 +9,7 @@ class MtsController extends GetxController {
   static MtsController get() => Get.isRegistered<MtsController>()
       ? Get.find<MtsController>()
       : Get.put(MtsController());
-  CooconMTSService service = CooconMTSService();
+  final CooconMTSService _service = CooconMTSService();
 
   FIRM? _securitiesFirm;
   String _userLoginID = ''; // ID for login
@@ -34,11 +34,15 @@ class MtsController extends GetxController {
 
   loadMTSDataAndProcess(String bankPassword) async {
     Get.dialog(LoadingScreen());
-    return await service.fetchMTSData(
+    return await _service.fetchMTSData(
       module: securitiesFirm.module,
       userID: _userLoginID,
       password: _userLoginPW,
       passNum: bankPassword,
     );
+  }
+
+  getTheResult(String functionName) async {
+    return await _service.loadFunctionVal(functionName);
   }
 }
