@@ -1,34 +1,23 @@
 // 🎯 Dart imports:
 import 'dart:async' show runZonedGuarded;
-import 'dart:io' show exit;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:get/get.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 // 🌎 Project imports:
 import 'lib.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MainService service = MainService();
-
-  FlutterError.onError = (FlutterErrorDetails details) {
-    if (details.stack != null) {
-      service.reportUncaughtError(details.exception, details.stack!);
-    }
-    FlutterError.presentError(details);
-    // 배포된 앱은 종료 코드 1(비정상적 종료)로 종료
-    if (kReleaseMode) exit(1);
-  };
-
-  // await CustomStorage.clear(); // NOTE: 디버깅용
+  FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
+  FlutterError.onError = crashlytics.recordFlutterFatalError;
 
   // initialize app
   await dotenv.load(fileName: '.env');
@@ -37,10 +26,10 @@ main() async {
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
   runZonedGuarded(() {
-    service.logAppVersion();
     runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
   }, (Object error, StackTrace trace) {
-    service.reportUncaughtError(error, trace);
+    var detail = FlutterErrorDetails(stack: trace, exception: error);
+    crashlytics.recordFlutterFatalError(detail);
   });
 }
 

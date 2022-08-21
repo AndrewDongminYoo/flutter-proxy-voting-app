@@ -8,7 +8,6 @@ export 'mts/mts.dart';
 export 'notification/notification.dart';
 export 'onboarding/onboarding.dart';
 export 'routes.dart';
-export 'services.dart';
 export 'shared/shared.dart';
 export 'signature/signature.dart';
 export 'theme.dart';

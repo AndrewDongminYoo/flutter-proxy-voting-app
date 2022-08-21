@@ -150,13 +150,22 @@ class VoteController extends GetxController {
   Future<String> deviceInfo() async {
     String deviceInfo = 'unknown';
     DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (Platform.isIOS) {
-      var response = await deviceInfoPlugin.iosInfo;
+      IosDeviceInfo response = await deviceInfoPlugin.iosInfo;
       deviceInfo = response.model.toString();
     } else if (Platform.isAndroid) {
-      var response = await deviceInfoPlugin.androidInfo;
+      AndroidDeviceInfo response = await deviceInfoPlugin.androidInfo;
       deviceInfo = response.model.toString();
+    }
+    var info = {
+      'app_name': packageInfo.appName,
+      'build_number': packageInfo.buildNumber,
+      'app_version': packageInfo.version,
+      'device_name': deviceInfo,
+    };
+    if (kDebugMode) {
+      print(info);
     }
     return deviceInfo;
   }

@@ -51,6 +51,7 @@ dependencies:
 
   # https://pub.dev/publishers/firebase.google.com/packages
   firebase_core: ^1.20.0
+  firebase_crashlytics: ^2.8.8
   firebase_dynamic_links: ^4.2.6
   firebase_messaging: ^11.4.4
   firebase_storage: ^10.2.18
