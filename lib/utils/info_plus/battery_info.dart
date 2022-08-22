@@ -1,14 +1,13 @@
 // ignore_for_file: avoid_print
 
-// 🐦 Flutter imports:
-import 'package:flutter/services.dart';
+// 🌎 Project imports:
+import '../method_channel.dart';
 
 class Battery {
-  static const platform = MethodChannel('bside.native.dev/info');
-  static void getBattery() async {
+  static Future<String> getBattery() async {
     String battery = 'empty';
     try {
-      final int result = await platform.invokeMethod('getBatteryLevel');
+      final int result = await channel.invokeMethod('getBatteryLevel');
       assert(result >= 0 && result <= 100);
       if (result <= 20) {
         print('You need to charge the battery');
@@ -16,8 +15,7 @@ class Battery {
       battery = 'Battery Level at $result %.';
     } on Exception catch (e, s) {
       battery = 'error $e, stack $s';
-    } finally {
-      print(battery);
     }
+    return battery;
   }
 }

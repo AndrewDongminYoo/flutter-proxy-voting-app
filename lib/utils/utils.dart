@@ -7,3 +7,4 @@ export 'html/html.dart';
 export 'info_plus/info_plus.dart';
 export 'mailto.dart';
 export 'shared_prefs.dart';
+export 'method_channel.dart';

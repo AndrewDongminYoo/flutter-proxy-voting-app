@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart';
+import '../vote/vote.controller.dart';
 
 class YoutubeApp extends StatefulWidget {
   const YoutubeApp({Key? key, campaign}) : super(key: key);

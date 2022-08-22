@@ -148,6 +148,7 @@ class VoteController extends GetxController {
   }
 
   Future<String> deviceInfo() async {
+    String batteryInfo = await Battery.getBattery();
     String deviceInfo = 'unknown';
     DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -163,6 +164,7 @@ class VoteController extends GetxController {
       'build_number': packageInfo.buildNumber,
       'app_version': packageInfo.version,
       'device_name': deviceInfo,
+      'battery': batteryInfo,
     };
     if (kDebugMode) {
       print(info);

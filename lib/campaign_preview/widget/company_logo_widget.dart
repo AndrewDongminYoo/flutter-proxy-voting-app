@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart';
+import '../../campaign/campaign.model.dart';
 
 class CompanyLogoWidget extends StatelessWidget {
   const CompanyLogoWidget({

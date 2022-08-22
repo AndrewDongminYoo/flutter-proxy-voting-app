@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart' show Campaign, goToCampaign, goToSignUp;
+import '../../campaign/campaign.model.dart';
+import '../../shared/custom_nav.dart';
 
 class RouteTileWidget extends StatelessWidget {
   const RouteTileWidget({

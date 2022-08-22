@@ -58,7 +58,6 @@ class _MyAppState extends State<MyApp> {
     _initNotification();
     _initDynamicLinks();
     compareAppVersion();
-    Battery.getBattery();
   }
 
   _initNotification() {
@@ -84,7 +83,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       defaultTransition: Transition.cupertino,
       initialRoute: _initialRoute,
-      getPages: routes(),
+      getPages: getPages,
       initialBinding: _initialBinding(),
       debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,

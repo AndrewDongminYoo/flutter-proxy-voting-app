@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart' show goBackWithVal;
+import '../shared/custom_nav.dart';
 
 class CustomPopScope extends StatefulWidget {
   final Widget child;

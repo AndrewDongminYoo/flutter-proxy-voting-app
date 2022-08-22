@@ -4,15 +4,14 @@ import 'dart:convert';
 
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart' show MethodChannel;
 import 'package:get/get_connect/connect.dart' show GetConnect;
 import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 
 // 🌎 Project imports:
 import 'mts.data.dart' show errorMsg;
+import '../utils/method_channel.dart';
 
 class CooconMTSService extends GetConnect {
-  final _platform = const MethodChannel('bside.native.dev/info');
   final _db = FirebaseFirestore.instance;
 
   _commonBody(
@@ -124,7 +123,7 @@ class CooconMTSService extends GetConnect {
 
   Future<dynamic> _fetch(dynamic val) async {
     print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
-    var response = await _platform.invokeMethod('getMTSData', {'data': val});
+    var response = await channel.invokeMethod('getMTSData', {'data': val});
     return jsonDecode(response);
   }
 
@@ -206,7 +205,7 @@ class CooconMTSService extends GetConnect {
   }
 
   loadFunctionVal(String functionName) async {
-    var response = await _platform.invokeMethod(functionName.trim());
+    var response = await channel.invokeMethod(functionName.trim());
     return jsonDecode(response);
   }
 }

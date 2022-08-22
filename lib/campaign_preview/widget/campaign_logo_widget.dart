@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart' show Avatar, Campaign;
+import '../../campaign/campaign.model.dart';
+import '../../shared/custom_avatar.dart';
 
 class CampaignLogoWidget extends StatelessWidget {
   const CampaignLogoWidget({

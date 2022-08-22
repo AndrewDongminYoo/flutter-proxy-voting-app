@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart';
+import '../../campaign/campaign.model.dart';
+import 'progress_icon_widget.dart';
 
 class ProgressInfoWidget extends StatelessWidget {
   const ProgressInfoWidget({

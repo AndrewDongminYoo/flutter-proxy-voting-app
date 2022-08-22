@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart';
+import '../campaign/campaign.model.dart';
+import '../home/home.view.dart';
+import '../shared/yotube.dart';
+import '../vote/vote.controller.dart';
+import 'widget/widget.dart';
 
 class PreviewCampaignPage extends StatefulWidget {
   const PreviewCampaignPage({Key? key}) : super(key: key);

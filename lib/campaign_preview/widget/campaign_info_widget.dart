@@ -5,15 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart'
-    show
-        Campaign,
-        ColorType,
-        CustomButton,
-        CustomText,
-        CustomW,
-        TypoType,
-        goBack;
+import '../../campaign/campaign.model.dart';
+import '../../shared/shared.dart';
+import '../../theme.dart';
 
 class CampaignInfoWidget extends StatelessWidget {
   const CampaignInfoWidget({
