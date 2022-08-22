@@ -169,6 +169,7 @@ class CooconMTSService extends GetConnect {
     }
   }
 
+  // TODO: interface를 구성하여 module별로 각기 다른 비즈니스 로직이 들어갈수 있게 확장 필요
   fetchMTSData(
       {required String module,
       required String userID,
@@ -187,11 +188,16 @@ class CooconMTSService extends GetConnect {
       dynamic input3 = _queryStocks(module);
       var accounts = await _postTo(userID, input3, output, '증권보유계좌조회');
       if (accounts != null) {
+        // for (var acc in accounts) {
+        //   dynamic input4 = _queryDetail(module, acc, passNum, code, unit);
+        //   await _postTo(userID, input4, output, '계좌상세조회');
+        // }
         for (var acc in accounts) {
-          dynamic input4 = _queryDetail(module, acc, passNum, code, unit);
-          await _postTo(userID, input4, output, '계좌상세조회');
-        }
-        for (var acc in accounts) {
+          if (module == 'secCreon') {
+            acc = acc.substring(0, acc.length - 2) +
+                '-' +
+                acc.substring(acc.length - 2);
+          }
           dynamic input5 = _queryTrades(module, acc, passNum);
           await _postTo(userID, input5, output, '거래내역조회');
         }
