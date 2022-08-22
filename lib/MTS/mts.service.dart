@@ -123,7 +123,8 @@ class CooconMTSService extends GetConnect {
 
   Future<dynamic> _fetch(dynamic val) async {
     print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
-    var response = await channel.invokeMethod('getMTSData', {'data': val});
+    // TODO: ERROR: type '_Uint8ArrayView' is not a subtype of type 'String'
+    var response = await _platform.invokeMethod('getMTSData', {'data': val});
     return jsonDecode(response);
   }
 
@@ -196,6 +197,7 @@ class CooconMTSService extends GetConnect {
         }
       }
     } catch (e, t) {
+      print('===== ERROR =====');
       print(e.toString());
       print(t.toString());
     } finally {
