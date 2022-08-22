@@ -16,12 +16,12 @@ import 'lib.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
-  FlutterError.onError = crashlytics.recordFlutterFatalError;
 
   // initialize app
   await dotenv.load(fileName: '.env');
   final initialLink = await setupFirebase();
+  FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
+  FlutterError.onError = crashlytics.recordFlutterFatalError;
   bool firstTime = await CustomStorage.needOnBoarding();
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
