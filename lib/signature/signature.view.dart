@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' show Get, GetNavigation;
 import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
@@ -36,6 +37,12 @@ class _SignaturePageState extends State<SignaturePage> {
       });
     }
   }
+
+  final LottieBuilder lottieIDCard = Lottie.network(
+    'https://assets9.lottiefiles.com/packages/lf20_vaqzminx.json',
+    width: Get.width,
+    height: 300,
+  );
 
   @override
   void initState() {
