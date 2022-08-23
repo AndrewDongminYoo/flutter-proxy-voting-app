@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 // 🌎 Project imports:
-import '../method_channel.dart';
+import '../channel.dart';
 
 class Battery {
   static Future<String> getBattery() async {

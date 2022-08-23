@@ -1,7 +1,7 @@
 // 🌎 Project imports:
 import '../plugin_platform_interface.dart';
 import 'package_info_data.dart';
-import 'method_channel_package_info.dart';
+import 'channel_package_info.dart';
 
 abstract class PackageInfoPlatform extends PlatformInterface {
   PackageInfoPlatform() : super(token: _token);

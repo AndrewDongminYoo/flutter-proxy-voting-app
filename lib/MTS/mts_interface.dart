@@ -127,12 +127,7 @@ abstract class MTSInterface {
   toDictionary() {
     throw UnimplementedError();
   }
-}
-
-class LoginRequest implements MTSInterface {
-  @override
-  toDictionary() {
-    // TODO: implement toDictionary
-    throw UnimplementedError();
-  }
+  // fromJSONObject() {
+  //   throw UnimplementedError();
+  // }
 }

@@ -8,7 +8,9 @@ makeFunction(
   String Class = '증권서비스',
   bool? idLogin,
   String? username,
+  String? certPassword,
   String? password,
+  String? certUsername,
   String? queryCode,
   String? certExpire,
   String? accountNum,
@@ -19,35 +21,41 @@ makeFunction(
   String? start,
   String? end,
 }) {
-  assert(Class == '증권서비스');
+  assert(Class == '증권서비스', '다른 API를 이용하고자 합니까?');
   switch (Job) {
     case '로그인':
-      assert(idLogin != null);
+      assert(idLogin != null, '아이디 혹은 인증서로 로그인해주세요.');
       if (idLogin!) {
-        assert(username != null);
-        assert(password != null);
+        assert(username != null, '사용자아이디를 확인해주세요.');
+        assert(password != null, '사용자비밀번호를 확인해주세요.');
         return {
           'Class': Class,
           'Module': Module,
           'Job': Job,
           'Input': {
             '로그인방식': 'ID', // CERT: 인증서, ID: 아이디
-            '사용자아이디': username, // required // IBK, KTB 필수 입력
-            '사용자비밀번호': password, // required // IBK, KTB 필수 입력
-            '인증서': {}, // 있을 경우 "이름", "만료일자", "비밀번호" 키로 입력
+            '사용자아이디': username, // required
+            '사용자비밀번호': password, // required
+            '인증서': {},
           },
         };
       } else {
-        assert(certExpire != null);
+        assert(certExpire != null, '인증서만료일자를 확인해주세요.');
+        assert(certExpire != null, '인증서를 확인해주세요.');
+        assert(certPassword != null, '인증서비밀번호를 확인해주세요.');
         return {
           'Class': Class,
           'Module': Module,
           'Job': Job,
           'Input': {
             '로그인방식': 'CERT', // CERT: 인증서, ID: 아이디
-            '이름': username,
-            '만료일자': certExpire,
-            '비밀번호': password,
+            '사용자아이디': username, // IBK, KTB 필수 입력
+            '사용자비밀번호': password, // IBK, KTB 필수 입력
+            '인증서': {
+              '이름': certUsername,
+              '만료일자': certExpire,
+              '비밀번호': certPassword,
+            },
           },
         };
       }
@@ -58,8 +66,8 @@ makeFunction(
         'Job': Job,
       };
     case '전계좌조회':
-      assert(password != null);
-      assert(queryCode != null);
+      assert(password != null, '사용자비밀번호를 확인해주세요.');
+      assert(queryCode != null, '조회구분코드를 확인해주세요.');
       return {
         'Class': Class,
         'Module': Module,
@@ -70,14 +78,14 @@ makeFunction(
         }, // 없음: 키움 일반조회, 메리츠 계좌평가, 삼성 종합잔고평가
       }; // "D": 대신,크레온 종합번호+계좌번호, 없음: 일반조회
     case '계좌상세조회':
-      assert(accountNum != null);
-      assert(accountPin != null);
-      assert(queryCode != null);
-      assert(showISO != null);
+      assert(accountPin != null, '계좌비밀번호를 확인해주세요.');
+      assert(accountNum != null, '계좌번호를 확인해주세요.');
+      assert(queryCode != null, '조회구분코드를 확인해주세요.');
+      assert(showISO != null, '통화코드출력여부를 확인해주세요.');
       return {
         'Class': Class,
         'Module': Module,
-        'Job': Job, // 상세잔고조회
+        'Job': Job, // 계좌상세조회
         'Input': {
           '계좌번호': accountNum,
           '계좌비밀번호': accountPin, // 입력 안해도 되지만 안하면 구매종목 안나옴.
@@ -86,11 +94,11 @@ makeFunction(
         },
       };
     case '거래내역조회':
-      assert(accountExt != null);
-      assert(accountNum != null);
-      assert(accountPin != null);
-      assert(accountType != null);
-      assert(queryCode != null);
+      assert(accountExt != null, '계좌번호확장을 확인해주세요.');
+      assert(accountNum != null, '계좌번호를 확인해주세요.');
+      assert(accountPin != null, '계좌비밀번호를 확인해주세요.');
+      assert(accountType != null, '상품구분을 확인해주세요.');
+      assert(queryCode != null, '조회구분코드를 확인해주세요.');
       if (!['000', '001', '002', ''].contains(accountExt)) return;
       if (!['01', '02', '05', ''].contains(accountType)) return;
       if (!['1', '2', 'D'].contains(queryCode)) return;
@@ -99,7 +107,7 @@ makeFunction(
       return {
         'Class': Class,
         'Module': Module,
-        'Job': Job, // 상세거래내역조회
+        'Job': Job, // 거래내역조회
         'Input': {
           '상품구분': accountType, // "01"위탁 "02"펀드 "05"CMA
           '조회구분': queryCode, // "1"종합거래내역 "2"입출금내역 "D"종합거래내역 간단히

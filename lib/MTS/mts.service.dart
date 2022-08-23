@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_connect/connect.dart' show GetConnect;
 
 // 🌎 Project imports:
-import '../utils/method_channel.dart';
+import '../utils/channel.dart';
 import 'mts_functions.dart';
 import 'widgets/formatters.dart';
 import 'mts.data.dart' show errorMsg;
