@@ -11,7 +11,7 @@ class AccountStocks implements MTSInterface {
   final String job = '증권보유계좌조회';
 
   @override
-  toDictionary() {
+  dynamic get json {
     return makeFunction(module, job);
   }
 }

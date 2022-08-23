@@ -8,9 +8,7 @@ import 'package:get/get_connect/connect.dart' show GetConnect;
 
 // 🌎 Project imports:
 import '../utils/channel.dart';
-import 'mts_functions.dart';
-import 'widgets/formatters.dart';
-import 'mts.data.dart' show errorMsg;
+import 'mts.dart';
 
 class CooconMTSService extends GetConnect {
   final _db = FirebaseFirestore.instance;
@@ -78,47 +76,45 @@ class CooconMTSService extends GetConnect {
   }
 
   // TODO: interface를 구성하여 module별로 각기 다른 비즈니스 로직이 들어갈수 있게 확장 필요
-  fetchMTSData(
-      {required String module,
-      required String userID,
-      required String password,
-      String start = '',
-      String end = '',
-      String code = '',
-      String unit = '',
-      required String passNum}) async {
+  fetchMTSData({
+    required String module,
+    required String userID,
+    required String password,
+    String start = '',
+    String end = '',
+    String code = '',
+    String unit = '',
+    required String passNum,
+  }) async {
     List<String> output = [];
     try {
-      dynamic input1 = makeFunction(
+      dynamic input1 = LoginRequest(
         module,
-        '로그인',
         idLogin: true,
         username: userID,
         password: password,
-      );
+        certExpire: '',
+      ).json;
       await _fetch(input1);
-      dynamic input2 = makeFunction(
+      dynamic input2 = AccountAll(
         module,
-        '전계좌조회',
         password: passNum,
         queryCode: '',
-      );
+      ).json;
       await _postTo(userID, input2, output, '전계좌조회');
-      dynamic input3 = makeFunction(
+      dynamic input3 = AccountStocks(
         module,
-        '증권보유계좌조회',
-      );
+      ).json;
       var accounts = await _postTo(userID, input3, output, '증권보유계좌조회');
       if (accounts != null) {
         for (var acc in accounts) {
-          dynamic input4 = makeFunction(
+          dynamic input4 = AccountDetail(
             module,
-            '계좌상세조회',
             accountNum: acc,
             accountPin: passNum,
             queryCode: code,
             showISO: unit,
-          );
+          ).json;
           await _postTo(userID, input4, output, '계좌상세조회');
         }
         for (var acc in accounts) {
@@ -127,15 +123,14 @@ class CooconMTSService extends GetConnect {
                 '-' +
                 acc.substring(acc.length - 2);
           }
-          dynamic input5 = makeFunction(
+          dynamic input5 = AccountTransaction(
             module,
-            '거래내역조회',
             accountNum: acc,
             accountPin: passNum,
             accountExt: '',
             accountType: '1',
             queryCode: '1',
-          );
+          ).json;
           await _postTo(userID, input5, output, '거래내역조회');
         }
       }
@@ -144,10 +139,9 @@ class CooconMTSService extends GetConnect {
       print(e.toString());
       print(t.toString());
     } finally {
-      await _fetch(makeFunction(
+      await _fetch(LogoutRequest(
         module,
-        '로그아웃',
-      ));
+      ).json);
     }
     return output;
   }

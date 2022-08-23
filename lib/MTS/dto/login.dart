@@ -23,7 +23,7 @@ class LoginRequest implements MTSInterface {
   final String certExpire;
 
   @override
-  toDictionary() {
+  dynamic get json {
     if (idLogin) {
       // 아이디로그인
       return makeFunction(

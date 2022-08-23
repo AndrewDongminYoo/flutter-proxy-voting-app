@@ -11,7 +11,7 @@ class LogoutRequest implements MTSInterface {
   final String job = '로그아웃';
 
   @override
-  toDictionary() {
+  dynamic get json {
     return makeFunction(module, job);
   }
 }

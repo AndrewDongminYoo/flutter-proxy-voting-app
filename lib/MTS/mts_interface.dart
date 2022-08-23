@@ -124,7 +124,7 @@
 // }
 
 abstract class MTSInterface {
-  toDictionary() {
+  dynamic get json {
     throw UnimplementedError();
   }
   // fromJSONObject() {

@@ -15,7 +15,7 @@ class AccountAll implements MTSInterface {
   final String password; // 사용자비밀번호
 
   @override
-  toDictionary() {
+  dynamic get json {
     if (['', 'S', 'D'].contains(queryCode)) {
       return makeFunction(
         module,

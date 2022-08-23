@@ -26,7 +26,7 @@ class AccountTransaction implements MTSInterface {
   final dynamic end; // 조회종료일
 
   @override
-  toDictionary() {
+  dynamic get json {
     String strEnd = end;
     String strStart = start;
     if (end.runtimeType == DateTime) {

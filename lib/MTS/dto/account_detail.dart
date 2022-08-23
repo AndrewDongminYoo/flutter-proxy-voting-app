@@ -19,7 +19,7 @@ class AccountDetail implements MTSInterface {
   final String showISO; // 통화코드출력여부 // KB "2": 통화코드,현재가,매입평균가 미출력, 없음: 모두출력
 
   @override
-  toDictionary() {
+  dynamic get json {
     if (['', 'K'].contains(queryCode)) {
       if (['', '2'].contains(showISO)) {
         return makeFunction(
