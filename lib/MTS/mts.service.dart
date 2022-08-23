@@ -27,20 +27,14 @@ class CooconMTSService extends GetConnect {
     }
   }
 
-  Future<dynamic> _fetch(dynamic val) async {
-    print('===========${val['Job']} ${val['Job'].padLeft(6, ' ')}===========');
-    // TODO: ERROR: type '_Uint8ArrayView' is not a subtype of type 'String'
-    var response = await channel.invokeMethod('getMTSData', {'data': val});
-    return jsonDecode(response);
-  }
-
-  _postTo(String userid, dynamic input, List output, String target) async {
-    dynamic response = await _fetch(input);
+  _postTo(
+      String userid, CustomRequest input, List output, String target) async {
+    dynamic response = await input.fetch();
     CollectionReference col = _db.collection('transactions');
-    DocumentReference dbRef = col.doc('${userid}_${input['Module']}');
+    DocumentReference dbRef = col.doc('${userid}_${input.Module}');
     await dbRef.collection(today()).add(response);
     Set accounts = {};
-    var data = _handleError(response, output, input['Job']);
+    var data = _handleError(response, output, input.Job);
     output.add('=====================================');
     var result = data['Result'];
     if (result == null) output.add('$target 값이 없음.');
@@ -88,27 +82,26 @@ class CooconMTSService extends GetConnect {
   }) async {
     List<String> output = [];
     try {
-      dynamic input1 = LoginRequest(
+      await LoginRequest(
         module,
         idLogin: true,
         username: userID,
         password: password,
         certExpire: '',
-      ).json;
-      await _fetch(input1);
-      dynamic input2 = AccountAll(
+      ).fetch();
+      CustomRequest input2 = AccountAll(
         module,
         password: passNum,
         queryCode: '',
       ).json;
       await _postTo(userID, input2, output, '전계좌조회');
-      dynamic input3 = AccountStocks(
+      CustomRequest input3 = AccountStocks(
         module,
       ).json;
       var accounts = await _postTo(userID, input3, output, '증권보유계좌조회');
       if (accounts != null) {
         for (var acc in accounts) {
-          dynamic input4 = AccountDetail(
+          CustomRequest input4 = AccountDetail(
             module,
             accountNum: acc,
             accountPin: passNum,
@@ -123,7 +116,7 @@ class CooconMTSService extends GetConnect {
                 '-' +
                 acc.substring(acc.length - 2);
           }
-          dynamic input5 = AccountTransaction(
+          CustomRequest input5 = AccountTransaction(
             module,
             accountNum: acc,
             accountPin: passNum,
@@ -139,9 +132,9 @@ class CooconMTSService extends GetConnect {
       print(e.toString());
       print(t.toString());
     } finally {
-      await _fetch(LogoutRequest(
+      await LogoutRequest(
         module,
-      ).json);
+      ).fetch();
     }
     return output;
   }

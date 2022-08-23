@@ -23,7 +23,7 @@ class LoginRequest implements MTSInterface {
   final String certExpire;
 
   @override
-  dynamic get json {
+  CustomRequest get json {
     if (idLogin) {
       // 아이디로그인
       return makeFunction(
@@ -32,7 +32,7 @@ class LoginRequest implements MTSInterface {
         idLogin: idLogin,
         username: username, // 사용자아이디 예: hkd01234
         password: password, // 사용자비밀번호 예: qwer1234!
-      );
+      )!;
     } else {
       // 인증서로그인
       return makeFunction(
@@ -44,7 +44,12 @@ class LoginRequest implements MTSInterface {
         certExpire: certExpire, // 만료일자 예: 20161210
         certUsername: certUsername, // 인증서이름 예: cn=홍길동()000...
         certPassword: certPassword, // 인증서비밀번호 예: qwer1234!
-      );
+      )!;
     }
+  }
+
+  @override
+  fetch() async {
+    return await json.fetch();
   }
 }

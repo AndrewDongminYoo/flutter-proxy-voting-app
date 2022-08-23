@@ -11,7 +11,12 @@ class AccountStocks implements MTSInterface {
   final String job = '증권보유계좌조회';
 
   @override
-  dynamic get json {
-    return makeFunction(module, job);
+  CustomRequest get json {
+    return makeFunction(module, job)!;
+  }
+
+  @override
+  fetch() async {
+    return await json.fetch();
   }
 }

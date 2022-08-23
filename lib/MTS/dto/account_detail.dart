@@ -19,7 +19,7 @@ class AccountDetail implements MTSInterface {
   final String showISO; // 통화코드출력여부 // KB "2": 통화코드,현재가,매입평균가 미출력, 없음: 모두출력
 
   @override
-  dynamic get json {
+  CustomRequest get json {
     if (['', 'K'].contains(queryCode)) {
       if (['', '2'].contains(showISO)) {
         return makeFunction(
@@ -29,9 +29,14 @@ class AccountDetail implements MTSInterface {
           accountPin: accountPin,
           queryCode: queryCode,
           showISO: showISO,
-        );
+        )!;
       }
     }
     throw Exception('조회구분코드를 확인해 주세요.');
+  }
+
+  @override
+  fetch() async {
+    return await json.fetch();
   }
 }

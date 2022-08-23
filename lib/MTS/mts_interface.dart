@@ -1,4 +1,4 @@
-// // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names
 
 // class AllTransaction {
 //   String 거래일자;
@@ -107,12 +107,36 @@
 //   String 계좌번호확장;
 // }
 
-// class Request {
-//   String Module;
-//   String Class;
-//   String Job;
-//   CustomInput Input;
-// }
+import 'dart:convert';
+
+import '../utils/channel.dart';
+
+class CustomRequest {
+  CustomRequest({
+    required this.Module,
+    required this.Job,
+    this.Class = '증권서비스',
+    required this.Input,
+  }) : super();
+
+  final String Module;
+  final String Class;
+  final String Job;
+  final dynamic Input;
+
+  dynamic get data => {
+        'Module': Module,
+        'Job': Job,
+        'Class': Class,
+        'Input': Input,
+      };
+
+  Future<dynamic> fetch() async {
+    print('===========$Module ${Job.padLeft(6, ' ')}===========');
+    var response = await channel.invokeMethod('getMTSData', {'data': data});
+    return jsonDecode(response);
+  }
+}
 
 // class Response {
 //   String Module;
@@ -124,10 +148,15 @@
 // }
 
 abstract class MTSInterface {
-  dynamic get json {
+  CustomRequest get json {
     throw UnimplementedError();
   }
+
   // fromJSONObject() {
   //   throw UnimplementedError();
   // }
+  dynamic fetch() {
+    // do Something with json
+    throw UnimplementedError();
+  }
 }

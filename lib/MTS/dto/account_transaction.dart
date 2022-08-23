@@ -26,7 +26,7 @@ class AccountTransaction implements MTSInterface {
   final dynamic end; // 조회종료일
 
   @override
-  dynamic get json {
+  CustomRequest get json {
     String strEnd = end;
     String strStart = start;
     if (end.runtimeType == DateTime) {
@@ -50,6 +50,11 @@ class AccountTransaction implements MTSInterface {
       queryCode: queryCode,
       start: strStart,
       end: strEnd,
-    );
+    )!;
+  }
+
+  @override
+  fetch() async {
+    return await json.fetch();
   }
 }
