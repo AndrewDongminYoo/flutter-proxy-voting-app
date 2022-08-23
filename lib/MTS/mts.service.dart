@@ -89,15 +89,36 @@ class CooconMTSService extends GetConnect {
       required String passNum}) async {
     List<String> output = [];
     try {
-      dynamic input1 = login(module, userID, password);
+      dynamic input1 = makeFunction(
+        module,
+        '로그인',
+        idLogin: true,
+        username: userID,
+        password: password,
+      );
       await _fetch(input1);
-      dynamic input2 = queryAll(module, passNum);
+      dynamic input2 = makeFunction(
+        module,
+        '전계좌조회',
+        password: passNum,
+        queryCode: '',
+      );
       await _postTo(userID, input2, output, '전계좌조회');
-      dynamic input3 = queryStocks(module);
+      dynamic input3 = makeFunction(
+        module,
+        '증권보유계좌조회',
+      );
       var accounts = await _postTo(userID, input3, output, '증권보유계좌조회');
       if (accounts != null) {
         for (var acc in accounts) {
-          dynamic input4 = queryDetail(module, acc, passNum, code, unit);
+          dynamic input4 = makeFunction(
+            module,
+            '계좌상세조회',
+            accountNum: acc,
+            accountPin: passNum,
+            queryCode: code,
+            showISO: unit,
+          );
           await _postTo(userID, input4, output, '계좌상세조회');
         }
         for (var acc in accounts) {
@@ -106,7 +127,15 @@ class CooconMTSService extends GetConnect {
                 '-' +
                 acc.substring(acc.length - 2);
           }
-          dynamic input5 = queryTrades(module, acc, passNum);
+          dynamic input5 = makeFunction(
+            module,
+            '거래내역조회',
+            accountNum: acc,
+            accountPin: passNum,
+            accountExt: '',
+            accountType: '1',
+            queryCode: '1',
+          );
           await _postTo(userID, input5, output, '거래내역조회');
         }
       }
@@ -115,7 +144,10 @@ class CooconMTSService extends GetConnect {
       print(e.toString());
       print(t.toString());
     } finally {
-      await _fetch(logOut(module));
+      await _fetch(makeFunction(
+        module,
+        '로그아웃',
+      ));
     }
     return output;
   }
