@@ -55,3 +55,28 @@ class AccountTransaction implements MTSInterface {
     return await json.fetch();
   }
 }
+
+// class AllTransaction {
+//   String 거래일자;
+//   String 거래시각;
+//   late String 거래유형;
+//   String 적요;
+//   String 종목명;
+//   String 거래수량;
+//   String 거래금액;
+//   String 수수료;
+//   String 금잔수량;
+//   String 금잔금액;
+//   String 금잔금액2;
+//   String 통화코드;
+//   String 정산금액;
+//   String 외화거래금액;
+//   String 세금;
+//   String 원화거래금액;
+//   String 국외수수료;
+//   String 입금통장표시내용;
+//   String 출금통장표시내용;
+//   String 처리점;
+//   String 입금은행;
+//   String 입금계좌번호;
+// }

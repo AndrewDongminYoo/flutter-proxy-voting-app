@@ -18,3 +18,9 @@ class AccountStocks implements MTSInterface {
     return await json.fetch();
   }
 }
+
+// class StockAccount {
+//   String 계좌번호;
+//   String 상품코드;
+//   String 상품명;
+// }

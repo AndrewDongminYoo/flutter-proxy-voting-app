@@ -38,3 +38,22 @@ class AccountDetail implements MTSInterface {
     return await json.fetch();
   }
 }
+
+// class DetailAccount {
+//   String 상품명;
+//   String 계좌번호;
+//   String 상품코드;
+//   String 상품유형코드;
+//   String 상품_종목명;
+//   String 상품_종목코드;
+//   String 잔고유형;
+//   String 수량;
+//   String 현재가;
+//   String 평균매입가;
+//   String 매입금액;
+//   String 평가금액;
+//   String 평가손익;
+//   String 수익률;
+//   String 통화코드;
+//   String 계좌번호확장;
+// }

@@ -31,3 +31,21 @@ class AccountAll implements MTSInterface {
     return await json.fetch();
   }
 }
+
+// class AllAccount {
+//   String 계좌번호;
+//   String 계좌번호표시용;
+//   String 원금;
+//   String 계좌명_유형;
+//   String 매입금액;
+//   String 대출금액;
+//   String 평가금액;
+//   String 평가손익;
+//   String 출금가능금액;
+//   String 예수금;
+//   String 예수금_D1;
+//   String 예수금_D2;
+//   String 외화예수금;
+//   String 수익률;
+//   String 총자산;
+// }

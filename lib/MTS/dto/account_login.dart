@@ -51,3 +51,9 @@ class LoginRequest implements MTSInterface {
     return await json.fetch();
   }
 }
+
+// class Certificate {
+//   String 이름;
+//   String 만료일자;
+//   String 비밀번호;
+// }
