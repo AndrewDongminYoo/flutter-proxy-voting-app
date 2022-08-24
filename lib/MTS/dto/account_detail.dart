@@ -37,6 +37,12 @@ class AccountDetail implements MTSInterface {
   Future<CustomResponse> fetch() async {
     return await json.fetch();
   }
+
+  @override
+  Future<void> post() async {
+    CustomResponse response = await json.fetch();
+    response.fetchDataAndUploadFB();
+  }
 }
 
 // class DetailAccount {

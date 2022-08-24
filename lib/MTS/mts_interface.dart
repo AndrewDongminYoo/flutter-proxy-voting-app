@@ -8,4 +8,8 @@ abstract class MTSInterface {
   Future<CustomResponse> fetch() {
     throw UnimplementedError();
   }
+
+  Future<void> post() {
+    throw UnimplementedError();
+  }
 }

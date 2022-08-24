@@ -1,8 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
-
+// 🎯 Dart imports:
 import 'dart:convert';
 
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// 🌎 Project imports:
 import '../../utils/channel.dart';
+import '../widgets/formatters.dart';
 
 class CustomResponse {
   CustomResponse({
@@ -18,15 +23,15 @@ class CustomResponse {
   late String Class;
   late String Job;
   late dynamic Input;
-  late dynamic Output;
+  late CustomOutput Output;
   late String API_SEQ;
 
-  CustomResponse.fromJson(Map<String, dynamic> json) {
+  CustomResponse.from(Map<String, dynamic> json) {
     Module = json['Module'];
     Class = json['Class'];
     Job = json['Job'];
     Input = json['Input'];
-    Output = json['OutPut'];
+    Output = CustomOutput.from(json['Output']);
     API_SEQ = json['API_SEQ'];
   }
 
@@ -35,9 +40,28 @@ class CustomResponse {
         'Job': Job,
         'Class': Class,
         'Input': Input,
-        'OutPut': Output,
+        'Output': Output.json,
         'API_SEQ': API_SEQ,
       };
+
+  Future<void> fetchDataAndUploadFB() async {
+    final firestore = FirebaseFirestore.instance;
+    CollectionReference col = firestore.collection('transactions');
+    DocumentReference dbRef = col.doc('${Input["사용자아이디"]}_$Module');
+    await dbRef.collection(today()).add(data);
+    Output.Result.forEach((key, value) {
+      if (value is List<Map<String, String>>) {
+        for (var element in value) {
+          print(key);
+          element.forEach((key1, value1) {
+            print('$key1: $value1');
+          });
+        }
+      } else {
+        print('$key: $value');
+      }
+    });
+  }
 }
 
 class CustomRequest {
@@ -63,7 +87,8 @@ class CustomRequest {
   Future<CustomResponse> fetch() async {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
     var response = await channel.invokeMethod('getMTSData', {'data': data});
-    return jsonDecode(response);
+    var json = jsonDecode(response);
+    return CustomResponse.from(json);
   }
 }
 
@@ -77,13 +102,31 @@ class CustomRequest {
 //   String 예수금;
 //   String 외화예수금;
 //   String 평가금액;
-// }
+// }a
 
-// class CustomOutput {
-//   String ErrorCode;
-//   String ErrorMessage;
-//   CustomResult Result;
-// }
+class CustomOutput {
+  late String ErrorCode;
+  late String ErrorMessage;
+  late Map<String, dynamic> Result;
+
+  CustomOutput({
+    this.ErrorCode = '',
+    this.ErrorMessage = '',
+    required this.Result,
+  });
+
+  CustomOutput.from(dynamic output) {
+    ErrorCode = output['ErrorCode'];
+    ErrorMessage = output['ErrorMessage'];
+    Result = output['Result'];
+  }
+
+  get json => {
+        'ErrorCode': ErrorCode,
+        'ErrorMessage': ErrorMessage,
+        'Result': Result,
+      };
+}
 
 // class CustomInput {
 //   String 로그인방식;

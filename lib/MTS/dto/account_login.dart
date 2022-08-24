@@ -50,6 +50,14 @@ class LoginRequest implements MTSInterface {
   Future<CustomResponse> fetch() async {
     return await json.fetch();
   }
+
+  @override
+  Future<void> post() async {
+    CustomResponse response = await json.fetch();
+    response.Output.Result.forEach((key, value) {
+      print('$key: $value');
+    });
+  }
 }
 
 // class Certificate {
