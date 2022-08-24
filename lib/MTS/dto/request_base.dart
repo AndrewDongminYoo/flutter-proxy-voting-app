@@ -49,15 +49,16 @@ class CustomResponse {
     CollectionReference col = firestore.collection('transactions');
     DocumentReference dbRef = col.doc('${Input["사용자아이디"]}_$Module');
     await dbRef.collection(today()).add(data);
-    Output.Result.forEach((key, value) {
-      if (value is List<Map<String, String>>) {
-        for (var element in value) {
+    if (Output.ErrorCode != '00000000') return;
+    Output.Result.forEach((String key, dynamic value) {
+      if (value is List<Map<String, dynamic>>) {
+        for (Map<String, dynamic> result in value) {
           print(key);
-          element.forEach((key1, value1) {
-            print('$key1: $value1');
+          result.forEach((k1, v1) {
+            print('$k1: $v1');
           });
         }
-      } else {
+      } else if (value is Map<String, dynamic>) {
         print('$key: $value');
       }
     });
@@ -86,8 +87,9 @@ class CustomRequest {
 
   Future<CustomResponse> fetch() async {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
-    var response = await channel.invokeMethod('getMTSData', {'data': data});
-    var json = jsonDecode(response);
+    String? response =
+        await channel.invokeMethod<String>('getMTSData', {'data': data});
+    dynamic json = jsonDecode(response!);
     return CustomResponse.from(json);
   }
 }

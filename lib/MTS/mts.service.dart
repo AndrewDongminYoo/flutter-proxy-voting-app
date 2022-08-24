@@ -1,8 +1,8 @@
-// ignore_for_file: avoid_print
 // 🎯 Dart imports:
 import 'dart:convert';
 
 // 📦 Package imports:
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get_connect/connect.dart' show GetConnect;
 
 // 🌎 Project imports:
@@ -10,32 +10,15 @@ import '../utils/channel.dart';
 import 'mts.dart';
 
 class CooconMTSService extends GetConnect {
-  CustomOutput _handleError(
-      CustomResponse response, List<String> output, String job) {
-    CustomOutput data = response.Output;
-    String errorCode = data.ErrorCode;
-    switch (errorCode) {
-      case ('00000000'):
-        print(data.toString());
-        return data;
-      default:
-        String? log = errorMsg[errorCode];
-        if (log != null) output.add('$job: "$log"');
-        return data;
-    }
-  }
-
   _postTo(CustomRequest input, List<String> output, String target) async {
     CustomResponse response = await input.fetch();
-    response.fetchDataAndUploadFB();
-    Set accounts = <String>{};
-    CustomOutput data = _handleError(response, output, input.Job);
+    await response.fetchDataAndUploadFB();
+    Set<String> accounts = {};
     output.add('=====================================');
-    dynamic result = data.Result;
-    if (result is String && result.isEmpty) return;
+    Map<String, dynamic> result = response.Output.Result;
     switch (result[target].runtimeType) {
       case List:
-        for (Map element in result[target]) {
+        for (Map<String, dynamic> element in result[target]) {
           element.forEach((key, value) {
             if (value.isNotEmpty) {
               if (key == '계좌번호') {
@@ -119,9 +102,7 @@ class CooconMTSService extends GetConnect {
         await _postTo(input5, output, '거래내역조회');
       }
     } catch (e, t) {
-      print('===== ERROR =====');
-      print(e.toString());
-      print(t.toString());
+      FirebaseCrashlytics.instance.recordError(e, t);
     } finally {
       await LogoutRequest(
         module,
