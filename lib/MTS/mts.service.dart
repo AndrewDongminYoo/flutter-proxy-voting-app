@@ -11,10 +11,8 @@ import '../utils/channel.dart';
 import 'mts.dart';
 
 class CooconMTSService extends GetConnect {
-  final _db = FirebaseFirestore.instance;
-
-  _handleError(dynamic response, List output, String job) {
-    dynamic data = response['Output'];
+  dynamic _handleError(CustomResponse response, List output, String job) {
+    dynamic data = response.Output;
     String errorCode = data['ErrorCode'];
     switch (errorCode) {
       case ('00000000'):
@@ -29,12 +27,10 @@ class CooconMTSService extends GetConnect {
 
   _postTo(
       String userid, CustomRequest input, List output, String target) async {
-    dynamic response = await input.fetch();
-    CollectionReference col = _db.collection('transactions');
-    DocumentReference dbRef = col.doc('${userid}_${input.Module}');
-    await dbRef.collection(today()).add(response);
+    CustomResponse response = await input.fetch();
+    await uploadFirestore(userid, input, response);
     Set accounts = {};
-    var data = _handleError(response, output, input.Job);
+    dynamic data = _handleError(response, output, input.Job);
     output.add('=====================================');
     var result = data['Result'];
     if (result == null) output.add('$target 값이 없음.');
@@ -67,6 +63,14 @@ class CooconMTSService extends GetConnect {
         });
         return result[target];
     }
+  }
+
+  Future<void> uploadFirestore(
+      String userid, CustomRequest input, CustomResponse response) async {
+    final firestore = FirebaseFirestore.instance;
+    CollectionReference col = firestore.collection('transactions');
+    DocumentReference dbRef = col.doc('${userid}_${input.Module}');
+    await dbRef.collection(today()).add(response.data);
   }
 
   // TODO: interface를 구성하여 module별로 각기 다른 비즈니스 로직이 들어갈수 있게 확장 필요

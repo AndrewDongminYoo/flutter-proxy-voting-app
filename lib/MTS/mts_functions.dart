@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'mts_interface.dart';
+import 'dto/request_base.dart';
 import 'widgets/formatters.dart';
 
 CustomRequest? makeFunction(

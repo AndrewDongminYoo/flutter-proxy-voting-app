@@ -1,6 +1,4 @@
-import 'package:bside/mts/mts_functions.dart';
-
-import '../mts_interface.dart';
+import '../mts.dart';
 
 class AccountDetail implements MTSInterface {
   const AccountDetail(
@@ -36,7 +34,7 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  fetch() async {
+  Future<CustomResponse> fetch() async {
     return await json.fetch();
   }
 }

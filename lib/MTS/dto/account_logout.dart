@@ -1,6 +1,4 @@
-import 'package:bside/mts/mts_functions.dart';
-
-import '../mts_interface.dart';
+import '../mts.dart';
 
 class LogoutRequest implements MTSInterface {
   const LogoutRequest(
@@ -16,7 +14,7 @@ class LogoutRequest implements MTSInterface {
   }
 
   @override
-  fetch() async {
+  Future<CustomResponse> fetch() async {
     return await json.fetch();
   }
 }

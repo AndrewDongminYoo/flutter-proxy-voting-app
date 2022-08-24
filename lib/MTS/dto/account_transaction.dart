@@ -1,7 +1,4 @@
-import 'package:bside/mts/mts_functions.dart';
-import 'package:bside/mts/widgets/formatters.dart';
-
-import '../mts_interface.dart';
+import '../mts.dart';
 
 class AccountTransaction implements MTSInterface {
   const AccountTransaction(
@@ -54,7 +51,7 @@ class AccountTransaction implements MTSInterface {
   }
 
   @override
-  fetch() async {
+  Future<CustomResponse> fetch() async {
     return await json.fetch();
   }
 }
