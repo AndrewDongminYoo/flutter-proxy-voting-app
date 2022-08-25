@@ -5,7 +5,7 @@ class AccountStocks implements MTSInterface {
     this.module,
   );
 
-  final String module; // 금융사
+  final CustomModule module; // 금융사
   final String job = '증권보유계좌조회';
 
   @override
@@ -29,19 +29,15 @@ class AccountStocks implements MTSInterface {
       case List:
         for (Map<String, dynamic> element in jobResult) {
           element.forEach((key, value) {
-            switch (key) {
-              case '계좌번호':
-                if (!accounts.contains(value)) {
-                  accounts.add(value);
-                  output.add('$key: ${hypen(value)}');
-                }
-                break;
-              case '상품명':
-                output.add('$key: ${comma(value)}');
-                break;
-              case '상품코드':
-                output.add('$key: $value');
-                break;
+            if (element['상품코드'] == '01' || element['상품명'].contains('주식')) {
+              switch (key) {
+                case '계좌번호':
+                  if (!accounts.contains(value)) {
+                    accounts.add(value);
+                    output.add('$key: ${hypen(value)}');
+                  }
+                  break;
+              }
             }
           });
           if (output.last != '-') {
@@ -53,6 +49,9 @@ class AccountStocks implements MTSInterface {
         return accounts;
     }
   }
+
+  @override
+  String toString() => json.toString();
 }
 
 // class StockAccount {

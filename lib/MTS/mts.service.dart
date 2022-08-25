@@ -12,7 +12,7 @@ import 'mts.dart';
 class CooconMTSService extends GetConnect {
   // TODO: interface를 구성하여 module별로 각기 다른 비즈니스 로직이 들어갈수 있게 확장 필요
   fetchMTSData({
-    required String module,
+    required CustomModule module,
     required String userID,
     required String password,
     String start = '',
@@ -35,7 +35,7 @@ class CooconMTSService extends GetConnect {
       ).post(output);
       var accounts = await AccountStocks(module).post(output);
       for (String acc in accounts) {
-        if (module == 'secCreon') {
+        if (module.toString() == 'secCreon') {
           acc = processAcc(acc);
         }
         await AccountDetail(module,

@@ -9,7 +9,7 @@ class AccountDetail implements MTSInterface {
     required this.showISO,
   });
 
-  final String module; // 금융사
+  final CustomModule module; // 금융사
   final String job = '계좌상세조회';
   final String accountNum; // 계좌번호
   final String accountPin; // 계좌비밀번호 // 입력 안해도 되지만 안하면 구매종목 안나옴.
@@ -73,6 +73,9 @@ class AccountDetail implements MTSInterface {
         return accounts;
     }
   }
+
+  @override
+  String toString() => json.toString();
 }
 
 // class DetailAccount {

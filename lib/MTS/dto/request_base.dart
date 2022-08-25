@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-// 🎯 Dart imports:
 import 'dart:convert';
 
 // 📦 Package imports:
@@ -19,7 +18,7 @@ class CustomResponse {
     required this.API_SEQ,
   });
 
-  late String Module;
+  late CustomModule Module;
   late String Class;
   late String Job;
   late dynamic Input;
@@ -27,7 +26,7 @@ class CustomResponse {
   late String API_SEQ;
 
   CustomResponse.from(Map<String, dynamic> json) {
-    Module = json['Module'];
+    Module = CustomModule(json['Module']);
     Class = json['Class'];
     Job = json['Job'];
     Input = json['Input'];
@@ -36,7 +35,7 @@ class CustomResponse {
   }
 
   Map<String, dynamic> get data => {
-        'Module': Module,
+        'Module': Module.toString(),
         'Job': Job,
         'Class': Class,
         'Input': Input,
@@ -47,7 +46,7 @@ class CustomResponse {
   Future<void> fetchDataAndUploadFB() async {
     final firestore = FirebaseFirestore.instance;
     CollectionReference col = firestore.collection('transactions');
-    DocumentReference dbRef = col.doc('${Input["사용자아이디"]}_$Module');
+    DocumentReference dbRef = col.doc('${Module}_$Job');
     await dbRef.collection(today()).add(data);
     if (Output.ErrorCode != '00000000') return;
     Output.Result.forEach((String key, dynamic value) {
@@ -65,6 +64,9 @@ class CustomResponse {
       }
     });
   }
+
+  @override
+  String toString() => data.toString();
 }
 
 class CustomRequest {
@@ -75,16 +77,16 @@ class CustomRequest {
     required this.Input,
   }) : super();
 
-  final String Module;
+  final CustomModule Module;
   final String Class;
   final String Job;
-  final dynamic Input;
+  final CustomInput Input;
 
   dynamic get data => {
-        'Module': Module,
+        'Module': Module.toString(),
         'Job': Job,
         'Class': Class,
-        'Input': Input,
+        'Input': Input.json,
       };
 
   Future<CustomResponse> fetch() async {
@@ -138,6 +140,9 @@ class CustomRequest {
         return accounts;
     }
   }
+
+  @override
+  String toString() => data.toString();
 }
 
 // class CustomResult {
@@ -174,25 +179,82 @@ class CustomOutput {
         'ErrorMessage': ErrorMessage,
         'Result': Result,
       };
+
+  @override
+  String toString() => ErrorCode;
 }
 
-// class CustomInput {
-//   String 로그인방식;
-//   String 사용자아이디;
-//   String 사용자비밀번호;
-//   Certificate 인증서;
-//   String 조회구분;
-//   String 통화코드출력여부;
-//   String 계좌번호;
-//   String 계좌비밀번호;
-//   String 조회시작일;
-//   String 조회종료일;
-//   String 상품구분;
-//   String 계좌번호확장;
-// }
+class CustomInput {
+  late String idOrCert; //로그인방식;
+  late String userid; //사용자아이디;
+  late String password; //사용자비밀번호;
+  late String queryCode; //조회구분;
+  late String showISO; //통화코드출력여부;
+  late String accountNum; //계좌번호;
+  late String accountPin; //계좌비밀번호;
+  late String start; //조회시작일;
+  late String end; //조회종료일;
+  late String type; //상품구분;
+  late String accountExt; //계좌번호확장;
+  late Map<String, String> Certificate;
+
+  CustomInput({
+    this.idOrCert = '', //로그인방식
+    this.userid = '', //사용자아이디
+    this.password = '', //사용자비밀번호
+    this.queryCode = '', //조회구분
+    this.showISO = '', //통화코드출력여부
+    this.accountNum = '', //계좌번호
+    this.accountPin = '', //계좌비밀번호
+    this.start = '', //조회시작일
+    this.end = '', //조회종료일
+    this.type = '', //상품구분
+    this.accountExt = '', //계좌번호확장
+  });
+
+  get json => {
+        '로그인방식': idOrCert,
+        '사용자아이디': userid,
+        '사용자비밀번호': password,
+        '조회구분': queryCode,
+        '통화코드출력여부': showISO,
+        '계좌번호': accountNum,
+        '계좌비밀번호': accountPin,
+        '조회시작일': start,
+        '조회종료일': end,
+        '상품구분': type,
+        '계좌번호확장': accountExt,
+      };
+
+  CustomInput.from(dynamic input) {
+    idOrCert = input['로그인방식'] ?? '';
+    userid = input['사용자아이디'] ?? input['사용자이름'] ?? '';
+    password = input['사용자비밀번호'] ?? '';
+    queryCode = input['조회구분'] ?? '';
+    showISO = input['통화코드출력여부'] ?? '';
+    accountNum = input['계좌번호'] ?? '';
+    accountPin = input['계좌비밀번호'] ?? '';
+    start = input['조회시작일'] ?? '';
+    end = input['조회종료일'] ?? '';
+    type = input['상품구분'] ?? '';
+    accountExt = input['계좌번호확장'] ?? '';
+  }
+
+  @override
+  String toString() {
+    return json.toString();
+  }
+}
 
 // class Certificate {
 //   String 이름;
 //   String 만료일자;
 //   String 비밀번호;
 // }
+
+class CustomModule {
+  const CustomModule(this.firmName);
+  final String firmName;
+  @override
+  String toString() => firmName;
+}

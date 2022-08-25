@@ -35,7 +35,7 @@ class MtsController extends GetxController {
   loadMTSDataAndProcess(String bankPassword) async {
     Get.dialog(LoadingScreen());
     return await _service.fetchMTSData(
-      module: securitiesFirm.module,
+      module: CustomModule(securitiesFirm.module),
       userID: _userLoginID,
       password: _userLoginPW,
       passNum: bankPassword,

@@ -12,7 +12,7 @@ class AccountTransaction implements MTSInterface {
     this.end = '',
   }) : super();
 
-  final String module; // 금융사
+  final CustomModule module; // 금융사
   final String job = '거래내역조회';
   final String accountExt; // 계좌번호확장
   final String accountPin; // 계좌비밀번호
@@ -86,6 +86,9 @@ class AccountTransaction implements MTSInterface {
         return accounts;
     }
   }
+
+  @override
+  String toString() => json.toString();
 }
 
 // class AllTransaction {

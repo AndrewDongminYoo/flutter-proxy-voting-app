@@ -12,4 +12,7 @@ abstract class MTSInterface {
   Future post(List<String> output) {
     throw UnimplementedError();
   }
+
+  @override
+  String toString() => json.toString();
 }

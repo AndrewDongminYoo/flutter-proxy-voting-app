@@ -11,7 +11,7 @@ class LoginRequest implements MTSInterface {
     this.certPassword = '',
   });
 
-  final String module; // 금융사
+  final CustomModule module; // 금융사
   final String job = '로그인';
   final bool idLogin;
   final String username;
@@ -59,4 +59,7 @@ class LoginRequest implements MTSInterface {
       output.add('$key: $value');
     });
   }
+
+  @override
+  String toString() => json.toString();
 }

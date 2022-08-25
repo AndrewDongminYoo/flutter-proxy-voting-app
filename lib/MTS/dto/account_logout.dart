@@ -5,7 +5,7 @@ class LogoutRequest implements MTSInterface {
     this.module,
   );
 
-  final String module; // 금융사
+  final CustomModule module; // 금융사
   final String job = '로그아웃';
 
   @override
@@ -26,4 +26,7 @@ class LogoutRequest implements MTSInterface {
       output.add('$key: $value');
     });
   }
+
+  @override
+  String toString() => json.toString();
 }

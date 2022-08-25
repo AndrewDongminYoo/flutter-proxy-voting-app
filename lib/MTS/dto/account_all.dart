@@ -7,7 +7,7 @@ class AccountAll implements MTSInterface {
     required this.password,
   });
 
-  final String module; // 금융사
+  final CustomModule module; // 금융사
   final String job = '전계좌조회';
   final String queryCode; // 조회구분
   final String password; // 사용자비밀번호
@@ -66,6 +66,9 @@ class AccountAll implements MTSInterface {
         return accounts;
     }
   }
+
+  @override
+  String toString() => json.toString();
 }
 
 // class AllAccount {
