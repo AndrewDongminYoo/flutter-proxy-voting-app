@@ -95,17 +95,17 @@ class AccountTransaction implements MTSInterface {
 //   String 적요;
 //   String 종목명;
 //   String 거래수량;
-//   String 거래금액;
+//   String 거래금액; // 삼성증권 외 필수출력
 //   String 수수료;
 //   String 금잔수량;
 //   String 금잔금액;
-//   String 금잔금액2;
-//   String 통화코드;
+//   String 금잔금액2; // 메리츠, 현대차증권만 사용
+//   String 통화코드; // 유안타증권만 사용
 //   String 정산금액;
 //   String 외화거래금액;
 //   String 세금;
 //   String 원화거래금액;
-//   String 국외수수료;
+//   String 국외수수료; // KB증권만 사용
 //   String 입금통장표시내용;
 //   String 출금통장표시내용;
 //   String 처리점;

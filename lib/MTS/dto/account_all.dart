@@ -42,17 +42,19 @@ class AccountAll implements MTSInterface {
       case List:
         for (Map<String, dynamic> element in jobResult) {
           element.forEach((key, value) {
-            if (key == '계좌번호') {
-              if (!accounts.contains(value)) {
-                accounts.add(value);
-                output.add('$key: ${hypen(value)}');
+            if (element['총자산'] != '0') {
+              if (key == '계좌번호') {
+                if (!accounts.contains(value)) {
+                  accounts.add(value);
+                  output.add('$key: ${hypen(value)}');
+                }
+              } else if (key.contains('일자')) {
+                output.add('$key: ${dayOf(value)}');
+              } else if (key.contains('수익률')) {
+                output.add('$key: ${comma(value)}%');
+              } else {
+                output.add('$key: ${comma(value)}');
               }
-            } else if (key.contains('일자')) {
-              output.add('$key: ${dayOf(value)}');
-            } else if (key.contains('수익률')) {
-              output.add('$key: ${comma(value)}%');
-            } else {
-              output.add('$key: ${comma(value)}');
             }
           });
           if (output.last != '-') {

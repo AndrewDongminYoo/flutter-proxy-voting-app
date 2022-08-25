@@ -23,42 +23,36 @@ class CooconMTSService extends GetConnect {
   }) async {
     List<String> output = [];
     try {
-      await LoginRequest(
-        module,
-        idLogin: true,
-        username: userID,
-        password: password,
-        certExpire: '',
-      ).post(output);
+      await LoginRequest(module,
+              idLogin: true,
+              username: userID,
+              password: password,
+              certExpire: '')
+          .post(output);
       await AccountAll(
         module,
         password: passNum,
-        queryCode: '',
       ).post(output);
-      var accounts = await AccountStocks(
-        module,
-      ).post(output);
+      var accounts = await AccountStocks(module).post(output);
       for (String acc in accounts) {
         if (module == 'secCreon') {
           acc = processAcc(acc);
         }
-        await AccountDetail(
-          module,
-          accountNum: acc,
-          accountPin: passNum,
-          queryCode: code,
-          showISO: unit,
-        ).post(output);
+        await AccountDetail(module,
+                accountNum: acc,
+                accountPin: passNum,
+                queryCode: code,
+                showISO: unit)
+            .post(output);
       }
       for (String acc in accounts) {
-        await AccountTransaction(
-          module,
-          accountNum: acc,
-          accountPin: passNum,
-          accountExt: '',
-          accountType: '1',
-          queryCode: '1',
-        ).post(output);
+        await AccountTransaction(module,
+                accountNum: acc,
+                accountPin: passNum,
+                accountExt: '',
+                accountType: '1',
+                queryCode: '1')
+            .post(output);
       }
     } catch (e, t) {
       FirebaseCrashlytics.instance.recordError(e, t);

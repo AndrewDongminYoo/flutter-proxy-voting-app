@@ -49,17 +49,19 @@ class AccountDetail implements MTSInterface {
       case List:
         for (Map<String, dynamic> element in jobResult) {
           element.forEach((key, value) {
-            if (key == '계좌번호') {
-              if (!accounts.contains(value)) {
-                accounts.add(value);
-                output.add('$key: ${hypen(value)}');
+            if (element['상품유형코드'] == '01' || element['상품명'].contains('주식')) {
+              if (key == '계좌번호') {
+                if (!accounts.contains(value)) {
+                  accounts.add(value);
+                  output.add('$key: ${hypen(value)}');
+                }
+              } else if (key.endsWith('일자')) {
+                output.add('$key: ${dayOf(value)}');
+              } else if (key == '수익률') {
+                output.add('$key: ${comma(value)}%');
+              } else if (!key.contains('코드')) {
+                output.add('$key: ${comma(value)}');
               }
-            } else if (key.contains('일자')) {
-              output.add('$key: ${dayOf(value)}');
-            } else if (key.contains('수익률')) {
-              output.add('$key: ${comma(value)}%');
-            } else if (!key.contains('코드')) {
-              output.add('$key: ${comma(value)}');
             }
           });
           if (output.last != '-') {
