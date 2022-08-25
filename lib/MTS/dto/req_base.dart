@@ -5,7 +5,7 @@ import 'dart:convert';
 import '../../utils/channel.dart';
 import '../mts.dart';
 
-class CustomRequest {
+class CustomRequest implements InputOutput {
   CustomRequest({
     required this.Module,
     required this.Job,
@@ -18,7 +18,7 @@ class CustomRequest {
   final String Job;
   final CustomInput Input;
 
-  dynamic get data => {
+  Map<String, dynamic> get data => {
         'Module': Module.toString(),
         'Job': Job,
         'Class': Class,
@@ -30,51 +30,6 @@ class CustomRequest {
     String? response = await channel.invokeMethod('getMTSData', {'data': data});
     dynamic json = jsonDecode(response!);
     return CustomResponse.from(json);
-  }
-
-  Future<Set<String>> collectResult(List<String> output) async {
-    CustomResponse response = await fetch();
-    await response.fetchDataAndUploadFB();
-    Set<String> accounts = {};
-    output.add('=====================================');
-    dynamic jobResult = response.Output.Result[Job];
-    switch (jobResult.runtimeType) {
-      case List:
-        for (Map<String, dynamic> element in jobResult) {
-          element.forEach((key, value) {
-            if (key == '계좌번호') {
-              if (!accounts.contains(value)) {
-                accounts.add(value);
-                output.add('$key: ${hypen(value)}');
-              }
-            } else if (key.contains('일자')) {
-              output.add('$key: ${dayOf(value)}');
-            } else if (key.contains('수익률')) {
-              output.add('$key: ${comma(value)}%');
-            } else if (key != '상품코드') {
-              output.add('$key: ${comma(value)}');
-            }
-          });
-          if (output.last != '-') {
-            output.add('-');
-          }
-        }
-        return accounts;
-      case Map:
-        jobResult.forEach((key, value) {
-          if (key == '계좌번호') {
-            if (!accounts.contains(value)) {
-              accounts.add(value);
-              output.add('$key: ${hypen(value)}');
-            }
-          } else {
-            output.add('$key: ${comma(value)}');
-          }
-        });
-        return accounts;
-      default:
-        return accounts;
-    }
   }
 
   @override

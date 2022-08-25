@@ -16,3 +16,15 @@ abstract class MTSInterface {
   @override
   String toString() => json.toString();
 }
+
+abstract class IOBase {
+  IOBase();
+  get json {}
+  IOBase.from();
+}
+
+abstract class InputOutput {
+  InputOutput();
+  get data;
+  fetch() async {}
+}

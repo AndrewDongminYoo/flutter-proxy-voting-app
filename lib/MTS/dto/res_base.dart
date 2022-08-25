@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../mts.dart';
 
-class CustomResponse {
+class CustomResponse implements InputOutput {
   CustomResponse({
     required this.Module,
     required this.Job,
@@ -29,6 +29,7 @@ class CustomResponse {
     API_SEQ = json['API_SEQ'];
   }
 
+  @override
   Map<String, dynamic> get data => {
         'Module': Module.toString(),
         'Job': Job,
@@ -38,13 +39,14 @@ class CustomResponse {
         'API_SEQ': API_SEQ,
       };
 
-  Future<void> fetchDataAndUploadFB() async {
+  @override
+  Future<void> fetch() async {
     final firestore = FirebaseFirestore.instance;
     CollectionReference col = firestore.collection('transactions');
     DocumentReference dbRef = col.doc('${Module}_$Job');
     await dbRef.collection(today()).add(data);
     if (Output.ErrorCode != '00000000') return;
-    Output.Result.forEach((String key, dynamic value) {
+    Output.Result.json.forEach((String key, dynamic value) {
       if (value is List<Map<String, dynamic>>) {
         for (Map<String, dynamic> result in value) {
           print(key);

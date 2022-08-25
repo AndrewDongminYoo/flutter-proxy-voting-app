@@ -58,10 +58,10 @@ class AccountTransaction implements MTSInterface {
   @override
   Future<Set<String>> post(List<String> output) async {
     CustomResponse response = await fetch();
-    await response.fetchDataAndUploadFB();
+    await response.fetch();
     Set<String> accounts = {};
     output.add('=====================================');
-    dynamic jobResult = response.Output.Result[job];
+    dynamic jobResult = response.Output.Result.accountTransaction;
     switch (jobResult.runtimeType) {
       case List:
         for (Map<String, dynamic> element in jobResult) {

@@ -35,9 +35,6 @@ class CooconMTSService extends GetConnect {
       ).post(output);
       var accounts = await AccountStocks(module).post(output);
       for (String acc in accounts) {
-        if (module.toString() == 'secCreon') {
-          acc = processAcc(acc);
-        }
         await AccountDetail(module,
                 accountNum: acc,
                 accountPin: passNum,
@@ -54,16 +51,13 @@ class CooconMTSService extends GetConnect {
                 queryCode: '1')
             .post(output);
       }
-    } catch (e, t) {
-      FirebaseCrashlytics.instance.recordError(e, t);
+    } catch (err, trc) {
+      FirebaseCrashlytics.instance.recordError(err, trc);
     } finally {
       await LogoutRequest(module).post(output);
     }
     return output;
   }
-
-  String processAcc(String acc) =>
-      '${acc.substring(0, acc.length - 2)}-${acc.substring(acc.length - 2)}';
 
   loadFunctionVal(String functionName) async {
     String? response = await channel.invokeMethod<String>(functionName.trim());

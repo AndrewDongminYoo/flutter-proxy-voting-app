@@ -41,15 +41,15 @@ class AccountDetail implements MTSInterface {
   @override
   Future<Set<String>> post(List<String> output) async {
     CustomResponse response = await fetch();
-    await response.fetchDataAndUploadFB();
+    await response.fetch();
     Set<String> accounts = {};
     output.add('=====================================');
-    dynamic jobResult = response.Output.Result[job];
+    dynamic jobResult = response.Output.Result.accountDetail;
     switch (jobResult.runtimeType) {
       case List:
-        for (Map<String, dynamic> element in jobResult) {
+        for (Map<String, String> element in jobResult) {
           element.forEach((key, value) {
-            if (element['상품유형코드'] == '01' || element['상품명'].contains('주식')) {
+            if (element['상품유형코드'] == '01' || element['상품명']!.contains('주식')) {
               if (key == '계좌번호') {
                 if (!accounts.contains(value)) {
                   accounts.add(value);
