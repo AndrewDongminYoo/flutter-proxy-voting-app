@@ -11,31 +11,31 @@ class MtsController extends GetxController {
       : Get.put(MtsController());
   final CooconMTSService _service = CooconMTSService();
 
-  FIRM? _securitiesFirm;
+  CustomModule? _securitiesFirm;
   String _userLoginID = ''; // ID for login
   String _userLoginPW = ''; // PaSsWoRd!@#
 
-  FIRM get securitiesFirm {
+  CustomModule get securitiesFirm {
     if (_securitiesFirm != null) {
       return _securitiesFirm!;
     }
-    return FIRM('secShinhan', 0, '', '');
+    return CustomModule(firmName: 'secShinhan');
   }
 
   void setMTSFirm(dynamic firm) {
-    _securitiesFirm = FIRM.fromJson(firm);
+    _securitiesFirm = CustomModule.from(firm);
   }
 
   void setIDPW(String id, String password) {
     _userLoginID = id;
     _userLoginPW = password;
-    print('id: $id, password: $password, module: ${securitiesFirm.module}');
+    print('id: $id, password: $password, module: ${securitiesFirm.firmName}');
   }
 
   loadMTSDataAndProcess(String bankPassword) async {
     Get.dialog(LoadingScreen());
     return await _service.fetchMTSData(
-      module: CustomModule(securitiesFirm.module),
+      module: securitiesFirm,
       userID: _userLoginID,
       password: _userLoginPW,
       passNum: bankPassword,

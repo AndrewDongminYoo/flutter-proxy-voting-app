@@ -21,7 +21,7 @@ class CustomResponse implements InputOutput {
   late String API_SEQ;
 
   CustomResponse.from(Map<String, dynamic> json) {
-    Module = CustomModule(json['Module']);
+    Module = CustomModule(firmName: json['Module']);
     Class = json['Class'];
     Job = json['Job'];
     Input = json['Input'];
