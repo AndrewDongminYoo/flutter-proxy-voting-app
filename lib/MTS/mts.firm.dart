@@ -29,3 +29,10 @@ class FIRM {
         'name': _name,
       });
 }
+
+class CustomModule {
+  const CustomModule(this.firmName);
+  final String firmName;
+  @override
+  String toString() => firmName;
+}
