@@ -9,7 +9,7 @@ abstract class MTSInterface {
     throw UnimplementedError();
   }
 
-  Future<void> post() {
+  Future post(List<String> output) {
     throw UnimplementedError();
   }
 }

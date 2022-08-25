@@ -23,7 +23,7 @@ String sixAgo(String dDay) {
   return _formatter.format(monthAgo);
 }
 
-dynamic check(dynamic value) {
+dynamic comma(dynamic value) {
   if (value == null) return '0';
   if (value is String) {
     if (value.isEmpty) return '0';

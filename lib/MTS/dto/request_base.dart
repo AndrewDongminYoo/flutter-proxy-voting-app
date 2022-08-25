@@ -59,7 +59,9 @@ class CustomResponse {
           });
         }
       } else if (value is Map<String, dynamic>) {
-        print('$key: $value');
+        value.forEach((k1, v1) {
+          print('$k1: $v1');
+        });
       }
     });
   }
@@ -87,10 +89,54 @@ class CustomRequest {
 
   Future<CustomResponse> fetch() async {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
-    String? response =
-        await channel.invokeMethod<String>('getMTSData', {'data': data});
+    String? response = await channel.invokeMethod('getMTSData', {'data': data});
     dynamic json = jsonDecode(response!);
     return CustomResponse.from(json);
+  }
+
+  Future<Set<String>> collectResult(List<String> output) async {
+    CustomResponse response = await fetch();
+    await response.fetchDataAndUploadFB();
+    Set<String> accounts = {};
+    output.add('=====================================');
+    dynamic jobResult = response.Output.Result[Job];
+    switch (jobResult.runtimeType) {
+      case List:
+        for (Map<String, dynamic> element in jobResult) {
+          element.forEach((key, value) {
+            if (key == '계좌번호') {
+              if (!accounts.contains(value)) {
+                accounts.add(value);
+                output.add('$key: ${hypen(value)}');
+              }
+            } else if (key.contains('일자')) {
+              output.add('$key: ${dayOf(value)}');
+            } else if (key.contains('수익률')) {
+              output.add('$key: ${comma(value)}%');
+            } else if (key != '상품코드') {
+              output.add('$key: ${comma(value)}');
+            }
+          });
+          if (output.last != '-') {
+            output.add('-');
+          }
+        }
+        return accounts;
+      case Map:
+        jobResult.forEach((key, value) {
+          if (key == '계좌번호') {
+            if (!accounts.contains(value)) {
+              accounts.add(value);
+              output.add('$key: ${hypen(value)}');
+            }
+          } else {
+            output.add('$key: ${comma(value)}');
+          }
+        });
+        return accounts;
+      default:
+        return accounts;
+    }
   }
 }
 
@@ -104,16 +150,16 @@ class CustomRequest {
 //   String 예수금;
 //   String 외화예수금;
 //   String 평가금액;
-// }a
+// }
 
 class CustomOutput {
-  late String ErrorCode;
+  late String ErrorCode; // '00000000' 외에 모두 오류
   late String ErrorMessage;
   late Map<String, dynamic> Result;
 
   CustomOutput({
-    this.ErrorCode = '',
-    this.ErrorMessage = '',
+    this.ErrorCode = '00000000',
+    this.ErrorMessage = '오류 메세지',
     required this.Result,
   });
 
@@ -143,4 +189,10 @@ class CustomOutput {
 //   String 조회종료일;
 //   String 상품구분;
 //   String 계좌번호확장;
+// }
+
+// class Certificate {
+//   String 이름;
+//   String 만료일자;
+//   String 비밀번호;
 // }

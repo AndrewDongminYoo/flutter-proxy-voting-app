@@ -56,9 +56,35 @@ class AccountTransaction implements MTSInterface {
   }
 
   @override
-  Future<void> post() async {
-    CustomResponse response = await json.fetch();
-    response.fetchDataAndUploadFB();
+  Future<Set<String>> post(List<String> output) async {
+    CustomResponse response = await fetch();
+    await response.fetchDataAndUploadFB();
+    Set<String> accounts = {};
+    output.add('=====================================');
+    dynamic jobResult = response.Output.Result[job];
+    switch (jobResult.runtimeType) {
+      case List:
+        for (Map<String, dynamic> element in jobResult) {
+          element.forEach((key, value) {
+            if (key == '입금계좌번호') {
+              if (!accounts.contains(value)) {
+                accounts.add(value);
+                output.add('$key: ${hypen(value)}');
+              }
+            } else if (key.contains('거래일자')) {
+              output.add('$key: ${dayOf(value)}');
+            } else if (key != '통화코드') {
+              output.add('$key: ${comma(value)}');
+            }
+          });
+          if (output.last != '-') {
+            output.add('-');
+          }
+        }
+        return accounts;
+      default:
+        return accounts;
+    }
   }
 }
 
