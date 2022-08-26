@@ -18,6 +18,7 @@ class CustomRequest implements InputOutput {
   final String Job;
   final CustomInput Input;
 
+  @override
   Map<String, dynamic> get data => {
         'Module': Module.toString(),
         'Job': Job,
@@ -25,6 +26,7 @@ class CustomRequest implements InputOutput {
         'Input': Input.json,
       };
 
+  @override
   Future<CustomResponse> fetch() async {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
     String? response = await channel.invokeMethod('getMTSData', {'data': data});

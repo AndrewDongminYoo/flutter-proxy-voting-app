@@ -22,8 +22,8 @@ class MtsController extends GetxController {
     return CustomModule(firmName: 'secShinhan');
   }
 
-  void setMTSFirm(dynamic firm) {
-    _securitiesFirm = CustomModule.from(firm);
+  void setMTSFirm(CustomModule firm) {
+    _securitiesFirm = firm;
   }
 
   void setIDPW(String id, String password) {

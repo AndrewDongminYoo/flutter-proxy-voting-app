@@ -16,10 +16,10 @@ class MtsPage extends StatefulWidget {
 class _MtsPageState extends State<MtsPage> {
   final MtsController _controller = MtsController.get();
 
-  _onPressed(dynamic firm) {
-    print(firm['module']);
+  _onPressed(CustomModule firm) {
+    print(firm.firmName);
     _controller.setMTSFirm(firm);
-    goToMtsLink(firm['module']);
+    goToMtsLink(firm.firmName);
   }
 
   @override
@@ -49,7 +49,7 @@ class _MtsPageState extends State<MtsPage> {
                     crossAxisCount: 3,
                   ),
                   itemBuilder: (_, int index) {
-                    dynamic firm = stockTradingFirms[index];
+                    CustomModule firm = stockTradingFirms[index];
                     return InkWell(
                       onTap: () => _onPressed(firm),
                       child: Container(
@@ -66,7 +66,7 @@ class _MtsPageState extends State<MtsPage> {
                           child: Column(
                             children: [
                               CustomText(
-                                text: firm['name'],
+                                text: firm.korName,
                                 typoType: TypoType.bodySmaller,
                               ),
                               const SizedBox(height: 8),
@@ -74,7 +74,7 @@ class _MtsPageState extends State<MtsPage> {
                                 radius: 20,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child: Image.asset(firm['image'] ?? ''),
+                                  child: Image.asset(firm.logoImage),
                                 ),
                               ),
                             ],

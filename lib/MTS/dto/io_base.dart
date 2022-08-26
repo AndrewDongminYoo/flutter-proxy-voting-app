@@ -13,6 +13,7 @@ class Certificate implements IOBase {
     required this.certPassword,
   });
 
+  @override
   Map<String, dynamic> get json => {
         '이름': certName,
         '만료일자': certExpire,
@@ -37,6 +38,7 @@ class CustomOutput implements IOBase {
     Result = CustomResult.from(output['Result']);
   }
 
+  @override
   Map<String, dynamic> get json => {
         'ErrorCode': ErrorCode,
         'ErrorMessage': ErrorMessage,
@@ -75,6 +77,7 @@ class CustomInput implements IOBase {
     this.accountExt = '', //계좌번호확장
   });
 
+  @override
   Map<String, dynamic> get json {
     Map<String, dynamic> input = {
       '로그인방식': idOrCert,
@@ -144,6 +147,7 @@ class CustomResult implements IOBase {
     accountTransaction = output['거래내역조회'] ?? [];
   }
 
+  @override
   Map<String, dynamic> get json {
     Map<String, dynamic> result = {
       '사용자아이디': username,
