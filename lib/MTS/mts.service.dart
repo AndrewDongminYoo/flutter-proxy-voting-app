@@ -14,19 +14,25 @@ class CooconMTSService extends GetConnect {
     required CustomModule module,
     required String userID,
     required String password,
+    required String passNum,
+    required bool idLogin,
     String start = '',
     String end = '',
     String code = '',
     String unit = '',
-    required String passNum,
+    String certExpire = '',
+    String certUsername = '',
+    String certPassword = '',
   }) async {
     List<String> output = [];
     try {
       await LoginRequest(module,
-              idLogin: true,
+              idLogin: idLogin,
               username: userID,
               password: password,
-              certExpire: '')
+              certExpire: certExpire,
+              certPassword: certPassword,
+              certUsername: certUsername)
           .post(output);
       await AccountAll(
         module,

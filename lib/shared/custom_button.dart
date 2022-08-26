@@ -15,6 +15,7 @@ class CustomButton extends ClipRRect {
   final CustomW width;
   final double height;
   final double fontSize;
+  final bool disabled;
   final Function() onPressed;
 
   CustomButton({
@@ -26,17 +27,18 @@ class CustomButton extends ClipRRect {
     this.height = 55.0,
     required this.label,
     required this.onPressed,
+    this.disabled = false,
   }) : super(
           key: key,
           borderRadius: BorderRadius.circular(28.0),
           child: Material(
             child: InkWell(
-              onTap: onPressed,
+              onTap: disabled ? null : onPressed,
               child: Ink(
                 height: height,
                 width: customW[width],
                 decoration: BoxDecoration(
-                  color: customColor[bgColor],
+                  color: customColor[disabled ? ColorType.grey : bgColor],
                   borderRadius: BorderRadius.circular(28.0),
                 ),
                 child: Center(
