@@ -32,7 +32,7 @@ class AccountStocks implements MTSInterface {
             if (element['상품코드'] == '01') {
               switch (key) {
                 case '계좌번호':
-                  if (module.toString() == 'secCreon') {
+                  if (module.isException) {
                     value = processAcc(value);
                   }
                   if (!accounts.contains(value)) {

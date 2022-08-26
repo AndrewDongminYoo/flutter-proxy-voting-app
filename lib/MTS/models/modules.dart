@@ -188,6 +188,7 @@ CustomModule secCreon = CustomModule.from({
   'name': '크레온증권',
   'image': 'assets/firm_images/금융아이콘_PNG_크레온.png',
   '아이디로그인여부': true,
+  '계좌번호이상여부': true,
 });
 
 List<CustomModule> stockTradingFirms = [
