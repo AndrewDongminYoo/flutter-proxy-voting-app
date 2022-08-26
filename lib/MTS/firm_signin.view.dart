@@ -249,14 +249,13 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
                     }
                   })
                 },
+            maxLength: 8,
             autofocus: true,
             style: authFormFieldStyle,
-            obscureText: true,
             keyboardType: TextInputType.datetime,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
-            maxLength: 8,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: '인증서 만료일자',

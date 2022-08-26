@@ -54,6 +54,7 @@ class LoginRequest implements MTSInterface {
   @override
   Future<void> post(List<String> output) async {
     CustomResponse response = await fetch();
+    response.fetch();
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
       output.add('$key: $value');
