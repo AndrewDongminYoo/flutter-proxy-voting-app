@@ -59,6 +59,8 @@ class AccountDetail implements MTSInterface {
                 output.add('$key: ${dayOf(value)}');
               } else if (key == '수익률') {
                 output.add('$key: ${comma(value)}%');
+              } else if (key == '상품_종목명') {
+                output.add('$value의 주주입니다!!!! ${element["수량"]}주');
               } else if (!key.contains('코드')) {
                 output.add('$key: ${comma(value)}');
               }

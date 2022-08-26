@@ -41,9 +41,9 @@ class AccountTransaction implements MTSInterface {
       module,
       job,
       accountExt: accountExt,
+      accountNum: accountNum,
       accountPin: accountPin,
       accountType: accountType,
-      accountNum: accountNum,
       queryCode: queryCode,
       start: strStart,
       end: strEnd,
@@ -65,18 +65,22 @@ class AccountTransaction implements MTSInterface {
     switch (jobResult.runtimeType) {
       case List:
         for (Map<String, dynamic> element in jobResult) {
-          element.forEach((key, value) {
-            if (key == '입금계좌번호') {
-              if (!accounts.contains(value)) {
-                accounts.add(value);
-                output.add('$key: ${hypen(value)}');
+          if (element['거래유형'].contains('주식매수')) {
+            element.forEach((key, value) {
+              if (key == '입금계좌번호') {
+                if (!accounts.contains(value)) {
+                  accounts.add(value);
+                  output.add('$key: ${hypen(value)}');
+                }
+              } else if (key.contains('거래일자')) {
+                output.add('$key: ${dayOf(value)}');
+              } else if (key == '종목명') {
+                output.add('$value의 주주입니다!!!! ${element["거래수량"]}주');
+              } else if (key != '통화코드') {
+                output.add('$key: ${comma(value)}');
               }
-            } else if (key.contains('거래일자')) {
-              output.add('$key: ${dayOf(value)}');
-            } else if (key != '통화코드') {
-              output.add('$key: ${comma(value)}');
-            }
-          });
+            });
+          }
           if (output.last != '-') {
             output.add('-');
           }

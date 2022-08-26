@@ -10,7 +10,6 @@ import '../utils/channel.dart';
 import 'mts.dart';
 
 class CooconMTSService extends GetConnect {
-  // TODO: interface를 구성하여 module별로 각기 다른 비즈니스 로직이 들어갈수 있게 확장 필요
   fetchMTSData({
     required CustomModule module,
     required String userID,
@@ -47,7 +46,7 @@ class CooconMTSService extends GetConnect {
                 accountNum: acc,
                 accountPin: passNum,
                 accountExt: '',
-                accountType: '1',
+                accountType: '01',
                 queryCode: '1')
             .post(output);
       }
