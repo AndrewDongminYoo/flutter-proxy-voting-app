@@ -1,4 +1,4 @@
-import 'dto/dto.dart';
+import '../dto/dto.dart';
 
 abstract class MTSInterface {
   CustomRequest get json {

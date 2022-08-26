@@ -1,5 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
-import 'mts.dart';
+import '../mts.dart';
 
 CustomRequest? makeFunction(
   CustomModule Module,
