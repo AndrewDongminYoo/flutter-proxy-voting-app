@@ -1,10 +1,6 @@
-class CustomModule {
-  CustomModule({
-    required this.firmName,
-    this.korName = '',
-    this.logoImage = '',
-  });
+import '../mts.dart';
 
+class CustomModule {
   late String firmName;
   late String korName;
   late String logoImage;
@@ -21,4 +17,7 @@ class CustomModule {
     canLoginWithID = map['아이디로그인여부'] ?? true;
     isException = map['계좌번호이상여부'] ?? false;
   }
+
+  static get(String name) =>
+      stockTradingFirms.firstWhere((firm) => firm.firmName == name);
 }

@@ -38,7 +38,7 @@ class CooconMTSService extends GetConnect {
         module,
         password: passNum,
       ).post(output);
-      var accounts = await AccountStocks(module).post(output);
+      Set<String> accounts = await AccountStocks(module).post(output);
       for (String acc in accounts) {
         await AccountDetail(module,
                 accountNum: acc,

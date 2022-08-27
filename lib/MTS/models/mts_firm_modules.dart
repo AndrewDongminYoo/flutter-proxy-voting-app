@@ -244,5 +244,5 @@ List<CustomModule> stockTradingFirms = [
   secEBest,
   secKorea,
   secShinyoung,
-  secCreon,
+  secCreon
 ];

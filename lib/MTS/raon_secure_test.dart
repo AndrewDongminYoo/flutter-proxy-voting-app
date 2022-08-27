@@ -4,14 +4,14 @@ import '../shared/custom_appbar.dart';
 import '../shared/custom_button.dart';
 import 'mts.controller.dart';
 
-class SecureCheck extends StatefulWidget {
-  const SecureCheck({Key? key}) : super(key: key);
+class RaonSecureTest extends StatefulWidget {
+  const RaonSecureTest({Key? key}) : super(key: key);
 
   @override
-  State<SecureCheck> createState() => _SecureCheckState();
+  State<RaonSecureTest> createState() => _RaonSecureTestState();
 }
 
-class _SecureCheckState extends State<SecureCheck> {
+class _RaonSecureTestState extends State<RaonSecureTest> {
   final MtsController _mtsController = MtsController.get();
   String functionName = '';
   String returnValue = '';

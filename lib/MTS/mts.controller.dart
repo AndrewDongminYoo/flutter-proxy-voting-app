@@ -21,7 +21,7 @@ class MtsController extends GetxController {
 
   CustomModule get securitiesFirm {
     while (_securitiesFirm == null) {
-      goToMtsChoice();
+      goToMtsFirmChoice();
     }
     return _securitiesFirm!;
   }
@@ -34,7 +34,8 @@ class MtsController extends GetxController {
     _userLoginID = id;
     _userLoginPW = password;
     _bankPINNumber = bankPIN;
-    print('id: $id, password: $password, module: ${securitiesFirm.firmName}');
+    String module = securitiesFirm.firmName;
+    print('id: $id, password: $password, module: $module');
   }
 
   void setCERT(String id, String pw, String ex) {
