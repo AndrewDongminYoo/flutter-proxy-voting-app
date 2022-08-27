@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
@@ -11,6 +12,7 @@ class MtsController extends GetxController {
       : Get.put(MtsController());
   final CooconMTSService _service = CooconMTSService();
 
+  final List<Text> texts = [];
   CustomModule? _securitiesFirm;
   String _userLoginID = ''; // 사용자 아이디
   String _userLoginPW = ''; // 사용자 비밀번호
@@ -45,9 +47,9 @@ class MtsController extends GetxController {
     print('id: $id, password: $pw, expired: $ex');
   }
 
-  loadMTSDataAndProcess() async {
+  loadMTSProcess() async {
     Get.dialog(LoadingScreen());
-    return await _service.fetchMTSData(
+    await _service.fetchMTSData(
       module: securitiesFirm,
       userID: _userLoginID,
       password: _userLoginPW,
@@ -61,5 +63,18 @@ class MtsController extends GetxController {
 
   getTheResult(String functionName) async {
     return await _service.loadFunctionVal(functionName);
+  }
+
+  Future<void> showMTSResult() async {
+    await loadMTSProcess();
+    Get.isDialogOpen! ? goBack() : null;
+    Get.bottomSheet(Container(
+        padding: const EdgeInsets.all(36),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30),
+            )),
+        child: ListView(children: texts)));
   }
 }

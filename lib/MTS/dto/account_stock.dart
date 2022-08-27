@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+
 import '../mts.dart';
 
 class AccountStocks implements MTSInterface {
-  const AccountStocks(
+  AccountStocks(
     this.module,
   );
 
@@ -19,11 +21,11 @@ class AccountStocks implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(List<String> output) async {
+  Future<Set<String>> post() async {
     CustomResponse response = await fetch();
     await response.fetch();
     Set<String> accounts = {};
-    output.add('=====================================');
+    addResult('====================================');
     dynamic jobResult = response.Output.Result.accountStock;
     switch (jobResult.runtimeType) {
       case List:
@@ -37,15 +39,13 @@ class AccountStocks implements MTSInterface {
                   }
                   if (!accounts.contains(value)) {
                     accounts.add(value);
-                    output.add('$key: ${hypen(value)}');
+                    addResult('$key: ${hypen(value)}');
                   }
                   break;
               }
             }
           });
-          if (output.last != '-') {
-            output.add('-');
-          }
+          addResult('-');
         }
         return accounts;
       default:
@@ -55,6 +55,16 @@ class AccountStocks implements MTSInterface {
 
   @override
   String toString() => json.toString();
+
+  @override
+  late List<Text> result = MtsController.get().texts;
+
+  @override
+  addResult(String value) {
+    if ((result.isNotEmpty && result.last.data != value) || (result.isEmpty)) {
+      result.add(Text(value));
+    }
+  }
 }
 
 // class StockAccount {

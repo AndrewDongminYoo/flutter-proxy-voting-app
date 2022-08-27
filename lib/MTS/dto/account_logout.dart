@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+
 import '../mts.dart';
 
 class LogoutRequest implements MTSInterface {
-  const LogoutRequest(
+  LogoutRequest(
     this.module,
   );
 
@@ -19,14 +21,24 @@ class LogoutRequest implements MTSInterface {
   }
 
   @override
-  Future<void> post(List<String> output) async {
+  Future<void> post() async {
     CustomResponse response = await fetch();
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
-      output.add('$key: $value');
+      addResult('$key: $value');
     });
   }
 
   @override
   String toString() => json.toString();
+
+  @override
+  late List<Text> result = MtsController.get().texts;
+
+  @override
+  addResult(String value) {
+    if ((result.isNotEmpty && result.last.data != value) || (result.isEmpty)) {
+      result.add(Text(value));
+    }
+  }
 }

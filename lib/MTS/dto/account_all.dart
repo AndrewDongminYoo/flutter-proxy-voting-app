@@ -1,7 +1,9 @@
+import 'package:flutter/src/widgets/text.dart';
+
 import '../mts.dart';
 
 class AccountAll implements MTSInterface {
-  const AccountAll(
+  AccountAll(
     this.module, {
     this.queryCode = 'S',
     required this.password,
@@ -32,11 +34,11 @@ class AccountAll implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(List<String> output) async {
+  Future<Set<String>> post() async {
     CustomResponse response = await fetch();
     await response.fetch();
     Set<String> accounts = {};
-    output.add('=====================================');
+    addResult('====================================');
     dynamic jobResult = response.Output.Result.accountAll;
     switch (jobResult.runtimeType) {
       case List:
@@ -46,20 +48,18 @@ class AccountAll implements MTSInterface {
               if (key == '계좌번호') {
                 if (!accounts.contains(value)) {
                   accounts.add(value);
-                  output.add('$key: ${hypen(value)}');
+                  addResult('$key: ${hypen(value)}');
                 }
               } else if (key.contains('일자')) {
-                output.add('$key: ${dayOf(value)}');
+                addResult('$key: ${dayOf(value)}');
               } else if (key.contains('수익률')) {
-                output.add('$key: ${comma(value)}%');
+                addResult('$key: ${comma(value)}%');
               } else {
-                output.add('$key: ${comma(value)}');
+                addResult('$key: ${comma(value)}');
               }
             }
           });
-          if (output.last != '-') {
-            output.add('-');
-          }
+          addResult('-');
         }
         return accounts;
       default:
@@ -69,6 +69,16 @@ class AccountAll implements MTSInterface {
 
   @override
   String toString() => json.toString();
+
+  @override
+  late List<Text> result = MtsController.get().texts;
+
+  @override
+  addResult(String value) {
+    if ((result.isNotEmpty && result.last.data != value) || (result.isEmpty)) {
+      result.add(Text(value));
+    }
+  }
 }
 
 // class AllAccount {

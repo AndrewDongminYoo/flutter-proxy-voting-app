@@ -64,9 +64,9 @@ class _MtsPageState extends State<MtsPage> {
                                 ),
                                 //  POINT: BoxDecoration
                                 child: Column(children: [
-                                  CustomText(
-                                    text: firm.korName,
-                                    typoType: TypoType.bodySmaller,
+                                  Text(
+                                    firm.korName,
+                                    style: const TextStyle(fontSize: 12),
                                   ),
                                   const SizedBox(height: 8),
                                   CircleAvatar(

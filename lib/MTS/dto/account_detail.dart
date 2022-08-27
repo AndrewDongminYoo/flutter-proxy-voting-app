@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+
 import '../mts.dart';
 
 class AccountDetail implements MTSInterface {
-  const AccountDetail(
+  AccountDetail(
     this.module, {
     required this.accountNum,
     required this.accountPin,
@@ -39,11 +41,11 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(List<String> output) async {
+  Future<Set<String>> post() async {
     CustomResponse response = await fetch();
     await response.fetch();
     Set<String> accounts = {};
-    output.add('=====================================');
+    addResult('====================================');
     dynamic jobResult = response.Output.Result.accountDetail;
     switch (jobResult.runtimeType) {
       case List:
@@ -53,22 +55,20 @@ class AccountDetail implements MTSInterface {
               if (key == '계좌번호') {
                 if (!accounts.contains(value)) {
                   accounts.add(value);
-                  output.add('$key: ${hypen(value)}');
+                  addResult('$key: ${hypen(value)}');
                 }
               } else if (key.endsWith('일자')) {
-                output.add('$key: ${dayOf(value)}');
+                addResult('$key: ${dayOf(value)}');
               } else if (key == '수익률') {
-                output.add('$key: ${comma(value)}%');
+                addResult('$key: ${comma(value)}%');
               } else if (key == '상품_종목명') {
-                output.add('$value의 주주입니다!!!! ${element["수량"]}주');
+                addResult('$value의 주주입니다!!!! ${element["수량"]}주');
               } else if (!key.contains('코드')) {
-                output.add('$key: ${comma(value)}');
+                addResult('$key: ${comma(value)}');
               }
             }
           });
-          if (output.last != '-') {
-            output.add('-');
-          }
+          addResult('-');
         }
         return accounts;
       default:
@@ -78,6 +78,16 @@ class AccountDetail implements MTSInterface {
 
   @override
   String toString() => json.toString();
+
+  @override
+  late List<Text> result = MtsController.get().texts;
+
+  @override
+  addResult(String value) {
+    if ((result.isNotEmpty && result.last.data != value) || (result.isEmpty)) {
+      result.add(Text(value));
+    }
+  }
 }
 
 // class DetailAccount {

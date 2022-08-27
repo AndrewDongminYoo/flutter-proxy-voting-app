@@ -24,7 +24,6 @@ class CooconMTSService extends GetConnect {
     String certUsername = '',
     String certPassword = '',
   }) async {
-    List<String> output = [];
     try {
       await LoginRequest(module,
               idLogin: idLogin,
@@ -33,19 +32,19 @@ class CooconMTSService extends GetConnect {
               certExpire: certExpire,
               certPassword: certPassword,
               certUsername: certUsername)
-          .post(output);
+          .post();
       await AccountAll(
         module,
         password: passNum,
-      ).post(output);
-      Set<String> accounts = await AccountStocks(module).post(output);
+      ).post();
+      Set<String> accounts = await AccountStocks(module).post();
       for (String acc in accounts) {
         await AccountDetail(module,
                 accountNum: acc,
                 accountPin: passNum,
                 queryCode: code,
                 showISO: unit)
-            .post(output);
+            .post();
       }
       for (String acc in accounts) {
         await AccountTransaction(module,
@@ -54,14 +53,13 @@ class CooconMTSService extends GetConnect {
                 accountExt: '',
                 accountType: '01',
                 queryCode: '1')
-            .post(output);
+            .post();
       }
     } catch (err, trc) {
       FirebaseCrashlytics.instance.recordError(err, trc);
     } finally {
-      await LogoutRequest(module).post(output);
+      await LogoutRequest(module).post();
     }
-    return output;
   }
 
   loadFunctionVal(String functionName) async {

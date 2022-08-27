@@ -47,33 +47,13 @@ class _SecuritiesPageState extends State<SecuritiesPage> {
 
   _onIDLoginPressed() async {
     _mtsController.setIDPW(_securitiesID, _securitiesPW, _passNum);
-    List<String> res = await _mtsController.loadMTSDataAndProcess();
-    List<Text> children = res.map((e) => Text(e)).toList();
-    Get.isDialogOpen! ? goBack() : null;
-    Get.bottomSheet(Container(
-        padding: const EdgeInsets.all(36),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            )),
-        child: ListView(children: children)));
+    await _mtsController.showMTSResult();
   }
 
   _onCERTLoginPressed() async {
     _mtsController.setCERT(
         _certificationID, _certificationPW, _certificationEX);
-    List<String> res = await _mtsController.loadMTSDataAndProcess();
-    List<Text> children = res.map((e) => Text(e)).toList();
-    Get.isDialogOpen! ? goBack() : null;
-    Get.bottomSheet(Container(
-        padding: const EdgeInsets.all(36),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            )),
-        child: ListView(children: children)));
+    await _mtsController.showMTSResult();
   }
 
   @override

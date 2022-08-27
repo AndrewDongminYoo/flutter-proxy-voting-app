@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
+
 import '../dto/dto.dart';
 
 abstract class MTSInterface {
+  List<Text> result = [];
+
   CustomRequest get json {
     throw UnimplementedError();
   }
@@ -9,12 +13,16 @@ abstract class MTSInterface {
     throw UnimplementedError();
   }
 
-  Future post(List<String> output) {
+  Future post() {
     throw UnimplementedError();
   }
 
   @override
   String toString() => json.toString();
+
+  addResult(String value) {
+    result.add(Text(value));
+  }
 }
 
 abstract class IOBase {
