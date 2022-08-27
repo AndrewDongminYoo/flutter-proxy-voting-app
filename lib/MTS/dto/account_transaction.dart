@@ -75,7 +75,7 @@ class AccountTransaction implements MTSInterface {
               } else if (key.contains('거래일자')) {
                 output.add('$key: ${dayOf(value)}');
               } else if (key == '종목명') {
-                output.add('$value의 주주입니다!!!! ${element["거래수량"]}주');
+                output.add('$value의 주주입니다!!!!');
               } else if (key != '통화코드') {
                 output.add('$key: ${comma(value)}');
               }

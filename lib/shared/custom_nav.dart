@@ -17,7 +17,8 @@ goToIDNumber() => Get.toNamed('/idnumber');
 goToNotShareHolders() => Get.toNamed('/not-shareholder');
 goToDuplicate() => Get.toNamed('/duplicate');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
-goToMtsLink(String sec) => Get.toNamed('/mts-signin', arguments: sec);
+goToMtsChoice() => Get.toNamed('/mts');
+goToMtsLink(String sec) => Get.toNamed('/mts-signin');
 goToMtsCertification() => Get.toNamed('/mts-cert');
 goToPreviewCampaign() => Get.toNamed('/preview');
 

@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../auth/widget/loading_screen.dart' show LoadingScreen;
+import '../shared/shared.dart';
 import 'mts.dart';
 
 class MtsController extends GetxController {
@@ -12,18 +12,18 @@ class MtsController extends GetxController {
   final CooconMTSService _service = CooconMTSService();
 
   CustomModule? _securitiesFirm;
-  String _userLoginID = ''; // ID for login
-  String _userLoginPW = ''; // PaSsWoRd!@#
-  String _bankPINNumber = '';
-  String _certificationID = '';
-  String _certificationPW = '';
-  String _certificationEX = '';
+  String _userLoginID = ''; // 사용자 아이디
+  String _userLoginPW = ''; // 사용자 비밀번호
+  String _bankPINNumber = ''; // 사용자 핀번호(4)
+  String _certificationID = ''; // 인증서 상세이름
+  String _certificationPW = ''; // 인증서 비밀번호
+  String _certificationEX = ''; // 인증서 만료일자
 
   CustomModule get securitiesFirm {
-    if (_securitiesFirm != null) {
-      return _securitiesFirm!;
+    while (_securitiesFirm == null) {
+      goToMtsChoice();
     }
-    return CustomModule(firmName: 'secShinhan');
+    return _securitiesFirm!;
   }
 
   void setMTSFirm(CustomModule firm) {

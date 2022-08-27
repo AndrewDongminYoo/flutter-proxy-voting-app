@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_nav.dart';
+import '../shared/shared.dart';
 import '../utils/utils.dart';
 import 'auth.dart';
 

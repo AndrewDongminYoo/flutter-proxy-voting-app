@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../auth/widget/loading_screen.dart';
+import '../shared/loading_screen.dart';
 import '../campaign/campaign.dart';
 import '../shared/custom_nav.dart';
 import '../utils/utils.dart';
