@@ -35,9 +35,9 @@ class Message {
 
   @override
   String toString() {
-    var output = StringBuffer();
-    var colors = useColors && _errorColors.containsKey(level);
-    var levelColor = colors ? _errorColors[level] : null;
+    StringBuffer output = StringBuffer();
+    bool colors = useColors && _errorColors.containsKey(level);
+    String? levelColor = colors ? _errorColors[level] : null;
     if (colors) output.write(levelColor);
     output
       ..write(_errorLabel[level])
@@ -66,7 +66,7 @@ class Messages {
       : options = options ?? const PreprocessorOptions();
 
   void error(String message, SourceSpan? span) {
-    var msg = Message(MessageLevel.severe, message,
+    Message msg = Message(MessageLevel.severe, message,
         span: span, useColors: options.useColors);
 
     messages.add(msg);
@@ -78,7 +78,7 @@ class Messages {
     if (options.warningsAsErrors) {
       error(message, span);
     } else {
-      var msg = Message(MessageLevel.warning, message,
+      Message msg = Message(MessageLevel.warning, message,
           span: span, useColors: options.useColors);
 
       messages.add(msg);
@@ -86,7 +86,7 @@ class Messages {
   }
 
   void info(String message, SourceSpan span) {
-    var msg = Message(MessageLevel.info, message,
+    Message msg = Message(MessageLevel.info, message,
         span: span, useColors: options.useColors);
 
     messages.add(msg);

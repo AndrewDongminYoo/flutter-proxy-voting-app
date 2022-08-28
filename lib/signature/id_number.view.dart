@@ -8,7 +8,7 @@ import 'package:get/get.dart' show Get, GetNavigation;
 import '../auth/auth.controller.dart';
 import '../shared/shared.dart';
 import '../vote/vote.controller.dart';
-import 'sign_appbody.dart';
+import 'sign_appbody_widget.dart';
 
 class TakeBackNumberPage extends StatefulWidget {
   const TakeBackNumberPage({Key? key}) : super(key: key);
@@ -43,10 +43,10 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
 
   @override
   Widget build(BuildContext context) {
-    var helpText = '주민등록번호를 입력해주세요.';
-    var informationString =
+    String helpText = '주민등록번호를 입력해주세요.';
+    String informationString =
         '입력해주신 주민등록번호는 안전하게 암호화되며 주주명부 확인 및 위임장 작성 용도 이외에는 절대로 활용되지 않습니다. 해당 정보는 주주총회 이후 즉시 폐기됩니다.';
-    var mainContent = Expanded(
+    Expanded mainContent = Expanded(
         child: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +141,7 @@ class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
         ],
       ),
     ));
-    var subContentList = CustomButton(
+    CustomButton subContentList = CustomButton(
       label: '등록',
       onPressed: _onConfirmed,
     );

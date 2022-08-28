@@ -7,7 +7,7 @@ import 'src.dart';
 
 Map<String, List<String>> entitiesByFirstChar = (() {
   final result = <String, List<String>>{};
-  for (var k in entities.keys) {
+  for (String k in entities.keys) {
     result.putIfAbsent(k[0], () => []).add(k);
   }
   return result;
@@ -129,8 +129,8 @@ class HtmlTokenizer implements Iterator<Token> {
   }
 
   String consumeNumberEntity(bool isHex) {
-    var allowed = isDigit;
-    var radix = 10;
+    bool Function(String?) allowed = isDigit;
+    int radix = 10;
     if (isHex) {
       allowed = isHexDigit;
       radix = 16;
@@ -138,7 +138,7 @@ class HtmlTokenizer implements Iterator<Token> {
 
     final charStack = [];
 
-    var c = stream.char();
+    String? c = stream.char();
     while (allowed(c) && c != eof) {
       charStack.add(c);
       c = stream.char();
@@ -146,7 +146,7 @@ class HtmlTokenizer implements Iterator<Token> {
 
     final charAsInt = int.parse(charStack.join(), radix: radix);
 
-    var char = replacementCharacters[charAsInt];
+    String? char = replacementCharacters[charAsInt];
     if (char != null) {
       _addToken(ParseErrorToken('illegal-codepoint-for-numeric-entity',
           messageParams: {'charAsInt': charAsInt}));
@@ -221,7 +221,7 @@ class HtmlTokenizer implements Iterator<Token> {
         allowedChar == charStack[0]) {
       stream.unget(charStack[0]);
     } else if (charStack[0] == '#') {
-      var hex = false;
+      bool hex = false;
       charStack.add(stream.char());
       if (charStack.last == 'x' || charStack.last == 'X') {
         hex = true;
@@ -240,7 +240,8 @@ class HtmlTokenizer implements Iterator<Token> {
     } else {
       //
 
-      var filteredEntityList = entitiesByFirstChar[charStack[0]!] ?? const [];
+      List<String> filteredEntityList =
+          entitiesByFirstChar[charStack[0]!] ?? const [];
 
       while (charStack.last != eof) {
         final name = charStack.join();
@@ -321,7 +322,7 @@ class HtmlTokenizer implements Iterator<Token> {
         // ignore: prefer_collection_literals
         token.data = LinkedHashMap<Object, String>();
         if (_attributes != null) {
-          for (var attr in _attributes!) {
+          for (TagAttribute attr in _attributes!) {
             token.data.putIfAbsent(attr.name!, () => attr.value);
           }
           if (attributeSpans) token.attributeSpans = _attributes;
@@ -943,8 +944,8 @@ class HtmlTokenizer implements Iterator<Token> {
 
   bool attributeNameState() {
     final data = stream.char();
-    var leavingThisState = true;
-    var emitToken = false;
+    bool leavingThisState = true;
+    bool emitToken = false;
     if (data == '=') {
       state = beforeAttributeValueState;
     } else if (isLetter(data)) {
@@ -976,7 +977,7 @@ class HtmlTokenizer implements Iterator<Token> {
     if (leavingThisState) {
       _markAttributeNameEnd(-1);
 
-      var attrName = _attributeName.toString();
+      String attrName = _attributeName.toString();
       if (lowercaseAttrName) {
         attrName = attrName.toAsciiLowerCase();
       }
@@ -1174,7 +1175,7 @@ class HtmlTokenizer implements Iterator<Token> {
   }
 
   bool bogusCommentState() {
-    var data = stream.charsUntil('>');
+    String data = stream.charsUntil('>');
     data = data.replaceAll('\u0000', '\uFFFD');
     _addToken(CommentToken(data));
 
@@ -1193,8 +1194,8 @@ class HtmlTokenizer implements Iterator<Token> {
         return true;
       }
     } else if (charStack.last == 'd' || charStack.last == 'D') {
-      var matched = true;
-      for (var expected in const ['oO', 'cC', 'tT', 'yY', 'pP', 'eE']) {
+      bool matched = true;
+      for (String expected in const ['oO', 'cC', 'tT', 'yY', 'pP', 'eE']) {
         final char = stream.char();
         charStack.add(char);
         if (char == eof || !expected.contains(char!)) {
@@ -1212,8 +1213,8 @@ class HtmlTokenizer implements Iterator<Token> {
         parser!.tree.openElements.isNotEmpty &&
         parser!.tree.openElements.last.namespaceUri !=
             parser!.tree.defaultNamespace) {
-      var matched = true;
-      for (var expected in const ['C', 'D', 'A', 'T', 'A', '[']) {
+      bool matched = true;
+      for (String expected in const ['C', 'D', 'A', 'T', 'A', '[']) {
         charStack.add(stream.char());
         if (charStack.last != expected) {
           matched = false;
@@ -1435,7 +1436,7 @@ class HtmlTokenizer implements Iterator<Token> {
   }
 
   bool afterDoctypeNameState() {
-    var data = stream.char();
+    String? data = stream.char();
     if (isWhitespace(data)) {
       return true;
     } else if (data == '>') {
@@ -1449,8 +1450,8 @@ class HtmlTokenizer implements Iterator<Token> {
       state = dataState;
     } else {
       if (data == 'p' || data == 'P') {
-        var matched = true;
-        for (var expected in const ['uU', 'bB', 'lL', 'iI', 'cC']) {
+        bool matched = true;
+        for (String expected in const ['uU', 'bB', 'lL', 'iI', 'cC']) {
           data = stream.char();
           if (data == eof || !expected.contains(data!)) {
             matched = false;
@@ -1462,8 +1463,8 @@ class HtmlTokenizer implements Iterator<Token> {
           return true;
         }
       } else if (data == 's' || data == 'S') {
-        var matched = true;
-        for (var expected in const ['yY', 'sS', 'tT', 'eE', 'mM']) {
+        bool matched = true;
+        for (String expected in const ['yY', 'sS', 'tT', 'eE', 'mM']) {
           data = stream.char();
           if (data == eof || !expected.contains(data!)) {
             matched = false;
@@ -1761,9 +1762,9 @@ class HtmlTokenizer implements Iterator<Token> {
 
   bool cdataSectionState() {
     final data = <String>[];
-    var matchedEnd = 0;
+    int matchedEnd = 0;
     while (true) {
-      var ch = stream.char();
+      String? ch = stream.char();
       if (ch == null) {
         break;
       }

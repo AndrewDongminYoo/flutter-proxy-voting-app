@@ -61,7 +61,7 @@ class Color implements _StyleProperty, ColorBase {
   }
 
   Rgba get rgba {
-    var nextIndex = 0;
+    int nextIndex = 0;
     num? a;
     if (_argb.length == 8) {
       var alpha = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
@@ -469,7 +469,7 @@ class Rgba implements _StyleProperty, ColorBase {
 
   @override
   int get argbValue {
-    var value = 0;
+    int value = 0;
     if (a != null) {
       value = (a!.toInt() << 0x18);
     }
@@ -870,7 +870,7 @@ class BoxEdge {
     var top = other.top;
     var right = other.right;
     var bottom = other.bottom;
-    var make = false;
+    bool make = false;
     if (left == null) {
       make = true;
       left = 0;

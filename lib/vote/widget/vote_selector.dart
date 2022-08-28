@@ -156,7 +156,7 @@ Widget selectedLabel(VoteButton button) {
     return Container();
   }
 
-  var alignment = Alignment(button.value.value.toDouble(), 1);
+  Alignment alignment = Alignment(button.value.value.toDouble(), 1);
 
   return SizedBox(
     width: Get.width,

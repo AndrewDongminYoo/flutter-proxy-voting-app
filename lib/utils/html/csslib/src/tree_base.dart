@@ -10,8 +10,8 @@ abstract class TreeNode {
   dynamic visit(VisitorBase visitor);
 
   String toDebugString() {
-    var to = TreeOutput();
-    var tp = _TreePrinter(to, true);
+    TreeOutput to = TreeOutput();
+    _TreePrinter tp = _TreePrinter(to, true);
     visit(tp);
     return to.buf.toString();
   }
@@ -29,7 +29,7 @@ class TreeOutput {
   VisitorBase? printer;
 
   void write(String s) {
-    for (var i = 0; i < depth; i++) {
+    for (int i = 0; i < depth; i++) {
       buf.write(' ');
     }
     buf.write(s);
@@ -70,7 +70,7 @@ class TreeOutput {
   }
 
   void writeValue(String label, value) {
-    var v = toValue(value);
+    String v = toValue(value);
     writeln('$label: $v');
   }
 
@@ -78,7 +78,7 @@ class TreeOutput {
     writeln('$label [');
     if (list != null) {
       depth += 1;
-      for (var node in list) {
+      for (TreeNode node in list) {
         node.visit(printer!);
       }
       depth -= 1;

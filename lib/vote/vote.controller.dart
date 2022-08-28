@@ -68,7 +68,7 @@ class VoteController extends GetxController {
     if (campaignList != null) {
       print('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
-      for (var campaign in completedCampaign) {
+      for (String campaign in completedCampaign) {
         final shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
@@ -159,7 +159,7 @@ class VoteController extends GetxController {
       AndroidDeviceInfo response = await deviceInfoPlugin.androidInfo;
       deviceInfo = response.model.toString();
     }
-    var info = {
+    Map<String, String> info = {
       'app_name': packageInfo.appName,
       'build_number': packageInfo.buildNumber,
       'app_version': packageInfo.version,

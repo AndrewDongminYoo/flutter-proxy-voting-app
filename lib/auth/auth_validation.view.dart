@@ -11,7 +11,7 @@ import 'package:get/get.dart' show ExtensionBottomSheet, Get, GetNavigation;
 import '../notification/notification.controller.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
-import '../utils/exceptions.dart';
+import '../utils/exception.dart';
 import 'auth.controller.dart';
 
 class ValidatePage extends StatefulWidget {
@@ -86,7 +86,7 @@ class _ValidatePageState extends State<ValidatePage> {
   }
 
   _startTimer() {
-    var seconds = const Duration(seconds: 1);
+    Duration seconds = const Duration(seconds: 1);
     _timer = Timer.periodic(seconds, (timer) => _setCountDown());
   }
 
@@ -105,9 +105,9 @@ class _ValidatePageState extends State<ValidatePage> {
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
-    var minutes = _remainingOtpTime.inMinutes;
-    var seconds = _remainingOtpTime.inSeconds - minutes * 60;
-    var timerText = '${strDigits(minutes)} : ${strDigits(seconds)}';
+    int minutes = _remainingOtpTime.inMinutes;
+    int seconds = _remainingOtpTime.inSeconds - minutes * 60;
+    String timerText = '${strDigits(minutes)} : ${strDigits(seconds)}';
     return Scaffold(
       appBar: CustomAppBar(text: ''),
       body: Container(

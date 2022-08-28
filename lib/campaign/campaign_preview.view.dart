@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import '../campaign/campaign.model.dart';
+import 'campaign.dart';
 import '../home/home.view.dart';
 import '../shared/yotube.dart';
 import '../vote/vote.controller.dart';
-import 'widget/widget.dart';
 
 class PreviewCampaignPage extends StatefulWidget {
   const PreviewCampaignPage({Key? key}) : super(key: key);
@@ -28,6 +27,7 @@ class _PreviewCampaignPageState extends State<PreviewCampaignPage> {
     ['이전기록', Icons.history]
   ];
   final List progress = ['공개 진행중', '주주제안 진행중', '의결권 위임 진행중', '주주총회 진행중'];
+  // TODO: 데이터 직접 입력 제거하기
   final int progressState = 2;
   int bottomsheetHeight = 3;
 
@@ -47,9 +47,9 @@ class _PreviewCampaignPageState extends State<PreviewCampaignPage> {
           children: [
             backgroundImageLayer(campaign.backgroundImg),
             Wrap(
-              children: [
-                CompanyLogoWidget(campaign: campaign),
-                CampaignLogoWidget(campaign: campaign),
+              children: const [
+                CompanyLogoWidget(),
+                CompanyLogoWidget(),
               ],
             ),
             CampaignInfoWidget(campaign: campaign),

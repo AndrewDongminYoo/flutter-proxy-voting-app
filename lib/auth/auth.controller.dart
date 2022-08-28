@@ -101,9 +101,9 @@ class AuthController extends GetxController {
 
     await _service.putOtpCode(telNum, otpCode);
     await Future.delayed(const Duration(seconds: 3), () async {
-      var response = await _service.getResult(telNum);
+      Response<dynamic> response = await _service.getResult(telNum);
       print(response.bodyString);
-      var exc = 'ValidationException';
+      String exc = 'ValidationException';
       if (response.body['errorType'] == exc ||
           response.body['verified'] != true) {
         _stopLoading();

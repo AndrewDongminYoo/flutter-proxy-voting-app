@@ -6,7 +6,7 @@ hypen(String num) =>
     '${num.substring(0, 3)}-${num.substring(3, 7)}-${num.substring(7)}';
 
 String dayOf(String day) {
-  var formattor = DateFormat('yyyy-MM-dd');
+  DateFormat formattor = DateFormat('yyyy-MM-dd');
   DateTime date = DateTime.parse(day);
   return formattor.format(date);
 }
@@ -28,8 +28,8 @@ dynamic comma(dynamic value) {
   if (value is String) {
     if (value.isEmpty) return '0';
     try {
-      var num = double.parse(value.trim());
-      var comma = NumberFormat.decimalPattern();
+      double num = double.parse(value.trim());
+      NumberFormat comma = NumberFormat.decimalPattern();
       return comma.format(num);
     } on FormatException {
       return value.trim();

@@ -1,6 +1,6 @@
 String htmlSerializeEscape(String text, {bool attributeMode = false}) {
   StringBuffer? result;
-  for (var i = 0; i < text.length; i++) {
+  for (int i = 0; i < text.length; i++) {
     final ch = text[i];
     String? replace;
     switch (ch) {

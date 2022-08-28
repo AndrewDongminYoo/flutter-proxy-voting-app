@@ -49,7 +49,7 @@ class HtmlParser {
 
   Phase? originalPhase;
 
-  var framesetOK = true;
+  bool framesetOK = true;
 
   late final _initialPhase = InitialPhase(this);
   late final _beforeHtmlPhase = BeforeHtmlPhase(this);
@@ -213,7 +213,7 @@ class HtmlParser {
           parseError(error.span, error.data, error.messageParams);
           newToken = null;
         } else {
-          var localPhase = phase;
+          Phase localPhase = phase;
           if (inForeignContent(token, type)) {
             localPhase = _inForeignContentPhase;
           }
@@ -251,7 +251,7 @@ class HtmlParser {
       }
     }
 
-    var reprocess = true;
+    bool reprocess = true;
     final reprocessPhases = [];
     while (reprocess) {
       reprocessPhases.add(phase);
@@ -349,7 +349,7 @@ class HtmlParser {
       'ychannelselector': 'yChannelSelector',
       'zoomandpan': 'zoomAndPan'
     };
-    for (var originalName in token.data.keys.toList()) {
+    for (Object originalName in token.data.keys.toList()) {
       final svgName = replacements[originalName as String];
       if (svgName != null) {
         token.data[svgName] = token.data.remove(originalName)!;
@@ -373,7 +373,7 @@ class HtmlParser {
       'xmlns:xlink': AttributeName('xmlns', 'xlink', Namespaces.xmlns)
     };
 
-    for (var originalName in token.data.keys.toList()) {
+    for (Object originalName in token.data.keys.toList()) {
       final foreignName = replacements[originalName as String];
       if (foreignName != null) {
         token.data[foreignName] = token.data.remove(originalName)!;
@@ -382,8 +382,8 @@ class HtmlParser {
   }
 
   void resetInsertionMode() {
-    for (var node in tree.openElements.reversed) {
-      var nodeName = node.localName;
+    for (Element node in tree.openElements.reversed) {
+      String? nodeName = node.localName;
       final last = node == tree.openElements[0];
       if (last) {
         assert(innerHTMLMode);
@@ -517,7 +517,7 @@ class Phase {
 
   void popOpenElementsUntil(EndTagToken token) {
     final name = token.name;
-    var node = tree.openElements.removeLast();
+    Element node = tree.openElements.removeLast();
     while (node.localName != name) {
       node = tree.openElements.removeLast();
     }
@@ -542,7 +542,7 @@ class InitialPhase extends Phase {
   @override
   Token? processDoctype(DoctypeToken token) {
     final name = token.name;
-    var publicId = token.publicId?.toAsciiLowerCase();
+    String? publicId = token.publicId?.toAsciiLowerCase();
     final systemId = token.systemId;
     final correct = token.correct;
 
@@ -1034,7 +1034,7 @@ class AfterHeadPhase extends Phase {
         {'name': token.name});
     tree.openElements.add(tree.headPointer as Element);
     parser._inHeadPhase.processStartTag(token);
-    for (var node in tree.openElements.reversed) {
+    for (Element node in tree.openElements.reversed) {
       if (node.localName == 'head') {
         tree.openElements.remove(node);
         break;
@@ -1337,7 +1337,7 @@ class InBodyPhase extends Phase {
     } else if (node1.attributes.length != node2.attributes.length) {
       return false;
     } else {
-      for (var key in node1.attributes.keys) {
+      for (Object key in node1.attributes.keys) {
         if (node1.attributes[key] != node2.attributes[key]) {
           return false;
         }
@@ -1368,7 +1368,7 @@ class InBodyPhase extends Phase {
 
   @override
   bool processEOF() {
-    for (var node in tree.openElements.reversed) {
+    for (Element node in tree.openElements.reversed) {
       switch (node.localName) {
         case 'dd':
         case 'dt':
@@ -1392,7 +1392,7 @@ class InBodyPhase extends Phase {
   }
 
   void processSpaceCharactersDropNewline(StringToken token) {
-    var data = token.data;
+    String data = token.data;
     dropNewline = false;
     if (data.startsWith('\n')) {
       final lastOpen = tree.openElements.last;
@@ -1503,7 +1503,7 @@ class InBodyPhase extends Phase {
       'dd': ['dt', 'dd']
     };
     final stopNames = stopNamesMap[token.name!]!;
-    for (var node in tree.openElements.reversed) {
+    for (Element node in tree.openElements.reversed) {
       if (stopNames.contains(node.localName)) {
         parser.phase.processEndTag(EndTagToken(node.localName));
         break;
@@ -1666,7 +1666,7 @@ class InBodyPhase extends Phase {
     processStartTag(StartTagToken('hr', data: LinkedHashMap<Object, String>()));
     processStartTag(
         StartTagToken('label', data: LinkedHashMap<Object, String>()));
-    var prompt = token.data['prompt'];
+    String? prompt = token.data['prompt'];
     prompt ??= 'This is a searchable index. Enter search keywords: ';
     processCharacters(CharactersToken(prompt));
     final attributes = LinkedHashMap<Object, String>.from(token.data);
@@ -1905,7 +1905,7 @@ class InBodyPhase extends Phase {
   }
 
   void endTagFormatting(EndTagToken token) {
-    var outerLoopCounter = 0;
+    int outerLoopCounter = 0;
     while (outerLoopCounter < 8) {
       outerLoopCounter += 1;
 
@@ -1953,7 +1953,7 @@ class InBodyPhase extends Phase {
 
       var lastNode = furthestBlock;
       var node = furthestBlock;
-      var innerLoopCounter = 0;
+      int innerLoopCounter = 0;
 
       var index = tree.openElements.indexOf(node);
       while (innerLoopCounter < 3) {

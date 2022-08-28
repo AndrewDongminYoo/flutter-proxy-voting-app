@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 
 // 🌎 Project imports:
 import '../utils/shared_prefs.dart';
-import 'notification.data.dart';
+import 'notification.model.dart';
 
 class NotiController extends GetxController {
   static NotiController get() => Get.isRegistered<NotiController>()
@@ -84,7 +84,7 @@ class NotiController extends GetxController {
   void getNotificationsLocal() async {
     notifications.clear();
     List<String> result = await CustomStorage.getNotifications();
-    for (var message in result) {
+    for (String message in result) {
       if (message.length > 1 &&
           !notifications.contains(Notification.fromJson(decodeJson(message)))) {
         notifications.add(Notification.fromJson(decodeJson(message)));

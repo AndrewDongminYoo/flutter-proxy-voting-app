@@ -135,7 +135,7 @@ class ExpandNestedSelectors extends Visitor {
   void visitDeclarationGroup(DeclarationGroup node) {
     var span = node.span;
 
-    var currentGroup = DeclarationGroup([], span);
+    DeclarationGroup currentGroup = DeclarationGroup([], span);
 
     var oldGroup = _flatDeclarationGroup;
     _flatDeclarationGroup = currentGroup;
@@ -152,7 +152,7 @@ class ExpandNestedSelectors extends Visitor {
 
     var selectorGroup = _nestedSelectorGroup;
 
-    var newRuleSet = RuleSet(selectorGroup, currentGroup, span);
+    RuleSet newRuleSet = RuleSet(selectorGroup, currentGroup, span);
 
     if (expandedLength == _expandedRuleSets.length) {
       _expandedRuleSets.add(newRuleSet);
@@ -352,7 +352,7 @@ int _findInclude(List list, TreeNode node) {
       ? node.include
       : node as IncludeDirective;
 
-  var index = 0;
+  int index = 0;
   for (var item in list) {
     var includeNode = (item is IncludeMixinAtDeclaration) ? item.include : item;
     if (includeNode == matchNode) return index;
@@ -380,7 +380,7 @@ class CallMixin extends Visitor {
   }
 
   MixinDefinition transform(List<List<Expression>> callArgs) {
-    for (var index = 0; index < _definedArgs!.length; index++) {
+    for (int index = 0; index < _definedArgs!.length; index++) {
       var definedArg = _definedArgs![index];
       VarDefinition? varDef;
       if (definedArg is VarDefinition) {
@@ -628,7 +628,7 @@ class _IncludeReplacer extends Visitor {
 
   static void replace(
       StyleSheet ss, TreeNode include, List<TreeNode> newDeclarations) {
-    var visitor = _IncludeReplacer(include, newDeclarations);
+    _IncludeReplacer visitor = _IncludeReplacer(include, newDeclarations);
     visitor.visitStyleSheet(ss);
   }
 
@@ -636,7 +636,7 @@ class _IncludeReplacer extends Visitor {
 
   @override
   void visitDeclarationGroup(DeclarationGroup node) {
-    var index = _findInclude(node.declarations, _include);
+    int index = _findInclude(node.declarations, _include);
     if (index != -1) {
       node.declarations.insertAll(index + 1, _newDeclarations);
       node.declarations.replaceRange(index, index + 1, [NoOp()]);
@@ -655,7 +655,7 @@ class MixinsAndIncludes extends Visitor {
 
   @override
   void visitStyleSheet(StyleSheet ss) {
-    var index = ss.topLevels.length;
+    int index = ss.topLevels.length;
     while (--index >= 0) {
       if (_nodesToRemove(ss.topLevels[index])) {
         ss.topLevels.removeAt(index);
@@ -685,7 +685,7 @@ class AllExtends extends Visitor {
 
   @override
   void visitRuleSet(RuleSet node) {
-    var oldSelectorGroup = _currSelectorGroup;
+    SelectorGroup? oldSelectorGroup = _currSelectorGroup;
     _currSelectorGroup = node.selectorGroup;
 
     super.visitRuleSet(node);
@@ -695,8 +695,8 @@ class AllExtends extends Visitor {
 
   @override
   void visitExtendDeclaration(ExtendDeclaration node) {
-    var inheritName = '';
-    for (var selector in node.selectors) {
+    String inheritName = '';
+    for (TreeNode selector in node.selectors) {
       inheritName += selector.toString();
     }
     if (inherits.containsKey(inheritName)) {
@@ -712,9 +712,9 @@ class AllExtends extends Visitor {
 
   @override
   void visitDeclarationGroup(DeclarationGroup node) {
-    var oldDeclIndex = _currDeclIndex;
+    int? oldDeclIndex = _currDeclIndex;
 
-    var decls = node.declarations;
+    List<TreeNode> decls = node.declarations;
     for (_currDeclIndex = 0;
         _currDeclIndex! < decls.length;
         _currDeclIndex = _currDeclIndex! + 1) {
@@ -722,8 +722,8 @@ class AllExtends extends Visitor {
     }
 
     if (_extendsToRemove.isNotEmpty) {
-      var removeTotal = _extendsToRemove.length - 1;
-      for (var index = removeTotal; index >= 0; index--) {
+      int removeTotal = _extendsToRemove.length - 1;
+      for (int index = removeTotal; index >= 0; index--) {
         decls.removeAt(_extendsToRemove[index]);
       }
       _extendsToRemove.clear();
@@ -740,27 +740,28 @@ class InheritExtends extends Visitor {
 
   @override
   void visitSelectorGroup(SelectorGroup node) {
-    for (var selectorsIndex = 0;
+    for (int selectorsIndex = 0;
         selectorsIndex < node.selectors.length;
         selectorsIndex++) {
-      var selectors = node.selectors[selectorsIndex];
-      var isLastNone = false;
-      var selectorName = '';
-      for (var index = 0;
+      Selector selectors = node.selectors[selectorsIndex];
+      bool isLastNone = false;
+      String selectorName = '';
+      for (int index = 0;
           index < selectors.simpleSelectorSequences.length;
           index++) {
-        var simpleSeq = selectors.simpleSelectorSequences[index];
-        var namePart = simpleSeq.simpleSelector.toString();
+        SimpleSelectorSequence simpleSeq =
+            selectors.simpleSelectorSequences[index];
+        String namePart = simpleSeq.simpleSelector.toString();
         selectorName = (isLastNone) ? (selectorName + namePart) : namePart;
-        var matches = _allExtends.inherits[selectorName];
+        List<SelectorGroup>? matches = _allExtends.inherits[selectorName];
         if (matches != null) {
-          for (var match in matches) {
-            var newSelectors = selectors.clone();
-            var newSeq = match.selectors[0].clone();
+          for (SelectorGroup match in matches) {
+            Selector newSelectors = selectors.clone();
+            Selector newSeq = match.selectors[0].clone();
             if (isLastNone) {
               node.selectors.add(newSeq);
             } else {
-              var orgCombinator =
+              int orgCombinator =
                   newSelectors.simpleSelectorSequences[index].combinator;
               newSeq.simpleSelectorSequences[0].combinator = orgCombinator;
 

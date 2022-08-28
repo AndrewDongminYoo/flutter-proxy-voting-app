@@ -2,46 +2,50 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomStorage {
+  static Future<SharedPreferences> _get() async {
+    return await SharedPreferences.getInstance();
+  }
+
   static Future<bool> clear() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     return await prefs.clear();
   }
 
   static Future<bool> needOnBoarding() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     final onBoarding = prefs.getBool('onBoarding') ?? true;
     print('[pref] onBoarding: $onBoarding');
     return onBoarding;
   }
 
   static Future<bool> doneOnBoarding() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     print('[pref] doneOnBoarding');
     return prefs.setBool('onBoarding', false);
   }
 
   static Future<String> getTelNum() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     return prefs.getString('telNum') ?? '';
   }
 
   static Future<bool> setTelNum(String telNum) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     return await prefs.setString('telNum', telNum);
   }
 
   static Future<List<String>> getNotifications() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     return prefs.getStringList('notifications') ?? [];
   }
 
   static Future<bool> setNotifications(List<String> messages) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _get();
     return await prefs.setStringList('notifications', messages);
   }
 }
 
-_() async {
+Future<SharedPreferences> _() async {
   return await SharedPreferences.getInstance();
 }
 

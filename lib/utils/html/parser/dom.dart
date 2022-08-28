@@ -31,7 +31,7 @@ class AttributeName implements Comparable<Object> {
 
   @override
   int get hashCode {
-    var h = prefix.hashCode;
+    int h = prefix.hashCode;
     h = 37 * (h & 0x1FFFFF) + name.hashCode;
     h = 37 * (h & 0x1FFFFF) + namespace.hashCode;
     return h & 0x3FFFFFFF;
@@ -40,7 +40,7 @@ class AttributeName implements Comparable<Object> {
   @override
   int compareTo(Object other) {
     if (other is! AttributeName) return 1;
-    var cmp = (prefix ?? '').compareTo((other.prefix ?? ''));
+    int cmp = (prefix ?? '').compareTo((other.prefix ?? ''));
     if (cmp != 0) return cmp;
     cmp = name.compareTo(other.name);
     if (cmp != 0) return cmp;
@@ -801,7 +801,7 @@ class FilteredElementList extends IterableBase<Element>
   @override
   bool remove(Object? element) {
     if (element is! Element) return false;
-    for (var i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++) {
       final indexElement = this[i];
       if (identical(indexElement, element)) {
         indexElement.remove();

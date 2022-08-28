@@ -1,7 +1,7 @@
 part of '../visitor.dart';
 
 String treeToDebugString(StyleSheet styleSheet, [bool useSpan = false]) {
-  var to = TreeOutput();
+  TreeOutput to = TreeOutput();
   _TreePrinter(to, useSpan).visitTree(styleSheet);
   return to.toString();
 }
@@ -248,7 +248,7 @@ class _TreePrinter extends Visitor {
   @override
   void visitIncludeDirective(IncludeDirective node) {
     heading('IncludeDirective ${node.name}', node);
-    var flattened = node.args.expand((e) => e).toList();
+    List<Expression> flattened = node.args.expand((e) => e).toList();
     output.writeNodeList('parameters', flattened);
   }
 
@@ -381,7 +381,7 @@ class _TreePrinter extends Visitor {
     heading('AttributeSelector', node);
     output.depth++;
     super.visitAttributeSelector(node);
-    var tokenStr = node.matchOperatorAsTokenString();
+    String? tokenStr = node.matchOperatorAsTokenString();
     output.writeValue('operator', '${node.matchOperator()} ($tokenStr)');
     output.writeValue('value', node.valueToString());
     output.depth--;

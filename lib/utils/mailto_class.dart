@@ -89,7 +89,7 @@ class Mailto {
     final stringBuffer = StringBuffer('mailto:');
     if (to != null) stringBuffer.writeAll(to!.map(_encodeTo), _comma);
 
-    var parameterAdded = false;
+    bool parameterAdded = false;
     final parameterMap = {
       'subject': subject,
       'body': body,

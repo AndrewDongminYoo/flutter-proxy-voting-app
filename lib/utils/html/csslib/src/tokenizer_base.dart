@@ -164,7 +164,7 @@ abstract class TokenizerBase {
       maxIndex = _index + hexLength;
       if (maxIndex >= _text.length) return -1;
     }
-    var result = 0;
+    int result = 0;
     while (_index < maxIndex) {
       final digit = _hexDigit(_text.codeUnitAt(_index));
       if (digit == -1) {

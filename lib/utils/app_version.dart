@@ -28,7 +28,7 @@ class VersionStatus {
     final local = localVersion.split('.').map(int.parse).toList();
     final store = storeVersion.split('.').map(int.parse).toList();
 
-    for (var i = 0; i < store.length; i++) {
+    for (int i = 0; i < store.length; i++) {
       if (store[i] > local[i]) {
         return true;
       }

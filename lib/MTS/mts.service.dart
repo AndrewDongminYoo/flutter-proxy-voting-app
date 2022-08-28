@@ -6,7 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get_connect/connect.dart' show GetConnect;
 
 // 🌎 Project imports:
-import '../utils/channel.dart';
+import '../utils/global_channel.dart';
 import 'mts.dart';
 
 class CooconMTSService extends GetConnect {

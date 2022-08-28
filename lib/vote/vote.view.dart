@@ -24,7 +24,7 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
 
-  var _marker = <String, int>{
+  Map<String, int> _marker = {
     'cur': 0,
     'latest': 0,
   };

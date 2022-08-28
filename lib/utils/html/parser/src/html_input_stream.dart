@@ -25,13 +25,13 @@ class HtmlInputStream {
 
   List<int>? _rawChars;
 
-  var errors = Queue<String>();
+  Queue<String> errors = Queue<String>();
 
   SourceFile? fileInfo;
 
-  var _chars = <int>[];
+  List<int> _chars = <int>[];
 
-  var _offset = 0;
+  int _offset = 0;
 
   HtmlInputStream(source,
       [String? encoding,
@@ -65,10 +65,10 @@ class HtmlInputStream {
 
     final rawChars = _rawChars ??= _decodeBytes(charEncodingName!, _rawBytes!);
 
-    var skipNewline = false;
-    var wasSurrogatePair = false;
-    for (var i = 0; i < rawChars.length; i++) {
-      var c = rawChars[i];
+    bool skipNewline = false;
+    bool wasSurrogatePair = false;
+    for (int i = 0; i < rawChars.length; i++) {
+      int c = rawChars[i];
       if (skipNewline) {
         skipNewline = false;
         if (c == newLine) continue;
@@ -150,7 +150,7 @@ class HtmlInputStream {
 
   String? detectEncodingMeta() {
     final parser = EncodingParser(slice(_rawBytes!, 0, numBytesMeta));
-    var encoding = parser.getEncoding();
+    String? encoding = parser.getEncoding();
 
     if (const ['utf-16', 'utf-16-be', 'utf-16-le'].contains(encoding)) {
       encoding = 'utf-8';

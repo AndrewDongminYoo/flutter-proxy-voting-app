@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_text.dart';
-import '../theme.dart';
+import '../../shared/custom_text.dart';
+import '../../theme.dart';
 
 class OrangeProgressBar extends LinearProgressIndicator {
   final double status;

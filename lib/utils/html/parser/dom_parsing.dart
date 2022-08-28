@@ -28,7 +28,7 @@ class TreeVisitor {
   }
 
   void visitChildren(Node node) {
-    for (var child in node.nodes.toList()) {
+    for (Node child in node.nodes.toList()) {
       visit(child);
     }
   }

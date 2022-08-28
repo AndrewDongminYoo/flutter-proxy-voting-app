@@ -8,7 +8,7 @@ import 'package:get/get.dart' show Get, GetNavigation, GetPlatform;
 import '../shared/shared.dart';
 import '../theme.dart';
 import '../utils/shared_prefs.dart';
-import 'guide.data.dart';
+import 'guide.model.dart';
 
 /*
   Reference:

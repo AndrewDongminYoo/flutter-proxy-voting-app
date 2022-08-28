@@ -64,7 +64,7 @@ class CssPrinter extends Visitor {
 
   void emitMediaQueries(List<MediaQuery> queries) {
     var queriesLen = queries.length;
-    for (var i = 0; i < queriesLen; i++) {
+    for (int i = 0; i < queriesLen; i++) {
       var query = queries[i];
       if (i > 0) emit(',');
       visitMediaQuery(query);
@@ -167,7 +167,7 @@ class CssPrinter extends Visitor {
     var declsMargin = node._declsMargin;
     var declsMarginLength = declsMargin.length;
     emit('$_sp{$_newLine');
-    for (var i = 0; i < declsMarginLength; i++) {
+    for (int i = 0; i < declsMarginLength; i++) {
       declsMargin[i].visit(this);
     }
     emit('}');
@@ -289,7 +289,7 @@ class CssPrinter extends Visitor {
   void visitDeclarationGroup(DeclarationGroup node) {
     var declarations = node.declarations;
     var declarationsLength = declarations.length;
-    for (var i = 0; i < declarationsLength; i++) {
+    for (int i = 0; i < declarationsLength; i++) {
       if (i > 0) emit(_newLine);
       emit('$_sp$_sp');
       declarations[i].visit(this);
@@ -344,7 +344,7 @@ class CssPrinter extends Visitor {
   void visitSelectorGroup(SelectorGroup node) {
     var selectors = node.selectors;
     var selectorsLength = selectors.length;
-    for (var i = 0; i < selectorsLength; i++) {
+    for (int i = 0; i < selectorsLength; i++) {
       if (i > 0) emit(',$_sp');
       selectors[i].visit(this);
     }
@@ -421,7 +421,7 @@ class CssPrinter extends Visitor {
   void visitSelectorExpression(SelectorExpression node) {
     var expressions = node.expressions;
     var expressionsLength = expressions.length;
-    for (var i = 0; i < expressionsLength; i++) {
+    for (int i = 0; i < expressionsLength; i++) {
       var expression = expressions[i];
       expression.visit(this);
     }
@@ -529,7 +529,7 @@ class CssPrinter extends Visitor {
     emit('(');
     var terms = node._terms;
     var termsLength = terms.length;
-    for (var i = 0; i < termsLength; i++) {
+    for (int i = 0; i < termsLength; i++) {
       if (i > 0) emit(_sp);
       terms[i].visit(this);
     }
@@ -583,7 +583,7 @@ class CssPrinter extends Visitor {
   void visitExpressions(Expressions node) {
     var expressions = node.expressions;
     var expressionsLength = expressions.length;
-    for (var i = 0; i < expressionsLength; i++) {
+    for (int i = 0; i < expressionsLength; i++) {
       var expression = expressions[i];
       if (i > 0 &&
           !(expression is OperatorComma || expression is OperatorSlash)) {

@@ -2,7 +2,7 @@
 import 'dart:async';
 
 // 🌎 Project imports:
-import '../../channel.dart';
+import '../../global_channel.dart';
 import 'device_info_interface.dart';
 
 class MethodChannelDeviceInfo extends DeviceInfoPlatform {

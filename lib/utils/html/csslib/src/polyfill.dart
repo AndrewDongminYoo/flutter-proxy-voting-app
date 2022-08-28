@@ -18,7 +18,7 @@ class PolyFill {
   }
 
   void processVarDefinitions(List<StyleSheet> includes) {
-    for (var include in includes) {
+    for (StyleSheet include in includes) {
       _allVarDefinitions = (_VarDefinitionsIncludes(_allVarDefinitions)
             ..visitTree(include))
           .varDefs;
@@ -26,13 +26,13 @@ class PolyFill {
   }
 
   void processVars(StyleSheet styleSheet) {
-    var mainStyleSheetVarDefs = (_VarDefAndUsage(_messages, _allVarDefinitions)
-          ..visitTree(styleSheet))
-        .varDefs;
+    Map<String, VarDefinition> mainStyleSheetVarDefs =
+        (_VarDefAndUsage(_messages, _allVarDefinitions)..visitTree(styleSheet))
+            .varDefs;
 
     mainStyleSheetVarDefs.forEach((key, value) {
       // ignore: unused_local_variable
-      for (var unused in (value.expression as Expressions).expressions) {
+      for (Expression unused in (value.expression as Expressions).expressions) {
         mainStyleSheetVarDefs[key] =
             _findTerminalVarDefinition(_allVarDefinitions, value);
       }

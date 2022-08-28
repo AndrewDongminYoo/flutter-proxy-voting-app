@@ -61,7 +61,8 @@ class AccountStocks implements MTSInterface {
 
   @override
   addResult(String value) {
-    if ((result.isNotEmpty && result.last.data != value) || (result.isEmpty)) {
+    bool valueIsNotLast = result.isNotEmpty && result.last.data != value;
+    if ((valueIsNotLast) || (result.isEmpty)) {
       result.add(Text(value));
     }
   }

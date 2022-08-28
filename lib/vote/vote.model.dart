@@ -94,7 +94,7 @@ class VoteAgenda {
 }
 
 DateTime parseDate(String time) {
-  var dateTime = DateTime.parse(time);
+  DateTime dateTime = DateTime.parse(time);
   return dateTime.toLocal();
 }
 

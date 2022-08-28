@@ -9,7 +9,6 @@ import 'visitor.dart';
 import 'package:source_span/source_span.dart'
     show FileSpan, SourceFile, SourceSpan;
 
-
 export 'src/src.dart';
 
 part 'src/analyzer.dart';
@@ -52,18 +51,18 @@ StyleSheet compile(input,
     List<StyleSheet>? includes}) {
   includes ??= [];
 
-  var source = _inputAsString(input);
+  String source = _inputAsString(input);
 
   _createMessages(errors: errors, options: options);
 
-  var file = SourceFile.fromString(source);
+  SourceFile file = SourceFile.fromString(source);
 
-  var tree = _Parser(file, source).parse();
+  StyleSheet tree = _Parser(file, source).parse();
 
   analyze([tree], errors: errors, options: options);
 
   if (polyfill) {
-    var processCss = PolyFill(messages);
+    PolyFill processCss = PolyFill(messages);
     processCss.process(tree, includes: includes);
   }
 
@@ -77,29 +76,29 @@ void analyze(List<StyleSheet> styleSheets,
 }
 
 StyleSheet parse(input, {List<Message>? errors, PreprocessorOptions? options}) {
-  var source = _inputAsString(input);
+  String source = _inputAsString(input);
 
   _createMessages(errors: errors, options: options);
 
-  var file = SourceFile.fromString(source);
+  SourceFile file = SourceFile.fromString(source);
   return _Parser(file, source).parse();
 }
 
 StyleSheet selector(input, {List<Message>? errors}) {
-  var source = _inputAsString(input);
+  String source = _inputAsString(input);
 
   _createMessages(errors: errors);
 
-  var file = SourceFile.fromString(source);
+  SourceFile file = SourceFile.fromString(source);
   return (_Parser(file, source)..tokenizer.inSelector = true).parseSelector();
 }
 
 SelectorGroup? parseSelectorGroup(input, {List<Message>? errors}) {
-  var source = _inputAsString(input);
+  String source = _inputAsString(input);
 
   _createMessages(errors: errors);
 
-  var file = SourceFile.fromString(source);
+  SourceFile file = SourceFile.fromString(source);
   return (_Parser(file, source)..tokenizer.inSelector = true)
       .processSelectorGroup();
 }
@@ -244,7 +243,7 @@ class _Parser {
   }
 
   void _errorExpected(String expected) {
-    var tok = _next();
+    Token tok = _next();
     String message;
     try {
       message = 'expected $expected, but found $tok';
@@ -485,10 +484,11 @@ class _Parser {
 
         _eat(TokenKind.LBRACE);
 
-        var keyframe = KeyFrameDirective(tokenId, name, _makeSpan(start));
+        KeyFrameDirective keyframe =
+            KeyFrameDirective(tokenId, name, _makeSpan(start));
 
         do {
-          var selectors = Expressions(_makeSpan(start));
+          Expressions selectors = Expressions(_makeSpan(start));
 
           do {
             var term = processTerm() as Expression;
@@ -586,8 +586,8 @@ class _Parser {
 
     var params = <TreeNode>[];
     if (_maybeEat(TokenKind.LPAREN)) {
-      var mustHaveParam = false;
-      var keepGoing = true;
+      bool mustHaveParam = false;
+      bool keepGoing = true;
       while (keepGoing) {
         var varDef = processVariableOrDirective(mixinParameter: true);
         if (varDef is VarDefinitionDirective || varDef is VarDefinition) {
@@ -734,7 +734,7 @@ class _Parser {
     if (_maybeEat(TokenKind.LPAREN)) {
       var terms = <Expression>[];
       dynamic expr;
-      var keepGoing = true;
+      bool keepGoing = true;
       while (keepGoing && (expr = processTerm()) != null) {
         terms.add((expr is List ? expr[0] : expr) as Expression);
         keepGoing = !_peekKind(TokenKind.RPAREN);
@@ -774,7 +774,7 @@ class _Parser {
 
         _eat(TokenKind.RPAREN);
 
-        var arguments = Expressions(_makeSpan(argumentSpan as FileSpan))
+        Expressions arguments = Expressions(_makeSpan(argumentSpan as FileSpan))
           ..add(LiteralTerm(argument, argument, argumentSpan));
         function = FunctionTerm(ident.name, ident.name, arguments,
             _makeSpan(ident.span as FileSpan));
@@ -945,8 +945,8 @@ class _Parser {
         if (decl.hasDartStyle) {
           var newDartStyle = decl.dartStyle!;
 
-          var replaced = false;
-          for (var i = 0; i < dartStyles.length; i++) {
+          bool replaced = false;
+          for (int i = 0; i < dartStyles.length; i++) {
             var dartStyle = dartStyles[i];
             if (dartStyle.isSame(newDartStyle)) {
               dartStyles[i] = newDartStyle;
@@ -1017,8 +1017,8 @@ class _Parser {
             if (decl.hasDartStyle) {
               var newDartStyle = decl.dartStyle!;
 
-              var replaced = false;
-              for (var i = 0; i < dartStyles.length; i++) {
+              bool replaced = false;
+              for (int i = 0; i < dartStyles.length; i++) {
                 var dartStyle = dartStyles[i];
                 if (dartStyle.isSame(newDartStyle)) {
                   dartStyles[i] = newDartStyle;
@@ -1101,7 +1101,7 @@ class _Parser {
   SimpleSelectorSequence? simpleSelectorSequence(bool forceCombinatorNone) {
     var start = _peekToken.span;
     var combinatorType = TokenKind.COMBINATOR_NONE;
-    var thisOperator = false;
+    bool thisOperator = false;
 
     switch (_peek()) {
       case TokenKind.PLUS:
@@ -1299,7 +1299,7 @@ class _Parser {
     Token? termToken;
     dynamic value;
 
-    var keepParsing = true;
+    bool keepParsing = true;
     while (keepParsing) {
       switch (_peek()) {
         case TokenKind.PLUS:
@@ -1546,10 +1546,10 @@ class _Parser {
       int styleType, Expressions exprs, List<DartStyleExpression> dartStyles) {
     switch (styleType) {
       case _fontPartFont:
-        var processor = ExpressionsProcessor(exprs);
+        ExpressionsProcessor processor = ExpressionsProcessor(exprs);
         return _mergeFontStyles(processor.processFont(), dartStyles);
       case _fontPartFamily:
-        var processor = ExpressionsProcessor(exprs);
+        ExpressionsProcessor processor = ExpressionsProcessor(exprs);
 
         try {
           return _mergeFontStyles(processor.processFontFamily(), dartStyles);
@@ -1558,7 +1558,7 @@ class _Parser {
         }
         break;
       case _fontPartSize:
-        var processor = ExpressionsProcessor(exprs);
+        ExpressionsProcessor processor = ExpressionsProcessor(exprs);
         return _mergeFontStyles(processor.processFontSize(), dartStyles);
       case _fontPartStyle:
         break;
@@ -1567,12 +1567,13 @@ class _Parser {
       case _fontPartWeight:
         var expr = exprs.expressions[0];
         if (expr is NumberTerm) {
-          var fontExpr = FontExpression(expr.span, weight: expr.value as int?);
+          FontExpression fontExpr =
+              FontExpression(expr.span, weight: expr.value as int?);
           return _mergeFontStyles(fontExpr, dartStyles);
         } else if (expr is LiteralTerm) {
           var weight = _nameToFontWeight[expr.value.toString()];
           if (weight != null) {
-            var fontExpr = FontExpression(expr.span, weight: weight);
+            FontExpression fontExpr = FontExpression(expr.span, weight: weight);
             return _mergeFontStyles(fontExpr, dartStyles);
           }
         }
@@ -1584,14 +1585,14 @@ class _Parser {
             var unitTerm = expr;
             if (unitTerm.unit == TokenKind.UNIT_LENGTH_PX ||
                 unitTerm.unit == TokenKind.UNIT_LENGTH_PT) {
-              var fontExpr = FontExpression(expr.span,
+              FontExpression fontExpr = FontExpression(expr.span,
                   lineHeight: LineHeight(expr.value as num, inPixels: true));
               return _mergeFontStyles(fontExpr, dartStyles);
             } else if (isChecked) {
               _warning('Unexpected unit for line-height', expr.span);
             }
           } else if (expr is NumberTerm) {
-            var fontExpr = FontExpression(expr.span,
+            FontExpression fontExpr = FontExpression(expr.span,
                 lineHeight: LineHeight(expr.value as num, inPixels: false));
             return _mergeFontStyles(fontExpr, dartStyles);
           } else if (isChecked) {
@@ -1736,9 +1737,9 @@ class _Parser {
 
   Expressions processExpr([bool ieFilter = false]) {
     var start = _peekToken.span;
-    var expressions = Expressions(_makeSpan(start));
+    Expressions expressions = Expressions(_makeSpan(start));
 
-    var keepGoing = true;
+    bool keepGoing = true;
     dynamic expr;
     while (keepGoing && (expr = processTerm(ieFilter)) != null) {
       Expression? op;
@@ -1848,7 +1849,7 @@ class _Parser {
       case TokenKind.LPAREN:
         _next();
 
-        var group = GroupTerm(_makeSpan(start));
+        GroupTerm group = GroupTerm(_makeSpan(start));
 
         dynamic /* Expression | List<Expression> | ... */ term;
         do {
@@ -2073,7 +2074,7 @@ class _Parser {
         break;
     }
 
-    var stringValue = StringBuffer();
+    StringBuffer stringValue = StringBuffer();
     while (_peek() != stopToken && _peek() != TokenKind.END_OF_FILE) {
       stringValue.write(_next().text);
     }
@@ -2095,7 +2096,7 @@ class _Parser {
       return LiteralTerm(tok.text, tok.text, tok.span);
     }
 
-    var parens = 0;
+    int parens = 0;
     while (_peek() != TokenKind.END_OF_FILE) {
       switch (_peek()) {
         case TokenKind.LPAREN:
@@ -2120,9 +2121,9 @@ class _Parser {
     var inString = tokenizer.inString;
     tokenizer.inString = false;
 
-    var stringValue = StringBuffer();
+    StringBuffer stringValue = StringBuffer();
     var left = 1;
-    var matchingParens = false;
+    bool matchingParens = false;
     while (_peek() != TokenKind.END_OF_FILE && !matchingParens) {
       var token = _peek();
       if (token == TokenKind.LPAREN) {
@@ -2151,7 +2152,8 @@ class _Parser {
     if (const {'calc', '-webkit-calc', '-moz-calc', 'min', 'max', 'clamp'}
         .contains(name)) {
       var expression = processCalcExpression();
-      var calcExpr = LiteralTerm(expression, expression, _makeSpan(start));
+      LiteralTerm calcExpr =
+          LiteralTerm(expression, expression, _makeSpan(start));
 
       if (!_maybeEat(TokenKind.RPAREN)) {
         _error('problem parsing function expected ), ', _peekToken.span);
@@ -2233,9 +2235,9 @@ class _Parser {
   }
 
   HexColorTerm _parseHex(String hexText, SourceSpan span) {
-    var hexValue = 0;
+    int hexValue = 0;
 
-    for (var i = 0; i < hexText.length; i++) {
+    for (int i = 0; i < hexText.length; i++) {
       var digit = _hexDigit(hexText.codeUnitAt(i));
       if (digit < 0) {
         _warning('Bad hex number', span);
@@ -2269,7 +2271,7 @@ class ExpressionsProcessor {
   FontExpression processFontSize() {
     LengthTerm? size;
     LineHeight? lineHt;
-    var nextIsLineHeight = false;
+    bool nextIsLineHeight = false;
     for (; _index < _exprs.expressions.length; _index++) {
       var expr = _exprs.expressions[_index];
       if (size == null && expr is LengthTerm) {
@@ -2297,7 +2299,7 @@ class ExpressionsProcessor {
   FontExpression processFontFamily() {
     var family = <String>[];
 
-    var moreFamilies = false;
+    bool moreFamilies = false;
 
     for (; _index < _exprs.expressions.length; _index++) {
       var expr = _exprs.expressions[_index];
@@ -2336,7 +2338,7 @@ class ExpressionsProcessor {
 String _escapeString(String text, {bool single = false}) {
   StringBuffer? result;
 
-  for (var i = 0; i < text.length; i++) {
+  for (int i = 0; i < text.length; i++) {
     var code = text.codeUnitAt(i);
     String? replace;
     switch (code) {

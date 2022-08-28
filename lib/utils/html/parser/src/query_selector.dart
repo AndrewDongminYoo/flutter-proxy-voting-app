@@ -36,7 +36,7 @@ class SelectorEvaluator extends Visitor {
   }
 
   Element? querySelector(Node root, SelectorGroup selector) {
-    for (var element in root.nodes.whereType<Element>()) {
+    for (Element element in root.nodes.whereType<Element>()) {
       if (matches(element, selector)) return element;
       final result = querySelector(element, selector);
       if (result != null) return result;
@@ -46,7 +46,7 @@ class SelectorEvaluator extends Visitor {
 
   void querySelectorAll(
       Node root, SelectorGroup selector, List<Element> results) {
-    for (var element in root.nodes.whereType<Element>()) {
+    for (Element element in root.nodes.whereType<Element>()) {
       if (matches(element, selector)) results.add(element);
       querySelectorAll(element, selector, results);
     }
@@ -59,10 +59,10 @@ class SelectorEvaluator extends Visitor {
   @override
   bool visitSelector(Selector node) {
     final old = _element;
-    var result = true;
+    bool result = true;
 
     int? combinator;
-    for (var s in node.simpleSelectorSequences.reversed) {
+    for (SimpleSelectorSequence s in node.simpleSelectorSequences.reversed) {
       if (combinator == null) {
         result = s.simpleSelector.visit(this) as bool;
       } else if (combinator == TokenKind.COMBINATOR_DESCENDANT) {

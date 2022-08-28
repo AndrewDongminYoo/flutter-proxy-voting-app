@@ -28,7 +28,7 @@ List<T> slice<T>(List<T> list, int start, [int? end]) {
 }
 
 bool allWhitespace(String str) {
-  for (var i = 0; i < str.length; i++) {
+  for (int i = 0; i < str.length; i++) {
     if (!isWhitespaceCC(str.codeUnitAt(i))) return false;
   }
   return true;
@@ -38,7 +38,7 @@ String padWithZeros(String str, int size) {
   if (str.length == size) return str;
   final result = StringBuffer();
   size -= str.length;
-  for (var i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++) {
     result.write('0');
   }
   result.write(str);
@@ -55,11 +55,11 @@ String formatStr(String format, Map? data) {
       result.write(format.substring(last, match));
       match += search.length;
 
-      var digits = match;
+      int digits = match;
       while (isDigit(format[digits])) {
         digits++;
       }
-      var numberSize = 0;
+      int numberSize = 0;
       if (digits > match) {
         numberSize = int.parse(format.substring(match, digits));
         match = digits;

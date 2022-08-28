@@ -433,8 +433,8 @@ class TokenKind {
 
       if (length == ident.length) {
         var idx = offset;
-        var match = true;
-        for (var i = 0; i < ident.length; i++) {
+        bool match = true;
+        for (int i = 0; i < ident.length; i++) {
           var identChar = ident.codeUnitAt(i);
           var char = text.codeUnitAt(idx++);
           match = match &&
@@ -533,7 +533,7 @@ class TokenKind {
       result.add(HEXDIGITS[remain]);
     }
 
-    var invertResult = StringBuffer();
+    StringBuffer invertResult = StringBuffer();
     var paddings = minDigits - result.length;
     while (paddings-- > 0) {
       invertResult.write('0');

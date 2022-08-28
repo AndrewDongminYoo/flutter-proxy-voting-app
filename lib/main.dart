@@ -28,7 +28,8 @@ main() async {
   runZonedGuarded(() {
     runApp(MyApp(initialLink: initialLink, firstTime: firstTime));
   }, (Object error, StackTrace trace) {
-    var detail = FlutterErrorDetails(stack: trace, exception: error);
+    FlutterErrorDetails detail =
+        FlutterErrorDetails(stack: trace, exception: error);
     crashlytics.recordFlutterFatalError(detail);
   });
 }

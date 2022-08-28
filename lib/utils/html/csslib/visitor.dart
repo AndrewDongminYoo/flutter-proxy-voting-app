@@ -119,7 +119,7 @@ abstract class VisitorBase {
 
 class Visitor implements VisitorBase {
   void _visitNodeList(List<TreeNode> list) {
-    for (var index = 0; index < list.length; index++) {
+    for (int index = 0; index < list.length; index++) {
       list[index].visit(this);
     }
   }
@@ -159,7 +159,7 @@ class Visitor implements VisitorBase {
 
   @override
   dynamic visitMediaQuery(MediaQuery node) {
-    for (var mediaExpr in node.expressions) {
+    for (MediaExpression mediaExpr in node.expressions) {
       visitMediaExpression(mediaExpr);
     }
   }
@@ -214,7 +214,7 @@ class Visitor implements VisitorBase {
 
   @override
   dynamic visitPageDirective(PageDirective node) {
-    for (var declGroup in node._declsMargin) {
+    for (DeclarationGroup declGroup in node._declsMargin) {
       if (declGroup is MarginGroup) {
         visitMarginGroup(declGroup);
       } else {
@@ -228,7 +228,7 @@ class Visitor implements VisitorBase {
 
   @override
   dynamic visitImportDirective(ImportDirective node) {
-    for (var mediaQuery in node.mediaQueries) {
+    for (MediaQuery mediaQuery in node.mediaQueries) {
       visitMediaQuery(mediaQuery);
     }
   }
@@ -278,8 +278,8 @@ class Visitor implements VisitorBase {
 
   @override
   dynamic visitIncludeDirective(IncludeDirective node) {
-    for (var index = 0; index < node.args.length; index++) {
-      var param = node.args[index];
+    for (int index = 0; index < node.args.length; index++) {
+      List<Expression> param = node.args[index];
       _visitNodeList(param);
     }
   }
@@ -479,7 +479,7 @@ class Visitor implements VisitorBase {
 
   @override
   dynamic visitGroupTerm(GroupTerm node) {
-    for (var term in node._terms) {
+    for (LiteralTerm term in node._terms) {
       term.visit(this);
     }
   }

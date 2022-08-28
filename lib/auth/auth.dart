@@ -1,5 +1,5 @@
 export 'auth.controller.dart';
-export 'auth.data.dart';
+export 'auth.model.dart';
 export 'auth.service.dart';
 export 'auth.view.dart';
 export 'auth_validation.view.dart';

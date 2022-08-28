@@ -1,7 +1,8 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../shared/custom_appbar.dart';
-import '../shared/custom_button.dart';
+// 🌎 Project imports:
+import '../shared/shared.dart';
 import 'mts.controller.dart';
 
 class RaonSecureTest extends StatefulWidget {
@@ -17,7 +18,7 @@ class _RaonSecureTestState extends State<RaonSecureTest> {
   String returnValue = '';
 
   _onPressed() async {
-    var res = await _mtsController.getTheResult(functionName);
+    dynamic res = await _mtsController.getTheResult(functionName);
     returnValue = res.toString();
   }
 

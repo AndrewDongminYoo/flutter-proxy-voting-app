@@ -20,7 +20,7 @@ class EncodingBytes {
   }
 
   String _previous() {
-    var p = __position;
+    int p = __position;
     if (p >= _length) {
       throw StateError('No more elements');
     } else if (p < 0) {
@@ -52,7 +52,7 @@ class EncodingBytes {
 
   String? _skipChars([_CharPredicate? skipChars]) {
     skipChars ??= isWhitespace;
-    var p = _position;
+    int p = _position;
     while (p < _length) {
       final c = _bytes[p];
       if (!skipChars(c)) {
@@ -66,7 +66,7 @@ class EncodingBytes {
   }
 
   String? _skipUntil(_CharPredicate untilChars) {
-    var p = _position;
+    int p = _position;
     while (p < _length) {
       final c = _bytes[p];
       if (untilChars(c)) {
@@ -136,7 +136,7 @@ class EncodingParser {
 
     try {
       for (;;) {
-        for (var dispatch in methodDispatch) {
+        for (_DispatchEntry dispatch in methodDispatch) {
           if (_data._matchBytes(dispatch.pattern)) {
             final keepParsing = dispatch.handler();
             if (keepParsing) break;
@@ -200,7 +200,7 @@ class EncodingParser {
     if (c == '<') {
       _data._previous();
     } else {
-      var attr = _getAttribute();
+      List<String>? attr = _getAttribute();
       while (attr != null) {
         attr = _getAttribute();
       }
@@ -211,7 +211,7 @@ class EncodingParser {
   bool _handleOther() => _data._jumpTo('>');
 
   List<String>? _getAttribute() {
-    var c = _data._skipChars((x) => x == '/' || isWhitespace(x));
+    String? c = _data._skipChars((x) => x == '/' || isWhitespace(x));
 
     if (c == '>' || c == null) {
       return null;

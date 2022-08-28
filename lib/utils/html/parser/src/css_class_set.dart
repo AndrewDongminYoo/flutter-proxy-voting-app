@@ -15,7 +15,7 @@ class ElementCssClassSet extends _CssClassSetImpl {
     final s = LinkedHashSet<String>();
     final classname = _element.className;
 
-    for (var name in classname.split(' ')) {
+    for (String name in classname.split(' ')) {
       final trimmed = name.trim();
       if (trimmed.isNotEmpty) {
         s.add(trimmed);
@@ -62,7 +62,7 @@ abstract class _CssClassSetImpl extends SetBase<String> implements CssClassSet {
   @override
   bool toggle(String value, [bool? shouldAdd]) {
     final s = readClasses();
-    var result = false;
+    bool result = false;
     shouldAdd ??= !s.contains(value);
     if (shouldAdd) {
       s.add(value);
@@ -108,7 +108,7 @@ abstract class _CssClassSetImpl extends SetBase<String> implements CssClassSet {
 
   @override
   void toggleAll(Iterable<String> iterable, [bool? shouldAdd]) {
-    for (var e in iterable) {
+    for (String e in iterable) {
       toggle(e, shouldAdd);
     }
   }

@@ -83,7 +83,7 @@ class _EditModalState extends State<EditModal> {
       final response = await http.get(uri, headers: headers);
       final jsonObj = json.decode(response.body);
 
-      for (var e in jsonObj['addresses']) {
+      for (dynamic e in jsonObj['addresses']) {
         roadAddressList.add(e['roadAddress']);
       }
 

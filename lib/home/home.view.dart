@@ -10,7 +10,7 @@ import '../campaign/campaign.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
-import 'pop_scope.dart';
+import 'pop_scope_widget.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
 class HomePage extends StatefulWidget {

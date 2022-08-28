@@ -1,2 +1,2 @@
-export 'guide.data.dart';
+export 'guide.model.dart';
 export 'onboarding.view.dart';

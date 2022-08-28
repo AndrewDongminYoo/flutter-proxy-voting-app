@@ -1,5 +1,5 @@
 // 🌎 Project imports:
-import '../../channel.dart';
+import '../../global_channel.dart';
 import 'package_info_data.dart';
 import 'package_info_interface.dart';
 

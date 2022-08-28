@@ -15,8 +15,8 @@ class Token {
 
   @override
   String toString() {
-    var kindText = TokenKind.kindToString(kind);
-    var actualText = text.trim();
+    String kindText = TokenKind.kindToString(kind);
+    String actualText = text.trim();
     if (kindText != actualText) {
       if (actualText.length > 10) {
         actualText = '${actualText.substring(0, 8)}...';

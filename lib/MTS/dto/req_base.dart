@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 // 🌎 Project imports:
-import '../../utils/channel.dart';
+import '../../utils/global_channel.dart';
 import '../mts.dart';
 
 class CustomRequest implements InputOutput {

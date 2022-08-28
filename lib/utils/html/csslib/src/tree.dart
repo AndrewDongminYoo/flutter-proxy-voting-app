@@ -792,7 +792,8 @@ class KeyFrameDirective extends Directive {
 
   @override
   KeyFrameDirective clone() {
-    var directive = KeyFrameDirective(_keyframeName, name!.clone(), span);
+    KeyFrameDirective directive =
+        KeyFrameDirective(_keyframeName, name!.clone(), span);
     for (var block in _blocks) {
       directive.add(block.clone());
     }
@@ -1417,7 +1418,7 @@ class Expressions extends Expression {
 
   @override
   Expressions clone() {
-    var clonedExprs = Expressions(span);
+    Expressions clonedExprs = Expressions(span);
     for (var expr in expressions) {
       clonedExprs.add(expr.clone());
     }

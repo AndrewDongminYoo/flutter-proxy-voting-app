@@ -84,38 +84,4 @@ class AuthService extends GetConnect {
     return await put(
         _getURL('/users/uuid'), jsonEncode({'uid': uid, 'uuid': uuid}));
   }
-
-  /// MESSAGE PART
-  // Future<void> postMessage(String phoneNumber, Chat message) async {
-  //   final contact = <String, dynamic>{
-  //     'message': message.message,
-  //     'myself': message.myself,
-  //     'time': message.time
-  //   };
-  //   await _db
-  //       .collection('contacts')
-  //       .doc(phoneNumber)
-  //       .collection('inbox')
-  //       .add(contact);
-  // }
-
-  // Future<List<Chat>> getMessage(String phoneNumber) async {
-  //   List<Chat> ref = [];
-  //   try {
-  //     await _db
-  //         .collection('contacts')
-  //         .doc(phoneNumber)
-  //         .collection('inbox')
-  //         .orderBy('time', descending: false)
-  //         .get()
-  //         .then((event) {
-  //       for (var doc in event.docs) {
-  //         ref.add(Chat.fromFireStore(doc));
-  //       }
-  //     });
-  //   } catch (err) {
-  //     print(err.toString());
-  //   }
-  //   return ref;
-  // }
 }

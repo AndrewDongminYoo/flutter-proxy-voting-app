@@ -1,16 +1,10 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 🌎 Project imports:
-import '../../campaign/campaign.model.dart';
-
 class CompanyLogoWidget extends StatelessWidget {
   const CompanyLogoWidget({
     Key? key,
-    required this.campaign,
   }) : super(key: key);
-
-  final Campaign campaign;
 
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ class _AddressCardState extends State<AddressCard> {
   String address = '';
 
   onEdit() async {
-    var add = await Get.dialog(
+    String? add = await Get.dialog(
       const EditModal(),
       arguments: address,
     );

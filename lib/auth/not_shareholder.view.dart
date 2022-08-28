@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../campaign/campaign.model.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
-import '../utils/mailto.dart';
+import '../utils/mailto_class.dart';
 import '../vote/vote.controller.dart';
 
 class NotShareholderPage extends StatefulWidget {
@@ -19,13 +19,14 @@ class NotShareholderPage extends StatefulWidget {
 }
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
+  // TODO: 데이터 직접 입력 제거하기
   final _contact = 'sjcho0070@naver.com';
   final _tele = '010-8697-1669';
 
   final VoteController _voteCtrl = VoteController.get();
 
   _onPressedMail() async {
-    var body = """
+    String body = """
 '주주명부에 등록되어 있지 않습니다.'라는 메세지가 나타납니다.
 성함: ${_voteCtrl.shareholder.username}
 회사: ${_voteCtrl.voteAgenda.company}

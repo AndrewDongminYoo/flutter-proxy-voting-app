@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import '../shared/custom_text.dart';
-import '../theme.dart';
-import 'campaign.model.dart';
+import '../../shared/custom_text.dart';
+import '../../theme.dart';
+import '../campaign.model.dart';
 
 class CampaignInfo extends Column {
   final Campaign campaign;

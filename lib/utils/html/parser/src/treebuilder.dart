@@ -14,9 +14,9 @@ import 'src.dart';
 class ActiveFormattingElements extends ListProxy<Element?> {
   @override
   void add(Element? element) {
-    var equalCount = 0;
+    int equalCount = 0;
     if (element != null) {
-      for (var element in reversed) {
+      for (Element? element in reversed) {
         if (element == null) {
           break;
         }
@@ -37,7 +37,7 @@ bool _mapEquals(Map a, Map b) {
   if (a.length != b.length) return false;
   if (a.isEmpty) return true;
 
-  for (var keyA in a.keys) {
+  for (dynamic keyA in a.keys) {
     final valB = b[keyA];
     if (valB == null && !b.containsKey(keyA)) {
       return false;
@@ -62,13 +62,14 @@ class TreeBuilder {
 
   final List<Element> openElements = <Element>[];
 
-  final activeFormattingElements = ActiveFormattingElements();
+  final ListProxy<Element?> activeFormattingElements =
+      ActiveFormattingElements();
 
   Node? headPointer;
 
   Element? formPointer;
 
-  var insertFromTable = false;
+  bool insertFromTable = false;
 
   TreeBuilder(bool namespaceHTMLElements)
       : defaultNamespace = namespaceHTMLElements ? Namespaces.html : null {
@@ -90,9 +91,9 @@ class TreeBuilder {
   bool elementInScope(target, {String? variant}) {
     final exactNode = target is Node;
 
-    var listElements1 = scopingElements;
-    var listElements2 = const [];
-    var invert = false;
+    dynamic listElements1 = scopingElements;
+    List<dynamic> listElements2 = const [];
+    bool invert = false;
     if (variant != null) {
       switch (variant) {
         case 'button':
@@ -122,7 +123,7 @@ class TreeBuilder {
       }
     }
 
-    for (var node in openElements.reversed) {
+    for (Element node in openElements.reversed) {
       if (!exactNode && node.localName == target ||
           exactNode && node == target) {
         return true;
@@ -141,8 +142,8 @@ class TreeBuilder {
       return;
     }
 
-    var i = activeFormattingElements.length - 1;
-    var entry = activeFormattingElements[i];
+    int i = activeFormattingElements.length - 1;
+    Element? entry = activeFormattingElements[i];
     if (entry == null || openElements.contains(entry)) {
       return;
     }
@@ -178,14 +179,14 @@ class TreeBuilder {
   }
 
   void clearActiveFormattingElements() {
-    var entry = activeFormattingElements.removeLast();
+    Element? entry = activeFormattingElements.removeLast();
     while (activeFormattingElements.isNotEmpty && entry != null) {
       entry = activeFormattingElements.removeLast();
     }
   }
 
   Element? elementInActiveFormattingElements(String? name) {
-    for (var item in activeFormattingElements.reversed) {
+    for (Element? item in activeFormattingElements.reversed) {
       if (item == null) {
         break;
       } else if (item.localName == name) {
@@ -296,7 +297,7 @@ class TreeBuilder {
     Element? lastTable;
     Node? fosterParent;
     Node? insertBefore;
-    for (var elm in openElements.reversed) {
+    for (Element elm in openElements.reversed) {
       if (elm.localName == 'table') {
         lastTable = elm;
         break;

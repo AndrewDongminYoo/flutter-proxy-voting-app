@@ -38,7 +38,7 @@ class _ServiceTermState extends State<ServiceTerm> {
   }
 
   _setAllAgreeTerms(value) {
-    for (var i = 0; i < _agreeTerms.length; i++) {
+    for (int i = 0; i < _agreeTerms.length; i++) {
       _agreeTerms[i] = value;
     }
     if (mounted) setState(() {});
