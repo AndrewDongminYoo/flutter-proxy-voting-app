@@ -4,6 +4,7 @@
 import 'dart:collection' show IterableBase, LinkedHashMap, ListMixin;
 
 // 📦 Package imports:
+import 'package:bside/utils/html/parser/src/token.dart';
 import 'package:source_span/source_span.dart' show FileSpan;
 
 // 🌎 Project imports:
@@ -147,7 +148,7 @@ abstract class Node {
   void _addOuterHtml(StringBuffer str);
 
   void _addInnerHtml(StringBuffer str) {
-    for (var child in nodes) {
+    for (Node child in nodes) {
       child._addOuterHtml(str);
     }
   }
@@ -199,7 +200,7 @@ abstract class Node {
     tokenizer.moveNext();
     final token = tokenizer.current as StartTagToken;
 
-    for (var attr in token.attributeSpans!) {
+    for (TagAttribute attr in token.attributeSpans!) {
       final offset = sourceSpan!.start.offset;
       final name = attr.name!;
       attributeSpans[name] =
@@ -213,7 +214,7 @@ abstract class Node {
 
   T _clone<T extends Node>(T shallowClone, bool deep) {
     if (deep) {
-      for (var child in nodes) {
+      for (Node child in nodes) {
         shallowClone.append(child.clone(true));
       }
     }
@@ -383,7 +384,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
   };
 
   factory Element.html(String html) {
-    var parentTag = 'div';
+    String parentTag = 'div';
     String? tag;
     final match = _startTagRegexp.firstMatch(html);
     if (match != null) {
@@ -578,7 +579,7 @@ class NodeList extends ListProxy<Node> {
   @override
   void addAll(Iterable<Node> iterable) {
     final list = _flattenDocFragments(iterable);
-    for (var node in list.reversed) {
+    for (Node node in list.reversed) {
       _setParent(node);
     }
     super.addAll(list);
@@ -601,7 +602,7 @@ class NodeList extends ListProxy<Node> {
 
   @override
   void clear() {
-    for (var node in this) {
+    for (Node node in this) {
       node.parentNode = null;
     }
     super.clear();
@@ -621,7 +622,7 @@ class NodeList extends ListProxy<Node> {
   @override
   void setRange(int start, int end, Iterable<Node> iterable,
       [int skipCount = 0]) {
-    var fromVar = iterable as List<Node>;
+    List<Node> fromVar = iterable as List<Node>;
     if (fromVar is NodeList) {
       fromVar = fromVar.sublist(skipCount, skipCount + end);
     }
@@ -646,7 +647,7 @@ class NodeList extends ListProxy<Node> {
 
   @override
   void removeWhere(bool Function(Node) test) {
-    for (var node in where(test)) {
+    for (Node node in where(test)) {
       node.parentNode = null;
     }
     super.removeWhere(test);
@@ -654,7 +655,7 @@ class NodeList extends ListProxy<Node> {
 
   @override
   void retainWhere(bool Function(Node) test) {
-    for (var node in where((n) => !test(n))) {
+    for (Node node in where((n) => !test(n))) {
       node.parentNode = null;
     }
     super.retainWhere(test);
@@ -663,7 +664,7 @@ class NodeList extends ListProxy<Node> {
   @override
   void insertAll(int index, Iterable<Node> iterable) {
     final list = _flattenDocFragments(iterable);
-    for (var node in list.reversed) {
+    for (Node node in list.reversed) {
       _setParent(node);
     }
     super.insertAll(index, list);
@@ -671,7 +672,7 @@ class NodeList extends ListProxy<Node> {
 
   List<Node> _flattenDocFragments(Iterable<Node> collection) {
     final result = <Node>[];
-    for (var node in collection) {
+    for (Node node in collection) {
       if (node is DocumentFragment) {
         result.addAll(node.nodes);
       } else {
@@ -723,7 +724,7 @@ class FilteredElementList extends IterableBase<Element>
 
   @override
   void addAll(Iterable<Element> iterable) {
-    for (var element in iterable) {
+    for (Element element in iterable) {
       add(element);
     }
   }

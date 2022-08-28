@@ -52,10 +52,10 @@ class Color implements _StyleProperty, ColorBase {
       return '#$_argb';
     } else {
       num alpha = Color.hexToInt(_argb.substring(0, 2));
-      var a = (alpha / 255).toStringAsPrecision(2);
-      var r = Color.hexToInt(_argb.substring(2, 4));
-      var g = Color.hexToInt(_argb.substring(4, 6));
-      var b = Color.hexToInt(_argb.substring(6, 8));
+      String a = (alpha / 255).toStringAsPrecision(2);
+      int r = Color.hexToInt(_argb.substring(2, 4));
+      int g = Color.hexToInt(_argb.substring(4, 6));
+      int b = Color.hexToInt(_argb.substring(6, 8));
       return 'rgba($r,$g,$b,$a)';
     }
   }
@@ -64,16 +64,16 @@ class Color implements _StyleProperty, ColorBase {
     int nextIndex = 0;
     num? a;
     if (_argb.length == 8) {
-      var alpha = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
+      int alpha = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
 
       a = double.parse((alpha / 255).toStringAsPrecision(2));
       nextIndex += 2;
     }
-    var r = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
+    int r = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
     nextIndex += 2;
-    var g = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
+    int g = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
     nextIndex += 2;
-    var b = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
+    int b = Color.hexToInt(_argb.substring(nextIndex, nextIndex + 2));
     return Rgba(r, g, b, a);
   }
 
@@ -89,24 +89,24 @@ class Color implements _StyleProperty, ColorBase {
   String toHexArgbString() => _argb;
 
   Color darker(num amount) {
-    var newRgba = Color._createNewTintShadeFromRgba(rgba, -amount);
+    Rgba newRgba = Color._createNewTintShadeFromRgba(rgba, -amount);
     return Color.hex(newRgba.toHexArgbString());
   }
 
   Color lighter(num amount) {
-    var newRgba = Color._createNewTintShadeFromRgba(rgba, amount);
+    Rgba newRgba = Color._createNewTintShadeFromRgba(rgba, amount);
     return Color.hex(newRgba.toHexArgbString());
   }
 
   static bool equal(ColorBase curr, other) {
     if (other is Color) {
-      var o = other;
+      Color o = other;
       return o.toHexArgbString() == curr.toHexArgbString();
     } else if (other is Rgba) {
-      var rgb = other;
+      Rgba rgb = other;
       return rgb.toHexArgbString() == curr.toHexArgbString();
     } else if (other is Hsla) {
-      var hsla = other;
+      Hsla hsla = other;
       return hsla.toHexArgbString() == curr.toHexArgbString();
     } else {
       return false;
@@ -123,9 +123,9 @@ class Color implements _StyleProperty, ColorBase {
       a = (Color._clamp(alpha, 0, 1) * 255).round();
     }
 
-    var r = (rgba & 0xff0000) >> 0x10;
-    var g = (rgba & 0xff00) >> 8;
-    var b = rgba & 0xff;
+    int r = (rgba & 0xff0000) >> 0x10;
+    int g = (rgba & 0xff00) >> 8;
+    int b = rgba & 0xff;
 
     return Color.convertToHexString(r, g, b, a);
   }
@@ -136,9 +136,9 @@ class Color implements _StyleProperty, ColorBase {
   static const int _hslaCss = 4;
 
   static String? _convertCssToArgb(String value) {
-    var color = value.trim().replaceAll('\\s', '');
+    String color = value.trim().replaceAll('\\s', '');
     if (color[0] == '#') {
-      var v = color.substring(1);
+      String v = color.substring(1);
       Color.hexToInt(v);
       return v;
     } else if (color.isNotEmpty && color[color.length - 1] == ')') {
@@ -162,8 +162,8 @@ class Color implements _StyleProperty, ColorBase {
       color = color.substring(0, color.length - 1);
 
       List<num> args = <num>[];
-      var params = color.split(',');
-      for (var param in params) {
+      List<String> params = color.split(',');
+      for (String param in params) {
         args.add(double.parse(param));
       }
       switch (type) {
@@ -188,10 +188,10 @@ class Color implements _StyleProperty, ColorBase {
   static int hexToInt(String hex) => int.parse(hex, radix: 16);
 
   static String convertToHexString(int r, int g, int b, [num? a]) {
-    var rHex = Color._numAs2DigitHex(Color._clamp(r, 0, 255));
-    var gHex = Color._numAs2DigitHex(Color._clamp(g, 0, 255));
-    var bHex = Color._numAs2DigitHex(Color._clamp(b, 0, 255));
-    var aHex = (a != null)
+    String rHex = Color._numAs2DigitHex(Color._clamp(r, 0, 255));
+    String gHex = Color._numAs2DigitHex(Color._clamp(g, 0, 255));
+    String bHex = Color._numAs2DigitHex(Color._clamp(b, 0, 255));
+    String aHex = (a != null)
         ? Color._numAs2DigitHex((Color._clamp(a, 0, 1) * 255).round())
         : '';
 
@@ -205,7 +205,7 @@ class Color implements _StyleProperty, ColorBase {
 
   static Rgba _createNewTintShadeFromRgba(Rgba rgba, num amount) {
     int r, g, b;
-    var tintShade = Color._clamp(amount, -1, 1);
+    num tintShade = Color._clamp(amount, -1, 1);
     if (amount < 0 && rgba.r == 255 && rgba.g == 255 && rgba.b == 255) {
       r = Color._clamp((255 + (255 * tintShade)).round().toInt(), 0, 255);
       g = Color._clamp((255 + (255 * tintShade)).round().toInt(), 0, 255);
@@ -397,10 +397,10 @@ class Rgba implements _StyleProperty, ColorBase {
   }
 
   factory Rgba.fromHsla(Hsla hsla) {
-    var h = hsla.hue;
-    var s = hsla.saturation;
-    var l = hsla.lightness;
-    var a = hsla.alpha;
+    num h = hsla.hue;
+    num s = hsla.saturation;
+    num l = hsla.lightness;
+    num? a = hsla.alpha;
 
     int r;
     int g;
@@ -418,7 +418,7 @@ class Rgba implements _StyleProperty, ColorBase {
       } else {
         var2 = (l + s) - (s * l);
       }
-      var var1 = 2 * l - var2;
+      num var1 = 2 * l - var2;
 
       r = (255 * Rgba._hueToRGB(var1, var2, h + (1 / 3))).round().toInt();
       g = (255 * Rgba._hueToRGB(var1, var2, h)).round().toInt();
@@ -502,20 +502,20 @@ class Hsla implements _StyleProperty, ColorBase {
         _a = (alpha != null) ? Color._clamp(alpha, 0, 1) : alpha;
 
   factory Hsla.fromString(String hexValue) {
-    var rgba = Color.css('#${Color._convertCssToArgb(hexValue)}').rgba;
+    Rgba rgba = Color.css('#${Color._convertCssToArgb(hexValue)}').rgba;
     return _createFromRgba(rgba.r, rgba.g, rgba.b, rgba.a);
   }
 
   factory Hsla.fromColor(Color color) {
-    var rgba = color.rgba;
+    Rgba rgba = color.rgba;
     return _createFromRgba(rgba.r, rgba.g, rgba.b, rgba.a);
   }
 
   factory Hsla.fromArgbValue(num value) {
     num a = (value.toInt() & 0xff000000) >> 0x18;
-    var r = (value.toInt() & 0xff0000) >> 0x10;
-    var g = (value.toInt() & 0xff00) >> 8;
-    var b = value.toInt() & 0xff;
+    int r = (value.toInt() & 0xff0000) >> 0x10;
+    int g = (value.toInt() & 0xff00) >> 8;
+    int b = value.toInt() & 0xff;
 
     a = double.parse((a / 255).toStringAsPrecision(2));
 
@@ -529,19 +529,18 @@ class Hsla implements _StyleProperty, ColorBase {
     r /= 255;
     g /= 255;
     b /= 255;
-
     num h;
     num s;
     num l;
 
-    var minRgb = math.min(r, math.min(g, b));
-    var maxRgb = math.max(r, math.max(g, b));
+    num minRgb = math.min(r, math.min(g, b));
+    num maxRgb = math.max(r, math.max(g, b));
     l = (maxRgb + minRgb) / 2;
     if (l <= 0) {
       return Hsla(0, 0, l);
     }
 
-    var vm = maxRgb - minRgb;
+    num vm = maxRgb - minRgb;
     s = vm;
     if (s > 0) {
       s /= (l < 0.5) ? (maxRgb + minRgb) : (2 - maxRgb - minRgb);
@@ -840,7 +839,7 @@ class Font implements _StyleProperty {
   }
 
   String get _fontsAsString {
-    var fonts = family.toString();
+    String fonts = family.toString();
     return fonts.length > 2 ? fonts.substring(1, fonts.length - 1) : '';
   }
 }
@@ -866,10 +865,10 @@ class BoxEdge {
 
   factory BoxEdge.nonNull(BoxEdge? other) {
     if (other == null) return const BoxEdge(0, 0, 0, 0);
-    var left = other.left;
-    var top = other.top;
-    var right = other.right;
-    var bottom = other.bottom;
+    num? left = other.left;
+    num? top = other.top;
+    num? right = other.right;
+    num? bottom = other.bottom;
     bool make = false;
     if (left == null) {
       make = true;

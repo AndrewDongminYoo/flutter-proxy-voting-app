@@ -31,14 +31,14 @@ class Tokenizer extends TokenizerBase {
       case TokenChar.AT:
         int peekCh = _peekChar();
         if (TokenizerHelpers.isIdentifierStart(peekCh)) {
-          var oldIndex = _index;
-          var oldStartIndex = _startIndex;
+          int oldIndex = _index;
+          int oldStartIndex = _startIndex;
 
           _startIndex = _index;
           ch = _nextChar();
           finishIdentifier();
 
-          var tokId = TokenKind.matchDirectives(
+          int tokId = TokenKind.matchDirectives(
               _text, _startIndex, _index - _startIndex);
           if (tokId == -1) {
             tokId = TokenKind.matchMarginDirectives(
@@ -54,9 +54,9 @@ class Tokenizer extends TokenizerBase {
         }
         return _finishToken(TokenKind.AT);
       case TokenChar.DOT:
-        var start = _startIndex;
+        int start = _startIndex;
         if (maybeEatDigit()) {
-          var number = finishNumber();
+          Token number = finishNumber();
           if (number.kind == TokenKind.INTEGER) {
             _startIndex = start;
             return _finishToken(TokenKind.DOUBLE);
@@ -167,7 +167,7 @@ class Tokenizer extends TokenizerBase {
 
         if (unicodeRange) {
           if (maybeEatHexDigit()) {
-            var t = finishHexNumber();
+            Token t = finishHexNumber();
 
             if (maybeEatQuestionMark()) finishUnicodeRange();
             return t;
@@ -218,7 +218,7 @@ class Tokenizer extends TokenizerBase {
 
   @override
   int getIdentifierKind() {
-    var tokId = -1;
+    int tokId = -1;
 
     if (!inSelectorExpression && !inSelector) {
       tokId = TokenKind.matchUnits(_text, _startIndex, _index - _startIndex);
@@ -235,13 +235,13 @@ class Tokenizer extends TokenizerBase {
   Token finishIdentifier() {
     List<int> chars = <int>[];
 
-    var validateFrom = _index;
+    int validateFrom = _index;
     _index = _startIndex;
     while (_index < _text.length) {
-      var ch = _text.codeUnitAt(_index);
+      int ch = _text.codeUnitAt(_index);
 
       if (ch == 92 /*\*/ && inString) {
-        var startHex = ++_index;
+        int startHex = ++_index;
         eatHexDigits(startHex + 6);
         if (_index != startHex) {
           chars.add(int.parse('0x${_text.substring(startHex, _index)}'));
@@ -271,8 +271,8 @@ class Tokenizer extends TokenizerBase {
       }
     }
 
-    var span = _file.span(_startIndex, _index);
-    var text = String.fromCharCodes(chars);
+    FileSpan span = _file.span(_startIndex, _index);
+    String text = String.fromCharCodes(chars);
 
     return IdentifierToken(text, getIdentifierKind(), span);
   }
@@ -353,7 +353,7 @@ class Tokenizer extends TokenizerBase {
 
   Token finishHtmlComment() {
     while (true) {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == 0) {
         return _finishToken(TokenKind.INCOMPLETE_COMMENT);
       } else if (ch == TokenChar.MINUS) {
@@ -374,7 +374,7 @@ class Tokenizer extends TokenizerBase {
   @override
   Token finishMultiLineComment() {
     while (true) {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == 0) {
         return _finishToken(TokenKind.INCOMPLETE_COMMENT);
       } else if (ch == 42 /*'*'*/) {

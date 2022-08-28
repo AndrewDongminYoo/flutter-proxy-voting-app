@@ -105,10 +105,10 @@ class _VarDefAndUsage extends Visitor {
   void visitVarUsage(VarUsage node) {
     if (currVarDefinition != null && currVarDefinition!.badUsage) return;
 
-    var expressions = currentExpressions;
-    var index = expressions!.indexOf(node);
+    List<Expression>? expressions = currentExpressions;
+    int index = expressions!.indexOf(node);
     assert(index >= 0);
-    var def = _knownVarDefs[node.name];
+    VarDefinition? def = _knownVarDefs[node.name];
     if (def != null) {
       if (def.badUsage) {
         expressions.removeAt(index);
@@ -118,7 +118,7 @@ class _VarDefAndUsage extends Visitor {
           _findTerminalVarDefinition(_knownVarDefs, def));
     } else if (node.defaultValues.any((e) => e is VarUsage)) {
       List<Expression> terminalDefaults = <Expression>[];
-      for (var defaultValue in node.defaultValues) {
+      for (Expression defaultValue in node.defaultValues) {
         terminalDefaults.addAll(resolveUsageTerminal(defaultValue as VarUsage));
       }
       expressions.replaceRange(index, index + 1, terminalDefaults);
@@ -127,7 +127,7 @@ class _VarDefAndUsage extends Visitor {
     } else {
       if (currVarDefinition != null) {
         currVarDefinition!.badUsage = true;
-        var mainStyleSheetDef = varDefs[node.name];
+        VarDefinition? mainStyleSheetDef = varDefs[node.name];
         if (mainStyleSheetDef != null) {
           varDefs.remove(currVarDefinition!.property);
         }
@@ -137,7 +137,7 @@ class _VarDefAndUsage extends Visitor {
       _messages.warning('Variable is not defined.', node.span);
     }
 
-    var oldExpressions = currentExpressions;
+    List<Expression>? oldExpressions = currentExpressions;
     currentExpressions = node.defaultValues;
     super.visitVarUsage(node);
     currentExpressions = oldExpressions;
@@ -146,7 +146,7 @@ class _VarDefAndUsage extends Visitor {
   List<Expression> resolveUsageTerminal(VarUsage usage) {
     List<Expression> result = <Expression>[];
 
-    var varDef = _knownVarDefs[usage.name];
+    VarDefinition? varDef = _knownVarDefs[usage.name];
     List<Expression> expressions;
     if (varDef == null) {
       expressions = usage.defaultValues;
@@ -154,7 +154,7 @@ class _VarDefAndUsage extends Visitor {
       expressions = (varDef.expression as Expressions).expressions;
     }
 
-    for (var expr in expressions) {
+    for (Expression expr in expressions) {
       if (expr is VarUsage) {
         result.addAll(resolveUsageTerminal(expr));
       }
@@ -169,7 +169,8 @@ class _VarDefAndUsage extends Visitor {
 
   void _resolveVarUsage(
       List<Expression> expressions, int index, VarDefinition def) {
-    var defExpressions = (def.expression as Expressions).expressions;
+    List<Expression> defExpressions =
+        (def.expression as Expressions).expressions;
     expressions.replaceRange(index, index + 1, defExpressions);
   }
 }
@@ -195,15 +196,15 @@ class _RemoveVarDefinitions extends Visitor {
 
 VarDefinition _findTerminalVarDefinition(
     Map<String, VarDefinition> varDefs, VarDefinition varDef) {
-  var expressions = varDef.expression as Expressions;
-  for (var expr in expressions.expressions) {
+  Expressions expressions = varDef.expression as Expressions;
+  for (Expression expr in expressions.expressions) {
     if (expr is VarUsage) {
-      var usageName = expr.name;
-      var foundDef = varDefs[usageName];
+      String usageName = expr.name;
+      VarDefinition? foundDef = varDefs[usageName];
 
       if (foundDef == null) {
-        var defaultValues = expr.defaultValues;
-        var replaceExprs = expressions.expressions;
+        List<Expression> defaultValues = expr.defaultValues;
+        List<Expression> replaceExprs = expressions.expressions;
         assert(replaceExprs.length == 1);
         replaceExprs.replaceRange(0, 1, defaultValues);
         return varDef;

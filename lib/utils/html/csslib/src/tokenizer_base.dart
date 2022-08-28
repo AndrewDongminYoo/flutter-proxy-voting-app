@@ -71,7 +71,7 @@ abstract class TokenizerBase {
 
   bool _nextCharsAreNumber(int first) {
     if (TokenizerHelpers.isDigit(first)) return true;
-    var second = _peekChar();
+    int second = _peekChar();
     if (first == TokenChar.DOT) return TokenizerHelpers.isDigit(second);
     if (first == TokenChar.PLUS || first == TokenChar.MINUS) {
       return TokenizerHelpers.isDigit(second) ||
@@ -113,7 +113,7 @@ abstract class TokenizerBase {
   Token finishMultiLineComment() {
     int nesting = 1;
     do {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == 0) {
         return _errorToken();
       } else if (ch == TokenChar.ASTERISK) {
@@ -220,14 +220,14 @@ abstract class TokenizerBase {
   }
 
   Token makeIEFilter(int start, int end) {
-    var filter = _text.substring(start, end);
+    String filter = _text.substring(start, end);
     return LiteralToken(TokenKind.STRING, _file.span(start, end), filter);
   }
 
   Token _makeRawStringToken(bool isMultiline) {
     String s;
     if (isMultiline) {
-      var start = _startIndex + 4;
+      int start = _startIndex + 4;
       if (_text[start] == '\n') start++;
       s = _text.substring(start, _index - 3);
     } else {
@@ -239,7 +239,7 @@ abstract class TokenizerBase {
   Token finishMultilineString(int quote) {
     List<int> buf = <int>[];
     while (true) {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == 0) {
         return _errorToken();
       } else if (ch == quote) {
@@ -251,7 +251,7 @@ abstract class TokenizerBase {
         }
         buf.add(quote);
       } else if (ch == TokenChar.BACKSLASH) {
-        var escapeVal = readEscapeSequence();
+        int escapeVal = readEscapeSequence();
         if (escapeVal == -1) {
           return _errorToken('invalid hex escape sequence');
         } else {
@@ -284,7 +284,7 @@ abstract class TokenizerBase {
       }
     }
     while (true) {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == quote) {
         return _makeRawStringToken(false);
       } else if (ch == 0) {
@@ -295,7 +295,7 @@ abstract class TokenizerBase {
 
   Token finishMultilineRawString(int quote) {
     while (true) {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == 0) {
         return _errorToken();
       } else if (ch == quote && _maybeEatChar(quote) && _maybeEatChar(quote)) {
@@ -307,13 +307,13 @@ abstract class TokenizerBase {
   Token finishStringBody(int quote) {
     List<int> buf = <int>[];
     while (true) {
-      var ch = _nextChar();
+      int ch = _nextChar();
       if (ch == quote) {
         return _makeStringToken(buf, false);
       } else if (ch == 0) {
         return _errorToken();
       } else if (ch == TokenChar.BACKSLASH) {
-        var escapeVal = readEscapeSequence();
+        int escapeVal = readEscapeSequence();
         if (escapeVal == -1) {
           return _errorToken('invalid hex escape sequence');
         } else {

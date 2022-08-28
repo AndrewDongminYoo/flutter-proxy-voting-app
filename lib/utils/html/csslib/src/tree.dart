@@ -51,7 +51,7 @@ class Negation extends TreeNode {
 class CalcTerm extends LiteralTerm {
   final LiteralTerm expr;
 
-  CalcTerm(var value, String t, this.expr, SourceSpan? span)
+  CalcTerm(dynamic value, String t, this.expr, SourceSpan? span)
       : super(value, t, span);
 
   @override
@@ -104,7 +104,7 @@ class Selector extends TreeNode {
 
   @override
   Selector clone() {
-    var simpleSequences =
+    List<SimpleSelectorSequence> simpleSequences =
         simpleSelectorSequences.map((ss) => ss.clone()).toList();
 
     return Selector(simpleSequences, span);
@@ -187,7 +187,7 @@ class ElementSelector extends SimpleSelector {
 class NamespaceSelector extends SimpleSelector {
   final dynamic _namespace;
 
-  NamespaceSelector(this._namespace, var name, SourceSpan? span)
+  NamespaceSelector(this._namespace, dynamic name, SourceSpan? span)
       : super(name, span);
 
   String get namespace => _namespace is Wildcard
@@ -422,7 +422,7 @@ class StyleSheet extends TreeNode {
 
   @override
   StyleSheet clone() {
-    var clonedTopLevels = topLevels.map((e) => e.clone()).toList();
+    List<TreeNode> clonedTopLevels = topLevels.map((e) => e.clone()).toList();
     return StyleSheet(clonedTopLevels, span);
   }
 
@@ -449,8 +449,8 @@ class RuleSet extends TopLevelProduction {
 
   @override
   RuleSet clone() {
-    var cloneSelectorGroup = selectorGroup!.clone();
-    var cloneDeclarationGroup = declarationGroup.clone();
+    SelectorGroup cloneSelectorGroup = selectorGroup!.clone();
+    DeclarationGroup cloneDeclarationGroup = declarationGroup.clone();
     return RuleSet(cloneSelectorGroup, cloneDeclarationGroup, span);
   }
 
@@ -483,11 +483,11 @@ class DocumentDirective extends Directive {
   @override
   DocumentDirective clone() {
     List<LiteralTerm> clonedFunctions = <LiteralTerm>[];
-    for (var function in functions) {
+    for (LiteralTerm function in functions) {
       clonedFunctions.add(function.clone());
     }
     List<TreeNode> clonedGroupRuleBody = <TreeNode>[];
-    for (var rule in groupRuleBody) {
+    for (TreeNode rule in groupRuleBody) {
       clonedGroupRuleBody.add(rule.clone());
     }
     return DocumentDirective(clonedFunctions, clonedGroupRuleBody, span);
@@ -506,9 +506,9 @@ class SupportsDirective extends Directive {
 
   @override
   SupportsDirective clone() {
-    var clonedCondition = condition!.clone() as SupportsCondition;
+    SupportsCondition clonedCondition = condition!.clone() as SupportsCondition;
     List<TreeNode> clonedGroupRuleBody = <TreeNode>[];
-    for (var rule in groupRuleBody) {
+    for (TreeNode rule in groupRuleBody) {
       clonedGroupRuleBody.add(rule.clone());
     }
     return SupportsDirective(clonedCondition, clonedGroupRuleBody, span);
@@ -566,7 +566,7 @@ class SupportsConjunction extends SupportsCondition {
   SupportsConjunction clone() {
     List<SupportsConditionInParens> clonedConditions =
         <SupportsConditionInParens>[];
-    for (var condition in conditions) {
+    for (SupportsConditionInParens condition in conditions) {
       clonedConditions.add(condition.clone());
     }
     return SupportsConjunction(clonedConditions, span);
@@ -585,7 +585,7 @@ class SupportsDisjunction extends SupportsCondition {
   SupportsDisjunction clone() {
     List<SupportsConditionInParens> clonedConditions =
         <SupportsConditionInParens>[];
-    for (var condition in conditions) {
+    for (SupportsConditionInParens condition in conditions) {
       clonedConditions.add(condition.clone());
     }
     return SupportsDisjunction(clonedConditions, span);
@@ -621,7 +621,7 @@ class ImportDirective extends Directive {
   @override
   ImportDirective clone() {
     List<MediaQuery> cloneMediaQueries = <MediaQuery>[];
-    for (var mediaQuery in mediaQueries) {
+    for (MediaQuery mediaQuery in mediaQueries) {
       cloneMediaQueries.add(mediaQuery.clone());
     }
     return ImportDirective(import, cloneMediaQueries, span);
@@ -647,7 +647,7 @@ class MediaExpression extends TreeNode {
 
   @override
   MediaExpression clone() {
-    var clonedExprs = exprs.clone();
+    Expressions clonedExprs = exprs.clone();
     return MediaExpression(andOperator, _mediaFeature, clonedExprs, span);
   }
 
@@ -678,7 +678,7 @@ class MediaQuery extends TreeNode {
   @override
   MediaQuery clone() {
     List<MediaExpression> cloneExpressions = <MediaExpression>[];
-    for (var expr in expressions) {
+    for (MediaExpression expr in expressions) {
       cloneExpressions.add(expr.clone());
     }
     return MediaQuery(_mediaUnary, _mediaType, cloneExpressions, span);
@@ -697,11 +697,11 @@ class MediaDirective extends Directive {
   @override
   MediaDirective clone() {
     List<MediaQuery> cloneQueries = <MediaQuery>[];
-    for (var mediaQuery in mediaQueries) {
+    for (MediaQuery mediaQuery in mediaQueries) {
       cloneQueries.add(mediaQuery.clone());
     }
     List<TreeNode> cloneRules = <TreeNode>[];
-    for (var rule in rules) {
+    for (TreeNode rule in rules) {
       cloneRules.add(rule.clone());
     }
     return MediaDirective(cloneQueries, cloneRules, span);
@@ -719,7 +719,7 @@ class HostDirective extends Directive {
   @override
   HostDirective clone() {
     List<TreeNode> cloneRules = <TreeNode>[];
-    for (var rule in rules) {
+    for (TreeNode rule in rules) {
       cloneRules.add(rule.clone());
     }
     return HostDirective(cloneRules, span);
@@ -741,7 +741,7 @@ class PageDirective extends Directive {
   @override
   PageDirective clone() {
     List<DeclarationGroup> cloneDeclsMargin = <DeclarationGroup>[];
-    for (var declMargin in _declsMargin) {
+    for (DeclarationGroup declMargin in _declsMargin) {
       cloneDeclsMargin.add(declMargin.clone());
     }
     return PageDirective(_ident, _pseudoPage, cloneDeclsMargin, span);
@@ -796,7 +796,7 @@ class KeyFrameDirective extends Directive {
   KeyFrameDirective clone() {
     KeyFrameDirective directive =
         KeyFrameDirective(_keyframeName, name!.clone(), span);
-    for (var block in _blocks) {
+    for (KeyFrameBlock block in _blocks) {
       directive.add(block.clone());
     }
     return directive;
@@ -846,7 +846,7 @@ class StyletDirective extends Directive {
   @override
   StyletDirective clone() {
     List<TreeNode> cloneRules = <TreeNode>[];
-    for (var rule in rules) {
+    for (TreeNode rule in rules) {
       cloneRules.add(rule.clone());
     }
     return StyletDirective(dartClassName, cloneRules, span);
@@ -896,7 +896,7 @@ class MixinDefinition extends Directive {
   @override
   MixinDefinition clone() {
     List<TreeNode> cloneDefinedArgs = <TreeNode>[];
-    for (var definedArg in definedArgs) {
+    for (TreeNode definedArg in definedArgs) {
       cloneDefinedArgs.add(definedArg.clone());
     }
     return MixinDefinition(name, cloneDefinedArgs, varArgs, span);
@@ -916,11 +916,11 @@ class MixinRulesetDirective extends MixinDefinition {
   @override
   MixinRulesetDirective clone() {
     List<VarDefinition> clonedArgs = <VarDefinition>[];
-    for (var arg in definedArgs) {
+    for (TreeNode arg in definedArgs) {
       clonedArgs.add(arg.clone() as VarDefinition);
     }
     List<TreeNode> clonedRulesets = <TreeNode>[];
-    for (var ruleset in rulesets) {
+    for (TreeNode ruleset in rulesets) {
       clonedRulesets.add(ruleset.clone());
     }
     return MixinRulesetDirective(
@@ -942,7 +942,7 @@ class MixinDeclarationDirective extends MixinDefinition {
   @override
   MixinDeclarationDirective clone() {
     List<TreeNode> clonedArgs = <TreeNode>[];
-    for (var arg in definedArgs) {
+    for (TreeNode arg in definedArgs) {
       clonedArgs.add(arg.clone());
     }
     return MixinDeclarationDirective(
@@ -962,8 +962,8 @@ class IncludeDirective extends Directive {
 
   @override
   IncludeDirective clone() {
-    var cloneArgs = <List<Expression>>[];
-    for (var arg in args) {
+    List<List<Expression>> cloneArgs = <List<Expression>>[];
+    for (List<Expression> arg in args) {
       cloneArgs.add(arg.map((term) => term.clone()).toList());
     }
     return IncludeDirective(name, cloneArgs, span);
@@ -1049,7 +1049,7 @@ class ExtendDeclaration extends Declaration {
 
   @override
   ExtendDeclaration clone() {
-    var newSelector = selectors.map((s) => s.clone()).toList();
+    List<TreeNode> newSelector = selectors.map((s) => s.clone()).toList();
     return ExtendDeclaration(newSelector, span);
   }
 
@@ -1067,7 +1067,7 @@ class DeclarationGroup extends TreeNode {
 
   @override
   DeclarationGroup clone() {
-    var clonedDecls = declarations.map((d) => d.clone()).toList();
+    List<TreeNode> clonedDecls = declarations.map((d) => d.clone()).toList();
     return DeclarationGroup(clonedDecls, span);
   }
 
@@ -1096,7 +1096,7 @@ class VarUsage extends Expression {
   @override
   VarUsage clone() {
     List<Expression> clonedValues = <Expression>[];
-    for (var expr in defaultValues) {
+    for (Expression expr in defaultValues) {
       clonedValues.add(expr.clone());
     }
     return VarUsage(name, clonedValues, span);
@@ -1234,7 +1234,7 @@ class ExTerm extends LiteralTerm {
 }
 
 class AngleTerm extends UnitTerm {
-  AngleTerm(var value, String t, SourceSpan? span,
+  AngleTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(this.unit == TokenKind.UNIT_ANGLE_DEG ||
@@ -1250,7 +1250,7 @@ class AngleTerm extends UnitTerm {
 }
 
 class TimeTerm extends UnitTerm {
-  TimeTerm(var value, String t, SourceSpan? span,
+  TimeTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(this.unit == TokenKind.UNIT_ANGLE_DEG ||
@@ -1265,7 +1265,7 @@ class TimeTerm extends UnitTerm {
 }
 
 class FreqTerm extends UnitTerm {
-  FreqTerm(var value, String t, SourceSpan? span,
+  FreqTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == TokenKind.UNIT_FREQ_HZ || unit == TokenKind.UNIT_FREQ_KHZ);
@@ -1278,7 +1278,8 @@ class FreqTerm extends UnitTerm {
 }
 
 class FractionTerm extends LiteralTerm {
-  FractionTerm(var value, String t, SourceSpan? span) : super(value, t, span);
+  FractionTerm(dynamic value, String t, SourceSpan? span)
+      : super(value, t, span);
 
   @override
   FractionTerm clone() => FractionTerm(value, text, span);
@@ -1296,7 +1297,7 @@ class UriTerm extends LiteralTerm {
 }
 
 class ResolutionTerm extends UnitTerm {
-  ResolutionTerm(var value, String t, SourceSpan? span,
+  ResolutionTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == TokenKind.UNIT_RESOLUTION_DPI ||
@@ -1311,7 +1312,7 @@ class ResolutionTerm extends UnitTerm {
 }
 
 class ChTerm extends UnitTerm {
-  ChTerm(var value, String t, SourceSpan? span,
+  ChTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == TokenKind.UNIT_CH);
@@ -1324,7 +1325,7 @@ class ChTerm extends UnitTerm {
 }
 
 class RemTerm extends UnitTerm {
-  RemTerm(var value, String t, SourceSpan? span,
+  RemTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == TokenKind.UNIT_REM);
@@ -1337,7 +1338,7 @@ class RemTerm extends UnitTerm {
 }
 
 class ViewportTerm extends UnitTerm {
-  ViewportTerm(var value, String t, SourceSpan? span,
+  ViewportTerm(dynamic value, String t, SourceSpan? span,
       [int unit = TokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == TokenKind.UNIT_VIEWPORT_VW ||
@@ -1355,7 +1356,8 @@ class ViewportTerm extends UnitTerm {
 class BadHexValue {}
 
 class HexColorTerm extends LiteralTerm {
-  HexColorTerm(var value, String t, SourceSpan? span) : super(value, t, span);
+  HexColorTerm(dynamic value, String t, SourceSpan? span)
+      : super(value, t, span);
 
   @override
   HexColorTerm clone() => HexColorTerm(value, text, span);
@@ -1366,7 +1368,7 @@ class HexColorTerm extends LiteralTerm {
 class FunctionTerm extends LiteralTerm {
   final Expressions _params;
 
-  FunctionTerm(var value, String t, this._params, SourceSpan? span)
+  FunctionTerm(dynamic value, String t, this._params, SourceSpan? span)
       : super(value, t, span);
 
   @override
@@ -1421,7 +1423,7 @@ class Expressions extends Expression {
   @override
   Expressions clone() {
     Expressions clonedExprs = Expressions(span);
-    for (var expr in expressions) {
+    for (Expression expr in expressions) {
       clonedExprs.add(expr.clone());
     }
     return clonedExprs;
@@ -1553,10 +1555,10 @@ abstract class BoxExpression extends DartStyleExpression {
         box!.top == box!.right) {
       return '.uniform(${box!.top})';
     } else {
-      var left = box!.left ?? 0;
-      var top = box!.top ?? 0;
-      var right = box!.right ?? 0;
-      var bottom = box!.bottom ?? 0;
+      num left = box!.left ?? 0;
+      num top = box!.top ?? 0;
+      num right = box!.right ?? 0;
+      num bottom = box!.bottom ?? 0;
       return '.clockwiseFromTop($top,$right,$bottom,$left)';
     }
   }

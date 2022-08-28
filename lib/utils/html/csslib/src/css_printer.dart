@@ -54,16 +54,16 @@ class CssPrinter extends Visitor {
 
   @override
   void visitMediaQuery(MediaQuery node) {
-    var unary = node.hasUnary ? ' ${node.unary}' : '';
-    var mediaType = node.hasMediaType ? ' ${node.mediaType}' : '';
+    String unary = node.hasUnary ? ' ${node.unary}' : '';
+    String mediaType = node.hasMediaType ? ' ${node.mediaType}' : '';
     emit('$unary$mediaType');
-    for (var expression in node.expressions) {
+    for (MediaExpression expression in node.expressions) {
       visitMediaExpression(expression);
     }
   }
 
   void emitMediaQueries(List<MediaQuery> queries) {
-    var queriesLen = queries.length;
+    int queriesLen = queries.length;
     for (int i = 0; i < queriesLen; i++) {
       var query = queries[i];
       if (i > 0) emit(',');
@@ -75,12 +75,12 @@ class CssPrinter extends Visitor {
   void visitDocumentDirective(DocumentDirective node) {
     emit('$_newLine@-moz-document ');
     node.functions.first.visit(this);
-    for (var function in node.functions.skip(1)) {
+    for (LiteralTerm function in node.functions.skip(1)) {
       emit(',$_sp');
       function.visit(this);
     }
     emit('$_sp{');
-    for (var ruleSet in node.groupRuleBody) {
+    for (TreeNode ruleSet in node.groupRuleBody) {
       ruleSet.visit(this);
     }
     emit('$_newLine}');
@@ -91,7 +91,7 @@ class CssPrinter extends Visitor {
     emit('$_newLine@supports ');
     node.condition!.visit(this);
     emit('$_sp{');
-    for (var rule in node.groupRuleBody) {
+    for (TreeNode rule in node.groupRuleBody) {
       rule.visit(this);
     }
     emit('$_newLine}');
@@ -113,7 +113,7 @@ class CssPrinter extends Visitor {
   @override
   void visitSupportsConjunction(SupportsConjunction node) {
     node.conditions.first.visit(this);
-    for (var condition in node.conditions.skip(1)) {
+    for (SupportsConditionInParens condition in node.conditions.skip(1)) {
       emit('${_sp}and$_sp');
       condition.visit(this);
     }
@@ -122,7 +122,7 @@ class CssPrinter extends Visitor {
   @override
   void visitSupportsDisjunction(SupportsDisjunction node) {
     node.conditions.first.visit(this);
-    for (var condition in node.conditions.skip(1)) {
+    for (SupportsConditionInParens condition in node.conditions.skip(1)) {
       emit('${_sp}or$_sp');
       condition.visit(this);
     }
@@ -140,7 +140,7 @@ class CssPrinter extends Visitor {
     emit('$_newLine@media');
     emitMediaQueries(node.mediaQueries.cast<MediaQuery>());
     emit('$_sp{');
-    for (var ruleset in node.rules) {
+    for (TreeNode ruleset in node.rules) {
       ruleset.visit(this);
     }
     emit('$_newLine}');
@@ -149,7 +149,7 @@ class CssPrinter extends Visitor {
   @override
   void visitHostDirective(HostDirective node) {
     emit('$_newLine@host$_sp{');
-    for (var ruleset in node.rules) {
+    for (TreeNode ruleset in node.rules) {
       ruleset.visit(this);
     }
     emit('$_newLine}');
@@ -164,8 +164,8 @@ class CssPrinter extends Visitor {
       emit(node.hasPseudoPage ? ':${node._pseudoPage}' : '');
     }
 
-    var declsMargin = node._declsMargin;
-    var declsMarginLength = declsMargin.length;
+    List<DeclarationGroup> declsMargin = node._declsMargin;
+    int declsMarginLength = declsMargin.length;
     emit('$_sp{$_newLine');
     for (int i = 0; i < declsMarginLength; i++) {
       declsMargin[i].visit(this);
@@ -253,7 +253,7 @@ class CssPrinter extends Visitor {
   @override
   void visitMixinRulesetDirective(MixinRulesetDirective node) {
     emit('@mixin ${node.name} {');
-    for (var ruleset in node.rulesets) {
+    for (TreeNode ruleset in node.rulesets) {
       ruleset.visit(this);
     }
     emit('}');
@@ -287,8 +287,8 @@ class CssPrinter extends Visitor {
 
   @override
   void visitDeclarationGroup(DeclarationGroup node) {
-    var declarations = node.declarations;
-    var declarationsLength = declarations.length;
+    List<TreeNode> declarations = node.declarations;
+    int declarationsLength = declarations.length;
     for (int i = 0; i < declarationsLength; i++) {
       if (i > 0) emit(_newLine);
       emit('$_sp$_sp');
@@ -302,7 +302,7 @@ class CssPrinter extends Visitor {
 
   @override
   void visitMarginGroup(MarginGroup node) {
-    var marginSymName =
+    String? marginSymName =
         TokenKind.idToValue(TokenKind.MARGIN_DIRECTIVES, node.marginSym);
 
     emit('@$marginSymName$_sp{$_newLine');
@@ -335,15 +335,15 @@ class CssPrinter extends Visitor {
   @override
   void visitExtendDeclaration(ExtendDeclaration node) {
     emit('@extend ');
-    for (var selector in node.selectors) {
+    for (TreeNode selector in node.selectors) {
       selector.visit(this);
     }
   }
 
   @override
   void visitSelectorGroup(SelectorGroup node) {
-    var selectors = node.selectors;
-    var selectorsLength = selectors.length;
+    List<Selector> selectors = node.selectors;
+    int selectorsLength = selectors.length;
     for (int i = 0; i < selectorsLength; i++) {
       if (i > 0) emit(',$_sp');
       selectors[i].visit(this);
@@ -419,10 +419,10 @@ class CssPrinter extends Visitor {
 
   @override
   void visitSelectorExpression(SelectorExpression node) {
-    var expressions = node.expressions;
-    var expressionsLength = expressions.length;
+    List<Expression> expressions = node.expressions;
+    int expressionsLength = expressions.length;
     for (int i = 0; i < expressionsLength; i++) {
-      var expression = expressions[i];
+      Expression expression = expressions[i];
       expression.visit(this);
     }
   }
@@ -527,8 +527,8 @@ class CssPrinter extends Visitor {
   @override
   void visitGroupTerm(GroupTerm node) {
     emit('(');
-    var terms = node._terms;
-    var termsLength = terms.length;
+    List<LiteralTerm> terms = node._terms;
+    int termsLength = terms.length;
     for (int i = 0; i < termsLength; i++) {
       if (i > 0) emit(_sp);
       terms[i].visit(this);
@@ -571,7 +571,7 @@ class CssPrinter extends Visitor {
     emit('var(${node.name}');
     if (node.defaultValues.isNotEmpty) {
       emit(',');
-      for (var defaultValue in node.defaultValues) {
+      for (Expression defaultValue in node.defaultValues) {
         emit(' ');
         defaultValue.visit(this);
       }
@@ -581,13 +581,13 @@ class CssPrinter extends Visitor {
 
   @override
   void visitExpressions(Expressions node) {
-    var expressions = node.expressions;
-    var expressionsLength = expressions.length;
+    List<Expression> expressions = node.expressions;
+    int expressionsLength = expressions.length;
     for (int i = 0; i < expressionsLength; i++) {
-      var expression = expressions[i];
+      Expression expression = expressions[i];
       if (i > 0 &&
           !(expression is OperatorComma || expression is OperatorSlash)) {
-        var previous = expressions[i - 1];
+        Expression previous = expressions[i - 1];
         if (previous is OperatorComma || previous is OperatorSlash) {
           emit(_sp);
         } else if (previous is PercentageTerm &&

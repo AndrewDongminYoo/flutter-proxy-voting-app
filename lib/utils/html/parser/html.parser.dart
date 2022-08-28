@@ -1792,7 +1792,7 @@ class InBodyPhase extends Phase {
     } else if (tree.openElements.last.localName == 'body') {
       tree.openElements.last.endSourceSpan = token.span;
     } else {
-      for (var node in slice(tree.openElements, 2)) {
+      for (Element node in slice(tree.openElements, 2)) {
         switch (node.localName) {
           case 'dd':
           case 'dt':
@@ -1882,7 +1882,7 @@ class InBodyPhase extends Phase {
   }
 
   void endTagHeading(EndTagToken token) {
-    for (var item in headingElements) {
+    for (String item in headingElements) {
       if (tree.elementInScope(item)) {
         tree.generateImpliedEndTags();
         break;
@@ -1892,9 +1892,9 @@ class InBodyPhase extends Phase {
       parser.parseError(token.span, 'end-tag-too-early', {'name': token.name});
     }
 
-    for (var item in headingElements) {
+    for (String item in headingElements) {
       if (tree.elementInScope(item)) {
-        var node = tree.openElements.removeLast();
+        Element node = tree.openElements.removeLast();
         while (!headingElements.contains(node.localName)) {
           node = tree.openElements.removeLast();
         }
@@ -1931,14 +1931,14 @@ class InBodyPhase extends Phase {
 
       final afeIndex = tree.openElements.indexOf(formattingElement);
       Element? furthestBlock;
-      for (var element in slice(tree.openElements, afeIndex)) {
+      for (Element element in slice(tree.openElements, afeIndex)) {
         if (specialElements.contains(getElementNameTuple(element))) {
           furthestBlock = element;
           break;
         }
       }
       if (furthestBlock == null) {
-        var element = tree.openElements.removeLast();
+        Element element = tree.openElements.removeLast();
         while (element != formattingElement) {
           element = tree.openElements.removeLast();
         }
@@ -1949,13 +1949,13 @@ class InBodyPhase extends Phase {
 
       final commonAncestor = tree.openElements[afeIndex - 1];
 
-      var bookmark = tree.activeFormattingElements.indexOf(formattingElement);
+      int bookmark = tree.activeFormattingElements.indexOf(formattingElement);
 
-      var lastNode = furthestBlock;
-      var node = furthestBlock;
+      Element lastNode = furthestBlock;
+      Element node = furthestBlock;
       int innerLoopCounter = 0;
 
-      var index = tree.openElements.indexOf(node);
+      int index = tree.openElements.indexOf(node);
       while (innerLoopCounter < 3) {
         innerLoopCounter += 1;
 
@@ -2036,7 +2036,7 @@ class InBodyPhase extends Phase {
   }
 
   void endTagOther(EndTagToken token) {
-    for (var node in tree.openElements.reversed) {
+    for (Element node in tree.openElements.reversed) {
       if (node.localName == token.name) {
         tree.generateImpliedEndTags(token.name);
         if (tree.openElements.last.localName != token.name) {
@@ -3359,8 +3359,8 @@ class InForeignContentPhase extends Phase {
 
   @override
   Token? processEndTag(EndTagToken token) {
-    var nodeIndex = tree.openElements.length - 1;
-    var node = tree.openElements.last;
+    int nodeIndex = tree.openElements.length - 1;
+    Element node = tree.openElements.last;
     if (node.localName?.toAsciiLowerCase() != token.name) {
       parser.parseError(token.span, 'unexpected-end-tag', {'name': token.name});
     }
@@ -3442,7 +3442,7 @@ class AfterBodyPhase extends Phase {
   }
 
   void endTagHtml(Token token) {
-    for (var node in tree.openElements.reversed) {
+    for (Element node in tree.openElements.reversed) {
       if (node.localName == 'html') {
         node.endSourceSpan = token.span;
         break;
