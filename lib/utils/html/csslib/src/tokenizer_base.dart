@@ -111,7 +111,7 @@ abstract class TokenizerBase {
   }
 
   Token finishMultiLineComment() {
-    var nesting = 1;
+    int nesting = 1;
     do {
       var ch = _nextChar();
       if (ch == 0) {
@@ -237,7 +237,7 @@ abstract class TokenizerBase {
   }
 
   Token finishMultilineString(int quote) {
-    var buf = <int>[];
+    List<int> buf = <int>[];
     while (true) {
       var ch = _nextChar();
       if (ch == 0) {
@@ -305,7 +305,7 @@ abstract class TokenizerBase {
   }
 
   Token finishStringBody(int quote) {
-    var buf = <int>[];
+    List<int> buf = <int>[];
     while (true) {
       var ch = _nextChar();
       if (ch == quote) {

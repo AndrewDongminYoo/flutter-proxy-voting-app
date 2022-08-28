@@ -149,7 +149,7 @@ class _Parser {
   }
 
   StyleSheet parse() {
-    var productions = <TreeNode>[];
+    List<TreeNode> productions = <TreeNode>[];
 
     var start = _peekToken.span;
     while (!_maybeEat(TokenKind.END_OF_FILE) && !_peekKind(TokenKind.RBRACE)) {
@@ -167,7 +167,7 @@ class _Parser {
   }
 
   StyleSheet parseSelector() {
-    var productions = <TreeNode>[];
+    List<TreeNode> productions = <TreeNode>[];
 
     var start = _peekToken.span;
     while (!_maybeEat(TokenKind.END_OF_FILE) && !_peekKind(TokenKind.RBRACE)) {
@@ -271,7 +271,7 @@ class _Parser {
   }
 
   List<MediaQuery> processMediaQueryList() {
-    var mediaQueries = <MediaQuery>[];
+    List<MediaQuery> mediaQueries = <MediaQuery>[];
 
     do {
       var mediaQuery = processMediaQuery();
@@ -306,7 +306,7 @@ class _Parser {
     Identifier? type;
     if (_peekIdentifier()) type = identifier();
 
-    var exprs = <MediaExpression>[];
+    List<MediaExpression> exprs = <MediaExpression>[];
 
     while (true) {
       var andOp = exprs.isNotEmpty || type != null;
@@ -388,7 +388,7 @@ class _Parser {
 
         var media = processMediaQueryList();
 
-        var rules = <TreeNode>[];
+        List<TreeNode> rules = <TreeNode>[];
         if (_maybeEat(TokenKind.LBRACE)) {
           while (!_maybeEat(TokenKind.END_OF_FILE)) {
             final rule = processRule();
@@ -407,7 +407,7 @@ class _Parser {
       case TokenKind.DIRECTIVE_HOST:
         _next();
 
-        var rules = <TreeNode>[];
+        List<TreeNode> rules = <TreeNode>[];
         if (_maybeEat(TokenKind.LBRACE)) {
           while (!_maybeEat(TokenKind.END_OF_FILE)) {
             final rule = processRule();
@@ -516,7 +516,7 @@ class _Parser {
 
         _eat(TokenKind.LBRACE);
 
-        var productions = <TreeNode>[];
+        List<TreeNode> productions = <TreeNode>[];
 
         start = _peekToken.span;
         while (!_maybeEat(TokenKind.END_OF_FILE)) {
@@ -584,7 +584,7 @@ class _Parser {
 
     var name = identifier();
 
-    var params = <TreeNode>[];
+    List<TreeNode> params = <TreeNode>[];
     if (_maybeEat(TokenKind.LPAREN)) {
       bool mustHaveParam = false;
       bool keepGoing = true;
@@ -606,7 +606,7 @@ class _Parser {
 
     _eat(TokenKind.LBRACE);
 
-    var productions = <TreeNode>[];
+    List<TreeNode> productions = <TreeNode>[];
     MixinDefinition? mixinDirective;
 
     var start = _peekToken.span;
@@ -621,7 +621,7 @@ class _Parser {
       if (declGroup.declarations.any((decl) {
         return decl is Declaration && decl is! IncludeMixinAtDeclaration;
       })) {
-        var newDecls = <Declaration>[];
+        List<Declaration> newDecls = <Declaration>[];
         for (var include in productions) {
           if (include is IncludeDirective) {
             newDecls.add(IncludeMixinAtDeclaration(include, include.span));
@@ -732,7 +732,7 @@ class _Parser {
     var params = <List<Expression>>[];
 
     if (_maybeEat(TokenKind.LPAREN)) {
-      var terms = <Expression>[];
+      List<Expression> terms = <Expression>[];
       dynamic expr;
       bool keepGoing = true;
       while (keepGoing && (expr = processTerm()) != null) {
@@ -759,7 +759,7 @@ class _Parser {
   DocumentDirective processDocumentDirective() {
     var start = _peekToken.span;
     _next();
-    var functions = <LiteralTerm>[];
+    List<LiteralTerm> functions = <LiteralTerm>[];
     do {
       LiteralTerm function;
 
@@ -807,7 +807,7 @@ class _Parser {
     }
 
     var start = _peekToken.span;
-    var conditions = <SupportsConditionInParens>[];
+    List<SupportsConditionInParens> conditions = <SupportsConditionInParens>[];
     var clauseType = ClauseType.none;
 
     while (true) {
@@ -889,7 +889,7 @@ class _Parser {
   }
 
   List<TreeNode> processGroupRuleBody() {
-    var nodes = <TreeNode>[];
+    List<TreeNode> nodes = <TreeNode>[];
     while (!(_peekKind(TokenKind.RBRACE) || _peekKind(TokenKind.END_OF_FILE))) {
       var rule = processRule();
       if (rule != null) {
@@ -929,8 +929,8 @@ class _Parser {
 
     if (checkBrace) _eat(TokenKind.LBRACE);
 
-    var decls = <TreeNode>[];
-    var dartStyles = <DartStyleExpression>[];
+    List<TreeNode> decls = <TreeNode>[];
+    List<DartStyleExpression> dartStyles = <DartStyleExpression>[];
 
     do {
       var selectorGroup = _nestedSelector();
@@ -976,14 +976,14 @@ class _Parser {
   }
 
   List<DeclarationGroup> processMarginsDeclarations() {
-    var groups = <DeclarationGroup>[];
+    List<DeclarationGroup> groups = <DeclarationGroup>[];
 
     var start = _peekToken.span;
 
     _eat(TokenKind.LBRACE);
 
-    var decls = <Declaration>[];
-    var dartStyles = <DartStyleExpression>[];
+    List<Declaration> decls = <Declaration>[];
+    List<DartStyleExpression> dartStyles = <DartStyleExpression>[];
 
     do {
       switch (_peek()) {
@@ -1051,7 +1051,7 @@ class _Parser {
   }
 
   SelectorGroup? processSelectorGroup() {
-    var selectors = <Selector>[];
+    List<Selector> selectors = <Selector>[];
     var start = _peekToken.span;
 
     tokenizer.inSelector = true;
@@ -1070,7 +1070,7 @@ class _Parser {
   }
 
   Selector? processSelector() {
-    var simpleSequences = <SimpleSelectorSequence>[];
+    List<SimpleSelectorSequence> simpleSequences = <SimpleSelectorSequence>[];
     var start = _peekToken.span;
     while (true) {
       var selectorItem = simpleSelectorSequence(simpleSequences.isEmpty);
@@ -1294,7 +1294,7 @@ class _Parser {
   TreeNode /* SelectorExpression | LiteralTerm */ processSelectorExpression() {
     var start = _peekToken.span;
 
-    var expressions = <Expression>[];
+    List<Expression> expressions = <Expression>[];
 
     Token? termToken;
     dynamic value;
@@ -1428,7 +1428,7 @@ class _Parser {
       var include = processInclude(span, eatSemiColon: false);
       decl = IncludeMixinAtDeclaration(include, span);
     } else if (_peekToken.kind == TokenKind.DIRECTIVE_EXTEND) {
-      var simpleSequences = <TreeNode>[];
+      List<TreeNode> simpleSequences = <TreeNode>[];
 
       _next();
       var span = _makeSpan(start);
@@ -2122,7 +2122,7 @@ class _Parser {
     tokenizer.inString = false;
 
     StringBuffer stringValue = StringBuffer();
-    var left = 1;
+    int left = 1;
     bool matchingParens = false;
     while (_peek() != TokenKind.END_OF_FILE && !matchingParens) {
       var token = _peek();
@@ -2297,7 +2297,7 @@ class ExpressionsProcessor {
   }
 
   FontExpression processFontFamily() {
-    var family = <String>[];
+    List<String> family = <String>[];
 
     bool moreFamilies = false;
 

@@ -413,7 +413,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
   Element? get previousElementSibling {
     if (parentNode == null) return null;
     final siblings = parentNode!.nodes;
-    for (var i = siblings.indexOf(this) - 1; i >= 0; i--) {
+    for (int i = siblings.indexOf(this) - 1; i >= 0; i--) {
       final s = siblings[i];
       if (s is Element) return s;
     }
@@ -424,7 +424,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
     final parentNode = this.parentNode;
     if (parentNode == null) return null;
     final siblings = parentNode.nodes;
-    for (var i = siblings.indexOf(this) + 1; i < siblings.length; i++) {
+    for (int i = siblings.indexOf(this) + 1; i < siblings.length; i++) {
       final s = siblings[i];
       if (s is Element) return s;
     }
@@ -625,7 +625,7 @@ class NodeList extends ListProxy<Node> {
     if (fromVar is NodeList) {
       fromVar = fromVar.sublist(skipCount, skipCount + end);
     }
-    for (var i = end - 1; i >= 0; i--) {
+    for (int i = end - 1; i >= 0; i--) {
       this[start + i] = fromVar[skipCount + i];
     }
   }
@@ -638,7 +638,7 @@ class NodeList extends ListProxy<Node> {
 
   @override
   void removeRange(int start, int end) {
-    for (var i = start; i < end; i++) {
+    for (int i = start; i < end; i++) {
       this[i].parentNode = null;
     }
     super.removeRange(start, end);

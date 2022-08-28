@@ -522,7 +522,7 @@ class TokenKind {
   static String decimalToHex(int number, [int minDigits = 1]) {
     const HEXDIGITS = '0123456789abcdef';
 
-    var result = <String>[];
+    List<String> result = <String>[];
 
     var dividend = number >> 4;
     var remain = number % 16;
@@ -538,7 +538,7 @@ class TokenKind {
     while (paddings-- > 0) {
       invertResult.write('0');
     }
-    for (var i = result.length - 1; i >= 0; i--) {
+    for (int i = result.length - 1; i >= 0; i--) {
       invertResult.write(result[i]);
     }
 

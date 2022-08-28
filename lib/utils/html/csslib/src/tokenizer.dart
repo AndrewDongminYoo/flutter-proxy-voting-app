@@ -29,7 +29,7 @@ class Tokenizer extends TokenizerBase {
       case TokenChar.END_OF_FILE:
         return _finishToken(TokenKind.END_OF_FILE);
       case TokenChar.AT:
-        var peekCh = _peekChar();
+        int peekCh = _peekChar();
         if (TokenizerHelpers.isIdentifierStart(peekCh)) {
           var oldIndex = _index;
           var oldStartIndex = _startIndex;
@@ -233,7 +233,7 @@ class Tokenizer extends TokenizerBase {
   }
 
   Token finishIdentifier() {
-    var chars = <int>[];
+    List<int> chars = <int>[];
 
     var validateFrom = _index;
     _index = _startIndex;

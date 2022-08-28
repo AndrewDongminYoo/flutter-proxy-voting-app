@@ -80,7 +80,7 @@ class ExpandNestedSelectors extends Visitor {
     var nestedSelectors = _nestedSelectorGroup!.selectors;
     var selectors = node.selectorGroup!.selectors;
 
-    var newSelectors = <Selector>[];
+    List<Selector> newSelectors = <Selector>[];
     for (var selector in selectors) {
       for (var nestedSelector in nestedSelectors) {
         var seq = _mergeNestedSelector(nestedSelector.simpleSelectorSequences,
@@ -97,7 +97,7 @@ class ExpandNestedSelectors extends Visitor {
       List<SimpleSelectorSequence> current) {
     var hasThis = current.any((s) => s.simpleSelector.isThis);
 
-    var newSequence = <SimpleSelectorSequence>[];
+    List<SimpleSelectorSequence> newSequence = <SimpleSelectorSequence>[];
 
     if (!hasThis) {
       newSequence.addAll(parent);
@@ -122,7 +122,7 @@ class ExpandNestedSelectors extends Visitor {
       List<SimpleSelectorSequence> sequences) {
     if (sequences.isEmpty) return sequences;
 
-    var newSequences = <SimpleSelectorSequence>[];
+    List<SimpleSelectorSequence> newSequences = <SimpleSelectorSequence>[];
     var first = sequences.first;
     newSequences.add(SimpleSelectorSequence(
         first.simpleSelector, first.span, TokenKind.COMBINATOR_DESCENDANT));
@@ -539,7 +539,7 @@ class DeclarationIncludes extends Visitor {
               node.span);
         } else {
           var origRulesets = mixinDef.rulesets;
-          var rulesets = <Declaration>[];
+          List<Declaration> rulesets = <Declaration>[];
           if (origRulesets.every((ruleset) => ruleset is IncludeDirective)) {
             origRulesets.forEach((ruleset) {
               rulesets.add(IncludeMixinAtDeclaration(

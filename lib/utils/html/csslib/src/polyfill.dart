@@ -117,7 +117,7 @@ class _VarDefAndUsage extends Visitor {
       _resolveVarUsage(currentExpressions!, index,
           _findTerminalVarDefinition(_knownVarDefs, def));
     } else if (node.defaultValues.any((e) => e is VarUsage)) {
-      var terminalDefaults = <Expression>[];
+      List<Expression> terminalDefaults = <Expression>[];
       for (var defaultValue in node.defaultValues) {
         terminalDefaults.addAll(resolveUsageTerminal(defaultValue as VarUsage));
       }
@@ -144,7 +144,7 @@ class _VarDefAndUsage extends Visitor {
   }
 
   List<Expression> resolveUsageTerminal(VarUsage usage) {
-    var result = <Expression>[];
+    List<Expression> result = <Expression>[];
 
     var varDef = _knownVarDefs[usage.name];
     List<Expression> expressions;

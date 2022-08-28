@@ -161,7 +161,7 @@ class Color implements _StyleProperty, ColorBase {
 
       color = color.substring(0, color.length - 1);
 
-      var args = <num>[];
+      List<num> args = <num>[];
       var params = color.split(',');
       for (var param in params) {
         args.add(double.parse(param));

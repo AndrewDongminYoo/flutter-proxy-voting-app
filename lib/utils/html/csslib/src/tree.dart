@@ -482,11 +482,11 @@ class DocumentDirective extends Directive {
 
   @override
   DocumentDirective clone() {
-    var clonedFunctions = <LiteralTerm>[];
+    List<LiteralTerm> clonedFunctions = <LiteralTerm>[];
     for (var function in functions) {
       clonedFunctions.add(function.clone());
     }
-    var clonedGroupRuleBody = <TreeNode>[];
+    List<TreeNode> clonedGroupRuleBody = <TreeNode>[];
     for (var rule in groupRuleBody) {
       clonedGroupRuleBody.add(rule.clone());
     }
@@ -507,7 +507,7 @@ class SupportsDirective extends Directive {
   @override
   SupportsDirective clone() {
     var clonedCondition = condition!.clone() as SupportsCondition;
-    var clonedGroupRuleBody = <TreeNode>[];
+    List<TreeNode> clonedGroupRuleBody = <TreeNode>[];
     for (var rule in groupRuleBody) {
       clonedGroupRuleBody.add(rule.clone());
     }
@@ -564,7 +564,8 @@ class SupportsConjunction extends SupportsCondition {
 
   @override
   SupportsConjunction clone() {
-    var clonedConditions = <SupportsConditionInParens>[];
+    List<SupportsConditionInParens> clonedConditions =
+        <SupportsConditionInParens>[];
     for (var condition in conditions) {
       clonedConditions.add(condition.clone());
     }
@@ -582,7 +583,8 @@ class SupportsDisjunction extends SupportsCondition {
 
   @override
   SupportsDisjunction clone() {
-    var clonedConditions = <SupportsConditionInParens>[];
+    List<SupportsConditionInParens> clonedConditions =
+        <SupportsConditionInParens>[];
     for (var condition in conditions) {
       clonedConditions.add(condition.clone());
     }
@@ -618,7 +620,7 @@ class ImportDirective extends Directive {
 
   @override
   ImportDirective clone() {
-    var cloneMediaQueries = <MediaQuery>[];
+    List<MediaQuery> cloneMediaQueries = <MediaQuery>[];
     for (var mediaQuery in mediaQueries) {
       cloneMediaQueries.add(mediaQuery.clone());
     }
@@ -675,7 +677,7 @@ class MediaQuery extends TreeNode {
 
   @override
   MediaQuery clone() {
-    var cloneExpressions = <MediaExpression>[];
+    List<MediaExpression> cloneExpressions = <MediaExpression>[];
     for (var expr in expressions) {
       cloneExpressions.add(expr.clone());
     }
@@ -694,11 +696,11 @@ class MediaDirective extends Directive {
 
   @override
   MediaDirective clone() {
-    var cloneQueries = <MediaQuery>[];
+    List<MediaQuery> cloneQueries = <MediaQuery>[];
     for (var mediaQuery in mediaQueries) {
       cloneQueries.add(mediaQuery.clone());
     }
-    var cloneRules = <TreeNode>[];
+    List<TreeNode> cloneRules = <TreeNode>[];
     for (var rule in rules) {
       cloneRules.add(rule.clone());
     }
@@ -716,7 +718,7 @@ class HostDirective extends Directive {
 
   @override
   HostDirective clone() {
-    var cloneRules = <TreeNode>[];
+    List<TreeNode> cloneRules = <TreeNode>[];
     for (var rule in rules) {
       cloneRules.add(rule.clone());
     }
@@ -738,7 +740,7 @@ class PageDirective extends Directive {
 
   @override
   PageDirective clone() {
-    var cloneDeclsMargin = <DeclarationGroup>[];
+    List<DeclarationGroup> cloneDeclsMargin = <DeclarationGroup>[];
     for (var declMargin in _declsMargin) {
       cloneDeclsMargin.add(declMargin.clone());
     }
@@ -843,7 +845,7 @@ class StyletDirective extends Directive {
 
   @override
   StyletDirective clone() {
-    var cloneRules = <TreeNode>[];
+    List<TreeNode> cloneRules = <TreeNode>[];
     for (var rule in rules) {
       cloneRules.add(rule.clone());
     }
@@ -893,7 +895,7 @@ class MixinDefinition extends Directive {
 
   @override
   MixinDefinition clone() {
-    var cloneDefinedArgs = <TreeNode>[];
+    List<TreeNode> cloneDefinedArgs = <TreeNode>[];
     for (var definedArg in definedArgs) {
       cloneDefinedArgs.add(definedArg.clone());
     }
@@ -913,11 +915,11 @@ class MixinRulesetDirective extends MixinDefinition {
 
   @override
   MixinRulesetDirective clone() {
-    var clonedArgs = <VarDefinition>[];
+    List<VarDefinition> clonedArgs = <VarDefinition>[];
     for (var arg in definedArgs) {
       clonedArgs.add(arg.clone() as VarDefinition);
     }
-    var clonedRulesets = <TreeNode>[];
+    List<TreeNode> clonedRulesets = <TreeNode>[];
     for (var ruleset in rulesets) {
       clonedRulesets.add(ruleset.clone());
     }
@@ -939,7 +941,7 @@ class MixinDeclarationDirective extends MixinDefinition {
 
   @override
   MixinDeclarationDirective clone() {
-    var clonedArgs = <TreeNode>[];
+    List<TreeNode> clonedArgs = <TreeNode>[];
     for (var arg in definedArgs) {
       clonedArgs.add(arg.clone());
     }
@@ -1093,7 +1095,7 @@ class VarUsage extends Expression {
 
   @override
   VarUsage clone() {
-    var clonedValues = <Expression>[];
+    List<Expression> clonedValues = <Expression>[];
     for (var expr in defaultValues) {
       clonedValues.add(expr.clone());
     }
