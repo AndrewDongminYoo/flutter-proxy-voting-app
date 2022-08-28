@@ -1,11 +1,7 @@
-library dom_parsing;
-
 // 🌎 Project imports:
 import 'dom.dart';
 import 'html.escape.dart' show htmlSerializeEscape;
 import 'src/constants.dart' show rcdataElements;
-
-export 'html.escape.dart';
 
 class TreeVisitor {
   void visit(Node node) {

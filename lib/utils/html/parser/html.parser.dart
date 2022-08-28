@@ -1,5 +1,3 @@
-library parser;
-
 // 🎯 Dart imports:
 import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show min;

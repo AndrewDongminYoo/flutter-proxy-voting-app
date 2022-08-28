@@ -9,8 +9,6 @@ import 'visitor.dart';
 import 'package:source_span/source_span.dart'
     show FileSpan, SourceFile, SourceSpan;
 
-export 'src/src.dart';
-
 part 'src/analyzer.dart';
 part 'src/polyfill.dart';
 part 'src/property.dart';

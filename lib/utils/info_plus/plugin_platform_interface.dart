@@ -1,5 +1,3 @@
-library plugin_platform_interface;
-
 // 📦 Package imports:
 import 'package:meta/meta.dart';
 

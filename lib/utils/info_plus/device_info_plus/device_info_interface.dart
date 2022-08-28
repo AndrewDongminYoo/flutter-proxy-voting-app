@@ -7,10 +7,6 @@ import '../plugin_platform_interface.dart';
 import 'model/android_device_info.dart';
 import 'model/ios_device_info.dart';
 
-export 'model/android_device_info.dart';
-export 'model/base_device_info.dart';
-export 'model/ios_device_info.dart';
-
 abstract class DeviceInfoPlatform extends PlatformInterface {
   DeviceInfoPlatform() : super(token: _token);
 

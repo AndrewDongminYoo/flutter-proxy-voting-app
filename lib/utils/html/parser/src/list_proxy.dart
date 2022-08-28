@@ -1,5 +1,3 @@
-library list_proxy;
-
 // 🎯 Dart imports:
 import 'dart:collection' show ListBase;
 

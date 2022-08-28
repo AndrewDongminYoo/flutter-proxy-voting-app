@@ -1,5 +1,3 @@
-library treebuilder;
-
 // 🎯 Dart imports:
 import 'dart:collection';
 

@@ -4,9 +4,7 @@ import 'dart:io';
 
 // 🌎 Project imports:
 import 'device_info_interface.dart';
-
-export 'device_info_interface.dart'
-    show AndroidBuildVersion, AndroidDeviceInfo, BaseDeviceInfo, IosDeviceInfo;
+import 'model/model.dart';
 
 class DeviceInfoPlugin {
   DeviceInfoPlugin();

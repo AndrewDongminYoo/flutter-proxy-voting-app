@@ -9,12 +9,12 @@ import 'package:source_span/source_span.dart' show FileSpan;
 
 // 🌎 Project imports:
 import 'dom_parsing.dart';
+import 'html.escape.dart';
 import 'html.parser.dart' show parse, parseFragment;
 import 'src/constants.dart' show Namespaces;
 import 'src/css_class_set.dart' show CssClassSet, ElementCssClassSet;
 import 'src/list_proxy.dart' show ListProxy;
 import 'src/query_selector.dart' as query;
-import 'src/token.dart' show StartTagToken;
 import 'src/tokenizer.dart' show HtmlTokenizer;
 
 export 'src/css_class_set.dart' show CssClassSet;

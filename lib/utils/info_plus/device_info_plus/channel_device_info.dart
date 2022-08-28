@@ -4,6 +4,7 @@ import 'dart:async';
 // 🌎 Project imports:
 import '../../global_channel.dart';
 import 'device_info_interface.dart';
+import 'model/model.dart';
 
 class MethodChannelDeviceInfo extends DeviceInfoPlatform {
   @override

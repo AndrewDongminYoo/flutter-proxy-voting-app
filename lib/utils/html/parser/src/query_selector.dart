@@ -1,7 +1,7 @@
 // 🌎 Project imports:
 import '../../csslib/parser.dart' as css;
-import '../../csslib/parser.dart' show TokenKind, Message;
-import '../../csslib/visitor.dart';
+import '../../csslib/src/src.dart';
+import '../../csslib/csslib.dart';
 import '../dom.dart' show Element, Node, Text;
 import '../src/constants.dart' show isWhitespaceCC;
 
