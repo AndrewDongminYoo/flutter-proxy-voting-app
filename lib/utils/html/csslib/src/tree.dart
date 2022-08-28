@@ -119,26 +119,26 @@ class SimpleSelectorSequence extends TreeNode {
   final SimpleSelector simpleSelector;
 
   SimpleSelectorSequence(this.simpleSelector, SourceSpan? span,
-      [int combinator = TokenKind.COMBINATOR_NONE])
+      [int combinator = CssTokenKind.COMBINATOR_NONE])
       : combinator = combinator,
         super(span);
 
-  bool get isCombinatorNone => combinator == TokenKind.COMBINATOR_NONE;
-  bool get isCombinatorPlus => combinator == TokenKind.COMBINATOR_PLUS;
-  bool get isCombinatorGreater => combinator == TokenKind.COMBINATOR_GREATER;
-  bool get isCombinatorTilde => combinator == TokenKind.COMBINATOR_TILDE;
+  bool get isCombinatorNone => combinator == CssTokenKind.COMBINATOR_NONE;
+  bool get isCombinatorPlus => combinator == CssTokenKind.COMBINATOR_PLUS;
+  bool get isCombinatorGreater => combinator == CssTokenKind.COMBINATOR_GREATER;
+  bool get isCombinatorTilde => combinator == CssTokenKind.COMBINATOR_TILDE;
   bool get isCombinatorDescendant =>
-      combinator == TokenKind.COMBINATOR_DESCENDANT;
+      combinator == CssTokenKind.COMBINATOR_DESCENDANT;
 
   String get _combinatorToString {
     switch (combinator) {
-      case TokenKind.COMBINATOR_DESCENDANT:
+      case CssTokenKind.COMBINATOR_DESCENDANT:
         return ' ';
-      case TokenKind.COMBINATOR_GREATER:
+      case CssTokenKind.COMBINATOR_GREATER:
         return ' > ';
-      case TokenKind.COMBINATOR_PLUS:
+      case CssTokenKind.COMBINATOR_PLUS:
         return ' + ';
-      case TokenKind.COMBINATOR_TILDE:
+      case CssTokenKind.COMBINATOR_TILDE:
         return ' ~ ';
       default:
         return '';
@@ -221,19 +221,19 @@ class AttributeSelector extends SimpleSelector {
 
   String? matchOperator() {
     switch (_op) {
-      case TokenKind.EQUALS:
+      case CssTokenKind.EQUALS:
         return '=';
-      case TokenKind.INCLUDES:
+      case CssTokenKind.INCLUDES:
         return '~=';
-      case TokenKind.DASH_MATCH:
+      case CssTokenKind.DASH_MATCH:
         return '|=';
-      case TokenKind.PREFIX_MATCH:
+      case CssTokenKind.PREFIX_MATCH:
         return '^=';
-      case TokenKind.SUFFIX_MATCH:
+      case CssTokenKind.SUFFIX_MATCH:
         return '\$=';
-      case TokenKind.SUBSTRING_MATCH:
+      case CssTokenKind.SUBSTRING_MATCH:
         return '*=';
-      case TokenKind.NO_MATCH:
+      case CssTokenKind.NO_MATCH:
         return '';
     }
     return null;
@@ -241,17 +241,17 @@ class AttributeSelector extends SimpleSelector {
 
   String? matchOperatorAsTokenString() {
     switch (_op) {
-      case TokenKind.EQUALS:
+      case CssTokenKind.EQUALS:
         return 'EQUALS';
-      case TokenKind.INCLUDES:
+      case CssTokenKind.INCLUDES:
         return 'INCLUDES';
-      case TokenKind.DASH_MATCH:
+      case CssTokenKind.DASH_MATCH:
         return 'DASH_MATCH';
-      case TokenKind.PREFIX_MATCH:
+      case CssTokenKind.PREFIX_MATCH:
         return 'PREFIX_MATCH';
-      case TokenKind.SUFFIX_MATCH:
+      case CssTokenKind.SUFFIX_MATCH:
         return 'SUFFIX_MATCH';
-      case TokenKind.SUBSTRING_MATCH:
+      case CssTokenKind.SUBSTRING_MATCH:
         return 'SUBSTRING_MATCH';
     }
     return null;
@@ -669,7 +669,7 @@ class MediaQuery extends TreeNode {
 
   bool get hasUnary => _mediaUnary != -1;
   String get unary =>
-      TokenKind.idToValue(TokenKind.MEDIA_OPERATORS, _mediaUnary)!
+      CssTokenKind.idToValue(CssTokenKind.MEDIA_OPERATORS, _mediaUnary)!
           .toUpperCase();
 
   @override
@@ -779,14 +779,14 @@ class KeyFrameDirective extends Directive {
 
   String? get keyFrameName {
     switch (_keyframeName) {
-      case TokenKind.DIRECTIVE_KEYFRAMES:
-      case TokenKind.DIRECTIVE_MS_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_MS_KEYFRAMES:
         return '@keyframes';
-      case TokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES:
         return '@-webkit-keyframes';
-      case TokenKind.DIRECTIVE_MOZ_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_MOZ_KEYFRAMES:
         return '@-moz-keyframes';
-      case TokenKind.DIRECTIVE_O_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_O_KEYFRAMES:
         return '@-o-keyframes';
     }
     return null;
@@ -1186,7 +1186,7 @@ class UnitTerm extends LiteralTerm {
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitUnitTerm(this);
 
-  String? unitToString() => TokenKind.unitToString(unit);
+  String? unitToString() => CssTokenKind.unitToString(unit);
 
   @override
   String toString() => '$text${unitToString()}';
@@ -1194,14 +1194,14 @@ class UnitTerm extends LiteralTerm {
 
 class LengthTerm extends UnitTerm {
   LengthTerm(value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(this.unit == TokenKind.UNIT_LENGTH_PX ||
-        this.unit == TokenKind.UNIT_LENGTH_CM ||
-        this.unit == TokenKind.UNIT_LENGTH_MM ||
-        this.unit == TokenKind.UNIT_LENGTH_IN ||
-        this.unit == TokenKind.UNIT_LENGTH_PT ||
-        this.unit == TokenKind.UNIT_LENGTH_PC);
+    assert(this.unit == CssTokenKind.UNIT_LENGTH_PX ||
+        this.unit == CssTokenKind.UNIT_LENGTH_CM ||
+        this.unit == CssTokenKind.UNIT_LENGTH_MM ||
+        this.unit == CssTokenKind.UNIT_LENGTH_IN ||
+        this.unit == CssTokenKind.UNIT_LENGTH_PT ||
+        this.unit == CssTokenKind.UNIT_LENGTH_PC);
   }
   @override
   LengthTerm clone() => LengthTerm(value, text, span, unit);
@@ -1235,12 +1235,12 @@ class ExTerm extends LiteralTerm {
 
 class AngleTerm extends UnitTerm {
   AngleTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(this.unit == TokenKind.UNIT_ANGLE_DEG ||
-        this.unit == TokenKind.UNIT_ANGLE_RAD ||
-        this.unit == TokenKind.UNIT_ANGLE_GRAD ||
-        this.unit == TokenKind.UNIT_ANGLE_TURN);
+    assert(this.unit == CssTokenKind.UNIT_ANGLE_DEG ||
+        this.unit == CssTokenKind.UNIT_ANGLE_RAD ||
+        this.unit == CssTokenKind.UNIT_ANGLE_GRAD ||
+        this.unit == CssTokenKind.UNIT_ANGLE_TURN);
   }
 
   @override
@@ -1251,11 +1251,11 @@ class AngleTerm extends UnitTerm {
 
 class TimeTerm extends UnitTerm {
   TimeTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(this.unit == TokenKind.UNIT_ANGLE_DEG ||
-        this.unit == TokenKind.UNIT_TIME_MS ||
-        this.unit == TokenKind.UNIT_TIME_S);
+    assert(this.unit == CssTokenKind.UNIT_ANGLE_DEG ||
+        this.unit == CssTokenKind.UNIT_TIME_MS ||
+        this.unit == CssTokenKind.UNIT_TIME_S);
   }
 
   @override
@@ -1266,9 +1266,10 @@ class TimeTerm extends UnitTerm {
 
 class FreqTerm extends UnitTerm {
   FreqTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(unit == TokenKind.UNIT_FREQ_HZ || unit == TokenKind.UNIT_FREQ_KHZ);
+    assert(unit == CssTokenKind.UNIT_FREQ_HZ ||
+        unit == CssTokenKind.UNIT_FREQ_KHZ);
   }
 
   @override
@@ -1298,11 +1299,11 @@ class UriTerm extends LiteralTerm {
 
 class ResolutionTerm extends UnitTerm {
   ResolutionTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(unit == TokenKind.UNIT_RESOLUTION_DPI ||
-        unit == TokenKind.UNIT_RESOLUTION_DPCM ||
-        unit == TokenKind.UNIT_RESOLUTION_DPPX);
+    assert(unit == CssTokenKind.UNIT_RESOLUTION_DPI ||
+        unit == CssTokenKind.UNIT_RESOLUTION_DPCM ||
+        unit == CssTokenKind.UNIT_RESOLUTION_DPPX);
   }
 
   @override
@@ -1313,9 +1314,9 @@ class ResolutionTerm extends UnitTerm {
 
 class ChTerm extends UnitTerm {
   ChTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(unit == TokenKind.UNIT_CH);
+    assert(unit == CssTokenKind.UNIT_CH);
   }
 
   @override
@@ -1326,9 +1327,9 @@ class ChTerm extends UnitTerm {
 
 class RemTerm extends UnitTerm {
   RemTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(unit == TokenKind.UNIT_REM);
+    assert(unit == CssTokenKind.UNIT_REM);
   }
 
   @override
@@ -1339,12 +1340,12 @@ class RemTerm extends UnitTerm {
 
 class ViewportTerm extends UnitTerm {
   ViewportTerm(dynamic value, String t, SourceSpan? span,
-      [int unit = TokenKind.UNIT_LENGTH_PX])
+      [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
-    assert(unit == TokenKind.UNIT_VIEWPORT_VW ||
-        unit == TokenKind.UNIT_VIEWPORT_VH ||
-        unit == TokenKind.UNIT_VIEWPORT_VMIN ||
-        unit == TokenKind.UNIT_VIEWPORT_VMAX);
+    assert(unit == CssTokenKind.UNIT_VIEWPORT_VW ||
+        unit == CssTokenKind.UNIT_VIEWPORT_VH ||
+        unit == CssTokenKind.UNIT_VIEWPORT_VMIN ||
+        unit == CssTokenKind.UNIT_VIEWPORT_VMAX);
   }
 
   @override
@@ -1434,7 +1435,7 @@ class Expressions extends Expression {
 }
 
 class BinaryExpression extends Expression {
-  final Token op;
+  final CssToken op;
   final Expression x;
   final Expression y;
 
@@ -1447,7 +1448,7 @@ class BinaryExpression extends Expression {
 }
 
 class UnaryExpression extends Expression {
-  final Token op;
+  final CssToken op;
   final Expression self;
 
   UnaryExpression(this.op, this.self, SourceSpan? span) : super(span);

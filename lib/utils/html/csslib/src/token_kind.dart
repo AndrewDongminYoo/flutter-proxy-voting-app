@@ -2,7 +2,7 @@
 
 part of '../parser.dart';
 
-class TokenKind {
+class CssTokenKind {
   static const int UNUSED = 0;
   static const int END_OF_FILE = 1;
   static const int LPAREN = 2;
@@ -169,96 +169,108 @@ class TokenKind {
   static const int NEGATION = 706;
 
   static const List<Map<String, dynamic>> _DIRECTIVES = [
-    {'type': TokenKind.DIRECTIVE_IMPORT, 'value': 'import'},
-    {'type': TokenKind.DIRECTIVE_MEDIA, 'value': 'media'},
-    {'type': TokenKind.DIRECTIVE_PAGE, 'value': 'page'},
-    {'type': TokenKind.DIRECTIVE_CHARSET, 'value': 'charset'},
-    {'type': TokenKind.DIRECTIVE_STYLET, 'value': 'stylet'},
-    {'type': TokenKind.DIRECTIVE_KEYFRAMES, 'value': 'keyframes'},
+    {'type': CssTokenKind.DIRECTIVE_IMPORT, 'value': 'import'},
+    {'type': CssTokenKind.DIRECTIVE_MEDIA, 'value': 'media'},
+    {'type': CssTokenKind.DIRECTIVE_PAGE, 'value': 'page'},
+    {'type': CssTokenKind.DIRECTIVE_CHARSET, 'value': 'charset'},
+    {'type': CssTokenKind.DIRECTIVE_STYLET, 'value': 'stylet'},
+    {'type': CssTokenKind.DIRECTIVE_KEYFRAMES, 'value': 'keyframes'},
     {
-      'type': TokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES,
+      'type': CssTokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES,
       'value': '-webkit-keyframes'
     },
-    {'type': TokenKind.DIRECTIVE_MOZ_KEYFRAMES, 'value': '-moz-keyframes'},
-    {'type': TokenKind.DIRECTIVE_MS_KEYFRAMES, 'value': '-ms-keyframes'},
-    {'type': TokenKind.DIRECTIVE_O_KEYFRAMES, 'value': '-o-keyframes'},
-    {'type': TokenKind.DIRECTIVE_FONTFACE, 'value': 'font-face'},
-    {'type': TokenKind.DIRECTIVE_NAMESPACE, 'value': 'namespace'},
-    {'type': TokenKind.DIRECTIVE_HOST, 'value': 'host'},
-    {'type': TokenKind.DIRECTIVE_MIXIN, 'value': 'mixin'},
-    {'type': TokenKind.DIRECTIVE_INCLUDE, 'value': 'include'},
-    {'type': TokenKind.DIRECTIVE_CONTENT, 'value': 'content'},
-    {'type': TokenKind.DIRECTIVE_EXTEND, 'value': 'extend'},
-    {'type': TokenKind.DIRECTIVE_MOZ_DOCUMENT, 'value': '-moz-document'},
-    {'type': TokenKind.DIRECTIVE_SUPPORTS, 'value': 'supports'},
-    {'type': TokenKind.DIRECTIVE_VIEWPORT, 'value': 'viewport'},
-    {'type': TokenKind.DIRECTIVE_MS_VIEWPORT, 'value': '-ms-viewport'},
+    {'type': CssTokenKind.DIRECTIVE_MOZ_KEYFRAMES, 'value': '-moz-keyframes'},
+    {'type': CssTokenKind.DIRECTIVE_MS_KEYFRAMES, 'value': '-ms-keyframes'},
+    {'type': CssTokenKind.DIRECTIVE_O_KEYFRAMES, 'value': '-o-keyframes'},
+    {'type': CssTokenKind.DIRECTIVE_FONTFACE, 'value': 'font-face'},
+    {'type': CssTokenKind.DIRECTIVE_NAMESPACE, 'value': 'namespace'},
+    {'type': CssTokenKind.DIRECTIVE_HOST, 'value': 'host'},
+    {'type': CssTokenKind.DIRECTIVE_MIXIN, 'value': 'mixin'},
+    {'type': CssTokenKind.DIRECTIVE_INCLUDE, 'value': 'include'},
+    {'type': CssTokenKind.DIRECTIVE_CONTENT, 'value': 'content'},
+    {'type': CssTokenKind.DIRECTIVE_EXTEND, 'value': 'extend'},
+    {'type': CssTokenKind.DIRECTIVE_MOZ_DOCUMENT, 'value': '-moz-document'},
+    {'type': CssTokenKind.DIRECTIVE_SUPPORTS, 'value': 'supports'},
+    {'type': CssTokenKind.DIRECTIVE_VIEWPORT, 'value': 'viewport'},
+    {'type': CssTokenKind.DIRECTIVE_MS_VIEWPORT, 'value': '-ms-viewport'},
   ];
 
   static const List<Map<String, dynamic>> MEDIA_OPERATORS = [
-    {'type': TokenKind.MEDIA_OP_ONLY, 'value': 'only'},
-    {'type': TokenKind.MEDIA_OP_NOT, 'value': 'not'},
-    {'type': TokenKind.MEDIA_OP_AND, 'value': 'and'},
+    {'type': CssTokenKind.MEDIA_OP_ONLY, 'value': 'only'},
+    {'type': CssTokenKind.MEDIA_OP_NOT, 'value': 'not'},
+    {'type': CssTokenKind.MEDIA_OP_AND, 'value': 'and'},
   ];
 
   static const List<Map<String, dynamic>> MARGIN_DIRECTIVES = [
     {
-      'type': TokenKind.MARGIN_DIRECTIVE_TOPLEFTCORNER,
+      'type': CssTokenKind.MARGIN_DIRECTIVE_TOPLEFTCORNER,
       'value': 'top-left-corner'
     },
-    {'type': TokenKind.MARGIN_DIRECTIVE_TOPLEFT, 'value': 'top-left'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_TOPCENTER, 'value': 'top-center'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_TOPRIGHT, 'value': 'top-right'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_TOPLEFT, 'value': 'top-left'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_TOPCENTER, 'value': 'top-center'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_TOPRIGHT, 'value': 'top-right'},
     {
-      'type': TokenKind.MARGIN_DIRECTIVE_TOPRIGHTCORNER,
+      'type': CssTokenKind.MARGIN_DIRECTIVE_TOPRIGHTCORNER,
       'value': 'top-right-corner'
     },
     {
-      'type': TokenKind.MARGIN_DIRECTIVE_BOTTOMLEFTCORNER,
+      'type': CssTokenKind.MARGIN_DIRECTIVE_BOTTOMLEFTCORNER,
       'value': 'bottom-left-corner'
     },
-    {'type': TokenKind.MARGIN_DIRECTIVE_BOTTOMLEFT, 'value': 'bottom-left'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_BOTTOMCENTER, 'value': 'bottom-center'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHT, 'value': 'bottom-right'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_BOTTOMLEFT, 'value': 'bottom-left'},
     {
-      'type': TokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHTCORNER,
+      'type': CssTokenKind.MARGIN_DIRECTIVE_BOTTOMCENTER,
+      'value': 'bottom-center'
+    },
+    {
+      'type': CssTokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHT,
+      'value': 'bottom-right'
+    },
+    {
+      'type': CssTokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHTCORNER,
       'value': 'bottom-right-corner'
     },
-    {'type': TokenKind.MARGIN_DIRECTIVE_LEFTTOP, 'value': 'left-top'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_LEFTMIDDLE, 'value': 'left-middle'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_LEFTBOTTOM, 'value': 'right-bottom'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_RIGHTTOP, 'value': 'right-top'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_RIGHTMIDDLE, 'value': 'right-middle'},
-    {'type': TokenKind.MARGIN_DIRECTIVE_RIGHTBOTTOM, 'value': 'right-bottom'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_LEFTTOP, 'value': 'left-top'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_LEFTMIDDLE, 'value': 'left-middle'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_LEFTBOTTOM, 'value': 'right-bottom'},
+    {'type': CssTokenKind.MARGIN_DIRECTIVE_RIGHTTOP, 'value': 'right-top'},
+    {
+      'type': CssTokenKind.MARGIN_DIRECTIVE_RIGHTMIDDLE,
+      'value': 'right-middle'
+    },
+    {
+      'type': CssTokenKind.MARGIN_DIRECTIVE_RIGHTBOTTOM,
+      'value': 'right-bottom'
+    },
   ];
 
   static const List<Map<String, dynamic>> _UNITS = [
-    {'unit': TokenKind.UNIT_EM, 'value': 'em'},
-    {'unit': TokenKind.UNIT_EX, 'value': 'ex'},
-    {'unit': TokenKind.UNIT_LENGTH_PX, 'value': 'px'},
-    {'unit': TokenKind.UNIT_LENGTH_CM, 'value': 'cm'},
-    {'unit': TokenKind.UNIT_LENGTH_MM, 'value': 'mm'},
-    {'unit': TokenKind.UNIT_LENGTH_IN, 'value': 'in'},
-    {'unit': TokenKind.UNIT_LENGTH_PT, 'value': 'pt'},
-    {'unit': TokenKind.UNIT_LENGTH_PC, 'value': 'pc'},
-    {'unit': TokenKind.UNIT_ANGLE_DEG, 'value': 'deg'},
-    {'unit': TokenKind.UNIT_ANGLE_RAD, 'value': 'rad'},
-    {'unit': TokenKind.UNIT_ANGLE_GRAD, 'value': 'grad'},
-    {'unit': TokenKind.UNIT_ANGLE_TURN, 'value': 'turn'},
-    {'unit': TokenKind.UNIT_TIME_MS, 'value': 'ms'},
-    {'unit': TokenKind.UNIT_TIME_S, 'value': 's'},
-    {'unit': TokenKind.UNIT_FREQ_HZ, 'value': 'hz'},
-    {'unit': TokenKind.UNIT_FREQ_KHZ, 'value': 'khz'},
-    {'unit': TokenKind.UNIT_FRACTION, 'value': 'fr'},
-    {'unit': TokenKind.UNIT_RESOLUTION_DPI, 'value': 'dpi'},
-    {'unit': TokenKind.UNIT_RESOLUTION_DPCM, 'value': 'dpcm'},
-    {'unit': TokenKind.UNIT_RESOLUTION_DPPX, 'value': 'dppx'},
-    {'unit': TokenKind.UNIT_CH, 'value': 'ch'},
-    {'unit': TokenKind.UNIT_REM, 'value': 'rem'},
-    {'unit': TokenKind.UNIT_VIEWPORT_VW, 'value': 'vw'},
-    {'unit': TokenKind.UNIT_VIEWPORT_VH, 'value': 'vh'},
-    {'unit': TokenKind.UNIT_VIEWPORT_VMIN, 'value': 'vmin'},
-    {'unit': TokenKind.UNIT_VIEWPORT_VMAX, 'value': 'vmax'},
+    {'unit': CssTokenKind.UNIT_EM, 'value': 'em'},
+    {'unit': CssTokenKind.UNIT_EX, 'value': 'ex'},
+    {'unit': CssTokenKind.UNIT_LENGTH_PX, 'value': 'px'},
+    {'unit': CssTokenKind.UNIT_LENGTH_CM, 'value': 'cm'},
+    {'unit': CssTokenKind.UNIT_LENGTH_MM, 'value': 'mm'},
+    {'unit': CssTokenKind.UNIT_LENGTH_IN, 'value': 'in'},
+    {'unit': CssTokenKind.UNIT_LENGTH_PT, 'value': 'pt'},
+    {'unit': CssTokenKind.UNIT_LENGTH_PC, 'value': 'pc'},
+    {'unit': CssTokenKind.UNIT_ANGLE_DEG, 'value': 'deg'},
+    {'unit': CssTokenKind.UNIT_ANGLE_RAD, 'value': 'rad'},
+    {'unit': CssTokenKind.UNIT_ANGLE_GRAD, 'value': 'grad'},
+    {'unit': CssTokenKind.UNIT_ANGLE_TURN, 'value': 'turn'},
+    {'unit': CssTokenKind.UNIT_TIME_MS, 'value': 'ms'},
+    {'unit': CssTokenKind.UNIT_TIME_S, 'value': 's'},
+    {'unit': CssTokenKind.UNIT_FREQ_HZ, 'value': 'hz'},
+    {'unit': CssTokenKind.UNIT_FREQ_KHZ, 'value': 'khz'},
+    {'unit': CssTokenKind.UNIT_FRACTION, 'value': 'fr'},
+    {'unit': CssTokenKind.UNIT_RESOLUTION_DPI, 'value': 'dpi'},
+    {'unit': CssTokenKind.UNIT_RESOLUTION_DPCM, 'value': 'dpcm'},
+    {'unit': CssTokenKind.UNIT_RESOLUTION_DPPX, 'value': 'dppx'},
+    {'unit': CssTokenKind.UNIT_CH, 'value': 'ch'},
+    {'unit': CssTokenKind.UNIT_REM, 'value': 'rem'},
+    {'unit': CssTokenKind.UNIT_VIEWPORT_VW, 'value': 'vw'},
+    {'unit': CssTokenKind.UNIT_VIEWPORT_VH, 'value': 'vh'},
+    {'unit': CssTokenKind.UNIT_VIEWPORT_VMIN, 'value': 'vmin'},
+    {'unit': CssTokenKind.UNIT_VIEWPORT_VMAX, 'value': 'vmax'},
   ];
 
   static const int ASCII_UPPER_A = 65;
@@ -483,7 +495,7 @@ class TokenKind {
   }
 
   static String? unitToString(int unitTokenToFind) {
-    if (unitTokenToFind == TokenKind.PERCENT) {
+    if (unitTokenToFind == CssTokenKind.PERCENT) {
       return '%';
     } else {
       for (final entry in _UNITS) {
@@ -547,75 +559,75 @@ class TokenKind {
 
   static String kindToString(int kind) {
     switch (kind) {
-      case TokenKind.UNUSED:
+      case CssTokenKind.UNUSED:
         return 'ERROR';
-      case TokenKind.END_OF_FILE:
+      case CssTokenKind.END_OF_FILE:
         return 'end of file';
-      case TokenKind.LPAREN:
+      case CssTokenKind.LPAREN:
         return '(';
-      case TokenKind.RPAREN:
+      case CssTokenKind.RPAREN:
         return ')';
-      case TokenKind.LBRACK:
+      case CssTokenKind.LBRACK:
         return '[';
-      case TokenKind.RBRACK:
+      case CssTokenKind.RBRACK:
         return ']';
-      case TokenKind.LBRACE:
+      case CssTokenKind.LBRACE:
         return '{';
-      case TokenKind.RBRACE:
+      case CssTokenKind.RBRACE:
         return '}';
-      case TokenKind.DOT:
+      case CssTokenKind.DOT:
         return '.';
-      case TokenKind.SEMICOLON:
+      case CssTokenKind.SEMICOLON:
         return ';';
-      case TokenKind.AT:
+      case CssTokenKind.AT:
         return '@';
-      case TokenKind.HASH:
+      case CssTokenKind.HASH:
         return '#';
-      case TokenKind.PLUS:
+      case CssTokenKind.PLUS:
         return '+';
-      case TokenKind.GREATER:
+      case CssTokenKind.GREATER:
         return '>';
-      case TokenKind.TILDE:
+      case CssTokenKind.TILDE:
         return '~';
-      case TokenKind.ASTERISK:
+      case CssTokenKind.ASTERISK:
         return '*';
-      case TokenKind.NAMESPACE:
+      case CssTokenKind.NAMESPACE:
         return '|';
-      case TokenKind.COLON:
+      case CssTokenKind.COLON:
         return ':';
-      case TokenKind.PRIVATE_NAME:
+      case CssTokenKind.PRIVATE_NAME:
         return '_';
-      case TokenKind.COMMA:
+      case CssTokenKind.COMMA:
         return ',';
-      case TokenKind.SPACE:
+      case CssTokenKind.SPACE:
         return ' ';
-      case TokenKind.TAB:
+      case CssTokenKind.TAB:
         return '\t';
-      case TokenKind.NEWLINE:
+      case CssTokenKind.NEWLINE:
         return '\n';
-      case TokenKind.RETURN:
+      case CssTokenKind.RETURN:
         return '\r';
-      case TokenKind.PERCENT:
+      case CssTokenKind.PERCENT:
         return '%';
-      case TokenKind.SINGLE_QUOTE:
+      case CssTokenKind.SINGLE_QUOTE:
         return "'";
-      case TokenKind.DOUBLE_QUOTE:
+      case CssTokenKind.DOUBLE_QUOTE:
         return '"';
-      case TokenKind.SLASH:
+      case CssTokenKind.SLASH:
         return '/';
-      case TokenKind.EQUALS:
+      case CssTokenKind.EQUALS:
         return '=';
-      case TokenKind.CARET:
+      case CssTokenKind.CARET:
         return '^';
-      case TokenKind.DOLLAR:
+      case CssTokenKind.DOLLAR:
         return '\$';
-      case TokenKind.LESS:
+      case CssTokenKind.LESS:
         return '<';
-      case TokenKind.BANG:
+      case CssTokenKind.BANG:
         return '!';
-      case TokenKind.MINUS:
+      case CssTokenKind.MINUS:
         return '-';
-      case TokenKind.BACKSLASH:
+      case CssTokenKind.BACKSLASH:
         return '\\';
       default:
         throw 'Unknown TOKEN';
@@ -624,38 +636,38 @@ class TokenKind {
 
   static bool isKindIdentifier(int kind) {
     switch (kind) {
-      case TokenKind.DIRECTIVE_IMPORT:
-      case TokenKind.DIRECTIVE_MEDIA:
-      case TokenKind.DIRECTIVE_PAGE:
-      case TokenKind.DIRECTIVE_CHARSET:
-      case TokenKind.DIRECTIVE_STYLET:
-      case TokenKind.DIRECTIVE_KEYFRAMES:
-      case TokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES:
-      case TokenKind.DIRECTIVE_MOZ_KEYFRAMES:
-      case TokenKind.DIRECTIVE_MS_KEYFRAMES:
-      case TokenKind.DIRECTIVE_O_KEYFRAMES:
-      case TokenKind.DIRECTIVE_FONTFACE:
-      case TokenKind.DIRECTIVE_NAMESPACE:
-      case TokenKind.DIRECTIVE_HOST:
-      case TokenKind.DIRECTIVE_MIXIN:
-      case TokenKind.DIRECTIVE_INCLUDE:
-      case TokenKind.DIRECTIVE_CONTENT:
-      case TokenKind.UNIT_EM:
-      case TokenKind.UNIT_EX:
-      case TokenKind.UNIT_LENGTH_PX:
-      case TokenKind.UNIT_LENGTH_CM:
-      case TokenKind.UNIT_LENGTH_MM:
-      case TokenKind.UNIT_LENGTH_IN:
-      case TokenKind.UNIT_LENGTH_PT:
-      case TokenKind.UNIT_LENGTH_PC:
-      case TokenKind.UNIT_ANGLE_DEG:
-      case TokenKind.UNIT_ANGLE_RAD:
-      case TokenKind.UNIT_ANGLE_GRAD:
-      case TokenKind.UNIT_TIME_MS:
-      case TokenKind.UNIT_TIME_S:
-      case TokenKind.UNIT_FREQ_HZ:
-      case TokenKind.UNIT_FREQ_KHZ:
-      case TokenKind.UNIT_FRACTION:
+      case CssTokenKind.DIRECTIVE_IMPORT:
+      case CssTokenKind.DIRECTIVE_MEDIA:
+      case CssTokenKind.DIRECTIVE_PAGE:
+      case CssTokenKind.DIRECTIVE_CHARSET:
+      case CssTokenKind.DIRECTIVE_STYLET:
+      case CssTokenKind.DIRECTIVE_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_MOZ_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_MS_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_O_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_FONTFACE:
+      case CssTokenKind.DIRECTIVE_NAMESPACE:
+      case CssTokenKind.DIRECTIVE_HOST:
+      case CssTokenKind.DIRECTIVE_MIXIN:
+      case CssTokenKind.DIRECTIVE_INCLUDE:
+      case CssTokenKind.DIRECTIVE_CONTENT:
+      case CssTokenKind.UNIT_EM:
+      case CssTokenKind.UNIT_EX:
+      case CssTokenKind.UNIT_LENGTH_PX:
+      case CssTokenKind.UNIT_LENGTH_CM:
+      case CssTokenKind.UNIT_LENGTH_MM:
+      case CssTokenKind.UNIT_LENGTH_IN:
+      case CssTokenKind.UNIT_LENGTH_PT:
+      case CssTokenKind.UNIT_LENGTH_PC:
+      case CssTokenKind.UNIT_ANGLE_DEG:
+      case CssTokenKind.UNIT_ANGLE_RAD:
+      case CssTokenKind.UNIT_ANGLE_GRAD:
+      case CssTokenKind.UNIT_TIME_MS:
+      case CssTokenKind.UNIT_TIME_S:
+      case CssTokenKind.UNIT_FREQ_HZ:
+      case CssTokenKind.UNIT_FREQ_KHZ:
+      case CssTokenKind.UNIT_FRACTION:
         return true;
       default:
         return false;

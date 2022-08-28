@@ -10,14 +10,12 @@ import 'package:source_span/source_span.dart' show FileSpan;
 // 🌎 Project imports:
 import 'dom_parsing.dart';
 import 'html.escape.dart';
-import 'html.parser.dart' show parse, parseFragment;
+import 'html.parser.dart' show htmlParse, parseFragment;
 import 'src/constants.dart' show Namespaces;
 import 'src/css_class_set.dart' show CssClassSet, ElementCssClassSet;
 import 'src/list_proxy.dart' show ListProxy;
 import 'src/query_selector.dart' as query;
 import 'src/tokenizer.dart' show HtmlTokenizer;
-
-export 'src/css_class_set.dart' show CssClassSet;
 
 class AttributeName implements Comparable<Object> {
   final String? prefix;
@@ -226,7 +224,7 @@ class Document extends Node
     with _ParentNode, _NonElementParentNode, _ElementAndDocument {
   Document() : super._();
 
-  factory Document.html(String html) => parse(html);
+  factory Document.html(String html) => htmlParse(html);
 
   @override
   int get nodeType => Node.DOCUMENT_NODE;
@@ -314,10 +312,10 @@ class DocumentType extends Node {
   DocumentType clone(bool deep) => DocumentType(name, publicId, systemId);
 }
 
-class Text extends Node {
+class TextNode extends Node {
   Object _data;
 
-  Text(String? data)
+  TextNode(String? data)
       : _data = data ?? '',
         super._();
 
@@ -337,7 +335,7 @@ class Text extends Node {
   void _addOuterHtml(StringBuffer str) => writeTextNodeAsHtml(str, this);
 
   @override
-  Text clone(bool deep) => Text(data);
+  TextNode clone(bool deep) => TextNode(data);
 
   void appendData(String data) {
     if (_data is! StringBuffer) _data = StringBuffer(_data);
@@ -476,7 +474,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
           localName == 'textarea' ||
           localName == 'listing') {
         final first = nodes[0];
-        if (first is Text && first.data.startsWith('\n')) {
+        if (first is TextNode && first.data.startsWith('\n')) {
           str.write('\n');
         }
       }
@@ -902,7 +900,7 @@ String _getText(Node node) => (_ConcatTextVisitor()..visit(node)).toString();
 
 void _setText(Node node, String? value) {
   node.nodes.clear();
-  node.append(Text(value));
+  node.append(TextNode(value));
 }
 
 class _ConcatTextVisitor extends TreeVisitor {
@@ -912,7 +910,7 @@ class _ConcatTextVisitor extends TreeVisitor {
   String toString() => _str.toString();
 
   @override
-  void visitText(Text node) {
+  void visitText(TextNode node) {
     _str.write(node.data);
   }
 }

@@ -9,7 +9,7 @@ class TreeVisitor {
       case Node.ELEMENT_NODE:
         return visitElement(node as Element);
       case Node.TEXT_NODE:
-        return visitText(node as Text);
+        return visitText(node as TextNode);
       case Node.COMMENT_NODE:
         return visitComment(node as Comment);
       case Node.DOCUMENT_FRAGMENT_NODE:
@@ -35,7 +35,7 @@ class TreeVisitor {
 
   void visitDocumentType(DocumentType node) => visitNodeFallback(node);
 
-  void visitText(Text node) => visitNodeFallback(node);
+  void visitText(TextNode node) => visitNodeFallback(node);
 
   void visitElement(Element node) => visitNodeFallback(node);
 
@@ -70,7 +70,7 @@ class CodeMarkupVisitor extends TreeVisitor {
   }
 
   @override
-  void visitText(Text node) {
+  void visitText(TextNode node) {
     writeTextNodeAsHtml(_str, node);
   }
 
@@ -125,7 +125,7 @@ bool isVoidElement(String? tagName) {
   return false;
 }
 
-void writeTextNodeAsHtml(StringBuffer str, Text node) {
+void writeTextNodeAsHtml(StringBuffer str, TextNode node) {
   final parent = node.parentNode;
   if (parent is Element) {
     final tag = parent.localName;

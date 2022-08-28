@@ -24,8 +24,8 @@ enum ClauseType {
 }
 
 class ParserState extends TokenizerState {
-  final Token peekToken;
-  final Token? previousToken;
+  final CssToken peekToken;
+  final CssToken? previousToken;
 
   ParserState(this.peekToken, this.previousToken, Tokenizer tokenizer)
       : super(tokenizer);
@@ -138,8 +138,8 @@ class _Parser {
 
   final SourceFile file;
 
-  Token? _previousToken;
-  late Token _peekToken;
+  CssToken? _previousToken;
+  late CssToken _peekToken;
 
   _Parser(this.file, String text, {int start = 0})
       : tokenizer = Tokenizer(file, text, true, start) {
@@ -150,7 +150,8 @@ class _Parser {
     List<TreeNode> productions = <TreeNode>[];
 
     FileSpan start = _peekToken.span;
-    while (!_maybeEat(TokenKind.END_OF_FILE) && !_peekKind(TokenKind.RBRACE)) {
+    while (!_maybeEat(CssTokenKind.END_OF_FILE) &&
+        !_peekKind(CssTokenKind.RBRACE)) {
       final rule = processRule();
       if (rule != null) {
         productions.add(rule);
@@ -168,7 +169,8 @@ class _Parser {
     List<TreeNode> productions = <TreeNode>[];
 
     FileSpan start = _peekToken.span;
-    while (!_maybeEat(TokenKind.END_OF_FILE) && !_peekKind(TokenKind.RBRACE)) {
+    while (!_maybeEat(CssTokenKind.END_OF_FILE) &&
+        !_peekKind(CssTokenKind.RBRACE)) {
       Selector? selector = processSelector();
       if (selector != null) {
         productions.add(selector);
@@ -183,14 +185,14 @@ class _Parser {
   }
 
   void checkEndOfFile() {
-    if (!(_peekKind(TokenKind.END_OF_FILE) ||
-        _peekKind(TokenKind.INCOMPLETE_COMMENT))) {
+    if (!(_peekKind(CssTokenKind.END_OF_FILE) ||
+        _peekKind(CssTokenKind.INCOMPLETE_COMMENT))) {
       _error('premature end of file unknown CSS', _peekToken.span);
     }
   }
 
   bool isPrematureEndOfFile() {
-    if (_maybeEat(TokenKind.END_OF_FILE)) {
+    if (_maybeEat(CssTokenKind.END_OF_FILE)) {
       _error('unexpected end of file', _peekToken.span);
       return true;
     } else {
@@ -202,7 +204,7 @@ class _Parser {
     return _peekToken.kind;
   }
 
-  Token _next({bool unicodeRange = false}) {
+  CssToken _next({bool unicodeRange = false}) {
     final next = _previousToken = _peekToken;
     _peekToken = tokenizer.next(unicodeRange: unicodeRange);
     return next;
@@ -213,7 +215,7 @@ class _Parser {
   }
 
   bool _peekIdentifier() {
-    return TokenKind.isIdentifier(_peekToken.kind);
+    return CssTokenKind.isIdentifier(_peekToken.kind);
   }
 
   ParserState get _mark => ParserState(_peekToken, _previousToken, tokenizer);
@@ -236,12 +238,12 @@ class _Parser {
 
   void _eat(int kind, {bool unicodeRange = false}) {
     if (!_maybeEat(kind, unicodeRange: unicodeRange)) {
-      _errorExpected(TokenKind.kindToString(kind));
+      _errorExpected(CssTokenKind.kindToString(kind));
     }
   }
 
   void _errorExpected(String expected) {
-    Token tok = _next();
+    CssToken tok = _next();
     String message;
     try {
       message = 'expected $expected, but found $tok';
@@ -278,7 +280,7 @@ class _Parser {
       } else {
         break;
       }
-    } while (_maybeEat(TokenKind.COMMA));
+    } while (_maybeEat(CssTokenKind.COMMA));
 
     return mediaQueries;
   }
@@ -288,11 +290,11 @@ class _Parser {
 
     String op = _peekToken.text;
     int opLen = op.length;
-    int unaryOp = TokenKind.matchMediaOperator(op, 0, opLen);
+    int unaryOp = CssTokenKind.matchMediaOperator(op, 0, opLen);
     if (unaryOp != -1) {
       if (isChecked) {
-        if (unaryOp != TokenKind.MEDIA_OP_NOT ||
-            unaryOp != TokenKind.MEDIA_OP_ONLY) {
+        if (unaryOp != CssTokenKind.MEDIA_OP_NOT ||
+            unaryOp != CssTokenKind.MEDIA_OP_ONLY) {
           _warning('Only the unary operators NOT and ONLY allowed',
               _makeSpan(start));
         }
@@ -311,8 +313,8 @@ class _Parser {
       if (andOp) {
         op = _peekToken.text;
         opLen = op.length;
-        if (TokenKind.matchMediaOperator(op, 0, opLen) !=
-            TokenKind.MEDIA_OP_AND) {
+        if (CssTokenKind.matchMediaOperator(op, 0, opLen) !=
+            CssTokenKind.MEDIA_OP_AND) {
           break;
         }
         _next();
@@ -333,13 +335,13 @@ class _Parser {
   MediaExpression? processMediaExpression([bool andOperator = false]) {
     FileSpan start = _peekToken.span;
 
-    if (_maybeEat(TokenKind.LPAREN)) {
+    if (_maybeEat(CssTokenKind.LPAREN)) {
       if (_peekIdentifier()) {
         Identifier feature = identifier();
-        Expressions exprs = _maybeEat(TokenKind.COLON)
+        Expressions exprs = _maybeEat(CssTokenKind.COLON)
             ? processExpr()
             : Expressions(_makeSpan(_peekToken.span));
-        if (_maybeEat(TokenKind.RPAREN)) {
+        if (_maybeEat(CssTokenKind.RPAREN)) {
           return MediaExpression(andOperator, feature, exprs, _makeSpan(start));
         } else if (isChecked) {
           _warning(
@@ -360,7 +362,7 @@ class _Parser {
     if (tokId is VarDefinitionDirective) return tokId;
     final tokenId = tokId as int;
     switch (tokenId) {
-      case TokenKind.DIRECTIVE_IMPORT:
+      case CssTokenKind.DIRECTIVE_IMPORT:
         _next();
 
         String? importStr;
@@ -381,20 +383,20 @@ class _Parser {
 
         return ImportDirective(importStr!.trim(), medias, _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_MEDIA:
+      case CssTokenKind.DIRECTIVE_MEDIA:
         _next();
 
         List<MediaQuery> media = processMediaQueryList();
 
         List<TreeNode> rules = <TreeNode>[];
-        if (_maybeEat(TokenKind.LBRACE)) {
-          while (!_maybeEat(TokenKind.END_OF_FILE)) {
+        if (_maybeEat(CssTokenKind.LBRACE)) {
+          while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
             final rule = processRule();
             if (rule == null) break;
             rules.add(rule);
           }
 
-          if (!_maybeEat(TokenKind.RBRACE)) {
+          if (!_maybeEat(CssTokenKind.RBRACE)) {
             _error('expected } after ruleset for @media', _peekToken.span);
           }
         } else {
@@ -402,18 +404,18 @@ class _Parser {
         }
         return MediaDirective(media, rules, _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_HOST:
+      case CssTokenKind.DIRECTIVE_HOST:
         _next();
 
         List<TreeNode> rules = <TreeNode>[];
-        if (_maybeEat(TokenKind.LBRACE)) {
-          while (!_maybeEat(TokenKind.END_OF_FILE)) {
+        if (_maybeEat(CssTokenKind.LBRACE)) {
+          while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
             final rule = processRule();
             if (rule == null) break;
             rules.add(rule);
           }
 
-          if (!_maybeEat(TokenKind.RBRACE)) {
+          if (!_maybeEat(CssTokenKind.RBRACE)) {
             _error('expected } after ruleset for @host', _peekToken.span);
           }
         } else {
@@ -421,7 +423,7 @@ class _Parser {
         }
         return HostDirective(rules, _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_PAGE:
+      case CssTokenKind.DIRECTIVE_PAGE:
         _next();
 
         Identifier? name;
@@ -430,7 +432,7 @@ class _Parser {
         }
 
         Identifier? pseudoPage;
-        if (_maybeEat(TokenKind.COLON)) {
+        if (_maybeEat(CssTokenKind.COLON)) {
           if (_peekIdentifier()) {
             pseudoPage = identifier();
             if (isChecked &&
@@ -449,7 +451,7 @@ class _Parser {
         return PageDirective(
             ident, pseudoName, processMarginsDeclarations(), _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_CHARSET:
+      case CssTokenKind.DIRECTIVE_CHARSET:
         _next();
 
         String charEncoding = processQuotedString(false);
@@ -464,12 +466,12 @@ class _Parser {
 
       keyframeDirective:
       */
-      case TokenKind.DIRECTIVE_KEYFRAMES:
-      case TokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES:
-      case TokenKind.DIRECTIVE_MOZ_KEYFRAMES:
-      case TokenKind.DIRECTIVE_O_KEYFRAMES:
-      case TokenKind.DIRECTIVE_MS_KEYFRAMES:
-        if (tokenId == TokenKind.DIRECTIVE_MS_KEYFRAMES && isChecked) {
+      case CssTokenKind.DIRECTIVE_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_WEB_KIT_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_MOZ_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_O_KEYFRAMES:
+      case CssTokenKind.DIRECTIVE_MS_KEYFRAMES:
+        if (tokenId == CssTokenKind.DIRECTIVE_MS_KEYFRAMES && isChecked) {
           _warning('@-ms-keyframes should be @keyframes', _makeSpan(start));
         }
 
@@ -480,7 +482,7 @@ class _Parser {
           name = identifier();
         }
 
-        _eat(TokenKind.LBRACE);
+        _eat(CssTokenKind.LBRACE);
 
         KeyFrameDirective keyframe =
             KeyFrameDirective(tokenId, name, _makeSpan(start));
@@ -492,19 +494,19 @@ class _Parser {
             Expression term = processTerm() as Expression;
 
             selectors.add(term);
-          } while (_maybeEat(TokenKind.COMMA));
+          } while (_maybeEat(CssTokenKind.COMMA));
 
           keyframe.add(KeyFrameBlock(
               selectors, processDeclarations(), _makeSpan(start)));
-        } while (!_maybeEat(TokenKind.RBRACE) && !isPrematureEndOfFile());
+        } while (!_maybeEat(CssTokenKind.RBRACE) && !isPrematureEndOfFile());
 
         return keyframe;
 
-      case TokenKind.DIRECTIVE_FONTFACE:
+      case CssTokenKind.DIRECTIVE_FONTFACE:
         _next();
         return FontFaceDirective(processDeclarations(), _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_STYLET:
+      case CssTokenKind.DIRECTIVE_STYLET:
         _next();
 
         dynamic name;
@@ -512,12 +514,12 @@ class _Parser {
           name = identifier();
         }
 
-        _eat(TokenKind.LBRACE);
+        _eat(CssTokenKind.LBRACE);
 
         List<TreeNode> productions = <TreeNode>[];
 
         start = _peekToken.span;
-        while (!_maybeEat(TokenKind.END_OF_FILE)) {
+        while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
           final rule = processRule();
           if (rule == null) {
             break;
@@ -525,11 +527,11 @@ class _Parser {
           productions.add(rule);
         }
 
-        _eat(TokenKind.RBRACE);
+        _eat(CssTokenKind.RBRACE);
 
         return StyletDirective(name as String, productions, _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_NAMESPACE:
+      case CssTokenKind.DIRECTIVE_NAMESPACE:
         _next();
 
         Identifier? prefix;
@@ -558,20 +560,20 @@ class _Parser {
         return NamespaceDirective(
             prefix?.name ?? '', namespaceUri, _makeSpan(start));
 
-      case TokenKind.DIRECTIVE_MIXIN:
+      case CssTokenKind.DIRECTIVE_MIXIN:
         return processMixin();
 
-      case TokenKind.DIRECTIVE_INCLUDE:
+      case CssTokenKind.DIRECTIVE_INCLUDE:
         return processInclude(_makeSpan(start));
-      case TokenKind.DIRECTIVE_CONTENT:
+      case CssTokenKind.DIRECTIVE_CONTENT:
         _warning('@content not implemented.', _makeSpan(start));
         return null;
-      case TokenKind.DIRECTIVE_MOZ_DOCUMENT:
+      case CssTokenKind.DIRECTIVE_MOZ_DOCUMENT:
         return processDocumentDirective();
-      case TokenKind.DIRECTIVE_SUPPORTS:
+      case CssTokenKind.DIRECTIVE_SUPPORTS:
         return processSupportsDirective();
-      case TokenKind.DIRECTIVE_VIEWPORT:
-      case TokenKind.DIRECTIVE_MS_VIEWPORT:
+      case CssTokenKind.DIRECTIVE_VIEWPORT:
+      case CssTokenKind.DIRECTIVE_MS_VIEWPORT:
         return processViewportDirective();
     }
     return null;
@@ -583,7 +585,7 @@ class _Parser {
     Identifier name = identifier();
 
     List<TreeNode> params = <TreeNode>[];
-    if (_maybeEat(TokenKind.LPAREN)) {
+    if (_maybeEat(CssTokenKind.LPAREN)) {
       bool mustHaveParam = false;
       bool keepGoing = true;
       while (keepGoing) {
@@ -594,21 +596,21 @@ class _Parser {
           _warning('Expecting parameter', _makeSpan(_peekToken.span));
           keepGoing = false;
         }
-        if (_maybeEat(TokenKind.COMMA)) {
+        if (_maybeEat(CssTokenKind.COMMA)) {
           mustHaveParam = true;
           continue;
         }
-        keepGoing = !_maybeEat(TokenKind.RPAREN);
+        keepGoing = !_maybeEat(CssTokenKind.RPAREN);
       }
     }
 
-    _eat(TokenKind.LBRACE);
+    _eat(CssTokenKind.LBRACE);
 
     List<TreeNode> productions = <TreeNode>[];
     MixinDefinition? mixinDirective;
 
     FileSpan start = _peekToken.span;
-    while (!_maybeEat(TokenKind.END_OF_FILE)) {
+    while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
       Directive? directive = processDirective();
       if (directive != null) {
         productions.add(directive);
@@ -661,7 +663,7 @@ class _Parser {
           name.name, params, false, productions, _makeSpan(start));
     }
 
-    _eat(TokenKind.RBRACE);
+    _eat(CssTokenKind.RBRACE);
 
     return mixinDirective;
   }
@@ -670,15 +672,16 @@ class _Parser {
     FileSpan start = _peekToken.span;
 
     int tokId = _peek();
-    if (tokId == TokenKind.AT) {
+    if (tokId == CssTokenKind.AT) {
       _next();
       tokId = _peek();
       if (_peekIdentifier()) {
         String directive = _peekToken.text;
         int directiveLen = directive.length;
-        tokId = TokenKind.matchDirectives(directive, 0, directiveLen);
+        tokId = CssTokenKind.matchDirectives(directive, 0, directiveLen);
         if (tokId == -1) {
-          tokId = TokenKind.matchMarginDirectives(directive, 0, directiveLen);
+          tokId =
+              CssTokenKind.matchMarginDirectives(directive, 0, directiveLen);
         }
       }
 
@@ -690,10 +693,10 @@ class _Parser {
           }
 
           Expressions? exprs;
-          if (mixinParameter && _maybeEat(TokenKind.COLON)) {
+          if (mixinParameter && _maybeEat(CssTokenKind.COLON)) {
             exprs = processExpr();
           } else if (!mixinParameter) {
-            _eat(TokenKind.COLON);
+            _eat(CssTokenKind.COLON);
             exprs = processExpr();
           }
 
@@ -703,13 +706,14 @@ class _Parser {
           _error('unexpected directive @$_peekToken', _peekToken.span);
         }
       }
-    } else if (mixinParameter && _peekToken.kind == TokenKind.VAR_DEFINITION) {
+    } else if (mixinParameter &&
+        _peekToken.kind == CssTokenKind.VAR_DEFINITION) {
       _next();
       Identifier? definedName;
       if (_peekIdentifier()) definedName = identifier();
 
       Expressions? exprs;
-      if (_maybeEat(TokenKind.COLON)) {
+      if (_maybeEat(CssTokenKind.COLON)) {
         exprs = processExpr();
       }
 
@@ -729,26 +733,26 @@ class _Parser {
 
     List<List<Expression>> params = <List<Expression>>[];
 
-    if (_maybeEat(TokenKind.LPAREN)) {
+    if (_maybeEat(CssTokenKind.LPAREN)) {
       List<Expression> terms = <Expression>[];
       dynamic expr;
       bool keepGoing = true;
       while (keepGoing && (expr = processTerm()) != null) {
         terms.add((expr is List ? expr[0] : expr) as Expression);
-        keepGoing = !_peekKind(TokenKind.RPAREN);
+        keepGoing = !_peekKind(CssTokenKind.RPAREN);
         if (keepGoing) {
-          if (_maybeEat(TokenKind.COMMA)) {
+          if (_maybeEat(CssTokenKind.COMMA)) {
             params.add(terms);
             terms = [];
           }
         }
       }
       params.add(terms);
-      _maybeEat(TokenKind.RPAREN);
+      _maybeEat(CssTokenKind.RPAREN);
     }
 
     if (eatSemiColon) {
-      _eat(TokenKind.SEMICOLON);
+      _eat(CssTokenKind.SEMICOLON);
     }
 
     return IncludeDirective(name!.name, params, span);
@@ -762,7 +766,7 @@ class _Parser {
       LiteralTerm function;
 
       Identifier ident = identifier();
-      _eat(TokenKind.LPAREN);
+      _eat(CssTokenKind.LPAREN);
 
       if (ident.name == 'url-prefix' || ident.name == 'domain') {
         FileSpan argumentStart = _peekToken.span;
@@ -770,7 +774,7 @@ class _Parser {
         String argument = value.isNotEmpty ? '"$value"' : '';
         SourceSpan argumentSpan = _makeSpan(argumentStart);
 
-        _eat(TokenKind.RPAREN);
+        _eat(CssTokenKind.RPAREN);
 
         Expressions arguments = Expressions(_makeSpan(argumentSpan as FileSpan))
           ..add(LiteralTerm(argument, argument, argumentSpan));
@@ -781,11 +785,11 @@ class _Parser {
       }
 
       functions.add(function);
-    } while (_maybeEat(TokenKind.COMMA));
+    } while (_maybeEat(CssTokenKind.COMMA));
 
-    _eat(TokenKind.LBRACE);
+    _eat(CssTokenKind.LBRACE);
     List<TreeNode> groupRuleBody = processGroupRuleBody();
-    _eat(TokenKind.RBRACE);
+    _eat(CssTokenKind.RBRACE);
     return DocumentDirective(functions, groupRuleBody, _makeSpan(start));
   }
 
@@ -793,14 +797,14 @@ class _Parser {
     FileSpan start = _peekToken.span;
     _next();
     SupportsCondition? condition = processSupportsCondition();
-    _eat(TokenKind.LBRACE);
+    _eat(CssTokenKind.LBRACE);
     List<TreeNode> groupRuleBody = processGroupRuleBody();
-    _eat(TokenKind.RBRACE);
+    _eat(CssTokenKind.RBRACE);
     return SupportsDirective(condition, groupRuleBody, _makeSpan(start));
   }
 
   SupportsCondition? processSupportsCondition() {
-    if (_peekKind(TokenKind.IDENTIFIER)) {
+    if (_peekKind(CssTokenKind.IDENTIFIER)) {
       return processSupportsNegation();
     }
 
@@ -853,14 +857,14 @@ class _Parser {
 
   SupportsConditionInParens processSupportsConditionInParens() {
     FileSpan start = _peekToken.span;
-    _eat(TokenKind.LPAREN);
+    _eat(CssTokenKind.LPAREN);
     SupportsCondition? condition = processSupportsCondition();
     if (condition != null) {
-      _eat(TokenKind.RPAREN);
+      _eat(CssTokenKind.RPAREN);
       return SupportsConditionInParens.nested(condition, _makeSpan(start));
     }
     Declaration? declaration = processDeclaration([]);
-    _eat(TokenKind.RPAREN);
+    _eat(CssTokenKind.RPAREN);
     return SupportsConditionInParens(declaration, _makeSpan(start));
   }
 
@@ -875,7 +879,7 @@ class _Parser {
     if (selectorGroup == null) {
       final directive = processDirective();
       if (directive != null) {
-        _maybeEat(TokenKind.SEMICOLON);
+        _maybeEat(CssTokenKind.SEMICOLON);
         return directive;
       }
       selectorGroup = processSelectorGroup();
@@ -888,7 +892,8 @@ class _Parser {
 
   List<TreeNode> processGroupRuleBody() {
     List<TreeNode> nodes = <TreeNode>[];
-    while (!(_peekKind(TokenKind.RBRACE) || _peekKind(TokenKind.END_OF_FILE))) {
+    while (!(_peekKind(CssTokenKind.RBRACE) ||
+        _peekKind(CssTokenKind.END_OF_FILE))) {
       TreeNode? rule = processRule();
       if (rule != null) {
         nodes.add(rule);
@@ -908,7 +913,7 @@ class _Parser {
     SelectorGroup? selGroup = processSelectorGroup();
 
     bool nestedSelector = selGroup != null &&
-        _peekKind(TokenKind.LBRACE) &&
+        _peekKind(CssTokenKind.LBRACE) &&
         messages.messages.isEmpty;
 
     if (!nestedSelector) {
@@ -925,7 +930,7 @@ class _Parser {
   DeclarationGroup processDeclarations({bool checkBrace = true}) {
     FileSpan start = _peekToken.span;
 
-    if (checkBrace) _eat(TokenKind.LBRACE);
+    if (checkBrace) _eat(CssTokenKind.LBRACE);
 
     List<TreeNode> decls = <TreeNode>[];
     List<DartStyleExpression> dartStyles = <DartStyleExpression>[];
@@ -958,9 +963,9 @@ class _Parser {
         }
         decls.add(decl);
       }
-    } while (_maybeEat(TokenKind.SEMICOLON));
+    } while (_maybeEat(CssTokenKind.SEMICOLON));
 
-    if (checkBrace) _eat(TokenKind.RBRACE);
+    if (checkBrace) _eat(CssTokenKind.RBRACE);
 
     for (TreeNode decl in decls) {
       if (decl is Declaration) {
@@ -978,29 +983,29 @@ class _Parser {
 
     FileSpan start = _peekToken.span;
 
-    _eat(TokenKind.LBRACE);
+    _eat(CssTokenKind.LBRACE);
 
     List<Declaration> decls = <Declaration>[];
     List<DartStyleExpression> dartStyles = <DartStyleExpression>[];
 
     do {
       switch (_peek()) {
-        case TokenKind.MARGIN_DIRECTIVE_TOPLEFTCORNER:
-        case TokenKind.MARGIN_DIRECTIVE_TOPLEFT:
-        case TokenKind.MARGIN_DIRECTIVE_TOPCENTER:
-        case TokenKind.MARGIN_DIRECTIVE_TOPRIGHT:
-        case TokenKind.MARGIN_DIRECTIVE_TOPRIGHTCORNER:
-        case TokenKind.MARGIN_DIRECTIVE_BOTTOMLEFTCORNER:
-        case TokenKind.MARGIN_DIRECTIVE_BOTTOMLEFT:
-        case TokenKind.MARGIN_DIRECTIVE_BOTTOMCENTER:
-        case TokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHT:
-        case TokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHTCORNER:
-        case TokenKind.MARGIN_DIRECTIVE_LEFTTOP:
-        case TokenKind.MARGIN_DIRECTIVE_LEFTMIDDLE:
-        case TokenKind.MARGIN_DIRECTIVE_LEFTBOTTOM:
-        case TokenKind.MARGIN_DIRECTIVE_RIGHTTOP:
-        case TokenKind.MARGIN_DIRECTIVE_RIGHTMIDDLE:
-        case TokenKind.MARGIN_DIRECTIVE_RIGHTBOTTOM:
+        case CssTokenKind.MARGIN_DIRECTIVE_TOPLEFTCORNER:
+        case CssTokenKind.MARGIN_DIRECTIVE_TOPLEFT:
+        case CssTokenKind.MARGIN_DIRECTIVE_TOPCENTER:
+        case CssTokenKind.MARGIN_DIRECTIVE_TOPRIGHT:
+        case CssTokenKind.MARGIN_DIRECTIVE_TOPRIGHTCORNER:
+        case CssTokenKind.MARGIN_DIRECTIVE_BOTTOMLEFTCORNER:
+        case CssTokenKind.MARGIN_DIRECTIVE_BOTTOMLEFT:
+        case CssTokenKind.MARGIN_DIRECTIVE_BOTTOMCENTER:
+        case CssTokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHT:
+        case CssTokenKind.MARGIN_DIRECTIVE_BOTTOMRIGHTCORNER:
+        case CssTokenKind.MARGIN_DIRECTIVE_LEFTTOP:
+        case CssTokenKind.MARGIN_DIRECTIVE_LEFTMIDDLE:
+        case CssTokenKind.MARGIN_DIRECTIVE_LEFTBOTTOM:
+        case CssTokenKind.MARGIN_DIRECTIVE_RIGHTTOP:
+        case CssTokenKind.MARGIN_DIRECTIVE_RIGHTMIDDLE:
+        case CssTokenKind.MARGIN_DIRECTIVE_RIGHTBOTTOM:
           int marginSym = _peek();
 
           _next();
@@ -1030,10 +1035,10 @@ class _Parser {
             }
             decls.add(decl);
           }
-          _maybeEat(TokenKind.SEMICOLON);
+          _maybeEat(CssTokenKind.SEMICOLON);
           break;
       }
-    } while (!_maybeEat(TokenKind.RBRACE) && !isPrematureEndOfFile());
+    } while (!_maybeEat(CssTokenKind.RBRACE) && !isPrematureEndOfFile());
 
     for (Declaration decl in decls) {
       if (decl.hasDartStyle && !dartStyles.contains(decl.dartStyle)) {
@@ -1058,7 +1063,7 @@ class _Parser {
       if (selector != null) {
         selectors.add(selector);
       }
-    } while (_maybeEat(TokenKind.COMMA));
+    } while (_maybeEat(CssTokenKind.COMMA));
     tokenizer.inSelector = false;
 
     if (selectors.isNotEmpty) {
@@ -1100,31 +1105,32 @@ class _Parser {
 
   SimpleSelectorSequence? simpleSelectorSequence(bool forceCombinatorNone) {
     FileSpan start = _peekToken.span;
-    int combinatorType = TokenKind.COMBINATOR_NONE;
+    int combinatorType = CssTokenKind.COMBINATOR_NONE;
     bool thisOperator = false;
 
     switch (_peek()) {
-      case TokenKind.PLUS:
-        _eat(TokenKind.PLUS);
-        combinatorType = TokenKind.COMBINATOR_PLUS;
+      case CssTokenKind.PLUS:
+        _eat(CssTokenKind.PLUS);
+        combinatorType = CssTokenKind.COMBINATOR_PLUS;
         break;
-      case TokenKind.GREATER:
-        _eat(TokenKind.GREATER);
-        combinatorType = TokenKind.COMBINATOR_GREATER;
+      case CssTokenKind.GREATER:
+        _eat(CssTokenKind.GREATER);
+        combinatorType = CssTokenKind.COMBINATOR_GREATER;
         break;
-      case TokenKind.TILDE:
-        _eat(TokenKind.TILDE);
-        combinatorType = TokenKind.COMBINATOR_TILDE;
+      case CssTokenKind.TILDE:
+        _eat(CssTokenKind.TILDE);
+        combinatorType = CssTokenKind.COMBINATOR_TILDE;
         break;
-      case TokenKind.AMPERSAND:
-        _eat(TokenKind.AMPERSAND);
+      case CssTokenKind.AMPERSAND:
+        _eat(CssTokenKind.AMPERSAND);
         thisOperator = true;
         break;
     }
 
-    if (combinatorType == TokenKind.COMBINATOR_NONE && !forceCombinatorNone) {
+    if (combinatorType == CssTokenKind.COMBINATOR_NONE &&
+        !forceCombinatorNone) {
       if (_previousToken != null && _previousToken!.end != _peekToken.start) {
-        combinatorType = TokenKind.COMBINATOR_DESCENDANT;
+        combinatorType = CssTokenKind.COMBINATOR_DESCENDANT;
       }
     }
 
@@ -1133,9 +1139,9 @@ class _Parser {
         ? ElementSelector(ThisOperator(span), span)
         : simpleSelector();
     if (simpleSel == null &&
-        (combinatorType == TokenKind.COMBINATOR_PLUS ||
-            combinatorType == TokenKind.COMBINATOR_GREATER ||
-            combinatorType == TokenKind.COMBINATOR_TILDE)) {
+        (combinatorType == CssTokenKind.COMBINATOR_PLUS ||
+            combinatorType == CssTokenKind.COMBINATOR_GREATER ||
+            combinatorType == CssTokenKind.COMBINATOR_TILDE)) {
       simpleSel = ElementSelector(Identifier('', span), span);
     }
     if (simpleSel != null) {
@@ -1148,30 +1154,30 @@ class _Parser {
     dynamic first;
     FileSpan start = _peekToken.span;
     switch (_peek()) {
-      case TokenKind.ASTERISK:
-        Token tok = _next();
+      case CssTokenKind.ASTERISK:
+        CssToken tok = _next();
         first = Wildcard(_makeSpan(tok.span));
         break;
-      case TokenKind.IDENTIFIER:
+      case CssTokenKind.IDENTIFIER:
         first = identifier();
         break;
       default:
-        if (TokenKind.isKindIdentifier(_peek())) {
+        if (CssTokenKind.isKindIdentifier(_peek())) {
           first = identifier();
-        } else if (_peekKind(TokenKind.SEMICOLON)) {
+        } else if (_peekKind(CssTokenKind.SEMICOLON)) {
           return null;
         }
         break;
     }
 
-    if (_maybeEat(TokenKind.NAMESPACE)) {
+    if (_maybeEat(CssTokenKind.NAMESPACE)) {
       TreeNode? element;
       switch (_peek()) {
-        case TokenKind.ASTERISK:
-          Token tok = _next();
+        case CssTokenKind.ASTERISK:
+          CssToken tok = _next();
           element = Wildcard(_makeSpan(tok.span));
           break;
-        case TokenKind.IDENTIFIER:
+        case CssTokenKind.IDENTIFIER:
           element = identifier();
           break;
         default:
@@ -1200,28 +1206,28 @@ class _Parser {
   SimpleSelector? simpleSelectorTail() {
     FileSpan start = _peekToken.span;
     switch (_peek()) {
-      case TokenKind.HASH:
-        _eat(TokenKind.HASH);
+      case CssTokenKind.HASH:
+        _eat(CssTokenKind.HASH);
 
-        if (_anyWhiteSpaceBeforePeekToken(TokenKind.HASH)) {
+        if (_anyWhiteSpaceBeforePeekToken(CssTokenKind.HASH)) {
           _error('Not a valid ID selector expected #id', _makeSpan(start));
           return null;
         }
         return IdSelector(identifier(), _makeSpan(start));
-      case TokenKind.DOT:
-        _eat(TokenKind.DOT);
+      case CssTokenKind.DOT:
+        _eat(CssTokenKind.DOT);
 
-        if (_anyWhiteSpaceBeforePeekToken(TokenKind.DOT)) {
+        if (_anyWhiteSpaceBeforePeekToken(CssTokenKind.DOT)) {
           _error('Not a valid class selector expected .className',
               _makeSpan(start));
           return null;
         }
         return ClassSelector(identifier(), _makeSpan(start));
-      case TokenKind.COLON:
+      case CssTokenKind.COLON:
         return processPseudoSelector(start);
-      case TokenKind.LBRACK:
+      case CssTokenKind.LBRACK:
         return processAttribute();
-      case TokenKind.DOUBLE:
+      case CssTokenKind.DOUBLE:
         _error('name must start with a alpha character, but found a number',
             _peekToken.span);
         _next();
@@ -1231,8 +1237,8 @@ class _Parser {
   }
 
   SimpleSelector? processPseudoSelector(FileSpan start) {
-    _eat(TokenKind.COLON);
-    bool pseudoElement = _maybeEat(TokenKind.COLON);
+    _eat(CssTokenKind.COLON);
+    bool pseudoElement = _maybeEat(CssTokenKind.COLON);
 
     Identifier pseudoName;
     if (_peekIdentifier()) {
@@ -1242,31 +1248,31 @@ class _Parser {
     }
     String name = pseudoName.name.toLowerCase();
 
-    if (_peekToken.kind == TokenKind.LPAREN) {
+    if (_peekToken.kind == CssTokenKind.LPAREN) {
       if (!pseudoElement && name == 'not') {
-        _eat(TokenKind.LPAREN);
+        _eat(CssTokenKind.LPAREN);
 
         SimpleSelector? negArg = simpleSelector();
 
-        _eat(TokenKind.RPAREN);
+        _eat(CssTokenKind.RPAREN);
         return NegationSelector(negArg, _makeSpan(start));
       } else if (!pseudoElement &&
           (name == 'host' ||
               name == 'host-context' ||
               name == 'global-context' ||
               name == '-acx-global-context')) {
-        _eat(TokenKind.LPAREN);
+        _eat(CssTokenKind.LPAREN);
         Selector? selector = processCompoundSelector();
         if (selector == null) {
           _errorExpected('a selector argument');
           return null;
         }
-        _eat(TokenKind.RPAREN);
+        _eat(CssTokenKind.RPAREN);
         SourceSpan span = _makeSpan(start);
         return PseudoClassFunctionSelector(pseudoName, selector, span);
       } else {
         tokenizer.inSelectorExpression = true;
-        _eat(TokenKind.LPAREN);
+        _eat(CssTokenKind.LPAREN);
 
         SourceSpan span = _makeSpan(start);
         TreeNode expr = processSelectorExpression();
@@ -1274,7 +1280,7 @@ class _Parser {
         tokenizer.inSelectorExpression = false;
 
         if (expr is SelectorExpression) {
-          _eat(TokenKind.RPAREN);
+          _eat(CssTokenKind.RPAREN);
           return (pseudoElement)
               ? PseudoElementFunctionSelector(pseudoName, expr, span)
               : PseudoClassFunctionSelector(pseudoName, expr, span);
@@ -1296,39 +1302,39 @@ class _Parser {
 
     List<Expression> expressions = <Expression>[];
 
-    Token? termToken;
+    CssToken? termToken;
     dynamic value;
 
     bool keepParsing = true;
     while (keepParsing) {
       switch (_peek()) {
-        case TokenKind.PLUS:
+        case CssTokenKind.PLUS:
           start = _peekToken.span;
           termToken = _next();
           expressions.add(OperatorPlus(_makeSpan(start)));
           break;
-        case TokenKind.MINUS:
+        case CssTokenKind.MINUS:
           start = _peekToken.span;
           termToken = _next();
           expressions.add(OperatorMinus(_makeSpan(start)));
           break;
-        case TokenKind.INTEGER:
+        case CssTokenKind.INTEGER:
           termToken = _next();
           value = int.parse(termToken.text);
           break;
-        case TokenKind.DOUBLE:
+        case CssTokenKind.DOUBLE:
           termToken = _next();
           value = double.parse(termToken.text);
           break;
-        case TokenKind.SINGLE_QUOTE:
+        case CssTokenKind.SINGLE_QUOTE:
           value = processQuotedString(false);
           value = "'${_escapeString(value as String, single: true)}'";
           return LiteralTerm(value, value, _makeSpan(start));
-        case TokenKind.DOUBLE_QUOTE:
+        case CssTokenKind.DOUBLE_QUOTE:
           value = processQuotedString(false);
           value = '"${_escapeString(value as String)}"';
           return LiteralTerm(value, value, _makeSpan(start));
-        case TokenKind.IDENTIFIER:
+        case CssTokenKind.IDENTIFIER:
           value = identifier();
           break;
         default:
@@ -1350,26 +1356,26 @@ class _Parser {
   AttributeSelector? processAttribute() {
     FileSpan start = _peekToken.span;
 
-    if (_maybeEat(TokenKind.LBRACK)) {
+    if (_maybeEat(CssTokenKind.LBRACK)) {
       Identifier attrName = identifier();
 
       int op;
       switch (_peek()) {
-        case TokenKind.EQUALS:
-        case TokenKind.INCLUDES:
-        case TokenKind.DASH_MATCH:
-        case TokenKind.PREFIX_MATCH:
-        case TokenKind.SUFFIX_MATCH:
-        case TokenKind.SUBSTRING_MATCH:
+        case CssTokenKind.EQUALS:
+        case CssTokenKind.INCLUDES:
+        case CssTokenKind.DASH_MATCH:
+        case CssTokenKind.PREFIX_MATCH:
+        case CssTokenKind.SUFFIX_MATCH:
+        case CssTokenKind.SUBSTRING_MATCH:
           op = _peek();
           _next();
           break;
         default:
-          op = TokenKind.NO_MATCH;
+          op = CssTokenKind.NO_MATCH;
       }
 
       dynamic value;
-      if (op != TokenKind.NO_MATCH) {
+      if (op != CssTokenKind.NO_MATCH) {
         if (_peekIdentifier()) {
           value = identifier();
         } else {
@@ -1381,7 +1387,7 @@ class _Parser {
         }
       }
 
-      _eat(TokenKind.RBRACK);
+      _eat(CssTokenKind.RBRACK);
 
       return AttributeSelector(attrName, op, value, _makeSpan(start));
     }
@@ -1393,42 +1399,42 @@ class _Parser {
 
     FileSpan start = _peekToken.span;
 
-    bool ie7 = _peekKind(TokenKind.ASTERISK);
+    bool ie7 = _peekKind(CssTokenKind.ASTERISK);
     if (ie7) {
       _next();
     }
 
-    if (TokenKind.isIdentifier(_peekToken.kind)) {
+    if (CssTokenKind.isIdentifier(_peekToken.kind)) {
       Identifier propertyIdent = identifier();
 
       bool ieFilterProperty = propertyIdent.name.toLowerCase() == 'filter';
 
-      _eat(TokenKind.COLON);
+      _eat(CssTokenKind.COLON);
 
       Expressions exprs = processExpr(ieFilterProperty);
 
       DartStyleExpression? dartComposite =
           _styleForDart(propertyIdent, exprs, dartStyles);
 
-      bool importantPriority = _maybeEat(TokenKind.IMPORTANT);
+      bool importantPriority = _maybeEat(CssTokenKind.IMPORTANT);
 
       decl = Declaration(propertyIdent, exprs, dartComposite, _makeSpan(start),
           important: importantPriority, ie7: ie7);
-    } else if (_peekToken.kind == TokenKind.VAR_DEFINITION) {
+    } else if (_peekToken.kind == CssTokenKind.VAR_DEFINITION) {
       _next();
       Identifier? definedName;
       if (_peekIdentifier()) definedName = identifier();
 
-      _eat(TokenKind.COLON);
+      _eat(CssTokenKind.COLON);
 
       Expressions exprs = processExpr();
 
       decl = VarDefinition(definedName, exprs, _makeSpan(start));
-    } else if (_peekToken.kind == TokenKind.DIRECTIVE_INCLUDE) {
+    } else if (_peekToken.kind == CssTokenKind.DIRECTIVE_INCLUDE) {
       SourceSpan span = _makeSpan(start);
       IncludeDirective include = processInclude(span, eatSemiColon: false);
       decl = IncludeMixinAtDeclaration(include, span);
-    } else if (_peekToken.kind == TokenKind.DIRECTIVE_EXTEND) {
+    } else if (_peekToken.kind == CssTokenKind.DIRECTIVE_EXTEND) {
       List<TreeNode> simpleSequences = <TreeNode>[];
 
       _next();
@@ -1439,7 +1445,7 @@ class _Parser {
       } else {
         simpleSequences.add(selector);
       }
-      if (_peekKind(TokenKind.COLON)) {
+      if (_peekKind(CssTokenKind.COLON)) {
         SimpleSelector? pseudoSelector = processPseudoSelector(_peekToken.span);
         if (pseudoSelector is PseudoElementSelector ||
             pseudoSelector is PseudoClassSelector) {
@@ -1584,8 +1590,8 @@ class _Parser {
           Expression expr = exprs.expressions[0];
           if (expr is UnitTerm) {
             UnitTerm unitTerm = expr;
-            if (unitTerm.unit == TokenKind.UNIT_LENGTH_PX ||
-                unitTerm.unit == TokenKind.UNIT_LENGTH_PT) {
+            if (unitTerm.unit == CssTokenKind.UNIT_LENGTH_PX ||
+                unitTerm.unit == CssTokenKind.UNIT_LENGTH_PT) {
               FontExpression fontExpr = FontExpression(expr.span,
                   lineHeight: LineHeight(expr.value as num, inPixels: true));
               return _mergeFontStyles(fontExpr, dartStyles);
@@ -1748,18 +1754,18 @@ class _Parser {
       FileSpan opStart = _peekToken.span;
 
       switch (_peek()) {
-        case TokenKind.SLASH:
+        case CssTokenKind.SLASH:
           op = OperatorSlash(_makeSpan(opStart));
           break;
-        case TokenKind.COMMA:
+        case CssTokenKind.COMMA:
           op = OperatorComma(_makeSpan(opStart));
           break;
-        case TokenKind.BACKSLASH:
+        case CssTokenKind.BACKSLASH:
           FileSpan ie8Start = _peekToken.span;
 
           _next();
-          if (_peekKind(TokenKind.INTEGER)) {
-            Token numToken = _next();
+          if (_peekKind(CssTokenKind.INTEGER)) {
+            CssToken numToken = _next();
             int value = int.parse(numToken.text);
             if (value == 9) {
               op = IE8Term(_makeSpan(ie8Start));
@@ -1801,16 +1807,16 @@ class _Parser {
   dynamic /* Expression | List<Expression> | ... */ processTerm(
       [bool ieFilter = false]) {
     FileSpan start = _peekToken.span;
-    Token? t;
+    CssToken? t;
     dynamic value;
 
     String unary = '';
     switch (_peek()) {
-      case TokenKind.HASH:
-        _eat(TokenKind.HASH);
-        if (!_anyWhiteSpaceBeforePeekToken(TokenKind.HASH)) {
+      case CssTokenKind.HASH:
+        _eat(CssTokenKind.HASH);
+        if (!_anyWhiteSpaceBeforePeekToken(CssTokenKind.HASH)) {
           String? hexText;
-          if (_peekKind(TokenKind.INTEGER)) {
+          if (_peekKind(CssTokenKind.INTEGER)) {
             String hexText1 = _peekToken.text;
             _next();
             if (_peekIdentifier() && _previousToken!.end == _peekToken.start) {
@@ -1831,23 +1837,23 @@ class _Parser {
         }
         return _parseHex(
             ' ${(processTerm() as LiteralTerm).text}', _makeSpan(start));
-      case TokenKind.INTEGER:
+      case CssTokenKind.INTEGER:
         t = _next();
         value = int.parse('$unary${t.text}');
         break;
-      case TokenKind.DOUBLE:
+      case CssTokenKind.DOUBLE:
         t = _next();
         value = double.parse('$unary${t.text}');
         break;
-      case TokenKind.SINGLE_QUOTE:
+      case CssTokenKind.SINGLE_QUOTE:
         value = processQuotedString(false);
         value = "'${_escapeString(value as String, single: true)}'";
         return LiteralTerm(value, value, _makeSpan(start));
-      case TokenKind.DOUBLE_QUOTE:
+      case CssTokenKind.DOUBLE_QUOTE:
         value = processQuotedString(false);
         value = '"${_escapeString(value as String)}"';
         return LiteralTerm(value, value, _makeSpan(start));
-      case TokenKind.LPAREN:
+      case CssTokenKind.LPAREN:
         _next();
 
         GroupTerm group = GroupTerm(_makeSpan(start));
@@ -1859,11 +1865,11 @@ class _Parser {
             group.add(term);
           }
         } while (term != null &&
-            !_maybeEat(TokenKind.RPAREN) &&
+            !_maybeEat(CssTokenKind.RPAREN) &&
             !isPrematureEndOfFile());
 
         return group;
-      case TokenKind.LBRACK:
+      case CssTokenKind.LBRACK:
         _next();
 
         LiteralTerm term = processTerm() as LiteralTerm;
@@ -1871,19 +1877,19 @@ class _Parser {
           _error('Expecting a positive number', _makeSpan(start));
         }
 
-        _eat(TokenKind.RBRACK);
+        _eat(CssTokenKind.RBRACK);
 
         return ItemTerm(term.value, term.text, _makeSpan(start));
-      case TokenKind.IDENTIFIER:
+      case CssTokenKind.IDENTIFIER:
         Identifier nameValue = identifier();
 
-        if (!ieFilter && _maybeEat(TokenKind.LPAREN)) {
+        if (!ieFilter && _maybeEat(CssTokenKind.LPAREN)) {
           CalcTerm? calc = processCalc(nameValue);
           if (calc != null) return calc;
           return processFunction(nameValue);
         }
         if (ieFilter) {
-          if (_maybeEat(TokenKind.COLON) &&
+          if (_maybeEat(CssTokenKind.COLON) &&
               nameValue.name.toLowerCase() == 'progid') {
             return processIEFilter(start);
           } else {
@@ -1895,11 +1901,11 @@ class _Parser {
           return LiteralTerm(nameValue, nameValue.name, _makeSpan(start));
         }
 
-        Map? colorEntry = TokenKind.matchColorName(nameValue.name);
+        Map? colorEntry = CssTokenKind.matchColorName(nameValue.name);
         if (colorEntry == null) {
           if (isChecked) {
             String propName = nameValue.name;
-            String errMsg = TokenKind.isPredefinedName(propName)
+            String errMsg = CssTokenKind.isPredefinedName(propName)
                 ? 'Improper use of property value $propName'
                 : 'Unknown property value $propName';
             _warning(errMsg, _makeSpan(start));
@@ -1908,22 +1914,22 @@ class _Parser {
         }
 
         String rgbColor =
-            TokenKind.decimalToHex(TokenKind.colorValue(colorEntry), 6);
+            CssTokenKind.decimalToHex(CssTokenKind.colorValue(colorEntry), 6);
         return _parseHex(rgbColor, _makeSpan(start));
-      case TokenKind.UNICODE_RANGE:
+      case CssTokenKind.UNICODE_RANGE:
         String? first;
         String? second;
         int firstNumber;
         int secondNumber;
-        _eat(TokenKind.UNICODE_RANGE, unicodeRange: true);
-        if (_maybeEat(TokenKind.HEX_INTEGER, unicodeRange: true)) {
+        _eat(CssTokenKind.UNICODE_RANGE, unicodeRange: true);
+        if (_maybeEat(CssTokenKind.HEX_INTEGER, unicodeRange: true)) {
           first = _previousToken!.text;
           firstNumber = int.parse('0x$first');
           if (firstNumber > maxUnicode) {
             _error('unicode range must be less than 10FFFF', _makeSpan(start));
           }
-          if (_maybeEat(TokenKind.MINUS, unicodeRange: true)) {
-            if (_maybeEat(TokenKind.HEX_INTEGER, unicodeRange: true)) {
+          if (_maybeEat(CssTokenKind.MINUS, unicodeRange: true)) {
+            if (_maybeEat(CssTokenKind.HEX_INTEGER, unicodeRange: true)) {
               second = _previousToken!.text;
               secondNumber = int.parse('0x$second');
               if (secondNumber > maxUnicode) {
@@ -1936,12 +1942,12 @@ class _Parser {
               }
             }
           }
-        } else if (_maybeEat(TokenKind.HEX_RANGE, unicodeRange: true)) {
+        } else if (_maybeEat(CssTokenKind.HEX_RANGE, unicodeRange: true)) {
           first = _previousToken!.text;
         }
 
         return UnicodeRangeTerm(first, second, _makeSpan(start));
-      case TokenKind.AT:
+      case CssTokenKind.AT:
         if (messages.options.lessSupport) {
           _next();
 
@@ -1964,71 +1970,71 @@ class _Parser {
         : null;
   }
 
-  LiteralTerm processDimension(Token? t, Object value, SourceSpan span) {
+  LiteralTerm processDimension(CssToken? t, Object value, SourceSpan span) {
     LiteralTerm term;
     int unitType = _peek();
 
     switch (unitType) {
-      case TokenKind.UNIT_EM:
+      case CssTokenKind.UNIT_EM:
         term = EmTerm(value, t!.text, span);
         _next();
         break;
-      case TokenKind.UNIT_EX:
+      case CssTokenKind.UNIT_EX:
         term = ExTerm(value, t!.text, span);
         _next();
         break;
-      case TokenKind.UNIT_LENGTH_PX:
-      case TokenKind.UNIT_LENGTH_CM:
-      case TokenKind.UNIT_LENGTH_MM:
-      case TokenKind.UNIT_LENGTH_IN:
-      case TokenKind.UNIT_LENGTH_PT:
-      case TokenKind.UNIT_LENGTH_PC:
+      case CssTokenKind.UNIT_LENGTH_PX:
+      case CssTokenKind.UNIT_LENGTH_CM:
+      case CssTokenKind.UNIT_LENGTH_MM:
+      case CssTokenKind.UNIT_LENGTH_IN:
+      case CssTokenKind.UNIT_LENGTH_PT:
+      case CssTokenKind.UNIT_LENGTH_PC:
         term = LengthTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.UNIT_ANGLE_DEG:
-      case TokenKind.UNIT_ANGLE_RAD:
-      case TokenKind.UNIT_ANGLE_GRAD:
-      case TokenKind.UNIT_ANGLE_TURN:
+      case CssTokenKind.UNIT_ANGLE_DEG:
+      case CssTokenKind.UNIT_ANGLE_RAD:
+      case CssTokenKind.UNIT_ANGLE_GRAD:
+      case CssTokenKind.UNIT_ANGLE_TURN:
         term = AngleTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.UNIT_TIME_MS:
-      case TokenKind.UNIT_TIME_S:
+      case CssTokenKind.UNIT_TIME_MS:
+      case CssTokenKind.UNIT_TIME_S:
         term = TimeTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.UNIT_FREQ_HZ:
-      case TokenKind.UNIT_FREQ_KHZ:
+      case CssTokenKind.UNIT_FREQ_HZ:
+      case CssTokenKind.UNIT_FREQ_KHZ:
         term = FreqTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.PERCENT:
+      case CssTokenKind.PERCENT:
         term = PercentageTerm(value, t!.text, span);
         _next();
         break;
-      case TokenKind.UNIT_FRACTION:
+      case CssTokenKind.UNIT_FRACTION:
         term = FractionTerm(value, t!.text, span);
         _next();
         break;
-      case TokenKind.UNIT_RESOLUTION_DPI:
-      case TokenKind.UNIT_RESOLUTION_DPCM:
-      case TokenKind.UNIT_RESOLUTION_DPPX:
+      case CssTokenKind.UNIT_RESOLUTION_DPI:
+      case CssTokenKind.UNIT_RESOLUTION_DPCM:
+      case CssTokenKind.UNIT_RESOLUTION_DPPX:
         term = ResolutionTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.UNIT_CH:
+      case CssTokenKind.UNIT_CH:
         term = ChTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.UNIT_REM:
+      case CssTokenKind.UNIT_REM:
         term = RemTerm(value, t!.text, span, unitType);
         _next();
         break;
-      case TokenKind.UNIT_VIEWPORT_VW:
-      case TokenKind.UNIT_VIEWPORT_VH:
-      case TokenKind.UNIT_VIEWPORT_VMIN:
-      case TokenKind.UNIT_VIEWPORT_VMAX:
+      case CssTokenKind.UNIT_VIEWPORT_VW:
+      case CssTokenKind.UNIT_VIEWPORT_VH:
+      case CssTokenKind.UNIT_VIEWPORT_VMIN:
+      case CssTokenKind.UNIT_VIEWPORT_VMAX:
         term = ViewportTerm(value, t!.text, span, unitType);
         _next();
         break;
@@ -2046,29 +2052,29 @@ class _Parser {
   String processQuotedString([bool urlString = false]) {
     FileSpan start = _peekToken.span;
 
-    int stopToken = urlString ? TokenKind.RPAREN : -1;
+    int stopToken = urlString ? CssTokenKind.RPAREN : -1;
 
     bool inString = tokenizer.inString;
     tokenizer.inString = false;
 
     switch (_peek()) {
-      case TokenKind.SINGLE_QUOTE:
-        stopToken = TokenKind.SINGLE_QUOTE;
+      case CssTokenKind.SINGLE_QUOTE:
+        stopToken = CssTokenKind.SINGLE_QUOTE;
         _next();
         start = _peekToken.span;
         break;
-      case TokenKind.DOUBLE_QUOTE:
-        stopToken = TokenKind.DOUBLE_QUOTE;
+      case CssTokenKind.DOUBLE_QUOTE:
+        stopToken = CssTokenKind.DOUBLE_QUOTE;
         _next();
         start = _peekToken.span;
         break;
       default:
         if (urlString) {
-          if (_peek() == TokenKind.LPAREN) {
+          if (_peek() == CssTokenKind.LPAREN) {
             _next();
             start = _peekToken.span;
           }
-          stopToken = TokenKind.RPAREN;
+          stopToken = CssTokenKind.RPAREN;
         } else {
           _error('unexpected string', _makeSpan(start));
         }
@@ -2076,13 +2082,13 @@ class _Parser {
     }
 
     StringBuffer stringValue = StringBuffer();
-    while (_peek() != stopToken && _peek() != TokenKind.END_OF_FILE) {
+    while (_peek() != stopToken && _peek() != CssTokenKind.END_OF_FILE) {
       stringValue.write(_next().text);
     }
 
     tokenizer.inString = inString;
 
-    if (stopToken != TokenKind.RPAREN) {
+    if (stopToken != CssTokenKind.RPAREN) {
       _next();
     }
 
@@ -2091,23 +2097,23 @@ class _Parser {
 
   dynamic processIEFilter(FileSpan startAfterProgidColon) {
     int kind = _peek();
-    if (kind == TokenKind.SEMICOLON || kind == TokenKind.RBRACE) {
-      Token tok = tokenizer.makeIEFilter(
+    if (kind == CssTokenKind.SEMICOLON || kind == CssTokenKind.RBRACE) {
+      CssToken tok = tokenizer.makeIEFilter(
           startAfterProgidColon.start.offset, _peekToken.start);
       return LiteralTerm(tok.text, tok.text, tok.span);
     }
 
     int parens = 0;
-    while (_peek() != TokenKind.END_OF_FILE) {
+    while (_peek() != CssTokenKind.END_OF_FILE) {
       switch (_peek()) {
-        case TokenKind.LPAREN:
-          _eat(TokenKind.LPAREN);
+        case CssTokenKind.LPAREN:
+          _eat(CssTokenKind.LPAREN);
           parens++;
           break;
-        case TokenKind.RPAREN:
-          _eat(TokenKind.RPAREN);
+        case CssTokenKind.RPAREN:
+          _eat(CssTokenKind.RPAREN);
           if (--parens == 0) {
-            Token tok = tokenizer.makeIEFilter(
+            CssToken tok = tokenizer.makeIEFilter(
                 startAfterProgidColon.start.offset, _peekToken.start);
             return LiteralTerm(tok.text, tok.text, tok.span);
           }
@@ -2125,11 +2131,11 @@ class _Parser {
     StringBuffer stringValue = StringBuffer();
     int left = 1;
     bool matchingParens = false;
-    while (_peek() != TokenKind.END_OF_FILE && !matchingParens) {
+    while (_peek() != CssTokenKind.END_OF_FILE && !matchingParens) {
       int token = _peek();
-      if (token == TokenKind.LPAREN) {
+      if (token == CssTokenKind.LPAREN) {
         left++;
-      } else if (token == TokenKind.RPAREN) {
+      } else if (token == CssTokenKind.RPAREN) {
         left--;
       }
 
@@ -2156,7 +2162,7 @@ class _Parser {
       LiteralTerm calcExpr =
           LiteralTerm(expression, expression, _makeSpan(start));
 
-      if (!_maybeEat(TokenKind.RPAREN)) {
+      if (!_maybeEat(CssTokenKind.RPAREN)) {
         _error('problem parsing function expected ), ', _peekToken.span);
       }
 
@@ -2174,18 +2180,18 @@ class _Parser {
       case 'url':
         String urlParam = processQuotedString(true);
 
-        if (_peek() == TokenKind.END_OF_FILE) {
+        if (_peek() == CssTokenKind.END_OF_FILE) {
           _error('problem parsing URI', _peekToken.span);
         }
 
-        if (_peek() == TokenKind.RPAREN) {
+        if (_peek() == CssTokenKind.RPAREN) {
           _next();
         }
 
         return UriTerm(urlParam, _makeSpan(start));
       case 'var':
         Expressions expr = processExpr();
-        if (!_maybeEat(TokenKind.RPAREN)) {
+        if (!_maybeEat(CssTokenKind.RPAREN)) {
           _error('problem parsing var expected ), ', _peekToken.span);
         }
         if (isChecked &&
@@ -2201,7 +2207,7 @@ class _Parser {
         return VarUsage(paramName, defaultValues, _makeSpan(start));
       default:
         Expressions expr = processExpr();
-        if (!_maybeEat(TokenKind.RPAREN)) {
+        if (!_maybeEat(CssTokenKind.RPAREN)) {
           _error('problem parsing function expected ), ', _peekToken.span);
         }
 
@@ -2210,10 +2216,10 @@ class _Parser {
   }
 
   Identifier identifier() {
-    Token tok = _next();
+    CssToken tok = _next();
 
-    if (!TokenKind.isIdentifier(tok.kind) &&
-        !TokenKind.isKindIdentifier(tok.kind)) {
+    if (!CssTokenKind.isIdentifier(tok.kind) &&
+        !CssTokenKind.isKindIdentifier(tok.kind)) {
       if (isChecked) {
         _warning('expected identifier, but found $tok', tok.span);
       }
@@ -2281,7 +2287,7 @@ class ExpressionsProcessor {
         if (expr is OperatorSlash) {
           nextIsLineHeight = true;
         } else if (nextIsLineHeight && expr is LengthTerm) {
-          assert(expr.unit == TokenKind.UNIT_LENGTH_PX);
+          assert(expr.unit == CssTokenKind.UNIT_LENGTH_PX);
           lineHt = LineHeight(expr.value as num, inPixels: true);
           nextIsLineHeight = false;
           _index++;

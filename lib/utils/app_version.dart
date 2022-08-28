@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 // 🌎 Project imports:
 import '../shared/custom_confirm.dart';
-import 'html/parser/html.parser.dart' show parse;
+import 'html/parser/html.parser.dart' show htmlParse;
 import 'info_plus/package_info_plus/package_info.dart' show PackageInfo;
 
 // 참조
@@ -121,7 +121,7 @@ class AppVersionValidator {
         return null;
       }
 
-      final document = parse(response.body);
+      final document = htmlParse(response.body);
       final scriptElements = document.getElementsByTagName('script');
       final infoScriptElement = scriptElements.firstWhere(
         (elm) => elm.text.contains("key: 'ds:5'"),

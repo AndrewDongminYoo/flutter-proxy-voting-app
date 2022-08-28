@@ -126,7 +126,7 @@ class ExpandNestedSelectors extends Visitor {
     List<SimpleSelectorSequence> newSequences = <SimpleSelectorSequence>[];
     SimpleSelectorSequence first = sequences.first;
     newSequences.add(SimpleSelectorSequence(
-        first.simpleSelector, first.span, TokenKind.COMBINATOR_DESCENDANT));
+        first.simpleSelector, first.span, CssTokenKind.COMBINATOR_DESCENDANT));
     newSequences.addAll(sequences.skip(1));
 
     return newSequences;

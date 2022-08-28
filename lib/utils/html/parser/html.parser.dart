@@ -9,7 +9,7 @@ import 'package:source_span/source_span.dart';
 import 'dom.dart';
 import 'src/src.dart';
 
-Document parse(input,
+Document htmlParse(input,
     {String? encoding, bool generateSpans = false, String? sourceUrl}) {
   final p = HtmlParser(input,
       encoding: encoding, generateSpans: generateSpans, sourceUrl: sourceUrl);

@@ -303,7 +303,7 @@ class CssPrinter extends Visitor {
   @override
   void visitMarginGroup(MarginGroup node) {
     String? marginSymName =
-        TokenKind.idToValue(TokenKind.MARGIN_DIRECTIVES, node.marginSym);
+        CssTokenKind.idToValue(CssTokenKind.MARGIN_DIRECTIVES, node.marginSym);
 
     emit('@$marginSymName$_sp{$_newLine');
 
@@ -445,7 +445,7 @@ class CssPrinter extends Visitor {
   void visitHexColorTerm(HexColorTerm node) {
     String? mappedName;
     if (_isTesting && (node.value is! BadHexValue)) {
-      mappedName = TokenKind.hexToColorName(node.value);
+      mappedName = CssTokenKind.hexToColorName(node.value);
     }
     mappedName ??= '#${node.text}';
 

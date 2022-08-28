@@ -28,7 +28,7 @@ abstract class TokenizerBase {
 
   TokenizerBase(this._file, this._text, this.inString, [this._index = 0]);
 
-  Token next();
+  CssToken next();
   int getIdentifierKind();
 
   TokenizerState get mark => TokenizerState(this);
@@ -80,16 +80,16 @@ abstract class TokenizerBase {
     return false;
   }
 
-  Token _finishToken(int kind) {
-    return Token(kind, _file.span(_startIndex, _index));
+  CssToken _finishToken(int kind) {
+    return CssToken(kind, _file.span(_startIndex, _index));
   }
 
-  Token _errorToken([String? message]) {
+  CssToken _errorToken([String? message]) {
     return ErrorToken(
-        TokenKind.ERROR, _file.span(_startIndex, _index), message);
+        CssTokenKind.ERROR, _file.span(_startIndex, _index), message);
   }
 
-  Token finishWhitespace() {
+  CssToken finishWhitespace() {
     _index--;
     while (_index < _text.length) {
       final ch = _text.codeUnitAt(_index++);
@@ -103,14 +103,14 @@ abstract class TokenizerBase {
         if (inString) {
           return next();
         } else {
-          return _finishToken(TokenKind.WHITESPACE);
+          return _finishToken(CssTokenKind.WHITESPACE);
         }
       }
     }
-    return _finishToken(TokenKind.END_OF_FILE);
+    return _finishToken(CssTokenKind.END_OF_FILE);
   }
 
-  Token finishMultiLineComment() {
+  CssToken finishMultiLineComment() {
     int nesting = 1;
     do {
       int ch = _nextChar();
@@ -130,7 +130,7 @@ abstract class TokenizerBase {
     if (inString) {
       return next();
     } else {
-      return _finishToken(TokenKind.COMMENT);
+      return _finishToken(CssTokenKind.COMMENT);
     }
   }
 
@@ -182,27 +182,27 @@ abstract class TokenizerBase {
     return result;
   }
 
-  Token finishNumber() {
+  CssToken finishNumber() {
     eatDigits();
 
     if (_peekChar() == TokenChar.DOT) {
       _nextChar();
       if (TokenizerHelpers.isDigit(_peekChar())) {
         eatDigits();
-        return finishNumberExtra(TokenKind.DOUBLE);
+        return finishNumberExtra(CssTokenKind.DOUBLE);
       } else {
         _index--;
       }
     }
 
-    return finishNumberExtra(TokenKind.INTEGER);
+    return finishNumberExtra(CssTokenKind.INTEGER);
   }
 
-  Token finishNumberExtra(int kind) {
+  CssToken finishNumberExtra(int kind) {
     if (_maybeEatChar(101 /*e*/) || _maybeEatChar(69 /*E*/)) {
-      kind = TokenKind.DOUBLE;
-      _maybeEatChar(TokenKind.MINUS);
-      _maybeEatChar(TokenKind.PLUS);
+      kind = CssTokenKind.DOUBLE;
+      _maybeEatChar(CssTokenKind.MINUS);
+      _maybeEatChar(CssTokenKind.PLUS);
       eatDigits();
     }
     if (_peekChar() != 0 && TokenizerHelpers.isIdentifierStart(_peekChar())) {
@@ -213,18 +213,18 @@ abstract class TokenizerBase {
     return _finishToken(kind);
   }
 
-  Token _makeStringToken(List<int> buf, bool isPart) {
+  CssToken _makeStringToken(List<int> buf, bool isPart) {
     final s = String.fromCharCodes(buf);
-    final kind = isPart ? TokenKind.STRING_PART : TokenKind.STRING;
+    final kind = isPart ? CssTokenKind.STRING_PART : CssTokenKind.STRING;
     return LiteralToken(kind, _file.span(_startIndex, _index), s);
   }
 
-  Token makeIEFilter(int start, int end) {
+  CssToken makeIEFilter(int start, int end) {
     String filter = _text.substring(start, end);
-    return LiteralToken(TokenKind.STRING, _file.span(start, end), filter);
+    return LiteralToken(CssTokenKind.STRING, _file.span(start, end), filter);
   }
 
-  Token _makeRawStringToken(bool isMultiline) {
+  CssToken _makeRawStringToken(bool isMultiline) {
     String s;
     if (isMultiline) {
       int start = _startIndex + 4;
@@ -233,10 +233,11 @@ abstract class TokenizerBase {
     } else {
       s = _text.substring(_startIndex + 2, _index - 1);
     }
-    return LiteralToken(TokenKind.STRING, _file.span(_startIndex, _index), s);
+    return LiteralToken(
+        CssTokenKind.STRING, _file.span(_startIndex, _index), s);
   }
 
-  Token finishMultilineString(int quote) {
+  CssToken finishMultilineString(int quote) {
     List<int> buf = <int>[];
     while (true) {
       int ch = _nextChar();
@@ -263,7 +264,7 @@ abstract class TokenizerBase {
     }
   }
 
-  Token finishString(int quote) {
+  CssToken finishString(int quote) {
     if (_maybeEatChar(quote)) {
       if (_maybeEatChar(quote)) {
         _maybeEatChar(TokenChar.NEWLINE);
@@ -275,7 +276,7 @@ abstract class TokenizerBase {
     return finishStringBody(quote);
   }
 
-  Token finishRawString(int quote) {
+  CssToken finishRawString(int quote) {
     if (_maybeEatChar(quote)) {
       if (_maybeEatChar(quote)) {
         return finishMultilineRawString(quote);
@@ -293,7 +294,7 @@ abstract class TokenizerBase {
     }
   }
 
-  Token finishMultilineRawString(int quote) {
+  CssToken finishMultilineRawString(int quote) {
     while (true) {
       int ch = _nextChar();
       if (ch == 0) {
@@ -304,7 +305,7 @@ abstract class TokenizerBase {
     }
   }
 
-  Token finishStringBody(int quote) {
+  CssToken finishStringBody(int quote) {
     List<int> buf = <int>[];
     while (true) {
       int ch = _nextChar();
@@ -371,12 +372,12 @@ abstract class TokenizerBase {
     }
   }
 
-  Token finishDot() {
+  CssToken finishDot() {
     if (TokenizerHelpers.isDigit(_peekChar())) {
       eatDigits();
-      return finishNumberExtra(TokenKind.DOUBLE);
+      return finishNumberExtra(CssTokenKind.DOUBLE);
     } else {
-      return _finishToken(TokenKind.DOT);
+      return _finishToken(CssTokenKind.DOT);
     }
   }
 }

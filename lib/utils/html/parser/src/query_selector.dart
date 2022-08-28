@@ -1,8 +1,7 @@
 // 🌎 Project imports:
 import '../../csslib/parser.dart' as css;
-import '../../csslib/src/src.dart';
 import '../../csslib/csslib.dart';
-import '../dom.dart' show Element, Node, Text;
+import '../dom.dart' show Element, Node, TextNode;
 import '../src/constants.dart' show isWhitespaceCC;
 
 bool matches(Element node, String selector) =>
@@ -65,13 +64,13 @@ class SelectorEvaluator extends Visitor {
     for (SimpleSelectorSequence s in node.simpleSelectorSequences.reversed) {
       if (combinator == null) {
         result = s.simpleSelector.visit(this) as bool;
-      } else if (combinator == TokenKind.COMBINATOR_DESCENDANT) {
+      } else if (combinator == CssTokenKind.COMBINATOR_DESCENDANT) {
         do {
           _element = _element!.parent;
         } while (_element != null && !(s.simpleSelector.visit(this) as bool));
 
         if (_element == null) result = false;
-      } else if (combinator == TokenKind.COMBINATOR_TILDE) {
+      } else if (combinator == CssTokenKind.COMBINATOR_TILDE) {
         do {
           _element = _element!.previousElementSibling;
         } while (_element != null && !(s.simpleSelector.visit(this) as bool));
@@ -82,17 +81,17 @@ class SelectorEvaluator extends Visitor {
       if (!result) break;
 
       switch (s.combinator) {
-        case TokenKind.COMBINATOR_PLUS:
+        case CssTokenKind.COMBINATOR_PLUS:
           _element = _element!.previousElementSibling;
           break;
-        case TokenKind.COMBINATOR_GREATER:
+        case CssTokenKind.COMBINATOR_GREATER:
           _element = _element!.parent;
           break;
-        case TokenKind.COMBINATOR_DESCENDANT:
-        case TokenKind.COMBINATOR_TILDE:
+        case CssTokenKind.COMBINATOR_DESCENDANT:
+        case CssTokenKind.COMBINATOR_TILDE:
           combinator = s.combinator;
           break;
-        case TokenKind.COMBINATOR_NONE:
+        case CssTokenKind.COMBINATOR_NONE:
           break;
         default:
           throw _unsupported(node);
@@ -123,11 +122,11 @@ class SelectorEvaluator extends Visitor {
 
       case 'empty':
         return _element!.nodes
-            .any((n) => !(n is Element || n is Text && n.text.isNotEmpty));
+            .any((n) => !(n is Element || n is TextNode && n.text.isNotEmpty));
 
       case 'blank':
         return _element!.nodes.any((n) => !(n is Element ||
-            n is Text && n.text.runes.any((r) => !isWhitespaceCC(r))));
+            n is TextNode && n.text.runes.any((r) => !isWhitespaceCC(r))));
 
       case 'first-child':
         return _element!.previousElementSibling == null;
@@ -237,22 +236,22 @@ class SelectorEvaluator extends Visitor {
     final value = _element!.attributes[node.name.toLowerCase()];
     if (value == null) return false;
 
-    if (node.operatorKind == TokenKind.NO_MATCH) return true;
+    if (node.operatorKind == CssTokenKind.NO_MATCH) return true;
 
     final select = '${node.value}';
     switch (node.operatorKind) {
-      case TokenKind.EQUALS:
+      case CssTokenKind.EQUALS:
         return value == select;
-      case TokenKind.INCLUDES:
+      case CssTokenKind.INCLUDES:
         return value.split(' ').any((v) => v.isNotEmpty && v == select);
-      case TokenKind.DASH_MATCH:
+      case CssTokenKind.DASH_MATCH:
         return value.startsWith(select) &&
             (value.length == select.length || value[select.length] == '-');
-      case TokenKind.PREFIX_MATCH:
+      case CssTokenKind.PREFIX_MATCH:
         return value.startsWith(select);
-      case TokenKind.SUFFIX_MATCH:
+      case CssTokenKind.SUFFIX_MATCH:
         return value.endsWith(select);
-      case TokenKind.SUBSTRING_MATCH:
+      case CssTokenKind.SUBSTRING_MATCH:
         return value.contains(select);
       default:
         throw _unsupported(node);

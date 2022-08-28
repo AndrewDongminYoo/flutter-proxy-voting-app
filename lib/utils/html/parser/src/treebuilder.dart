@@ -269,8 +269,8 @@ class TreeBuilder {
       [Element? refNode]) {
     final nodes = parent.nodes;
     if (refNode == null) {
-      if (nodes.isNotEmpty && nodes.last is Text) {
-        final last = nodes.last as Text;
+      if (nodes.isNotEmpty && nodes.last is TextNode) {
+        final last = nodes.last as TextNode;
         last.appendData(data);
 
         if (span != null) {
@@ -278,15 +278,15 @@ class TreeBuilder {
               span.file.span(last.sourceSpan!.start.offset, span.end.offset);
         }
       } else {
-        nodes.add(Text(data)..sourceSpan = span);
+        nodes.add(TextNode(data)..sourceSpan = span);
       }
     } else {
       final index = nodes.indexOf(refNode);
-      if (index > 0 && nodes[index - 1] is Text) {
-        final last = nodes[index - 1] as Text;
+      if (index > 0 && nodes[index - 1] is TextNode) {
+        final last = nodes[index - 1] as TextNode;
         last.appendData(data);
       } else {
-        nodes.insert(index, Text(data)..sourceSpan = span);
+        nodes.insert(index, TextNode(data)..sourceSpan = span);
       }
     }
   }
