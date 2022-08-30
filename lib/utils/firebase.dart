@@ -18,6 +18,3 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   print('Handling a background message: ${message.messageId}');
 }
-
-// FirebaseFirestore _firestore = FirebaseFirestore.instance;
-// CollectionReference liveRef = _firestore.collection('live');

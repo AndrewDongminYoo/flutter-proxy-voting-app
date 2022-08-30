@@ -2,7 +2,7 @@ export 'app_version.dart';
 export 'date_util.dart';
 export 'exception.dart';
 export 'firebase_options.dart';
-export 'firebase_setting.dart';
+export 'firebase.dart';
 export 'global_channel.dart';
 export 'html/html.dart';
 export 'info_plus/info_plus.dart';
