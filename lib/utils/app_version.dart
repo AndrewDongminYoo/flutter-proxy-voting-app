@@ -42,12 +42,12 @@ class VersionStatus {
   }
 
   void printVersion() {
-    print('===== Version Status =====');
+    print('=============== Version Status ===============');
     print('localVersion: $localVersion');
     print('storeVersion: $storeVersion');
     print('appStoreLink: $appStoreLink');
     print('canUpdate: $canUpdate');
-    print('===== Version Status  From. updatealert =====');
+    print('====== Version Status From. updatealert ======');
   }
 }
 

@@ -92,7 +92,7 @@ class CustomInput implements IOBase {
       '상품구분': type,
       '계좌번호확장': accountExt,
     };
-    input.removeWhere((key, value) => value.isEmpty);
+    input.removeWhere((k, v) => v.isEmpty);
     return input;
   }
 
@@ -127,24 +127,28 @@ class CustomResult implements IOBase {
   late String foriegnDeposit; // 외화예수금
   late String amountValuation; // 평가금액
 
-  CustomResult({
-    this.username = '', // 사용자아이디
-    this.accountNum = '', // 계좌번호
-    this.depositReceived = '', // 예수금
-    this.foriegnDeposit = '', // 외화예수금
-    this.amountValuation = '', // 평가금액
-  });
-
-  CustomResult.from(Map<String, dynamic> output) {
-    username = output['사용자아이디'] ?? '';
-    accountNum = output['계좌번호'] ?? '';
-    depositReceived = output['예수금'] ?? '';
-    foriegnDeposit = output['외화예수금'] ?? '';
-    amountValuation = output['평가금액'] ?? '';
-    accountStock = output['증권보유계좌조회'] ?? [];
-    accountAll = output['전계좌조회'] ?? [];
-    accountDetail = output['계좌상세조회'] ?? [];
-    accountTransaction = output['거래내역조회'] ?? [];
+  CustomResult.from(dynamic output) {
+    if (output is Map<String, dynamic>) {
+      username = output['사용자아이디'] ?? '';
+      accountNum = output['계좌번호'] ?? '';
+      depositReceived = output['예수금'] ?? '';
+      foriegnDeposit = output['외화예수금'] ?? '';
+      amountValuation = output['평가금액'] ?? '';
+      accountStock = output['증권보유계좌조회'] ?? [];
+      accountAll = output['전계좌조회'] ?? [];
+      accountDetail = output['계좌상세조회'] ?? [];
+      accountTransaction = output['거래내역조회'] ?? [];
+    } else {
+      username = '';
+      accountNum = '';
+      depositReceived = '';
+      foriegnDeposit = '';
+      amountValuation = '';
+      accountStock = [];
+      accountAll = [];
+      accountDetail = [];
+      accountTransaction = [];
+    }
   }
 
   @override
@@ -160,7 +164,7 @@ class CustomResult implements IOBase {
       '계좌상세조회': accountDetail,
       '거래내역조회': accountTransaction,
     };
-    result.removeWhere((key, value) => value.isEmpty);
+    result.removeWhere((k, v) => v.isEmpty);
     return result;
   }
 }
