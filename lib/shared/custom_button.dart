@@ -155,7 +155,7 @@ class StepperButton extends ElevatedButton {
           onPressed: () {},
           style: ElevatedButton.styleFrom(
             fixedSize: const Size(20, 20),
-            primary:
+            backgroundColor:
                 !active ? const Color(0xFFDC721E) : const Color(0xFF572E67),
             shape: const CircleBorder(),
           ),

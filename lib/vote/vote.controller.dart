@@ -174,7 +174,7 @@ class VoteController extends GetxController {
 
   void postVoteResult(int uid, List<VoteType> voteResult) async {
     String deviceName = await deviceInfo();
-    int _switch(VoteType voteType) {
+    int choice(VoteType voteType) {
       switch (voteType) {
         case VoteType.agree:
           return 1;
@@ -191,10 +191,10 @@ class VoteController extends GetxController {
       uid,
       shareholder.id,
       deviceName,
-      _switch(voteResult[0]),
-      _switch(voteResult[1]),
-      _switch(voteResult[2]),
-      _switch(voteResult[3]),
+      choice(voteResult[0]),
+      choice(voteResult[1]),
+      choice(voteResult[2]),
+      choice(voteResult[3]),
     );
     _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
 

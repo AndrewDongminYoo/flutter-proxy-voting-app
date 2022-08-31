@@ -141,7 +141,7 @@ Widget _customPageViewLayer(
     }
   }
 
-  AnimatedContainer _slider(Campaign campaign, int index, int active) {
+  AnimatedContainer slider(Campaign campaign, int index, int active) {
     bool isActive = index == active;
     return AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -207,7 +207,7 @@ Widget _customPageViewLayer(
                           margin: const EdgeInsets.all(13),
                           child: GestureDetector(
                               onTap: () => onTap(index),
-                              child: _slider(
+                              child: slider(
                                   campaigns[realIndex], index, curPage)));
                     })))
       ]));
@@ -221,7 +221,7 @@ Widget _informationBox(Campaign curCampaign, void Function(Campaign) onPress,
         curve: Curves.easeInOutCubic);
   }
 
-  _onNext() {
+  onNext() {
     controller.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic);
@@ -257,7 +257,7 @@ Widget _informationBox(Campaign curCampaign, void Function(Campaign) onPress,
           ),
           const SizedBox(height: 24),
           IconButton(
-              onPressed: _onNext,
+              onPressed: onNext,
               iconSize: 36,
               icon: const Icon(
                 Icons.expand_more_rounded,
