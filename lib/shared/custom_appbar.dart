@@ -16,11 +16,13 @@ class CustomAppBar extends AppBar {
   final String text;
   final Color bgColor;
   final bool isNoticePage;
+  final Widget? helpButton;
   CustomAppBar({
     Key? key,
     required this.text,
     this.isNoticePage = false,
     this.bgColor = const Color(0xFF572E67),
+    this.helpButton,
   }) : super(
           key: key,
           leading: SizedBox(
@@ -42,6 +44,7 @@ class CustomAppBar extends AppBar {
           backgroundColor: bgColor,
           elevation: 0,
           actions: [
+            ...[helpButton ?? Container()],
             !isNoticePage ? const NotificiationBtn() : const SizedBox()
           ],
         );

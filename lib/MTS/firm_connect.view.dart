@@ -16,6 +16,15 @@ class _MTSChooseLoginMenuState extends State<MTSChooseLoginMenu> {
     return Scaffold(
         appBar: CustomAppBar(
           text: '연동하기',
+          helpButton: IconButton(
+            icon: const Icon(
+              Icons.help_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // TODO: 뭐 넣지..
+            },
+          ),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
