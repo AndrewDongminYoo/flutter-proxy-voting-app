@@ -33,9 +33,10 @@ class CustomAppBar extends AppBar {
               children: [
                 const CustomBackButton(),
                 CustomText(
-                    text: text,
-                    typoType: TypoType.body,
-                    colorType: ColorType.white),
+                  text: text,
+                  typoType: TypoType.body,
+                  colorType: ColorType.white,
+                ),
               ],
             ),
           ),
@@ -44,8 +45,8 @@ class CustomAppBar extends AppBar {
           backgroundColor: bgColor,
           elevation: 0,
           actions: [
-            ...[helpButton ?? Container()],
-            !isNoticePage ? const NotificiationBtn() : const SizedBox()
+            helpButton ??
+                (!isNoticePage ? const NotificiationBtn() : const SizedBox())
           ],
         );
 }

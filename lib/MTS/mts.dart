@@ -2,6 +2,7 @@ export 'dto/dto.dart';
 export 'firm_choice.view.dart';
 export 'firm_signin.view.dart';
 export 'firm_certin.view.dart';
+export 'firm_cert_import.dart';
 export 'firm_connect.view.dart';
 export 'models/models.dart';
 export 'mts.controller.dart';

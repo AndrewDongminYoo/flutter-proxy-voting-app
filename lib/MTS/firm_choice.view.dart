@@ -9,13 +9,13 @@ import 'mts.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 
-class MtsPage extends StatefulWidget {
-  const MtsPage({Key? key}) : super(key: key);
+class MtsFirmChoicePage extends StatefulWidget {
+  const MtsFirmChoicePage({Key? key}) : super(key: key);
   @override
-  State<MtsPage> createState() => _MtsPageState();
+  State<MtsFirmChoicePage> createState() => _MtsFirmChoicePageState();
 }
 
-class _MtsPageState extends State<MtsPage> {
+class _MtsFirmChoicePageState extends State<MtsFirmChoicePage> {
   final MtsController _controller = MtsController.get();
 
   _onPressed(CustomModule firm) {
@@ -43,6 +43,8 @@ class _MtsPageState extends State<MtsPage> {
               ),
               CustomText(text: '더 많은 증권사와 연동하기 위해 준비 중입니다.'),
               Expanded(
+                  // TODO: 각 증권사 버튼을 컴포넌트화 하여 동시에 중복선택 가능하도록 변경
+                  // XD: https://xd.adobe.com/view/0acd4a8f-95ec-4996-8fd4-bd79f63790cb-5f9e/screen/4f90408e-7a85-4d8b-9775-7d4123f725c9
                   child: GridView.builder(
                       primary: false,
                       itemCount: stockTradingFirms.length,

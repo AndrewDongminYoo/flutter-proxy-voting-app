@@ -19,8 +19,8 @@ List<GetPage> getPages = [
   GetPage(name: '/duplicate', page: () => const AddressDuplicationPage()),
   GetPage(name: '/result', page: () => const ShowResultPage()),
   GetPage(name: '/checkvotenum', page: () => const CheckVoteNumPage()),
-  GetPage(name: '/mts', page: () => const MtsPage()),
+  GetPage(name: '/mts', page: () => const MtsFirmChoicePage()),
   GetPage(name: '/mts-choice', page: () => const MTSChooseLoginMenu()),
   GetPage(name: '/mts-id', page: () => const MTSLoginIDPage()),
-  GetPage(name: '/mts-cert', page: () => const MTSLoginCERTPage()),
+  GetPage(name: '/mts-cert', page: () => const MTSCertImportPage()),
 ];
