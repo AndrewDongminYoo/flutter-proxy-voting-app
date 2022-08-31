@@ -21,7 +21,7 @@ class _MtsPageState extends State<MtsPage> {
   _onPressed(CustomModule firm) {
     print(firm.firmName);
     _controller.setMTSFirm(firm);
-    goToMtsSignInPage();
+    goToMtsLoginChoice();
   }
 
   @override

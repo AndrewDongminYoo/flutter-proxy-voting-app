@@ -18,8 +18,9 @@ goToNotShareHolders() => Get.toNamed('/not-shareholder');
 goToDuplicate() => Get.toNamed('/duplicate');
 goToCheckVoteNum() => Get.toNamed('/checkvotenum');
 goToMtsFirmChoice() => Get.toNamed('/mts');
-goToMtsSignInPage() => Get.toNamed('/mts-signin');
-goToMtsCertification() => Get.toNamed('/mts-cert');
+goToMtsLoginChoice() => Get.toNamed('/mts-choice');
+goToMtsLoginWithID() => Get.toNamed('/mts-id');
+goToMtsLoginWithCert() => Get.toNamed('/mts-cert');
 goToPreviewCampaign() => Get.toNamed('/preview');
 
 backToSignUp() => Get.offNamedUntil(
