@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
+import 'models/certification.model.dart';
 import 'mts.dart';
 
 class MtsController extends GetxController {
@@ -82,5 +83,9 @@ class MtsController extends GetxController {
 
   Future<bool> checkIfImported() async {
     return await _service.checkImport();
+  }
+
+  Future<List<RKSWCertItem>?> loadCertList() async {
+    return await _service.loadCertiList();
   }
 }

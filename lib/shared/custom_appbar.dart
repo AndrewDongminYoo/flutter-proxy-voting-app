@@ -31,7 +31,10 @@ class CustomAppBar extends AppBar {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const CustomBackButton(),
+                CustomBackButton(
+                    color: bgColor == Colors.transparent
+                        ? const Color(0xFF572E67)
+                        : Colors.white),
                 CustomText(
                   text: text,
                   typoType: TypoType.body,
@@ -52,16 +55,20 @@ class CustomAppBar extends AppBar {
 }
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({Key? key}) : super(key: key);
+  const CustomBackButton({
+    Key? key,
+    this.color = Colors.white,
+  }) : super(key: key);
 
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Navigator.canPop(context)
         ? IconButton(
             key: key,
-            icon: const Icon(
+            icon: Icon(
               CupertinoIcons.arrow_left_square,
-              color: Colors.white,
+              color: color,
             ),
             splashRadius: 20.0,
             iconSize: 24.0,

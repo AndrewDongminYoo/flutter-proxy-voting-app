@@ -1,11 +1,12 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../theme.dart';
+import 'models/certification.model.dart';
 import 'mts.controller.dart';
 import '../shared/shared.dart';
-import '../auth/widget/widget.dart';
 
 class MTSLoginCERTPage extends StatefulWidget {
   const MTSLoginCERTPage({Key? key}) : super(key: key);
@@ -17,23 +18,24 @@ class MTSLoginCERTPage extends StatefulWidget {
 class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
   final MtsController _mtsController = MtsController.get();
 
-  String _certificationID = '';
-  String _certificationPW = '';
-  String _certificationEX = '';
-  bool _passwordVisible = false;
-  bool _buttonDisabled = true;
-  get passwordVisible => _passwordVisible;
-  _setVisible(bool val) => _passwordVisible = val;
-
-  _onCERTLoginPressed() async {
-    _mtsController.setCERT(
-        _certificationID, _certificationPW, _certificationEX);
-    await _mtsController.showMTSResult();
-  }
+  List<RKSWCertItem> certificationList = [];
 
   @override
   void initState() {
     super.initState();
+    loadCertList();
+  }
+
+  loadCertList() async {
+    List<RKSWCertItem>? response = await _mtsController.loadCertList();
+    setState(() {
+      if (response != null) {
+        for (RKSWCertItem element in response) {
+          certificationList.add(element);
+        }
+      }
+      print(certificationList);
+    });
   }
 
   @override
@@ -41,6 +43,16 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
     return Scaffold(
         appBar: CustomAppBar(
           text: '연동하기',
+          bgColor: Colors.transparent,
+          helpButton: IconButton(
+            icon: Icon(
+              Icons.help,
+              color: customColor[ColorType.deepPurple],
+            ),
+            onPressed: () {
+              // TODO: 뭐 넣지..
+            },
+          ),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -48,86 +60,105 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
         ));
   }
 
-  // 인증서&비밀번호&만료일자로 로그인하기
   Column loginWithCertification() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       CustomText(
-        text: '인증서로 증권사 연동하기',
-        typoType: TypoType.h2Bold,
+        text: '공동인증서 선택',
+        typoType: TypoType.h1Title,
+        textAlign: TextAlign.start,
         isFullWidth: true,
       ),
-      TextFormField(
-        autofocus: true,
-        initialValue: _certificationID,
-        onChanged: (val) => {
-          setState(() {
-            _certificationID = val;
-          })
-        },
-        style: authFormFieldStyle,
-        keyboardType: TextInputType.name,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: '인증서 이름',
-          helperText:
-              'cn=이름,ou=RA센터,ou=ㅇㅇ은행,ou=등록기관,ou=licensedCA,o=SIGN,c=KR',
+      CustomText(
+        text:
+            '증권사 연동을 위해 공동인증서를 선택해주세요.\n일부 증권사의 경우 공동인증서와 증권사 ID를\n모두 요구할 수도 있습니다.',
+        typoType: TypoType.body,
+        textAlign: TextAlign.start,
+        isFullWidth: true,
+      ),
+      Container(
+        width: Get.width,
+        height: Get.width,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: certificationList
+              .map(
+                (e) => CertificationCard(item: e),
+              )
+              .toList(),
         ),
       ),
-      TextFormField(
-          initialValue: _certificationPW,
-          onChanged: (val) => {
-                setState(() {
-                  _certificationPW = val;
-                })
-              },
-          autofocus: true,
-          style: authFormFieldStyle,
-          obscureText: !passwordVisible,
-          keyboardType: passwordVisible
-              ? TextInputType.visiblePassword
-              : TextInputType.text,
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: '인증서 비밀번호',
-              helperText: '인증서 비밀번호를 입력해주세요',
-              suffixIcon: InkWell(
-                onTap: () => setState(() {
-                  _setVisible(!passwordVisible);
-                }),
-                child: passwordVisible
-                    ? const Icon(Icons.remove_red_eye_outlined)
-                    : const Icon(Icons.remove_red_eye),
-              ))),
-      TextFormField(
-          initialValue: _certificationEX,
-          onChanged: (val) => {
-                setState(() {
-                  if (RegExp(r'20[0-5]\d[0-1]\d[0-3]\d').hasMatch(val)) {
-                    _certificationEX = val;
-                    _buttonDisabled = false;
-                  } else {
-                    _buttonDisabled = true;
-                  }
-                })
-              },
-          maxLength: 8,
-          autofocus: true,
-          style: authFormFieldStyle,
-          keyboardType: TextInputType.datetime,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: '인증서 만료일자',
-            helperText: '인증서 만료일자를 입력해주세요',
-          )),
-      const SizedBox(height: 10),
-      CustomButton(
-        disabled: _buttonDisabled,
-        label: '확인',
-        onPressed: _onCERTLoginPressed,
-      ),
     ]);
+  }
+}
+
+// ignore: must_be_immutable
+class CertificationCard extends StatelessWidget {
+  RKSWCertItem item;
+
+  CertificationCard({
+    super.key,
+    required this.item,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          goToMtsLoginWithID();
+        },
+        child: Container(
+          width: Get.width - 20,
+          height: Get.width * 0.4,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(18),
+            ),
+            color: Colors.white,
+            boxShadow: kElevationToShadow[3],
+          ),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CustomText(
+                    text: item.username,
+                    typoType: TypoType.h1Bold,
+                    textAlign: TextAlign.start,
+                  ),
+                  const Spacer(),
+                  const Icon(
+                    Icons.more_vert,
+                    color: Colors.grey,
+                    size: 30,
+                  )
+                ],
+              ),
+              CustomText(
+                text: '센터 ${item.origin}',
+                typoType: TypoType.h2Bold,
+                isFullWidth: true,
+                textAlign: TextAlign.start,
+              ),
+              CustomText(
+                text: '용도 ${item.objective}',
+                typoType: TypoType.h2Bold,
+                isFullWidth: true,
+                textAlign: TextAlign.start,
+              ),
+              CustomText(
+                text: '만료일 ${item.expire}',
+                typoType: TypoType.h2Bold,
+                isFullWidth: true,
+                textAlign: TextAlign.start,
+              ),
+            ],
+          ),
+        ));
   }
 }

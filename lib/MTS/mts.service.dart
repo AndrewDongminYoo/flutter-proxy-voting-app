@@ -1,6 +1,7 @@
 // 🎯 Dart imports:
 
 // 📦 Package imports:
+import 'package:bside/mts/models/certification.model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart' show GetConnect, GetDynamicUtils;
 
@@ -72,5 +73,18 @@ class CooconMTSService extends GetConnect {
 
   Future<bool> checkImport() async {
     return await channel.invokeMethod('checkIfImported');
+  }
+
+  Future<List<RKSWCertItem>> loadCertiList() async {
+    List<RKSWCertItem> list = [];
+    List? response = await channel.invokeListMethod('loadCertList');
+    print(response);
+    if (response != null) {
+      for (dynamic json in response) {
+        RKSWCertItem item = RKSWCertItem.from(json);
+        list.add(item);
+      }
+    }
+    return list;
   }
 }
