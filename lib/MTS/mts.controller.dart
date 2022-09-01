@@ -63,10 +63,6 @@ class MtsController extends GetxController {
     );
   }
 
-  getTheResult(String functionName) async {
-    return await _service.loadFunctionVal(functionName);
-  }
-
   Future<void> showMTSResult() async {
     await loadMTSProcess();
     Get.isDialogOpen! ? goBack() : null;
@@ -78,5 +74,9 @@ class MtsController extends GetxController {
               top: Radius.circular(30),
             )),
         child: ListView(children: texts)));
+  }
+
+  Future<String> loadTwelveDigits() async {
+    return await _service.getTwelveDigits();
   }
 }

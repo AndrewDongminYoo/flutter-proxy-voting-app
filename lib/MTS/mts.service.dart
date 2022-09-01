@@ -1,5 +1,4 @@
 // 🎯 Dart imports:
-import 'dart:convert';
 
 // 📦 Package imports:
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -62,8 +61,7 @@ class CooconMTSService extends GetConnect {
     }
   }
 
-  loadFunctionVal(String functionName) async {
-    String? response = await channel.invokeMethod<String>(functionName.trim());
-    return jsonDecode(response!);
+  Future<String> getTwelveDigits() async {
+    return await channel.invokeMethod('getTwelveDigits');
   }
 }
