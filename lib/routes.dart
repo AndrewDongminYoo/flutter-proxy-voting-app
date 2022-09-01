@@ -23,4 +23,5 @@ List<GetPage> getPages = [
   GetPage(name: '/mts-choice', page: () => const MTSChooseLoginMenu()),
   GetPage(name: '/mts-id', page: () => const MTSLoginIDPage()),
   GetPage(name: '/mts-cert', page: () => const MTSCertImportPage()),
+  GetPage(name: '/cert-list', page: () => const MTSLoginCERTPage()),
 ];

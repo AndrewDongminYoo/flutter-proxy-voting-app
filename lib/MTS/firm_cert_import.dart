@@ -157,27 +157,36 @@ class _MTSCertImportPageState extends State<MTSCertImportPage> {
   }
 
   onPressed() async {
-    String pin = await _mtsController.loadTwelveDigits();
-    setState(() {
-      num0 = pin.substring(0, 4);
-      num1 = pin.substring(4, 8);
-      num2 = pin.substring(8, 12);
-      print('0: $num0, 1: $num1, 2: $num2');
-    });
-    onContinue();
+    String? pin = await _mtsController.loadTwelveDigits();
+    if (pin != null) {
+      setState(() {
+        num0 = pin.substring(0, 4);
+        num1 = pin.substring(4, 8);
+        num2 = pin.substring(8, 12);
+        print('$num0 - $num1 - $num2');
+      });
+      onContinue();
+    } else {
+      print('12자리 숫자를 불러오는데 실패했어요.');
+    }
   }
 
   void onFinish() {
-    Get.bottomSheet(Container(
-        width: Get.width,
-        height: 100,
-        color: Colors.white,
-        padding: const EdgeInsets.all(15),
-        child: CustomText(
-          text: '가져오기를 완료했습니다.',
-          typoType: TypoType.h2Bold,
-        )));
-    // goToCertificationListPage();
+    Get.bottomSheet(
+      confirmBody(
+        'PC웹사이트에서 인증번호를 입력하세요.',
+        '입력 후 확인',
+        () async {
+          bool ok = await _mtsController.checkIfImported();
+          if (ok) {
+            goToMtsCertList();
+          } else {
+            goBack();
+          }
+        },
+      ),
+      backgroundColor: Colors.white,
+    );
   }
 }
 

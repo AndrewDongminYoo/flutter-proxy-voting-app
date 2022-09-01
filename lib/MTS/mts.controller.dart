@@ -76,7 +76,11 @@ class MtsController extends GetxController {
         child: ListView(children: texts)));
   }
 
-  Future<String> loadTwelveDigits() async {
+  Future<String?> loadTwelveDigits() async {
     return await _service.getTwelveDigits();
+  }
+
+  Future<bool> checkIfImported() async {
+    return await _service.checkImport();
   }
 }

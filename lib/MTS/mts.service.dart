@@ -2,7 +2,7 @@
 
 // 📦 Package imports:
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:get/get_connect/connect.dart' show GetConnect;
+import 'package:get/get.dart' show GetConnect, GetDynamicUtils;
 
 // 🌎 Project imports:
 import '../utils/global_channel.dart';
@@ -61,7 +61,16 @@ class CooconMTSService extends GetConnect {
     }
   }
 
-  Future<String> getTwelveDigits() async {
-    return await channel.invokeMethod('getTwelveDigits');
+  Future<String?> getTwelveDigits() async {
+    try {
+      return await channel.invokeMethod('getTwelveDigits');
+    } catch (e) {
+      e.printError();
+      return null;
+    }
+  }
+
+  Future<bool> checkImport() async {
+    return await channel.invokeMethod('checkIfImported');
   }
 }

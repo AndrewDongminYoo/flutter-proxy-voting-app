@@ -21,6 +21,7 @@ goToMtsFirmChoice() => Get.toNamed('/mts');
 goToMtsLoginChoice() => Get.toNamed('/mts-choice');
 goToMtsLoginWithID() => Get.toNamed('/mts-id');
 goToMtsLoginWithCert() => Get.toNamed('/mts-cert');
+goToMtsCertList() => Get.toNamed('/cert-list');
 goToPreviewCampaign() => Get.toNamed('/preview');
 
 backToSignUp() => Get.offNamedUntil(
