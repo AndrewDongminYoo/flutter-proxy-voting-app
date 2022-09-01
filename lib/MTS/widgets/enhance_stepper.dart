@@ -1,30 +1,12 @@
-//
-//  enhance_stepper.dart
-//  fluttertemplet
-//
-//  Created by shang on 7/2/21 10:57 AM.
-//  Copyright © 7/2/21 shang. All rights reserved.
-//
-
-// add enum  HorizontalTitlePosition and enum  HorizontalLinePosition. circleChild replace by icon.
-
 import 'package:flutter/material.dart';
 
-/// Defines the [Stepper]'s titles position when the type is [StepperType.horizontal].
 enum HorizontalTitlePosition {
-  /// A horizontal layout of the steps with their titles position.
   inline,
-
-  /// A horizontal layout of the steps with their titles position.
   bottom,
 }
 
-/// Defines the [Stepper]'s separator position when the type is [StepperType.horizontal].
 enum HorizontalLinePosition {
-  /// A horizontal layout of the steps with their separator position in-between the titles.
   center,
-
-  /// A horizontal layout of the steps with their separator position in-between the titles.
   top,
 }
 
@@ -39,22 +21,10 @@ const Color _kCircleActiveDark = Colors.black87;
 const Color _kDisabledLight = Colors.black38;
 const Color _kDisabledDark = Colors.white38;
 const double _kStepSize = 24.0;
-const double _kTriangleHeight =
-    _kStepSize * 0.866025; // Triangle height. sqrt(3.0) / 2.0
+const double _kTriangleHeight = _kStepSize * 0.866025;
 
-/// A material step used in [Stepper]. The step can have a title and subtitle,
-/// an icon within its circle, some content and a state that governs its
-/// styling.
-///
-/// See also:
-///
-///  * [Stepper]
-///  * <https://material.io/archive/guidelines/components/steppers.html>
 @immutable
 class EnhanceStep {
-  /// Creates a step for a [Stepper].
-  ///
-  /// The [title], [content], and [state] arguments must not be null.
   const EnhanceStep({
     this.icon,
     required this.title,
@@ -63,134 +33,15 @@ class EnhanceStep {
     this.state = StepState.indexed,
     this.isActive = false,
   });
-
-  /// The icon of the step.
   final Widget? icon;
-
-  /// The title of the step that typically describes it.
   final Widget title;
-
-  /// The subtitle of the step that appears below the title and has a smaller
-  /// font size. It typically gives more details that complement the title.
-  ///
-  /// If null, the subtitle is not shown.
   final Widget? subtitle;
-
-  /// The content of the step that appears below the [title] and [subtitle].
-  ///
-  /// Below the content, every step has a 'continue' and 'cancel' button.
   final Widget content;
-
-  /// The state of the step which determines the styling of its components
-  /// and whether steps are interactive.
   final StepState state;
-
-  /// Whether or not the step is active. The flag only influences styling.
   final bool isActive;
 }
 
-/// A material stepper widget that displays progress through a sequence of
-/// steps. Steppers are particularly useful in the case of forms where one step
-/// requires the completion of another one, or where multiple steps need to be
-/// completed in order to submit the whole form.
-///
-/// The widget is a flexible wrapper. A parent class should pass [currentStep]
-/// to this widget based on some logic triggered by the three callbacks that it
-/// provides.
-///
-/// {@tool sample --template=stateful_widget_scaffold_center}
-///
-/// ```dart
-///
-/// StepperType _type = StepperType.vertical;
-///
-/// List<Tuple2> tuples = [
-///   Tuple2(Icons.directions_bike, StepState.indexed, ),
-///   Tuple2(Icons.directions_bus, StepState.editing, ),
-///   Tuple2(Icons.directions_railway, StepState.complete, ),
-///   Tuple2(Icons.directions_car, StepState.disabled, ),
-///   Tuple2(Icons.directions_boat, StepState.error, ),
-/// ];
-
-/// int _index = 0;
-///
-/// @override
-/// Widget build(BuildContext context) {
-/// return EnhanceStepper(
-///     stepSize: 40,
-///     type: _type,
-///     horizontalTitlePosition: HorizontalTitlePosition.bottom,
-///     horizontalLinePosition: HorizontalLinePosition.top,
-///     currentStep: _index,
-///     physics: ClampingScrollPhysics(),
-///     steps: tuples.map((e) => EnhanceStep(
-///       icon: Icon(e.item1, color: Colors.blue, size: 40,),
-///       state: StepState.values[tuples.indexOf(e)],
-///       isActive: _index == tuples.indexOf(e),
-///       horizontalLinePosition = HorizontalLinePosition.top,
-///       title: Text("step ${tuples.indexOf(e)}"),
-///       subtitle: Text("subtitle_${tuples.indexOf(e)}_${e.item2.toString()}",),
-///       content: Text("Content for Step ${tuples.indexOf(e)}"),
-///     )).toList(),
-///     onStepCancel: () {
-///       go(-1);
-///     },
-///     onStepContinue: () {
-///       go(1);
-///     },
-///     onStepTapped: (index) {
-///       ddlog(index);
-///       setState(() {
-///         _index = index;
-///       });
-///     },
-///     controlsBuilder: (BuildContext context, { VoidCallback? onStepContinue, VoidCallback? onStepCancel }){
-///       return Row(
-///         children: [
-///           SizedBox(height: 30,),
-///           ElevatedButton(
-///             onPressed: onStepContinue,
-///             child: Text("Next"),
-///           ),
-///           SizedBox(width: 8,),
-///           TextButton(onPressed: onStepCancel, child: Text("Back"), ),
-///         ],
-///       );
-///     }
-/// );
-/// }
-///
-///   void go(int index) {
-///      if (index == -1 && _index <= 0 ) {
-///        ddlog("it's first Step!");
-///        return;
-///      }
-///
-///      if (index == 1 && _index >= titles.length - 1) {
-///        ddlog("it's last Step!");
-///        return;
-///      }
-///
-///      setState(() {
-///        _index += index;
-///      });
-///    }
-/// ```
-///
-/// {@end-tool}
-///
-/// See also:
-///
-///  * [Step]
-///  * <https://material.io/archive/guidelines/components/steppers.html>
 class EnhanceStepper extends StatefulWidget {
-  /// Creates a stepper from a list of steps.
-  ///
-  /// This widget is not meant to be rebuilt with a different list of steps
-  /// unless a key is provided in order to distinguish the old stepper from the
-  /// new one.
-  ///
-  /// The [steps], [type], and [currentStep] arguments must not be null.
   const EnhanceStepper({
     Key? key,
     required this.steps,
@@ -209,114 +60,20 @@ class EnhanceStepper extends StatefulWidget {
     this.backgroundColor,
   })  : assert(0 <= currentStep && currentStep < steps.length),
         super(key: key);
-
-  // Background color of stepper
   final Color? backgroundColor;
-
-  // Padding of stepper content
   final EdgeInsets? padding;
-
-  // The elevation of stepper
   final double? elevation;
-
-  /// The steps of the stepper whose titles, subtitles, icons always get shown.
-  ///
-  /// The length of [steps] must not change.
   final List<EnhanceStep> steps;
-
-  /// The steps of the stepper icons size.
   final double? stepIconSize;
-
-  /// How the stepper's scroll view should respond to user input.
-  ///
-  /// For example, determines how the scroll view continues to
-  /// animate after the user stops dragging the scroll view.
-  ///
-  /// If the stepper is contained within another scrollable it
-  /// can be helpful to set this property to [ClampingScrollPhysics].
   final ScrollPhysics? physics;
-
-  /// The type of stepper that determines the layout. In the case of
-  /// [StepperType.horizontal], the content of the current step is displayed
-  /// underneath as opposed to the [StepperType.vertical] case where it is
-  /// displayed in-between.
   final StepperType type;
-
-  /// [StepperType.horizontal], Title and subtitle below the StepIcon. The default value is `HorizontalTitlePosition.inline`.
   final HorizontalTitlePosition horizontalTitlePosition;
-
-  /// [StepperType.horizontal], the steps with their in-between the separator position. The default value is `HorizontalLinePosition.center`.
   final HorizontalLinePosition horizontalLinePosition;
-
-  /// The index into [steps] of the current step whose content is displayed.
   final int currentStep;
-
-  /// The callback called when a step is tapped, with its index passed as
-  /// an argument.
   final ValueChanged<int>? onStepTapped;
-
-  /// The callback called when the 'continue' button is tapped.
-  ///
-  /// If null, the 'continue' button will be disabled.
   final VoidCallback? onStepContinue;
-
-  /// The callback called when the 'cancel' button is tapped.
-  ///
-  /// If null, the 'cancel' button will be disabled.
   final VoidCallback? onStepCancel;
-
-  /// The callback for creating custom controls.
-  ///
-  /// If null, the default controls from the current theme will be used.
-  ///
-  /// This callback which takes in a context and two functions: [onStepContinue]
-  /// and [onStepCancel]. These can be used to control the stepper.
-  /// For example, keeping track of the [currentStep] within the callback can
-  /// change the text of the continue or cancel button depending on which step users are at.
-  ///
-  /// {@tool dartpad --template=stateless_widget_scaffold}
-  /// Creates a stepper control with custom buttons.
-  ///
-  /// ```dart
-  /// Widget build(BuildContext context) {
-  ///   return Stepper(
-  ///     controlsBuilder:
-  ///       (BuildContext context, ControlsDetails details) {
-  ///          return Row(
-  ///            children: <Widget>[
-  ///              TextButton(
-  ///                onPressed: details.onStepContinue,
-  ///                child: const Text('NEXT'),
-  ///              ),
-  ///              TextButton(
-  ///                onPressed: details.onStepCancel,
-  ///                child: const Text('CANCEL'),
-  ///              ),
-  ///            ],
-  ///          );
-  ///       },
-  ///     steps: const <Step>[
-  ///       Step(
-  ///         title: Text('A'),
-  ///         content: SizedBox(
-  ///           width: 100.0,
-  ///           height: 100.0,
-  ///         ),
-  ///       ),
-  ///       Step(
-  ///         title: Text('B'),
-  ///         content: SizedBox(
-  ///           width: 100.0,
-  ///           height: 100.0,
-  ///         ),
-  ///       ),
-  ///     ],
-  ///   );
-  /// }
-  /// ```
-  /// {@end-tool}
   final ControlsWidgetBuilder? controlsBuilder;
-
   @override
   State<EnhanceStepper> createState() => _EnhanceStepperState();
 }
@@ -325,7 +82,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
     with TickerProviderStateMixin {
   late List<GlobalKey> _keys;
   final Map<int, StepState> _oldStates = <int, StepState>{};
-
   @override
   void initState() {
     super.initState();
@@ -333,7 +89,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
       widget.steps.length,
       (int i) => GlobalKey(),
     );
-
     for (int i = 0; i < widget.steps.length; i += 1) {
       _oldStates[i] = widget.steps[i].state;
     }
@@ -343,7 +98,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
   void didUpdateWidget(EnhanceStepper oldWidget) {
     super.didUpdateWidget(oldWidget);
     assert(widget.steps.length == oldWidget.steps.length);
-
     for (int i = 0; i < oldWidget.steps.length; i += 1) {
       _oldStates[i] = oldWidget.steps[i].state;
     }
@@ -377,11 +131,9 @@ class _EnhanceStepperState extends State<EnhanceStepper>
     final StepState state =
         oldState ? _oldStates[index]! : widget.steps[index].state;
     final bool isDarkActive = _isDark() && widget.steps[index].isActive;
-
     if (widget.steps[index].icon != null && state != StepState.error) {
       return widget.steps[index].icon!;
     }
-
     switch (state) {
       case StepState.indexed:
       case StepState.disabled:
@@ -423,7 +175,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
 
   Widget _buildCircle(int index, bool oldState) {
     EnhanceStep step = widget.steps[index];
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       width: (widget.stepIconSize ?? _kStepSize),
@@ -451,14 +202,12 @@ class _EnhanceStepperState extends State<EnhanceStepper>
         child: SizedBox(
           width: widget.stepIconSize,
           height: _kTriangleHeight,
-          // Height of 24dp-long-sided equilateral triangle.
           child: CustomPaint(
             painter: _TrianglePainter(
               color: _isDark() ? _kErrorDark : _kErrorLight,
             ),
             child: Align(
               alignment: const Alignment(0.0, 0.8),
-              // 0.8 looks better than the geometrical 0.33.
               child: _buildicon(index,
                   oldState && widget.steps[index].state != StepState.error),
             ),
@@ -502,7 +251,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
         ),
       );
     }
-
     final Color cancelColor;
     switch (Theme.of(context).brightness) {
       case Brightness.light:
@@ -512,24 +260,18 @@ class _EnhanceStepperState extends State<EnhanceStepper>
         cancelColor = Colors.white70;
         break;
     }
-
     final ThemeData themeData = Theme.of(context);
     final ColorScheme colorScheme = themeData.colorScheme;
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-
     const OutlinedBorder buttonShape = RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(2)));
     const EdgeInsets buttonPadding = EdgeInsets.symmetric(horizontal: 16.0);
-
     return Container(
       margin: const EdgeInsets.only(top: 16.0),
       child: ConstrainedBox(
         constraints: const BoxConstraints.tightFor(height: 48.0),
         child: Row(
-          // The Material spec no longer includes a Stepper widget. The continue
-          // and cancel button styles have been configured to match the original
-          // version of this widget.
           children: <Widget>[
             TextButton(
               onPressed: widget.onStepContinue,
@@ -575,12 +317,10 @@ class _EnhanceStepperState extends State<EnhanceStepper>
   TextStyle _titleStyle(int index) {
     final ThemeData themeData = Theme.of(context);
     final TextTheme textTheme = themeData.textTheme;
-
     switch (widget.steps[index].state) {
       case StepState.indexed:
       case StepState.editing:
       case StepState.complete:
-        // case StepState.customIcon:
         return textTheme.bodyLarge!;
       case StepState.disabled:
         return textTheme.bodyLarge!.copyWith(
@@ -596,12 +336,10 @@ class _EnhanceStepperState extends State<EnhanceStepper>
   TextStyle _subtitleStyle(int index) {
     final ThemeData themeData = Theme.of(context);
     final TextTheme textTheme = themeData.textTheme;
-
     switch (widget.steps[index].state) {
       case StepState.indexed:
       case StepState.editing:
       case StepState.complete:
-        // case StepState.customIcon:
         return textTheme.bodySmall!;
       case StepState.disabled:
         return textTheme.bodySmall!.copyWith(
@@ -649,8 +387,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
         children: <Widget>[
           Column(
             children: <Widget>[
-              // Line parts are always added in order for the ink splash to
-              // flood the tips of the connector lines.
               _buildLine(!_isFirst(index)),
               _buildIcon(index),
               _buildLine(!_isLast(index)),
@@ -725,14 +461,11 @@ class _EnhanceStepperState extends State<EnhanceStepper>
               InkWell(
                 onTap: widget.steps[i].state != StepState.disabled
                     ? () {
-                        // In the vertical case we need to scroll to the newly tapped
-                        // step.
                         Scrollable.ensureVisible(
                           _keys[i].currentContext!,
                           curve: Curves.fastOutSlowIn,
                           duration: kThemeAnimationDuration,
                         );
-
                         widget.onStepTapped?.call(i);
                       }
                     : null,
@@ -815,7 +548,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
           ),
       ],
     ];
-
     return Column(
       children: <Widget>[
         Material(
@@ -861,7 +593,6 @@ class _EnhanceStepperState extends State<EnhanceStepper>
       }
       return true;
     }());
-
     switch (widget.type) {
       case StepperType.vertical:
         return _buildVertical();
@@ -871,18 +602,13 @@ class _EnhanceStepperState extends State<EnhanceStepper>
   }
 }
 
-// Paints a triangle whose base is the bottom of the bounding rectangle and its
-// top vertex the middle of its top.
 class _TrianglePainter extends CustomPainter {
   _TrianglePainter({
     required this.color,
   });
-
   final Color color;
-
   @override
-  bool hitTest(Offset point) => true; // Hitting the rectangle is fine enough.
-
+  bool hitTest(Offset point) => true;
   @override
   bool shouldRepaint(_TrianglePainter oldPainter) {
     return oldPainter.color != color;
@@ -898,7 +624,6 @@ class _TrianglePainter extends CustomPainter {
       Offset(base, height),
       Offset(halfBase, 0.0),
     ];
-
     canvas.drawPath(
       Path()..addPolygon(points, true),
       Paint()..color = color,

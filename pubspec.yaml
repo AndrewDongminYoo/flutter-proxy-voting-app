@@ -130,6 +130,8 @@ flutter:
     - assets/firm_images/금융아이콘_PNG_한화.png
     - assets/firm_images/금융아이콘_PNG_현대차증권.png
     - assets/firm_images/금융아이콘_PNG_현대카드.png
+    - assets/images/screenshot_example1.png
+    - assets/images/screenshot_example2.png
   fonts:
     - family: Nanum
       fonts:
