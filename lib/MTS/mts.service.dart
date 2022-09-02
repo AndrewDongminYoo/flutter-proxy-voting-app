@@ -1,7 +1,6 @@
 // 🎯 Dart imports:
 
 // 📦 Package imports:
-import 'package:bside/mts/models/certification.model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart' show GetConnect, GetDynamicUtils;
 

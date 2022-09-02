@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
-import 'models/certification.model.dart';
 import 'mts.dart';
 
 class MtsController extends GetxController {
@@ -23,6 +22,8 @@ class MtsController extends GetxController {
   String _certificationID = ''; // 인증서 상세이름
   String _certificationPW = ''; // 인증서 비밀번호
   String _certificationEX = ''; // 인증서 만료일자
+  bool idLogin = true;
+  List<RKSWCertItem> certList = []; // 공동인증서 리스트
 
   CustomModule get securitiesFirm {
     while (_securitiesFirm == null) {
@@ -40,24 +41,31 @@ class MtsController extends GetxController {
     _userLoginPW = password;
     _bankPINNumber = bankPIN;
     String module = securitiesFirm.firmName;
+    idLogin = true;
     print('id: $id, password: $password, module: $module');
   }
 
-  void setCERT(String id, String pw, String ex) {
-    _certificationID = id;
-    _certificationPW = pw;
-    _certificationEX = ex;
-    print('id: $id, password: $pw, expired: $ex');
+  setCertification(RKSWCertItem item) {
+    _certificationID = item.subjectName;
+    _certificationEX = item.expiredTime.replaceAll('.', '');
+    idLogin = false;
   }
 
-  loadMTSProcess() async {
+  void setCertPassword(String password) {
+    _certificationPW = password;
+    idLogin = false;
+    print(
+        'id: $_certificationID, password: $_certificationPW, expired: $_certificationEX');
+  }
+
+  Future<void> loadMTSProcess() async {
     Get.dialog(LoadingScreen());
     await _service.fetchMTSData(
       module: securitiesFirm,
       userID: _userLoginID,
       password: _userLoginPW,
       passNum: _bankPINNumber,
-      idLogin: securitiesFirm.canLoginWithID,
+      idLogin: idLogin,
       certExpire: _certificationEX,
       certUsername: _certificationID,
       certPassword: _certificationPW,
@@ -86,6 +94,7 @@ class MtsController extends GetxController {
   }
 
   Future<List<RKSWCertItem>?> loadCertList() async {
-    return await _service.loadCertiList();
+    certList = await _service.loadCertiList();
+    return certList;
   }
 }

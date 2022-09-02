@@ -25,6 +25,14 @@ class _MTSCertImportPageState extends State<MTSCertImportPage> {
   @override
   void initState() {
     super.initState();
+    checkCertList();
+  }
+
+  checkCertList() async {
+    List<RKSWCertItem>? response = await _mtsController.loadCertList();
+    if (response != null && response.isNotEmpty) {
+      goToMtsCertList();
+    }
   }
 
   @override

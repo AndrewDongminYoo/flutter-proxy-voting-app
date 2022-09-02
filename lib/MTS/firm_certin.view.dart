@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import '../auth/widget/auth_forms.dart';
 import '../theme.dart';
 import 'mts.dart';
 import '../shared/shared.dart';
@@ -16,8 +17,14 @@ class MTSLoginCERTPage extends StatefulWidget {
 
 class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
   final MtsController _mtsController = MtsController.get();
-
+  String certificationPassword = '';
   List<RKSWCertItem> certificationList = [];
+  bool passwordVisible = false;
+  bool showInputElement = false;
+
+  void _setVisible(bool status) {
+    passwordVisible = status;
+  }
 
   @override
   void initState() {
@@ -28,10 +35,12 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
   loadCertList() async {
     List<RKSWCertItem>? response = await _mtsController.loadCertList();
     setState(() {
-      if (response != null) {
+      if (response != null && response.isNotEmpty) {
         for (RKSWCertItem element in response) {
           certificationList.add(element);
         }
+      } else {
+        goToMtsLoginWithCert();
       }
       print(certificationList);
     });
@@ -76,18 +85,60 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
       ),
       Container(
         width: Get.width,
-        height: Get.width,
         alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: certificationList
               .map(
-                (e) => CertificationCard(item: e),
+                (certification) => CertificationCard(
+                  item: certification,
+                  onPressed: () {
+                    _mtsController.setCertification(certification);
+                    setState(() {
+                      certificationList.removeWhere((e) => e != certification);
+                      showInputElement = true;
+                    });
+                  },
+                ),
               )
               .toList(),
         ),
       ),
+      showInputElement
+          ? TextFormField(
+              initialValue: certificationPassword,
+              onChanged: (val) => {
+                setState(() {
+                  certificationPassword = val;
+                })
+              },
+              autofocus: true,
+              style: authFormFieldStyle,
+              obscureText: !passwordVisible,
+              keyboardType: passwordVisible
+                  ? TextInputType.visiblePassword
+                  : TextInputType.text,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: '인증서 비밀번호',
+                helperText: '비밀번호를 입력해주세요',
+                suffixIcon: InkWell(
+                  onTap: () => setState(() {
+                    _setVisible(!passwordVisible);
+                  }),
+                  child: passwordVisible
+                      ? const Icon(Icons.remove_red_eye_outlined)
+                      : const Icon(Icons.remove_red_eye),
+                ),
+              ),
+              onFieldSubmitted: (value) => {
+                _mtsController.setCertPassword(value),
+                _mtsController.showMTSResult(),
+              },
+            )
+          : Container(),
     ]);
   }
 }

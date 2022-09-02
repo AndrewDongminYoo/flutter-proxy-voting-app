@@ -61,7 +61,7 @@ class CustomInput implements IOBase {
   late String end; //조회종료일
   late String type; //상품구분
   late String accountExt; //계좌번호확장
-  late Certificate certificate; // 인증서
+  late Certificate? certificate; // 인증서
 
   CustomInput({
     this.idOrCert = '', //로그인방식
@@ -75,6 +75,7 @@ class CustomInput implements IOBase {
     this.end = '', //조회종료일
     this.type = '', //상품구분
     this.accountExt = '', //계좌번호확장
+    this.certificate,
   });
 
   @override
@@ -91,8 +92,9 @@ class CustomInput implements IOBase {
       '조회종료일': end,
       '상품구분': type,
       '계좌번호확장': accountExt,
+      '인증서': certificate?.json,
     };
-    input.removeWhere((k, v) => v.isEmpty);
+    input.removeWhere((k, v) => v == null || v.isEmpty);
     return input;
   }
 
@@ -108,6 +110,11 @@ class CustomInput implements IOBase {
     end = input['조회종료일'] ?? '';
     type = input['상품구분'] ?? '';
     accountExt = input['계좌번호확장'] ?? '';
+    certificate = Certificate(
+      certName: input['인증서']?['이름'],
+      certPassword: input['인증서']?['비밀번호'],
+      certExpire: input['인증서']?['만료일자'],
+    );
   }
 
   @override
@@ -164,7 +171,7 @@ class CustomResult implements IOBase {
       '계좌상세조회': accountDetail,
       '거래내역조회': accountTransaction,
     };
-    result.removeWhere((k, v) => v.isEmpty);
+    result.removeWhere((k, v) => v == null || v.isEmpty);
     return result;
   }
 }
