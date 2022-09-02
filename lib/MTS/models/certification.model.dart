@@ -14,16 +14,15 @@ class RKSWCertItem implements IOBase {
     issuerName = json['issuerName']!.toString();
     expiredImg = json['expiredImg']!.toString();
     expiredTime = json['expiredTime']!.toString();
-    policy = json['policy']!.toString();
     subjectName = json['subjectName']!.toString();
-    _username = nRegex.firstMatch(subjectName)!.group(1)!;
-    _objective = oRegex.firstMatch(policy)!.group(1)!;
-    _origin = fRegex
+    policy = json['policy']!.toString();
+    username = nRegex.firstMatch(subjectName)!.group(1)!;
+    origin = fRegex
         .allMatches(subjectName)
         .firstWhere((element) =>
             element.group(1) != null && _banks.contains(element.group(1)!))
         .group(1)!;
-    _expire = dRegex.firstMatch(expiredTime)!.group(1)!;
+    expireDate = DateTime.parse(expiredTime.replaceAll('.', ''));
   }
 
   late String issuerName;
@@ -31,19 +30,12 @@ class RKSWCertItem implements IOBase {
   late String expiredTime;
   late String policy;
   late String subjectName;
-  late String _username;
-  late String _objective;
-  late String _origin;
-  late String _expire;
-  String get username => _username;
-  String get objective => _objective;
-  String get origin => _origin;
-  String get expire => _expire;
+  late String username;
+  late String origin;
+  late DateTime expireDate;
+  String get objective => policy;
 }
 
-RegExp uRegex = RegExp(r'발급자 : ([A-Za-z가-힣]+)');
-RegExp dRegex = RegExp(r'만료일 : ([\d\.]+)');
-RegExp oRegex = RegExp(r'구분 : ([A-Za-z가-힣]+)');
 RegExp fRegex = RegExp(r'ou=([A-Za-z가-힣]+)');
 RegExp nRegex = RegExp(r'cn=([A-Za-z가-힣0-9]+)');
 List _banks = [
@@ -55,7 +47,7 @@ List _banks = [
   '대화은행',
   '국민은행',
   '우체국은행',
-  'ＫＥＢ하나',
+  'KEB하나',
   '수협은행',
   '수출입은행',
   '신용보증기금',

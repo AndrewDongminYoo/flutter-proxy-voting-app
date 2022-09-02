@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../theme.dart';
-import 'models/certification.model.dart';
-import 'mts.controller.dart';
+import 'mts.dart';
 import '../shared/shared.dart';
 
 class MTSLoginCERTPage extends StatefulWidget {
@@ -90,75 +89,5 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
         ),
       ),
     ]);
-  }
-}
-
-// ignore: must_be_immutable
-class CertificationCard extends StatelessWidget {
-  RKSWCertItem item;
-
-  CertificationCard({
-    super.key,
-    required this.item,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          goToMtsLoginWithID();
-        },
-        child: Container(
-          width: Get.width - 20,
-          height: Get.width * 0.4,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(18),
-            ),
-            color: Colors.white,
-            boxShadow: kElevationToShadow[3],
-          ),
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CustomText(
-                    text: item.username,
-                    typoType: TypoType.h1Bold,
-                    textAlign: TextAlign.start,
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.more_vert,
-                    color: Colors.grey,
-                    size: 30,
-                  )
-                ],
-              ),
-              CustomText(
-                text: '센터 ${item.origin}',
-                typoType: TypoType.h2Bold,
-                isFullWidth: true,
-                textAlign: TextAlign.start,
-              ),
-              CustomText(
-                text: '용도 ${item.objective}',
-                typoType: TypoType.h2Bold,
-                isFullWidth: true,
-                textAlign: TextAlign.start,
-              ),
-              CustomText(
-                text: '만료일 ${item.expire}',
-                typoType: TypoType.h2Bold,
-                isFullWidth: true,
-                textAlign: TextAlign.start,
-              ),
-            ],
-          ),
-        ));
   }
 }
