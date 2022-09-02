@@ -6,11 +6,15 @@ class Certificate implements IOBase {
   String certName; // 이름
   String certExpire; // 만료일자
   String certPassword; // 비밀번호
+  String certPublicKey; // 인증서파일 (base64)
+  String certPrivateKey; // 개인키파일 (base64)
 
   Certificate({
     required this.certName,
     required this.certExpire,
     required this.certPassword,
+    required this.certPublicKey,
+    required this.certPrivateKey,
   });
 
   @override
@@ -18,6 +22,8 @@ class Certificate implements IOBase {
         '이름': certName,
         '만료일자': certExpire,
         '비밀번호': certPassword,
+        '인증서파일': certPublicKey,
+        '개인키파일': certPrivateKey,
       };
 }
 
@@ -114,6 +120,8 @@ class CustomInput implements IOBase {
       certName: input['인증서']?['이름'],
       certPassword: input['인증서']?['비밀번호'],
       certExpire: input['인증서']?['만료일자'],
+      certPublicKey: input['인증서']?['인증서파일'],
+      certPrivateKey: input['인증서']?['개인키파일'],
     );
   }
 

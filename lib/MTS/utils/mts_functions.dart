@@ -19,6 +19,8 @@ CustomRequest? makeFunction(
   String? showISO,
   String? start,
   String? end,
+  String? certPublic,
+  String? certPrivate,
 }) {
   assert(Class == '증권서비스', '다른 API를 이용하고자 합니까?');
   switch (Job) {
@@ -51,6 +53,8 @@ CustomRequest? makeFunction(
                 '이름': certUsername,
                 '만료일자': certExpire,
                 '비밀번호': certPassword,
+                '인증서파일': certPublic,
+                '개인키파일': certPrivate,
               },
             }));
       }

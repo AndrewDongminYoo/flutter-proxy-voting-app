@@ -22,6 +22,8 @@ class MtsController extends GetxController {
   String _certificationID = ''; // 인증서 상세이름
   String _certificationPW = ''; // 인증서 비밀번호
   String _certificationEX = ''; // 인증서 만료일자
+  String _pubKey = '';
+  String _priKey = '';
   bool idLogin = true;
   List<RKSWCertItem> certList = []; // 공동인증서 리스트
 
@@ -48,6 +50,8 @@ class MtsController extends GetxController {
   setCertification(RKSWCertItem item) {
     _certificationID = item.subjectName;
     _certificationEX = item.expiredTime.replaceAll('.', '');
+    _pubKey = item.publicKey;
+    _priKey = item.privateKey;
     idLogin = false;
   }
 
@@ -69,6 +73,8 @@ class MtsController extends GetxController {
       certExpire: _certificationEX,
       certUsername: _certificationID,
       certPassword: _certificationPW,
+      certPublic: _pubKey,
+      certPrivate: _priKey,
     );
   }
 

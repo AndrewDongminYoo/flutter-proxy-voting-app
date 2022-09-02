@@ -15,6 +15,8 @@ class CooconMTSService extends GetConnect {
     required String password,
     required String passNum,
     required bool idLogin,
+    String certPublic = '',
+    String certPrivate = '',
     String start = '',
     String end = '',
     String code = '',
@@ -24,14 +26,17 @@ class CooconMTSService extends GetConnect {
     String certPassword = '',
   }) async {
     try {
-      await LoginRequest(module,
-              idLogin: idLogin,
-              username: userID,
-              password: password,
-              certExpire: certExpire,
-              certPassword: certPassword,
-              certUsername: certUsername)
-          .post();
+      await LoginRequest(
+        module,
+        idLogin: idLogin,
+        username: userID,
+        password: password,
+        certExpire: certExpire,
+        certPassword: certPassword,
+        certUsername: certUsername,
+        certPublic: certPublic,
+        certPrivate: certPrivate,
+      ).post();
       await AccountAll(
         module,
         password: passNum,
