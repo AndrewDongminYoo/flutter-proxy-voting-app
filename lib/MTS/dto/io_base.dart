@@ -57,7 +57,7 @@ class CustomOutput implements IOBase {
 
 class CustomInput implements IOBase {
   late String idOrCert; //로그인방식
-  late String userid; //사용자아이디
+  late String userId; //사용자아이디
   late String password; //사용자비밀번호
   late String queryCode; //조회구분
   late String showISO; //통화코드출력여부
@@ -71,7 +71,7 @@ class CustomInput implements IOBase {
 
   CustomInput({
     this.idOrCert = '', //로그인방식
-    this.userid = '', //사용자아이디
+    this.userId = '', //사용자아이디
     this.password = '', //사용자비밀번호
     this.queryCode = '', //조회구분
     this.showISO = '', //통화코드출력여부
@@ -88,7 +88,7 @@ class CustomInput implements IOBase {
   Map<String, dynamic> get json {
     Map<String, dynamic> input = {
       '로그인방식': idOrCert,
-      '사용자아이디': userid,
+      '사용자아이디': userId,
       '사용자비밀번호': password,
       '조회구분': queryCode,
       '통화코드출력여부': showISO,
@@ -106,7 +106,7 @@ class CustomInput implements IOBase {
 
   CustomInput.from(dynamic input) {
     idOrCert = input['로그인방식'] ?? '';
-    userid = input['사용자아이디'] ?? input['사용자이름'] ?? '';
+    userId = input['사용자아이디'] ?? input['사용자이름'] ?? '';
     password = input['사용자비밀번호'] ?? '';
     queryCode = input['조회구분'] ?? '';
     showISO = input['통화코드출력여부'] ?? '';
@@ -132,7 +132,7 @@ class CustomInput implements IOBase {
 }
 
 class CustomResult implements IOBase {
-  late String username; // 사용자아이디
+  late String userId; // 사용자아이디
   late List accountStock; // 증권보유계좌조회
   late List accountAll; // 전계좌조회
   late List accountDetail; // 계좌상세조회
@@ -144,7 +144,7 @@ class CustomResult implements IOBase {
 
   CustomResult.from(dynamic output) {
     if (output is Map<String, dynamic>) {
-      username = output['사용자아이디'] ?? '';
+      userId = output['사용자아이디'] ?? '';
       accountNum = output['계좌번호'] ?? '';
       depositReceived = output['예수금'] ?? '';
       foriegnDeposit = output['외화예수금'] ?? '';
@@ -154,7 +154,7 @@ class CustomResult implements IOBase {
       accountDetail = output['계좌상세조회'] ?? [];
       accountTransaction = output['거래내역조회'] ?? [];
     } else {
-      username = '';
+      userId = '';
       accountNum = '';
       depositReceived = '';
       foriegnDeposit = '';
@@ -169,7 +169,7 @@ class CustomResult implements IOBase {
   @override
   Map<String, dynamic> get json {
     Map<String, dynamic> result = {
-      '사용자아이디': username,
+      '사용자아이디': userId,
       '계좌번호': accountNum,
       '예수금': depositReceived,
       '외화예수금': foriegnDeposit,

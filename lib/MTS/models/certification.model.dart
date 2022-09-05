@@ -1,4 +1,5 @@
-import 'package:bside/lib.dart';
+// 🌎 Project imports:
+import 'models.dart';
 
 class RKSWCertItem implements IOBase {
   @override
@@ -115,8 +116,7 @@ Set _banks = {
   '비엔피파리바',
   '미래에셋생명',
   '중국공상은행',
-  '삼성생명'
-      '금융결제원',
+  '삼성생명',
   '한국전산원',
   '증권전산',
   '한국정보인증',

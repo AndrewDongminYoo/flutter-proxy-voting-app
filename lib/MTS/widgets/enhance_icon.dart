@@ -1,6 +1,11 @@
-import 'package:bside/theme.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
+
+// 🌎 Project imports:
+import '../../../theme.dart';
 
 // ignore: must_be_immutable
 class EnhanceIcon extends StatelessWidget {

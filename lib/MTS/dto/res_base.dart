@@ -40,10 +40,10 @@ class CustomResponse implements InputOutput {
       };
 
   @override
-  Future<void> fetch() async {
+  Future<void> fetch(String username) async {
     final firestore = FirebaseFirestore.instance;
     CollectionReference col = firestore.collection('transactions');
-    DocumentReference dbRef = col.doc('${Module}_$Job');
+    DocumentReference dbRef = col.doc('$Module $Job $username');
     await dbRef.collection(today()).add(data);
     if (Output.ErrorCode != '00000000') return;
     Output.Result.json.forEach((String key, dynamic value) {

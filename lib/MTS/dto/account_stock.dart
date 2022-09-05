@@ -1,5 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
 import '../mts.dart';
 
 class AccountStocks implements MTSInterface {
@@ -16,14 +18,14 @@ class AccountStocks implements MTSInterface {
   }
 
   @override
-  Future<CustomResponse> fetch() async {
-    return await json.fetch();
+  Future<CustomResponse> fetch(String username) async {
+    return await json.fetch(username);
   }
 
   @override
-  Future<Set<String>> post() async {
-    CustomResponse response = await fetch();
-    await response.fetch();
+  Future<Set<String>> post(String username) async {
+    CustomResponse response = await fetch(username);
+    await response.fetch(username);
     Set<String> accounts = {};
     addResult('====================================');
     dynamic jobResult = response.Output.Result.accountStock;
@@ -32,16 +34,14 @@ class AccountStocks implements MTSInterface {
         for (Map<String, dynamic> element in jobResult) {
           element.forEach((key, value) {
             if (element['상품코드'] == '01') {
-              switch (key) {
-                case '계좌번호':
-                  if (module.isException) {
-                    value = processAcc(value);
-                  }
-                  if (!accounts.contains(value)) {
-                    accounts.add(value);
-                    addResult('$key: ${hypen(value)}');
-                  }
-                  break;
+              if (key == '계좌번호') {
+                if (module.isException) {
+                  value = processAcc(value);
+                }
+                if (!accounts.contains(value)) {
+                  accounts.add(value);
+                  addResult('$key: ${hypen(value)}');
+                }
               }
             }
           });
@@ -57,13 +57,14 @@ class AccountStocks implements MTSInterface {
   String toString() => json.toString();
 
   @override
-  late List<Text> result = MtsController.get().texts;
+  MtsController controller = MtsController.get();
 
   @override
   addResult(String value) {
-    bool valueIsNotLast = result.isNotEmpty && result.last.data != value;
-    if ((valueIsNotLast) || (result.isEmpty)) {
-      result.add(Text(value));
+    bool valueIsNotLast =
+        controller.texts.isNotEmpty && controller.texts.last.data != value;
+    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
+      controller.texts.add(Text(value));
     }
   }
 }
@@ -76,5 +77,9 @@ class AccountStocks implements MTSInterface {
 
 String processAcc(String acc) {
   int len = acc.length;
-  return '${acc.substring(0, len - 2)}-${acc.substring(len - 2)}';
+  try {
+    return '${acc.substring(0, len - 2)}-${acc.substring(len - 2)}';
+  } catch (e) {
+    return acc;
+  }
 }

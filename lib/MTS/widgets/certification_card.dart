@@ -1,6 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:get/get.dart';
 
+// 🌎 Project imports:
 import '../../shared/shared.dart';
 import '../models/certification.model.dart';
 import 'enhance_icon.dart';

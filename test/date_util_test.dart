@@ -1,7 +1,9 @@
 // 📦 Package imports:
-import 'package:bside/utils/date_util.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+// 🌎 Project imports:
+import 'package:bside/utils/date_util.dart';
 
 final now = DateTime.now();
 

@@ -1,5 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
 import '../mts.dart';
 
 class LogoutRequest implements MTSInterface {
@@ -16,13 +18,13 @@ class LogoutRequest implements MTSInterface {
   }
 
   @override
-  Future<CustomResponse> fetch() async {
-    return await json.fetch();
+  Future<CustomResponse> fetch(String username) async {
+    return await json.fetch(username);
   }
 
   @override
-  Future<void> post() async {
-    CustomResponse response = await fetch();
+  Future<void> post(String username) async {
+    CustomResponse response = await fetch(username);
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
       addResult('$key: $value');
@@ -33,13 +35,14 @@ class LogoutRequest implements MTSInterface {
   String toString() => json.toString();
 
   @override
-  late List<Text> result = MtsController.get().texts;
+  MtsController controller = MtsController.get();
 
   @override
   addResult(String value) {
-    bool valueIsNotLast = result.isNotEmpty && result.last.data != value;
-    if ((valueIsNotLast) || (result.isEmpty)) {
-      result.add(Text(value));
+    bool valueIsNotLast =
+        controller.texts.isNotEmpty && controller.texts.last.data != value;
+    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
+      controller.texts.add(Text(value));
     }
   }
 }

@@ -1,5 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
 import '../mts.dart';
 
 class AccountDetail implements MTSInterface {
@@ -36,14 +38,14 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  Future<CustomResponse> fetch() async {
-    return await json.fetch();
+  Future<CustomResponse> fetch(String username) async {
+    return await json.fetch(username);
   }
 
   @override
-  Future<Set<String>> post() async {
-    CustomResponse response = await fetch();
-    await response.fetch();
+  Future<Set<String>> post(String username) async {
+    CustomResponse response = await fetch(username);
+    await response.fetch(username);
     Set<String> accounts = {};
     addResult('====================================');
     dynamic jobResult = response.Output.Result.accountDetail;
@@ -80,13 +82,14 @@ class AccountDetail implements MTSInterface {
   String toString() => json.toString();
 
   @override
-  late List<Text> result = MtsController.get().texts;
+  MtsController controller = MtsController.get();
 
   @override
   addResult(String value) {
-    bool valueIsNotLast = result.isNotEmpty && result.last.data != value;
-    if ((valueIsNotLast) || (result.isEmpty)) {
-      result.add(Text(value));
+    bool valueIsNotLast =
+        controller.texts.isNotEmpty && controller.texts.last.data != value;
+    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
+      controller.texts.add(Text(value));
     }
   }
 }

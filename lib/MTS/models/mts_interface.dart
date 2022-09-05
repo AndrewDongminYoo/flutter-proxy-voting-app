@@ -1,19 +1,21 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../dto/dto.dart';
+// 🌎 Project imports:
+import '../mts.dart';
 
 abstract class MTSInterface {
-  List<Text> result = [];
+  MtsController controller = MtsController.get();
 
   CustomRequest get json {
     throw UnimplementedError();
   }
 
-  Future<CustomResponse> fetch() {
+  Future<CustomResponse> fetch(String username) {
     throw UnimplementedError();
   }
 
-  Future post() {
+  Future post(String username) {
     throw UnimplementedError();
   }
 
@@ -21,7 +23,7 @@ abstract class MTSInterface {
   String toString() => json.toString();
 
   addResult(String value) {
-    result.add(Text(value));
+    controller.texts.add(Text(value));
   }
 }
 
@@ -34,5 +36,5 @@ abstract class IOBase {
 abstract class InputOutput {
   InputOutput();
   get data;
-  fetch() async {}
+  Future fetch(String username) async {}
 }

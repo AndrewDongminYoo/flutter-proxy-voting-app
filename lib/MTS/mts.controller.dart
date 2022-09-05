@@ -16,6 +16,7 @@ class MtsController extends GetxController {
 
   final List<Text> texts = [];
   CustomModule? _securitiesFirm;
+  String username = ''; // 사용자 이름
   String _userLoginID = ''; // 사용자 아이디
   String _userLoginPW = ''; // 사용자 비밀번호
   String _bankPINNumber = ''; // 사용자 핀번호(4)
@@ -66,7 +67,8 @@ class MtsController extends GetxController {
     Get.dialog(LoadingScreen());
     await _service.fetchMTSData(
       module: securitiesFirm,
-      userID: _userLoginID,
+      username: username,
+      userId: _userLoginID,
       password: _userLoginPW,
       passNum: _bankPINNumber,
       idLogin: idLogin,

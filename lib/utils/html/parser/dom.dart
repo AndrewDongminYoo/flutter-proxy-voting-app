@@ -1,10 +1,8 @@
 // ignore_for_file: constant_identifier_names, prefer_collection_literals
-
 // 🎯 Dart imports:
 import 'dart:collection' show IterableBase, LinkedHashMap, ListMixin;
 
 // 📦 Package imports:
-import 'package:bside/utils/html/parser/src/token.dart';
 import 'package:source_span/source_span.dart' show FileSpan;
 
 // 🌎 Project imports:
@@ -16,6 +14,7 @@ import 'src/css_class_set.dart' show CssClassSet, ElementCssClassSet;
 import 'src/list_proxy.dart' show ListProxy;
 import 'src/query_selector.dart' as query;
 import 'src/tokenizer.dart' show HtmlTokenizer;
+import '../parser/src/token.dart';
 
 class AttributeName implements Comparable<Object> {
   final String? prefix;

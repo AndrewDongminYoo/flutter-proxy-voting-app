@@ -1,4 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
+// 🎯 Dart imports:
 import 'dart:convert';
 
 // 🌎 Project imports:
@@ -27,7 +28,7 @@ class CustomRequest implements InputOutput {
       };
 
   @override
-  Future<CustomResponse> fetch() async {
+  Future<CustomResponse> fetch(String username) async {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
     String? response = await channel.invokeMethod('getMTSData', {'data': data});
     dynamic json = jsonDecode(response!);

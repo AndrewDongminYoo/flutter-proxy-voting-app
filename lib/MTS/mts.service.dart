@@ -11,7 +11,8 @@ import 'mts.dart';
 class CooconMTSService extends GetConnect {
   fetchMTSData({
     required CustomModule module,
-    required String userID,
+    required String userId,
+    required String username,
     required String password,
     required String passNum,
     required bool idLogin,
@@ -26,29 +27,30 @@ class CooconMTSService extends GetConnect {
     String certPassword = '',
   }) async {
     try {
-      await LoginRequest(
+      String name = await LoginRequest(
         module,
         idLogin: idLogin,
-        username: userID,
+        userId: userId,
         password: password,
         certExpire: certExpire,
         certPassword: certPassword,
         certUsername: certUsername,
         certPublic: certPublic,
         certPrivate: certPrivate,
-      ).post();
+      ).post(username);
+      username = name;
       await AccountAll(
         module,
         password: passNum,
-      ).post();
-      Set<String> accounts = await AccountStocks(module).post();
+      ).post(username);
+      Set<String> accounts = await AccountStocks(module).post(username);
       for (String acc in accounts) {
         await AccountDetail(module,
                 accountNum: acc,
                 accountPin: passNum,
                 queryCode: code,
                 showISO: unit)
-            .post();
+            .post(username);
       }
       for (String acc in accounts) {
         await AccountTransaction(module,
@@ -57,12 +59,12 @@ class CooconMTSService extends GetConnect {
                 accountExt: '',
                 accountType: '01',
                 queryCode: '1')
-            .post();
+            .post(username);
       }
     } catch (err, trc) {
       FirebaseCrashlytics.instance.recordError(err, trc);
     } finally {
-      await LogoutRequest(module).post();
+      await LogoutRequest(module).post(username);
     }
   }
 
@@ -92,7 +94,7 @@ class CooconMTSService extends GetConnect {
     return list;
   }
 
-  emptyCerts() {
-    channel.invokeMethod('emptyCertifications');
+  emptyCerts() async {
+    await channel.invokeMethod('emptyCertifications');
   }
 }

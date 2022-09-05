@@ -6,7 +6,7 @@ CustomRequest? makeFunction(
   String Job, {
   String Class = '증권서비스',
   bool? idLogin,
-  String? username,
+  String? userId,
   String? certUsername,
   String? password,
   String? certPassword,
@@ -27,14 +27,14 @@ CustomRequest? makeFunction(
     case '로그인':
       assert(idLogin != null, '아이디 혹은 인증서로 로그인해주세요.');
       if (idLogin!) {
-        assert(username != null, '사용자아이디를 확인해주세요.');
+        assert(userId != null, '사용자아이디를 확인해주세요.');
         assert(password != null, '사용자비밀번호를 확인해주세요.');
         return CustomRequest(
             Module: Module,
             Job: Job,
             Input: CustomInput.from({
               '로그인방식': 'ID', // CERT: 인증서, ID: 아이디
-              '사용자아이디': username, // required
+              '사용자아이디': userId, // required
               '사용자비밀번호': password, // required
               '인증서': {},
             }));
@@ -47,7 +47,7 @@ CustomRequest? makeFunction(
             Job: Job,
             Input: CustomInput.from({
               '로그인방식': 'CERT', // CERT: 인증서, ID: 아이디
-              '사용자아이디': username, // IBK, KTB 필수 입력
+              '사용자아이디': userId, // IBK, KTB 필수 입력
               '사용자비밀번호': password, // IBK, KTB 필수 입력
               '인증서': {
                 '이름': certUsername,
