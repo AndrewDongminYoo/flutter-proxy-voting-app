@@ -133,6 +133,7 @@ class CustomInput implements IOBase {
 
 class CustomResult implements IOBase {
   late String userId; // 사용자아이디
+  late String username; // 사용자이름
   late List accountStock; // 증권보유계좌조회
   late List accountAll; // 전계좌조회
   late List accountDetail; // 계좌상세조회
@@ -145,6 +146,7 @@ class CustomResult implements IOBase {
   CustomResult.from(dynamic output) {
     if (output is Map<String, dynamic>) {
       userId = output['사용자아이디'] ?? '';
+      username = output['사용자이름'] ?? '';
       accountNum = output['계좌번호'] ?? '';
       depositReceived = output['예수금'] ?? '';
       foriegnDeposit = output['외화예수금'] ?? '';
@@ -155,6 +157,7 @@ class CustomResult implements IOBase {
       accountTransaction = output['거래내역조회'] ?? [];
     } else {
       userId = '';
+      username = '';
       accountNum = '';
       depositReceived = '';
       foriegnDeposit = '';
@@ -170,6 +173,7 @@ class CustomResult implements IOBase {
   Map<String, dynamic> get json {
     Map<String, dynamic> result = {
       '사용자아이디': userId,
+      '사용자이름': username,
       '계좌번호': accountNum,
       '예수금': depositReceived,
       '외화예수금': foriegnDeposit,

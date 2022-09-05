@@ -65,7 +65,7 @@ class LoginRequest implements MTSInterface {
   Future<String> post(String username) async {
     CustomResponse response = await fetch(username);
     if (username.isEmpty) {
-      username = response.Output.Result.userId;
+      username = response.Output.Result.username;
     }
     response.fetch(username);
     response.Output.Result.json.forEach((key, value) {

@@ -9,7 +9,9 @@ import 'package:get/get_connect.dart';
 
 class AuthService extends GetConnect {
   final String _baseURL = 'https://api.bside.ai/onboarding';
+
   String _getURL(String url) => _baseURL + url;
+
   Future<Response> getUserByTelNum(String telNum) =>
       get(_getURL('/users?phoneNumber=$telNum'));
 
