@@ -10,11 +10,27 @@
 ### Requirements
 
 - Flutter (>=3.0.x)
+  - Flutter beta 버전으로 업그레이드 필요 ([참고 링크](https://docs.flutter.dev/development/tools/sdk/upgrading))
+  - 혹은 하단 scripts 참고
 - .env
 - android/key.properties
 - android/upload-keystore.jks
 
 ### Scripts
+
+```bash
+# Flutter 버전 업데이트
+flutter channel master
+flutter upgrade
+
+# 내용 확인
+flutter --version
+> Flutter is already up to date on channel master
+> Flutter 3.4.0-19.0.pre.72 • channel master • https://github.com/flutter/flutter.git
+> Framework • revision 202f5771f4 (5 hours ago) • 2022-09-04 20:28:23 -0400
+> Engine • revision b94120dfe9
+> Tools • Dart 2.19.0 (build 2.19.0-168.0.dev) • DevTools 2.17.0
+```
 
 ```bash
 # install
