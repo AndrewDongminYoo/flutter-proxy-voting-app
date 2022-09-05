@@ -22,7 +22,7 @@ class _MTSChooseLoginMenuState extends State<MTSChooseLoginMenu> {
               color: Colors.white,
             ),
             onPressed: () {
-              // TODO: 뭐 넣지..
+              // TODO: 헬프버튼
             },
           ),
         ),

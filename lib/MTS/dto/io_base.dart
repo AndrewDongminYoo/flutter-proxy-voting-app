@@ -117,11 +117,11 @@ class CustomInput implements IOBase {
     type = input['상품구분'] ?? '';
     accountExt = input['계좌번호확장'] ?? '';
     certificate = Certificate(
-      certName: input['인증서']?['이름'],
-      certPassword: input['인증서']?['비밀번호'],
-      certExpire: input['인증서']?['만료일자'],
-      certPublicKey: input['인증서']?['인증서파일'],
-      certPrivateKey: input['인증서']?['개인키파일'],
+      certName: input['인증서']?['이름'] ?? '',
+      certPassword: input['인증서']?['비밀번호'] ?? '',
+      certExpire: input['인증서']?['만료일자'] ?? '',
+      certPublicKey: input['인증서']?['인증서파일'] ?? '',
+      certPrivateKey: input['인증서']?['개인키파일'] ?? '',
     );
   }
 

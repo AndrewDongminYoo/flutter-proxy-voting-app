@@ -91,4 +91,8 @@ class CooconMTSService extends GetConnect {
     }
     return list;
   }
+
+  emptyCerts() {
+    channel.invokeMethod('emptyCertifications');
+  }
 }

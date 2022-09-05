@@ -42,7 +42,6 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
       } else {
         goToMtsLoginWithCert();
       }
-      print(certificationList);
     });
   }
 
@@ -58,7 +57,7 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
               color: customColor[ColorType.deepPurple],
             ),
             onPressed: () {
-              // TODO: 뭐 넣지..
+              // TODO: 헬프버튼
             },
           ),
         ),
@@ -92,12 +91,12 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: certificationList
               .map(
-                (certification) => CertificationCard(
-                  item: certification,
+                (cert) => CertificationCard(
+                  item: cert,
                   onPressed: () {
-                    _mtsController.setCertification(certification);
+                    _mtsController.setCertification(cert);
                     setState(() {
-                      certificationList.removeWhere((e) => e != certification);
+                      certificationList.removeWhere((e) => e != cert);
                       showInputElement = true;
                     });
                   },
@@ -138,7 +137,14 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
                 _mtsController.showMTSResult(),
               },
             )
-          : Container(),
+          : CustomButton(
+              onPressed: () {
+                certificationList.clear();
+                _mtsController.emptyCerts();
+                goToMtsLoginWithCert();
+              },
+              label: '공동인증서 전체삭제',
+            ),
     ]);
   }
 }

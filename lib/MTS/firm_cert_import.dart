@@ -47,7 +47,7 @@ class _MTSCertImportPageState extends State<MTSCertImportPage> {
             color: customColor[ColorType.deepPurple],
           ),
           onPressed: () {
-            // TODO: 뭐 넣지..
+            // TODO: 헬프버튼
           },
         ),
       ),

@@ -103,4 +103,9 @@ class MtsController extends GetxController {
     certList = await _service.loadCertiList();
     return certList;
   }
+
+  void emptyCerts() async {
+    await _service.emptyCerts();
+    certList = [];
+  }
 }
