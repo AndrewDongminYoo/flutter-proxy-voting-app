@@ -28,19 +28,19 @@ class CssToken {
   }
 }
 
-class LiteralToken extends CssToken {
+class CssLiteralToken extends CssToken {
   dynamic value;
-  LiteralToken(int kind, FileSpan span, this.value) : super(kind, span);
+  CssLiteralToken(int kind, FileSpan span, this.value) : super(kind, span);
 }
 
-class ErrorToken extends CssToken {
+class CssErrorToken extends CssToken {
   String? message;
-  ErrorToken(int kind, FileSpan span, this.message) : super(kind, span);
+  CssErrorToken(int kind, FileSpan span, this.message) : super(kind, span);
 }
 
-class IdentifierToken extends CssToken {
+class CssIdentifierToken extends CssToken {
   @override
   final String text;
 
-  IdentifierToken(this.text, int kind, FileSpan span) : super(kind, span);
+  CssIdentifierToken(this.text, int kind, FileSpan span) : super(kind, span);
 }

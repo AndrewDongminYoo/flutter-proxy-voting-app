@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_initializing_formals
 part of '../visitor.dart';
 
-class Identifier extends TreeNode {
+class CssIdentifier extends CssTreeNode {
   String name;
 
-  Identifier(this.name, SourceSpan? span) : super(span);
+  CssIdentifier(this.name, SourceSpan? span) : super(span);
 
   @override
-  Identifier clone() => Identifier(name, span);
+  CssIdentifier clone() => CssIdentifier(name, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitIdentifier(this);
@@ -18,44 +18,44 @@ class Identifier extends TreeNode {
   }
 }
 
-class Wildcard extends TreeNode {
-  Wildcard(SourceSpan? span) : super(span);
+class CssWildcard extends CssTreeNode {
+  CssWildcard(SourceSpan? span) : super(span);
   @override
-  Wildcard clone() => Wildcard(span);
+  CssWildcard clone() => CssWildcard(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitWildcard(this);
 
   String get name => '*';
 }
 
-class ThisOperator extends TreeNode {
-  ThisOperator(SourceSpan? span) : super(span);
+class CssThisOperator extends CssTreeNode {
+  CssThisOperator(SourceSpan? span) : super(span);
   @override
-  ThisOperator clone() => ThisOperator(span);
+  CssThisOperator clone() => CssThisOperator(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitThisOperator(this);
 
   String get name => '&';
 }
 
-class Negation extends TreeNode {
-  Negation(SourceSpan? span) : super(span);
+class CssNegation extends CssTreeNode {
+  CssNegation(SourceSpan? span) : super(span);
   @override
-  Negation clone() => Negation(span);
+  CssNegation clone() => CssNegation(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitNegation(this);
 
   String get name => 'not';
 }
 
-class CalcTerm extends LiteralTerm {
-  final LiteralTerm expr;
+class CssCalcTerm extends CssLiteralTerm {
+  final CssLiteralTerm expr;
 
-  CalcTerm(dynamic value, String t, this.expr, SourceSpan? span)
+  CssCalcTerm(dynamic value, String t, this.expr, SourceSpan? span)
       : super(value, t, span);
 
   @override
-  CalcTerm clone() => CalcTerm(value, text, expr.clone(), span);
+  CssCalcTerm clone() => CssCalcTerm(value, text, expr.clone(), span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitCalcTerm(this);
 
@@ -63,7 +63,7 @@ class CalcTerm extends LiteralTerm {
   String toString() => '$text($expr)';
 }
 
-class CssComment extends TreeNode {
+class CssComment extends CssTreeNode {
   final String comment;
 
   CssComment(this.comment, SourceSpan? span) : super(span);
@@ -73,52 +73,52 @@ class CssComment extends TreeNode {
   dynamic visit(VisitorBase visitor) => visitor.visitCssComment(this);
 }
 
-class CommentDefinition extends CssComment {
-  CommentDefinition(String comment, SourceSpan? span) : super(comment, span);
+class CssCommentDefinition extends CssComment {
+  CssCommentDefinition(String comment, SourceSpan? span) : super(comment, span);
   @override
-  CommentDefinition clone() => CommentDefinition(comment, span);
+  CssCommentDefinition clone() => CssCommentDefinition(comment, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitCommentDefinition(this);
 }
 
-class SelectorGroup extends TreeNode {
-  final List<Selector> selectors;
+class CssSelectorGroup extends CssTreeNode {
+  final List<CssSelector> selectors;
 
-  SelectorGroup(this.selectors, SourceSpan? span) : super(span);
+  CssSelectorGroup(this.selectors, SourceSpan? span) : super(span);
 
   @override
-  SelectorGroup clone() => SelectorGroup(selectors, span);
+  CssSelectorGroup clone() => CssSelectorGroup(selectors, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitSelectorGroup(this);
 }
 
-class Selector extends TreeNode {
-  final List<SimpleSelectorSequence> simpleSelectorSequences;
+class CssSelector extends CssTreeNode {
+  final List<CssSimpleSelectorSequence> simpleSelectorSequences;
 
-  Selector(this.simpleSelectorSequences, SourceSpan? span) : super(span);
+  CssSelector(this.simpleSelectorSequences, SourceSpan? span) : super(span);
 
-  void add(SimpleSelectorSequence seq) => simpleSelectorSequences.add(seq);
+  void add(CssSimpleSelectorSequence seq) => simpleSelectorSequences.add(seq);
 
   int get length => simpleSelectorSequences.length;
 
   @override
-  Selector clone() {
-    List<SimpleSelectorSequence> simpleSequences =
+  CssSelector clone() {
+    List<CssSimpleSelectorSequence> simpleSequences =
         simpleSelectorSequences.map((ss) => ss.clone()).toList();
 
-    return Selector(simpleSequences, span);
+    return CssSelector(simpleSequences, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitSelector(this);
 }
 
-class SimpleSelectorSequence extends TreeNode {
+class CssSimpleSelectorSequence extends CssTreeNode {
   int combinator;
-  final SimpleSelector simpleSelector;
+  final CssSimpleSelector simpleSelector;
 
-  SimpleSelectorSequence(this.simpleSelector, SourceSpan? span,
+  CssSimpleSelectorSequence(this.simpleSelector, SourceSpan? span,
       [int combinator = CssTokenKind.COMBINATOR_NONE])
       : combinator = combinator,
         super(span);
@@ -146,8 +146,8 @@ class SimpleSelectorSequence extends TreeNode {
   }
 
   @override
-  SimpleSelectorSequence clone() =>
-      SimpleSelectorSequence(simpleSelector, span, combinator);
+  CssSimpleSelectorSequence clone() =>
+      CssSimpleSelectorSequence(simpleSelector, span, combinator);
 
   @override
   dynamic visit(VisitorBase visitor) =>
@@ -157,22 +157,22 @@ class SimpleSelectorSequence extends TreeNode {
   String toString() => simpleSelector.name;
 }
 
-abstract class SimpleSelector extends TreeNode {
+abstract class CssSimpleSelector extends CssTreeNode {
   final dynamic _name;
 
-  SimpleSelector(this._name, SourceSpan? span) : super(span);
+  CssSimpleSelector(this._name, SourceSpan? span) : super(span);
 
   String get name => _name.name as String;
 
-  bool get isWildcard => _name is Wildcard;
+  bool get isWildcard => _name is CssWildcard;
 
-  bool get isThis => _name is ThisOperator;
+  bool get isThis => _name is CssThisOperator;
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitSimpleSelector(this);
 }
 
-class ElementSelector extends SimpleSelector {
+class ElementSelector extends CssSimpleSelector {
   ElementSelector(name, SourceSpan? span) : super(name, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitElementSelector(this);
@@ -184,21 +184,21 @@ class ElementSelector extends SimpleSelector {
   String toString() => name;
 }
 
-class NamespaceSelector extends SimpleSelector {
+class NamespaceSelector extends CssSimpleSelector {
   final dynamic _namespace;
 
   NamespaceSelector(this._namespace, dynamic name, SourceSpan? span)
       : super(name, span);
 
-  String get namespace => _namespace is Wildcard
+  String get namespace => _namespace is CssWildcard
       ? '*'
       : _namespace == null
           ? ''
-          : (_namespace as Identifier).name;
+          : (_namespace as CssIdentifier).name;
 
-  bool get isNamespaceWildcard => _namespace is Wildcard;
+  bool get isNamespaceWildcard => _namespace is CssWildcard;
 
-  SimpleSelector? get nameAsSimpleSelector => _name as SimpleSelector?;
+  CssSimpleSelector? get nameAsSimpleSelector => _name as CssSimpleSelector?;
 
   @override
   NamespaceSelector clone() => NamespaceSelector(_namespace, '', span);
@@ -210,11 +210,12 @@ class NamespaceSelector extends SimpleSelector {
   String toString() => '$namespace|${nameAsSimpleSelector!.name}';
 }
 
-class AttributeSelector extends SimpleSelector {
+class CssAttributeSelector extends CssSimpleSelector {
   final int _op;
   final dynamic value;
 
-  AttributeSelector(Identifier name, this._op, this.value, SourceSpan? span)
+  CssAttributeSelector(
+      CssIdentifier name, this._op, this.value, SourceSpan? span)
       : super(name, span);
 
   int get operatorKind => _op;
@@ -259,7 +260,7 @@ class AttributeSelector extends SimpleSelector {
 
   String valueToString() {
     if (value != null) {
-      if (value is Identifier) {
+      if (value is CssIdentifier) {
         return value.toString();
       } else {
         return '"$value"';
@@ -270,8 +271,8 @@ class AttributeSelector extends SimpleSelector {
   }
 
   @override
-  AttributeSelector clone() =>
-      AttributeSelector(_name as Identifier, _op, value, span);
+  CssAttributeSelector clone() =>
+      CssAttributeSelector(_name as CssIdentifier, _op, value, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitAttributeSelector(this);
@@ -280,10 +281,10 @@ class AttributeSelector extends SimpleSelector {
   String toString() => '[$name${matchOperator()}${valueToString()}]';
 }
 
-class IdSelector extends SimpleSelector {
-  IdSelector(Identifier name, SourceSpan? span) : super(name, span);
+class CssIdSelector extends CssSimpleSelector {
+  CssIdSelector(CssIdentifier name, SourceSpan? span) : super(name, span);
   @override
-  IdSelector clone() => IdSelector(_name as Identifier, span);
+  CssIdSelector clone() => CssIdSelector(_name as CssIdentifier, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitIdSelector(this);
 
@@ -291,10 +292,10 @@ class IdSelector extends SimpleSelector {
   String toString() => '#$_name';
 }
 
-class ClassSelector extends SimpleSelector {
-  ClassSelector(Identifier name, SourceSpan? span) : super(name, span);
+class CssClassSelector extends CssSimpleSelector {
+  CssClassSelector(CssIdentifier name, SourceSpan? span) : super(name, span);
   @override
-  ClassSelector clone() => ClassSelector(_name as Identifier, span);
+  CssClassSelector clone() => CssClassSelector(_name as CssIdentifier, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitClassSelector(this);
 
@@ -302,22 +303,24 @@ class ClassSelector extends SimpleSelector {
   String toString() => '.$_name';
 }
 
-class PseudoClassSelector extends SimpleSelector {
-  PseudoClassSelector(Identifier name, SourceSpan? span) : super(name, span);
+class CssPseudoClassSelector extends CssSimpleSelector {
+  CssPseudoClassSelector(CssIdentifier name, SourceSpan? span)
+      : super(name, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitPseudoClassSelector(this);
 
   @override
-  PseudoClassSelector clone() => PseudoClassSelector(_name as Identifier, span);
+  CssPseudoClassSelector clone() =>
+      CssPseudoClassSelector(_name as CssIdentifier, span);
 
   @override
   String toString() => ':$name';
 }
 
-class PseudoElementSelector extends SimpleSelector {
+class CssPseudoElementSelector extends CssSimpleSelector {
   final bool isLegacy;
 
-  PseudoElementSelector(Identifier name, SourceSpan? span,
+  CssPseudoElementSelector(CssIdentifier name, SourceSpan? span,
       {this.isLegacy = false})
       : super(name, span);
   @override
@@ -325,140 +328,143 @@ class PseudoElementSelector extends SimpleSelector {
       visitor.visitPseudoElementSelector(this);
 
   @override
-  PseudoElementSelector clone() =>
-      PseudoElementSelector(_name as Identifier, span);
+  CssPseudoElementSelector clone() =>
+      CssPseudoElementSelector(_name as CssIdentifier, span);
 
   @override
   String toString() => "${isLegacy ? ':' : '::'}$name";
 }
 
-class PseudoClassFunctionSelector extends PseudoClassSelector {
-  final TreeNode argument;
+class PseudoClassFunctionSelector extends CssPseudoClassSelector {
+  final CssTreeNode argument;
 
-  PseudoClassFunctionSelector(Identifier name, this.argument, SourceSpan? span)
+  PseudoClassFunctionSelector(
+      CssIdentifier name, this.argument, SourceSpan? span)
       : super(name, span);
 
   @override
   PseudoClassFunctionSelector clone() =>
-      PseudoClassFunctionSelector(_name as Identifier, argument, span);
+      PseudoClassFunctionSelector(_name as CssIdentifier, argument, span);
 
-  Selector get selector => argument as Selector;
-  SelectorExpression get expression => argument as SelectorExpression;
+  CssSelector get selector => argument as CssSelector;
+  CssSelectorExpression get expression => argument as CssSelectorExpression;
 
   @override
   dynamic visit(VisitorBase visitor) =>
       visitor.visitPseudoClassFunctionSelector(this);
 }
 
-class PseudoElementFunctionSelector extends PseudoElementSelector {
-  final SelectorExpression expression;
+class CssPseudoElementFunctionSelector extends CssPseudoElementSelector {
+  final CssSelectorExpression expression;
 
-  PseudoElementFunctionSelector(
-      Identifier name, this.expression, SourceSpan? span)
+  CssPseudoElementFunctionSelector(
+      CssIdentifier name, this.expression, SourceSpan? span)
       : super(name, span);
 
   @override
-  PseudoElementFunctionSelector clone() =>
-      PseudoElementFunctionSelector(_name as Identifier, expression, span);
+  CssPseudoElementFunctionSelector clone() => CssPseudoElementFunctionSelector(
+      _name as CssIdentifier, expression, span);
 
   @override
   dynamic visit(VisitorBase visitor) =>
       visitor.visitPseudoElementFunctionSelector(this);
 }
 
-class SelectorExpression extends TreeNode {
-  final List<Expression> expressions;
+class CssSelectorExpression extends CssTreeNode {
+  final List<CssExpression> expressions;
 
-  SelectorExpression(this.expressions, SourceSpan? span) : super(span);
+  CssSelectorExpression(this.expressions, SourceSpan? span) : super(span);
 
   @override
   SourceSpan get span => super.span!;
 
   @override
-  SelectorExpression clone() {
-    return SelectorExpression(expressions.map((e) => e.clone()).toList(), span);
+  CssSelectorExpression clone() {
+    return CssSelectorExpression(
+        expressions.map((e) => e.clone()).toList(), span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitSelectorExpression(this);
 }
 
-class NegationSelector extends SimpleSelector {
-  final SimpleSelector? negationArg;
+class CssNegationSelector extends CssSimpleSelector {
+  final CssSimpleSelector? negationArg;
 
-  NegationSelector(this.negationArg, SourceSpan? span)
-      : super(Negation(span), span);
+  CssNegationSelector(this.negationArg, SourceSpan? span)
+      : super(CssNegation(span), span);
 
   @override
-  NegationSelector clone() => NegationSelector(negationArg, span);
+  CssNegationSelector clone() => CssNegationSelector(negationArg, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitNegationSelector(this);
 }
 
-class NoOp extends TreeNode {
-  NoOp() : super(null);
+class CssNoOp extends CssTreeNode {
+  CssNoOp() : super(null);
 
   @override
-  NoOp clone() => NoOp();
+  CssNoOp clone() => CssNoOp();
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitNoOp(this);
 }
 
-class StyleSheet extends TreeNode {
-  final List<TreeNode> topLevels;
+class CssStyleSheet extends CssTreeNode {
+  final List<CssTreeNode> topLevels;
 
-  StyleSheet(this.topLevels, SourceSpan? span) : super(span) {
+  CssStyleSheet(this.topLevels, SourceSpan? span) : super(span) {
     for (final node in topLevels) {
-      assert(node is TopLevelProduction || node is Directive);
+      assert(node is CssTopLevelProduction || node is Directive);
     }
   }
 
-  StyleSheet.selector(this.topLevels, SourceSpan? span) : super(span);
+  CssStyleSheet.selector(this.topLevels, SourceSpan? span) : super(span);
 
   @override
   SourceSpan get span => super.span!;
 
   @override
-  StyleSheet clone() {
-    List<TreeNode> clonedTopLevels = topLevels.map((e) => e.clone()).toList();
-    return StyleSheet(clonedTopLevels, span);
+  CssStyleSheet clone() {
+    List<CssTreeNode> clonedTopLevels =
+        topLevels.map((e) => e.clone()).toList();
+    return CssStyleSheet(clonedTopLevels, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitStyleSheet(this);
 }
 
-class TopLevelProduction extends TreeNode {
-  TopLevelProduction(SourceSpan? span) : super(span);
+class CssTopLevelProduction extends CssTreeNode {
+  CssTopLevelProduction(SourceSpan? span) : super(span);
   @override
   SourceSpan get span => super.span!;
   @override
-  TopLevelProduction clone() => TopLevelProduction(span);
+  CssTopLevelProduction clone() => CssTopLevelProduction(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitTopLevelProduction(this);
 }
 
-class RuleSet extends TopLevelProduction {
-  final SelectorGroup? selectorGroup;
+class CssRuleSet extends CssTopLevelProduction {
+  final CssSelectorGroup? selectorGroup;
   final DeclarationGroup declarationGroup;
 
-  RuleSet(this.selectorGroup, this.declarationGroup, SourceSpan? span)
+  CssRuleSet(this.selectorGroup, this.declarationGroup, SourceSpan? span)
       : super(span);
 
   @override
-  RuleSet clone() {
-    SelectorGroup cloneSelectorGroup = selectorGroup!.clone();
+  CssRuleSet clone() {
+    CssSelectorGroup cloneSelectorGroup = selectorGroup!.clone();
     DeclarationGroup cloneDeclarationGroup = declarationGroup.clone();
-    return RuleSet(cloneSelectorGroup, cloneDeclarationGroup, span);
+    return CssRuleSet(cloneSelectorGroup, cloneDeclarationGroup, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitRuleSet(this);
 }
 
-class Directive extends TreeNode {
+class Directive extends CssTreeNode {
   Directive(SourceSpan? span) : super(span);
 
   bool get isBuiltIn => true;
@@ -473,72 +479,72 @@ class Directive extends TreeNode {
   dynamic visit(VisitorBase visitor) => visitor.visitDirective(this);
 }
 
-class DocumentDirective extends Directive {
-  final List<LiteralTerm> functions;
-  final List<TreeNode> groupRuleBody;
+class CssDocumentDirective extends Directive {
+  final List<CssLiteralTerm> functions;
+  final List<CssTreeNode> groupRuleBody;
 
-  DocumentDirective(this.functions, this.groupRuleBody, SourceSpan? span)
+  CssDocumentDirective(this.functions, this.groupRuleBody, SourceSpan? span)
       : super(span);
 
   @override
-  DocumentDirective clone() {
-    List<LiteralTerm> clonedFunctions = <LiteralTerm>[];
-    for (LiteralTerm function in functions) {
+  CssDocumentDirective clone() {
+    List<CssLiteralTerm> clonedFunctions = <CssLiteralTerm>[];
+    for (CssLiteralTerm function in functions) {
       clonedFunctions.add(function.clone());
     }
-    List<TreeNode> clonedGroupRuleBody = <TreeNode>[];
-    for (TreeNode rule in groupRuleBody) {
+    List<CssTreeNode> clonedGroupRuleBody = <CssTreeNode>[];
+    for (CssTreeNode rule in groupRuleBody) {
       clonedGroupRuleBody.add(rule.clone());
     }
-    return DocumentDirective(clonedFunctions, clonedGroupRuleBody, span);
+    return CssDocumentDirective(clonedFunctions, clonedGroupRuleBody, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitDocumentDirective(this);
 }
 
-class SupportsDirective extends Directive {
+class CssSupportsDirective extends Directive {
   final SupportsCondition? condition;
-  final List<TreeNode> groupRuleBody;
+  final List<CssTreeNode> groupRuleBody;
 
-  SupportsDirective(this.condition, this.groupRuleBody, SourceSpan? span)
+  CssSupportsDirective(this.condition, this.groupRuleBody, SourceSpan? span)
       : super(span);
 
   @override
-  SupportsDirective clone() {
+  CssSupportsDirective clone() {
     SupportsCondition clonedCondition = condition!.clone() as SupportsCondition;
-    List<TreeNode> clonedGroupRuleBody = <TreeNode>[];
-    for (TreeNode rule in groupRuleBody) {
+    List<CssTreeNode> clonedGroupRuleBody = <CssTreeNode>[];
+    for (CssTreeNode rule in groupRuleBody) {
       clonedGroupRuleBody.add(rule.clone());
     }
-    return SupportsDirective(clonedCondition, clonedGroupRuleBody, span);
+    return CssSupportsDirective(clonedCondition, clonedGroupRuleBody, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitSupportsDirective(this);
 }
 
-abstract class SupportsCondition extends TreeNode {
+abstract class SupportsCondition extends CssTreeNode {
   SupportsCondition(SourceSpan? span) : super(span);
   @override
   SourceSpan get span => super.span!;
 }
 
-class SupportsConditionInParens extends SupportsCondition {
-  final TreeNode? condition;
+class CssSupportsConditionInParens extends SupportsCondition {
+  final CssTreeNode? condition;
 
-  SupportsConditionInParens(Declaration? declaration, SourceSpan? span)
+  CssSupportsConditionInParens(CssDeclaration? declaration, SourceSpan? span)
       : condition = declaration,
         super(span);
 
-  SupportsConditionInParens.nested(
+  CssSupportsConditionInParens.nested(
       SupportsCondition condition, SourceSpan? span)
       : condition = condition,
         super(span);
 
   @override
-  SupportsConditionInParens clone() =>
-      SupportsConditionInParens(condition!.clone() as Declaration, span);
+  CssSupportsConditionInParens clone() =>
+      CssSupportsConditionInParens(condition!.clone() as CssDeclaration, span);
 
   @override
   dynamic visit(VisitorBase visitor) =>
@@ -546,7 +552,7 @@ class SupportsConditionInParens extends SupportsCondition {
 }
 
 class SupportsNegation extends SupportsCondition {
-  final SupportsConditionInParens condition;
+  final CssSupportsConditionInParens condition;
 
   SupportsNegation(this.condition, SourceSpan? span) : super(span);
 
@@ -558,15 +564,15 @@ class SupportsNegation extends SupportsCondition {
 }
 
 class SupportsConjunction extends SupportsCondition {
-  final List<SupportsConditionInParens> conditions;
+  final List<CssSupportsConditionInParens> conditions;
 
   SupportsConjunction(this.conditions, SourceSpan? span) : super(span);
 
   @override
   SupportsConjunction clone() {
-    List<SupportsConditionInParens> clonedConditions =
-        <SupportsConditionInParens>[];
-    for (SupportsConditionInParens condition in conditions) {
+    List<CssSupportsConditionInParens> clonedConditions =
+        <CssSupportsConditionInParens>[];
+    for (CssSupportsConditionInParens condition in conditions) {
       clonedConditions.add(condition.clone());
     }
     return SupportsConjunction(clonedConditions, span);
@@ -576,67 +582,67 @@ class SupportsConjunction extends SupportsCondition {
   dynamic visit(VisitorBase visitor) => visitor.visitSupportsConjunction(this);
 }
 
-class SupportsDisjunction extends SupportsCondition {
-  final List<SupportsConditionInParens> conditions;
+class CssSupportsDisjunction extends SupportsCondition {
+  final List<CssSupportsConditionInParens> conditions;
 
-  SupportsDisjunction(this.conditions, SourceSpan? span) : super(span);
+  CssSupportsDisjunction(this.conditions, SourceSpan? span) : super(span);
 
   @override
-  SupportsDisjunction clone() {
-    List<SupportsConditionInParens> clonedConditions =
-        <SupportsConditionInParens>[];
-    for (SupportsConditionInParens condition in conditions) {
+  CssSupportsDisjunction clone() {
+    List<CssSupportsConditionInParens> clonedConditions =
+        <CssSupportsConditionInParens>[];
+    for (CssSupportsConditionInParens condition in conditions) {
       clonedConditions.add(condition.clone());
     }
-    return SupportsDisjunction(clonedConditions, span);
+    return CssSupportsDisjunction(clonedConditions, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitSupportsDisjunction(this);
 }
 
-class ViewportDirective extends Directive {
+class CssViewportDirective extends Directive {
   final String name;
   final DeclarationGroup declarations;
 
-  ViewportDirective(this.name, this.declarations, SourceSpan? span)
+  CssViewportDirective(this.name, this.declarations, SourceSpan? span)
       : super(span);
 
   @override
-  ViewportDirective clone() =>
-      ViewportDirective(name, declarations.clone(), span);
+  CssViewportDirective clone() =>
+      CssViewportDirective(name, declarations.clone(), span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitViewportDirective(this);
 }
 
-class ImportDirective extends Directive {
+class CssImportDirective extends Directive {
   final String import;
 
   final List<MediaQuery> mediaQueries;
 
-  ImportDirective(this.import, this.mediaQueries, SourceSpan? span)
+  CssImportDirective(this.import, this.mediaQueries, SourceSpan? span)
       : super(span);
 
   @override
-  ImportDirective clone() {
+  CssImportDirective clone() {
     List<MediaQuery> cloneMediaQueries = <MediaQuery>[];
     for (MediaQuery mediaQuery in mediaQueries) {
       cloneMediaQueries.add(mediaQuery.clone());
     }
-    return ImportDirective(import, cloneMediaQueries, span);
+    return CssImportDirective(import, cloneMediaQueries, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitImportDirective(this);
 }
 
-class MediaExpression extends TreeNode {
+class CssMediaExpression extends CssTreeNode {
   final bool andOperator;
-  final Identifier _mediaFeature;
-  final Expressions exprs;
+  final CssIdentifier _mediaFeature;
+  final CssExpressions exprs;
 
-  MediaExpression(
+  CssMediaExpression(
       this.andOperator, this._mediaFeature, this.exprs, SourceSpan? span)
       : super(span);
 
@@ -646,19 +652,19 @@ class MediaExpression extends TreeNode {
   SourceSpan get span => super.span!;
 
   @override
-  MediaExpression clone() {
-    Expressions clonedExprs = exprs.clone();
-    return MediaExpression(andOperator, _mediaFeature, clonedExprs, span);
+  CssMediaExpression clone() {
+    CssExpressions clonedExprs = exprs.clone();
+    return CssMediaExpression(andOperator, _mediaFeature, clonedExprs, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitMediaExpression(this);
 }
 
-class MediaQuery extends TreeNode {
+class MediaQuery extends CssTreeNode {
   final int _mediaUnary;
-  final Identifier? _mediaType;
-  final List<MediaExpression> expressions;
+  final CssIdentifier? _mediaType;
+  final List<CssMediaExpression> expressions;
 
   MediaQuery(
       this._mediaUnary, this._mediaType, this.expressions, SourceSpan? span)
@@ -677,8 +683,8 @@ class MediaQuery extends TreeNode {
 
   @override
   MediaQuery clone() {
-    List<MediaExpression> cloneExpressions = <MediaExpression>[];
-    for (MediaExpression expr in expressions) {
+    List<CssMediaExpression> cloneExpressions = <CssMediaExpression>[];
+    for (CssMediaExpression expr in expressions) {
       cloneExpressions.add(expr.clone());
     }
     return MediaQuery(_mediaUnary, _mediaType, cloneExpressions, span);
@@ -688,63 +694,64 @@ class MediaQuery extends TreeNode {
   dynamic visit(VisitorBase visitor) => visitor.visitMediaQuery(this);
 }
 
-class MediaDirective extends Directive {
+class CssMediaDirective extends Directive {
   final List<MediaQuery> mediaQueries;
-  final List<TreeNode> rules;
+  final List<CssTreeNode> rules;
 
-  MediaDirective(this.mediaQueries, this.rules, SourceSpan? span) : super(span);
+  CssMediaDirective(this.mediaQueries, this.rules, SourceSpan? span)
+      : super(span);
 
   @override
-  MediaDirective clone() {
+  CssMediaDirective clone() {
     List<MediaQuery> cloneQueries = <MediaQuery>[];
     for (MediaQuery mediaQuery in mediaQueries) {
       cloneQueries.add(mediaQuery.clone());
     }
-    List<TreeNode> cloneRules = <TreeNode>[];
-    for (TreeNode rule in rules) {
+    List<CssTreeNode> cloneRules = <CssTreeNode>[];
+    for (CssTreeNode rule in rules) {
       cloneRules.add(rule.clone());
     }
-    return MediaDirective(cloneQueries, cloneRules, span);
+    return CssMediaDirective(cloneQueries, cloneRules, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitMediaDirective(this);
 }
 
-class HostDirective extends Directive {
-  final List<TreeNode> rules;
+class CssHostDirective extends Directive {
+  final List<CssTreeNode> rules;
 
-  HostDirective(this.rules, SourceSpan? span) : super(span);
+  CssHostDirective(this.rules, SourceSpan? span) : super(span);
 
   @override
-  HostDirective clone() {
-    List<TreeNode> cloneRules = <TreeNode>[];
-    for (TreeNode rule in rules) {
+  CssHostDirective clone() {
+    List<CssTreeNode> cloneRules = <CssTreeNode>[];
+    for (CssTreeNode rule in rules) {
       cloneRules.add(rule.clone());
     }
-    return HostDirective(cloneRules, span);
+    return CssHostDirective(cloneRules, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitHostDirective(this);
 }
 
-class PageDirective extends Directive {
+class CssPageDirective extends Directive {
   final String? _ident;
   final String? _pseudoPage;
   final List<DeclarationGroup> _declsMargin;
 
-  PageDirective(
+  CssPageDirective(
       this._ident, this._pseudoPage, this._declsMargin, SourceSpan? span)
       : super(span);
 
   @override
-  PageDirective clone() {
+  CssPageDirective clone() {
     List<DeclarationGroup> cloneDeclsMargin = <DeclarationGroup>[];
     for (DeclarationGroup declMargin in _declsMargin) {
       cloneDeclsMargin.add(declMargin.clone());
     }
-    return PageDirective(_ident, _pseudoPage, cloneDeclsMargin, span);
+    return CssPageDirective(_ident, _pseudoPage, cloneDeclsMargin, span);
   }
 
   @override
@@ -754,26 +761,26 @@ class PageDirective extends Directive {
   bool get hasPseudoPage => _pseudoPage?.isNotEmpty ?? false;
 }
 
-class CharsetDirective extends Directive {
+class CssCharsetDirective extends Directive {
   final String charEncoding;
 
-  CharsetDirective(this.charEncoding, SourceSpan? span) : super(span);
+  CssCharsetDirective(this.charEncoding, SourceSpan? span) : super(span);
   @override
-  CharsetDirective clone() => CharsetDirective(charEncoding, span);
+  CssCharsetDirective clone() => CssCharsetDirective(charEncoding, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitCharsetDirective(this);
 }
 
-class KeyFrameDirective extends Directive {
+class CssKeyFrameDirective extends Directive {
   final int _keyframeName;
-  final Identifier? name;
-  final List<KeyFrameBlock> _blocks;
+  final CssIdentifier? name;
+  final List<CssKeyFrameBlock> _blocks;
 
-  KeyFrameDirective(this._keyframeName, this.name, SourceSpan? span)
+  CssKeyFrameDirective(this._keyframeName, this.name, SourceSpan? span)
       : _blocks = [],
         super(span);
 
-  void add(KeyFrameBlock block) {
+  void add(CssKeyFrameBlock block) {
     _blocks.add(block);
   }
 
@@ -793,10 +800,10 @@ class KeyFrameDirective extends Directive {
   }
 
   @override
-  KeyFrameDirective clone() {
-    KeyFrameDirective directive =
-        KeyFrameDirective(_keyframeName, name!.clone(), span);
-    for (KeyFrameBlock block in _blocks) {
+  CssKeyFrameDirective clone() {
+    CssKeyFrameDirective directive =
+        CssKeyFrameDirective(_keyframeName, name!.clone(), span);
+    for (CssKeyFrameBlock block in _blocks) {
       directive.add(block.clone());
     }
     return directive;
@@ -806,16 +813,16 @@ class KeyFrameDirective extends Directive {
   dynamic visit(VisitorBase visitor) => visitor.visitKeyFrameDirective(this);
 }
 
-class KeyFrameBlock extends Expression {
-  final Expressions _blockSelectors;
+class CssKeyFrameBlock extends CssExpression {
+  final CssExpressions _blockSelectors;
   final DeclarationGroup _declarations;
 
-  KeyFrameBlock(this._blockSelectors, this._declarations, SourceSpan? span)
+  CssKeyFrameBlock(this._blockSelectors, this._declarations, SourceSpan? span)
       : super(span);
 
   @override
-  KeyFrameBlock clone() =>
-      KeyFrameBlock(_blockSelectors.clone(), _declarations.clone(), span);
+  CssKeyFrameBlock clone() =>
+      CssKeyFrameBlock(_blockSelectors.clone(), _declarations.clone(), span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitKeyFrameBlock(this);
 }
@@ -833,7 +840,7 @@ class FontFaceDirective extends Directive {
 
 class StyletDirective extends Directive {
   final String dartClassName;
-  final List<TreeNode> rules;
+  final List<CssTreeNode> rules;
 
   StyletDirective(this.dartClassName, this.rules, SourceSpan? span)
       : super(span);
@@ -845,8 +852,8 @@ class StyletDirective extends Directive {
 
   @override
   StyletDirective clone() {
-    List<TreeNode> cloneRules = <TreeNode>[];
-    for (TreeNode rule in rules) {
+    List<CssTreeNode> cloneRules = <CssTreeNode>[];
+    for (CssTreeNode rule in rules) {
       cloneRules.add(rule.clone());
     }
     return StyletDirective(dartClassName, cloneRules, span);
@@ -856,15 +863,16 @@ class StyletDirective extends Directive {
   dynamic visit(VisitorBase visitor) => visitor.visitStyletDirective(this);
 }
 
-class NamespaceDirective extends Directive {
+class CssNamespaceDirective extends Directive {
   final String _prefix;
 
   final String? _uri;
 
-  NamespaceDirective(this._prefix, this._uri, SourceSpan? span) : super(span);
+  CssNamespaceDirective(this._prefix, this._uri, SourceSpan? span)
+      : super(span);
 
   @override
-  NamespaceDirective clone() => NamespaceDirective(_prefix, _uri, span);
+  CssNamespaceDirective clone() => CssNamespaceDirective(_prefix, _uri, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitNamespaceDirective(this);
@@ -872,58 +880,60 @@ class NamespaceDirective extends Directive {
   String get prefix => _prefix.isNotEmpty ? '$_prefix ' : '';
 }
 
-class VarDefinitionDirective extends Directive {
+class CssVarDefinitionDirective extends Directive {
   final VarDefinition def;
 
-  VarDefinitionDirective(this.def, SourceSpan? span) : super(span);
+  CssVarDefinitionDirective(this.def, SourceSpan? span) : super(span);
 
   @override
-  VarDefinitionDirective clone() => VarDefinitionDirective(def.clone(), span);
+  CssVarDefinitionDirective clone() =>
+      CssVarDefinitionDirective(def.clone(), span);
 
   @override
   dynamic visit(VisitorBase visitor) =>
       visitor.visitVarDefinitionDirective(this);
 }
 
-class MixinDefinition extends Directive {
+class CssMixinDefinition extends Directive {
   final String name;
-  final List<TreeNode> definedArgs;
+  final List<CssTreeNode> definedArgs;
   final bool varArgs;
 
-  MixinDefinition(this.name, this.definedArgs, this.varArgs, SourceSpan? span)
+  CssMixinDefinition(
+      this.name, this.definedArgs, this.varArgs, SourceSpan? span)
       : super(span);
 
   @override
-  MixinDefinition clone() {
-    List<TreeNode> cloneDefinedArgs = <TreeNode>[];
-    for (TreeNode definedArg in definedArgs) {
+  CssMixinDefinition clone() {
+    List<CssTreeNode> cloneDefinedArgs = <CssTreeNode>[];
+    for (CssTreeNode definedArg in definedArgs) {
       cloneDefinedArgs.add(definedArg.clone());
     }
-    return MixinDefinition(name, cloneDefinedArgs, varArgs, span);
+    return CssMixinDefinition(name, cloneDefinedArgs, varArgs, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitMixinDefinition(this);
 }
 
-class MixinRulesetDirective extends MixinDefinition {
-  final List<TreeNode> rulesets;
+class CssMixinRulesetDirective extends CssMixinDefinition {
+  final List<CssTreeNode> rulesets;
 
-  MixinRulesetDirective(String name, List<TreeNode> args, bool varArgs,
+  CssMixinRulesetDirective(String name, List<CssTreeNode> args, bool varArgs,
       this.rulesets, SourceSpan? span)
       : super(name, args, varArgs, span);
 
   @override
-  MixinRulesetDirective clone() {
+  CssMixinRulesetDirective clone() {
     List<VarDefinition> clonedArgs = <VarDefinition>[];
-    for (TreeNode arg in definedArgs) {
+    for (CssTreeNode arg in definedArgs) {
       clonedArgs.add(arg.clone() as VarDefinition);
     }
-    List<TreeNode> clonedRulesets = <TreeNode>[];
-    for (TreeNode ruleset in rulesets) {
+    List<CssTreeNode> clonedRulesets = <CssTreeNode>[];
+    for (CssTreeNode ruleset in rulesets) {
       clonedRulesets.add(ruleset.clone());
     }
-    return MixinRulesetDirective(
+    return CssMixinRulesetDirective(
         name, clonedArgs, varArgs, clonedRulesets, span);
   }
 
@@ -932,20 +942,20 @@ class MixinRulesetDirective extends MixinDefinition {
       visitor.visitMixinRulesetDirective(this);
 }
 
-class MixinDeclarationDirective extends MixinDefinition {
+class CssMixinDeclarationDirective extends CssMixinDefinition {
   final DeclarationGroup declarations;
 
-  MixinDeclarationDirective(String name, List<TreeNode> args, bool varArgs,
-      this.declarations, SourceSpan? span)
+  CssMixinDeclarationDirective(String name, List<CssTreeNode> args,
+      bool varArgs, this.declarations, SourceSpan? span)
       : super(name, args, varArgs, span);
 
   @override
-  MixinDeclarationDirective clone() {
-    List<TreeNode> clonedArgs = <TreeNode>[];
-    for (TreeNode arg in definedArgs) {
+  CssMixinDeclarationDirective clone() {
+    List<CssTreeNode> clonedArgs = <CssTreeNode>[];
+    for (CssTreeNode arg in definedArgs) {
       clonedArgs.add(arg.clone());
     }
-    return MixinDeclarationDirective(
+    return CssMixinDeclarationDirective(
         name, clonedArgs, varArgs, declarations.clone(), span);
   }
 
@@ -956,14 +966,14 @@ class MixinDeclarationDirective extends MixinDefinition {
 
 class IncludeDirective extends Directive {
   final String name;
-  final List<List<Expression>> args;
+  final List<List<CssExpression>> args;
 
   IncludeDirective(this.name, this.args, SourceSpan? span) : super(span);
 
   @override
   IncludeDirective clone() {
-    List<List<Expression>> cloneArgs = <List<Expression>>[];
-    for (List<Expression> arg in args) {
+    List<List<CssExpression>> cloneArgs = <List<CssExpression>>[];
+    for (List<CssExpression> arg in args) {
       cloneArgs.add(arg.map((term) => term.clone()).toList());
     }
     return IncludeDirective(name, cloneArgs, span);
@@ -973,23 +983,24 @@ class IncludeDirective extends Directive {
   dynamic visit(VisitorBase visitor) => visitor.visitIncludeDirective(this);
 }
 
-class ContentDirective extends Directive {
-  ContentDirective(SourceSpan? span) : super(span);
+class CssContentDirective extends Directive {
+  CssContentDirective(SourceSpan? span) : super(span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitContentDirective(this);
 }
 
-class Declaration extends TreeNode {
-  final Identifier? _property;
-  final Expression? expression;
+class CssDeclaration extends CssTreeNode {
+  final CssIdentifier? _property;
+  final CssExpression? expression;
 
-  DartStyleExpression? dartStyle;
+  CssDartStyleExpression? dartStyle;
   final bool important;
 
   final bool isIE7;
 
-  Declaration(this._property, this.expression, this.dartStyle, SourceSpan? span,
+  CssDeclaration(
+      this._property, this.expression, this.dartStyle, SourceSpan? span,
       {this.important = false, bool ie7 = false})
       : isIE7 = ie7,
         super(span);
@@ -1002,18 +1013,19 @@ class Declaration extends TreeNode {
   SourceSpan get span => super.span!;
 
   @override
-  Declaration clone() =>
-      Declaration(_property!.clone(), expression!.clone(), dartStyle, span,
+  CssDeclaration clone() =>
+      CssDeclaration(_property!.clone(), expression!.clone(), dartStyle, span,
           important: important);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitDeclaration(this);
 }
 
-class VarDefinition extends Declaration {
+class VarDefinition extends CssDeclaration {
   bool badUsage = false;
 
-  VarDefinition(Identifier? definedName, Expression? expr, SourceSpan? span)
+  VarDefinition(
+      CssIdentifier? definedName, CssExpression? expr, SourceSpan? span)
       : super(definedName, expr, null, span);
 
   String get definedName => _property!.name;
@@ -1026,39 +1038,39 @@ class VarDefinition extends Declaration {
   dynamic visit(VisitorBase visitor) => visitor.visitVarDefinition(this);
 }
 
-class IncludeMixinAtDeclaration extends Declaration {
+class CssIncludeMixinAtDeclaration extends CssDeclaration {
   final IncludeDirective include;
 
-  IncludeMixinAtDeclaration(this.include, SourceSpan? span)
+  CssIncludeMixinAtDeclaration(this.include, SourceSpan? span)
       : super(null, null, null, span);
 
   @override
-  IncludeMixinAtDeclaration clone() =>
-      IncludeMixinAtDeclaration(include.clone(), span);
+  CssIncludeMixinAtDeclaration clone() =>
+      CssIncludeMixinAtDeclaration(include.clone(), span);
 
   @override
   dynamic visit(VisitorBase visitor) =>
       visitor.visitIncludeMixinAtDeclaration(this);
 }
 
-class ExtendDeclaration extends Declaration {
-  final List<TreeNode> selectors;
+class CssExtendDeclaration extends CssDeclaration {
+  final List<CssTreeNode> selectors;
 
-  ExtendDeclaration(this.selectors, SourceSpan? span)
+  CssExtendDeclaration(this.selectors, SourceSpan? span)
       : super(null, null, null, span);
 
   @override
-  ExtendDeclaration clone() {
-    List<TreeNode> newSelector = selectors.map((s) => s.clone()).toList();
-    return ExtendDeclaration(newSelector, span);
+  CssExtendDeclaration clone() {
+    List<CssTreeNode> newSelector = selectors.map((s) => s.clone()).toList();
+    return CssExtendDeclaration(newSelector, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitExtendDeclaration(this);
 }
 
-class DeclarationGroup extends TreeNode {
-  final List<TreeNode> declarations;
+class DeclarationGroup extends CssTreeNode {
+  final List<CssTreeNode> declarations;
 
   DeclarationGroup(this.declarations, SourceSpan? span) : super(span);
 
@@ -1067,7 +1079,7 @@ class DeclarationGroup extends TreeNode {
 
   @override
   DeclarationGroup clone() {
-    List<TreeNode> clonedDecls = declarations.map((d) => d.clone()).toList();
+    List<CssTreeNode> clonedDecls = declarations.map((d) => d.clone()).toList();
     return DeclarationGroup(clonedDecls, span);
   }
 
@@ -1075,113 +1087,113 @@ class DeclarationGroup extends TreeNode {
   dynamic visit(VisitorBase visitor) => visitor.visitDeclarationGroup(this);
 }
 
-class MarginGroup extends DeclarationGroup {
+class CssMarginGroup extends DeclarationGroup {
   final int marginSym;
 
-  MarginGroup(this.marginSym, List<TreeNode> decls, SourceSpan? span)
+  CssMarginGroup(this.marginSym, List<CssTreeNode> decls, SourceSpan? span)
       : super(decls, span);
   @override
-  MarginGroup clone() =>
-      MarginGroup(marginSym, super.clone().declarations, span);
+  CssMarginGroup clone() =>
+      CssMarginGroup(marginSym, super.clone().declarations, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitMarginGroup(this);
 }
 
-class VarUsage extends Expression {
+class CssVarUsage extends CssExpression {
   final String name;
-  final List<Expression> defaultValues;
+  final List<CssExpression> defaultValues;
 
-  VarUsage(this.name, this.defaultValues, SourceSpan? span) : super(span);
+  CssVarUsage(this.name, this.defaultValues, SourceSpan? span) : super(span);
 
   @override
-  VarUsage clone() {
-    List<Expression> clonedValues = <Expression>[];
-    for (Expression expr in defaultValues) {
+  CssVarUsage clone() {
+    List<CssExpression> clonedValues = <CssExpression>[];
+    for (CssExpression expr in defaultValues) {
       clonedValues.add(expr.clone());
     }
-    return VarUsage(name, clonedValues, span);
+    return CssVarUsage(name, clonedValues, span);
   }
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitVarUsage(this);
 }
 
-class OperatorSlash extends Expression {
-  OperatorSlash(SourceSpan? span) : super(span);
+class CssOperatorSlash extends CssExpression {
+  CssOperatorSlash(SourceSpan? span) : super(span);
   @override
-  OperatorSlash clone() => OperatorSlash(span);
+  CssOperatorSlash clone() => CssOperatorSlash(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitOperatorSlash(this);
 }
 
-class OperatorComma extends Expression {
-  OperatorComma(SourceSpan? span) : super(span);
+class CssOperatorComma extends CssExpression {
+  CssOperatorComma(SourceSpan? span) : super(span);
   @override
-  OperatorComma clone() => OperatorComma(span);
+  CssOperatorComma clone() => CssOperatorComma(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitOperatorComma(this);
 }
 
-class OperatorPlus extends Expression {
-  OperatorPlus(SourceSpan? span) : super(span);
+class CssOperatorPlus extends CssExpression {
+  CssOperatorPlus(SourceSpan? span) : super(span);
   @override
-  OperatorPlus clone() => OperatorPlus(span);
+  CssOperatorPlus clone() => CssOperatorPlus(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitOperatorPlus(this);
 }
 
-class OperatorMinus extends Expression {
-  OperatorMinus(SourceSpan? span) : super(span);
+class CssOperatorMinus extends CssExpression {
+  CssOperatorMinus(SourceSpan? span) : super(span);
   @override
-  OperatorMinus clone() => OperatorMinus(span);
+  CssOperatorMinus clone() => CssOperatorMinus(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitOperatorMinus(this);
 }
 
-class UnicodeRangeTerm extends Expression {
+class CssUnicodeRangeTerm extends CssExpression {
   final String? first;
   final String? second;
 
-  UnicodeRangeTerm(this.first, this.second, SourceSpan? span) : super(span);
+  CssUnicodeRangeTerm(this.first, this.second, SourceSpan? span) : super(span);
 
   bool get hasSecond => second != null;
 
   @override
-  UnicodeRangeTerm clone() => UnicodeRangeTerm(first, second, span);
+  CssUnicodeRangeTerm clone() => CssUnicodeRangeTerm(first, second, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitUnicodeRangeTerm(this);
 }
 
-class LiteralTerm extends Expression {
+class CssLiteralTerm extends CssExpression {
   dynamic value;
   String text;
 
-  LiteralTerm(this.value, this.text, SourceSpan? span) : super(span);
+  CssLiteralTerm(this.value, this.text, SourceSpan? span) : super(span);
 
   @override
-  LiteralTerm clone() => LiteralTerm(value, text, span);
+  CssLiteralTerm clone() => CssLiteralTerm(value, text, span);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitLiteralTerm(this);
 }
 
-class NumberTerm extends LiteralTerm {
-  NumberTerm(value, String t, SourceSpan? span) : super(value, t, span);
+class CssNumberTerm extends CssLiteralTerm {
+  CssNumberTerm(value, String t, SourceSpan? span) : super(value, t, span);
   @override
-  NumberTerm clone() => NumberTerm(value, text, span);
+  CssNumberTerm clone() => CssNumberTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitNumberTerm(this);
 }
 
-class UnitTerm extends LiteralTerm {
+class CssUnitTerm extends CssLiteralTerm {
   final int unit;
 
-  UnitTerm(value, String t, SourceSpan? span, this.unit)
+  CssUnitTerm(value, String t, SourceSpan? span, this.unit)
       : super(value, t, span);
 
   @override
-  UnitTerm clone() => UnitTerm(value, text, span, unit);
+  CssUnitTerm clone() => CssUnitTerm(value, text, span, unit);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitUnitTerm(this);
@@ -1192,8 +1204,8 @@ class UnitTerm extends LiteralTerm {
   String toString() => '$text${unitToString()}';
 }
 
-class LengthTerm extends UnitTerm {
-  LengthTerm(value, String t, SourceSpan? span,
+class CssLengthTerm extends CssUnitTerm {
+  CssLengthTerm(value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(this.unit == CssTokenKind.UNIT_LENGTH_PX ||
@@ -1204,37 +1216,37 @@ class LengthTerm extends UnitTerm {
         this.unit == CssTokenKind.UNIT_LENGTH_PC);
   }
   @override
-  LengthTerm clone() => LengthTerm(value, text, span, unit);
+  CssLengthTerm clone() => CssLengthTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitLengthTerm(this);
 }
 
-class PercentageTerm extends LiteralTerm {
-  PercentageTerm(value, String t, SourceSpan? span) : super(value, t, span);
+class CssPercentageTerm extends CssLiteralTerm {
+  CssPercentageTerm(value, String t, SourceSpan? span) : super(value, t, span);
   @override
-  PercentageTerm clone() => PercentageTerm(value, text, span);
+  CssPercentageTerm clone() => CssPercentageTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitPercentageTerm(this);
 }
 
-class EmTerm extends LiteralTerm {
-  EmTerm(value, String t, SourceSpan? span) : super(value, t, span);
+class CssEmTerm extends CssLiteralTerm {
+  CssEmTerm(value, String t, SourceSpan? span) : super(value, t, span);
   @override
-  EmTerm clone() => EmTerm(value, text, span);
+  CssEmTerm clone() => CssEmTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitEmTerm(this);
 }
 
-class ExTerm extends LiteralTerm {
-  ExTerm(value, String t, SourceSpan? span) : super(value, t, span);
+class CssExTerm extends CssLiteralTerm {
+  CssExTerm(value, String t, SourceSpan? span) : super(value, t, span);
   @override
-  ExTerm clone() => ExTerm(value, text, span);
+  CssExTerm clone() => CssExTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitExTerm(this);
 }
 
-class AngleTerm extends UnitTerm {
-  AngleTerm(dynamic value, String t, SourceSpan? span,
+class CssAngleTerm extends CssUnitTerm {
+  CssAngleTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(this.unit == CssTokenKind.UNIT_ANGLE_DEG ||
@@ -1244,13 +1256,13 @@ class AngleTerm extends UnitTerm {
   }
 
   @override
-  AngleTerm clone() => AngleTerm(value, text, span, unit);
+  CssAngleTerm clone() => CssAngleTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitAngleTerm(this);
 }
 
-class TimeTerm extends UnitTerm {
-  TimeTerm(dynamic value, String t, SourceSpan? span,
+class CssTimeTerm extends CssUnitTerm {
+  CssTimeTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(this.unit == CssTokenKind.UNIT_ANGLE_DEG ||
@@ -1259,13 +1271,13 @@ class TimeTerm extends UnitTerm {
   }
 
   @override
-  TimeTerm clone() => TimeTerm(value, text, span, unit);
+  CssTimeTerm clone() => CssTimeTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitTimeTerm(this);
 }
 
-class FreqTerm extends UnitTerm {
-  FreqTerm(dynamic value, String t, SourceSpan? span,
+class CssFreqTerm extends CssUnitTerm {
+  CssFreqTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == CssTokenKind.UNIT_FREQ_HZ ||
@@ -1273,32 +1285,32 @@ class FreqTerm extends UnitTerm {
   }
 
   @override
-  FreqTerm clone() => FreqTerm(value, text, span, unit);
+  CssFreqTerm clone() => CssFreqTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitFreqTerm(this);
 }
 
-class FractionTerm extends LiteralTerm {
-  FractionTerm(dynamic value, String t, SourceSpan? span)
+class CssFractionTerm extends CssLiteralTerm {
+  CssFractionTerm(dynamic value, String t, SourceSpan? span)
       : super(value, t, span);
 
   @override
-  FractionTerm clone() => FractionTerm(value, text, span);
+  CssFractionTerm clone() => CssFractionTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitFractionTerm(this);
 }
 
-class UriTerm extends LiteralTerm {
-  UriTerm(String value, SourceSpan? span) : super(value, value, span);
+class CssUriTerm extends CssLiteralTerm {
+  CssUriTerm(String value, SourceSpan? span) : super(value, value, span);
 
   @override
-  UriTerm clone() => UriTerm(value as String, span);
+  CssUriTerm clone() => CssUriTerm(value as String, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitUriTerm(this);
 }
 
-class ResolutionTerm extends UnitTerm {
-  ResolutionTerm(dynamic value, String t, SourceSpan? span,
+class CssResolutionTerm extends CssUnitTerm {
+  CssResolutionTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == CssTokenKind.UNIT_RESOLUTION_DPI ||
@@ -1307,39 +1319,39 @@ class ResolutionTerm extends UnitTerm {
   }
 
   @override
-  ResolutionTerm clone() => ResolutionTerm(value, text, span, unit);
+  CssResolutionTerm clone() => CssResolutionTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitResolutionTerm(this);
 }
 
-class ChTerm extends UnitTerm {
-  ChTerm(dynamic value, String t, SourceSpan? span,
+class CssChTerm extends CssUnitTerm {
+  CssChTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == CssTokenKind.UNIT_CH);
   }
 
   @override
-  ChTerm clone() => ChTerm(value, text, span, unit);
+  CssChTerm clone() => CssChTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitChTerm(this);
 }
 
-class RemTerm extends UnitTerm {
-  RemTerm(dynamic value, String t, SourceSpan? span,
+class CssRemTerm extends CssUnitTerm {
+  CssRemTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == CssTokenKind.UNIT_REM);
   }
 
   @override
-  RemTerm clone() => RemTerm(value, text, span, unit);
+  CssRemTerm clone() => CssRemTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitRemTerm(this);
 }
 
-class ViewportTerm extends UnitTerm {
-  ViewportTerm(dynamic value, String t, SourceSpan? span,
+class CssViewportTerm extends CssUnitTerm {
+  CssViewportTerm(dynamic value, String t, SourceSpan? span,
       [int unit = CssTokenKind.UNIT_LENGTH_PX])
       : super(value, t, span, unit) {
     assert(unit == CssTokenKind.UNIT_VIEWPORT_VW ||
@@ -1349,82 +1361,84 @@ class ViewportTerm extends UnitTerm {
   }
 
   @override
-  ViewportTerm clone() => ViewportTerm(value, text, span, unit);
+  CssViewportTerm clone() => CssViewportTerm(value, text, span, unit);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitViewportTerm(this);
 }
 
 class BadHexValue {}
 
-class HexColorTerm extends LiteralTerm {
-  HexColorTerm(dynamic value, String t, SourceSpan? span)
+class CssHexColorTerm extends CssLiteralTerm {
+  CssHexColorTerm(dynamic value, String t, SourceSpan? span)
       : super(value, t, span);
 
   @override
-  HexColorTerm clone() => HexColorTerm(value, text, span);
+  CssHexColorTerm clone() => CssHexColorTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitHexColorTerm(this);
 }
 
-class FunctionTerm extends LiteralTerm {
-  final Expressions _params;
+class CssFunctionTerm extends CssLiteralTerm {
+  final CssExpressions _params;
 
-  FunctionTerm(dynamic value, String t, this._params, SourceSpan? span)
+  CssFunctionTerm(dynamic value, String t, this._params, SourceSpan? span)
       : super(value, t, span);
 
   @override
-  FunctionTerm clone() => FunctionTerm(value, text, _params.clone(), span);
+  CssFunctionTerm clone() =>
+      CssFunctionTerm(value, text, _params.clone(), span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitFunctionTerm(this);
 }
 
-class IE8Term extends LiteralTerm {
-  IE8Term(SourceSpan? span) : super('\\9', '\\9', span);
+class CssIE8Term extends CssLiteralTerm {
+  CssIE8Term(SourceSpan? span) : super('\\9', '\\9', span);
   @override
-  IE8Term clone() => IE8Term(span);
+  CssIE8Term clone() => CssIE8Term(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitIE8Term(this);
 }
 
-class GroupTerm extends Expression {
-  final List<LiteralTerm> _terms;
+class CssGroupTerm extends CssExpression {
+  final List<CssLiteralTerm> _terms;
 
-  GroupTerm(SourceSpan? span)
+  CssGroupTerm(SourceSpan? span)
       : _terms = [],
         super(span);
 
-  void add(LiteralTerm term) {
+  void add(CssLiteralTerm term) {
     _terms.add(term);
   }
 
   @override
-  GroupTerm clone() => GroupTerm(span);
+  CssGroupTerm clone() => CssGroupTerm(span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitGroupTerm(this);
 }
 
-class ItemTerm extends NumberTerm {
-  ItemTerm(dynamic value, String t, SourceSpan? span) : super(value, t, span);
+class CssItemTerm extends CssNumberTerm {
+  CssItemTerm(dynamic value, String t, SourceSpan? span)
+      : super(value, t, span);
 
   @override
-  ItemTerm clone() => ItemTerm(value, text, span);
+  CssItemTerm clone() => CssItemTerm(value, text, span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitItemTerm(this);
 }
 
-class Expressions extends Expression {
-  final List<Expression> expressions = [];
+class CssExpressions extends CssExpression {
+  final List<CssExpression> expressions = [];
 
-  Expressions(SourceSpan? span) : super(span);
+  CssExpressions(SourceSpan? span) : super(span);
 
-  void add(Expression expression) {
+  void add(CssExpression expression) {
     expressions.add(expression);
   }
 
   @override
-  Expressions clone() {
-    Expressions clonedExprs = Expressions(span);
-    for (Expression expr in expressions) {
+  CssExpressions clone() {
+    CssExpressions clonedExprs = CssExpressions(span);
+    for (CssExpression expr in expressions) {
       clonedExprs.add(expr.clone());
     }
     return clonedExprs;
@@ -1434,22 +1448,23 @@ class Expressions extends Expression {
   dynamic visit(VisitorBase visitor) => visitor.visitExpressions(this);
 }
 
-class BinaryExpression extends Expression {
+class CssBinaryExpression extends CssExpression {
   final CssToken op;
-  final Expression x;
-  final Expression y;
+  final CssExpression x;
+  final CssExpression y;
 
-  BinaryExpression(this.op, this.x, this.y, SourceSpan? span) : super(span);
+  CssBinaryExpression(this.op, this.x, this.y, SourceSpan? span) : super(span);
 
   @override
-  BinaryExpression clone() => BinaryExpression(op, x.clone(), y.clone(), span);
+  CssBinaryExpression clone() =>
+      CssBinaryExpression(op, x.clone(), y.clone(), span);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitBinaryExpression(this);
 }
 
-class UnaryExpression extends Expression {
+class UnaryExpression extends CssExpression {
   final CssToken op;
-  final Expression self;
+  final CssExpression self;
 
   UnaryExpression(this.op, this.self, SourceSpan? span) : super(span);
 
@@ -1459,7 +1474,7 @@ class UnaryExpression extends Expression {
   dynamic visit(VisitorBase visitor) => visitor.visitUnaryExpression(this);
 }
 
-abstract class DartStyleExpression extends TreeNode {
+abstract class CssDartStyleExpression extends CssTreeNode {
   static const int unknownType = 0;
   static const int fontStyle = 1;
   static const int marginStyle = 2;
@@ -1471,9 +1486,9 @@ abstract class DartStyleExpression extends TreeNode {
   final int? _styleType;
   int? priority;
 
-  DartStyleExpression(this._styleType, SourceSpan? span) : super(span);
+  CssDartStyleExpression(this._styleType, SourceSpan? span) : super(span);
 
-  DartStyleExpression? merged(DartStyleExpression newDartExpr);
+  CssDartStyleExpression? merged(CssDartStyleExpression newDartExpr);
 
   bool get isUnknown => _styleType == 0 || _styleType == null;
   bool get isFont => _styleType == fontStyle;
@@ -1484,7 +1499,7 @@ abstract class DartStyleExpression extends TreeNode {
   bool get isWidth => _styleType == widthStyle;
   bool get isBoxExpression => isMargin || isBorder || isPadding;
 
-  bool isSame(DartStyleExpression other) => _styleType == other._styleType;
+  bool isSame(CssDartStyleExpression other) => _styleType == other._styleType;
 
   @override
   SourceSpan get span => super.span!;
@@ -1493,43 +1508,44 @@ abstract class DartStyleExpression extends TreeNode {
   dynamic visit(VisitorBase visitor) => visitor.visitDartStyleExpression(this);
 }
 
-class FontExpression extends DartStyleExpression {
-  final Font font;
+class CssFontExpression extends CssDartStyleExpression {
+  final CssFont font;
 
-  FontExpression(SourceSpan? span,
+  CssFontExpression(SourceSpan? span,
       {Object? /* LengthTerm | num */ size,
       List<String>? family,
       int? weight,
       String? style,
       String? variant,
       LineHeight? lineHeight})
-      : font = Font(
-            size: (size is LengthTerm ? size.value : size) as num?,
+      : font = CssFont(
+            size: (size is CssLengthTerm ? size.value : size) as num?,
             family: family,
             weight: weight,
             style: style,
             variant: variant,
             lineHeight: lineHeight),
-        super(DartStyleExpression.fontStyle, span);
+        super(CssDartStyleExpression.fontStyle, span);
 
   @override
-  FontExpression? merged(DartStyleExpression newDartExpr) {
-    if (newDartExpr is FontExpression && isFont && newDartExpr.isFont) {
-      return FontExpression.merge(this, newDartExpr);
+  CssFontExpression? merged(CssDartStyleExpression newDartExpr) {
+    if (newDartExpr is CssFontExpression && isFont && newDartExpr.isFont) {
+      return CssFontExpression.merge(this, newDartExpr);
     }
     return null;
   }
 
-  factory FontExpression.merge(FontExpression x, FontExpression y) {
-    return FontExpression._merge(x, y, y.span);
+  factory CssFontExpression.merge(CssFontExpression x, CssFontExpression y) {
+    return CssFontExpression._merge(x, y, y.span);
   }
 
-  FontExpression._merge(FontExpression x, FontExpression y, SourceSpan? span)
-      : font = Font.merge(x.font, y.font)!,
-        super(DartStyleExpression.fontStyle, span);
+  CssFontExpression._merge(
+      CssFontExpression x, CssFontExpression y, SourceSpan? span)
+      : font = CssFont.merge(x.font, y.font)!,
+        super(CssDartStyleExpression.fontStyle, span);
 
   @override
-  FontExpression clone() => FontExpression(span,
+  CssFontExpression clone() => CssFontExpression(span,
       size: font.size,
       family: font.family,
       weight: font.weight,
@@ -1541,10 +1557,10 @@ class FontExpression extends DartStyleExpression {
   dynamic visit(VisitorBase visitor) => visitor.visitFontExpression(this);
 }
 
-abstract class BoxExpression extends DartStyleExpression {
-  final BoxEdge? box;
+abstract class CssBoxExpression extends CssDartStyleExpression {
+  final CssBoxEdge? box;
 
-  BoxExpression(int? styleType, SourceSpan? span, this.box)
+  CssBoxExpression(int? styleType, SourceSpan? span, this.box)
       : super(styleType, span);
 
   @override
@@ -1565,105 +1581,111 @@ abstract class BoxExpression extends DartStyleExpression {
   }
 }
 
-class MarginExpression extends BoxExpression {
-  MarginExpression(SourceSpan? span,
+class CssMarginExpression extends CssBoxExpression {
+  CssMarginExpression(SourceSpan? span,
       {num? top, num? right, num? bottom, num? left})
-      : super(DartStyleExpression.marginStyle, span,
-            BoxEdge(left, top, right, bottom));
+      : super(CssDartStyleExpression.marginStyle, span,
+            CssBoxEdge(left, top, right, bottom));
 
-  MarginExpression.boxEdge(SourceSpan? span, BoxEdge? box)
-      : super(DartStyleExpression.marginStyle, span, box);
+  CssMarginExpression.boxEdge(SourceSpan? span, CssBoxEdge? box)
+      : super(CssDartStyleExpression.marginStyle, span, box);
 
   @override
-  MarginExpression? merged(DartStyleExpression newDartExpr) {
-    if (newDartExpr is MarginExpression && isMargin && newDartExpr.isMargin) {
-      return MarginExpression.merge(this, newDartExpr);
+  CssMarginExpression? merged(CssDartStyleExpression newDartExpr) {
+    if (newDartExpr is CssMarginExpression &&
+        isMargin &&
+        newDartExpr.isMargin) {
+      return CssMarginExpression.merge(this, newDartExpr);
     }
 
     return null;
   }
 
-  factory MarginExpression.merge(MarginExpression x, MarginExpression y) {
-    return MarginExpression._merge(x, y, y.span);
+  factory CssMarginExpression.merge(
+      CssMarginExpression x, CssMarginExpression y) {
+    return CssMarginExpression._merge(x, y, y.span);
   }
 
-  MarginExpression._merge(
-      MarginExpression x, MarginExpression y, SourceSpan? span)
-      : super(x._styleType, span, BoxEdge.merge(x.box, y.box));
+  CssMarginExpression._merge(
+      CssMarginExpression x, CssMarginExpression y, SourceSpan? span)
+      : super(x._styleType, span, CssBoxEdge.merge(x.box, y.box));
 
   @override
-  MarginExpression clone() => MarginExpression(span,
+  CssMarginExpression clone() => CssMarginExpression(span,
       top: box!.top, right: box!.right, bottom: box!.bottom, left: box!.left);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitMarginExpression(this);
 }
 
-class BorderExpression extends BoxExpression {
-  BorderExpression(SourceSpan? span,
+class CssBorderExpression extends CssBoxExpression {
+  CssBorderExpression(SourceSpan? span,
       {num? top, num? right, num? bottom, num? left})
-      : super(DartStyleExpression.borderStyle, span,
-            BoxEdge(left, top, right, bottom));
+      : super(CssDartStyleExpression.borderStyle, span,
+            CssBoxEdge(left, top, right, bottom));
 
-  BorderExpression.boxEdge(SourceSpan? span, BoxEdge box)
-      : super(DartStyleExpression.borderStyle, span, box);
+  CssBorderExpression.boxEdge(SourceSpan? span, CssBoxEdge box)
+      : super(CssDartStyleExpression.borderStyle, span, box);
 
   @override
-  BorderExpression? merged(DartStyleExpression newDartExpr) {
-    if (newDartExpr is BorderExpression && isBorder && newDartExpr.isBorder) {
-      return BorderExpression.merge(this, newDartExpr);
+  CssBorderExpression? merged(CssDartStyleExpression newDartExpr) {
+    if (newDartExpr is CssBorderExpression &&
+        isBorder &&
+        newDartExpr.isBorder) {
+      return CssBorderExpression.merge(this, newDartExpr);
     }
 
     return null;
   }
 
-  factory BorderExpression.merge(BorderExpression x, BorderExpression y) {
-    return BorderExpression._merge(x, y, y.span);
+  factory CssBorderExpression.merge(
+      CssBorderExpression x, CssBorderExpression y) {
+    return CssBorderExpression._merge(x, y, y.span);
   }
 
-  BorderExpression._merge(
-      BorderExpression x, BorderExpression y, SourceSpan? span)
-      : super(
-            DartStyleExpression.borderStyle, span, BoxEdge.merge(x.box, y.box));
+  CssBorderExpression._merge(
+      CssBorderExpression x, CssBorderExpression y, SourceSpan? span)
+      : super(CssDartStyleExpression.borderStyle, span,
+            CssBoxEdge.merge(x.box, y.box));
 
   @override
-  BorderExpression clone() => BorderExpression(span,
+  CssBorderExpression clone() => CssBorderExpression(span,
       top: box!.top, right: box!.right, bottom: box!.bottom, left: box!.left);
 
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitBorderExpression(this);
 }
 
-class HeightExpression extends DartStyleExpression {
+class CssHeightExpression extends CssDartStyleExpression {
   final dynamic height;
 
-  HeightExpression(SourceSpan? span, this.height)
-      : super(DartStyleExpression.heightStyle, span);
+  CssHeightExpression(SourceSpan? span, this.height)
+      : super(CssDartStyleExpression.heightStyle, span);
 
   @override
-  HeightExpression? merged(DartStyleExpression newDartExpr) {
+  CssHeightExpression? merged(CssDartStyleExpression newDartExpr) {
     if (isHeight && newDartExpr.isHeight) {
-      return newDartExpr as HeightExpression;
+      return newDartExpr as CssHeightExpression;
     }
 
     return null;
   }
 
   @override
-  HeightExpression clone() => HeightExpression(span, height);
+  CssHeightExpression clone() => CssHeightExpression(span, height);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitHeightExpression(this);
 }
 
-class WidthExpression extends DartStyleExpression {
+class CssWidthExpression extends CssDartStyleExpression {
   final dynamic width;
 
-  WidthExpression(SourceSpan? span, this.width)
-      : super(DartStyleExpression.widthStyle, span);
+  CssWidthExpression(SourceSpan? span, this.width)
+      : super(CssDartStyleExpression.widthStyle, span);
 
   @override
-  WidthExpression? merged(DartStyleExpression newDartExpr) {
-    if (newDartExpr is WidthExpression && isWidth && newDartExpr.isWidth) {
+  CssWidthExpression? merged(CssDartStyleExpression newDartExpr) {
+    if (newDartExpr is CssWidthExpression && isWidth && newDartExpr.isWidth) {
       return newDartExpr;
     }
 
@@ -1671,42 +1693,43 @@ class WidthExpression extends DartStyleExpression {
   }
 
   @override
-  WidthExpression clone() => WidthExpression(span, width);
+  CssWidthExpression clone() => CssWidthExpression(span, width);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitWidthExpression(this);
 }
 
-class PaddingExpression extends BoxExpression {
-  PaddingExpression(SourceSpan? span,
+class CssPaddingExpression extends CssBoxExpression {
+  CssPaddingExpression(SourceSpan? span,
       {num? top, num? right, num? bottom, num? left})
-      : super(DartStyleExpression.paddingStyle, span,
-            BoxEdge(left, top, right, bottom));
+      : super(CssDartStyleExpression.paddingStyle, span,
+            CssBoxEdge(left, top, right, bottom));
 
-  PaddingExpression.boxEdge(SourceSpan? span, BoxEdge? box)
-      : super(DartStyleExpression.paddingStyle, span, box);
+  CssPaddingExpression.boxEdge(SourceSpan? span, CssBoxEdge? box)
+      : super(CssDartStyleExpression.paddingStyle, span, box);
 
   @override
-  PaddingExpression? merged(DartStyleExpression newDartExpr) {
-    if (newDartExpr is PaddingExpression &&
+  CssPaddingExpression? merged(CssDartStyleExpression newDartExpr) {
+    if (newDartExpr is CssPaddingExpression &&
         isPadding &&
         newDartExpr.isPadding) {
-      return PaddingExpression.merge(this, newDartExpr);
+      return CssPaddingExpression.merge(this, newDartExpr);
     }
 
     return null;
   }
 
-  factory PaddingExpression.merge(PaddingExpression x, PaddingExpression y) {
-    return PaddingExpression._merge(x, y, y.span);
+  factory CssPaddingExpression.merge(
+      CssPaddingExpression x, CssPaddingExpression y) {
+    return CssPaddingExpression._merge(x, y, y.span);
   }
 
-  PaddingExpression._merge(
-      PaddingExpression x, PaddingExpression y, SourceSpan? span)
-      : super(DartStyleExpression.paddingStyle, span,
-            BoxEdge.merge(x.box, y.box));
+  CssPaddingExpression._merge(
+      CssPaddingExpression x, CssPaddingExpression y, SourceSpan? span)
+      : super(CssDartStyleExpression.paddingStyle, span,
+            CssBoxEdge.merge(x.box, y.box));
 
   @override
-  PaddingExpression clone() => PaddingExpression(span,
+  CssPaddingExpression clone() => CssPaddingExpression(span,
       top: box!.top, right: box!.right, bottom: box!.bottom, left: box!.left);
   @override
   dynamic visit(VisitorBase visitor) => visitor.visitPaddingExpression(this);

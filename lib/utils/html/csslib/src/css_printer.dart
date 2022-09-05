@@ -6,7 +6,7 @@ class CssPrinter extends Visitor {
   bool _isInKeyframes = false;
 
   @override
-  void visitTree(StyleSheet tree, {bool pretty = false}) {
+  void visitTree(CssStyleSheet tree, {bool pretty = false}) {
     prettyPrint = pretty;
     _buff = StringBuffer();
     visitStyleSheet(tree);
@@ -25,7 +25,7 @@ class CssPrinter extends Visitor {
   bool get _isTesting => !prettyPrint;
 
   @override
-  void visitCalcTerm(CalcTerm node) {
+  void visitCalcTerm(CssCalcTerm node) {
     emit('${node.text}(');
     node.expr.visit(this);
     emit(')');
@@ -37,12 +37,12 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitCommentDefinition(CommentDefinition node) {
+  void visitCommentDefinition(CssCommentDefinition node) {
     emit('<!-- ${node.comment} -->');
   }
 
   @override
-  void visitMediaExpression(MediaExpression node) {
+  void visitMediaExpression(CssMediaExpression node) {
     emit(node.andOperator ? ' AND ' : ' ');
     emit('(${node.mediaFeature}');
     if (node.exprs.expressions.isNotEmpty) {
@@ -57,7 +57,7 @@ class CssPrinter extends Visitor {
     String unary = node.hasUnary ? ' ${node.unary}' : '';
     String mediaType = node.hasMediaType ? ' ${node.mediaType}' : '';
     emit('$unary$mediaType');
-    for (MediaExpression expression in node.expressions) {
+    for (CssMediaExpression expression in node.expressions) {
       visitMediaExpression(expression);
     }
   }
@@ -72,33 +72,33 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitDocumentDirective(DocumentDirective node) {
+  void visitDocumentDirective(CssDocumentDirective node) {
     emit('$_newLine@-moz-document ');
     node.functions.first.visit(this);
-    for (LiteralTerm function in node.functions.skip(1)) {
+    for (CssLiteralTerm function in node.functions.skip(1)) {
       emit(',$_sp');
       function.visit(this);
     }
     emit('$_sp{');
-    for (TreeNode ruleSet in node.groupRuleBody) {
+    for (CssTreeNode ruleSet in node.groupRuleBody) {
       ruleSet.visit(this);
     }
     emit('$_newLine}');
   }
 
   @override
-  void visitSupportsDirective(SupportsDirective node) {
+  void visitSupportsDirective(CssSupportsDirective node) {
     emit('$_newLine@supports ');
     node.condition!.visit(this);
     emit('$_sp{');
-    for (TreeNode rule in node.groupRuleBody) {
+    for (CssTreeNode rule in node.groupRuleBody) {
       rule.visit(this);
     }
     emit('$_newLine}');
   }
 
   @override
-  void visitSupportsConditionInParens(SupportsConditionInParens node) {
+  void visitSupportsConditionInParens(CssSupportsConditionInParens node) {
     emit('(');
     node.condition!.visit(this);
     emit(')');
@@ -113,50 +113,50 @@ class CssPrinter extends Visitor {
   @override
   void visitSupportsConjunction(SupportsConjunction node) {
     node.conditions.first.visit(this);
-    for (SupportsConditionInParens condition in node.conditions.skip(1)) {
+    for (CssSupportsConditionInParens condition in node.conditions.skip(1)) {
       emit('${_sp}and$_sp');
       condition.visit(this);
     }
   }
 
   @override
-  void visitSupportsDisjunction(SupportsDisjunction node) {
+  void visitSupportsDisjunction(CssSupportsDisjunction node) {
     node.conditions.first.visit(this);
-    for (SupportsConditionInParens condition in node.conditions.skip(1)) {
+    for (CssSupportsConditionInParens condition in node.conditions.skip(1)) {
       emit('${_sp}or$_sp');
       condition.visit(this);
     }
   }
 
   @override
-  void visitViewportDirective(ViewportDirective node) {
+  void visitViewportDirective(CssViewportDirective node) {
     emit('@${node.name}$_sp{$_newLine');
     node.declarations.visit(this);
     emit('}');
   }
 
   @override
-  void visitMediaDirective(MediaDirective node) {
+  void visitMediaDirective(CssMediaDirective node) {
     emit('$_newLine@media');
     emitMediaQueries(node.mediaQueries.cast<MediaQuery>());
     emit('$_sp{');
-    for (TreeNode ruleset in node.rules) {
+    for (CssTreeNode ruleset in node.rules) {
       ruleset.visit(this);
     }
     emit('$_newLine}');
   }
 
   @override
-  void visitHostDirective(HostDirective node) {
+  void visitHostDirective(CssHostDirective node) {
     emit('$_newLine@host$_sp{');
-    for (TreeNode ruleset in node.rules) {
+    for (CssTreeNode ruleset in node.rules) {
       ruleset.visit(this);
     }
     emit('$_newLine}');
   }
 
   @override
-  void visitPageDirective(PageDirective node) {
+  void visitPageDirective(CssPageDirective node) {
     emit('$_newLine@page');
     if (node.hasIdent || node.hasPseudoPage) {
       if (node.hasIdent) emit(' ');
@@ -174,12 +174,12 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitCharsetDirective(CharsetDirective node) {
+  void visitCharsetDirective(CssCharsetDirective node) {
     emit('$_newLine@charset "${node.charEncoding}";');
   }
 
   @override
-  void visitImportDirective(ImportDirective node) {
+  void visitImportDirective(CssImportDirective node) {
     bool isStartingQuote(String ch) => ('\'"'.contains(ch[0]));
 
     if (_isTesting) {
@@ -194,7 +194,7 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitKeyFrameDirective(KeyFrameDirective node) {
+  void visitKeyFrameDirective(CssKeyFrameDirective node) {
     emit('$_newLine${node.keyFrameName} ');
     node.name!.visit(this);
     emit('$_sp{$_newLine');
@@ -215,7 +215,7 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitKeyFrameBlock(KeyFrameBlock node) {
+  void visitKeyFrameBlock(CssKeyFrameBlock node) {
     emit('$_sp$_sp');
     node._blockSelectors.visit(this);
     emit('$_sp{$_newLine');
@@ -229,7 +229,7 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitNamespaceDirective(NamespaceDirective node) {
+  void visitNamespaceDirective(CssNamespaceDirective node) {
     bool isStartingQuote(String ch) => ('\'"'.contains(ch));
 
     if (isStartingQuote(node._uri!)) {
@@ -245,22 +245,22 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitVarDefinitionDirective(VarDefinitionDirective node) {
+  void visitVarDefinitionDirective(CssVarDefinitionDirective node) {
     visitVarDefinition(node.def);
     emit(';$_newLine');
   }
 
   @override
-  void visitMixinRulesetDirective(MixinRulesetDirective node) {
+  void visitMixinRulesetDirective(CssMixinRulesetDirective node) {
     emit('@mixin ${node.name} {');
-    for (TreeNode ruleset in node.rulesets) {
+    for (CssTreeNode ruleset in node.rulesets) {
       ruleset.visit(this);
     }
     emit('}');
   }
 
   @override
-  void visitMixinDeclarationDirective(MixinDeclarationDirective node) {
+  void visitMixinDeclarationDirective(CssMixinDeclarationDirective node) {
     emit('@mixin ${node.name} {\n');
     visitDeclarationGroup(node.declarations);
     emit('}');
@@ -274,10 +274,10 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitContentDirective(ContentDirective node) {}
+  void visitContentDirective(CssContentDirective node) {}
 
   @override
-  void visitRuleSet(RuleSet node) {
+  void visitRuleSet(CssRuleSet node) {
     emit(_newLine);
     node.selectorGroup!.visit(this);
     emit('$_sp{$_newLine');
@@ -287,7 +287,7 @@ class CssPrinter extends Visitor {
 
   @override
   void visitDeclarationGroup(DeclarationGroup node) {
-    List<TreeNode> declarations = node.declarations;
+    List<CssTreeNode> declarations = node.declarations;
     int declarationsLength = declarations.length;
     for (int i = 0; i < declarationsLength; i++) {
       if (i > 0) emit(_newLine);
@@ -301,7 +301,7 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitMarginGroup(MarginGroup node) {
+  void visitMarginGroup(CssMarginGroup node) {
     String? marginSymName =
         CssTokenKind.idToValue(CssTokenKind.MARGIN_DIRECTIVES, node.marginSym);
 
@@ -313,7 +313,7 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitDeclaration(Declaration node) {
+  void visitDeclaration(CssDeclaration node) {
     emit('${node.property}:$_sp');
     node.expression!.visit(this);
     if (node.important) {
@@ -328,21 +328,21 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitIncludeMixinAtDeclaration(IncludeMixinAtDeclaration node) {
+  void visitIncludeMixinAtDeclaration(CssIncludeMixinAtDeclaration node) {
     visitIncludeDirective(node.include, false);
   }
 
   @override
-  void visitExtendDeclaration(ExtendDeclaration node) {
+  void visitExtendDeclaration(CssExtendDeclaration node) {
     emit('@extend ');
-    for (TreeNode selector in node.selectors) {
+    for (CssTreeNode selector in node.selectors) {
       selector.visit(this);
     }
   }
 
   @override
-  void visitSelectorGroup(SelectorGroup node) {
-    List<Selector> selectors = node.selectors;
+  void visitSelectorGroup(CssSelectorGroup node) {
+    List<CssSelector> selectors = node.selectors;
     int selectorsLength = selectors.length;
     for (int i = 0; i < selectorsLength; i++) {
       if (i > 0) emit(',$_sp');
@@ -351,13 +351,13 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitSimpleSelectorSequence(SimpleSelectorSequence node) {
+  void visitSimpleSelectorSequence(CssSimpleSelectorSequence node) {
     emit(node._combinatorToString);
     node.simpleSelector.visit(this);
   }
 
   @override
-  void visitSimpleSelector(SimpleSelector node) {
+  void visitSimpleSelector(CssSimpleSelector node) {
     emit(node.name);
   }
 
@@ -372,27 +372,27 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitAttributeSelector(AttributeSelector node) {
+  void visitAttributeSelector(CssAttributeSelector node) {
     emit(node.toString());
   }
 
   @override
-  void visitIdSelector(IdSelector node) {
+  void visitIdSelector(CssIdSelector node) {
     emit(node.toString());
   }
 
   @override
-  void visitClassSelector(ClassSelector node) {
+  void visitClassSelector(CssClassSelector node) {
     emit(node.toString());
   }
 
   @override
-  void visitPseudoClassSelector(PseudoClassSelector node) {
+  void visitPseudoClassSelector(CssPseudoClassSelector node) {
     emit(node.toString());
   }
 
   @override
-  void visitPseudoElementSelector(PseudoElementSelector node) {
+  void visitPseudoElementSelector(CssPseudoElementSelector node) {
     emit(node.toString());
   }
 
@@ -404,31 +404,32 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitPseudoElementFunctionSelector(PseudoElementFunctionSelector node) {
+  void visitPseudoElementFunctionSelector(
+      CssPseudoElementFunctionSelector node) {
     emit('::${node.name}(');
     node.expression.visit(this);
     emit(')');
   }
 
   @override
-  void visitNegationSelector(NegationSelector node) {
+  void visitNegationSelector(CssNegationSelector node) {
     emit(':not(');
     node.negationArg!.visit(this);
     emit(')');
   }
 
   @override
-  void visitSelectorExpression(SelectorExpression node) {
-    List<Expression> expressions = node.expressions;
+  void visitSelectorExpression(CssSelectorExpression node) {
+    List<CssExpression> expressions = node.expressions;
     int expressionsLength = expressions.length;
     for (int i = 0; i < expressionsLength; i++) {
-      Expression expression = expressions[i];
+      CssExpression expression = expressions[i];
       expression.visit(this);
     }
   }
 
   @override
-  void visitUnicodeRangeTerm(UnicodeRangeTerm node) {
+  void visitUnicodeRangeTerm(CssUnicodeRangeTerm node) {
     if (node.hasSecond) {
       emit('U+${node.first}-${node.second}');
     } else {
@@ -437,12 +438,12 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitLiteralTerm(LiteralTerm node) {
+  void visitLiteralTerm(CssLiteralTerm node) {
     emit(node.text);
   }
 
   @override
-  void visitHexColorTerm(HexColorTerm node) {
+  void visitHexColorTerm(CssHexColorTerm node) {
     String? mappedName;
     if (_isTesting && (node.value is! BadHexValue)) {
       mappedName = CssTokenKind.hexToColorName(node.value);
@@ -453,81 +454,81 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitNumberTerm(NumberTerm node) {
+  void visitNumberTerm(CssNumberTerm node) {
     visitLiteralTerm(node);
   }
 
   @override
-  void visitUnitTerm(UnitTerm node) {
+  void visitUnitTerm(CssUnitTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitLengthTerm(LengthTerm node) {
+  void visitLengthTerm(CssLengthTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitPercentageTerm(PercentageTerm node) {
+  void visitPercentageTerm(CssPercentageTerm node) {
     emit('${node.text}%');
   }
 
   @override
-  void visitEmTerm(EmTerm node) {
+  void visitEmTerm(CssEmTerm node) {
     emit('${node.text}em');
   }
 
   @override
-  void visitExTerm(ExTerm node) {
+  void visitExTerm(CssExTerm node) {
     emit('${node.text}ex');
   }
 
   @override
-  void visitAngleTerm(AngleTerm node) {
+  void visitAngleTerm(CssAngleTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitTimeTerm(TimeTerm node) {
+  void visitTimeTerm(CssTimeTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitFreqTerm(FreqTerm node) {
+  void visitFreqTerm(CssFreqTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitFractionTerm(FractionTerm node) {
+  void visitFractionTerm(CssFractionTerm node) {
     emit('${node.text}fr');
   }
 
   @override
-  void visitUriTerm(UriTerm node) {
+  void visitUriTerm(CssUriTerm node) {
     emit('url("${node.text}")');
   }
 
   @override
-  void visitResolutionTerm(ResolutionTerm node) {
+  void visitResolutionTerm(CssResolutionTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitViewportTerm(ViewportTerm node) {
+  void visitViewportTerm(CssViewportTerm node) {
     emit(node.toString());
   }
 
   @override
-  void visitFunctionTerm(FunctionTerm node) {
+  void visitFunctionTerm(CssFunctionTerm node) {
     emit('${node.text}(');
     node._params.visit(this);
     emit(')');
   }
 
   @override
-  void visitGroupTerm(GroupTerm node) {
+  void visitGroupTerm(CssGroupTerm node) {
     emit('(');
-    List<LiteralTerm> terms = node._terms;
+    List<CssLiteralTerm> terms = node._terms;
     int termsLength = terms.length;
     for (int i = 0; i < termsLength; i++) {
       if (i > 0) emit(_sp);
@@ -537,41 +538,41 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitItemTerm(ItemTerm node) {
+  void visitItemTerm(CssItemTerm node) {
     emit('[${node.text}]');
   }
 
   @override
-  void visitIE8Term(IE8Term node) {
+  void visitIE8Term(CssIE8Term node) {
     visitLiteralTerm(node);
   }
 
   @override
-  void visitOperatorSlash(OperatorSlash node) {
+  void visitOperatorSlash(CssOperatorSlash node) {
     emit('/');
   }
 
   @override
-  void visitOperatorComma(OperatorComma node) {
+  void visitOperatorComma(CssOperatorComma node) {
     emit(',');
   }
 
   @override
-  void visitOperatorPlus(OperatorPlus node) {
+  void visitOperatorPlus(CssOperatorPlus node) {
     emit('+');
   }
 
   @override
-  void visitOperatorMinus(OperatorMinus node) {
+  void visitOperatorMinus(CssOperatorMinus node) {
     emit('-');
   }
 
   @override
-  void visitVarUsage(VarUsage node) {
+  void visitVarUsage(CssVarUsage node) {
     emit('var(${node.name}');
     if (node.defaultValues.isNotEmpty) {
       emit(',');
-      for (Expression defaultValue in node.defaultValues) {
+      for (CssExpression defaultValue in node.defaultValues) {
         emit(' ');
         defaultValue.visit(this);
       }
@@ -580,18 +581,18 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitExpressions(Expressions node) {
-    List<Expression> expressions = node.expressions;
+  void visitExpressions(CssExpressions node) {
+    List<CssExpression> expressions = node.expressions;
     int expressionsLength = expressions.length;
     for (int i = 0; i < expressionsLength; i++) {
-      Expression expression = expressions[i];
+      CssExpression expression = expressions[i];
       if (i > 0 &&
-          !(expression is OperatorComma || expression is OperatorSlash)) {
-        Expression previous = expressions[i - 1];
-        if (previous is OperatorComma || previous is OperatorSlash) {
+          !(expression is CssOperatorComma || expression is CssOperatorSlash)) {
+        CssExpression previous = expressions[i - 1];
+        if (previous is CssOperatorComma || previous is CssOperatorSlash) {
           emit(_sp);
-        } else if (previous is PercentageTerm &&
-            expression is PercentageTerm &&
+        } else if (previous is CssPercentageTerm &&
+            expression is CssPercentageTerm &&
             _isInKeyframes) {
           emit(',');
           emit(_sp);
@@ -604,7 +605,7 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitBinaryExpression(BinaryExpression node) {
+  void visitBinaryExpression(CssBinaryExpression node) {
     throw UnimplementedError;
   }
 
@@ -614,17 +615,17 @@ class CssPrinter extends Visitor {
   }
 
   @override
-  void visitIdentifier(Identifier node) {
+  void visitIdentifier(CssIdentifier node) {
     emit(node.name);
   }
 
   @override
-  void visitWildcard(Wildcard node) {
+  void visitWildcard(CssWildcard node) {
     emit('*');
   }
 
   @override
-  void visitDartStyleExpression(DartStyleExpression node) {
+  void visitDartStyleExpression(CssDartStyleExpression node) {
     throw UnimplementedError;
   }
 }

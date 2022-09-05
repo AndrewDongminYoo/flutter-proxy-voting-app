@@ -23,7 +23,7 @@ enum ClauseType {
   disjunction,
 }
 
-class ParserState extends TokenizerState {
+class ParserState extends CssTokenizerState {
   final CssToken peekToken;
   final CssToken? previousToken;
 
@@ -31,22 +31,24 @@ class ParserState extends TokenizerState {
       : super(tokenizer);
 }
 
-void _createMessages({List<Message>? errors, PreprocessorOptions? options}) {
+void _createMessages(
+    {List<CssMessage>? errors, CssPreprocessorOptions? options}) {
   errors ??= [];
 
-  options ??= const PreprocessorOptions(useColors: false, inputFile: 'memory');
+  options ??=
+      const CssPreprocessorOptions(useColors: false, inputFile: 'memory');
 
-  messages = Messages(options: options, printHandler: errors.add);
+  messages = CssMessages(options: options, printHandler: errors.add);
 }
 
 bool get isChecked => messages.options.checked;
 
-StyleSheet compile(input,
-    {List<Message>? errors,
-    PreprocessorOptions? options,
+CssStyleSheet compile(input,
+    {List<CssMessage>? errors,
+    CssPreprocessorOptions? options,
     bool nested = true,
     bool polyfill = false,
-    List<StyleSheet>? includes}) {
+    List<CssStyleSheet>? includes}) {
   includes ??= [];
 
   String source = _inputAsString(input);
@@ -55,25 +57,26 @@ StyleSheet compile(input,
 
   SourceFile file = SourceFile.fromString(source);
 
-  StyleSheet tree = _Parser(file, source).parse();
+  CssStyleSheet tree = _Parser(file, source).parse();
 
   analyze([tree], errors: errors, options: options);
 
   if (polyfill) {
-    PolyFill processCss = PolyFill(messages);
+    CssPolyFill processCss = CssPolyFill(messages);
     processCss.process(tree, includes: includes);
   }
 
   return tree;
 }
 
-void analyze(List<StyleSheet> styleSheets,
-    {List<Message>? errors, PreprocessorOptions? options}) {
+void analyze(List<CssStyleSheet> styleSheets,
+    {List<CssMessage>? errors, CssPreprocessorOptions? options}) {
   _createMessages(errors: errors, options: options);
   Analyzer(styleSheets, messages).run();
 }
 
-StyleSheet parse(input, {List<Message>? errors, PreprocessorOptions? options}) {
+CssStyleSheet parse(input,
+    {List<CssMessage>? errors, CssPreprocessorOptions? options}) {
   String source = _inputAsString(input);
 
   _createMessages(errors: errors, options: options);
@@ -82,7 +85,7 @@ StyleSheet parse(input, {List<Message>? errors, PreprocessorOptions? options}) {
   return _Parser(file, source).parse();
 }
 
-StyleSheet selector(input, {List<Message>? errors}) {
+CssStyleSheet selector(input, {List<CssMessage>? errors}) {
   String source = _inputAsString(input);
 
   _createMessages(errors: errors);
@@ -91,7 +94,7 @@ StyleSheet selector(input, {List<Message>? errors}) {
   return (_Parser(file, source)..tokenizer.inSelector = true).parseSelector();
 }
 
-SelectorGroup? parseSelectorGroup(input, {List<Message>? errors}) {
+CssSelectorGroup? parseSelectorGroup(input, {List<CssMessage>? errors}) {
   String source = _inputAsString(input);
 
   _createMessages(errors: errors);
@@ -123,7 +126,7 @@ class Parser {
   Parser(SourceFile file, String text, {int start = 0, String? baseUrl})
       : _parser = _Parser(file, text, start: start);
 
-  StyleSheet parse() => _parser.parse();
+  CssStyleSheet parse() => _parser.parse();
 }
 
 const _legacyPseudoElements = <String>{
@@ -146,8 +149,8 @@ class _Parser {
     _peekToken = tokenizer.next();
   }
 
-  StyleSheet parse() {
-    List<TreeNode> productions = <TreeNode>[];
+  CssStyleSheet parse() {
+    List<CssTreeNode> productions = <CssTreeNode>[];
 
     FileSpan start = _peekToken.span;
     while (!_maybeEat(CssTokenKind.END_OF_FILE) &&
@@ -162,16 +165,16 @@ class _Parser {
 
     checkEndOfFile();
 
-    return StyleSheet(productions, _makeSpan(start));
+    return CssStyleSheet(productions, _makeSpan(start));
   }
 
-  StyleSheet parseSelector() {
-    List<TreeNode> productions = <TreeNode>[];
+  CssStyleSheet parseSelector() {
+    List<CssTreeNode> productions = <CssTreeNode>[];
 
     FileSpan start = _peekToken.span;
     while (!_maybeEat(CssTokenKind.END_OF_FILE) &&
         !_peekKind(CssTokenKind.RBRACE)) {
-      Selector? selector = processSelector();
+      CssSelector? selector = processSelector();
       if (selector != null) {
         productions.add(selector);
       } else {
@@ -181,7 +184,7 @@ class _Parser {
 
     checkEndOfFile();
 
-    return StyleSheet.selector(productions, _makeSpan(start));
+    return CssStyleSheet.selector(productions, _makeSpan(start));
   }
 
   void checkEndOfFile() {
@@ -303,10 +306,10 @@ class _Parser {
       start = _peekToken.span;
     }
 
-    Identifier? type;
+    CssIdentifier? type;
     if (_peekIdentifier()) type = identifier();
 
-    List<MediaExpression> exprs = <MediaExpression>[];
+    List<CssMediaExpression> exprs = <CssMediaExpression>[];
 
     while (true) {
       bool andOp = exprs.isNotEmpty || type != null;
@@ -320,7 +323,7 @@ class _Parser {
         _next();
       }
 
-      MediaExpression? expr = processMediaExpression(andOp);
+      CssMediaExpression? expr = processMediaExpression(andOp);
       if (expr == null) break;
 
       exprs.add(expr);
@@ -332,17 +335,18 @@ class _Parser {
     return null;
   }
 
-  MediaExpression? processMediaExpression([bool andOperator = false]) {
+  CssMediaExpression? processMediaExpression([bool andOperator = false]) {
     FileSpan start = _peekToken.span;
 
     if (_maybeEat(CssTokenKind.LPAREN)) {
       if (_peekIdentifier()) {
-        Identifier feature = identifier();
-        Expressions exprs = _maybeEat(CssTokenKind.COLON)
+        CssIdentifier feature = identifier();
+        CssExpressions exprs = _maybeEat(CssTokenKind.COLON)
             ? processExpr()
-            : Expressions(_makeSpan(_peekToken.span));
+            : CssExpressions(_makeSpan(_peekToken.span));
         if (_maybeEat(CssTokenKind.RPAREN)) {
-          return MediaExpression(andOperator, feature, exprs, _makeSpan(start));
+          return CssMediaExpression(
+              andOperator, feature, exprs, _makeSpan(start));
         } else if (isChecked) {
           _warning(
               'Missing parenthesis around media expression', _makeSpan(start));
@@ -359,7 +363,7 @@ class _Parser {
     FileSpan start = _peekToken.span;
 
     dynamic tokId = processVariableOrDirective();
-    if (tokId is VarDefinitionDirective) return tokId;
+    if (tokId is CssVarDefinitionDirective) return tokId;
     final tokenId = tokId as int;
     switch (tokenId) {
       case CssTokenKind.DIRECTIVE_IMPORT:
@@ -367,8 +371,8 @@ class _Parser {
 
         String? importStr;
         if (_peekIdentifier()) {
-          TreeNode func = processFunction(identifier());
-          if (func is UriTerm) {
+          CssTreeNode func = processFunction(identifier());
+          if (func is CssUriTerm) {
             importStr = func.text;
           }
         } else {
@@ -381,14 +385,14 @@ class _Parser {
           _error('missing import string', _peekToken.span);
         }
 
-        return ImportDirective(importStr!.trim(), medias, _makeSpan(start));
+        return CssImportDirective(importStr!.trim(), medias, _makeSpan(start));
 
       case CssTokenKind.DIRECTIVE_MEDIA:
         _next();
 
         List<MediaQuery> media = processMediaQueryList();
 
-        List<TreeNode> rules = <TreeNode>[];
+        List<CssTreeNode> rules = <CssTreeNode>[];
         if (_maybeEat(CssTokenKind.LBRACE)) {
           while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
             final rule = processRule();
@@ -402,12 +406,12 @@ class _Parser {
         } else {
           _error('expected { after media before ruleset', _peekToken.span);
         }
-        return MediaDirective(media, rules, _makeSpan(start));
+        return CssMediaDirective(media, rules, _makeSpan(start));
 
       case CssTokenKind.DIRECTIVE_HOST:
         _next();
 
-        List<TreeNode> rules = <TreeNode>[];
+        List<CssTreeNode> rules = <CssTreeNode>[];
         if (_maybeEat(CssTokenKind.LBRACE)) {
           while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
             final rule = processRule();
@@ -421,17 +425,17 @@ class _Parser {
         } else {
           _error('expected { after host before ruleset', _peekToken.span);
         }
-        return HostDirective(rules, _makeSpan(start));
+        return CssHostDirective(rules, _makeSpan(start));
 
       case CssTokenKind.DIRECTIVE_PAGE:
         _next();
 
-        Identifier? name;
+        CssIdentifier? name;
         if (_peekIdentifier()) {
           name = identifier();
         }
 
-        Identifier? pseudoPage;
+        CssIdentifier? pseudoPage;
         if (_maybeEat(CssTokenKind.COLON)) {
           if (_peekIdentifier()) {
             pseudoPage = identifier();
@@ -446,16 +450,16 @@ class _Parser {
           }
         }
 
-        String pseudoName = pseudoPage is Identifier ? pseudoPage.name : '';
-        String ident = name is Identifier ? name.name : '';
-        return PageDirective(
+        String pseudoName = pseudoPage is CssIdentifier ? pseudoPage.name : '';
+        String ident = name is CssIdentifier ? name.name : '';
+        return CssPageDirective(
             ident, pseudoName, processMarginsDeclarations(), _makeSpan(start));
 
       case CssTokenKind.DIRECTIVE_CHARSET:
         _next();
 
         String charEncoding = processQuotedString(false);
-        return CharsetDirective(charEncoding, _makeSpan(start));
+        return CssCharsetDirective(charEncoding, _makeSpan(start));
 
       /*
       case TokenKind.DIRECTIVE_MS_KEYFRAMES:
@@ -477,26 +481,26 @@ class _Parser {
 
         _next();
 
-        Identifier? name;
+        CssIdentifier? name;
         if (_peekIdentifier()) {
           name = identifier();
         }
 
         _eat(CssTokenKind.LBRACE);
 
-        KeyFrameDirective keyframe =
-            KeyFrameDirective(tokenId, name, _makeSpan(start));
+        CssKeyFrameDirective keyframe =
+            CssKeyFrameDirective(tokenId, name, _makeSpan(start));
 
         do {
-          Expressions selectors = Expressions(_makeSpan(start));
+          CssExpressions selectors = CssExpressions(_makeSpan(start));
 
           do {
-            Expression term = processTerm() as Expression;
+            CssExpression term = processTerm() as CssExpression;
 
             selectors.add(term);
           } while (_maybeEat(CssTokenKind.COMMA));
 
-          keyframe.add(KeyFrameBlock(
+          keyframe.add(CssKeyFrameBlock(
               selectors, processDeclarations(), _makeSpan(start)));
         } while (!_maybeEat(CssTokenKind.RBRACE) && !isPrematureEndOfFile());
 
@@ -516,7 +520,7 @@ class _Parser {
 
         _eat(CssTokenKind.LBRACE);
 
-        List<TreeNode> productions = <TreeNode>[];
+        List<CssTreeNode> productions = <CssTreeNode>[];
 
         start = _peekToken.span;
         while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
@@ -534,21 +538,21 @@ class _Parser {
       case CssTokenKind.DIRECTIVE_NAMESPACE:
         _next();
 
-        Identifier? prefix;
+        CssIdentifier? prefix;
         if (_peekIdentifier()) {
           prefix = identifier();
         }
 
         String? namespaceUri;
         if (_peekIdentifier()) {
-          TreeNode func = processFunction(identifier());
-          if (func is UriTerm) {
+          CssTreeNode func = processFunction(identifier());
+          if (func is CssUriTerm) {
             namespaceUri = func.text;
           }
         } else {
           if (prefix != null && prefix.name == 'url') {
-            TreeNode func = processFunction(prefix);
-            if (func is UriTerm) {
+            CssTreeNode func = processFunction(prefix);
+            if (func is CssUriTerm) {
               namespaceUri = func.text;
               prefix = null;
             }
@@ -557,7 +561,7 @@ class _Parser {
           }
         }
 
-        return NamespaceDirective(
+        return CssNamespaceDirective(
             prefix?.name ?? '', namespaceUri, _makeSpan(start));
 
       case CssTokenKind.DIRECTIVE_MIXIN:
@@ -579,19 +583,19 @@ class _Parser {
     return null;
   }
 
-  MixinDefinition? processMixin() {
+  CssMixinDefinition? processMixin() {
     _next();
 
-    Identifier name = identifier();
+    CssIdentifier name = identifier();
 
-    List<TreeNode> params = <TreeNode>[];
+    List<CssTreeNode> params = <CssTreeNode>[];
     if (_maybeEat(CssTokenKind.LPAREN)) {
       bool mustHaveParam = false;
       bool keepGoing = true;
       while (keepGoing) {
         dynamic varDef = processVariableOrDirective(mixinParameter: true);
-        if (varDef is VarDefinitionDirective || varDef is VarDefinition) {
-          params.add(varDef as TreeNode);
+        if (varDef is CssVarDefinitionDirective || varDef is VarDefinition) {
+          params.add(varDef as CssTreeNode);
         } else if (mustHaveParam) {
           _warning('Expecting parameter', _makeSpan(_peekToken.span));
           keepGoing = false;
@@ -606,8 +610,8 @@ class _Parser {
 
     _eat(CssTokenKind.LBRACE);
 
-    List<TreeNode> productions = <TreeNode>[];
-    MixinDefinition? mixinDirective;
+    List<CssTreeNode> productions = <CssTreeNode>[];
+    CssMixinDefinition? mixinDirective;
 
     FileSpan start = _peekToken.span;
     while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
@@ -619,12 +623,12 @@ class _Parser {
 
       DeclarationGroup declGroup = processDeclarations(checkBrace: false);
       if (declGroup.declarations.any((decl) {
-        return decl is Declaration && decl is! IncludeMixinAtDeclaration;
+        return decl is CssDeclaration && decl is! CssIncludeMixinAtDeclaration;
       })) {
-        List<Declaration> newDecls = <Declaration>[];
-        for (TreeNode include in productions) {
+        List<CssDeclaration> newDecls = <CssDeclaration>[];
+        for (CssTreeNode include in productions) {
           if (include is IncludeDirective) {
-            newDecls.add(IncludeMixinAtDeclaration(include, include.span));
+            newDecls.add(CssIncludeMixinAtDeclaration(include, include.span));
           } else {
             _warning('Error mixing of top-level vs declarations mixins',
                 _makeSpan(include.span as FileSpan));
@@ -633,33 +637,33 @@ class _Parser {
         declGroup.declarations.insertAll(0, newDecls);
         productions = [];
       } else {
-        for (TreeNode decl in declGroup.declarations) {
+        for (CssTreeNode decl in declGroup.declarations) {
           productions
-              .add(decl is IncludeMixinAtDeclaration ? decl.include : decl);
+              .add(decl is CssIncludeMixinAtDeclaration ? decl.include : decl);
         }
         declGroup.declarations.clear();
       }
 
       if (declGroup.declarations.isNotEmpty) {
         if (productions.isEmpty) {
-          mixinDirective = MixinDeclarationDirective(
+          mixinDirective = CssMixinDeclarationDirective(
               name.name, params, false, declGroup, _makeSpan(start));
           break;
         } else {
-          for (TreeNode decl in declGroup.declarations) {
-            productions
-                .add(decl is IncludeMixinAtDeclaration ? decl.include : decl);
+          for (CssTreeNode decl in declGroup.declarations) {
+            productions.add(
+                decl is CssIncludeMixinAtDeclaration ? decl.include : decl);
           }
         }
       } else {
-        mixinDirective = MixinRulesetDirective(
+        mixinDirective = CssMixinRulesetDirective(
             name.name, params, false, productions, _makeSpan(start));
         break;
       }
     }
 
     if (productions.isNotEmpty) {
-      mixinDirective = MixinRulesetDirective(
+      mixinDirective = CssMixinRulesetDirective(
           name.name, params, false, productions, _makeSpan(start));
     }
 
@@ -687,12 +691,12 @@ class _Parser {
 
       if (tokId == -1) {
         if (messages.options.lessSupport) {
-          Identifier? name;
+          CssIdentifier? name;
           if (_peekIdentifier()) {
             name = identifier();
           }
 
-          Expressions? exprs;
+          CssExpressions? exprs;
           if (mixinParameter && _maybeEat(CssTokenKind.COLON)) {
             exprs = processExpr();
           } else if (!mixinParameter) {
@@ -701,7 +705,8 @@ class _Parser {
           }
 
           SourceSpan span = _makeSpan(start);
-          return VarDefinitionDirective(VarDefinition(name, exprs, span), span);
+          return CssVarDefinitionDirective(
+              VarDefinition(name, exprs, span), span);
         } else if (isChecked) {
           _error('unexpected directive @$_peekToken', _peekToken.span);
         }
@@ -709,10 +714,10 @@ class _Parser {
     } else if (mixinParameter &&
         _peekToken.kind == CssTokenKind.VAR_DEFINITION) {
       _next();
-      Identifier? definedName;
+      CssIdentifier? definedName;
       if (_peekIdentifier()) definedName = identifier();
 
-      Expressions? exprs;
+      CssExpressions? exprs;
       if (_maybeEat(CssTokenKind.COLON)) {
         exprs = processExpr();
       }
@@ -726,19 +731,19 @@ class _Parser {
   IncludeDirective processInclude(SourceSpan span, {bool eatSemiColon = true}) {
     _next();
 
-    Identifier? name;
+    CssIdentifier? name;
     if (_peekIdentifier()) {
       name = identifier();
     }
 
-    List<List<Expression>> params = <List<Expression>>[];
+    List<List<CssExpression>> params = <List<CssExpression>>[];
 
     if (_maybeEat(CssTokenKind.LPAREN)) {
-      List<Expression> terms = <Expression>[];
+      List<CssExpression> terms = <CssExpression>[];
       dynamic expr;
       bool keepGoing = true;
       while (keepGoing && (expr = processTerm()) != null) {
-        terms.add((expr is List ? expr[0] : expr) as Expression);
+        terms.add((expr is List ? expr[0] : expr) as CssExpression);
         keepGoing = !_peekKind(CssTokenKind.RPAREN);
         if (keepGoing) {
           if (_maybeEat(CssTokenKind.COMMA)) {
@@ -758,14 +763,14 @@ class _Parser {
     return IncludeDirective(name!.name, params, span);
   }
 
-  DocumentDirective processDocumentDirective() {
+  CssDocumentDirective processDocumentDirective() {
     FileSpan start = _peekToken.span;
     _next();
-    List<LiteralTerm> functions = <LiteralTerm>[];
+    List<CssLiteralTerm> functions = <CssLiteralTerm>[];
     do {
-      LiteralTerm function;
+      CssLiteralTerm function;
 
-      Identifier ident = identifier();
+      CssIdentifier ident = identifier();
       _eat(CssTokenKind.LPAREN);
 
       if (ident.name == 'url-prefix' || ident.name == 'domain') {
@@ -776,31 +781,32 @@ class _Parser {
 
         _eat(CssTokenKind.RPAREN);
 
-        Expressions arguments = Expressions(_makeSpan(argumentSpan as FileSpan))
-          ..add(LiteralTerm(argument, argument, argumentSpan));
-        function = FunctionTerm(ident.name, ident.name, arguments,
+        CssExpressions arguments =
+            CssExpressions(_makeSpan(argumentSpan as FileSpan))
+              ..add(CssLiteralTerm(argument, argument, argumentSpan));
+        function = CssFunctionTerm(ident.name, ident.name, arguments,
             _makeSpan(ident.span as FileSpan));
       } else {
-        function = processFunction(ident) as LiteralTerm;
+        function = processFunction(ident) as CssLiteralTerm;
       }
 
       functions.add(function);
     } while (_maybeEat(CssTokenKind.COMMA));
 
     _eat(CssTokenKind.LBRACE);
-    List<TreeNode> groupRuleBody = processGroupRuleBody();
+    List<CssTreeNode> groupRuleBody = processGroupRuleBody();
     _eat(CssTokenKind.RBRACE);
-    return DocumentDirective(functions, groupRuleBody, _makeSpan(start));
+    return CssDocumentDirective(functions, groupRuleBody, _makeSpan(start));
   }
 
-  SupportsDirective processSupportsDirective() {
+  CssSupportsDirective processSupportsDirective() {
     FileSpan start = _peekToken.span;
     _next();
     SupportsCondition? condition = processSupportsCondition();
     _eat(CssTokenKind.LBRACE);
-    List<TreeNode> groupRuleBody = processGroupRuleBody();
+    List<CssTreeNode> groupRuleBody = processGroupRuleBody();
     _eat(CssTokenKind.RBRACE);
-    return SupportsDirective(condition, groupRuleBody, _makeSpan(start));
+    return CssSupportsDirective(condition, groupRuleBody, _makeSpan(start));
   }
 
   SupportsCondition? processSupportsCondition() {
@@ -809,7 +815,8 @@ class _Parser {
     }
 
     FileSpan start = _peekToken.span;
-    List<SupportsConditionInParens> conditions = <SupportsConditionInParens>[];
+    List<CssSupportsConditionInParens> conditions =
+        <CssSupportsConditionInParens>[];
     ClauseType clauseType = ClauseType.none;
 
     while (true) {
@@ -840,7 +847,7 @@ class _Parser {
     if (clauseType == ClauseType.conjunction) {
       return SupportsConjunction(conditions, _makeSpan(start));
     } else if (clauseType == ClauseType.disjunction) {
-      return SupportsDisjunction(conditions, _makeSpan(start));
+      return CssSupportsDisjunction(conditions, _makeSpan(start));
     } else {
       return conditions.first;
     }
@@ -851,31 +858,31 @@ class _Parser {
     String text = _peekToken.text.toLowerCase();
     if (text != 'not') return null;
     _next();
-    SupportsConditionInParens condition = processSupportsConditionInParens();
+    CssSupportsConditionInParens condition = processSupportsConditionInParens();
     return SupportsNegation(condition, _makeSpan(start));
   }
 
-  SupportsConditionInParens processSupportsConditionInParens() {
+  CssSupportsConditionInParens processSupportsConditionInParens() {
     FileSpan start = _peekToken.span;
     _eat(CssTokenKind.LPAREN);
     SupportsCondition? condition = processSupportsCondition();
     if (condition != null) {
       _eat(CssTokenKind.RPAREN);
-      return SupportsConditionInParens.nested(condition, _makeSpan(start));
+      return CssSupportsConditionInParens.nested(condition, _makeSpan(start));
     }
-    Declaration? declaration = processDeclaration([]);
+    CssDeclaration? declaration = processDeclaration([]);
     _eat(CssTokenKind.RPAREN);
-    return SupportsConditionInParens(declaration, _makeSpan(start));
+    return CssSupportsConditionInParens(declaration, _makeSpan(start));
   }
 
-  ViewportDirective processViewportDirective() {
+  CssViewportDirective processViewportDirective() {
     FileSpan start = _peekToken.span;
     String name = _next().text;
     DeclarationGroup declarations = processDeclarations();
-    return ViewportDirective(name, declarations, _makeSpan(start));
+    return CssViewportDirective(name, declarations, _makeSpan(start));
   }
 
-  TreeNode? processRule([SelectorGroup? selectorGroup]) {
+  CssTreeNode? processRule([CssSelectorGroup? selectorGroup]) {
     if (selectorGroup == null) {
       final directive = processDirective();
       if (directive != null) {
@@ -885,16 +892,17 @@ class _Parser {
       selectorGroup = processSelectorGroup();
     }
     if (selectorGroup != null) {
-      return RuleSet(selectorGroup, processDeclarations(), selectorGroup.span);
+      return CssRuleSet(
+          selectorGroup, processDeclarations(), selectorGroup.span);
     }
     return null;
   }
 
-  List<TreeNode> processGroupRuleBody() {
-    List<TreeNode> nodes = <TreeNode>[];
+  List<CssTreeNode> processGroupRuleBody() {
+    List<CssTreeNode> nodes = <CssTreeNode>[];
     while (!(_peekKind(CssTokenKind.RBRACE) ||
         _peekKind(CssTokenKind.END_OF_FILE))) {
-      TreeNode? rule = processRule();
+      CssTreeNode? rule = processRule();
       if (rule != null) {
         nodes.add(rule);
         continue;
@@ -904,13 +912,13 @@ class _Parser {
     return nodes;
   }
 
-  SelectorGroup? _nestedSelector() {
-    Messages oldMessages = messages;
+  CssSelectorGroup? _nestedSelector() {
+    CssMessages oldMessages = messages;
     _createMessages();
 
     ParserState markedData = _mark;
 
-    SelectorGroup? selGroup = processSelectorGroup();
+    CssSelectorGroup? selGroup = processSelectorGroup();
 
     bool nestedSelector = selGroup != null &&
         _peekKind(CssTokenKind.LBRACE) &&
@@ -932,25 +940,25 @@ class _Parser {
 
     if (checkBrace) _eat(CssTokenKind.LBRACE);
 
-    List<TreeNode> decls = <TreeNode>[];
-    List<DartStyleExpression> dartStyles = <DartStyleExpression>[];
+    List<CssTreeNode> decls = <CssTreeNode>[];
+    List<CssDartStyleExpression> dartStyles = <CssDartStyleExpression>[];
 
     do {
-      SelectorGroup? selectorGroup = _nestedSelector();
+      CssSelectorGroup? selectorGroup = _nestedSelector();
       while (selectorGroup != null) {
-        TreeNode? ruleset = processRule(selectorGroup)!;
+        CssTreeNode? ruleset = processRule(selectorGroup)!;
         decls.add(ruleset);
         selectorGroup = _nestedSelector();
       }
 
-      Declaration? decl = processDeclaration(dartStyles);
+      CssDeclaration? decl = processDeclaration(dartStyles);
       if (decl != null) {
         if (decl.hasDartStyle) {
-          DartStyleExpression newDartStyle = decl.dartStyle!;
+          CssDartStyleExpression newDartStyle = decl.dartStyle!;
 
           bool replaced = false;
           for (int i = 0; i < dartStyles.length; i++) {
-            DartStyleExpression dartStyle = dartStyles[i];
+            CssDartStyleExpression dartStyle = dartStyles[i];
             if (dartStyle.isSame(newDartStyle)) {
               dartStyles[i] = newDartStyle;
               replaced = true;
@@ -967,8 +975,8 @@ class _Parser {
 
     if (checkBrace) _eat(CssTokenKind.RBRACE);
 
-    for (TreeNode decl in decls) {
-      if (decl is Declaration) {
+    for (CssTreeNode decl in decls) {
+      if (decl is CssDeclaration) {
         if (decl.hasDartStyle && !dartStyles.contains(decl.dartStyle)) {
           decl.dartStyle = null;
         }
@@ -985,8 +993,8 @@ class _Parser {
 
     _eat(CssTokenKind.LBRACE);
 
-    List<Declaration> decls = <Declaration>[];
-    List<DartStyleExpression> dartStyles = <DartStyleExpression>[];
+    List<CssDeclaration> decls = <CssDeclaration>[];
+    List<CssDartStyleExpression> dartStyles = <CssDartStyleExpression>[];
 
     do {
       switch (_peek()) {
@@ -1011,18 +1019,18 @@ class _Parser {
           _next();
 
           DeclarationGroup declGroup = processDeclarations();
-          groups.add(
-              MarginGroup(marginSym, declGroup.declarations, _makeSpan(start)));
+          groups.add(CssMarginGroup(
+              marginSym, declGroup.declarations, _makeSpan(start)));
           break;
         default:
-          Declaration? decl = processDeclaration(dartStyles);
+          CssDeclaration? decl = processDeclaration(dartStyles);
           if (decl != null) {
             if (decl.hasDartStyle) {
-              DartStyleExpression newDartStyle = decl.dartStyle!;
+              CssDartStyleExpression newDartStyle = decl.dartStyle!;
 
               bool replaced = false;
               for (int i = 0; i < dartStyles.length; i++) {
-                DartStyleExpression dartStyle = dartStyles[i];
+                CssDartStyleExpression dartStyle = dartStyles[i];
                 if (dartStyle.isSame(newDartStyle)) {
                   dartStyles[i] = newDartStyle;
                   replaced = true;
@@ -1040,7 +1048,7 @@ class _Parser {
       }
     } while (!_maybeEat(CssTokenKind.RBRACE) && !isPrematureEndOfFile());
 
-    for (Declaration decl in decls) {
+    for (CssDeclaration decl in decls) {
       if (decl.hasDartStyle && !dartStyles.contains(decl.dartStyle)) {
         decl.dartStyle = null;
       }
@@ -1053,13 +1061,13 @@ class _Parser {
     return groups;
   }
 
-  SelectorGroup? processSelectorGroup() {
-    List<Selector> selectors = <Selector>[];
+  CssSelectorGroup? processSelectorGroup() {
+    List<CssSelector> selectors = <CssSelector>[];
     FileSpan start = _peekToken.span;
 
     tokenizer.inSelector = true;
     do {
-      Selector? selector = processSelector();
+      CssSelector? selector = processSelector();
       if (selector != null) {
         selectors.add(selector);
       }
@@ -1067,16 +1075,17 @@ class _Parser {
     tokenizer.inSelector = false;
 
     if (selectors.isNotEmpty) {
-      return SelectorGroup(selectors, _makeSpan(start));
+      return CssSelectorGroup(selectors, _makeSpan(start));
     }
     return null;
   }
 
-  Selector? processSelector() {
-    List<SimpleSelectorSequence> simpleSequences = <SimpleSelectorSequence>[];
+  CssSelector? processSelector() {
+    List<CssSimpleSelectorSequence> simpleSequences =
+        <CssSimpleSelectorSequence>[];
     FileSpan start = _peekToken.span;
     while (true) {
-      SimpleSelectorSequence? selectorItem =
+      CssSimpleSelectorSequence? selectorItem =
           simpleSelectorSequence(simpleSequences.isEmpty);
       if (selectorItem != null) {
         simpleSequences.add(selectorItem);
@@ -1087,13 +1096,13 @@ class _Parser {
 
     if (simpleSequences.isEmpty) return null;
 
-    return Selector(simpleSequences, _makeSpan(start));
+    return CssSelector(simpleSequences, _makeSpan(start));
   }
 
-  Selector? processCompoundSelector() {
-    Selector? selector = processSelector();
+  CssSelector? processCompoundSelector() {
+    CssSelector? selector = processSelector();
     if (selector != null) {
-      for (SimpleSelectorSequence sequence
+      for (CssSimpleSelectorSequence sequence
           in selector.simpleSelectorSequences) {
         if (!sequence.isCombinatorNone) {
           _error('compound selector can not contain combinator', sequence.span);
@@ -1103,7 +1112,7 @@ class _Parser {
     return selector;
   }
 
-  SimpleSelectorSequence? simpleSelectorSequence(bool forceCombinatorNone) {
+  CssSimpleSelectorSequence? simpleSelectorSequence(bool forceCombinatorNone) {
     FileSpan start = _peekToken.span;
     int combinatorType = CssTokenKind.COMBINATOR_NONE;
     bool thisOperator = false;
@@ -1135,28 +1144,28 @@ class _Parser {
     }
 
     SourceSpan span = _makeSpan(start);
-    SimpleSelector? simpleSel = thisOperator
-        ? ElementSelector(ThisOperator(span), span)
+    CssSimpleSelector? simpleSel = thisOperator
+        ? ElementSelector(CssThisOperator(span), span)
         : simpleSelector();
     if (simpleSel == null &&
         (combinatorType == CssTokenKind.COMBINATOR_PLUS ||
             combinatorType == CssTokenKind.COMBINATOR_GREATER ||
             combinatorType == CssTokenKind.COMBINATOR_TILDE)) {
-      simpleSel = ElementSelector(Identifier('', span), span);
+      simpleSel = ElementSelector(CssIdentifier('', span), span);
     }
     if (simpleSel != null) {
-      return SimpleSelectorSequence(simpleSel, span, combinatorType);
+      return CssSimpleSelectorSequence(simpleSel, span, combinatorType);
     }
     return null;
   }
 
-  SimpleSelector? simpleSelector() {
+  CssSimpleSelector? simpleSelector() {
     dynamic first;
     FileSpan start = _peekToken.span;
     switch (_peek()) {
       case CssTokenKind.ASTERISK:
         CssToken tok = _next();
-        first = Wildcard(_makeSpan(tok.span));
+        first = CssWildcard(_makeSpan(tok.span));
         break;
       case CssTokenKind.IDENTIFIER:
         first = identifier();
@@ -1171,11 +1180,11 @@ class _Parser {
     }
 
     if (_maybeEat(CssTokenKind.NAMESPACE)) {
-      TreeNode? element;
+      CssTreeNode? element;
       switch (_peek()) {
         case CssTokenKind.ASTERISK:
           CssToken tok = _next();
-          element = Wildcard(_makeSpan(tok.span));
+          element = CssWildcard(_makeSpan(tok.span));
           break;
         case CssTokenKind.IDENTIFIER:
           element = identifier();
@@ -1203,7 +1212,7 @@ class _Parser {
     return false;
   }
 
-  SimpleSelector? simpleSelectorTail() {
+  CssSimpleSelector? simpleSelectorTail() {
     FileSpan start = _peekToken.span;
     switch (_peek()) {
       case CssTokenKind.HASH:
@@ -1213,7 +1222,7 @@ class _Parser {
           _error('Not a valid ID selector expected #id', _makeSpan(start));
           return null;
         }
-        return IdSelector(identifier(), _makeSpan(start));
+        return CssIdSelector(identifier(), _makeSpan(start));
       case CssTokenKind.DOT:
         _eat(CssTokenKind.DOT);
 
@@ -1222,7 +1231,7 @@ class _Parser {
               _makeSpan(start));
           return null;
         }
-        return ClassSelector(identifier(), _makeSpan(start));
+        return CssClassSelector(identifier(), _makeSpan(start));
       case CssTokenKind.COLON:
         return processPseudoSelector(start);
       case CssTokenKind.LBRACK:
@@ -1236,11 +1245,11 @@ class _Parser {
     return null;
   }
 
-  SimpleSelector? processPseudoSelector(FileSpan start) {
+  CssSimpleSelector? processPseudoSelector(FileSpan start) {
     _eat(CssTokenKind.COLON);
     bool pseudoElement = _maybeEat(CssTokenKind.COLON);
 
-    Identifier pseudoName;
+    CssIdentifier pseudoName;
     if (_peekIdentifier()) {
       pseudoName = identifier();
     } else {
@@ -1252,17 +1261,17 @@ class _Parser {
       if (!pseudoElement && name == 'not') {
         _eat(CssTokenKind.LPAREN);
 
-        SimpleSelector? negArg = simpleSelector();
+        CssSimpleSelector? negArg = simpleSelector();
 
         _eat(CssTokenKind.RPAREN);
-        return NegationSelector(negArg, _makeSpan(start));
+        return CssNegationSelector(negArg, _makeSpan(start));
       } else if (!pseudoElement &&
           (name == 'host' ||
               name == 'host-context' ||
               name == 'global-context' ||
               name == '-acx-global-context')) {
         _eat(CssTokenKind.LPAREN);
-        Selector? selector = processCompoundSelector();
+        CssSelector? selector = processCompoundSelector();
         if (selector == null) {
           _errorExpected('a selector argument');
           return null;
@@ -1275,14 +1284,14 @@ class _Parser {
         _eat(CssTokenKind.LPAREN);
 
         SourceSpan span = _makeSpan(start);
-        TreeNode expr = processSelectorExpression();
+        CssTreeNode expr = processSelectorExpression();
 
         tokenizer.inSelectorExpression = false;
 
-        if (expr is SelectorExpression) {
+        if (expr is CssSelectorExpression) {
           _eat(CssTokenKind.RPAREN);
           return (pseudoElement)
-              ? PseudoElementFunctionSelector(pseudoName, expr, span)
+              ? CssPseudoElementFunctionSelector(pseudoName, expr, span)
               : PseudoClassFunctionSelector(pseudoName, expr, span);
         } else {
           _errorExpected('CSS expression');
@@ -1292,15 +1301,16 @@ class _Parser {
     }
 
     return pseudoElement || _legacyPseudoElements.contains(name)
-        ? PseudoElementSelector(pseudoName, _makeSpan(start),
+        ? CssPseudoElementSelector(pseudoName, _makeSpan(start),
             isLegacy: !pseudoElement)
-        : PseudoClassSelector(pseudoName, _makeSpan(start));
+        : CssPseudoClassSelector(pseudoName, _makeSpan(start));
   }
 
-  TreeNode /* SelectorExpression | LiteralTerm */ processSelectorExpression() {
+  CssTreeNode /* SelectorExpression | LiteralTerm */
+      processSelectorExpression() {
     FileSpan start = _peekToken.span;
 
-    List<Expression> expressions = <Expression>[];
+    List<CssExpression> expressions = <CssExpression>[];
 
     CssToken? termToken;
     dynamic value;
@@ -1311,12 +1321,12 @@ class _Parser {
         case CssTokenKind.PLUS:
           start = _peekToken.span;
           termToken = _next();
-          expressions.add(OperatorPlus(_makeSpan(start)));
+          expressions.add(CssOperatorPlus(_makeSpan(start)));
           break;
         case CssTokenKind.MINUS:
           start = _peekToken.span;
           termToken = _next();
-          expressions.add(OperatorMinus(_makeSpan(start)));
+          expressions.add(CssOperatorMinus(_makeSpan(start)));
           break;
         case CssTokenKind.INTEGER:
           termToken = _next();
@@ -1329,11 +1339,11 @@ class _Parser {
         case CssTokenKind.SINGLE_QUOTE:
           value = processQuotedString(false);
           value = "'${_escapeString(value as String, single: true)}'";
-          return LiteralTerm(value, value, _makeSpan(start));
+          return CssLiteralTerm(value, value, _makeSpan(start));
         case CssTokenKind.DOUBLE_QUOTE:
           value = processQuotedString(false);
           value = '"${_escapeString(value as String)}"';
-          return LiteralTerm(value, value, _makeSpan(start));
+          return CssLiteralTerm(value, value, _makeSpan(start));
         case CssTokenKind.IDENTIFIER:
           value = identifier();
           break;
@@ -1342,7 +1352,7 @@ class _Parser {
       }
 
       if (keepParsing && value != null) {
-        LiteralTerm unitTerm =
+        CssLiteralTerm unitTerm =
             processDimension(termToken, value as Object, _makeSpan(start));
         expressions.add(unitTerm);
 
@@ -1350,14 +1360,14 @@ class _Parser {
       }
     }
 
-    return SelectorExpression(expressions, _makeSpan(start));
+    return CssSelectorExpression(expressions, _makeSpan(start));
   }
 
-  AttributeSelector? processAttribute() {
+  CssAttributeSelector? processAttribute() {
     FileSpan start = _peekToken.span;
 
     if (_maybeEat(CssTokenKind.LBRACK)) {
-      Identifier attrName = identifier();
+      CssIdentifier attrName = identifier();
 
       int op;
       switch (_peek()) {
@@ -1389,13 +1399,13 @@ class _Parser {
 
       _eat(CssTokenKind.RBRACK);
 
-      return AttributeSelector(attrName, op, value, _makeSpan(start));
+      return CssAttributeSelector(attrName, op, value, _makeSpan(start));
     }
     return null;
   }
 
-  Declaration? processDeclaration(List<DartStyleExpression> dartStyles) {
-    Declaration? decl;
+  CssDeclaration? processDeclaration(List<CssDartStyleExpression> dartStyles) {
+    CssDeclaration? decl;
 
     FileSpan start = _peekToken.span;
 
@@ -1405,56 +1415,58 @@ class _Parser {
     }
 
     if (CssTokenKind.isIdentifier(_peekToken.kind)) {
-      Identifier propertyIdent = identifier();
+      CssIdentifier propertyIdent = identifier();
 
       bool ieFilterProperty = propertyIdent.name.toLowerCase() == 'filter';
 
       _eat(CssTokenKind.COLON);
 
-      Expressions exprs = processExpr(ieFilterProperty);
+      CssExpressions exprs = processExpr(ieFilterProperty);
 
-      DartStyleExpression? dartComposite =
+      CssDartStyleExpression? dartComposite =
           _styleForDart(propertyIdent, exprs, dartStyles);
 
       bool importantPriority = _maybeEat(CssTokenKind.IMPORTANT);
 
-      decl = Declaration(propertyIdent, exprs, dartComposite, _makeSpan(start),
+      decl = CssDeclaration(
+          propertyIdent, exprs, dartComposite, _makeSpan(start),
           important: importantPriority, ie7: ie7);
     } else if (_peekToken.kind == CssTokenKind.VAR_DEFINITION) {
       _next();
-      Identifier? definedName;
+      CssIdentifier? definedName;
       if (_peekIdentifier()) definedName = identifier();
 
       _eat(CssTokenKind.COLON);
 
-      Expressions exprs = processExpr();
+      CssExpressions exprs = processExpr();
 
       decl = VarDefinition(definedName, exprs, _makeSpan(start));
     } else if (_peekToken.kind == CssTokenKind.DIRECTIVE_INCLUDE) {
       SourceSpan span = _makeSpan(start);
       IncludeDirective include = processInclude(span, eatSemiColon: false);
-      decl = IncludeMixinAtDeclaration(include, span);
+      decl = CssIncludeMixinAtDeclaration(include, span);
     } else if (_peekToken.kind == CssTokenKind.DIRECTIVE_EXTEND) {
-      List<TreeNode> simpleSequences = <TreeNode>[];
+      List<CssTreeNode> simpleSequences = <CssTreeNode>[];
 
       _next();
       SourceSpan span = _makeSpan(start);
-      SimpleSelector? selector = simpleSelector();
+      CssSimpleSelector? selector = simpleSelector();
       if (selector == null) {
         _warning('@extends expecting simple selector name', span);
       } else {
         simpleSequences.add(selector);
       }
       if (_peekKind(CssTokenKind.COLON)) {
-        SimpleSelector? pseudoSelector = processPseudoSelector(_peekToken.span);
-        if (pseudoSelector is PseudoElementSelector ||
-            pseudoSelector is PseudoClassSelector) {
+        CssSimpleSelector? pseudoSelector =
+            processPseudoSelector(_peekToken.span);
+        if (pseudoSelector is CssPseudoElementSelector ||
+            pseudoSelector is CssPseudoClassSelector) {
           simpleSequences.add(pseudoSelector!);
         } else {
           _warning('not a valid selector', span);
         }
       }
-      decl = ExtendDeclaration(simpleSequences, span);
+      decl = CssExtendDeclaration(simpleSequences, span);
     }
 
     return decl;
@@ -1523,14 +1535,14 @@ class _Parser {
   };
 
   static const Map<String, int> _nameToFontWeight = {
-    'bold': FontWeight.bold,
-    'normal': FontWeight.normal
+    'bold': CssFontWeight.bold,
+    'normal': CssFontWeight.normal
   };
 
   static int? _findStyle(String styleName) => _stylesToDart[styleName];
 
-  DartStyleExpression? _styleForDart(Identifier property, Expressions exprs,
-      List<DartStyleExpression> dartStyles) {
+  CssDartStyleExpression? _styleForDart(CssIdentifier property,
+      CssExpressions exprs, List<CssDartStyleExpression> dartStyles) {
     int? styleType = _findStyle(property.name.toLowerCase());
     if (styleType != null) {
       return buildDartStyleNode(styleType, exprs, dartStyles);
@@ -1538,19 +1550,20 @@ class _Parser {
     return null;
   }
 
-  FontExpression _mergeFontStyles(
-      FontExpression fontExpr, List<DartStyleExpression> dartStyles) {
-    for (DartStyleExpression dartStyle in dartStyles) {
+  CssFontExpression _mergeFontStyles(
+      CssFontExpression fontExpr, List<CssDartStyleExpression> dartStyles) {
+    for (CssDartStyleExpression dartStyle in dartStyles) {
       if (dartStyle.isFont) {
-        fontExpr = FontExpression.merge(dartStyle as FontExpression, fontExpr);
+        fontExpr =
+            CssFontExpression.merge(dartStyle as CssFontExpression, fontExpr);
       }
     }
 
     return fontExpr;
   }
 
-  DartStyleExpression? buildDartStyleNode(
-      int styleType, Expressions exprs, List<DartStyleExpression> dartStyles) {
+  CssDartStyleExpression? buildDartStyleNode(int styleType,
+      CssExpressions exprs, List<CssDartStyleExpression> dartStyles) {
     switch (styleType) {
       case _fontPartFont:
         ExpressionsProcessor processor = ExpressionsProcessor(exprs);
@@ -1572,34 +1585,35 @@ class _Parser {
       case _fontPartVariant:
         break;
       case _fontPartWeight:
-        Expression expr = exprs.expressions[0];
-        if (expr is NumberTerm) {
-          FontExpression fontExpr =
-              FontExpression(expr.span, weight: expr.value as int?);
+        CssExpression expr = exprs.expressions[0];
+        if (expr is CssNumberTerm) {
+          CssFontExpression fontExpr =
+              CssFontExpression(expr.span, weight: expr.value as int?);
           return _mergeFontStyles(fontExpr, dartStyles);
-        } else if (expr is LiteralTerm) {
+        } else if (expr is CssLiteralTerm) {
           int? weight = _nameToFontWeight[expr.value.toString()];
           if (weight != null) {
-            FontExpression fontExpr = FontExpression(expr.span, weight: weight);
+            CssFontExpression fontExpr =
+                CssFontExpression(expr.span, weight: weight);
             return _mergeFontStyles(fontExpr, dartStyles);
           }
         }
         break;
       case _lineHeightPart:
         if (exprs.expressions.length == 1) {
-          Expression expr = exprs.expressions[0];
-          if (expr is UnitTerm) {
-            UnitTerm unitTerm = expr;
+          CssExpression expr = exprs.expressions[0];
+          if (expr is CssUnitTerm) {
+            CssUnitTerm unitTerm = expr;
             if (unitTerm.unit == CssTokenKind.UNIT_LENGTH_PX ||
                 unitTerm.unit == CssTokenKind.UNIT_LENGTH_PT) {
-              FontExpression fontExpr = FontExpression(expr.span,
+              CssFontExpression fontExpr = CssFontExpression(expr.span,
                   lineHeight: LineHeight(expr.value as num, inPixels: true));
               return _mergeFontStyles(fontExpr, dartStyles);
             } else if (isChecked) {
               _warning('Unexpected unit for line-height', expr.span);
             }
-          } else if (expr is NumberTerm) {
-            FontExpression fontExpr = FontExpression(expr.span,
+          } else if (expr is CssNumberTerm) {
+            CssFontExpression fontExpr = CssFontExpression(expr.span,
                 lineHeight: LineHeight(expr.value as num, inPixels: false));
             return _mergeFontStyles(fontExpr, dartStyles);
           } else if (isChecked) {
@@ -1608,25 +1622,25 @@ class _Parser {
         }
         break;
       case _marginPartMargin:
-        return MarginExpression.boxEdge(exprs.span, processFourNums(exprs));
+        return CssMarginExpression.boxEdge(exprs.span, processFourNums(exprs));
       case _borderPartBorder:
-        for (Expression expr in exprs.expressions) {
+        for (CssExpression expr in exprs.expressions) {
           num? v = marginValue(expr);
           if (v != null) {
-            final box = BoxEdge.uniform(v);
-            return BorderExpression.boxEdge(exprs.span, box);
+            final box = CssBoxEdge.uniform(v);
+            return CssBorderExpression.boxEdge(exprs.span, box);
           }
         }
         break;
       case _borderPartWidth:
         num? v = marginValue(exprs.expressions[0]);
         if (v != null) {
-          final box = BoxEdge.uniform(v);
-          return BorderExpression.boxEdge(exprs.span, box);
+          final box = CssBoxEdge.uniform(v);
+          return CssBorderExpression.boxEdge(exprs.span, box);
         }
         break;
       case _paddingPartPadding:
-        return PaddingExpression.boxEdge(exprs.span, processFourNums(exprs));
+        return CssPaddingExpression.boxEdge(exprs.span, processFourNums(exprs));
       case _marginPartLeft:
       case _marginPartTop:
       case _marginPartRight:
@@ -1653,48 +1667,48 @@ class _Parser {
     return null;
   }
 
-  DartStyleExpression? processOneNumber(Expressions exprs, int part) {
+  CssDartStyleExpression? processOneNumber(CssExpressions exprs, int part) {
     num? value = marginValue(exprs.expressions[0]);
     if (value != null) {
       switch (part) {
         case _marginPartLeft:
-          return MarginExpression(exprs.span, left: value);
+          return CssMarginExpression(exprs.span, left: value);
         case _marginPartTop:
-          return MarginExpression(exprs.span, top: value);
+          return CssMarginExpression(exprs.span, top: value);
         case _marginPartRight:
-          return MarginExpression(exprs.span, right: value);
+          return CssMarginExpression(exprs.span, right: value);
         case _marginPartBottom:
-          return MarginExpression(exprs.span, bottom: value);
+          return CssMarginExpression(exprs.span, bottom: value);
         case _borderPartLeft:
         case _borderPartLeftWidth:
-          return BorderExpression(exprs.span, left: value);
+          return CssBorderExpression(exprs.span, left: value);
         case _borderPartTop:
         case _borderPartTopWidth:
-          return BorderExpression(exprs.span, top: value);
+          return CssBorderExpression(exprs.span, top: value);
         case _borderPartRight:
         case _borderPartRightWidth:
-          return BorderExpression(exprs.span, right: value);
+          return CssBorderExpression(exprs.span, right: value);
         case _borderPartBottom:
         case _borderPartBottomWidth:
-          return BorderExpression(exprs.span, bottom: value);
+          return CssBorderExpression(exprs.span, bottom: value);
         case _heightPart:
-          return HeightExpression(exprs.span, value);
+          return CssHeightExpression(exprs.span, value);
         case _widthPart:
-          return WidthExpression(exprs.span, value);
+          return CssWidthExpression(exprs.span, value);
         case _paddingPartLeft:
-          return PaddingExpression(exprs.span, left: value);
+          return CssPaddingExpression(exprs.span, left: value);
         case _paddingPartTop:
-          return PaddingExpression(exprs.span, top: value);
+          return CssPaddingExpression(exprs.span, top: value);
         case _paddingPartRight:
-          return PaddingExpression(exprs.span, right: value);
+          return CssPaddingExpression(exprs.span, right: value);
         case _paddingPartBottom:
-          return PaddingExpression(exprs.span, bottom: value);
+          return CssPaddingExpression(exprs.span, bottom: value);
       }
     }
     return null;
   }
 
-  BoxEdge? processFourNums(Expressions exprs) {
+  CssBoxEdge? processFourNums(CssExpressions exprs) {
     num? top;
     num? right;
     num? bottom;
@@ -1730,35 +1744,35 @@ class _Parser {
         return null;
     }
 
-    return BoxEdge.clockwiseFromTop(top, right, bottom, left);
+    return CssBoxEdge.clockwiseFromTop(top, right, bottom, left);
   }
 
-  num? marginValue(Expression exprTerm) {
-    if (exprTerm is UnitTerm) {
+  num? marginValue(CssExpression exprTerm) {
+    if (exprTerm is CssUnitTerm) {
       return exprTerm.value as num;
-    } else if (exprTerm is NumberTerm) {
+    } else if (exprTerm is CssNumberTerm) {
       return exprTerm.value as num;
     }
     return null;
   }
 
-  Expressions processExpr([bool ieFilter = false]) {
+  CssExpressions processExpr([bool ieFilter = false]) {
     FileSpan start = _peekToken.span;
-    Expressions expressions = Expressions(_makeSpan(start));
+    CssExpressions expressions = CssExpressions(_makeSpan(start));
 
     bool keepGoing = true;
     dynamic expr;
     while (keepGoing && (expr = processTerm(ieFilter)) != null) {
-      Expression? op;
+      CssExpression? op;
 
       FileSpan opStart = _peekToken.span;
 
       switch (_peek()) {
         case CssTokenKind.SLASH:
-          op = OperatorSlash(_makeSpan(opStart));
+          op = CssOperatorSlash(_makeSpan(opStart));
           break;
         case CssTokenKind.COMMA:
-          op = OperatorComma(_makeSpan(opStart));
+          op = CssOperatorComma(_makeSpan(opStart));
           break;
         case CssTokenKind.BACKSLASH:
           FileSpan ie8Start = _peekToken.span;
@@ -1768,7 +1782,7 @@ class _Parser {
             CssToken numToken = _next();
             int value = int.parse(numToken.text);
             if (value == 9) {
-              op = IE8Term(_makeSpan(ie8Start));
+              op = CssIE8Term(_makeSpan(ie8Start));
             } else if (isChecked) {
               _warning(
                   '\$value is not valid in an expression', _makeSpan(start));
@@ -1778,12 +1792,12 @@ class _Parser {
       }
 
       if (expr != null) {
-        if (expr is List<Expression>) {
-          for (Expression exprItem in expr) {
+        if (expr is List<CssExpression>) {
+          for (CssExpression exprItem in expr) {
             expressions.add(exprItem);
           }
         } else {
-          expressions.add(expr as Expression);
+          expressions.add(expr as CssExpression);
         }
       } else {
         keepGoing = false;
@@ -1791,7 +1805,7 @@ class _Parser {
 
       if (op != null) {
         expressions.add(op);
-        if (op is IE8Term) {
+        if (op is CssIE8Term) {
           keepGoing = false;
         } else {
           _next();
@@ -1836,7 +1850,7 @@ class _Parser {
           _warning('Expected hex number', _makeSpan(start));
         }
         return _parseHex(
-            ' ${(processTerm() as LiteralTerm).text}', _makeSpan(start));
+            ' ${(processTerm() as CssLiteralTerm).text}', _makeSpan(start));
       case CssTokenKind.INTEGER:
         t = _next();
         value = int.parse('$unary${t.text}');
@@ -1848,20 +1862,20 @@ class _Parser {
       case CssTokenKind.SINGLE_QUOTE:
         value = processQuotedString(false);
         value = "'${_escapeString(value as String, single: true)}'";
-        return LiteralTerm(value, value, _makeSpan(start));
+        return CssLiteralTerm(value, value, _makeSpan(start));
       case CssTokenKind.DOUBLE_QUOTE:
         value = processQuotedString(false);
         value = '"${_escapeString(value as String)}"';
-        return LiteralTerm(value, value, _makeSpan(start));
+        return CssLiteralTerm(value, value, _makeSpan(start));
       case CssTokenKind.LPAREN:
         _next();
 
-        GroupTerm group = GroupTerm(_makeSpan(start));
+        CssGroupTerm group = CssGroupTerm(_makeSpan(start));
 
         dynamic /* Expression | List<Expression> | ... */ term;
         do {
           term = processTerm();
-          if (term != null && term is LiteralTerm) {
+          if (term != null && term is CssLiteralTerm) {
             group.add(term);
           }
         } while (term != null &&
@@ -1872,19 +1886,19 @@ class _Parser {
       case CssTokenKind.LBRACK:
         _next();
 
-        LiteralTerm term = processTerm() as LiteralTerm;
-        if (term is! NumberTerm) {
+        CssLiteralTerm term = processTerm() as CssLiteralTerm;
+        if (term is! CssNumberTerm) {
           _error('Expecting a positive number', _makeSpan(start));
         }
 
         _eat(CssTokenKind.RBRACK);
 
-        return ItemTerm(term.value, term.text, _makeSpan(start));
+        return CssItemTerm(term.value, term.text, _makeSpan(start));
       case CssTokenKind.IDENTIFIER:
-        Identifier nameValue = identifier();
+        CssIdentifier nameValue = identifier();
 
         if (!ieFilter && _maybeEat(CssTokenKind.LPAREN)) {
-          CalcTerm? calc = processCalc(nameValue);
+          CssCalcTerm? calc = processCalc(nameValue);
           if (calc != null) return calc;
           return processFunction(nameValue);
         }
@@ -1898,7 +1912,7 @@ class _Parser {
         }
 
         if (nameValue.name == 'from') {
-          return LiteralTerm(nameValue, nameValue.name, _makeSpan(start));
+          return CssLiteralTerm(nameValue, nameValue.name, _makeSpan(start));
         }
 
         Map? colorEntry = CssTokenKind.matchColorName(nameValue.name);
@@ -1910,7 +1924,7 @@ class _Parser {
                 : 'Unknown property value $propName';
             _warning(errMsg, _makeSpan(start));
           }
-          return LiteralTerm(nameValue, nameValue.name, _makeSpan(start));
+          return CssLiteralTerm(nameValue, nameValue.name, _makeSpan(start));
         }
 
         String rgbColor =
@@ -1946,19 +1960,19 @@ class _Parser {
           first = _previousToken!.text;
         }
 
-        return UnicodeRangeTerm(first, second, _makeSpan(start));
+        return CssUnicodeRangeTerm(first, second, _makeSpan(start));
       case CssTokenKind.AT:
         if (messages.options.lessSupport) {
           _next();
 
-          Expressions expr = processExpr();
+          CssExpressions expr = processExpr();
           if (isChecked && expr.expressions.length > 1) {
             _error('only @name for Less syntax', _peekToken.span);
           }
 
-          Expression param = expr.expressions[0];
-          VarUsage varUsage =
-              VarUsage((param as LiteralTerm).text, [], _makeSpan(start));
+          CssExpression param = expr.expressions[0];
+          CssVarUsage varUsage =
+              CssVarUsage((param as CssLiteralTerm).text, [], _makeSpan(start));
           expr.expressions[0] = varUsage;
           return expr.expressions;
         }
@@ -1970,17 +1984,17 @@ class _Parser {
         : null;
   }
 
-  LiteralTerm processDimension(CssToken? t, Object value, SourceSpan span) {
-    LiteralTerm term;
+  CssLiteralTerm processDimension(CssToken? t, Object value, SourceSpan span) {
+    CssLiteralTerm term;
     int unitType = _peek();
 
     switch (unitType) {
       case CssTokenKind.UNIT_EM:
-        term = EmTerm(value, t!.text, span);
+        term = CssEmTerm(value, t!.text, span);
         _next();
         break;
       case CssTokenKind.UNIT_EX:
-        term = ExTerm(value, t!.text, span);
+        term = CssExTerm(value, t!.text, span);
         _next();
         break;
       case CssTokenKind.UNIT_LENGTH_PX:
@@ -1989,60 +2003,60 @@ class _Parser {
       case CssTokenKind.UNIT_LENGTH_IN:
       case CssTokenKind.UNIT_LENGTH_PT:
       case CssTokenKind.UNIT_LENGTH_PC:
-        term = LengthTerm(value, t!.text, span, unitType);
+        term = CssLengthTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.UNIT_ANGLE_DEG:
       case CssTokenKind.UNIT_ANGLE_RAD:
       case CssTokenKind.UNIT_ANGLE_GRAD:
       case CssTokenKind.UNIT_ANGLE_TURN:
-        term = AngleTerm(value, t!.text, span, unitType);
+        term = CssAngleTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.UNIT_TIME_MS:
       case CssTokenKind.UNIT_TIME_S:
-        term = TimeTerm(value, t!.text, span, unitType);
+        term = CssTimeTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.UNIT_FREQ_HZ:
       case CssTokenKind.UNIT_FREQ_KHZ:
-        term = FreqTerm(value, t!.text, span, unitType);
+        term = CssFreqTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.PERCENT:
-        term = PercentageTerm(value, t!.text, span);
+        term = CssPercentageTerm(value, t!.text, span);
         _next();
         break;
       case CssTokenKind.UNIT_FRACTION:
-        term = FractionTerm(value, t!.text, span);
+        term = CssFractionTerm(value, t!.text, span);
         _next();
         break;
       case CssTokenKind.UNIT_RESOLUTION_DPI:
       case CssTokenKind.UNIT_RESOLUTION_DPCM:
       case CssTokenKind.UNIT_RESOLUTION_DPPX:
-        term = ResolutionTerm(value, t!.text, span, unitType);
+        term = CssResolutionTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.UNIT_CH:
-        term = ChTerm(value, t!.text, span, unitType);
+        term = CssChTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.UNIT_REM:
-        term = RemTerm(value, t!.text, span, unitType);
+        term = CssRemTerm(value, t!.text, span, unitType);
         _next();
         break;
       case CssTokenKind.UNIT_VIEWPORT_VW:
       case CssTokenKind.UNIT_VIEWPORT_VH:
       case CssTokenKind.UNIT_VIEWPORT_VMIN:
       case CssTokenKind.UNIT_VIEWPORT_VMAX:
-        term = ViewportTerm(value, t!.text, span, unitType);
+        term = CssViewportTerm(value, t!.text, span, unitType);
         _next();
         break;
       default:
-        if (value is Identifier) {
-          term = LiteralTerm(value, value.name, span);
+        if (value is CssIdentifier) {
+          term = CssLiteralTerm(value, value.name, span);
         } else {
-          term = NumberTerm(value, t!.text, span);
+          term = CssNumberTerm(value, t!.text, span);
         }
     }
 
@@ -2100,7 +2114,7 @@ class _Parser {
     if (kind == CssTokenKind.SEMICOLON || kind == CssTokenKind.RBRACE) {
       CssToken tok = tokenizer.makeIEFilter(
           startAfterProgidColon.start.offset, _peekToken.start);
-      return LiteralTerm(tok.text, tok.text, tok.span);
+      return CssLiteralTerm(tok.text, tok.text, tok.span);
     }
 
     int parens = 0;
@@ -2115,7 +2129,7 @@ class _Parser {
           if (--parens == 0) {
             CssToken tok = tokenizer.makeIEFilter(
                 startAfterProgidColon.start.offset, _peekToken.start);
-            return LiteralTerm(tok.text, tok.text, tok.span);
+            return CssLiteralTerm(tok.text, tok.text, tok.span);
           }
           break;
         default:
@@ -2152,27 +2166,28 @@ class _Parser {
     return stringValue.toString();
   }
 
-  CalcTerm? processCalc(Identifier func) {
+  CssCalcTerm? processCalc(CssIdentifier func) {
     FileSpan start = _peekToken.span;
 
     String name = func.name;
     if (const {'calc', '-webkit-calc', '-moz-calc', 'min', 'max', 'clamp'}
         .contains(name)) {
       String expression = processCalcExpression();
-      LiteralTerm calcExpr =
-          LiteralTerm(expression, expression, _makeSpan(start));
+      CssLiteralTerm calcExpr =
+          CssLiteralTerm(expression, expression, _makeSpan(start));
 
       if (!_maybeEat(CssTokenKind.RPAREN)) {
         _error('problem parsing function expected ), ', _peekToken.span);
       }
 
-      return CalcTerm(name, name, calcExpr, _makeSpan(start));
+      return CssCalcTerm(name, name, calcExpr, _makeSpan(start));
     }
 
     return null;
   }
 
-  TreeNode /* LiteralTerm | Expression */ processFunction(Identifier func) {
+  CssTreeNode /* LiteralTerm | Expression */ processFunction(
+      CssIdentifier func) {
     FileSpan start = _peekToken.span;
     String name = func.name;
 
@@ -2188,34 +2203,34 @@ class _Parser {
           _next();
         }
 
-        return UriTerm(urlParam, _makeSpan(start));
+        return CssUriTerm(urlParam, _makeSpan(start));
       case 'var':
-        Expressions expr = processExpr();
+        CssExpressions expr = processExpr();
         if (!_maybeEat(CssTokenKind.RPAREN)) {
           _error('problem parsing var expected ), ', _peekToken.span);
         }
         if (isChecked &&
-            expr.expressions.whereType<OperatorComma>().length > 1) {
+            expr.expressions.whereType<CssOperatorComma>().length > 1) {
           _error('too many parameters to var()', _peekToken.span);
         }
 
-        String paramName = (expr.expressions[0] as LiteralTerm).text;
+        String paramName = (expr.expressions[0] as CssLiteralTerm).text;
 
-        List<Expression> defaultValues = expr.expressions.length >= 3
+        List<CssExpression> defaultValues = expr.expressions.length >= 3
             ? expr.expressions.sublist(2)
-            : <Expression>[];
-        return VarUsage(paramName, defaultValues, _makeSpan(start));
+            : <CssExpression>[];
+        return CssVarUsage(paramName, defaultValues, _makeSpan(start));
       default:
-        Expressions expr = processExpr();
+        CssExpressions expr = processExpr();
         if (!_maybeEat(CssTokenKind.RPAREN)) {
           _error('problem parsing function expected ), ', _peekToken.span);
         }
 
-        return FunctionTerm(name, name, expr, _makeSpan(start));
+        return CssFunctionTerm(name, name, expr, _makeSpan(start));
     }
   }
 
-  Identifier identifier() {
+  CssIdentifier identifier() {
     CssToken tok = _next();
 
     if (!CssTokenKind.isIdentifier(tok.kind) &&
@@ -2223,10 +2238,10 @@ class _Parser {
       if (isChecked) {
         _warning('expected identifier, but found $tok', tok.span);
       }
-      return Identifier('', _makeSpan(tok.span));
+      return CssIdentifier('', _makeSpan(tok.span));
     }
 
-    return Identifier(tok.text, _makeSpan(tok.span));
+    return CssIdentifier(tok.text, _makeSpan(tok.span));
   }
 
   static int _hexDigit(int c) {
@@ -2241,14 +2256,14 @@ class _Parser {
     }
   }
 
-  HexColorTerm _parseHex(String hexText, SourceSpan span) {
+  CssHexColorTerm _parseHex(String hexText, SourceSpan span) {
     int hexValue = 0;
 
     for (int i = 0; i < hexText.length; i++) {
       int digit = _hexDigit(hexText.codeUnitAt(i));
       if (digit < 0) {
         _warning('Bad hex number', span);
-        return HexColorTerm(BadHexValue(), hexText, span);
+        return CssHexColorTerm(BadHexValue(), hexText, span);
       }
       hexValue = (hexValue << 4) + digit;
     }
@@ -2265,28 +2280,28 @@ class _Parser {
     } else if (hexText.length == 2 && hexText[0] == hexText[1]) {
       hexText = hexText[0];
     }
-    return HexColorTerm(hexValue, hexText, span);
+    return CssHexColorTerm(hexValue, hexText, span);
   }
 }
 
 class ExpressionsProcessor {
-  final Expressions _exprs;
+  final CssExpressions _exprs;
   int _index = 0;
 
   ExpressionsProcessor(this._exprs);
 
-  FontExpression processFontSize() {
-    LengthTerm? size;
+  CssFontExpression processFontSize() {
+    CssLengthTerm? size;
     LineHeight? lineHt;
     bool nextIsLineHeight = false;
     for (; _index < _exprs.expressions.length; _index++) {
-      Expression expr = _exprs.expressions[_index];
-      if (size == null && expr is LengthTerm) {
+      CssExpression expr = _exprs.expressions[_index];
+      if (size == null && expr is CssLengthTerm) {
         size = expr;
       } else if (size != null) {
-        if (expr is OperatorSlash) {
+        if (expr is CssOperatorSlash) {
           nextIsLineHeight = true;
-        } else if (nextIsLineHeight && expr is LengthTerm) {
+        } else if (nextIsLineHeight && expr is CssLengthTerm) {
           assert(expr.unit == CssTokenKind.UNIT_LENGTH_PX);
           lineHt = LineHeight(expr.value as num, inPixels: true);
           nextIsLineHeight = false;
@@ -2300,42 +2315,42 @@ class ExpressionsProcessor {
       }
     }
 
-    return FontExpression(_exprs.span, size: size, lineHeight: lineHt);
+    return CssFontExpression(_exprs.span, size: size, lineHeight: lineHt);
   }
 
-  FontExpression processFontFamily() {
+  CssFontExpression processFontFamily() {
     List<String> family = <String>[];
 
     bool moreFamilies = false;
 
     for (; _index < _exprs.expressions.length; _index++) {
-      Expression expr = _exprs.expressions[_index];
-      if (expr is LiteralTerm) {
+      CssExpression expr = _exprs.expressions[_index];
+      if (expr is CssLiteralTerm) {
         if (family.isEmpty || moreFamilies) {
           family.add(expr.toString());
           moreFamilies = false;
         } else if (isChecked) {
           messages.warning('Only font-family can be a list', _exprs.span);
         }
-      } else if (expr is OperatorComma && family.isNotEmpty) {
+      } else if (expr is CssOperatorComma && family.isNotEmpty) {
         moreFamilies = true;
       } else {
         break;
       }
     }
 
-    return FontExpression(_exprs.span, family: family);
+    return CssFontExpression(_exprs.span, family: family);
   }
 
-  FontExpression processFont() {
-    FontExpression? fontSize;
-    FontExpression? fontFamily;
+  CssFontExpression processFont() {
+    CssFontExpression? fontSize;
+    CssFontExpression? fontFamily;
     for (; _index < _exprs.expressions.length; _index++) {
       fontSize ??= processFontSize();
       fontFamily ??= processFontFamily();
     }
 
-    return FontExpression(_exprs.span,
+    return CssFontExpression(_exprs.span,
         size: fontSize!.font.size,
         lineHeight: fontSize.font.lineHeight,
         family: fontFamily!.font.family);

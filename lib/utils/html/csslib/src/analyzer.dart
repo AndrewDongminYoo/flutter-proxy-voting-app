@@ -3,8 +3,8 @@
 part of '../parser.dart';
 
 class Analyzer {
-  final List<StyleSheet> _styleSheets;
-  final Messages _messages;
+  final List<CssStyleSheet> _styleSheets;
+  final CssMessages _messages;
 
   Analyzer(this._styleSheets, this._messages);
 
@@ -29,27 +29,27 @@ class Analyzer {
 }
 
 class ExpandNestedSelectors extends Visitor {
-  RuleSet? _parentRuleSet;
+  CssRuleSet? _parentRuleSet;
 
-  SelectorGroup? _topLevelSelectorGroup;
+  CssSelectorGroup? _topLevelSelectorGroup;
 
-  SelectorGroup? _nestedSelectorGroup;
+  CssSelectorGroup? _nestedSelectorGroup;
 
   DeclarationGroup? _flatDeclarationGroup;
 
-  List<RuleSet> _expandedRuleSets = [];
+  List<CssRuleSet> _expandedRuleSets = [];
 
-  final _expansions = <RuleSet, List<RuleSet>>{};
+  final _expansions = <CssRuleSet, List<CssRuleSet>>{};
 
   @override
-  void visitRuleSet(RuleSet node) {
+  void visitRuleSet(CssRuleSet node) {
     final oldParent = _parentRuleSet;
 
-    SelectorGroup? oldNestedSelectorGroups = _nestedSelectorGroup;
+    CssSelectorGroup? oldNestedSelectorGroups = _nestedSelectorGroup;
 
     if (_nestedSelectorGroup == null) {
       final newSelectors = node.selectorGroup!.selectors.toList();
-      _topLevelSelectorGroup = SelectorGroup(newSelectors, node.span);
+      _topLevelSelectorGroup = CssSelectorGroup(newSelectors, node.span);
       _nestedSelectorGroup = _topLevelSelectorGroup;
     } else {
       _nestedSelectorGroup = _mergeToFlatten(node);
@@ -62,7 +62,7 @@ class ExpandNestedSelectors extends Visitor {
     _parentRuleSet = oldParent;
 
     node.declarationGroup.declarations
-        .removeWhere((declaration) => declaration is RuleSet);
+        .removeWhere((declaration) => declaration is CssRuleSet);
 
     _nestedSelectorGroup = oldNestedSelectorGroups;
 
@@ -76,35 +76,35 @@ class ExpandNestedSelectors extends Visitor {
     }
   }
 
-  SelectorGroup _mergeToFlatten(RuleSet node) {
-    List<Selector> nestedSelectors = _nestedSelectorGroup!.selectors;
-    List<Selector> selectors = node.selectorGroup!.selectors;
+  CssSelectorGroup _mergeToFlatten(CssRuleSet node) {
+    List<CssSelector> nestedSelectors = _nestedSelectorGroup!.selectors;
+    List<CssSelector> selectors = node.selectorGroup!.selectors;
 
-    List<Selector> newSelectors = <Selector>[];
-    for (Selector selector in selectors) {
-      for (Selector nestedSelector in nestedSelectors) {
-        List<SimpleSelectorSequence> seq = _mergeNestedSelector(
+    List<CssSelector> newSelectors = <CssSelector>[];
+    for (CssSelector selector in selectors) {
+      for (CssSelector nestedSelector in nestedSelectors) {
+        List<CssSimpleSelectorSequence> seq = _mergeNestedSelector(
             nestedSelector.simpleSelectorSequences,
             selector.simpleSelectorSequences);
-        newSelectors.add(Selector(seq, node.span));
+        newSelectors.add(CssSelector(seq, node.span));
       }
     }
 
-    return SelectorGroup(newSelectors, node.span);
+    return CssSelectorGroup(newSelectors, node.span);
   }
 
-  List<SimpleSelectorSequence> _mergeNestedSelector(
-      List<SimpleSelectorSequence> parent,
-      List<SimpleSelectorSequence> current) {
+  List<CssSimpleSelectorSequence> _mergeNestedSelector(
+      List<CssSimpleSelectorSequence> parent,
+      List<CssSimpleSelectorSequence> current) {
     bool hasThis = current.any((s) => s.simpleSelector.isThis);
 
-    List<SimpleSelectorSequence> newSequence = <SimpleSelectorSequence>[];
+    List<CssSimpleSelectorSequence> newSequence = <CssSimpleSelectorSequence>[];
 
     if (!hasThis) {
       newSequence.addAll(parent);
       newSequence.addAll(_convertToDescendentSequence(current));
     } else {
-      for (SimpleSelectorSequence sequence in current) {
+      for (CssSimpleSelectorSequence sequence in current) {
         if (sequence.simpleSelector.isThis) {
           bool hasPrefix = newSequence.isNotEmpty &&
               newSequence.last.simpleSelector.name.isNotEmpty;
@@ -119,13 +119,14 @@ class ExpandNestedSelectors extends Visitor {
     return newSequence;
   }
 
-  List<SimpleSelectorSequence> _convertToDescendentSequence(
-      List<SimpleSelectorSequence> sequences) {
+  List<CssSimpleSelectorSequence> _convertToDescendentSequence(
+      List<CssSimpleSelectorSequence> sequences) {
     if (sequences.isEmpty) return sequences;
 
-    List<SimpleSelectorSequence> newSequences = <SimpleSelectorSequence>[];
-    SimpleSelectorSequence first = sequences.first;
-    newSequences.add(SimpleSelectorSequence(
+    List<CssSimpleSelectorSequence> newSequences =
+        <CssSimpleSelectorSequence>[];
+    CssSimpleSelectorSequence first = sequences.first;
+    newSequences.add(CssSimpleSelectorSequence(
         first.simpleSelector, first.span, CssTokenKind.COMBINATOR_DESCENDANT));
     newSequences.addAll(sequences.skip(1));
 
@@ -151,9 +152,9 @@ class ExpandNestedSelectors extends Visitor {
 
     if (currentGroup.declarations.isEmpty) return;
 
-    SelectorGroup? selectorGroup = _nestedSelectorGroup;
+    CssSelectorGroup? selectorGroup = _nestedSelectorGroup;
 
-    RuleSet newRuleSet = RuleSet(selectorGroup, currentGroup, span);
+    CssRuleSet newRuleSet = CssRuleSet(selectorGroup, currentGroup, span);
 
     if (expandedLength == _expandedRuleSets.length) {
       _expandedRuleSets.add(newRuleSet);
@@ -163,7 +164,7 @@ class ExpandNestedSelectors extends Visitor {
   }
 
   @override
-  void visitDeclaration(Declaration node) {
+  void visitDeclaration(CssDeclaration node) {
     if (_parentRuleSet != null) {
       _flatDeclarationGroup!.declarations.add(node);
     }
@@ -179,7 +180,7 @@ class ExpandNestedSelectors extends Visitor {
   }
 
   @override
-  void visitExtendDeclaration(ExtendDeclaration node) {
+  void visitExtendDeclaration(CssExtendDeclaration node) {
     if (_parentRuleSet != null) {
       _flatDeclarationGroup!.declarations.add(node);
     }
@@ -187,15 +188,15 @@ class ExpandNestedSelectors extends Visitor {
   }
 
   @override
-  void visitMarginGroup(MarginGroup node) {
+  void visitMarginGroup(CssMarginGroup node) {
     if (_parentRuleSet != null) {
       _flatDeclarationGroup!.declarations.add(node);
     }
     super.visitMarginGroup(node);
   }
 
-  void flatten(StyleSheet styleSheet) {
-    _expansions.forEach((RuleSet ruleSet, List<RuleSet> newRules) {
+  void flatten(CssStyleSheet styleSheet) {
+    _expansions.forEach((CssRuleSet ruleSet, List<CssRuleSet> newRules) {
       int index = styleSheet.topLevels.indexOf(ruleSet);
       if (index == -1) {
         bool found = _MediaRulesReplacer.replace(styleSheet, ruleSet, newRules);
@@ -209,12 +210,12 @@ class ExpandNestedSelectors extends Visitor {
 }
 
 class _MediaRulesReplacer extends Visitor {
-  final RuleSet _ruleSet;
-  final List<RuleSet> _newRules;
+  final CssRuleSet _ruleSet;
+  final List<CssRuleSet> _newRules;
   bool _foundAndReplaced = false;
 
   static bool replace(
-      StyleSheet styleSheet, RuleSet ruleSet, List<RuleSet> newRules) {
+      CssStyleSheet styleSheet, CssRuleSet ruleSet, List<CssRuleSet> newRules) {
     _MediaRulesReplacer visitor = _MediaRulesReplacer(ruleSet, newRules);
     visitor.visitStyleSheet(styleSheet);
     return visitor._foundAndReplaced;
@@ -223,7 +224,7 @@ class _MediaRulesReplacer extends Visitor {
   _MediaRulesReplacer(this._ruleSet, this._newRules);
 
   @override
-  void visitMediaDirective(MediaDirective node) {
+  void visitMediaDirective(CssMediaDirective node) {
     int index = node.rules.indexOf(_ruleSet);
     if (index != -1) {
       node.rules.insertAll(index + 1, _newRules);
@@ -233,27 +234,27 @@ class _MediaRulesReplacer extends Visitor {
 }
 
 class TopLevelIncludes extends Visitor {
-  StyleSheet? _styleSheet;
-  final Messages _messages;
+  CssStyleSheet? _styleSheet;
+  final CssMessages _messages;
 
-  final map = <String, MixinDefinition>{};
-  MixinDefinition? currDef;
+  final map = <String, CssMixinDefinition>{};
+  CssMixinDefinition? currDef;
 
-  static void expand(Messages messages, List<StyleSheet> styleSheets) {
+  static void expand(CssMessages messages, List<CssStyleSheet> styleSheets) {
     TopLevelIncludes(messages, styleSheets);
   }
 
-  bool _anyRulesets(MixinRulesetDirective def) =>
-      def.rulesets.any((rule) => rule is RuleSet);
+  bool _anyRulesets(CssMixinRulesetDirective def) =>
+      def.rulesets.any((rule) => rule is CssRuleSet);
 
-  TopLevelIncludes(this._messages, List<StyleSheet> styleSheets) {
-    for (StyleSheet styleSheet in styleSheets) {
+  TopLevelIncludes(this._messages, List<CssStyleSheet> styleSheets) {
+    for (CssStyleSheet styleSheet in styleSheets) {
       visitTree(styleSheet);
     }
   }
 
   @override
-  void visitStyleSheet(StyleSheet ss) {
+  void visitStyleSheet(CssStyleSheet ss) {
     _styleSheet = ss;
     super.visitStyleSheet(ss);
     _styleSheet = null;
@@ -263,11 +264,11 @@ class TopLevelIncludes extends Visitor {
   void visitIncludeDirective(IncludeDirective node) {
     final currDef = this.currDef;
     if (map.containsKey(node.name)) {
-      MixinDefinition? mixinDef = map[node.name];
-      if (mixinDef is MixinRulesetDirective) {
+      CssMixinDefinition? mixinDef = map[node.name];
+      if (mixinDef is CssMixinRulesetDirective) {
         _TopLevelIncludeReplacer.replace(
             _messages, _styleSheet!, node, mixinDef.rulesets);
-      } else if (currDef is MixinRulesetDirective && _anyRulesets(currDef)) {
+      } else if (currDef is CssMixinRulesetDirective && _anyRulesets(currDef)) {
         final mixinRuleset = currDef;
         int index = mixinRuleset.rulesets.indexOf(node);
         mixinRuleset.rulesets.removeAt(index);
@@ -276,8 +277,8 @@ class TopLevelIncludes extends Visitor {
             node.span);
       }
     } else {
-      if (currDef is MixinRulesetDirective) {
-        MixinRulesetDirective rulesetDirect = currDef;
+      if (currDef is CssMixinRulesetDirective) {
+        CssMixinRulesetDirective rulesetDirect = currDef;
         rulesetDirect.rulesets.removeWhere((entry) {
           if (entry == node) {
             _messages.warning('Undefined mixin ${node.name}', node.span);
@@ -291,7 +292,7 @@ class TopLevelIncludes extends Visitor {
   }
 
   @override
-  void visitMixinRulesetDirective(MixinRulesetDirective node) {
+  void visitMixinRulesetDirective(CssMixinRulesetDirective node) {
     currDef = node;
 
     super.visitMixinRulesetDirective(node);
@@ -301,7 +302,7 @@ class TopLevelIncludes extends Visitor {
   }
 
   @override
-  void visitMixinDeclarationDirective(MixinDeclarationDirective node) {
+  void visitMixinDeclarationDirective(CssMixinDeclarationDirective node) {
     currDef = node;
 
     super.visitMixinDeclarationDirective(node);
@@ -313,11 +314,11 @@ class TopLevelIncludes extends Visitor {
 
 class _TopLevelIncludeReplacer extends Visitor {
   final IncludeDirective _include;
-  final List<TreeNode> _newRules;
+  final List<CssTreeNode> _newRules;
   bool _foundAndReplaced = false;
 
-  static bool replace(Messages messages, StyleSheet styleSheet,
-      IncludeDirective include, List<TreeNode> newRules) {
+  static bool replace(CssMessages messages, CssStyleSheet styleSheet,
+      IncludeDirective include, List<CssTreeNode> newRules) {
     _TopLevelIncludeReplacer visitor =
         _TopLevelIncludeReplacer(include, newRules);
     visitor.visitStyleSheet(styleSheet);
@@ -327,37 +328,37 @@ class _TopLevelIncludeReplacer extends Visitor {
   _TopLevelIncludeReplacer(this._include, this._newRules);
 
   @override
-  void visitStyleSheet(StyleSheet node) {
+  void visitStyleSheet(CssStyleSheet node) {
     int index = node.topLevels.indexOf(_include);
     if (index != -1) {
       node.topLevels.insertAll(index + 1, _newRules);
-      node.topLevels.replaceRange(index, index + 1, [NoOp()]);
+      node.topLevels.replaceRange(index, index + 1, [CssNoOp()]);
       _foundAndReplaced = true;
     }
     super.visitStyleSheet(node);
   }
 
   @override
-  void visitMixinRulesetDirective(MixinRulesetDirective node) {
+  void visitMixinRulesetDirective(CssMixinRulesetDirective node) {
     int index = node.rulesets.indexOf(_include);
     if (index != -1) {
       node.rulesets.insertAll(index + 1, _newRules);
-      node.rulesets.replaceRange(index, index + 1, [NoOp()]);
+      node.rulesets.replaceRange(index, index + 1, [CssNoOp()]);
       _foundAndReplaced = true;
     }
     super.visitMixinRulesetDirective(node);
   }
 }
 
-int _findInclude(List list, TreeNode node) {
-  final matchNode = (node is IncludeMixinAtDeclaration)
+int _findInclude(List list, CssTreeNode node) {
+  final matchNode = (node is CssIncludeMixinAtDeclaration)
       ? node.include
       : node as IncludeDirective;
 
   int index = 0;
   for (dynamic item in list) {
     dynamic includeNode =
-        (item is IncludeMixinAtDeclaration) ? item.include : item;
+        (item is CssIncludeMixinAtDeclaration) ? item.include : item;
     if (includeNode == matchNode) return index;
     index++;
   }
@@ -365,43 +366,44 @@ int _findInclude(List list, TreeNode node) {
 }
 
 class CallMixin extends Visitor {
-  final MixinDefinition mixinDef;
+  final CssMixinDefinition mixinDef;
   List? _definedArgs;
-  Expressions? _currExpressions;
+  CssExpressions? _currExpressions;
   int _currIndex = -1;
 
-  final varUsages = <String, Map<Expressions, Set<int>>>{};
+  final varUsages = <String, Map<CssExpressions, Set<int>>>{};
 
   final Map<String, VarDefinition>? varDefs;
 
   CallMixin(this.mixinDef, [this.varDefs]) {
-    if (mixinDef is MixinRulesetDirective) {
-      visitMixinRulesetDirective(mixinDef as MixinRulesetDirective);
+    if (mixinDef is CssMixinRulesetDirective) {
+      visitMixinRulesetDirective(mixinDef as CssMixinRulesetDirective);
     } else {
-      visitMixinDeclarationDirective(mixinDef as MixinDeclarationDirective);
+      visitMixinDeclarationDirective(mixinDef as CssMixinDeclarationDirective);
     }
   }
 
-  MixinDefinition transform(List<List<Expression>> callArgs) {
+  CssMixinDefinition transform(List<List<CssExpression>> callArgs) {
     for (int index = 0; index < _definedArgs!.length; index++) {
       dynamic definedArg = _definedArgs![index];
       VarDefinition? varDef;
       if (definedArg is VarDefinition) {
         varDef = definedArg;
-      } else if (definedArg is VarDefinitionDirective) {
-        VarDefinitionDirective varDirective = definedArg;
+      } else if (definedArg is CssVarDefinitionDirective) {
+        CssVarDefinitionDirective varDirective = definedArg;
         varDef = varDirective.def;
       }
-      List<Expression> callArg = callArgs[index];
+      List<CssExpression> callArg = callArgs[index];
 
-      List<List<Expression>> defArgs = _varDefsAsCallArgs(callArg);
+      List<List<CssExpression>> defArgs = _varDefsAsCallArgs(callArg);
       if (defArgs.isNotEmpty) {
         callArgs.insertAll(index, defArgs);
         callArgs.removeAt(index + defArgs.length);
         callArg = callArgs[index];
       }
 
-      Map<Expressions, Set<int>>? expressions = varUsages[varDef!.definedName];
+      Map<CssExpressions, Set<int>>? expressions =
+          varUsages[varDef!.definedName];
       expressions!.forEach((k, v) {
         for (int usagesIndex in v) {
           k.expressions.replaceRange(usagesIndex, usagesIndex + 1, callArg);
@@ -412,17 +414,17 @@ class CallMixin extends Visitor {
     return mixinDef.clone();
   }
 
-  List<List<Expression>> _varDefsAsCallArgs(dynamic callArg) {
-    List<List<Expression>> defArgs = <List<Expression>>[];
+  List<List<CssExpression>> _varDefsAsCallArgs(dynamic callArg) {
+    List<List<CssExpression>> defArgs = <List<CssExpression>>[];
     if (callArg is List) {
       dynamic firstCallArg = callArg[0];
-      if (firstCallArg is VarUsage) {
+      if (firstCallArg is CssVarUsage) {
         VarDefinition? varDef = varDefs![firstCallArg.name];
-        List<Expression> expressions =
-            (varDef!.expression as Expressions).expressions;
+        List<CssExpression> expressions =
+            (varDef!.expression as CssExpressions).expressions;
         assert(expressions.length > 1);
-        for (Expression expr in expressions) {
-          if (expr is! OperatorComma) {
+        for (CssExpression expr in expressions) {
+          if (expr is! CssOperatorComma) {
             defArgs.add([expr]);
           }
         }
@@ -432,8 +434,8 @@ class CallMixin extends Visitor {
   }
 
   @override
-  void visitExpressions(Expressions node) {
-    Expressions? oldExpressions = _currExpressions;
+  void visitExpressions(CssExpressions node) {
+    CssExpressions? oldExpressions = _currExpressions;
     int oldIndex = _currIndex;
 
     _currExpressions = node;
@@ -445,18 +447,18 @@ class CallMixin extends Visitor {
     _currExpressions = oldExpressions;
   }
 
-  void _addExpression(Map<Expressions, Set<int>> expressions) {
+  void _addExpression(Map<CssExpressions, Set<int>> expressions) {
     Set<int> indexSet = <int>{};
     indexSet.add(_currIndex);
     expressions[_currExpressions!] = indexSet;
   }
 
   @override
-  void visitVarUsage(VarUsage node) {
+  void visitVarUsage(CssVarUsage node) {
     assert(_currIndex != -1);
     assert(_currExpressions != null);
     if (varUsages.containsKey(node.name)) {
-      Map<Expressions, Set<int>>? expressions = varUsages[node.name];
+      Map<CssExpressions, Set<int>>? expressions = varUsages[node.name];
       Set<int>? allIndexes = expressions![_currExpressions];
       if (allIndexes == null) {
         _addExpression(expressions);
@@ -464,7 +466,8 @@ class CallMixin extends Visitor {
         allIndexes.add(_currIndex);
       }
     } else {
-      Map<Expressions, Set<int>> newExpressions = <Expressions, Set<int>>{};
+      Map<CssExpressions, Set<int>> newExpressions =
+          <CssExpressions, Set<int>>{};
       _addExpression(newExpressions);
       varUsages[node.name] = newExpressions;
     }
@@ -472,48 +475,48 @@ class CallMixin extends Visitor {
   }
 
   @override
-  void visitMixinDeclarationDirective(MixinDeclarationDirective node) {
+  void visitMixinDeclarationDirective(CssMixinDeclarationDirective node) {
     _definedArgs = node.definedArgs;
     super.visitMixinDeclarationDirective(node);
   }
 
   @override
-  void visitMixinRulesetDirective(MixinRulesetDirective node) {
+  void visitMixinRulesetDirective(CssMixinRulesetDirective node) {
     _definedArgs = node.definedArgs;
     super.visitMixinRulesetDirective(node);
   }
 }
 
 class DeclarationIncludes extends Visitor {
-  StyleSheet? _styleSheet;
-  final Messages _messages;
+  CssStyleSheet? _styleSheet;
+  final CssMessages _messages;
 
-  final Map<String, MixinDefinition> map = <String, MixinDefinition>{};
+  final Map<String, CssMixinDefinition> map = <String, CssMixinDefinition>{};
 
   final Map<String, CallMixin> callMap = <String, CallMixin>{};
-  MixinDefinition? currDef;
+  CssMixinDefinition? currDef;
   DeclarationGroup? currDeclGroup;
 
   final varDefs = <String, VarDefinition>{};
 
-  static void expand(Messages messages, List<StyleSheet> styleSheets) {
+  static void expand(CssMessages messages, List<CssStyleSheet> styleSheets) {
     DeclarationIncludes(messages, styleSheets);
   }
 
-  DeclarationIncludes(this._messages, List<StyleSheet> styleSheets) {
-    for (StyleSheet styleSheet in styleSheets) {
+  DeclarationIncludes(this._messages, List<CssStyleSheet> styleSheets) {
+    for (CssStyleSheet styleSheet in styleSheets) {
       visitTree(styleSheet);
     }
   }
 
-  bool _allIncludes(List<TreeNode> rulesets) =>
-      rulesets.every((rule) => rule is IncludeDirective || rule is NoOp);
+  bool _allIncludes(List<CssTreeNode> rulesets) =>
+      rulesets.every((rule) => rule is IncludeDirective || rule is CssNoOp);
 
-  CallMixin _createCallDeclMixin(MixinDefinition mixinDef) =>
+  CallMixin _createCallDeclMixin(CssMixinDefinition mixinDef) =>
       callMap[mixinDef.name] ??= CallMixin(mixinDef, varDefs);
 
   @override
-  void visitStyleSheet(StyleSheet ss) {
+  void visitStyleSheet(CssStyleSheet ss) {
     _styleSheet = ss;
     super.visitStyleSheet(ss);
     _styleSheet = null;
@@ -527,26 +530,26 @@ class DeclarationIncludes extends Visitor {
   }
 
   @override
-  void visitIncludeMixinAtDeclaration(IncludeMixinAtDeclaration node) {
+  void visitIncludeMixinAtDeclaration(CssIncludeMixinAtDeclaration node) {
     if (map.containsKey(node.include.name)) {
-      MixinDefinition? mixinDef = map[node.include.name];
+      CssMixinDefinition? mixinDef = map[node.include.name];
 
-      if (mixinDef is MixinRulesetDirective) {
+      if (mixinDef is CssMixinRulesetDirective) {
         if (!_allIncludes(mixinDef.rulesets) && currDeclGroup != null) {
           int index = _findInclude(currDeclGroup!.declarations, node);
           if (index != -1) {
             currDeclGroup!.declarations
-                .replaceRange(index, index + 1, [NoOp()]);
+                .replaceRange(index, index + 1, [CssNoOp()]);
           }
           _messages.warning(
               'Using top-level mixin ${node.include.name} as a declaration',
               node.span);
         } else {
-          List<TreeNode> origRulesets = mixinDef.rulesets;
-          List<Declaration> rulesets = <Declaration>[];
+          List<CssTreeNode> origRulesets = mixinDef.rulesets;
+          List<CssDeclaration> rulesets = <CssDeclaration>[];
           if (origRulesets.every((ruleset) => ruleset is IncludeDirective)) {
             origRulesets.forEach((ruleset) {
-              rulesets.add(IncludeMixinAtDeclaration(
+              rulesets.add(CssIncludeMixinAtDeclaration(
                   ruleset as IncludeDirective, ruleset.span));
             });
             _IncludeReplacer.replace(_styleSheet!, node, rulesets);
@@ -559,7 +562,7 @@ class DeclarationIncludes extends Visitor {
         mixinDef = callMixin.transform(node.include.args);
       }
 
-      if (mixinDef is MixinDeclarationDirective) {
+      if (mixinDef is CssMixinDeclarationDirective) {
         _IncludeReplacer.replace(
             _styleSheet!, node, mixinDef.declarations.declarations);
       }
@@ -573,17 +576,17 @@ class DeclarationIncludes extends Visitor {
   @override
   void visitIncludeDirective(IncludeDirective node) {
     if (map.containsKey(node.name)) {
-      MixinDefinition? mixinDef = map[node.name];
-      if (currDef is MixinDeclarationDirective &&
-          mixinDef is MixinDeclarationDirective) {
+      CssMixinDefinition? mixinDef = map[node.name];
+      if (currDef is CssMixinDeclarationDirective &&
+          mixinDef is CssMixinDeclarationDirective) {
         _IncludeReplacer.replace(
             _styleSheet!, node, mixinDef.declarations.declarations);
-      } else if (currDef is MixinDeclarationDirective) {
-        List<TreeNode> decls =
-            (currDef as MixinDeclarationDirective).declarations.declarations;
+      } else if (currDef is CssMixinDeclarationDirective) {
+        List<CssTreeNode> decls =
+            (currDef as CssMixinDeclarationDirective).declarations.declarations;
         int index = _findInclude(decls, node);
         if (index != -1) {
-          decls.replaceRange(index, index + 1, [NoOp()]);
+          decls.replaceRange(index, index + 1, [CssNoOp()]);
         }
       }
     }
@@ -592,7 +595,7 @@ class DeclarationIncludes extends Visitor {
   }
 
   @override
-  void visitMixinRulesetDirective(MixinRulesetDirective node) {
+  void visitMixinRulesetDirective(CssMixinRulesetDirective node) {
     currDef = node;
 
     super.visitMixinRulesetDirective(node);
@@ -602,7 +605,7 @@ class DeclarationIncludes extends Visitor {
   }
 
   @override
-  void visitMixinDeclarationDirective(MixinDeclarationDirective node) {
+  void visitMixinDeclarationDirective(CssMixinDeclarationDirective node) {
     currDef = node;
 
     super.visitMixinDeclarationDirective(node);
@@ -613,7 +616,7 @@ class DeclarationIncludes extends Visitor {
 
   @override
   void visitVarDefinition(VarDefinition node) {
-    List<Expression> exprs = (node.expression as Expressions).expressions;
+    List<CssExpression> exprs = (node.expression as CssExpressions).expressions;
     if (exprs.length > 1) {
       varDefs[node.definedName] = node;
     }
@@ -621,17 +624,17 @@ class DeclarationIncludes extends Visitor {
   }
 
   @override
-  void visitVarDefinitionDirective(VarDefinitionDirective node) {
+  void visitVarDefinitionDirective(CssVarDefinitionDirective node) {
     visitVarDefinition(node.def);
   }
 }
 
 class _IncludeReplacer extends Visitor {
-  final TreeNode _include;
-  final List<TreeNode> _newDeclarations;
+  final CssTreeNode _include;
+  final List<CssTreeNode> _newDeclarations;
 
-  static void replace(
-      StyleSheet ss, TreeNode include, List<TreeNode> newDeclarations) {
+  static void replace(CssStyleSheet ss, CssTreeNode include,
+      List<CssTreeNode> newDeclarations) {
     _IncludeReplacer visitor = _IncludeReplacer(include, newDeclarations);
     visitor.visitStyleSheet(ss);
   }
@@ -643,22 +646,22 @@ class _IncludeReplacer extends Visitor {
     int index = _findInclude(node.declarations, _include);
     if (index != -1) {
       node.declarations.insertAll(index + 1, _newDeclarations);
-      node.declarations.replaceRange(index, index + 1, [NoOp()]);
+      node.declarations.replaceRange(index, index + 1, [CssNoOp()]);
     }
     super.visitDeclarationGroup(node);
   }
 }
 
 class MixinsAndIncludes extends Visitor {
-  static void remove(StyleSheet styleSheet) {
+  static void remove(CssStyleSheet styleSheet) {
     MixinsAndIncludes().visitStyleSheet(styleSheet);
   }
 
   bool _nodesToRemove(node) =>
-      node is IncludeDirective || node is MixinDefinition || node is NoOp;
+      node is IncludeDirective || node is CssMixinDefinition || node is CssNoOp;
 
   @override
-  void visitStyleSheet(StyleSheet ss) {
+  void visitStyleSheet(CssStyleSheet ss) {
     int index = ss.topLevels.length;
     while (--index >= 0) {
       if (_nodesToRemove(ss.topLevels[index])) {
@@ -681,15 +684,15 @@ class MixinsAndIncludes extends Visitor {
 }
 
 class AllExtends extends Visitor {
-  final inherits = <String, List<SelectorGroup>>{};
+  final inherits = <String, List<CssSelectorGroup>>{};
 
-  SelectorGroup? _currSelectorGroup;
+  CssSelectorGroup? _currSelectorGroup;
   int? _currDeclIndex;
   final _extendsToRemove = <int>[];
 
   @override
-  void visitRuleSet(RuleSet node) {
-    SelectorGroup? oldSelectorGroup = _currSelectorGroup;
+  void visitRuleSet(CssRuleSet node) {
+    CssSelectorGroup? oldSelectorGroup = _currSelectorGroup;
     _currSelectorGroup = node.selectorGroup;
 
     super.visitRuleSet(node);
@@ -698,9 +701,9 @@ class AllExtends extends Visitor {
   }
 
   @override
-  void visitExtendDeclaration(ExtendDeclaration node) {
+  void visitExtendDeclaration(CssExtendDeclaration node) {
     String inheritName = '';
-    for (TreeNode selector in node.selectors) {
+    for (CssTreeNode selector in node.selectors) {
       inheritName += selector.toString();
     }
     if (inherits.containsKey(inheritName)) {
@@ -718,7 +721,7 @@ class AllExtends extends Visitor {
   void visitDeclarationGroup(DeclarationGroup node) {
     int? oldDeclIndex = _currDeclIndex;
 
-    List<TreeNode> decls = node.declarations;
+    List<CssTreeNode> decls = node.declarations;
     for (_currDeclIndex = 0;
         _currDeclIndex! < decls.length;
         _currDeclIndex = _currDeclIndex! + 1) {
@@ -740,28 +743,28 @@ class AllExtends extends Visitor {
 class InheritExtends extends Visitor {
   final AllExtends _allExtends;
 
-  InheritExtends(Messages messages, this._allExtends);
+  InheritExtends(CssMessages messages, this._allExtends);
 
   @override
-  void visitSelectorGroup(SelectorGroup node) {
+  void visitSelectorGroup(CssSelectorGroup node) {
     for (int selectorsIndex = 0;
         selectorsIndex < node.selectors.length;
         selectorsIndex++) {
-      Selector selectors = node.selectors[selectorsIndex];
+      CssSelector selectors = node.selectors[selectorsIndex];
       bool isLastNone = false;
       String selectorName = '';
       for (int index = 0;
           index < selectors.simpleSelectorSequences.length;
           index++) {
-        SimpleSelectorSequence simpleSeq =
+        CssSimpleSelectorSequence simpleSeq =
             selectors.simpleSelectorSequences[index];
         String namePart = simpleSeq.simpleSelector.toString();
         selectorName = (isLastNone) ? (selectorName + namePart) : namePart;
-        List<SelectorGroup>? matches = _allExtends.inherits[selectorName];
+        List<CssSelectorGroup>? matches = _allExtends.inherits[selectorName];
         if (matches != null) {
-          for (SelectorGroup match in matches) {
-            Selector newSelectors = selectors.clone();
-            Selector newSeq = match.selectors[0].clone();
+          for (CssSelectorGroup match in matches) {
+            CssSelector newSelectors = selectors.clone();
+            CssSelector newSeq = match.selectors[0].clone();
             if (isLastNone) {
               node.selectors.add(newSeq);
             } else {

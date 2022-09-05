@@ -1,11 +1,11 @@
 part of '../visitor.dart';
 
-abstract class TreeNode {
+abstract class CssTreeNode {
   final SourceSpan? span;
 
-  TreeNode(this.span);
+  CssTreeNode(this.span);
 
-  TreeNode clone();
+  CssTreeNode clone();
 
   dynamic visit(VisitorBase visitor);
 
@@ -17,10 +17,10 @@ abstract class TreeNode {
   }
 }
 
-abstract class Expression extends TreeNode {
-  Expression(SourceSpan? span) : super(span);
+abstract class CssExpression extends CssTreeNode {
+  CssExpression(SourceSpan? span) : super(span);
   @override
-  Expression clone();
+  CssExpression clone();
 }
 
 class TreeOutput {
@@ -51,14 +51,14 @@ class TreeOutput {
   String toValue(value) {
     if (value == null) {
       return 'null';
-    } else if (value is Identifier) {
+    } else if (value is CssIdentifier) {
       return value.name;
     } else {
       return value.toString();
     }
   }
 
-  void writeNode(String label, TreeNode? node) {
+  void writeNode(String label, CssTreeNode? node) {
     write('$label: ');
     depth += 1;
     if (node != null) {
@@ -74,11 +74,11 @@ class TreeOutput {
     writeln('$label: $v');
   }
 
-  void writeNodeList(String label, List<TreeNode>? list) {
+  void writeNodeList(String label, List<CssTreeNode>? list) {
     writeln('$label [');
     if (list != null) {
       depth += 1;
-      for (TreeNode node in list) {
+      for (CssTreeNode node in list) {
         node.visit(printer!);
       }
       depth -= 1;

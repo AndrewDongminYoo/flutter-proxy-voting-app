@@ -2,7 +2,7 @@
 
 part of '../parser.dart';
 
-class Tokenizer extends TokenizerBase {
+class Tokenizer extends CssTokenizerBase {
   final UNICODE_U = 'U'.codeUnitAt(0);
   final UNICODE_LOWER_U = 'u'.codeUnitAt(0);
   final UNICODE_PLUS = '+'.codeUnitAt(0);
@@ -21,14 +21,14 @@ class Tokenizer extends TokenizerBase {
     int ch;
     ch = _nextChar();
     switch (ch) {
-      case TokenChar.NEWLINE:
-      case TokenChar.RETURN:
-      case TokenChar.SPACE:
-      case TokenChar.TAB:
+      case CssTokenChar.NEWLINE:
+      case CssTokenChar.RETURN:
+      case CssTokenChar.SPACE:
+      case CssTokenChar.TAB:
         return finishWhitespace();
-      case TokenChar.END_OF_FILE:
+      case CssTokenChar.END_OF_FILE:
         return _finishToken(CssTokenKind.END_OF_FILE);
-      case TokenChar.AT:
+      case CssTokenChar.AT:
         int peekCh = _peekChar();
         if (TokenizerHelpers.isIdentifierStart(peekCh)) {
           int oldIndex = _index;
@@ -53,7 +53,7 @@ class Tokenizer extends TokenizerBase {
           }
         }
         return _finishToken(CssTokenKind.AT);
-      case TokenChar.DOT:
+      case CssTokenChar.DOT:
         int start = _startIndex;
         if (maybeEatDigit()) {
           CssToken number = finishNumber();
@@ -66,28 +66,28 @@ class Tokenizer extends TokenizerBase {
         }
 
         return _finishToken(CssTokenKind.DOT);
-      case TokenChar.LPAREN:
+      case CssTokenChar.LPAREN:
         return _finishToken(CssTokenKind.LPAREN);
-      case TokenChar.RPAREN:
+      case CssTokenChar.RPAREN:
         return _finishToken(CssTokenKind.RPAREN);
-      case TokenChar.LBRACE:
+      case CssTokenChar.LBRACE:
         return _finishToken(CssTokenKind.LBRACE);
-      case TokenChar.RBRACE:
+      case CssTokenChar.RBRACE:
         return _finishToken(CssTokenKind.RBRACE);
-      case TokenChar.LBRACK:
+      case CssTokenChar.LBRACK:
         return _finishToken(CssTokenKind.LBRACK);
-      case TokenChar.RBRACK:
-        if (_maybeEatChar(TokenChar.RBRACK) &&
-            _maybeEatChar(TokenChar.GREATER)) {
+      case CssTokenChar.RBRACK:
+        if (_maybeEatChar(CssTokenChar.RBRACK) &&
+            _maybeEatChar(CssTokenChar.GREATER)) {
           return next();
         }
         return _finishToken(CssTokenKind.RBRACK);
-      case TokenChar.HASH:
+      case CssTokenChar.HASH:
         return _finishToken(CssTokenKind.HASH);
-      case TokenChar.PLUS:
+      case CssTokenChar.PLUS:
         if (_nextCharsAreNumber(ch)) return finishNumber();
         return _finishToken(CssTokenKind.PLUS);
-      case TokenChar.MINUS:
+      case CssTokenChar.MINUS:
         if (inSelectorExpression || unicodeRange) {
           return _finishToken(CssTokenKind.MINUS);
         } else if (_nextCharsAreNumber(ch)) {
@@ -96,72 +96,73 @@ class Tokenizer extends TokenizerBase {
           return finishIdentifier();
         }
         return _finishToken(CssTokenKind.MINUS);
-      case TokenChar.GREATER:
+      case CssTokenChar.GREATER:
         return _finishToken(CssTokenKind.GREATER);
-      case TokenChar.TILDE:
-        if (_maybeEatChar(TokenChar.EQUALS)) {
+      case CssTokenChar.TILDE:
+        if (_maybeEatChar(CssTokenChar.EQUALS)) {
           return _finishToken(CssTokenKind.INCLUDES);
         }
         return _finishToken(CssTokenKind.TILDE);
-      case TokenChar.ASTERISK:
-        if (_maybeEatChar(TokenChar.EQUALS)) {
+      case CssTokenChar.ASTERISK:
+        if (_maybeEatChar(CssTokenChar.EQUALS)) {
           return _finishToken(CssTokenKind.SUBSTRING_MATCH);
         }
         return _finishToken(CssTokenKind.ASTERISK);
-      case TokenChar.AMPERSAND:
+      case CssTokenChar.AMPERSAND:
         return _finishToken(CssTokenKind.AMPERSAND);
-      case TokenChar.NAMESPACE:
-        if (_maybeEatChar(TokenChar.EQUALS)) {
+      case CssTokenChar.NAMESPACE:
+        if (_maybeEatChar(CssTokenChar.EQUALS)) {
           return _finishToken(CssTokenKind.DASH_MATCH);
         }
         return _finishToken(CssTokenKind.NAMESPACE);
-      case TokenChar.COLON:
+      case CssTokenChar.COLON:
         return _finishToken(CssTokenKind.COLON);
-      case TokenChar.COMMA:
+      case CssTokenChar.COMMA:
         return _finishToken(CssTokenKind.COMMA);
-      case TokenChar.SEMICOLON:
+      case CssTokenChar.SEMICOLON:
         return _finishToken(CssTokenKind.SEMICOLON);
-      case TokenChar.PERCENT:
+      case CssTokenChar.PERCENT:
         return _finishToken(CssTokenKind.PERCENT);
-      case TokenChar.SINGLE_QUOTE:
+      case CssTokenChar.SINGLE_QUOTE:
         return _finishToken(CssTokenKind.SINGLE_QUOTE);
-      case TokenChar.DOUBLE_QUOTE:
+      case CssTokenChar.DOUBLE_QUOTE:
         return _finishToken(CssTokenKind.DOUBLE_QUOTE);
-      case TokenChar.SLASH:
-        if (_maybeEatChar(TokenChar.ASTERISK)) return finishMultiLineComment();
+      case CssTokenChar.SLASH:
+        if (_maybeEatChar(CssTokenChar.ASTERISK))
+          return finishMultiLineComment();
         return _finishToken(CssTokenKind.SLASH);
-      case TokenChar.LESS:
-        if (_maybeEatChar(TokenChar.BANG)) {
-          if (_maybeEatChar(TokenChar.MINUS) &&
-              _maybeEatChar(TokenChar.MINUS)) {
+      case CssTokenChar.LESS:
+        if (_maybeEatChar(CssTokenChar.BANG)) {
+          if (_maybeEatChar(CssTokenChar.MINUS) &&
+              _maybeEatChar(CssTokenChar.MINUS)) {
             return finishHtmlComment();
-          } else if (_maybeEatChar(TokenChar.LBRACK) &&
+          } else if (_maybeEatChar(CssTokenChar.LBRACK) &&
               _maybeEatChar(CDATA_NAME[0]) &&
               _maybeEatChar(CDATA_NAME[1]) &&
               _maybeEatChar(CDATA_NAME[2]) &&
               _maybeEatChar(CDATA_NAME[3]) &&
               _maybeEatChar(CDATA_NAME[4]) &&
-              _maybeEatChar(TokenChar.LBRACK)) {
+              _maybeEatChar(CssTokenChar.LBRACK)) {
             return next();
           }
         }
         return _finishToken(CssTokenKind.LESS);
-      case TokenChar.EQUALS:
+      case CssTokenChar.EQUALS:
         return _finishToken(CssTokenKind.EQUALS);
-      case TokenChar.CARET:
-        if (_maybeEatChar(TokenChar.EQUALS)) {
+      case CssTokenChar.CARET:
+        if (_maybeEatChar(CssTokenChar.EQUALS)) {
           return _finishToken(CssTokenKind.PREFIX_MATCH);
         }
         return _finishToken(CssTokenKind.CARET);
-      case TokenChar.DOLLAR:
-        if (_maybeEatChar(TokenChar.EQUALS)) {
+      case CssTokenChar.DOLLAR:
+        if (_maybeEatChar(CssTokenChar.EQUALS)) {
           return _finishToken(CssTokenKind.SUFFIX_MATCH);
         }
         return _finishToken(CssTokenKind.DOLLAR);
-      case TokenChar.BANG:
+      case CssTokenChar.BANG:
         return finishIdentifier();
       default:
-        if (!inSelector && ch == TokenChar.BACKSLASH) {
+        if (!inSelector && ch == CssTokenChar.BACKSLASH) {
           return _finishToken(CssTokenKind.BACKSLASH);
         }
 
@@ -250,10 +251,10 @@ class Tokenizer extends TokenizerBase {
 
           ch = _text.codeUnitAt(_index);
           if (_index - startHex != 6 &&
-              (ch == TokenChar.SPACE ||
-                  ch == TokenChar.TAB ||
-                  ch == TokenChar.RETURN ||
-                  ch == TokenChar.NEWLINE)) {
+              (ch == CssTokenChar.SPACE ||
+                  ch == CssTokenChar.TAB ||
+                  ch == CssTokenChar.RETURN ||
+                  ch == CssTokenChar.NEWLINE)) {
             _index++;
           }
         } else {
@@ -274,7 +275,7 @@ class Tokenizer extends TokenizerBase {
     FileSpan span = _file.span(_startIndex, _index);
     String text = String.fromCharCodes(chars);
 
-    return IdentifierToken(text, getIdentifierKind(), span);
+    return CssIdentifierToken(text, getIdentifierKind(), span);
   }
 
   @override
@@ -356,10 +357,10 @@ class Tokenizer extends TokenizerBase {
       int ch = _nextChar();
       if (ch == 0) {
         return _finishToken(CssTokenKind.INCOMPLETE_COMMENT);
-      } else if (ch == TokenChar.MINUS) {
+      } else if (ch == CssTokenChar.MINUS) {
         /* Check if close part of Comment Definition --> (CDC). */
-        if (_maybeEatChar(TokenChar.MINUS)) {
-          if (_maybeEatChar(TokenChar.GREATER)) {
+        if (_maybeEatChar(CssTokenChar.MINUS)) {
+          if (_maybeEatChar(CssTokenChar.GREATER)) {
             if (inString) {
               return next();
             } else {

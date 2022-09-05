@@ -1,4 +1,4 @@
-class PreprocessorOptions {
+class CssPreprocessorOptions {
   final bool polyfill;
   final bool warningsAsErrors;
   final bool throwOnWarnings;
@@ -8,7 +8,7 @@ class PreprocessorOptions {
   final bool lessSupport;
   final bool useColors;
   final String? inputFile;
-  const PreprocessorOptions(
+  const CssPreprocessorOptions(
       {this.verbose = false,
       this.checked = false,
       this.lessSupport = true,

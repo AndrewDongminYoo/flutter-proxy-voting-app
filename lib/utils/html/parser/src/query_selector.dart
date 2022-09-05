@@ -17,8 +17,8 @@ List<Element> querySelectorAll(Node node, String selector) {
   return results;
 }
 
-SelectorGroup _parseSelectorList(String selector) {
-  final errors = <Message>[];
+CssSelectorGroup _parseSelectorList(String selector) {
+  final errors = <CssMessage>[];
   final group = css.parseSelectorGroup(selector, errors: errors);
   if (group == null || errors.isNotEmpty) {
     throw FormatException("'$selector' is not a valid selector: $errors");
@@ -29,12 +29,12 @@ SelectorGroup _parseSelectorList(String selector) {
 class SelectorEvaluator extends Visitor {
   Element? _element;
 
-  bool matches(Element element, SelectorGroup selector) {
+  bool matches(Element element, CssSelectorGroup selector) {
     _element = element;
     return visitSelectorGroup(selector);
   }
 
-  Element? querySelector(Node root, SelectorGroup selector) {
+  Element? querySelector(Node root, CssSelectorGroup selector) {
     for (Element element in root.nodes.whereType<Element>()) {
       if (matches(element, selector)) return element;
       final result = querySelector(element, selector);
@@ -44,7 +44,7 @@ class SelectorEvaluator extends Visitor {
   }
 
   void querySelectorAll(
-      Node root, SelectorGroup selector, List<Element> results) {
+      Node root, CssSelectorGroup selector, List<Element> results) {
     for (Element element in root.nodes.whereType<Element>()) {
       if (matches(element, selector)) results.add(element);
       querySelectorAll(element, selector, results);
@@ -52,16 +52,16 @@ class SelectorEvaluator extends Visitor {
   }
 
   @override
-  bool visitSelectorGroup(SelectorGroup node) =>
+  bool visitSelectorGroup(CssSelectorGroup node) =>
       node.selectors.any(visitSelector);
 
   @override
-  bool visitSelector(Selector node) {
+  bool visitSelector(CssSelector node) {
     final old = _element;
     bool result = true;
 
     int? combinator;
-    for (SimpleSelectorSequence s in node.simpleSelectorSequences.reversed) {
+    for (CssSimpleSelectorSequence s in node.simpleSelectorSequences.reversed) {
       if (combinator == null) {
         result = s.simpleSelector.visit(this) as bool;
       } else if (combinator == CssTokenKind.COMBINATOR_DESCENDANT) {
@@ -107,7 +107,7 @@ class SelectorEvaluator extends Visitor {
     return result;
   }
 
-  UnimplementedError _unimplemented(SimpleSelector selector) =>
+  UnimplementedError _unimplemented(CssSimpleSelector selector) =>
       UnimplementedError("'$selector' selector of type "
           '${selector.runtimeType} is not implemented');
 
@@ -115,7 +115,7 @@ class SelectorEvaluator extends Visitor {
       FormatException("'$selector' is not a valid selector");
 
   @override
-  bool visitPseudoClassSelector(PseudoClassSelector node) {
+  bool visitPseudoClassSelector(CssPseudoClassSelector node) {
     switch (node.name) {
       case 'root':
         return _element!.localName == 'html' && _element!.parentNode == null;
@@ -151,7 +151,7 @@ class SelectorEvaluator extends Visitor {
   }
 
   @override
-  bool visitPseudoElementSelector(PseudoElementSelector node) {
+  bool visitPseudoElementSelector(CssPseudoElementSelector node) {
     if (_isLegacyPsuedoClass(node.name)) return false;
 
     throw _unimplemented(node);
@@ -170,7 +170,8 @@ class SelectorEvaluator extends Visitor {
   }
 
   @override
-  bool visitPseudoElementFunctionSelector(PseudoElementFunctionSelector node) =>
+  bool visitPseudoElementFunctionSelector(
+          CssPseudoElementFunctionSelector node) =>
       throw _unimplemented(node);
 
   @override
@@ -178,8 +179,8 @@ class SelectorEvaluator extends Visitor {
     switch (node.name) {
       case 'nth-child':
         final exprs = node.expression.expressions;
-        if (exprs.length == 1 && exprs[0] is LiteralTerm) {
-          final literal = exprs[0] as LiteralTerm;
+        if (exprs.length == 1 && exprs[0] is CssLiteralTerm) {
+          final literal = exprs[0] as CssLiteralTerm;
           final parent = _element!.parentNode;
           return parent != null &&
               (literal.value as num) > 0 &&
@@ -221,18 +222,18 @@ class SelectorEvaluator extends Visitor {
       node.isWildcard || _element!.localName == node.name.toLowerCase();
 
   @override
-  bool visitIdSelector(IdSelector node) => _element!.id == node.name;
+  bool visitIdSelector(CssIdSelector node) => _element!.id == node.name;
 
   @override
-  bool visitClassSelector(ClassSelector node) =>
+  bool visitClassSelector(CssClassSelector node) =>
       _element!.classes.contains(node.name);
 
   @override
-  bool visitNegationSelector(NegationSelector node) =>
+  bool visitNegationSelector(CssNegationSelector node) =>
       !(node.negationArg!.visit(this) as bool);
 
   @override
-  bool visitAttributeSelector(AttributeSelector node) {
+  bool visitAttributeSelector(CssAttributeSelector node) {
     final value = _element!.attributes[node.name.toLowerCase()];
     if (value == null) return false;
 

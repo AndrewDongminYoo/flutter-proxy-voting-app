@@ -1,19 +1,19 @@
 part of '../parser.dart';
 
-class TokenizerState {
+class CssTokenizerState {
   final int index;
   final int startIndex;
   final bool inSelectorExpression;
   final bool inSelector;
 
-  TokenizerState(TokenizerBase base)
+  CssTokenizerState(CssTokenizerBase base)
       : index = base._index,
         startIndex = base._startIndex,
         inSelectorExpression = base.inSelectorExpression,
         inSelector = base.inSelector;
 }
 
-abstract class TokenizerBase {
+abstract class CssTokenizerBase {
   final SourceFile _file;
   final String _text;
 
@@ -26,14 +26,14 @@ abstract class TokenizerBase {
   int _index = 0;
   int _startIndex = 0;
 
-  TokenizerBase(this._file, this._text, this.inString, [this._index = 0]);
+  CssTokenizerBase(this._file, this._text, this.inString, [this._index = 0]);
 
   CssToken next();
   int getIdentifierKind();
 
-  TokenizerState get mark => TokenizerState(this);
+  CssTokenizerState get mark => CssTokenizerState(this);
 
-  void restore(TokenizerState markedData) {
+  void restore(CssTokenizerState markedData) {
     _index = markedData.index;
     _startIndex = markedData.startIndex;
     inSelectorExpression = markedData.inSelectorExpression;
@@ -72,10 +72,11 @@ abstract class TokenizerBase {
   bool _nextCharsAreNumber(int first) {
     if (TokenizerHelpers.isDigit(first)) return true;
     int second = _peekChar();
-    if (first == TokenChar.DOT) return TokenizerHelpers.isDigit(second);
-    if (first == TokenChar.PLUS || first == TokenChar.MINUS) {
+    if (first == CssTokenChar.DOT) return TokenizerHelpers.isDigit(second);
+    if (first == CssTokenChar.PLUS || first == CssTokenChar.MINUS) {
       return TokenizerHelpers.isDigit(second) ||
-          (second == TokenChar.DOT && TokenizerHelpers.isDigit(_peekChar(1)));
+          (second == CssTokenChar.DOT &&
+              TokenizerHelpers.isDigit(_peekChar(1)));
     }
     return false;
   }
@@ -85,7 +86,7 @@ abstract class TokenizerBase {
   }
 
   CssToken _errorToken([String? message]) {
-    return ErrorToken(
+    return CssErrorToken(
         CssTokenKind.ERROR, _file.span(_startIndex, _index), message);
   }
 
@@ -93,10 +94,10 @@ abstract class TokenizerBase {
     _index--;
     while (_index < _text.length) {
       final ch = _text.codeUnitAt(_index++);
-      if (ch == TokenChar.SPACE ||
-          ch == TokenChar.TAB ||
-          ch == TokenChar.RETURN) {
-      } else if (ch == TokenChar.NEWLINE) {
+      if (ch == CssTokenChar.SPACE ||
+          ch == CssTokenChar.TAB ||
+          ch == CssTokenChar.RETURN) {
+      } else if (ch == CssTokenChar.NEWLINE) {
         if (!inString) {}
       } else {
         _index--;
@@ -116,12 +117,12 @@ abstract class TokenizerBase {
       int ch = _nextChar();
       if (ch == 0) {
         return _errorToken();
-      } else if (ch == TokenChar.ASTERISK) {
-        if (_maybeEatChar(TokenChar.SLASH)) {
+      } else if (ch == CssTokenChar.ASTERISK) {
+        if (_maybeEatChar(CssTokenChar.SLASH)) {
           nesting--;
         }
-      } else if (ch == TokenChar.SLASH) {
-        if (_maybeEatChar(TokenChar.ASTERISK)) {
+      } else if (ch == CssTokenChar.SLASH) {
+        if (_maybeEatChar(CssTokenChar.ASTERISK)) {
           nesting++;
         }
       }
@@ -185,7 +186,7 @@ abstract class TokenizerBase {
   CssToken finishNumber() {
     eatDigits();
 
-    if (_peekChar() == TokenChar.DOT) {
+    if (_peekChar() == CssTokenChar.DOT) {
       _nextChar();
       if (TokenizerHelpers.isDigit(_peekChar())) {
         eatDigits();
@@ -216,12 +217,12 @@ abstract class TokenizerBase {
   CssToken _makeStringToken(List<int> buf, bool isPart) {
     final s = String.fromCharCodes(buf);
     final kind = isPart ? CssTokenKind.STRING_PART : CssTokenKind.STRING;
-    return LiteralToken(kind, _file.span(_startIndex, _index), s);
+    return CssLiteralToken(kind, _file.span(_startIndex, _index), s);
   }
 
   CssToken makeIEFilter(int start, int end) {
     String filter = _text.substring(start, end);
-    return LiteralToken(CssTokenKind.STRING, _file.span(start, end), filter);
+    return CssLiteralToken(CssTokenKind.STRING, _file.span(start, end), filter);
   }
 
   CssToken _makeRawStringToken(bool isMultiline) {
@@ -233,7 +234,7 @@ abstract class TokenizerBase {
     } else {
       s = _text.substring(_startIndex + 2, _index - 1);
     }
-    return LiteralToken(
+    return CssLiteralToken(
         CssTokenKind.STRING, _file.span(_startIndex, _index), s);
   }
 
@@ -251,7 +252,7 @@ abstract class TokenizerBase {
           buf.add(quote);
         }
         buf.add(quote);
-      } else if (ch == TokenChar.BACKSLASH) {
+      } else if (ch == CssTokenChar.BACKSLASH) {
         int escapeVal = readEscapeSequence();
         if (escapeVal == -1) {
           return _errorToken('invalid hex escape sequence');
@@ -267,7 +268,7 @@ abstract class TokenizerBase {
   CssToken finishString(int quote) {
     if (_maybeEatChar(quote)) {
       if (_maybeEatChar(quote)) {
-        _maybeEatChar(TokenChar.NEWLINE);
+        _maybeEatChar(CssTokenChar.NEWLINE);
         return finishMultilineString(quote);
       } else {
         return _makeStringToken(<int>[], false);
@@ -313,7 +314,7 @@ abstract class TokenizerBase {
         return _makeStringToken(buf, false);
       } else if (ch == 0) {
         return _errorToken();
-      } else if (ch == TokenChar.BACKSLASH) {
+      } else if (ch == CssTokenChar.BACKSLASH) {
         int escapeVal = readEscapeSequence();
         if (escapeVal == -1) {
           return _errorToken('invalid hex escape sequence');
@@ -331,24 +332,24 @@ abstract class TokenizerBase {
     int hexValue;
     switch (ch) {
       case 110 /*n*/ :
-        return TokenChar.NEWLINE;
+        return CssTokenChar.NEWLINE;
       case 114 /*r*/ :
-        return TokenChar.RETURN;
+        return CssTokenChar.RETURN;
       case 102 /*f*/ :
-        return TokenChar.FF;
+        return CssTokenChar.FF;
       case 98 /*b*/ :
-        return TokenChar.BACKSPACE;
+        return CssTokenChar.BACKSPACE;
       case 116 /*t*/ :
-        return TokenChar.TAB;
+        return CssTokenChar.TAB;
       case 118 /*v*/ :
-        return TokenChar.FF;
+        return CssTokenChar.FF;
       case 120 /*x*/ :
         hexValue = readHex(2);
         break;
       case 117 /*u*/ :
-        if (_maybeEatChar(TokenChar.LBRACE)) {
+        if (_maybeEatChar(CssTokenChar.LBRACE)) {
           hexValue = readHex();
-          if (!_maybeEatChar(TokenChar.RBRACE)) {
+          if (!_maybeEatChar(CssTokenChar.RBRACE)) {
             return -1;
           }
         } else {

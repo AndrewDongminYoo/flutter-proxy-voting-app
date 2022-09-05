@@ -679,7 +679,7 @@ class CssTokenKind {
   }
 }
 
-class TokenChar {
+class CssTokenChar {
   static const int UNUSED = -1;
   static const int END_OF_FILE = 0;
   static const int LPAREN = 0x28;

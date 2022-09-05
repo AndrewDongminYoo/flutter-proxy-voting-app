@@ -1,14 +1,14 @@
 part of '../parser.dart';
 
-class PolyFill {
-  final Messages _messages;
+class CssPolyFill {
+  final CssMessages _messages;
   Map<String, VarDefinition> _allVarDefinitions = <String, VarDefinition>{};
 
-  Set<StyleSheet> allStyleSheets = <StyleSheet>{};
+  Set<CssStyleSheet> allStyleSheets = <CssStyleSheet>{};
 
-  PolyFill(this._messages);
+  CssPolyFill(this._messages);
 
-  void process(StyleSheet styleSheet, {List<StyleSheet>? includes}) {
+  void process(CssStyleSheet styleSheet, {List<CssStyleSheet>? includes}) {
     if (includes != null) {
       processVarDefinitions(includes);
     }
@@ -17,22 +17,23 @@ class PolyFill {
     _RemoveVarDefinitions().visitTree(styleSheet);
   }
 
-  void processVarDefinitions(List<StyleSheet> includes) {
-    for (StyleSheet include in includes) {
+  void processVarDefinitions(List<CssStyleSheet> includes) {
+    for (CssStyleSheet include in includes) {
       _allVarDefinitions = (_VarDefinitionsIncludes(_allVarDefinitions)
             ..visitTree(include))
           .varDefs;
     }
   }
 
-  void processVars(StyleSheet styleSheet) {
+  void processVars(CssStyleSheet styleSheet) {
     Map<String, VarDefinition> mainStyleSheetVarDefs =
         (_VarDefAndUsage(_messages, _allVarDefinitions)..visitTree(styleSheet))
             .varDefs;
 
     mainStyleSheetVarDefs.forEach((key, value) {
       // ignore: unused_local_variable
-      for (Expression unused in (value.expression as Expressions).expressions) {
+      for (CssExpression unused
+          in (value.expression as CssExpressions).expressions) {
         mainStyleSheetVarDefs[key] =
             _findTerminalVarDefinition(_allVarDefinitions, value);
       }
@@ -46,7 +47,7 @@ class _VarDefinitionsIncludes extends Visitor {
   _VarDefinitionsIncludes(this.varDefs);
 
   @override
-  void visitTree(StyleSheet tree) {
+  void visitTree(CssStyleSheet tree) {
     visitStyleSheet(tree);
   }
 
@@ -57,23 +58,23 @@ class _VarDefinitionsIncludes extends Visitor {
   }
 
   @override
-  void visitVarDefinitionDirective(VarDefinitionDirective node) {
+  void visitVarDefinitionDirective(CssVarDefinitionDirective node) {
     visitVarDefinition(node.def);
   }
 }
 
 class _VarDefAndUsage extends Visitor {
-  final Messages _messages;
+  final CssMessages _messages;
   final Map<String, VarDefinition> _knownVarDefs;
   final varDefs = <String, VarDefinition>{};
 
   VarDefinition? currVarDefinition;
-  List<Expression>? currentExpressions;
+  List<CssExpression>? currentExpressions;
 
   _VarDefAndUsage(this._messages, this._knownVarDefs);
 
   @override
-  void visitTree(StyleSheet tree) {
+  void visitTree(CssStyleSheet tree) {
     visitStyleSheet(tree);
   }
 
@@ -90,22 +91,22 @@ class _VarDefAndUsage extends Visitor {
   }
 
   @override
-  void visitVarDefinitionDirective(VarDefinitionDirective node) {
+  void visitVarDefinitionDirective(CssVarDefinitionDirective node) {
     visitVarDefinition(node.def);
   }
 
   @override
-  void visitExpressions(Expressions node) {
+  void visitExpressions(CssExpressions node) {
     currentExpressions = node.expressions;
     super.visitExpressions(node);
     currentExpressions = null;
   }
 
   @override
-  void visitVarUsage(VarUsage node) {
+  void visitVarUsage(CssVarUsage node) {
     if (currVarDefinition != null && currVarDefinition!.badUsage) return;
 
-    List<Expression>? expressions = currentExpressions;
+    List<CssExpression>? expressions = currentExpressions;
     int index = expressions!.indexOf(node);
     assert(index >= 0);
     VarDefinition? def = _knownVarDefs[node.name];
@@ -116,10 +117,11 @@ class _VarDefAndUsage extends Visitor {
       }
       _resolveVarUsage(currentExpressions!, index,
           _findTerminalVarDefinition(_knownVarDefs, def));
-    } else if (node.defaultValues.any((e) => e is VarUsage)) {
-      List<Expression> terminalDefaults = <Expression>[];
-      for (Expression defaultValue in node.defaultValues) {
-        terminalDefaults.addAll(resolveUsageTerminal(defaultValue as VarUsage));
+    } else if (node.defaultValues.any((e) => e is CssVarUsage)) {
+      List<CssExpression> terminalDefaults = <CssExpression>[];
+      for (CssExpression defaultValue in node.defaultValues) {
+        terminalDefaults
+            .addAll(resolveUsageTerminal(defaultValue as CssVarUsage));
       }
       expressions.replaceRange(index, index + 1, terminalDefaults);
     } else if (node.defaultValues.isNotEmpty) {
@@ -137,53 +139,53 @@ class _VarDefAndUsage extends Visitor {
       _messages.warning('Variable is not defined.', node.span);
     }
 
-    List<Expression>? oldExpressions = currentExpressions;
+    List<CssExpression>? oldExpressions = currentExpressions;
     currentExpressions = node.defaultValues;
     super.visitVarUsage(node);
     currentExpressions = oldExpressions;
   }
 
-  List<Expression> resolveUsageTerminal(VarUsage usage) {
-    List<Expression> result = <Expression>[];
+  List<CssExpression> resolveUsageTerminal(CssVarUsage usage) {
+    List<CssExpression> result = <CssExpression>[];
 
     VarDefinition? varDef = _knownVarDefs[usage.name];
-    List<Expression> expressions;
+    List<CssExpression> expressions;
     if (varDef == null) {
       expressions = usage.defaultValues;
     } else {
-      expressions = (varDef.expression as Expressions).expressions;
+      expressions = (varDef.expression as CssExpressions).expressions;
     }
 
-    for (Expression expr in expressions) {
-      if (expr is VarUsage) {
+    for (CssExpression expr in expressions) {
+      if (expr is CssVarUsage) {
         result.addAll(resolveUsageTerminal(expr));
       }
     }
 
     if (result.isEmpty && varDef != null) {
-      result = (varDef.expression as Expressions).expressions;
+      result = (varDef.expression as CssExpressions).expressions;
     }
 
     return result;
   }
 
   void _resolveVarUsage(
-      List<Expression> expressions, int index, VarDefinition def) {
-    List<Expression> defExpressions =
-        (def.expression as Expressions).expressions;
+      List<CssExpression> expressions, int index, VarDefinition def) {
+    List<CssExpression> defExpressions =
+        (def.expression as CssExpressions).expressions;
     expressions.replaceRange(index, index + 1, defExpressions);
   }
 }
 
 class _RemoveVarDefinitions extends Visitor {
   @override
-  void visitTree(StyleSheet tree) {
+  void visitTree(CssStyleSheet tree) {
     visitStyleSheet(tree);
   }
 
   @override
-  void visitStyleSheet(StyleSheet ss) {
-    ss.topLevels.removeWhere((e) => e is VarDefinitionDirective);
+  void visitStyleSheet(CssStyleSheet ss) {
+    ss.topLevels.removeWhere((e) => e is CssVarDefinitionDirective);
     super.visitStyleSheet(ss);
   }
 
@@ -196,15 +198,15 @@ class _RemoveVarDefinitions extends Visitor {
 
 VarDefinition _findTerminalVarDefinition(
     Map<String, VarDefinition> varDefs, VarDefinition varDef) {
-  Expressions expressions = varDef.expression as Expressions;
-  for (Expression expr in expressions.expressions) {
-    if (expr is VarUsage) {
+  CssExpressions expressions = varDef.expression as CssExpressions;
+  for (CssExpression expr in expressions.expressions) {
+    if (expr is CssVarUsage) {
       String usageName = expr.name;
       VarDefinition? foundDef = varDefs[usageName];
 
       if (foundDef == null) {
-        List<Expression> defaultValues = expr.defaultValues;
-        List<Expression> replaceExprs = expressions.expressions;
+        List<CssExpression> defaultValues = expr.defaultValues;
+        List<CssExpression> replaceExprs = expressions.expressions;
         assert(replaceExprs.length == 1);
         replaceExprs.replaceRange(0, 1, defaultValues);
         return varDef;
