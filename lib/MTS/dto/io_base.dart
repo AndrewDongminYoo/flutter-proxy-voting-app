@@ -106,7 +106,7 @@ class CustomInput implements IOBase {
 
   CustomInput.from(dynamic input) {
     idOrCert = input['로그인방식'] ?? '';
-    userId = input['사용자아이디'] ?? input['사용자이름'] ?? '';
+    userId = input['사용자아이디'] ?? '';
     password = input['사용자비밀번호'] ?? '';
     queryCode = input['조회구분'] ?? '';
     showISO = input['통화코드출력여부'] ?? '';

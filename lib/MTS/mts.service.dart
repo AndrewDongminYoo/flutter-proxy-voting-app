@@ -11,8 +11,8 @@ import 'mts.dart';
 class CooconMTSService extends GetConnect {
   fetchMTSData({
     required CustomModule module,
-    required String userId,
-    required String username,
+    required String userId, // "ydm2790"
+    required String username, // "유동민"
     required String password,
     required String passNum,
     required bool idLogin,

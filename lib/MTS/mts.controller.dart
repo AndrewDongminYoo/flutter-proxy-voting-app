@@ -20,9 +20,9 @@ class MtsController extends GetxController {
   String _userLoginID = ''; // 사용자 아이디
   String _userLoginPW = ''; // 사용자 비밀번호
   String _bankPINNumber = ''; // 사용자 핀번호(4)
-  String _certificationID = ''; // 인증서 상세이름
-  String _certificationPW = ''; // 인증서 비밀번호
-  String _certificationEX = ''; // 인증서 만료일자
+  String _certID = ''; // 인증서 상세이름
+  String _certPW = ''; // 인증서 비밀번호
+  String _certEX = ''; // 인증서 만료일자
   String _pubKey = '';
   String _priKey = '';
   bool idLogin = true;
@@ -48,19 +48,23 @@ class MtsController extends GetxController {
     print('id: $id, password: $password, module: $module');
   }
 
-  setCertification(RKSWCertItem item) {
-    _certificationID = item.subjectName;
-    _certificationEX = item.expiredTime.replaceAll('.', '');
-    _pubKey = item.publicKey;
-    _priKey = item.privateKey;
+  void setCertID(String id) {
+    _userLoginID = id;
     idLogin = false;
   }
 
-  void setCertPassword(String password) {
-    _certificationPW = password;
+  void setCertPW(String password) {
+    _certPW = password;
     idLogin = false;
-    print(
-        'id: $_certificationID, password: $_certificationPW, expired: $_certificationEX');
+    print('id: $_certID, password: $_certPW, expired: $_certEX');
+  }
+
+  setCertification(RKSWCertItem item) {
+    _certID = item.subjectName;
+    _certEX = item.expiredTime.replaceAll('.', '');
+    _pubKey = item.publicKey;
+    _priKey = item.privateKey;
+    idLogin = false;
   }
 
   Future<void> loadMTSProcess() async {
@@ -72,9 +76,9 @@ class MtsController extends GetxController {
       password: _userLoginPW,
       passNum: _bankPINNumber,
       idLogin: idLogin,
-      certExpire: _certificationEX,
-      certUsername: _certificationID,
-      certPassword: _certificationPW,
+      certExpire: _certEX,
+      certUsername: _certID,
+      certPassword: _certPW,
       certPublic: _pubKey,
       certPrivate: _priKey,
     );

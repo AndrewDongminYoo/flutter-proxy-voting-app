@@ -17,7 +17,8 @@ class MTSLoginCERTPage extends StatefulWidget {
 
 class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
   final MtsController _mtsController = MtsController.get();
-  String certificationPassword = '';
+  String _certIdentify = '';
+  String _certPassword = '';
   List<RKSWCertItem> certificationList = [];
   bool passwordVisible = false;
   bool showInputElement = false;
@@ -107,10 +108,24 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
       ),
       showInputElement
           ? TextFormField(
-              initialValue: certificationPassword,
+              autofocus: true,
+              initialValue: _certIdentify,
+              onChanged: (val) => {_mtsController.setCertID(val)},
+              style: authFormFieldStyle,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: '증권사 아이디',
+                helperText: '아이디를 입력해주세요',
+              ),
+            )
+          : Container(),
+      showInputElement
+          ? TextFormField(
+              initialValue: _certPassword,
               onChanged: (val) => {
                 setState(() {
-                  certificationPassword = val;
+                  _certPassword = val;
                 })
               },
               autofocus: true,
@@ -133,7 +148,7 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
                 ),
               ),
               onFieldSubmitted: (value) => {
-                _mtsController.setCertPassword(value),
+                _mtsController.setCertPW(value),
                 _mtsController.showMTSResult(),
               },
             )
@@ -143,7 +158,7 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
                 _mtsController.emptyCerts();
                 goToMtsLoginWithCert();
               },
-              label: '공동인증서 전체삭제',
+              label: '공동인증서 삭제',
             ),
     ]);
   }
