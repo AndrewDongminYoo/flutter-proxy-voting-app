@@ -31,7 +31,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
   checkCertList() async {
     List<RKSWCertItem>? response = await _mtsController.loadCertList();
     if (response != null && response.isNotEmpty) {
-      goMTSImportCert();
+      goMTSLoginCert();
     }
   }
 
@@ -135,12 +135,13 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
   }
 
   void copyBside() {
+    String text = 'https://relay.coocon.net/beside/#none';
     Clipboard.setData(
-      const ClipboardData(
-        text: 'https://relay.coocon.net/beside/#none',
+      ClipboardData(
+        text: text,
       ),
     );
-    print('클립보드에 복사되었습니다.');
+    print('클립보드에 복사되었습니다. $text');
     onContinue();
   }
 
@@ -182,7 +183,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
   void onFinish() {
     Get.bottomSheet(
       confirmBody(
-        'PC웹사이트에서 인증번호를 입력하세요.',
+        'PC 웹사이트에서 인증번호를 입력하세요.',
         '입력 후 확인',
         () async {
           bool ok = await _mtsController.checkIfImported();

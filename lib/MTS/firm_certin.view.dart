@@ -41,7 +41,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
           certificationList.add(element);
         }
       } else {
-        goMTSLoginCert();
+        goMTSImportCert();
       }
     });
   }
