@@ -12,13 +12,13 @@ import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'widget/widget.dart';
 
-class CheckVoteNumPage extends StatefulWidget {
-  const CheckVoteNumPage({Key? key}) : super(key: key);
+class VoteNumCheckPage extends StatefulWidget {
+  const VoteNumCheckPage({Key? key}) : super(key: key);
   @override
-  State<CheckVoteNumPage> createState() => _CheckVoteNumPageState();
+  State<VoteNumCheckPage> createState() => _VoteNumCheckPageState();
 }
 
-class _CheckVoteNumPageState extends State<CheckVoteNumPage> {
+class _VoteNumCheckPageState extends State<VoteNumCheckPage> {
   final VoteController _voteCtrl = VoteController.get();
   final AuthController _authCtrl = AuthController.get();
 

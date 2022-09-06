@@ -8,14 +8,14 @@ import '../theme.dart';
 import 'mts.dart';
 import '../shared/shared.dart';
 
-class MTSLoginCERTPage extends StatefulWidget {
-  const MTSLoginCERTPage({Key? key}) : super(key: key);
+class MTSLoginCertPage extends StatefulWidget {
+  const MTSLoginCertPage({Key? key}) : super(key: key);
 
   @override
-  State<MTSLoginCERTPage> createState() => _MTSLoginCERTPageState();
+  State<MTSLoginCertPage> createState() => _MTSLoginCertPageState();
 }
 
-class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
+class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
   final MtsController _mtsController = MtsController.get();
   String _certId = '';
   String _certPW = '';
@@ -41,7 +41,7 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
           certificationList.add(element);
         }
       } else {
-        goToMtsLoginWithCert();
+        goMTSLoginCert();
       }
     });
   }
@@ -161,7 +161,7 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
               onPressed: () {
                 certificationList.clear();
                 _mtsController.emptyCerts();
-                goToMtsLoginWithCert();
+                goMTSLoginCert();
               },
               label: '공동인증서 삭제',
             ),

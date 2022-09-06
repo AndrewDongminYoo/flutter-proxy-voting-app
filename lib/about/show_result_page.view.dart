@@ -12,13 +12,13 @@ import '../theme.dart';
 import '../vote/vote.dart';
 import 'about.dart';
 
-class ShowResultPage extends StatefulWidget {
-  const ShowResultPage({Key? key}) : super(key: key);
+class VoteResultPage extends StatefulWidget {
+  const VoteResultPage({Key? key}) : super(key: key);
   @override
-  State<ShowResultPage> createState() => _ShowResultPageState();
+  State<VoteResultPage> createState() => _VoteResultPageState();
 }
 
-class _ShowResultPageState extends State<ShowResultPage> {
+class _VoteResultPageState extends State<VoteResultPage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
 

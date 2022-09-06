@@ -21,10 +21,6 @@ abstract class MTSInterface {
 
   @override
   String toString() => json.toString();
-
-  addResult(String value) {
-    controller.texts.add(Text(value));
-  }
 }
 
 abstract class IOBase {

@@ -10,14 +10,14 @@ import '../home/home.view.dart';
 import '../shared/yotube.dart';
 import '../vote/vote.controller.dart';
 
-class PreviewCampaignPage extends StatefulWidget {
-  const PreviewCampaignPage({Key? key}) : super(key: key);
+class CampaignPreviewPage extends StatefulWidget {
+  const CampaignPreviewPage({Key? key}) : super(key: key);
 
   @override
-  State<PreviewCampaignPage> createState() => _PreviewCampaignPageState();
+  State<CampaignPreviewPage> createState() => _CampaignPreviewPageState();
 }
 
-class _PreviewCampaignPageState extends State<PreviewCampaignPage> {
+class _CampaignPreviewPageState extends State<CampaignPreviewPage> {
   final VoteController _voteCtrl = VoteController.get();
   final List<List> title = [
     ['전자위임', Icons.description_outlined],

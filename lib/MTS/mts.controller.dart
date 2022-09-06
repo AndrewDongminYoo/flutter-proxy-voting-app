@@ -87,14 +87,7 @@ class MtsController extends GetxController {
   Future<void> showMTSResult() async {
     await loadMTSProcess();
     Get.isDialogOpen! ? goBack() : null;
-    await Get.bottomSheet(Container(
-        padding: const EdgeInsets.all(36),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            )),
-        child: ListView(children: texts)));
+    await goMTSShowResult();
   }
 
   Future<String?> loadTwelveDigits() async {

@@ -9,13 +9,13 @@ import 'mts.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 
-class MtsFirmChoicePage extends StatefulWidget {
-  const MtsFirmChoicePage({Key? key}) : super(key: key);
+class MTSFirmChoicePage extends StatefulWidget {
+  const MTSFirmChoicePage({Key? key}) : super(key: key);
   @override
-  State<MtsFirmChoicePage> createState() => _MtsFirmChoicePageState();
+  State<MTSFirmChoicePage> createState() => _MTSFirmChoicePageState();
 }
 
-class _MtsFirmChoicePageState extends State<MtsFirmChoicePage> {
+class _MTSFirmChoicePageState extends State<MTSFirmChoicePage> {
   final MtsController _controller = MtsController.get();
   List<CustomModule> firms = [];
 
@@ -109,7 +109,7 @@ class _MtsFirmChoicePageState extends State<MtsFirmChoicePage> {
           ])),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          goToMtsLoginChoice();
+          goMTSLoginChoice();
         },
         shape: const CircleBorder(),
         elevation: 10,

@@ -7,14 +7,14 @@ import 'mts.controller.dart';
 import '../shared/shared.dart';
 import '../auth/widget/widget.dart';
 
-class MTSLoginIDPage extends StatefulWidget {
-  const MTSLoginIDPage({Key? key}) : super(key: key);
+class MTSLoginIdPage extends StatefulWidget {
+  const MTSLoginIdPage({Key? key}) : super(key: key);
 
   @override
-  State<MTSLoginIDPage> createState() => _MTSLoginIDPageState();
+  State<MTSLoginIdPage> createState() => _MTSLoginIdPageState();
 }
 
-class _MTSLoginIDPageState extends State<MTSLoginIDPage> {
+class _MTSLoginIdPageState extends State<MTSLoginIdPage> {
   final MtsController _mtsController = MtsController.get();
 
   String _securitiesID = '';

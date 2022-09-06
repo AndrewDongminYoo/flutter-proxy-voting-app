@@ -7,14 +7,14 @@ import 'package:get/route_manager.dart';
 // 🌎 Project imports:
 import '../shared/shared.dart';
 
-class MTSChooseLoginMenu extends StatefulWidget {
-  const MTSChooseLoginMenu({super.key});
+class MTSLoginChoicePage extends StatefulWidget {
+  const MTSLoginChoicePage({super.key});
 
   @override
-  State<MTSChooseLoginMenu> createState() => _MTSChooseLoginMenuState();
+  State<MTSLoginChoicePage> createState() => _MTSLoginChoicePageState();
 }
 
-class _MTSChooseLoginMenuState extends State<MTSChooseLoginMenu> {
+class _MTSLoginChoicePageState extends State<MTSLoginChoicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +56,7 @@ class _MTSChooseLoginMenuState extends State<MTSChooseLoginMenu> {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        goToMtsLoginWithID();
+                        goMTSLoginId();
                       },
                       child: Container(
                         width: Get.width * 0.4,
@@ -88,7 +88,7 @@ class _MTSChooseLoginMenuState extends State<MTSChooseLoginMenu> {
                   const SizedBox(width: 5),
                   GestureDetector(
                       onTap: () {
-                        goToMtsLoginWithCert();
+                        goMTSLoginCert();
                       },
                       child: Container(
                         width: Get.width * 0.4,

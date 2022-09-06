@@ -14,14 +14,14 @@ import '../theme.dart';
 import '../utils/exception.dart';
 import 'auth.controller.dart';
 
-class ValidatePage extends StatefulWidget {
-  const ValidatePage({Key? key}) : super(key: key);
+class AuthValidatePage extends StatefulWidget {
+  const AuthValidatePage({Key? key}) : super(key: key);
 
   @override
-  State<ValidatePage> createState() => _ValidatePageState();
+  State<AuthValidatePage> createState() => _AuthValidatePageState();
 }
 
-class _ValidatePageState extends State<ValidatePage> {
+class _AuthValidatePageState extends State<AuthValidatePage> {
   final AuthController _authCtrl = AuthController.get();
   final NotiController _notiCtrl = NotiController.get();
   final _formKey = GlobalKey<FormState>();

@@ -56,19 +56,19 @@ class _StepperCardState extends State<StepperCard> {
             onPressed: () {
               switch (title) {
                 case ('주주명부 대조'):
-                  goToCheckVoteNum();
+                  goVoteNumCheck();
                   break;
                 case ('안건투표'):
                   goToVoteWithLastMemory();
                   break;
                 case ('전자서명'):
-                  goToSignature();
+                  goVoteSign();
                   break;
                 case ('신분증 사본'):
-                  goToIDCard();
+                  goUploadIdCard();
                   break;
                 case ('주민번호 입력'):
-                  goToIDNumber();
+                  goTakeIdNumber();
                   break;
               }
             },

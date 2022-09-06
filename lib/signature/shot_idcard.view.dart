@@ -178,7 +178,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
               if (_authCtrl.user.backId.length > 1) {
                 jumpToResult();
               }
-              goToIDNumber();
+              goTakeIdNumber();
             }
           },
         ),

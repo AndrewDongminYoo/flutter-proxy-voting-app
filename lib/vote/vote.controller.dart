@@ -125,15 +125,15 @@ class VoteController extends GetxController {
     _stopLoading();
     if (_shareholders.length > 1) {
       // case B-1: 주주가 여려명인 경우, 동명이인이 있는 상황. 주소 확인페이지로 이동
-      goToDuplicate();
+      goAddressDedupe();
     } else if (_shareholders.length == 1) {
       // case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
       _shareholder = _shareholders[0];
       await setShareholderId(campaign.enName, shareholder.id);
-      goToCheckVoteNum();
+      goVoteNumCheck();
     } else {
       // case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
-      goToNotShareHolders();
+      goNotShareholder();
     }
   }
 

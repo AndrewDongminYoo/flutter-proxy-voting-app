@@ -7,22 +7,27 @@ import 'package:get/get.dart' show Get, GetNavigation;
 goBack() => Get.back();
 goBackWithVal(context, value) => Navigator.pop(context, value);
 
-goToOnBoarding() => Get.toNamed('/onboarding');
-goToHome() => Get.toNamed('/');
-goToSignUp() => Get.toNamed('/signup');
-goToCampaign() => Get.toNamed('/campaign');
-goToSignature() => Get.toNamed('/signature');
-goToIDCard() => Get.toNamed('/idcard');
-goToIDNumber() => Get.toNamed('/idnumber');
-goToNotShareHolders() => Get.toNamed('/not-shareholder');
-goToDuplicate() => Get.toNamed('/duplicate');
-goToCheckVoteNum() => Get.toNamed('/checkvotenum');
-goToMtsFirmChoice() => Get.toNamed('/mts');
-goToMtsLoginChoice() => Get.toNamed('/mts-choice');
-goToMtsLoginWithID() => Get.toNamed('/mts-id');
-goToMtsLoginWithCert() => Get.toNamed('/mts-cert');
-goToMtsCertList() => Get.toNamed('/cert-list');
-goToPreviewCampaign() => Get.toNamed('/preview');
+goOnboarding() => Get.toNamed('/onboarding');
+goMainHome() => Get.toNamed('/');
+goCampaignPreview() => Get.toNamed('/preview');
+goAuthSignUp() => Get.toNamed('/signup');
+goAuthValidateNew() =>
+    Get.toNamed('/validate', arguments: {'isNew': 'newUser'});
+goAuthValidateOld() =>
+    Get.toNamed('/validate', arguments: {'isNew': 'existingUser'});
+goCampaignOverview() => Get.toNamed('/campaign');
+goVoteSign() => Get.toNamed('/signature');
+goUploadIdCard() => Get.toNamed('/idcard');
+goTakeIdNumber() => Get.toNamed('/idnumber');
+goNotShareholder() => Get.toNamed('/not-shareholder');
+goAddressDedupe() => Get.toNamed('/duplicate');
+goVoteNumCheck() => Get.toNamed('/checkvotenum');
+goMTSFirmChoice() => Get.toNamed('/mts');
+goMTSLoginChoice() => Get.toNamed('/mts-choice');
+goMTSLoginId() => Get.toNamed('/mts-id');
+goMTSLoginCert() => Get.toNamed('/mts-cert');
+goMTSImportCert() => Get.toNamed('/cert-list');
+goMTSShowResult() => Get.toNamed('mts-result');
 
 backToSignUp() => Get.offNamedUntil(
       '/signup',
@@ -32,7 +37,6 @@ jumpToCheckVoteNum() => Get.offNamedUntil(
       '/checkvotenum',
       (route) => route.settings.name == '/checkvotenum',
     );
-
 goToVoteWithExample() {
   return Get.toNamed(
     '/vote',
@@ -54,19 +58,8 @@ goToVoteWithoutExample() {
   );
 }
 
-goToValidateNew() => Get.toNamed(
-      '/validate',
-      arguments: {'isNew': 'newUser'},
-    );
-goToValidateOld() => Get.toNamed(
-      '/validate',
-      arguments: {'isNew': 'existingUser'},
-    );
-
 jumpToHome() => Get.offNamedUntil('/', (route) => route.settings.name == '/');
-
 jumpToCampaign() => Get.offNamedUntil(
     '/campaign', (route) => route.settings.name == '/campaign');
-
 jumpToResult() =>
     Get.offNamedUntil('/result', (route) => route.settings.name == '/result');

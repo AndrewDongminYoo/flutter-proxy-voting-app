@@ -7,14 +7,14 @@ import '../shared/shared.dart';
 import '../theme.dart';
 import '../vote/vote.controller.dart';
 
-class AddressDuplicationPage extends StatefulWidget {
-  const AddressDuplicationPage({Key? key}) : super(key: key);
+class AddressDedupePage extends StatefulWidget {
+  const AddressDedupePage({Key? key}) : super(key: key);
 
   @override
-  State<AddressDuplicationPage> createState() => _AddressDuplicationPageState();
+  State<AddressDedupePage> createState() => _AddressDedupePageState();
 }
 
-class _AddressDuplicationPageState extends State<AddressDuplicationPage> {
+class _AddressDedupePageState extends State<AddressDedupePage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
 

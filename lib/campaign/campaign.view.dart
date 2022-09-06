@@ -12,14 +12,14 @@ import '../theme.dart';
 import '../vote/vote.controller.dart';
 import 'campaign.dart';
 
-class CampaignPage extends StatefulWidget {
-  const CampaignPage({Key? key}) : super(key: key);
+class CampaignOverviewPage extends StatefulWidget {
+  const CampaignOverviewPage({Key? key}) : super(key: key);
 
   @override
-  State<CampaignPage> createState() => _CampaignPageState();
+  State<CampaignOverviewPage> createState() => _CampaignOverviewPageState();
 }
 
-class _CampaignPageState extends State<CampaignPage> {
+class _CampaignOverviewPageState extends State<CampaignOverviewPage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
   bool isLoading = false;
@@ -159,7 +159,7 @@ class _CampaignPageState extends State<CampaignPage> {
           message: '서비스 이용을 위해\n본인인증이 필요해요.',
           okLabel: '인증하러가기',
           onConfirm: () {
-            goToSignUp();
+            goAuthSignUp();
           });
     }
   }

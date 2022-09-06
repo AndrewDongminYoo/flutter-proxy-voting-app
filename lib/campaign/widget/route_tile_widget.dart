@@ -50,14 +50,14 @@ class RouteTileWidget extends StatelessWidget {
                     ),
                     onPressed: () async {
                       index == 0
-                          ? goToSignUp()
+                          ? goAuthSignUp()
                           : index == 1
-                              ? goToCampaign()
+                              ? goCampaignOverview()
                               : index == 2
-                                  ? goToCampaign()
+                                  ? goCampaignOverview()
                                   : index == 3
                                       ? await launchUrlString(campaign.dartUrl)
-                                      : goToCampaign();
+                                      : goCampaignOverview();
                     },
                   ),
                   Text(

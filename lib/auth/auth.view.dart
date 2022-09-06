@@ -19,13 +19,13 @@ const headlines = [
   '정보를\n확인해주세요'
 ];
 
-class AuthPage extends StatefulWidget {
+class AuthSignUpPage extends StatefulWidget {
   @override
-  State<AuthPage> createState() => _AuthPageState();
-  const AuthPage({Key? key}) : super(key: key);
+  State<AuthSignUpPage> createState() => _AuthSignUpPageState();
+  const AuthSignUpPage({Key? key}) : super(key: key);
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _AuthSignUpPageState extends State<AuthSignUpPage> {
   // controller and nodes
   final _nameNode = FocusNode();
   final _koreanIdNode = FocusNode();
@@ -51,13 +51,13 @@ class _AuthPageState extends State<AuthPage> {
       _phoneNumber,
     );
     _authCtrl.getOtpCode(_authCtrl.user);
-    goToValidateNew();
+    goAuthValidateNew();
   }
 
   _existingUser() {
     final user = _authCtrl.user;
     _authCtrl.getOtpCode(user);
-    goToValidateOld();
+    goAuthValidateOld();
   }
 
   _nextForm(FormStep step, String value) {

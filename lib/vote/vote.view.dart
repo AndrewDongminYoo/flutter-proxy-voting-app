@@ -13,14 +13,14 @@ import '../shared/shared.dart';
 import '../theme.dart';
 import 'vote.dart';
 
-class VoteAgendaPage extends StatefulWidget {
-  const VoteAgendaPage({Key? key}) : super(key: key);
+class VoteToAgendaPage extends StatefulWidget {
+  const VoteToAgendaPage({Key? key}) : super(key: key);
 
   @override
-  State<VoteAgendaPage> createState() => _VoteAgendaPageState();
+  State<VoteToAgendaPage> createState() => _VoteToAgendaPageState();
 }
 
-class _VoteAgendaPageState extends State<VoteAgendaPage> {
+class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
 
@@ -83,9 +83,9 @@ class _VoteAgendaPageState extends State<VoteAgendaPage> {
   _onNext() {
     _voteCtrl.postVoteResult(_authCtrl.user.id, _voteResult.values.toList());
     if (_voteCtrl.voteAgenda.signatureAt == null) {
-      goToSignature();
+      goVoteSign();
     } else if (_voteCtrl.voteAgenda.idCardAt == null) {
-      goToIDCard(); //
+      goUploadIdCard(); //
     } else {
       jumpToResult();
     }

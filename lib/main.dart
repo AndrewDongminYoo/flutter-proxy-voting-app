@@ -59,6 +59,8 @@ class _MyAppState extends State<MyApp> {
     _initNotification();
     _initDynamicLinks();
     compareAppVersion();
+    print('available pages are $pages');
+    print('available addresses are $names');
   }
 
   _initNotification() {

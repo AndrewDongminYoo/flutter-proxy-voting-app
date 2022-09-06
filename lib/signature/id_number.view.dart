@@ -10,14 +10,14 @@ import '../shared/shared.dart';
 import '../vote/vote.controller.dart';
 import 'sign_appbody_widget.dart';
 
-class TakeBackNumberPage extends StatefulWidget {
-  const TakeBackNumberPage({Key? key}) : super(key: key);
+class TakeIdNumberPage extends StatefulWidget {
+  const TakeIdNumberPage({Key? key}) : super(key: key);
 
   @override
-  State<TakeBackNumberPage> createState() => _TakeBackNumberPageState();
+  State<TakeIdNumberPage> createState() => _TakeIdNumberPageState();
 }
 
-class _TakeBackNumberPageState extends State<TakeBackNumberPage> {
+class _TakeIdNumberPageState extends State<TakeIdNumberPage> {
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
   late String _frontId = '';

@@ -8,14 +8,14 @@ import '../theme.dart';
 import '../shared/shared.dart';
 import 'mts.dart';
 
-class MTSCertImportPage extends StatefulWidget {
-  const MTSCertImportPage({Key? key}) : super(key: key);
+class MTSImportCertPage extends StatefulWidget {
+  const MTSImportCertPage({Key? key}) : super(key: key);
 
   @override
-  State<MTSCertImportPage> createState() => _MTSCertImportPageState();
+  State<MTSImportCertPage> createState() => _MTSImportCertPageState();
 }
 
-class _MTSCertImportPageState extends State<MTSCertImportPage> {
+class _MTSImportCertPageState extends State<MTSImportCertPage> {
   final MtsController _mtsController = MtsController.get();
   int _index = 0;
   String num0 = '';
@@ -31,7 +31,7 @@ class _MTSCertImportPageState extends State<MTSCertImportPage> {
   checkCertList() async {
     List<RKSWCertItem>? response = await _mtsController.loadCertList();
     if (response != null && response.isNotEmpty) {
-      goToMtsCertList();
+      goMTSImportCert();
     }
   }
 
@@ -187,7 +187,7 @@ class _MTSCertImportPageState extends State<MTSCertImportPage> {
         () async {
           bool ok = await _mtsController.checkIfImported();
           if (ok) {
-            goToMtsCertList();
+            goMTSImportCert();
           } else {
             goBack();
           }

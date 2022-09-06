@@ -13,14 +13,14 @@ import '../vote/vote.controller.dart';
 import 'pop_scope_widget.dart';
 
 // Reference: https://github.com/serenader2014/flutter_carousel_slider
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MainHomePage extends StatefulWidget {
+  const MainHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainHomePage> createState() => _MainHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainHomePageState extends State<MainHomePage> {
   int _curPage = 100;
   late Campaign _curCampaign;
   PageController? _controller;
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onConfirmed(Campaign campaign) {
     _voteCtrl.setCampaign(campaign);
-    goToPreviewCampaign();
+    goCampaignPreview();
   }
 
   void updateCurPage(int index) {

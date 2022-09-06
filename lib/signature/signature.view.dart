@@ -13,14 +13,14 @@ import '../shared/shared.dart';
 import '../vote/vote.controller.dart';
 import 'signature.dart';
 
-class SignaturePage extends StatefulWidget {
-  const SignaturePage({Key? key}) : super(key: key);
+class VoteSignPage extends StatefulWidget {
+  const VoteSignPage({Key? key}) : super(key: key);
 
   @override
-  State<SignaturePage> createState() => _SignaturePageState();
+  State<VoteSignPage> createState() => _VoteSignPageState();
 }
 
-class _SignaturePageState extends State<SignaturePage> {
+class _VoteSignPageState extends State<VoteSignPage> {
   final _signer = CustomSignController.get();
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
@@ -71,7 +71,7 @@ class _SignaturePageState extends State<SignaturePage> {
     } else if (_voteCtrl.voteAgenda.idCardAt != null) {
       await jumpToResult();
     }
-    goToIDCard();
+    goUploadIdCard();
   }
 
   @override
