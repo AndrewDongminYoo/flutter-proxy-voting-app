@@ -15,7 +15,7 @@ class MtsController extends GetxController {
   final CooconMTSService _service = CooconMTSService();
 
   final List<Text> texts = [];
-  CustomModule? _securitiesFirm;
+  final List<CustomModule> firms = <CustomModule>[];
   String username = ''; // 사용자 이름
   String _userLoginID = ''; // 사용자 아이디
   String _userLoginPW = ''; // 사용자 비밀번호
@@ -28,24 +28,20 @@ class MtsController extends GetxController {
   bool idLogin = true;
   List<RKSWCertItem> certList = []; // 공동인증서 리스트
 
-  CustomModule get securitiesFirm {
-    while (_securitiesFirm == null) {
-      goToMtsFirmChoice();
-    }
-    return _securitiesFirm!;
+  void addMTSFirm(CustomModule firm) {
+    firms.add(firm);
   }
 
-  void setMTSFirm(CustomModule firm) {
-    _securitiesFirm = firm;
+  void delMTSFirm(CustomModule firm) {
+    firms.remove(firm);
   }
 
   void setIDPW(String id, String password, String bankPIN) {
     _userLoginID = id;
     _userLoginPW = password;
     _bankPINNumber = bankPIN;
-    String module = securitiesFirm.firmName;
     idLogin = true;
-    print('id: $id, password: $password, module: $module');
+    print('id: $id, password: $password, modules: $firms');
   }
 
   void setCertID(String id) {
@@ -69,25 +65,29 @@ class MtsController extends GetxController {
 
   Future<void> loadMTSProcess() async {
     Get.dialog(LoadingScreen());
-    await _service.fetchMTSData(
-      module: securitiesFirm,
-      username: username,
-      userId: _userLoginID,
-      password: _userLoginPW,
-      passNum: _bankPINNumber,
-      idLogin: idLogin,
-      certExpire: _certEX,
-      certUsername: _certID,
-      certPassword: _certPW,
-      certPublic: _pubKey,
-      certPrivate: _priKey,
-    );
+    // ignore: avoid_function_literals_in_foreach_calls
+    firms.forEach((firm) async {
+      texts.add(Text(firm.korName));
+      await _service.fetchMTSData(
+        module: firm,
+        username: username,
+        userId: _userLoginID,
+        password: _userLoginPW,
+        passNum: _bankPINNumber,
+        idLogin: idLogin,
+        certExpire: _certEX,
+        certUsername: _certID,
+        certPassword: _certPW,
+        certPublic: _pubKey,
+        certPrivate: _priKey,
+      );
+    });
   }
 
   Future<void> showMTSResult() async {
     await loadMTSProcess();
     Get.isDialogOpen! ? goBack() : null;
-    Get.bottomSheet(Container(
+    await Get.bottomSheet(Container(
         padding: const EdgeInsets.all(36),
         decoration: const BoxDecoration(
             color: Colors.white,

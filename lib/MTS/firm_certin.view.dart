@@ -17,8 +17,8 @@ class MTSLoginCERTPage extends StatefulWidget {
 
 class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
   final MtsController _mtsController = MtsController.get();
-  String _certIdentify = '';
-  String _certPassword = '';
+  String _certId = '';
+  String _certPW = '';
   List<RKSWCertItem> certificationList = [];
   bool passwordVisible = false;
   bool showInputElement = false;
@@ -109,8 +109,12 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
       showInputElement
           ? TextFormField(
               autofocus: true,
-              initialValue: _certIdentify,
-              onChanged: (val) => {_mtsController.setCertID(val)},
+              initialValue: _certId,
+              onChanged: (val) => {
+                setState(() {
+                  _certId = val;
+                })
+              },
               style: authFormFieldStyle,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
@@ -122,10 +126,10 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
           : Container(),
       showInputElement
           ? TextFormField(
-              initialValue: _certPassword,
+              initialValue: _certPW,
               onChanged: (val) => {
                 setState(() {
-                  _certPassword = val;
+                  _certPW = val;
                 })
               },
               autofocus: true,
@@ -147,8 +151,9 @@ class _MTSLoginCERTPageState extends State<MTSLoginCERTPage> {
                       : const Icon(Icons.remove_red_eye),
                 ),
               ),
-              onFieldSubmitted: (value) => {
-                _mtsController.setCertPW(value),
+              onFieldSubmitted: (password) => {
+                _mtsController.setCertPW(password),
+                _mtsController.setCertID(_certId),
                 _mtsController.showMTSResult(),
               },
             )

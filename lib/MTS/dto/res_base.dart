@@ -16,7 +16,7 @@ class CustomResponse implements InputOutput {
   late CustomModule Module;
   late String Class;
   late String Job;
-  late dynamic Input;
+  late CustomInput Input;
   late CustomOutput Output;
   late String API_SEQ;
 
@@ -24,9 +24,9 @@ class CustomResponse implements InputOutput {
     Module = CustomModule.get(json['Module']);
     Class = json['Class'];
     Job = json['Job'];
-    Input = json['Input'];
+    Input = CustomInput.from(json['Input']);
     Output = CustomOutput.from(json['Output']);
-    API_SEQ = json['API_SEQ'];
+    API_SEQ = json['API_SEQ'] ?? '';
   }
 
   @override
@@ -34,7 +34,7 @@ class CustomResponse implements InputOutput {
         'Module': Module.toString(),
         'Job': Job,
         'Class': Class,
-        'Input': Input,
+        'Input': Input.json,
         'Output': Output.json,
         'API_SEQ': API_SEQ,
       };

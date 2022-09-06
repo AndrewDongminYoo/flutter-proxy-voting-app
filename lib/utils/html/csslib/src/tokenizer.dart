@@ -128,8 +128,9 @@ class Tokenizer extends CssTokenizerBase {
       case CssTokenChar.DOUBLE_QUOTE:
         return _finishToken(CssTokenKind.DOUBLE_QUOTE);
       case CssTokenChar.SLASH:
-        if (_maybeEatChar(CssTokenChar.ASTERISK))
+        if (_maybeEatChar(CssTokenChar.ASTERISK)) {
           return finishMultiLineComment();
+        }
         return _finishToken(CssTokenKind.SLASH);
       case CssTokenChar.LESS:
         if (_maybeEatChar(CssTokenChar.BANG)) {
