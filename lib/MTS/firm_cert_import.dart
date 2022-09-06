@@ -188,7 +188,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
         () async {
           bool ok = await _mtsController.checkIfImported();
           if (ok) {
-            goMTSImportCert();
+            goMTSLoginCert();
           } else {
             goBack();
           }

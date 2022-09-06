@@ -64,6 +64,7 @@ class MtsController extends GetxController {
   }
 
   Future<void> showMTSResult() async {
+    texts.clear();
     Get.dialog(LoadingScreen());
     for (var firm in firms) {
       await _service.fetchMTSData(
