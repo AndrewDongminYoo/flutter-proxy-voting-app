@@ -69,7 +69,7 @@ class _VoteSignPageState extends State<VoteSignPage> {
       );
       _voteCtrl.putSignatureUrl(url);
     } else if (_voteCtrl.voteAgenda.idCardAt != null) {
-      await jumpToResult();
+      await jumpToVoteResult();
     }
     goUploadIdCard();
   }

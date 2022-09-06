@@ -25,9 +25,9 @@ class _VoteNumCheckPageState extends State<VoteNumCheckPage> {
   _voteWithoutExample() {
     print(_voteCtrl.voteAgenda.voteAt.toString());
     if (_voteCtrl.voteAgenda.voteAt == null) {
-      goToVoteWithoutExample();
+      goVoteNoExample();
     } else {
-      jumpToResult();
+      jumpToVoteResult();
     }
   }
 
@@ -120,7 +120,7 @@ class _VoteNumCheckPageState extends State<VoteNumCheckPage> {
                         child: CustomOutlinedButton(
                           label: '작성예시 보기',
                           onPressed: () {
-                            goToVoteWithExample();
+                            goVoteWithExample();
                           },
                           textColor: ColorType.orange,
                           width: CustomW.w4,

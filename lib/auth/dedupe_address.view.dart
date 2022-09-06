@@ -23,7 +23,7 @@ class _AddressDedupePageState extends State<AddressDedupePage> {
   _onConfirmed(String address) {
     _authCtrl.setAddress(address);
     _voteCtrl.selectShareholder(_selected);
-    jumpToCheckVoteNum();
+    jumpVoteNumCheck();
   }
 
   _onSelectAddress(int index) {

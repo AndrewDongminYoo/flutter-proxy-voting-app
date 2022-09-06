@@ -51,13 +51,13 @@ class _AuthSignUpPageState extends State<AuthSignUpPage> {
       _phoneNumber,
     );
     _authCtrl.getOtpCode(_authCtrl.user);
-    goAuthValidateNew();
+    goAuthValidNew();
   }
 
   _existingUser() {
     final user = _authCtrl.user;
     _authCtrl.getOtpCode(user);
-    goAuthValidateOld();
+    goAuthValidOld();
   }
 
   _nextForm(FormStep step, String value) {

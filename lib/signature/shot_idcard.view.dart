@@ -176,7 +176,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
           onPressed: () {
             if (_idcardImage != null) {
               if (_authCtrl.user.backId.length > 1) {
-                jumpToResult();
+                jumpToVoteResult();
               }
               goTakeIdNumber();
             }

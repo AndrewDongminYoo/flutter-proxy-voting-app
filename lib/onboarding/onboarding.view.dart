@@ -32,7 +32,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   void _onTap() async {
     CustomStorage.doneOnBoarding();
-    jumpToHome();
+    jumpToMainHome();
   }
 
   void _updateIndex() {

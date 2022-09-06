@@ -59,7 +59,7 @@ class _StepperCardState extends State<StepperCard> {
                   goVoteNumCheck();
                   break;
                 case ('안건투표'):
-                  goToVoteWithLastMemory();
+                  goVoteWithMemory();
                   break;
                 case ('전자서명'):
                   goVoteSign();

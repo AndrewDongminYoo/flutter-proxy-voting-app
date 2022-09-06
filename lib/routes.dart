@@ -1,5 +1,5 @@
 // 📦 Package imports:
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Widget;
 import 'package:get/route_manager.dart' show GetPage;
 
 // 🌎 Project imports:

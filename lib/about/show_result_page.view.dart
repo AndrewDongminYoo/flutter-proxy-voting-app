@@ -120,7 +120,7 @@ class _VoteResultPageState extends State<VoteResultPage> {
                     CustomButton(
                       label: '처음으로',
                       width: CustomW.w4,
-                      onPressed: jumpToHome,
+                      onPressed: jumpToMainHome,
                     ),
                     const SizedBox(height: 100)
                   ],

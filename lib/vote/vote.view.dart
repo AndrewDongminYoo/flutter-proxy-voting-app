@@ -37,9 +37,9 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
 
   @override
   initState() {
-    if (Get.arguments == 'voteWithLastMemory') {
+    if (Get.arguments == 'memory') {
       _voteResult = _voteWithMemory();
-    } else if (Get.arguments == 'voteWithExample') {
+    } else if (Get.arguments == 'example') {
       _voteResult = _voteWithExample();
     } else {
       print('voteWithoutDefault');
@@ -48,7 +48,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
   }
 
   _voteWithExample() {
-    print('voteWithExample');
+    print('example');
     setState(() {
       _voteResult[0] = VoteType.disagree;
       _voteResult[1] = VoteType.agree;
@@ -64,7 +64,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
   }
 
   _voteWithMemory() {
-    print('voteWithLastMemory');
+    print('memory');
     setState(() {
       VoteAgenda agenda = _voteCtrl.voteAgenda;
       _voteResult[0] = agenda.agenda1.vote;
@@ -87,7 +87,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
     } else if (_voteCtrl.voteAgenda.idCardAt == null) {
       goUploadIdCard(); //
     } else {
-      jumpToResult();
+      jumpToVoteResult();
     }
   }
 
