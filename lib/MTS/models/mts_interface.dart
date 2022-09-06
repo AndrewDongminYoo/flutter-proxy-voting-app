@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import '../mts.dart';
 
@@ -21,6 +18,8 @@ abstract class MTSInterface {
 
   @override
   String toString() => json.toString();
+
+  addResult(String string);
 }
 
 abstract class IOBase {

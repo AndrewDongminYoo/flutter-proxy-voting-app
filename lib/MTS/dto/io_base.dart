@@ -18,13 +18,17 @@ class Certificate implements IOBase {
   });
 
   @override
-  Map<String, dynamic> get json => {
-        '이름': certName,
-        '만료일자': certExpire,
-        '비밀번호': certPassword,
-        '인증서파일': certPublicKey,
-        '개인키파일': certPrivateKey,
-      };
+  Map<String, dynamic> get json {
+    Map<String, dynamic> input = {
+      '이름': certName,
+      '만료일자': certExpire,
+      '비밀번호': certPassword,
+      '인증서파일': certPublicKey,
+      '개인키파일': certPrivateKey,
+    };
+    input.removeWhere((k, v) => v == null || v.isEmpty);
+    return input;
+  }
 }
 
 class CustomOutput implements IOBase {
@@ -45,11 +49,15 @@ class CustomOutput implements IOBase {
   }
 
   @override
-  Map<String, dynamic> get json => {
-        'ErrorCode': ErrorCode,
-        'ErrorMessage': ErrorMessage,
-        'Result': Result.json,
-      };
+  Map<String, dynamic> get json {
+    Map<String, dynamic> input = {
+      'ErrorCode': ErrorCode,
+      'ErrorMessage': ErrorMessage,
+      'Result': Result.json,
+    };
+    input.removeWhere((k, v) => v == null || v.isEmpty);
+    return input;
+  }
 
   @override
   String toString() => ErrorCode;

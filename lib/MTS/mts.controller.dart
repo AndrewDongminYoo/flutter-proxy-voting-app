@@ -63,11 +63,9 @@ class MtsController extends GetxController {
     idLogin = false;
   }
 
-  Future<void> loadMTSProcess() async {
+  Future<void> showMTSResult() async {
     Get.dialog(LoadingScreen());
-    // ignore: avoid_function_literals_in_foreach_calls
-    firms.forEach((firm) async {
-      texts.add(Text(firm.korName));
+    for (var firm in firms) {
       await _service.fetchMTSData(
         module: firm,
         username: username,
@@ -81,12 +79,8 @@ class MtsController extends GetxController {
         certPublic: _pubKey,
         certPrivate: _priKey,
       );
-    });
-  }
-
-  Future<void> showMTSResult() async {
-    await loadMTSProcess();
-    Get.isDialogOpen! ? goBack() : null;
+    }
+    if (Get.isDialogOpen!) Get.back();
     await goMTSShowResult();
   }
 

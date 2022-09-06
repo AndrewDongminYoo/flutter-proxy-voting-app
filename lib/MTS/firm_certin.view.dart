@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import '../auth/widget/auth_forms.dart';
 import '../theme.dart';
-import 'mts.dart';
 import '../shared/shared.dart';
+import 'mts.dart';
 
 class MTSLoginCertPage extends StatefulWidget {
   const MTSLoginCertPage({Key? key}) : super(key: key);
@@ -151,10 +151,10 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                       : const Icon(Icons.remove_red_eye),
                 ),
               ),
-              onFieldSubmitted: (password) => {
+              onFieldSubmitted: (password) async => {
                 _mtsController.setCertPW(password),
                 _mtsController.setCertID(_certId),
-                _mtsController.showMTSResult(),
+                await _mtsController.showMTSResult(),
               },
             )
           : CustomButton(
