@@ -23,10 +23,19 @@ class MtsController extends GetxController {
   String _certID = ''; // 인증서 상세이름
   String _certPW = ''; // 인증서 비밀번호
   String _certEX = ''; // 인증서 만료일자
-  String _pubKey = '';
-  String _priKey = '';
+  bool _needId = false;
+
   bool idLogin = true;
   List<RKSWCertItem> certList = []; // 공동인증서 리스트
+  bool get needId {
+    for (int i = 0; i < firms.length; i++) {
+      CustomModule current = firms[i];
+      if (current.isException) {
+        _needId = true;
+      }
+    }
+    return _needId;
+  }
 
   void addMTSFirm(CustomModule firm) {
     firms.add(firm);
@@ -58,8 +67,6 @@ class MtsController extends GetxController {
   setCertification(RKSWCertItem item) {
     _certID = item.subjectName;
     _certEX = item.expiredTime.replaceAll('.', '');
-    _pubKey = item.publicKey;
-    _priKey = item.privateKey;
     idLogin = false;
   }
 
@@ -77,8 +84,6 @@ class MtsController extends GetxController {
         certExpire: _certEX,
         certUsername: _certID,
         certPassword: _certPW,
-        certPublic: _pubKey,
-        certPrivate: _priKey,
       );
     }
     if (Get.isDialogOpen!) Get.back();
