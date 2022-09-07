@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
@@ -19,6 +20,8 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
   final MtsController _mtsController = MtsController.get();
   String _certId = '';
   String _certPW = '';
+  String _certPin = '';
+  bool _buttonDisabled = true;
   List<RKSWCertItem> certificationList = [];
   bool passwordVisible = false;
   bool showInputElement = false;
@@ -154,7 +157,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                   _mtsController.setCertPW(password),
                   if (needsIdToSignIn)
                     {
-                      _mtsController.setCertID(_certId),
+                      _mtsController.setID(_certId),
                     },
                   await _mtsController.showMTSResult(),
                 },
@@ -167,6 +170,44 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                 },
                 label: '공동인증서 삭제',
               ),
+        TextFormField(
+            initialValue: _certPin,
+            onChanged: (val) => {
+                  setState(() {
+                    if (val.length == 4) {
+                      _certPin = val;
+                      _buttonDisabled = false;
+                    } else {
+                      _buttonDisabled = true;
+                    }
+                  })
+                },
+            autofocus: true,
+            style: authFormFieldStyle,
+            obscureText: true,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            maxLength: 4,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: '계좌 비밀번호',
+              helperText: 'PIN번호를 입력해주세요',
+            )),
+        const SizedBox(height: 10),
+        CustomButton(
+          label: '확인',
+          disabled: _buttonDisabled,
+          onPressed: () {
+            _mtsController.setCertPW(_certPW);
+            if (needsIdToSignIn) {
+              _mtsController.setID(_certId);
+            }
+            _mtsController.setPin(_certPin);
+            _mtsController.showMTSResult();
+          },
+        ),
       ],
     );
   }

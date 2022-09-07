@@ -9,10 +9,6 @@ class RKSWCertItem implements IOBase {
         'expiredTime': expiredTime,
         'policy': policy,
         'subjectName': subjectName,
-        'privateKey': privateKey,
-        'publicKey': publicKey,
-        'certPath': certPath,
-        'keyPath': keyPath,
       };
 
   RKSWCertItem.from(Map<Object?, Object?> json) {
@@ -20,10 +16,6 @@ class RKSWCertItem implements IOBase {
     expiredImg = toString(json['expiredImg']);
     expiredTime = toString(json['expiredTime']);
     subjectName = toString(json['subjectName']);
-    privateKey = toString(json['privateKey']);
-    publicKey = toString(json['publicKey']);
-    certPath = toString(json['certPath']);
-    keyPath = toString(json['keyPath']);
     policy = toString(json['policy']);
     username = nRegex.firstMatch(subjectName)!.group(1)!;
     origin = fRegex
@@ -46,10 +38,6 @@ class RKSWCertItem implements IOBase {
   // 한국정보보호진흥원/한국무역정보통신/우리은행/
   // 한국정보인증/한국전자인증/한국증권전산/
   late String origin;
-  late String privateKey;
-  late String publicKey;
-  late String certPath;
-  late String keyPath;
   late DateTime expireDate;
   String get objective => policy;
 }

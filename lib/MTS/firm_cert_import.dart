@@ -37,6 +37,38 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<EnhanceStep> steps = [
+      EnhanceStep(
+        icon: EnhanceIcon(icon: Icons.link),
+        title: const Text('비사이드 홈페이지에 접속하세요.'),
+        content: const Text(''),
+      ),
+      EnhanceStep(
+        icon: EnhanceIcon(icon: Icons.import_export),
+        title: const Text('인증서 복사하기 선택해주세요.'),
+        content: Image.asset('assets/images/screenshot_example1.png'),
+      ),
+      EnhanceStep(
+        icon: EnhanceIcon(icon: Icons.password),
+        title: const Text('인증서 선택 후 비밀번호 입력 해주세요.'),
+        content: Image.asset('assets/images/screenshot_example2.png'),
+      ),
+      EnhanceStep(
+          icon: EnhanceIcon(icon: Icons.verified),
+          title: const Text('아래 인증번호 12자리를 입력해 주세요.'),
+          content: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PurpleInputBox(value: num0),
+              const Text(' - '),
+              PurpleInputBox(value: num1),
+              const Text(' - '),
+              PurpleInputBox(value: num2),
+            ],
+          ),
+          state: StepState.editing)
+    ];
     return Scaffold(
       appBar: CustomAppBar(
         text: '',
@@ -59,11 +91,11 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
         onStepTapped: (i) => onTapped(i),
         physics: const ClampingScrollPhysics(),
         controlsBuilder: ((context, details) {
-          ButtonStyleButton nextLevel = ElevatedButton(
+          Widget nextLevel = ElevatedButton(
             onPressed: onContinue,
             child: const Text('다음단계로'),
           );
-          ButtonStyleButton prevLevel = ElevatedButton(
+          Widget prevLevel = ElevatedButton(
             onPressed: onCancel,
             child: const Text('이전단계로'),
           );
@@ -73,6 +105,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
                 onPressed: copyBside,
                 child: const Text('링크복사'),
               );
+              prevLevel = Container();
               break;
             case 1:
               break;
@@ -98,38 +131,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
             ],
           );
         }),
-        steps: [
-          EnhanceStep(
-            icon: EnhanceIcon(icon: Icons.link),
-            title: const Text('비사이드 홈페이지에 접속하세요.'),
-            content: const Text(''),
-          ),
-          EnhanceStep(
-            icon: EnhanceIcon(icon: Icons.import_export),
-            title: const Text('인증서 복사하기 선택해주세요.'),
-            content: Image.asset('assets/images/screenshot_example1.png'),
-          ),
-          EnhanceStep(
-            icon: EnhanceIcon(icon: Icons.password),
-            title: const Text('인증서 선택 후 비밀번호 입력 해주세요.'),
-            content: Image.asset('assets/images/screenshot_example2.png'),
-          ),
-          EnhanceStep(
-              icon: EnhanceIcon(icon: Icons.verified),
-              title: const Text('아래 인증번호 12자리를 입력해 주세요.'),
-              content: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PurpleInputBox(value: num0),
-                  const Text(' - '),
-                  PurpleInputBox(value: num1),
-                  const Text(' - '),
-                  PurpleInputBox(value: num2),
-                ],
-              ),
-              state: StepState.editing),
-        ],
+        steps: steps,
       ),
     );
   }

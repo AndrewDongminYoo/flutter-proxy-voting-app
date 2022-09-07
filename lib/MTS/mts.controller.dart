@@ -16,7 +16,7 @@ class MtsController extends GetxController {
 
   final List<Text> texts = [];
   final List<CustomModule> firms = <CustomModule>[];
-  String username = ''; // 사용자 이름
+  final String _username = ''; // 사용자 이름
   String _userLoginID = ''; // 사용자 아이디
   String _userLoginPW = ''; // 사용자 비밀번호
   String _bankPINNumber = ''; // 사용자 핀번호(4)
@@ -26,7 +26,7 @@ class MtsController extends GetxController {
   bool _needId = false;
 
   bool idLogin = true;
-  List<RKSWCertItem> certList = []; // 공동인증서 리스트
+  List<RKSWCertItem> _certList = []; // 공동인증서 리스트
   bool get needId {
     for (int i = 0; i < firms.length; i++) {
       CustomModule current = firms[i];
@@ -46,22 +46,23 @@ class MtsController extends GetxController {
   }
 
   void setIDPW(String id, String password, String bankPIN) {
-    _userLoginID = id;
+    setID(id);
     _userLoginPW = password;
-    _bankPINNumber = bankPIN;
+    setPin(bankPIN);
     idLogin = true;
     print('id: $id, password: $password, modules: $firms');
   }
 
-  void setCertID(String id) {
+  void setID(String id) {
     _userLoginID = id;
-    idLogin = false;
   }
 
   void setCertPW(String password) {
     _certPW = password;
-    idLogin = false;
-    print('id: $_certID, password: $_certPW, expired: $_certEX');
+  }
+
+  void setPin(String bankPIN) {
+    _bankPINNumber = bankPIN;
   }
 
   setCertification(RKSWCertItem item) {
@@ -76,7 +77,7 @@ class MtsController extends GetxController {
     for (var firm in firms) {
       await _service.fetchMTSData(
         module: firm,
-        username: username,
+        username: _username,
         userId: _userLoginID,
         password: _userLoginPW,
         passNum: _bankPINNumber,
@@ -99,12 +100,12 @@ class MtsController extends GetxController {
   }
 
   Future<List<RKSWCertItem>?> loadCertList() async {
-    certList = await _service.loadCertiList();
-    return certList;
+    _certList = await _service.loadCertificationList();
+    return _certList;
   }
 
   void emptyCerts() async {
     await _service.emptyCerts();
-    certList = [];
+    _certList = [];
   }
 }

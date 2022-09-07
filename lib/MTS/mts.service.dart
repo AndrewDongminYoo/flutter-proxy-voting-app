@@ -77,7 +77,7 @@ class CooconMTSService extends GetConnect {
     return await channel.invokeMethod('checkIfImported');
   }
 
-  Future<List<RKSWCertItem>> loadCertiList() async {
+  Future<List<RKSWCertItem>> loadCertificationList() async {
     List<RKSWCertItem> list = [];
     List? response = await channel.invokeListMethod('loadCertList');
     print(response);
