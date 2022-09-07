@@ -34,7 +34,7 @@ class AuthController extends GetxController {
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     print('[AuthController] init');
-    final telNum = await CustomStorage.getTelNum();
+    final telNum = await Storage.getTelNum();
     if (telNum.isNotEmpty) {
       print('[AuthController] Yor left the phoneNumber.');
       final result = await getUserInfo(telNum);
@@ -42,7 +42,7 @@ class AuthController extends GetxController {
         // 잘못된 캐시데이터 삭제
         print('[AuthController] deleted useless SharedPreferences');
         // NOTE: 사용자가 앱을 재설치할 경우, pref가 없음, 이에 대한 대처 필요
-        await CustomStorage.clear();
+        await Storage.clear();
       } else {
         _signIn();
       }
@@ -122,7 +122,7 @@ class AuthController extends GetxController {
           _signUp();
         }
         _putUuid(token);
-        await CustomStorage.setTelNum(user.phoneNumber);
+        await Storage.setTelNum(user.phoneNumber);
         _stopLoading();
       }
     });

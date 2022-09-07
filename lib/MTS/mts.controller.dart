@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:bside/lib.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -15,7 +16,26 @@ class MtsController extends GetxController {
   final CooconMTSService _service = CooconMTSService();
 
   final List<Text> texts = [];
-  final List<CustomModule> firms = <CustomModule>[];
+  final List<CustomModule> _firms = <CustomModule>[];
+  List<CustomModule> get firms {
+    if (_firms.isNotEmpty) {
+      return _firms;
+    } else {
+      loadFirms();
+    }
+    return _firms;
+  }
+
+  Future<void> loadFirms() async {
+    List<String> res = await Storage.getConnectedFirms();
+    for (String r in res) {
+      CustomModule t = stockTradingFirms.firstWhere(
+        (element) => element.firmName == r,
+      );
+      _firms.add(t);
+    }
+  }
+
   final String _username = ''; // 사용자 이름
   String _userLoginID = ''; // 사용자 아이디
   String _userLoginPW = ''; // 사용자 비밀번호

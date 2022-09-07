@@ -1,7 +1,7 @@
 // 📦 Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CustomStorage {
+class Storage {
   static Future<SharedPreferences> _get() async {
     return await SharedPreferences.getInstance();
   }
@@ -22,6 +22,11 @@ class CustomStorage {
     final prefs = await _get();
     print('[pref] doneOnBoarding');
     return prefs.setBool('onBoarding', false);
+  }
+
+  static Future<List<String>> getConnectedFirms() async {
+    final prefs = await _get();
+    return prefs.getStringList('connected') ?? [];
   }
 
   static Future<String> getTelNum() async {

@@ -22,7 +22,7 @@ main() async {
   final initialLink = await setupFirebase();
   FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
   FlutterError.onError = crashlytics.recordFlutterFatalError;
-  bool firstTime = await CustomStorage.needOnBoarding();
+  bool firstTime = await Storage.needOnBoarding();
   timeago.setLocaleMessages('ko', timeago.KoMessages());
 
   runZonedGuarded(() {
