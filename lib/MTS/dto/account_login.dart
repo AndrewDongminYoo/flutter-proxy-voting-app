@@ -13,6 +13,8 @@ class LoginRequest implements MTSInterface {
     required this.certExpire,
     required this.certPrivate,
     required this.certPublic,
+    required this.certPath,
+    required this.keyPath,
     this.certUsername = '',
     this.certPassword = '',
   });
@@ -27,6 +29,8 @@ class LoginRequest implements MTSInterface {
   final String certExpire;
   final String certPrivate;
   final String certPublic;
+  final String certPath;
+  final String keyPath;
 
   @override
   CustomRequest get json {
@@ -52,6 +56,8 @@ class LoginRequest implements MTSInterface {
         certPassword: certPassword, // 인증서비밀번호 예: qwer1234!
         certPublic: certPublic,
         certPrivate: certPrivate,
+        certPath: certPath,
+        keyPath: keyPath,
       )!;
     }
   }

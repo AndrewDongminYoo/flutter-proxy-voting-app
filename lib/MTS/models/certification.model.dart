@@ -11,16 +11,20 @@ class RKSWCertItem implements IOBase {
         'subjectName': subjectName,
         'privateKey': privateKey,
         'publicKey': publicKey,
+        'certPath': certPath,
+        'keyPath': keyPath,
       };
 
   RKSWCertItem.from(Map<Object?, Object?> json) {
-    issuerName = json['issuerName']!.toString();
-    expiredImg = json['expiredImg']!.toString();
-    expiredTime = json['expiredTime']!.toString();
-    subjectName = json['subjectName']!.toString();
-    privateKey = json['privateKey']!.toString();
-    publicKey = json['publicKey']!.toString();
-    policy = json['policy']!.toString();
+    issuerName = toString(json['issuerName']);
+    expiredImg = toString(json['expiredImg']);
+    expiredTime = toString(json['expiredTime']);
+    subjectName = toString(json['subjectName']);
+    privateKey = toString(json['privateKey']);
+    publicKey = toString(json['publicKey']);
+    certPath = toString(json['certPath']);
+    keyPath = toString(json['keyPath']);
+    policy = toString(json['policy']);
     username = nRegex.firstMatch(subjectName)!.group(1)!;
     origin = fRegex
         .allMatches(subjectName)
@@ -44,8 +48,19 @@ class RKSWCertItem implements IOBase {
   late String origin;
   late String privateKey;
   late String publicKey;
+  late String certPath;
+  late String keyPath;
   late DateTime expireDate;
   String get objective => policy;
+}
+
+String toString(Object? obj) {
+  String str = obj.toString();
+  if (str == 'null') {
+    return '';
+  } else {
+    return str;
+  }
 }
 
 RegExp fRegex = RegExp(r'ou=([A-Za-z가-힣]+)');

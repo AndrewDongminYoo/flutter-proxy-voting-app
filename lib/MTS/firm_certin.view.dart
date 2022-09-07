@@ -17,7 +17,7 @@ class MTSLoginCertPage extends StatefulWidget {
 
 class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
   final MtsController _mtsController = MtsController.get();
-  String _certId = '';
+  // String _certId = '';
   String _certPW = '';
   List<RKSWCertItem> certificationList = [];
   bool passwordVisible = false;
@@ -103,24 +103,24 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                           });
                         }))
                     .toList())),
-        showInputElement
-            ? TextFormField(
-                autofocus: true,
-                initialValue: _certId,
-                onChanged: (val) => {
-                  setState(() {
-                    _certId = val;
-                  })
-                },
-                style: authFormFieldStyle,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '증권사 아이디',
-                  helperText: '아이디를 입력해주세요',
-                ),
-              )
-            : Container(),
+        // showInputElement
+        //     ? TextFormField(
+        //         autofocus: true,
+        //         initialValue: _certId,
+        //         onChanged: (val) => {
+        //           setState(() {
+        //             _certId = val;
+        //           })
+        //         },
+        //         style: authFormFieldStyle,
+        //         keyboardType: TextInputType.name,
+        //         decoration: const InputDecoration(
+        //           border: OutlineInputBorder(),
+        //           labelText: '증권사 아이디',
+        //           helperText: '아이디를 입력해주세요',
+        //         ),
+        //       )
+        //     : Container(),
         showInputElement
             ? TextFormField(
                 initialValue: _certPW,
@@ -150,7 +150,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                 ),
                 onFieldSubmitted: (password) async => {
                   _mtsController.setCertPW(password),
-                  _mtsController.setCertID(_certId),
+                  // _mtsController.setCertID(_certId),
                   await _mtsController.showMTSResult(),
                 },
               )

@@ -8,6 +8,8 @@ class Certificate implements IOBase {
   String certPassword; // 비밀번호
   String certPublicKey; // 인증서파일 (base64)
   String certPrivateKey; // 개인키파일 (base64)
+  String certPath; // 인증서위치
+  String keyPath; // 개인키위치
 
   Certificate({
     required this.certName,
@@ -15,6 +17,8 @@ class Certificate implements IOBase {
     required this.certPassword,
     required this.certPublicKey,
     required this.certPrivateKey,
+    required this.certPath,
+    required this.keyPath,
   });
 
   @override
@@ -25,6 +29,8 @@ class Certificate implements IOBase {
       '비밀번호': certPassword,
       '인증서파일': certPublicKey,
       '개인키파일': certPrivateKey,
+      '인증서위치': certPath,
+      '개인키위치': keyPath,
     };
     input.removeWhere((k, v) => v == null || v.isEmpty);
     return input;
@@ -113,24 +119,28 @@ class CustomInput implements IOBase {
   }
 
   CustomInput.from(dynamic input) {
-    idOrCert = input['로그인방식'] ?? '';
-    userId = input['사용자아이디'] ?? '';
-    password = input['사용자비밀번호'] ?? '';
-    queryCode = input['조회구분'] ?? '';
-    showISO = input['통화코드출력여부'] ?? '';
-    accountNum = input['계좌번호'] ?? '';
-    accountPin = input['계좌비밀번호'] ?? '';
-    start = input['조회시작일'] ?? '';
-    end = input['조회종료일'] ?? '';
-    type = input['상품구분'] ?? '';
-    accountExt = input['계좌번호확장'] ?? '';
-    certificate = Certificate(
-      certName: input['인증서']?['이름'] ?? '',
-      certPassword: input['인증서']?['비밀번호'] ?? '',
-      certExpire: input['인증서']?['만료일자'] ?? '',
-      certPublicKey: input['인증서']?['인증서파일'] ?? '',
-      certPrivateKey: input['인증서']?['개인키파일'] ?? '',
-    );
+    if (input is Map) {
+      idOrCert = input['로그인방식'] ?? '';
+      userId = input['사용자아이디'] ?? '';
+      password = input['사용자비밀번호'] ?? '';
+      queryCode = input['조회구분'] ?? '';
+      showISO = input['통화코드출력여부'] ?? '';
+      accountNum = input['계좌번호'] ?? '';
+      accountPin = input['계좌비밀번호'] ?? '';
+      start = input['조회시작일'] ?? '';
+      end = input['조회종료일'] ?? '';
+      type = input['상품구분'] ?? '';
+      accountExt = input['계좌번호확장'] ?? '';
+      certificate = Certificate(
+        certName: input['인증서']?['이름'] ?? '',
+        certPassword: input['인증서']?['비밀번호'] ?? '',
+        certExpire: input['인증서']?['만료일자'] ?? '',
+        certPublicKey: input['인증서']?['인증서파일'] ?? '',
+        certPrivateKey: input['인증서']?['개인키파일'] ?? '',
+        certPath: input['인증서']?['인증서위치'] ?? '',
+        keyPath: input['인증서']?['개인키위치'] ?? '',
+      );
+    }
   }
 
   @override

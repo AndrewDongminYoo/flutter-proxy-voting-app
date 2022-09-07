@@ -25,6 +25,8 @@ class CooconMTSService extends GetConnect {
     String certExpire = '',
     String certUsername = '',
     String certPassword = '',
+    String certPath = '',
+    String keyPath = '',
   }) async {
     try {
       String name = await LoginRequest(
@@ -37,6 +39,8 @@ class CooconMTSService extends GetConnect {
         certUsername: certUsername,
         certPublic: certPublic,
         certPrivate: certPrivate,
+        certPath: certPath,
+        keyPath: keyPath,
       ).post(username);
       username = name;
       await AccountAll(
