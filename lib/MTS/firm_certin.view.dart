@@ -170,31 +170,33 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                 },
                 label: '공동인증서 삭제',
               ),
-        TextFormField(
-            initialValue: _certPin,
-            onChanged: (val) => {
-                  setState(() {
-                    if (val.length == 4) {
-                      _certPin = val;
-                      _buttonDisabled = false;
-                    } else {
-                      _buttonDisabled = true;
-                    }
-                  })
-                },
-            autofocus: true,
-            style: authFormFieldStyle,
-            obscureText: true,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly,
-            ],
-            maxLength: 4,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: '계좌 비밀번호',
-              helperText: 'PIN번호를 입력해주세요',
-            )),
+        showInputElement
+            ? TextFormField(
+                initialValue: _certPin,
+                onChanged: (val) => {
+                      setState(() {
+                        if (val.length == 4) {
+                          _certPin = val;
+                          _buttonDisabled = false;
+                        } else {
+                          _buttonDisabled = true;
+                        }
+                      })
+                    },
+                autofocus: true,
+                style: authFormFieldStyle,
+                obscureText: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                maxLength: 4,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '계좌 비밀번호',
+                  helperText: 'PIN번호를 입력해주세요',
+                ))
+            : Container(),
         const SizedBox(height: 10),
         CustomButton(
           label: '확인',
