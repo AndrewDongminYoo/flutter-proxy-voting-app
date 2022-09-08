@@ -9,4 +9,4 @@ export 'mts.controller.dart';
 export 'mts.service.dart';
 export 'mts_result.view.dart';
 export 'utils/utils.dart';
-export 'widgets/widgets.dart';
+export 'widget/widget.dart';

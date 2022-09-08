@@ -5,7 +5,7 @@ import 'dart:math' show min;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart' show ExtensionBottomSheet, Get, GetStringUtils;
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
@@ -42,7 +42,7 @@ class _AuthSignUpPageState extends State<AuthSignUpPage> {
   String _telecom = '';
   String _phoneNumber = '';
 
-  newUser() {
+  _newUser() {
     _authCtrl.user = User(
       _userName,
       _frontId,
@@ -145,7 +145,7 @@ class _AuthSignUpPageState extends State<AuthSignUpPage> {
                                     _curStep >= 4
                                         ? ServiceTerm(
                                             controller: controller,
-                                            newUserFunc: newUser,
+                                            newUserFunc: _newUser,
                                           )
                                         : Container(),
                                   ])))

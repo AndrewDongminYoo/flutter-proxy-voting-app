@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:bside/lib.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -7,6 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
+import '../utils/shared_prefs.dart';
 import 'mts.dart';
 
 class MtsController extends GetxController {
@@ -30,7 +30,7 @@ class MtsController extends GetxController {
     List<String> res = await Storage.getConnectedFirms();
     for (String r in res) {
       CustomModule t = stockTradingFirms.firstWhere(
-        (element) => element.firmName == r,
+        (firm) => firm.firmName == r,
       );
       _firms.add(t);
     }
@@ -128,4 +128,10 @@ class MtsController extends GetxController {
     await _service.emptyCerts();
     _certList = [];
   }
+
+  void changePass(RKSWCertItem item) {}
+
+  void detailInfo(RKSWCertItem item) {}
+
+  void deleteCert(RKSWCertItem item) {}
 }

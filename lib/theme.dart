@@ -41,5 +41,6 @@ final customColor = {
   ColorType.lightGrey: const Color(0xFFE9E9E9),
   ColorType.white: const Color(0xFFFFFFFF),
   ColorType.white54: const Color(0x89FFFFFF),
-  ColorType.red: const Color(0xFFFFFFFF),
+  ColorType.black: const Color(0xFF1C2833),
+  ColorType.red: const Color(0xFFC70039),
 };
