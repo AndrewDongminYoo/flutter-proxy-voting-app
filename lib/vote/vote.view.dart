@@ -2,7 +2,6 @@
 import 'dart:math' show max;
 
 // 🐦 Flutter imports:
-import 'package:bside/lib.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -10,6 +9,7 @@ import 'package:get/get.dart' show Get, GetNavigation;
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';
+import '../campaign/agenda.model.dart';
 import '../shared/shared.dart';
 import '../theme.dart';
 import 'vote.dart';

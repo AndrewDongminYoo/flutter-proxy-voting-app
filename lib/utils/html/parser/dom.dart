@@ -200,7 +200,7 @@ abstract class Node {
 
     for (TagAttribute attr in token.attributeSpans!) {
       final int offset = sourceSpan!.start.offset;
-      final String? name = attr.name!;
+      final String name = attr.name!;
       attributeSpans[name] =
           sourceSpan!.file.span(offset + attr.start, offset + attr.end);
       if (attr.startValue != null) {
