@@ -93,7 +93,7 @@ abstract class CssTokenizerBase {
   CssToken finishWhitespace() {
     _index--;
     while (_index < _text.length) {
-      final ch = _text.codeUnitAt(_index++);
+      final int ch = _text.codeUnitAt(_index++);
       if (ch == CssTokenChar.SPACE ||
           ch == CssTokenChar.TAB ||
           ch == CssTokenChar.RETURN) {
@@ -167,7 +167,7 @@ abstract class CssTokenizerBase {
     }
     int result = 0;
     while (_index < maxIndex) {
-      final digit = _hexDigit(_text.codeUnitAt(_index));
+      final int digit = _hexDigit(_text.codeUnitAt(_index));
       if (digit == -1) {
         if (hexLength == null) {
           return result;
@@ -215,8 +215,8 @@ abstract class CssTokenizerBase {
   }
 
   CssToken _makeStringToken(List<int> buf, bool isPart) {
-    final s = String.fromCharCodes(buf);
-    final kind = isPart ? CssTokenKind.STRING_PART : CssTokenKind.STRING;
+    final String s = String.fromCharCodes(buf);
+    final int kind = isPart ? CssTokenKind.STRING_PART : CssTokenKind.STRING;
     return CssLiteralToken(kind, _file.span(_startIndex, _index), s);
   }
 
@@ -328,7 +328,7 @@ abstract class CssTokenizerBase {
   }
 
   int readEscapeSequence() {
-    final ch = _nextChar();
+    final int ch = _nextChar();
     int hexValue;
     switch (ch) {
       case 110 /*n*/ :

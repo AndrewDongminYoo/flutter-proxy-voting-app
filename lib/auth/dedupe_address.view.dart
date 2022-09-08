@@ -34,7 +34,7 @@ class _AddressDedupePageState extends State<AddressDedupePage> {
 
   @override
   Widget build(BuildContext context) {
-    final addressList = _voteCtrl.addressList;
+    final List<String> addressList = _voteCtrl.addressList;
     return Scaffold(
       appBar: CustomAppBar(text: '캠페인'),
       body: Padding(

@@ -34,10 +34,10 @@ class AuthController extends GetxController {
   // 홈화면에서 Prefereces의 전화번호를 불러와 사용자 데이터 초기화
   void init() async {
     print('[AuthController] init');
-    final telNum = await Storage.getTelNum();
+    final String telNum = await Storage.getTelNum();
     if (telNum.isNotEmpty) {
       print('[AuthController] Yor left the phoneNumber.');
-      final result = await getUserInfo(telNum);
+      final User? result = await getUserInfo(telNum);
       if (result == null) {
         // 잘못된 캐시데이터 삭제
         print('[AuthController] deleted useless SharedPreferences');

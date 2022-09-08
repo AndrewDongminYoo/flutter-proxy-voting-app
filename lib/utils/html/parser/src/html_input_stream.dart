@@ -63,7 +63,8 @@ class HtmlInputStream {
     _offset = 0;
     _chars = <int>[];
 
-    final rawChars = _rawChars ??= _decodeBytes(charEncodingName!, _rawBytes!);
+    final List<int> rawChars =
+        _rawChars ??= _decodeBytes(charEncodingName!, _rawBytes!);
 
     bool skipNewline = false;
     bool wasSurrogatePair = false;
@@ -74,7 +75,7 @@ class HtmlInputStream {
         if (c == newLine) continue;
       }
 
-      final isSurrogatePair = _isSurrogatePair(rawChars, i);
+      final bool isSurrogatePair = _isSurrogatePair(rawChars, i);
       if (!isSurrogatePair && !wasSurrogatePair) {
         if (_invalidUnicode(c)) {
           errors.add('invalid-codepoint');
@@ -149,7 +150,8 @@ class HtmlInputStream {
   }
 
   String? detectEncodingMeta() {
-    final parser = EncodingParser(slice(_rawBytes!, 0, numBytesMeta));
+    final EncodingParser parser =
+        EncodingParser(slice(_rawBytes!, 0, numBytesMeta));
     String? encoding = parser.getEncoding();
 
     if (const ['utf-16', 'utf-16-be', 'utf-16-le'].contains(encoding)) {
@@ -186,7 +188,7 @@ class HtmlInputStream {
   bool _isTrailSurrogate(int code) => (code & 0xFC00) == 0xDC00;
 
   String charsUntil(String characters, [bool opposite = false]) {
-    final start = _offset;
+    final int start = _offset;
     String? c;
     while ((c = peekChar()) != null && characters.contains(c!) == opposite) {
       _offset += c.codeUnits.length;
@@ -251,16 +253,17 @@ bool _invalidUnicode(int c) {
 }
 
 String? codecName(String? encoding) {
-  final asciiPunctuation = RegExp(
+  final RegExp asciiPunctuation = RegExp(
       '[\u0009-\u000D\u0020-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]');
 
   if (encoding == null) return null;
-  final canonicalName = encoding.replaceAll(asciiPunctuation, '').toLowerCase();
+  final String canonicalName =
+      encoding.replaceAll(asciiPunctuation, '').toLowerCase();
   return encodings[canonicalName];
 }
 
 bool _hasUtf8Bom(List<int> bytes, [int offset = 0, int? length]) {
-  final end = length != null ? offset + length : bytes.length;
+  final int end = length != null ? offset + length : bytes.length;
   return (offset + 3) <= end &&
       bytes[offset] == 0xEF &&
       bytes[offset + 1] == 0xBB &&

@@ -1,3 +1,5 @@
+import '../utils/exception.dart';
+
 class User {
   int _id = -1;
   String username = '홍길동';
@@ -14,9 +16,11 @@ class User {
   String get ci => _ci;
   String get di => _di;
   set backId(String n) => _backId =
-      n.startsWith(RegExp('[1-4]')) ? n : throw Exception('wrong backId');
-  set ci(String n) => _ci = n.length == 88 ? n : throw Exception('88bytes');
-  set di(String n) => _ci = n.length == 64 ? n : throw Exception('64bytes');
+      n.startsWith(RegExp('[1-4]')) ? n : throw CustomException('wrong backId');
+  set ci(String n) =>
+      _ci = n.length == 88 ? n : throw CustomException('88bytes');
+  set di(String n) =>
+      _ci = n.length == 64 ? n : throw CustomException('64bytes');
 
   User(
     this.username,

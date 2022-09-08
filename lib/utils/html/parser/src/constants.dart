@@ -430,14 +430,14 @@ bool isLetterOrDigit(String? char) => isLetter(char) || isDigit(char);
 
 bool isLetter(String? char) {
   if (char == null) return false;
-  final cc = char.codeUnitAt(0);
+  final int cc = char.codeUnitAt(0);
   return cc >= _lowerACode && cc <= _lowerZCode ||
       cc >= _upperACode && cc <= _upperZCode;
 }
 
 bool isDigit(String? char) {
   if (char == null) return false;
-  final cc = char.codeUnitAt(0);
+  final int cc = char.codeUnitAt(0);
   return cc >= _zeroCode && cc < _zeroCode + 10;
 }
 

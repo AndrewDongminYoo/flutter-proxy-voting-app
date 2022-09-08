@@ -2,6 +2,7 @@
 import 'dart:async';
 
 // 🐦 Flutter imports:
+import 'package:bside/utils/info_plus/package_info_plus/package_info_data.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 
 // 🌎 Project imports:
@@ -23,7 +24,8 @@ class PackageInfo {
       return _fromPlatform!;
     }
 
-    final platformData = await PackageInfoPlatform.instance.getAll();
+    final PackageInfoData platformData =
+        await PackageInfoPlatform.instance.getAll();
     _fromPlatform = PackageInfo(
       appName: platformData.appName,
       packageName: platformData.packageName,

@@ -77,11 +77,11 @@ class _EditModalState extends State<EditModal> {
 
       List<String> roadAddressList = [];
 
-      final parameters = {'query': _searchAddress};
-      final uri = Uri.https('naveropenapi.apigw.ntruss.com',
+      final Map<String, String> parameters = {'query': _searchAddress};
+      final Uri uri = Uri.https('naveropenapi.apigw.ntruss.com',
           '/map-geocode/v2/geocode', parameters);
-      final response = await http.get(uri, headers: headers);
-      final jsonObj = json.decode(response.body);
+      final http.Response response = await http.get(uri, headers: headers);
+      final dynamic jsonObj = json.decode(response.body);
 
       for (dynamic e in jsonObj['addresses']) {
         roadAddressList.add(e['roadAddress']);

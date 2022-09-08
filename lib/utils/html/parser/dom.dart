@@ -91,13 +91,13 @@ abstract class Node {
   Node? parentNode;
 
   Element? get parent {
-    final parentNode = this.parentNode;
+    final Node? parentNode = this.parentNode;
     return parentNode is Element ? parentNode : null;
   }
 
   LinkedHashMap<Object, String> attributes = LinkedHashMap();
 
-  late final nodes = NodeList._(this);
+  late final NodeList nodes = NodeList._(this);
 
   late final List<Element> children = FilteredElementList(this);
 
@@ -123,13 +123,13 @@ abstract class Node {
   int get nodeType;
 
   String get _outerHtml {
-    final str = StringBuffer();
+    final StringBuffer str = StringBuffer();
     _addOuterHtml(str);
     return str.toString();
   }
 
   String get _innerHtml {
-    final str = StringBuffer();
+    final StringBuffer str = StringBuffer();
     _addInnerHtml(str);
     return str.toString();
   }
@@ -185,21 +185,22 @@ abstract class Node {
   void _ensureAttributeSpans() {
     if (_attributeSpans != null) return;
 
-    final attributeSpans = _attributeSpans = LinkedHashMap<Object, FileSpan>();
-    final attributeValueSpans =
+    final LinkedHashMap attributeSpans =
+        _attributeSpans = LinkedHashMap<Object, FileSpan>();
+    final LinkedHashMap attributeValueSpans =
         _attributeValueSpans = LinkedHashMap<Object, FileSpan>();
 
     if (sourceSpan == null) return;
 
-    final tokenizer = HtmlTokenizer(sourceSpan!.text,
+    final HtmlTokenizer tokenizer = HtmlTokenizer(sourceSpan!.text,
         generateSpans: true, attributeSpans: true);
 
     tokenizer.moveNext();
-    final token = tokenizer.current as StartTagToken;
+    final StartTagToken token = tokenizer.current as StartTagToken;
 
     for (TagAttribute attr in token.attributeSpans!) {
-      final offset = sourceSpan!.start.offset;
-      final name = attr.name!;
+      final int offset = sourceSpan!.start.offset;
+      final String? name = attr.name!;
       attributeSpans[name] =
           sourceSpan!.file.span(offset + attr.start, offset + attr.end);
       if (attr.startValue != null) {
@@ -294,8 +295,8 @@ class DocumentType extends Node {
   @override
   String toString() {
     if (publicId != null || systemId != null) {
-      final pid = publicId ?? '';
-      final sid = systemId ?? '';
+      final String pid = publicId ?? '';
+      final String sid = systemId ?? '';
       return '<!DOCTYPE $name "$pid" "$sid">';
     } else {
       return '<!DOCTYPE $name>';
@@ -338,7 +339,7 @@ class TextNode extends Node {
 
   void appendData(String data) {
     if (_data is! StringBuffer) _data = StringBuffer(_data);
-    final sb = _data as StringBuffer;
+    final StringBuffer sb = _data as StringBuffer;
     sb.write(data);
   }
 
@@ -364,9 +365,9 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
       : namespaceUri = Namespaces.html,
         super._();
 
-  static final _startTagRegexp = RegExp('<(\\w+)');
+  static final RegExp _startTagRegexp = RegExp('<(\\w+)');
 
-  static final _customParentTagMap = {
+  static final Map _customParentTagMap = {
     'body': 'html',
     'head': 'html',
     'caption': 'table',
@@ -383,7 +384,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
   factory Element.html(String html) {
     String parentTag = 'div';
     String? tag;
-    final match = _startTagRegexp.firstMatch(html);
+    final RegExpMatch? match = _startTagRegexp.firstMatch(html);
     if (match != null) {
       tag = match.group(1)!.toLowerCase();
       if (_customParentTagMap.containsKey(tag)) {
@@ -391,7 +392,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
       }
     }
 
-    final fragment = parseFragment(html, container: parentTag);
+    final DocumentFragment fragment = parseFragment(html, container: parentTag);
     Element element;
     if (fragment.children.length == 1) {
       element = fragment.children[0];
@@ -410,20 +411,20 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
 
   Element? get previousElementSibling {
     if (parentNode == null) return null;
-    final siblings = parentNode!.nodes;
+    final NodeList siblings = parentNode!.nodes;
     for (int i = siblings.indexOf(this) - 1; i >= 0; i--) {
-      final s = siblings[i];
+      final Node s = siblings[i];
       if (s is Element) return s;
     }
     return null;
   }
 
   Element? get nextElementSibling {
-    final parentNode = this.parentNode;
+    final Node? parentNode = this.parentNode;
     if (parentNode == null) return null;
-    final siblings = parentNode.nodes;
+    final NodeList siblings = parentNode.nodes;
     for (int i = siblings.indexOf(this) + 1; i < siblings.length; i++) {
-      final s = siblings[i];
+      final Node s = siblings[i];
       if (s is Element) return s;
     }
     return null;
@@ -431,7 +432,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
 
   @override
   String toString() {
-    final prefix = Namespaces.getPrefix(namespaceUri);
+    final String? prefix = Namespaces.getPrefix(namespaceUri);
     return "<${prefix == null ? '' : '$prefix '}$localName>";
   }
 
@@ -472,7 +473,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
       if (localName == 'pre' ||
           localName == 'textarea' ||
           localName == 'listing') {
-        final first = nodes[0];
+        final Node first = nodes[0];
         if (first is TextNode && first.data.startsWith('\n')) {
           str.write('\n');
         }
@@ -491,19 +492,19 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
         uri == Namespaces.svg) {
       return '';
     }
-    final prefix = Namespaces.getPrefix(uri);
+    final String? prefix = Namespaces.getPrefix(uri);
     return prefix == null ? '' : '$prefix:';
   }
 
   @override
   Element clone(bool deep) {
-    final result = Element._(localName, namespaceUri)
+    final Element result = Element._(localName, namespaceUri)
       ..attributes = LinkedHashMap.from(attributes);
     return _clone(result, deep);
   }
 
   String get id {
-    final result = attributes['id'];
+    final String? result = attributes['id'];
     return result ?? '';
   }
 
@@ -512,7 +513,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
   }
 
   String get className {
-    final result = attributes['class'];
+    final String? result = attributes['class'];
     return result ?? '';
   }
 
@@ -575,7 +576,7 @@ class NodeList extends ListProxy<Node> {
 
   @override
   void addAll(Iterable<Node> iterable) {
-    final list = _flattenDocFragments(iterable);
+    final List<Node> list = _flattenDocFragments(iterable);
     for (Node node in list.reversed) {
       _setParent(node);
     }
@@ -660,7 +661,7 @@ class NodeList extends ListProxy<Node> {
 
   @override
   void insertAll(int index, Iterable<Node> iterable) {
-    final list = _flattenDocFragments(iterable);
+    final List<Node> list = _flattenDocFragments(iterable);
     for (Node node in list.reversed) {
       _setParent(node);
     }
@@ -668,7 +669,7 @@ class NodeList extends ListProxy<Node> {
   }
 
   List<Node> _flattenDocFragments(Iterable<Node> collection) {
-    final result = <Node>[];
+    final List<Node> result = <Node>[];
     for (Node node in collection) {
       if (node is DocumentFragment) {
         result.addAll(node.nodes);
@@ -701,7 +702,7 @@ class FilteredElementList extends IterableBase<Element>
 
   @override
   set length(int newLength) {
-    final len = length;
+    final int len = length;
     if (newLength >= len) {
       return;
     } else if (newLength < 0) {
@@ -791,7 +792,7 @@ class FilteredElementList extends IterableBase<Element>
 
   @override
   Element removeAt(int index) {
-    final result = this[index];
+    final Element result = this[index];
     result.remove();
     return result;
   }
@@ -800,7 +801,7 @@ class FilteredElementList extends IterableBase<Element>
   bool remove(Object? element) {
     if (element is! Element) return false;
     for (int i = 0; i < length; i++) {
-      final indexElement = this[i];
+      final Element indexElement = this[i];
       if (identical(indexElement, element)) {
         indexElement.remove();
         return true;
@@ -903,7 +904,7 @@ void _setText(Node node, String? value) {
 }
 
 class _ConcatTextVisitor extends TreeVisitor {
-  final _str = StringBuffer();
+  final StringBuffer _str = StringBuffer();
 
   @override
   String toString() => _str.toString();

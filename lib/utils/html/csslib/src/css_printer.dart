@@ -65,7 +65,7 @@ class CssPrinter extends Visitor {
   void emitMediaQueries(List<MediaQuery> queries) {
     int queriesLen = queries.length;
     for (int i = 0; i < queriesLen; i++) {
-      var query = queries[i];
+      MediaQuery query = queries[i];
       if (i > 0) emit(',');
       visitMediaQuery(query);
     }
@@ -199,7 +199,7 @@ class CssPrinter extends Visitor {
     node.name!.visit(this);
     emit('$_sp{$_newLine');
     _isInKeyframes = true;
-    for (final block in node._blocks) {
+    for (final CssKeyFrameBlock block in node._blocks) {
       block.visit(this);
     }
     _isInKeyframes = false;

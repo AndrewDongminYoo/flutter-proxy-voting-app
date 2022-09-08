@@ -32,7 +32,7 @@ class TypoStyle {
   });
 }
 
-final typoStyle = {
+final Map<TypoType, TypoStyle> typoStyle = {
   TypoType.h1Title:
       TypoStyle(fontWeight: FontWeight.w900, fontSize: 32, letterSpacing: 0.48),
   TypoType.h1Bold:

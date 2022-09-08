@@ -2,6 +2,7 @@
 import 'dart:math' show max;
 
 // 🐦 Flutter imports:
+import 'package:bside/lib.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -103,8 +104,8 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final agendaList = _voteCtrl.campaign.agendaList;
-    final agendaLength = agendaList.length;
+    final List<AgendaItem> agendaList = _voteCtrl.campaign.agendaList;
+    final int agendaLength = agendaList.length;
 
     return Scaffold(
       appBar: CustomAppBar(text: '의결수 확인'),

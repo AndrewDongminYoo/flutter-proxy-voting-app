@@ -6,7 +6,7 @@ import 'package_info_interface.dart';
 class MethodChannelPackageInfo extends PackageInfoPlatform {
   @override
   Future<PackageInfoData> getAll() async {
-    final map =
+    final Map<String, dynamic>? map =
         await channel.invokeMapMethod<String, dynamic>('getPackageInfo');
     return PackageInfoData(
       appName: map!['appName'] ?? '',

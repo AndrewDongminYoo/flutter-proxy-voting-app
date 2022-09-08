@@ -93,8 +93,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
     if (xfile != null) {
       _idcardImage = await File(xfile.path).readAsBytes();
       if (_idcardImage != null) {
-        final extension = xfile.name.split('.').last;
-        final imgUrl = await _controller.uploadSignature(
+        final String extension = xfile.name.split('.').last;
+        final String imgUrl = await _controller.uploadSignature(
           _voteCtrl.campaign.enName,
           '$_username-${DateTime.now()}.$extension',
           _idcardImage!,

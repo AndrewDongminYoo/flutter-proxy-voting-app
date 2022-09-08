@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 // 🌎 Project imports:
 import '../shared/custom_confirm.dart';
-import 'html/parser/html.parser.dart' show htmlParse;
+import 'html/parser/parser.dart';
 import 'info_plus/package_info_plus/package_info.dart' show PackageInfo;
 
 // 참조
@@ -25,8 +25,8 @@ class VersionStatus {
   });
 
   bool get canUpdate {
-    final local = localVersion.split('.').map(int.parse).toList();
-    final store = storeVersion.split('.').map(int.parse).toList();
+    final List<int> local = localVersion.split('.').map(int.parse).toList();
+    final List<int> store = storeVersion.split('.').map(int.parse).toList();
 
     for (int i = 0; i < store.length; i++) {
       if (store[i] > local[i]) {
@@ -77,16 +77,16 @@ class AppVersionValidator {
   Future<VersionStatus?> _getiOSStoreVersion(PackageInfo packageInfo) async {
     String storeVersion = packageInfo.version;
     try {
-      final id = iOSId ?? packageInfo.packageName;
-      final parameters = {'bundleId': id};
-      final uri = Uri.https('itunes.apple.com', '/lookup', parameters);
-      final response = await http.get(uri);
+      final String id = iOSId ?? packageInfo.packageName;
+      final Map<String, String> parameters = {'bundleId': id};
+      final Uri uri = Uri.https('itunes.apple.com', '/lookup', parameters);
+      final http.Response response = await http.get(uri);
       if (response.statusCode != 200) {
         print('Failed to query iOS App Store');
         return null;
       }
 
-      final jsonObj = json.decode(response.body);
+      final dynamic jsonObj = json.decode(response.body);
       final List results = jsonObj['results'];
       if (results.isEmpty) {
         print('Can\'t find an app in the App Store with the id: $id');
@@ -112,29 +112,30 @@ class AppVersionValidator {
       PackageInfo packageInfo) async {
     String storeVersion = packageInfo.version;
     try {
-      final id = androidId ?? packageInfo.packageName;
-      final uri =
+      final String id = androidId ?? packageInfo.packageName;
+      final Uri uri =
           Uri.https('play.google.com', '/store/apps/details', {'id': id});
-      final response = await http.get(uri);
+      final http.Response response = await http.get(uri);
       if (response.statusCode != 200) {
         print('Can\'t find an app in the Play Store with the id: $id');
         return null;
       }
 
-      final document = htmlParse(response.body);
-      final scriptElements = document.getElementsByTagName('script');
-      final infoScriptElement = scriptElements.firstWhere(
+      final Document document = htmlParse(response.body);
+      final List<Element> scriptElements =
+          document.getElementsByTagName('script');
+      final Element infoScriptElement = scriptElements.firstWhere(
         (elm) => elm.text.contains("key: 'ds:5'"),
       );
-      final param = infoScriptElement.text
+      final String param = infoScriptElement.text
           .substring(20, infoScriptElement.text.length - 2)
           .replaceAll('key:', '"key":')
           .replaceAll('hash:', '"hash":')
           .replaceAll('data:', '"data":')
           .replaceAll('sideChannel:', '"sideChannel":')
           .replaceAll('\'', '"');
-      final parsed = json.decode(param);
-      final data = parsed['data'];
+      final dynamic parsed = json.decode(param);
+      final dynamic data = parsed['data'];
 
       storeVersion = data[1][2][140][0][0][0];
       return VersionStatus._(
@@ -164,8 +165,8 @@ class AppVersionValidator {
 }
 
 compareAppVersion() async {
-  final versionValidator = AppVersionValidator();
-  final version = await versionValidator._getVersionStatus();
+  final AppVersionValidator versionValidator = AppVersionValidator();
+  final VersionStatus? version = await versionValidator._getVersionStatus();
   if (version != null) {
     version.printVersion();
     if (version.canUpdate) {

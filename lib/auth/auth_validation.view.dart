@@ -24,7 +24,7 @@ class AuthValidatePage extends StatefulWidget {
 class _AuthValidatePageState extends State<AuthValidatePage> {
   final AuthController _authCtrl = AuthController.get();
   final NotiController _notiCtrl = NotiController.get();
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Timer? _timer;
   String _otpCode = '';
   Duration _remainingOtpTime = const Duration(minutes: 3);
@@ -92,7 +92,7 @@ class _AuthValidatePageState extends State<AuthValidatePage> {
 
   _setCountDown() {
     setState(() {
-      final seconds = _remainingOtpTime.inSeconds - 1;
+      final int seconds = _remainingOtpTime.inSeconds - 1;
       if (seconds < 0) {
         _timer!.cancel();
         _alertGoBack('시간이 초과되었습니다. 전화번호를 다시 입력해주세요.');

@@ -10,7 +10,7 @@ import '../../shared/custom_text.dart';
 import '../../theme.dart';
 import '../vote.model.dart';
 
-final voteButtonList = [
+final List<VoteButton> voteButtonList = [
   VoteButton(
       bgColor: Colors.deepPurple,
       borderColor: Colors.deepPurple,
@@ -31,7 +31,7 @@ final voteButtonList = [
       value: VoteType.abstention),
 ];
 
-final noneButton = VoteButton(
+final VoteButton noneButton = VoteButton(
     bgColor: Colors.white,
     borderColor: Colors.deepPurple,
     textColor: ColorType.black,

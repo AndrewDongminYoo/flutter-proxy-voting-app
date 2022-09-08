@@ -15,8 +15,8 @@ class CardFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final newText = newValue.text;
-    final oldText = oldValue.text;
+    final String newText = newValue.text;
+    final String oldText = oldValue.text;
 
     if (newText.isEmpty || newText.length < oldText.length) {
       return newValue;
@@ -28,7 +28,7 @@ class CardFormatter extends TextInputFormatter {
       // add seperator
       if (newText.length < sample.length &&
           sample[newText.length] == separator) {
-        final text = '$newText$separator';
+        final String text = '$newText$separator';
         return TextEditingValue(
             text: text,
             selection: TextSelection.collapsed(offset: text.length));

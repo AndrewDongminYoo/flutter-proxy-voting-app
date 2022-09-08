@@ -27,12 +27,12 @@ class AuthSignUpPage extends StatefulWidget {
 
 class _AuthSignUpPageState extends State<AuthSignUpPage> {
   // controller and nodes
-  final _nameNode = FocusNode();
-  final _koreanIdNode = FocusNode();
-  final _formKey = GlobalKey<FormState>();
-  final _phoneCtrl = TextEditingController();
+  final FocusNode _nameNode = FocusNode();
+  final FocusNode _koreanIdNode = FocusNode();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _phoneCtrl = TextEditingController();
   final AuthController _authCtrl = AuthController.get();
-  final controller = ScrollController();
+  final ScrollController controller = ScrollController();
 
   // variables
   int _curStep = 0;
@@ -55,7 +55,7 @@ class _AuthSignUpPageState extends State<AuthSignUpPage> {
   }
 
   _existingUser() {
-    final user = _authCtrl.user;
+    final User user = _authCtrl.user;
     _authCtrl.getOtpCode(user);
     goAuthValidOld();
   }
@@ -63,13 +63,13 @@ class _AuthSignUpPageState extends State<AuthSignUpPage> {
   _nextForm(FormStep step, String value) {
     switch (step) {
       case FormStep.phoneNumber:
-        final tempPhoneNum = value.removeAllWhitespace;
+        final String tempPhoneNum = value.removeAllWhitespace;
         _authCtrl.getUserInfo(tempPhoneNum);
         _phoneNumber = tempPhoneNum;
         _koreanIdNode.requestFocus();
         break;
       case FormStep.koreanId:
-        final valueList = value.split(' ');
+        final List<String> valueList = value.split(' ');
         _frontId = valueList[0];
         _backId = valueList[1];
         if (_authCtrl.user.frontId == _frontId) {

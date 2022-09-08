@@ -66,7 +66,7 @@ class _VarDefinitionsIncludes extends Visitor {
 class _VarDefAndUsage extends Visitor {
   final CssMessages _messages;
   final Map<String, VarDefinition> _knownVarDefs;
-  final varDefs = <String, VarDefinition>{};
+  final Map<String, VarDefinition> varDefs = <String, VarDefinition>{};
 
   VarDefinition? currVarDefinition;
   List<CssExpression>? currentExpressions;

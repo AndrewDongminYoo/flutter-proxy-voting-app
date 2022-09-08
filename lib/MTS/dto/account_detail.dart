@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import '../../utils/exception.dart';
 import '../mts.dart';
 
 class AccountDetail implements MTSInterface {
@@ -34,7 +35,7 @@ class AccountDetail implements MTSInterface {
         )!;
       }
     }
-    throw Exception('조회구분코드를 확인해 주세요.');
+    throw CustomException('조회구분코드를 확인해 주세요.');
   }
 
   @override

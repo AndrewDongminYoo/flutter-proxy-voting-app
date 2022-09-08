@@ -39,16 +39,18 @@ class ExpandNestedSelectors extends Visitor {
 
   List<CssRuleSet> _expandedRuleSets = [];
 
-  final _expansions = <CssRuleSet, List<CssRuleSet>>{};
+  final Map<CssRuleSet, List<CssRuleSet>> _expansions =
+      <CssRuleSet, List<CssRuleSet>>{};
 
   @override
   void visitRuleSet(CssRuleSet node) {
-    final oldParent = _parentRuleSet;
+    final CssRuleSet? oldParent = _parentRuleSet;
 
     CssSelectorGroup? oldNestedSelectorGroups = _nestedSelectorGroup;
 
     if (_nestedSelectorGroup == null) {
-      final newSelectors = node.selectorGroup!.selectors.toList();
+      final List<CssSelector> newSelectors =
+          node.selectorGroup!.selectors.toList();
       _topLevelSelectorGroup = CssSelectorGroup(newSelectors, node.span);
       _nestedSelectorGroup = _topLevelSelectorGroup;
     } else {
@@ -237,7 +239,7 @@ class TopLevelIncludes extends Visitor {
   CssStyleSheet? _styleSheet;
   final CssMessages _messages;
 
-  final map = <String, CssMixinDefinition>{};
+  final Map map = <String, CssMixinDefinition>{};
   CssMixinDefinition? currDef;
 
   static void expand(CssMessages messages, List<CssStyleSheet> styleSheets) {
@@ -262,14 +264,14 @@ class TopLevelIncludes extends Visitor {
 
   @override
   void visitIncludeDirective(IncludeDirective node) {
-    final currDef = this.currDef;
+    final CssMixinDefinition? currDef = this.currDef;
     if (map.containsKey(node.name)) {
       CssMixinDefinition? mixinDef = map[node.name];
       if (mixinDef is CssMixinRulesetDirective) {
         _TopLevelIncludeReplacer.replace(
             _messages, _styleSheet!, node, mixinDef.rulesets);
       } else if (currDef is CssMixinRulesetDirective && _anyRulesets(currDef)) {
-        final mixinRuleset = currDef;
+        final CssMixinRulesetDirective mixinRuleset = currDef;
         int index = mixinRuleset.rulesets.indexOf(node);
         mixinRuleset.rulesets.removeAt(index);
         _messages.warning(
@@ -351,7 +353,7 @@ class _TopLevelIncludeReplacer extends Visitor {
 }
 
 int _findInclude(List list, CssTreeNode node) {
-  final matchNode = (node is CssIncludeMixinAtDeclaration)
+  final IncludeDirective matchNode = (node is CssIncludeMixinAtDeclaration)
       ? node.include
       : node as IncludeDirective;
 
@@ -371,7 +373,7 @@ class CallMixin extends Visitor {
   CssExpressions? _currExpressions;
   int _currIndex = -1;
 
-  final varUsages = <String, Map<CssExpressions, Set<int>>>{};
+  final Map varUsages = <String, Map<CssExpressions, Set<int>>>{};
 
   final Map<String, VarDefinition>? varDefs;
 
@@ -497,7 +499,7 @@ class DeclarationIncludes extends Visitor {
   CssMixinDefinition? currDef;
   DeclarationGroup? currDeclGroup;
 
-  final varDefs = <String, VarDefinition>{};
+  final Map<String, VarDefinition> varDefs = <String, VarDefinition>{};
 
   static void expand(CssMessages messages, List<CssStyleSheet> styleSheets) {
     DeclarationIncludes(messages, styleSheets);
@@ -684,11 +686,11 @@ class MixinsAndIncludes extends Visitor {
 }
 
 class AllExtends extends Visitor {
-  final inherits = <String, List<CssSelectorGroup>>{};
+  final Map inherits = <String, List<CssSelectorGroup>>{};
 
   CssSelectorGroup? _currSelectorGroup;
   int? _currDeclIndex;
-  final _extendsToRemove = <int>[];
+  final List _extendsToRemove = <int>[];
 
   @override
   void visitRuleSet(CssRuleSet node) {

@@ -6,11 +6,11 @@ import 'package:get/get.dart' show Get, GetNavigation;
 
 const _gridMargin = 16;
 const _gridGutter = 10;
-final _singleWidth = (Get.width - 2 * _gridMargin - 3 * _gridGutter) / 4;
+final double _singleWidth = (Get.width - 2 * _gridMargin - 3 * _gridGutter) / 4;
 
 enum CustomW { w1, w2, w3, w4 }
 
-final customW = {
+final Map<CustomW, double> customW = {
   CustomW.w1: _singleWidth,
   CustomW.w2: _singleWidth * 2 + _gridGutter,
   CustomW.w3: _singleWidth * 3 + _gridGutter * 2,
@@ -31,7 +31,7 @@ enum ColorType {
   red
 }
 
-final customColor = {
+final Map<ColorType, Color> customColor = {
   ColorType.deepPurple: const Color(0xFF572E66),
   ColorType.purple: const Color(0xFF7C299A),
   ColorType.orange: const Color(0xFFDC721E),

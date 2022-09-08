@@ -36,7 +36,7 @@ bool allWhitespace(String str) {
 
 String padWithZeros(String str, int size) {
   if (str.length == size) return str;
-  final result = StringBuffer();
+  final StringBuffer result = StringBuffer();
   size -= str.length;
   for (int i = 0; i < size; i++) {
     result.write('0');
@@ -48,8 +48,8 @@ String padWithZeros(String str, int size) {
 String formatStr(String format, Map? data) {
   if (data == null) return format;
   data.forEach((key, value) {
-    final result = StringBuffer();
-    final search = '%($key)';
+    final StringBuffer result = StringBuffer();
+    final String search = '%($key)';
     int last = 0, match;
     while ((match = format.indexOf(search, last)) >= 0) {
       result.write(format.substring(last, match));
@@ -70,11 +70,11 @@ String formatStr(String format, Map? data) {
           result.write(value);
           break;
         case 'd':
-          final number = value.toString();
+          final String number = value.toString();
           result.write(padWithZeros(number, numberSize));
           break;
         case 'x':
-          final number = (value as int).toRadixString(16);
+          final String number = (value as int).toRadixString(16);
           result.write(padWithZeros(number, numberSize));
           break;
         default:

@@ -2,6 +2,7 @@
 import 'dart:async' show runZonedGuarded;
 
 // 🐦 Flutter imports:
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -19,7 +20,7 @@ main() async {
 
   // initialize app
   await dotenv.load(fileName: '.env');
-  final initialLink = await setupFirebase();
+  PendingDynamicLinkData? initialLink = await setupFirebase();
   FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
   FlutterError.onError = crashlytics.recordFlutterFatalError;
   bool firstTime = await Storage.needOnBoarding();

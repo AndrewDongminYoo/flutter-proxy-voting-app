@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -21,7 +23,7 @@ class VoteSignPage extends StatefulWidget {
 }
 
 class _VoteSignPageState extends State<VoteSignPage> {
-  final _signer = CustomSignController.get();
+  final CustomSignController _signer = CustomSignController.get();
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
 
@@ -60,8 +62,8 @@ class _VoteSignPageState extends State<VoteSignPage> {
 
   void _onSubmit() async {
     if (_signCtrl.isNotEmpty) {
-      final signature = await _signCtrl.toPngBytes();
-      final url = await _signer.uploadSignature(
+      final Uint8List? signature = await _signCtrl.toPngBytes();
+      final String url = await _signer.uploadSignature(
         _voteCtrl.campaign.enName,
         '$_username-${DateTime.now()}.png',
         signature!,

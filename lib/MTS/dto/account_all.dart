@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import '../../utils/exception.dart';
 import '../mts.dart';
 
 class AccountAll implements MTSInterface {
@@ -26,7 +27,7 @@ class AccountAll implements MTSInterface {
         password: password,
       )!;
     } else {
-      throw Exception('조회구분 코드를 확인해 주세요.');
+      throw CustomException('조회구분 코드를 확인해 주세요.');
     }
   }
 

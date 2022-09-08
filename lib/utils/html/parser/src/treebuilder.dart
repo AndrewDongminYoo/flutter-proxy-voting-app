@@ -36,7 +36,7 @@ bool _mapEquals(Map a, Map b) {
   if (a.isEmpty) return true;
 
   for (dynamic keyA in a.keys) {
-    final valB = b[keyA];
+    final dynamic valB = b[keyA];
     if (valB == null && !b.containsKey(keyA)) {
       return false;
     }
@@ -87,7 +87,7 @@ class TreeBuilder {
   }
 
   bool elementInScope(target, {String? variant}) {
-    final exactNode = target is Node;
+    final bool exactNode = target is Node;
 
     dynamic listElements1 = scopingElements;
     List<dynamic> listElements2 = const [];
@@ -161,12 +161,12 @@ class TreeBuilder {
 
       entry = activeFormattingElements[i];
 
-      final cloneToken = StartTagToken(entry!.localName,
+      final StartTagToken cloneToken = StartTagToken(entry!.localName,
           namespace: entry.namespaceUri,
           data: LinkedHashMap.from(entry.attributes))
         ..span = entry.sourceSpan;
 
-      final element = insertElement(cloneToken);
+      final Element element = insertElement(cloneToken);
 
       activeFormattingElements[i] = element;
 
@@ -195,14 +195,15 @@ class TreeBuilder {
   }
 
   void insertRoot(StartTagToken token) {
-    final element = createElement(token);
+    final Element element = createElement(token);
     openElements.add(element);
     document.nodes.add(element);
   }
 
   void insertDoctype(DoctypeToken token) {
-    final doctype = DocumentType(token.name, token.publicId, token.systemId)
-      ..sourceSpan = token.span;
+    final DocumentType doctype =
+        DocumentType(token.name, token.publicId, token.systemId)
+          ..sourceSpan = token.span;
     document.nodes.add(doctype);
   }
 
@@ -212,9 +213,9 @@ class TreeBuilder {
   }
 
   Element createElement(StartTagToken token) {
-    final name = token.name;
-    final namespace = token.namespace ?? defaultNamespace;
-    final element = document.createElementNS(namespace, name)
+    final String? name = token.name;
+    final String? namespace = token.namespace ?? defaultNamespace;
+    final Element element = document.createElementNS(namespace, name)
       ..attributes = token.data
       ..sourceSpan = token.span;
     return element;
@@ -226,9 +227,9 @@ class TreeBuilder {
   }
 
   Element insertElementNormal(StartTagToken token) {
-    final name = token.name;
-    final namespace = token.namespace ?? defaultNamespace;
-    final element = document.createElementNS(namespace, name)
+    final String? name = token.name;
+    final String? namespace = token.namespace ?? defaultNamespace;
+    final Element element = document.createElementNS(namespace, name)
       ..attributes = token.data
       ..sourceSpan = token.span;
     openElements.last.nodes.add(element);
@@ -237,11 +238,11 @@ class TreeBuilder {
   }
 
   Element insertElementTable(StartTagToken token) {
-    final element = createElement(token);
+    final Element element = createElement(token);
     if (!tableInsertModeElements.contains(openElements.last.localName)) {
       return insertElementNormal(token);
     } else {
-      final nodePos = getTableMisnestedNodePosition();
+      final List<Node?> nodePos = getTableMisnestedNodePosition();
       if (nodePos[1] == null) {
         nodePos[0]!.nodes.add(element);
       } else {
@@ -253,24 +254,24 @@ class TreeBuilder {
   }
 
   void insertText(String data, FileSpan? span) {
-    final parent = openElements.last;
+    final Element parent = openElements.last;
 
     if (!insertFromTable ||
         insertFromTable &&
             !tableInsertModeElements.contains(openElements.last.localName)) {
       _insertText(parent, data, span);
     } else {
-      final nodePos = getTableMisnestedNodePosition();
+      final List<Node?> nodePos = getTableMisnestedNodePosition();
       _insertText(nodePos[0]!, data, span, nodePos[1] as Element?);
     }
   }
 
   static void _insertText(Node parent, String data, FileSpan? span,
       [Element? refNode]) {
-    final nodes = parent.nodes;
+    final NodeList nodes = parent.nodes;
     if (refNode == null) {
       if (nodes.isNotEmpty && nodes.last is TextNode) {
-        final last = nodes.last as TextNode;
+        final TextNode last = nodes.last as TextNode;
         last.appendData(data);
 
         if (span != null) {
@@ -281,9 +282,9 @@ class TreeBuilder {
         nodes.add(TextNode(data)..sourceSpan = span);
       }
     } else {
-      final index = nodes.indexOf(refNode);
+      final int index = nodes.indexOf(refNode);
       if (index > 0 && nodes[index - 1] is TextNode) {
-        final last = nodes[index - 1] as TextNode;
+        final TextNode last = nodes[index - 1] as TextNode;
         last.appendData(data);
       } else {
         nodes.insert(index, TextNode(data)..sourceSpan = span);
@@ -315,7 +316,7 @@ class TreeBuilder {
   }
 
   void generateImpliedEndTags([String? exclude]) {
-    final name = openElements.last.localName;
+    final String? name = openElements.last.localName;
 
     if (name != exclude &&
         const ['dd', 'dt', 'li', 'option', 'optgroup', 'p', 'rp', 'rt']
@@ -329,7 +330,7 @@ class TreeBuilder {
   Document getDocument() => document;
 
   DocumentFragment getFragment() {
-    final fragment = DocumentFragment();
+    final DocumentFragment fragment = DocumentFragment();
     openElements[0].reparentChildren(fragment);
     return fragment;
   }

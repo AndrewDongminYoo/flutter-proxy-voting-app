@@ -415,7 +415,7 @@ class CssStyleSheet extends CssTreeNode {
   final List<CssTreeNode> topLevels;
 
   CssStyleSheet(this.topLevels, SourceSpan? span) : super(span) {
-    for (final node in topLevels) {
+    for (final CssTreeNode node in topLevels) {
       assert(node is CssTopLevelProduction || node is Directive);
     }
   }

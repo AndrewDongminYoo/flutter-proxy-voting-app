@@ -12,11 +12,11 @@ class ElementCssClassSet extends _CssClassSetImpl {
   @override
   Set<String> readClasses() {
     // ignore: prefer_collection_literals
-    final s = LinkedHashSet<String>();
-    final classname = _element.className;
+    final LinkedHashSet<String> s = LinkedHashSet<String>();
+    final String classname = _element.className;
 
     for (String name in classname.split(' ')) {
-      final trimmed = name.trim();
+      final String trimmed = name.trim();
       if (trimmed.isNotEmpty) {
         s.add(trimmed);
       }
@@ -61,7 +61,7 @@ abstract class _CssClassSetImpl extends SetBase<String> implements CssClassSet {
 
   @override
   bool toggle(String value, [bool? shouldAdd]) {
-    final s = readClasses();
+    final Set<String> s = readClasses();
     bool result = false;
     shouldAdd ??= !s.contains(value);
     if (shouldAdd) {
@@ -100,8 +100,8 @@ abstract class _CssClassSetImpl extends SetBase<String> implements CssClassSet {
   @override
   bool remove(Object? value) {
     if (value is! String) return false;
-    final s = readClasses();
-    final result = s.remove(value);
+    final Set<String> s = readClasses();
+    final bool result = s.remove(value);
     writeClasses(s);
     return result;
   }
@@ -114,8 +114,8 @@ abstract class _CssClassSetImpl extends SetBase<String> implements CssClassSet {
   }
 
   bool _modify(bool Function(Set<String>) f) {
-    final s = readClasses();
-    final ret = f(s);
+    final Set<String> s = readClasses();
+    final bool ret = f(s);
     writeClasses(s);
     return ret;
   }

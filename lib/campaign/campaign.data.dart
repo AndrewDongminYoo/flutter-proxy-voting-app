@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // 🌎 Project imports:
 import 'campaign.dart';
 
-final campaigns = <Campaign>[
+final List<Campaign> campaigns = <Campaign>[
   Campaign(
       koName: '에스엠',
       enName: 'sm',

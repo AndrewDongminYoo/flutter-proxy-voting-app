@@ -22,7 +22,7 @@ String today() {
 }
 
 String sixAgo(String dDay) {
-  final now = DateTime.tryParse(dDay) ?? DateTime.now();
+  final DateTime now = DateTime.tryParse(dDay) ?? DateTime.now();
   Duration duration = const Duration(days: 180); // 6개월
   DateTime monthAgo = now.subtract(duration);
   return _formatter.format(monthAgo);

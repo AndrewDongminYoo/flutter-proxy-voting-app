@@ -90,7 +90,7 @@ class NotificiationBtn extends StatefulWidget {
 }
 
 class _NotificiationBtnState extends State<NotificiationBtn> {
-  final _notificaitionCtrl = NotiController.get();
+  final NotiController _notificaitionCtrl = NotiController.get();
 
   _onPressNotification() {
     _showAnimatedDialog(

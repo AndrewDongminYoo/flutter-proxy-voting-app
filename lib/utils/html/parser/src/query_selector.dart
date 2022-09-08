@@ -11,15 +11,16 @@ Element? querySelector(Node node, String selector) =>
     SelectorEvaluator().querySelector(node, _parseSelectorList(selector));
 
 List<Element> querySelectorAll(Node node, String selector) {
-  final results = <Element>[];
+  final List<Element> results = <Element>[];
   SelectorEvaluator()
       .querySelectorAll(node, _parseSelectorList(selector), results);
   return results;
 }
 
 CssSelectorGroup _parseSelectorList(String selector) {
-  final errors = <CssMessage>[];
-  final group = css.parseSelectorGroup(selector, errors: errors);
+  final List<CssMessage> errors = <CssMessage>[];
+  final CssSelectorGroup? group =
+      css.parseSelectorGroup(selector, errors: errors);
   if (group == null || errors.isNotEmpty) {
     throw FormatException("'$selector' is not a valid selector: $errors");
   }
@@ -37,7 +38,7 @@ class SelectorEvaluator extends Visitor {
   Element? querySelector(Node root, CssSelectorGroup selector) {
     for (Element element in root.nodes.whereType<Element>()) {
       if (matches(element, selector)) return element;
-      final result = querySelector(element, selector);
+      final Element? result = querySelector(element, selector);
       if (result != null) return result;
     }
     return null;
@@ -57,7 +58,7 @@ class SelectorEvaluator extends Visitor {
 
   @override
   bool visitSelector(CssSelector node) {
-    final old = _element;
+    final Element? old = _element;
     bool result = true;
 
     int? combinator;
@@ -178,10 +179,10 @@ class SelectorEvaluator extends Visitor {
   bool visitPseudoClassFunctionSelector(PseudoClassFunctionSelector node) {
     switch (node.name) {
       case 'nth-child':
-        final exprs = node.expression.expressions;
+        final List<CssExpression> exprs = node.expression.expressions;
         if (exprs.length == 1 && exprs[0] is CssLiteralTerm) {
-          final literal = exprs[0] as CssLiteralTerm;
-          final parent = _element!.parentNode;
+          final CssLiteralTerm literal = exprs[0] as CssLiteralTerm;
+          final Node? parent = _element!.parentNode;
           return parent != null &&
               (literal.value as num) > 0 &&
               parent.nodes.indexOf(_element) == literal.value;
@@ -189,8 +190,8 @@ class SelectorEvaluator extends Visitor {
         break;
 
       case 'lang':
-        final toMatch = node.expression.span.text;
-        final lang = _getInheritedLanguage(_element);
+        final String toMatch = node.expression.span.text;
+        final String? lang = _getInheritedLanguage(_element);
 
         return lang != null && lang.startsWith(toMatch);
     }
@@ -199,7 +200,7 @@ class SelectorEvaluator extends Visitor {
 
   static String? _getInheritedLanguage(Node? node) {
     while (node != null) {
-      final lang = node.attributes['lang'];
+      final String? lang = node.attributes['lang'];
       if (lang != null) return lang;
       node = node.parent;
     }
@@ -234,12 +235,12 @@ class SelectorEvaluator extends Visitor {
 
   @override
   bool visitAttributeSelector(CssAttributeSelector node) {
-    final value = _element!.attributes[node.name.toLowerCase()];
+    final String? value = _element!.attributes[node.name.toLowerCase()];
     if (value == null) return false;
 
     if (node.operatorKind == CssTokenKind.NO_MATCH) return true;
 
-    final select = '${node.value}';
+    final String select = '${node.value}';
     switch (node.operatorKind) {
       case CssTokenKind.EQUALS:
         return value == select;

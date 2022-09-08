@@ -80,23 +80,23 @@ class Mailto {
   static const String _comma = '%2C';
 
   String _encodeTo(String s) {
-    final atSign = s.lastIndexOf('@');
+    final int atSign = s.lastIndexOf('@');
     return Uri.encodeComponent(s.substring(0, atSign)) + s.substring(atSign);
   }
 
   @override
   String toString() {
-    final stringBuffer = StringBuffer('mailto:');
+    final StringBuffer stringBuffer = StringBuffer('mailto:');
     if (to != null) stringBuffer.writeAll(to!.map(_encodeTo), _comma);
 
     bool parameterAdded = false;
-    final parameterMap = {
+    final Map<String, String?> parameterMap = {
       'subject': subject,
       'body': body,
       'cc': cc?.join(','),
       'bcc': bcc?.join(','),
     };
-    for (final parameter in parameterMap.entries) {
+    for (MapEntry<String, String?> parameter in parameterMap.entries) {
       if (parameter.value == null || parameter.value!.isEmpty) continue;
 
       stringBuffer

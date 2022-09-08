@@ -427,7 +427,7 @@ class CssTokenKind {
   ];
 
   static bool isPredefinedName(String name) {
-    var nameLen = name.length;
+    int nameLen = name.length;
     if (matchUnits(name, 0, nameLen) == -1 ||
         matchDirectives(name, 0, nameLen) == -1 ||
         matchMarginDirectives(name, 0, nameLen) == -1 ||
@@ -440,15 +440,15 @@ class CssTokenKind {
 
   static int matchList(Iterable<Map<String, dynamic>> identList,
       String tokenField, String text, int offset, int length) {
-    for (final entry in identList) {
-      final ident = entry['value'] as String;
+    for (final Map entry in identList) {
+      final String ident = entry['value'] as String;
 
       if (length == ident.length) {
-        var idx = offset;
+        int idx = offset;
         bool match = true;
         for (int i = 0; i < ident.length; i++) {
-          var identChar = ident.codeUnitAt(i);
-          var char = text.codeUnitAt(idx++);
+          int identChar = ident.codeUnitAt(i);
+          int char = text.codeUnitAt(idx++);
           match = match &&
               (char == identChar ||
                   ((char >= ASCII_UPPER_A && char <= ASCII_UPPER_Z) &&
@@ -484,7 +484,7 @@ class CssTokenKind {
   }
 
   static String? idToValue(Iterable<Object?> identList, int tokenId) {
-    for (var entry in identList) {
+    for (Object? entry in identList) {
       entry as Map<String, Object?>;
       if (tokenId == entry['type']) {
         return entry['value'] as String?;
@@ -498,8 +498,8 @@ class CssTokenKind {
     if (unitTokenToFind == CssTokenKind.PERCENT) {
       return '%';
     } else {
-      for (final entry in _UNITS) {
-        final unit = entry['unit'] as int;
+      for (final Map entry in _UNITS) {
+        final int unit = entry['unit'] as int;
         if (unit == unitTokenToFind) {
           return entry['value'] as String?;
         }
@@ -510,8 +510,8 @@ class CssTokenKind {
   }
 
   static Map? matchColorName(String text) {
-    var name = text.toLowerCase();
-    for (var color in _EXTENDED_COLOR_NAMES) {
+    String name = text.toLowerCase();
+    for (Map<dynamic, dynamic> color in _EXTENDED_COLOR_NAMES) {
       if (color['name'] == name) return color;
     }
     return null;
@@ -522,7 +522,7 @@ class CssTokenKind {
   }
 
   static String? hexToColorName(hexValue) {
-    for (final entry in _EXTENDED_COLOR_NAMES) {
+    for (final Map entry in _EXTENDED_COLOR_NAMES) {
       if (entry['value'] == hexValue) {
         return entry['name'] as String?;
       }
@@ -536,8 +536,8 @@ class CssTokenKind {
 
     List<String> result = <String>[];
 
-    var dividend = number >> 4;
-    var remain = number % 16;
+    int dividend = number >> 4;
+    int remain = number % 16;
     result.add(HEXDIGITS[remain]);
     while (dividend != 0) {
       remain = dividend % 16;
@@ -546,7 +546,7 @@ class CssTokenKind {
     }
 
     StringBuffer invertResult = StringBuffer();
-    var paddings = minDigits - result.length;
+    int paddings = minDigits - result.length;
     while (paddings-- > 0) {
       invertResult.write('0');
     }

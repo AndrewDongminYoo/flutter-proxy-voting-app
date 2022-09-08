@@ -1,7 +1,7 @@
 String htmlSerializeEscape(String text, {bool attributeMode = false}) {
   StringBuffer? result;
   for (int i = 0; i < text.length; i++) {
-    final ch = text[i];
+    final String ch = text[i];
     String? replace;
     switch (ch) {
       case '&':

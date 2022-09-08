@@ -20,8 +20,8 @@ class NotShareholderPage extends StatefulWidget {
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
   // TODO: 데이터 직접 입력 제거하기
-  final _contact = 'sjcho0070@naver.com';
-  final _tele = '010-8697-1669';
+  final String _contact = 'sjcho0070@naver.com';
+  final String _tele = '010-8697-1669';
 
   final VoteController _voteCtrl = VoteController.get();
 
@@ -36,7 +36,7 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
 >> Bside Co.ltd.
 """;
     try {
-      final mailTo = Mailto(
+      final Mailto mailTo = Mailto(
         to: [_contact],
         cc: [
           'aaron.so@bside.ai',

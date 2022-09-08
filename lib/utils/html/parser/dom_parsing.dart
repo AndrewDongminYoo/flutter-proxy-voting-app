@@ -76,7 +76,7 @@ class CodeMarkupVisitor extends TreeVisitor {
 
   @override
   void visitElement(Element node) {
-    final tag = node.localName;
+    final String? tag = node.localName;
     _str.write('&lt;<code class="markup element-name">$tag</code>');
     if (node.attributes.isNotEmpty) {
       node.attributes.forEach((key, v) {
@@ -97,7 +97,7 @@ class CodeMarkupVisitor extends TreeVisitor {
 
   @override
   void visitComment(Comment node) {
-    final data = htmlSerializeEscape(node.data!);
+    final String data = htmlSerializeEscape(node.data!);
     _str.write('<code class="markup comment">&lt;!--$data--></code>');
   }
 }
@@ -126,9 +126,9 @@ bool isVoidElement(String? tagName) {
 }
 
 void writeTextNodeAsHtml(StringBuffer str, TextNode node) {
-  final parent = node.parentNode;
+  final Node? parent = node.parentNode;
   if (parent is Element) {
-    final tag = parent.localName;
+    final String? tag = parent.localName;
     if (rcdataElements.contains(tag) || tag == 'plaintext') {
       str.write(node.data);
       return;

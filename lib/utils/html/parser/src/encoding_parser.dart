@@ -10,7 +10,7 @@ class EncodingBytes {
   int get _length => _bytes.length;
 
   String _next() {
-    final p = __position = __position + 1;
+    final int p = __position = __position + 1;
     if (p >= _length) {
       throw StateError('No more elements');
     } else if (p < 0) {
@@ -54,7 +54,7 @@ class EncodingBytes {
     skipChars ??= isWhitespace;
     int p = _position;
     while (p < _length) {
-      final c = _bytes[p];
+      final String c = _bytes[p];
       if (!skipChars(c)) {
         __position = p;
         return c;
@@ -68,7 +68,7 @@ class EncodingBytes {
   String? _skipUntil(_CharPredicate untilChars) {
     int p = _position;
     while (p < _length) {
-      final c = _bytes[p];
+      final String c = _bytes[p];
       if (untilChars(c)) {
         __position = p;
         return c;
@@ -79,11 +79,11 @@ class EncodingBytes {
   }
 
   bool _matchBytes(String bytes) {
-    final p = _position;
+    final int p = _position;
     if (_bytes.length < p + bytes.length) {
       return false;
     }
-    final data = _bytes.substring(p, p + bytes.length);
+    final String data = _bytes.substring(p, p + bytes.length);
     if (data == bytes) {
       _position += bytes.length;
       return true;
@@ -92,7 +92,7 @@ class EncodingBytes {
   }
 
   bool _jumpTo(String bytes) {
-    final newPosition = _bytes.indexOf(bytes, _position);
+    final int newPosition = _bytes.indexOf(bytes, _position);
     if (newPosition >= 0) {
       __position = newPosition + bytes.length - 1;
       return true;
@@ -125,7 +125,7 @@ class EncodingParser {
       : _data = EncodingBytes(String.fromCharCodes(bytes).toLowerCase());
 
   String? getEncoding() {
-    final methodDispatch = [
+    final List<_DispatchEntry> methodDispatch = [
       _DispatchEntry('<!--', _handleComment),
       _DispatchEntry('<meta', _handleMeta),
       _DispatchEntry('</', _handlePossibleEndTag),
@@ -138,7 +138,7 @@ class EncodingParser {
       for (;;) {
         for (_DispatchEntry dispatch in methodDispatch) {
           if (_data._matchBytes(dispatch.pattern)) {
-            final keepParsing = dispatch.handler();
+            final bool keepParsing = dispatch.handler();
             if (keepParsing) break;
 
             return _encoding;
@@ -158,20 +158,21 @@ class EncodingParser {
     }
 
     while (true) {
-      final attr = _getAttribute();
+      final List<String>? attr = _getAttribute();
       if (attr == null) return true;
 
       if (attr[0] == 'charset') {
-        final tentativeEncoding = attr[1];
-        final codec = codecName(tentativeEncoding);
+        final String tentativeEncoding = attr[1];
+        final String? codec = codecName(tentativeEncoding);
         if (codec != null) {
           _encoding = codec;
           return false;
         }
       } else if (attr[0] == 'content') {
-        final contentParser = ContentAttrParser(EncodingBytes(attr[1]));
-        final tentativeEncoding = contentParser.parse();
-        final codec = codecName(tentativeEncoding);
+        final ContentAttrParser contentParser =
+            ContentAttrParser(EncodingBytes(attr[1]));
+        final String? tentativeEncoding = contentParser.parse();
+        final String? codec = codecName(tentativeEncoding);
         if (codec != null) {
           _encoding = codec;
           return false;
@@ -196,7 +197,7 @@ class EncodingParser {
       return true;
     }
 
-    final c = _data._skipUntil(_isSpaceOrAngleBracket);
+    final String? c = _data._skipUntil(_isSpaceOrAngleBracket);
     if (c == '<') {
       _data._previous();
     } else {
@@ -217,8 +218,8 @@ class EncodingParser {
       return null;
     }
 
-    final attrName = [];
-    final attrValue = [];
+    final List attrName = [];
+    final List attrValue = [];
 
     while (true) {
       if (c == null) {
@@ -250,7 +251,7 @@ class EncodingParser {
     c = _data._skipChars();
 
     if (c == "'" || c == '"') {
-      final quoteChar = c;
+      final String? quoteChar = c;
       while (true) {
         c = _data._next();
         if (c == quoteChar) {
@@ -302,16 +303,16 @@ class ContentAttrParser {
       data._skipChars();
 
       if (data._currentByte == '"' || data._currentByte == "'") {
-        final quoteMark = data._currentByte;
+        final String quoteMark = data._currentByte;
         data._position += 1;
-        final oldPosition = data._position;
+        final int oldPosition = data._position;
         if (data._jumpTo(quoteMark)) {
           return data._slice(oldPosition, data._position);
         } else {
           return null;
         }
       } else {
-        final oldPosition = data._position;
+        final int oldPosition = data._position;
         try {
           data._skipUntil(isWhitespace);
           return data._slice(oldPosition, data._position);

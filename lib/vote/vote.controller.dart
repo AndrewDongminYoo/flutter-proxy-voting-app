@@ -28,7 +28,7 @@ class VoteController extends GetxController {
 
   // Vote 진행 중 사용 변수
   final VoteService _service = VoteService();
-  final _shareholders = <Shareholder>[];
+  final List<Shareholder> _shareholders = <Shareholder>[];
   Shareholder? _shareholder;
   VoteAgenda? _voteAgenda;
 
@@ -64,12 +64,12 @@ class VoteController extends GetxController {
 
   // 홈화면에서 User 정보를 불러온 후, user가 존재한다면 vote 데이터 불러오기
   void init() async {
-    final campaignList = await getCompletedCampaignList();
+    final dynamic campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
       print('[VoteController] SharedPreferences exist');
       completedCampaign = {...campaignList};
       for (String campaign in completedCampaign) {
-        final shareholderId = await getShareholderId(campaign);
+        final dynamic shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response response = await _service.validateShareholder(shareholderId);
           if (response.statusCode != 500) {

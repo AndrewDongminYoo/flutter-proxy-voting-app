@@ -94,7 +94,7 @@ class MtsController extends GetxController {
   Future<void> showMTSResult() async {
     texts.clear();
     Get.dialog(LoadingScreen());
-    for (var firm in firms) {
+    for (CustomModule firm in firms) {
       await _service.fetchMTSData(
         module: firm,
         username: _username,

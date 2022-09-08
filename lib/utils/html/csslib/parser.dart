@@ -155,7 +155,7 @@ class _Parser {
     FileSpan start = _peekToken.span;
     while (!_maybeEat(CssTokenKind.END_OF_FILE) &&
         !_peekKind(CssTokenKind.RBRACE)) {
-      final rule = processRule();
+      final CssTreeNode? rule = processRule();
       if (rule != null) {
         productions.add(rule);
       } else {
@@ -208,7 +208,7 @@ class _Parser {
   }
 
   CssToken _next({bool unicodeRange = false}) {
-    final next = _previousToken = _peekToken;
+    final CssToken next = _previousToken = _peekToken;
     _peekToken = tokenizer.next(unicodeRange: unicodeRange);
     return next;
   }
@@ -364,7 +364,7 @@ class _Parser {
 
     dynamic tokId = processVariableOrDirective();
     if (tokId is CssVarDefinitionDirective) return tokId;
-    final tokenId = tokId as int;
+    final int tokenId = tokId as int;
     switch (tokenId) {
       case CssTokenKind.DIRECTIVE_IMPORT:
         _next();
@@ -395,7 +395,7 @@ class _Parser {
         List<CssTreeNode> rules = <CssTreeNode>[];
         if (_maybeEat(CssTokenKind.LBRACE)) {
           while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
-            final rule = processRule();
+            final CssTreeNode? rule = processRule();
             if (rule == null) break;
             rules.add(rule);
           }
@@ -414,7 +414,7 @@ class _Parser {
         List<CssTreeNode> rules = <CssTreeNode>[];
         if (_maybeEat(CssTokenKind.LBRACE)) {
           while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
-            final rule = processRule();
+            final CssTreeNode? rule = processRule();
             if (rule == null) break;
             rules.add(rule);
           }
@@ -524,7 +524,7 @@ class _Parser {
 
         start = _peekToken.span;
         while (!_maybeEat(CssTokenKind.END_OF_FILE)) {
-          final rule = processRule();
+          final CssTreeNode? rule = processRule();
           if (rule == null) {
             break;
           }
@@ -884,7 +884,7 @@ class _Parser {
 
   CssTreeNode? processRule([CssSelectorGroup? selectorGroup]) {
     if (selectorGroup == null) {
-      final directive = processDirective();
+      final Directive? directive = processDirective();
       if (directive != null) {
         _maybeEat(CssTokenKind.SEMICOLON);
         return directive;
@@ -1627,7 +1627,7 @@ class _Parser {
         for (CssExpression expr in exprs.expressions) {
           num? v = marginValue(expr);
           if (v != null) {
-            final box = CssBoxEdge.uniform(v);
+            final CssBoxEdge box = CssBoxEdge.uniform(v);
             return CssBorderExpression.boxEdge(exprs.span, box);
           }
         }
@@ -1635,7 +1635,7 @@ class _Parser {
       case _borderPartWidth:
         num? v = marginValue(exprs.expressions[0]);
         if (v != null) {
-          final box = CssBoxEdge.uniform(v);
+          final CssBoxEdge box = CssBoxEdge.uniform(v);
           return CssBorderExpression.boxEdge(exprs.span, box);
         }
         break;
