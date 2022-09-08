@@ -1,45 +1,43 @@
-// 🌎 Project imports:
-import 'models.dart';
+import 'package:intl/intl.dart';
 
-class RKSWCertItem implements IOBase {
-  @override
-  get json => {
-        'issuerName': issuerName,
-        'expiredImg': expiredImg,
-        'expiredTime': expiredTime,
-        'policy': policy,
-        'subjectName': subjectName,
-      };
-
-  RKSWCertItem.from(Map<Object?, Object?> json) {
-    issuerName = toString(json['issuerName']);
-    expiredImg = toString(json['expiredImg']);
-    expiredTime = toString(json['expiredTime']);
-    subjectName = toString(json['subjectName']);
-    policy = toString(json['policy']);
-    username = nRegex.firstMatch(subjectName)!.group(1)!;
-    origin = fRegex
-        .allMatches(subjectName)
-        .firstWhere((element) =>
-            element.group(1) != null && _banks.contains(element.group(1)!))
-        .group(1)!;
-    expireDate = DateTime.parse(expiredTime.replaceAll('.', ''));
-  }
-
+class RKSWCertItem {
   late String issuerName;
   late String expiredImg;
-  late String expiredTime;
+  late String certExpire;
   // 범용개인/은행개인/범용기업/은행기업/기업뱅킹
   // 신용카드/전자세금용/신용카드/증권보험
   late String policy;
-  late String subjectName;
+  late String certName;
   late String username;
   // 금융결제원/한국전산원/증권전산/한국정보인증/전자인증/
   // 한국정보보호진흥원/한국무역정보통신/우리은행/
   // 한국정보인증/한국전자인증/한국증권전산/
   late String origin;
   late DateTime expireDate;
-  String get objective => policy;
+
+  RKSWCertItem.from(Map<Object?, Object?> json) {
+    issuerName = toString(json['issuerName']);
+    expiredImg = toString(json['expiredImg']);
+    certExpire = toString(json['expiredTime']);
+    certName = toString(json['subjectName']);
+    policy = toString(json['policy']);
+    username = nRegex.firstMatch(certName)!.group(1)!;
+    origin = fRegex
+        .allMatches(certName)
+        .firstWhere((element) =>
+            element.group(1) != null && _banks.contains(element.group(1)!))
+        .group(1)!;
+    expireDate = DateTime.parse(certExpire.replaceAll('.', ''));
+  }
+
+  get json => {
+        '인증서이름': certName,
+        '유효기간': formatter.format(expireDate),
+        '발급기관': origin,
+        '용도구분': policy,
+        '인증기관': issuerName,
+        '발급자': username,
+      };
 }
 
 String toString(Object? obj) {
@@ -51,6 +49,7 @@ String toString(Object? obj) {
   }
 }
 
+DateFormat formatter = DateFormat('yyyy년 MM월 dd일');
 RegExp fRegex = RegExp(r'ou=([A-Za-z가-힣]+)');
 RegExp nRegex = RegExp(r'cn=([A-Za-z가-힣0-9]+)');
 Set _banks = {

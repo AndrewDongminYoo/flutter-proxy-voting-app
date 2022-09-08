@@ -2,12 +2,12 @@
 
 import '../mts.dart';
 
-class Certificate implements IOBase {
+class CertDto implements IOBase {
   String certName; // 이름
   String certExpire; // 만료일자
   String certPassword; // 비밀번호
 
-  Certificate({
+  CertDto({
     required this.certName,
     required this.certExpire,
     required this.certPassword,
@@ -69,7 +69,7 @@ class CustomInput implements IOBase {
   late String end; //조회종료일
   late String type; //상품구분
   late String accountExt; //계좌번호확장
-  late Certificate? certificate; // 인증서
+  late CertDto? certificate; // 인증서
 
   CustomInput({
     this.idOrCert = '', //로그인방식
@@ -119,7 +119,7 @@ class CustomInput implements IOBase {
       end = input['조회종료일'] ?? '';
       type = input['상품구분'] ?? '';
       accountExt = input['계좌번호확장'] ?? '';
-      certificate = Certificate(
+      certificate = CertDto(
         certName: input['인증서']?['이름'] ?? '',
         certPassword: input['인증서']?['비밀번호'] ?? '',
         certExpire: input['인증서']?['만료일자'] ?? '',

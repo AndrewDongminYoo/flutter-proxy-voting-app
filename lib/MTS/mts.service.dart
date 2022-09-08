@@ -2,7 +2,7 @@
 
 // 📦 Package imports:
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:get/get.dart' show GetConnect, GetDynamicUtils;
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import '../utils/global_channel.dart';
@@ -92,5 +92,14 @@ class CooconMTSService extends GetConnect {
 
   emptyCerts() async {
     await channel.invokeMethod('emptyCertifications');
+  }
+
+  void changePasswordOfCert(
+      String oldPassword, String newPassword, String certName) async {
+    await channel.invokeMethod('changePassword', {
+      'newPassword': newPassword,
+      'oldPassword': oldPassword,
+      'certName': certName,
+    });
   }
 }

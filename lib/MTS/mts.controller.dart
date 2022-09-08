@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../shared/shared.dart';
 import '../utils/shared_prefs.dart';
 import 'mts.dart';
+import 'widget/password_dialog.dart';
 
 class MtsController extends GetxController {
   static MtsController get() => Get.isRegistered<MtsController>()
@@ -15,7 +16,28 @@ class MtsController extends GetxController {
       : Get.put(MtsController());
   final CooconMTSService _service = CooconMTSService();
 
+  final String _username = ''; // 사용자 이름
+  String _userLoginID = ''; // 사용자 아이디
+  String _userLoginPW = ''; // 사용자 비밀번호
+  String _bankPINNumber = ''; // 사용자 핀번호(4)
+  String _certID = ''; // 인증서 상세이름
+  String _certPW = ''; // 인증서 비밀번호
+  String _certEX = ''; // 인증서 만료일자
+  bool idLogin = true;
+  List<RKSWCertItem> _certList = []; // 공동인증서 리스트
   final List<Text> texts = [];
+
+  bool _needId = false;
+  bool get needId {
+    for (int i = 0; i < firms.length; i++) {
+      CustomModule current = firms[i];
+      if (current.isException) {
+        _needId = true;
+      }
+    }
+    return _needId;
+  }
+
   final List<CustomModule> _firms = <CustomModule>[];
   List<CustomModule> get firms {
     if (_firms.isNotEmpty) {
@@ -34,27 +56,6 @@ class MtsController extends GetxController {
       );
       _firms.add(t);
     }
-  }
-
-  final String _username = ''; // 사용자 이름
-  String _userLoginID = ''; // 사용자 아이디
-  String _userLoginPW = ''; // 사용자 비밀번호
-  String _bankPINNumber = ''; // 사용자 핀번호(4)
-  String _certID = ''; // 인증서 상세이름
-  String _certPW = ''; // 인증서 비밀번호
-  String _certEX = ''; // 인증서 만료일자
-  bool _needId = false;
-
-  bool idLogin = true;
-  List<RKSWCertItem> _certList = []; // 공동인증서 리스트
-  bool get needId {
-    for (int i = 0; i < firms.length; i++) {
-      CustomModule current = firms[i];
-      if (current.isException) {
-        _needId = true;
-      }
-    }
-    return _needId;
   }
 
   void addMTSFirm(CustomModule firm) {
@@ -86,8 +87,8 @@ class MtsController extends GetxController {
   }
 
   setCertification(RKSWCertItem item) {
-    _certID = item.subjectName;
-    _certEX = item.expiredTime.replaceAll('.', '');
+    _certID = item.certName;
+    _certEX = item.certExpire.replaceAll('.', '');
     idLogin = false;
   }
 
@@ -129,9 +130,24 @@ class MtsController extends GetxController {
     _certList = [];
   }
 
-  void changePass(RKSWCertItem item) {}
+  Map<String, String> detailInfo(RKSWCertItem item) => item.json;
 
-  void detailInfo(RKSWCertItem item) {}
+  void changePass(BuildContext context, RKSWCertItem item) async {
+    String newPass = '';
+    _certPW = await Get.dialog(InputAlert(
+      password: newPass,
+      title: '기존의 비밀번호를 입력하세요.',
+    ));
+    newPass = await Get.dialog(InputAlert(
+      password: newPass,
+      title: '변경할 비밀번호를 입력하세요.',
+    ));
+    _service.changePasswordOfCert(_certPW, newPass, item.certName);
+    print(newPass);
+    print(item.json);
+  }
 
-  void deleteCert(RKSWCertItem item) {}
+  void deleteCert(RKSWCertItem item) {
+    _certList.remove(item);
+  }
 }

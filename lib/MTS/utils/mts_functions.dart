@@ -40,7 +40,7 @@ CustomRequest? makeFunction(
               idOrCert: 'CERT', // CERT: 인증서, ID: 아이디
               userId: userId!, // IBK, KTB 필수 입력
               password: certPassword!, // IBK, KTB 필수 입력
-              certificate: Certificate(
+              certificate: CertDto(
                 certName: certUsername!,
                 certExpire: certExpire!,
                 certPassword: certPassword,

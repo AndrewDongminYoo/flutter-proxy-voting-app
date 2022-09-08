@@ -60,8 +60,6 @@ class _MTSFirmChoicePageState extends State<MTSFirmChoicePage> {
               text: '더 많은 증권사와 연동하기 위해 준비 중입니다.',
             ),
             Expanded(
-                // TODO: 각 증권사 버튼을 컴포넌트화 하여 동시에 중복선택 가능하도록 변경
-                // XD: https://xd.adobe.com/view/0acd4a8f-95ec-4996-8fd4-bd79f63790cb-5f9e/screen/4f90408e-7a85-4d8b-9775-7d4123f725c9
                 child: GridView.builder(
                     primary: false,
                     itemCount: stockTradingFirms.length,

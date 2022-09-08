@@ -21,12 +21,30 @@ class CertificationCard extends StatelessWidget {
     required this.onPressed,
   });
 
-  changePass() {
-    _mtsController.changePass(item);
+  changePass(BuildContext context) {
+    _mtsController.changePass(context, item);
   }
 
   detailInfo() {
-    _mtsController.detailInfo(item);
+    Map<String, String> response = _mtsController.detailInfo(item);
+    Get.dialog(AlertDialog(
+      title: CustomText(
+        text: '인증서정보',
+        typoType: TypoType.h2Bold,
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('발급자명: ${response["발급자"]}'),
+          Text('발급기관: ${response["발급기관"]}'),
+          Text('인증기관: ${response["인증기관"]}'),
+          Text('용도구분: ${response["용도구분"]}'),
+          Text('유효기간: ${response["유효기간"]}'),
+        ],
+      ),
+    ));
   }
 
   deleteCert() {
@@ -82,7 +100,7 @@ class CertificationCard extends StatelessWidget {
                               children: [
                                 UnderlinedButton(
                                   textColor: Colors.black,
-                                  onPressed: changePass,
+                                  onPressed: () => changePass(context),
                                   label: '암호변경',
                                   width: CustomW.w4,
                                 ),
@@ -117,7 +135,7 @@ class CertificationCard extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               CustomText(
-                text: '용도 ${item.objective}',
+                text: '용도 ${item.policy}',
                 typoType: TypoType.h2Bold,
                 isFullWidth: true,
                 textAlign: TextAlign.start,
@@ -125,7 +143,7 @@ class CertificationCard extends StatelessWidget {
               Stack(
                 children: [
                   CustomText(
-                    text: '만료일 ${item.expiredTime}',
+                    text: '만료일 ${item.certExpire}',
                     typoType: TypoType.h2Bold,
                     textAlign: TextAlign.start,
                     isFullWidth: true,
