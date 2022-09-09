@@ -100,7 +100,7 @@ class AppVersionValidator {
       );
     } catch (e) {
       print('Get ios Version Error!!!');
-      print(e.toString());
+      print(e);
       return VersionStatus._(
           localVersion: storeVersion,
           storeVersion: storeVersion,
@@ -145,7 +145,7 @@ class AppVersionValidator {
       );
     } catch (e) {
       print('Get Android Version Error!!!');
-      print(e.toString());
+      print(e);
       return VersionStatus._(
           localVersion: storeVersion,
           storeVersion: storeVersion,

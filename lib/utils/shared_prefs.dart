@@ -84,7 +84,7 @@ setShareholderId(campaignName, shareholderId) async {
 //     notiCtrl.getNotificationsLocal();
 //     voteCtrl.init();
 //   } catch (e) {
-//     print(e.toString());
+//     print(e);
 //   }
 // }
 
@@ -96,6 +96,6 @@ setShareholderId(campaignName, shareholderId) async {
 //     setCompletedCampaignList(voteCtrl.completedCampaign.toList());
 //     setShareholderId(voteCtrl.campaign.enName, voteCtrl.shareholder.id);
 //   } catch (e) {
-//     print(e.toString());
+//     print(e);
 //   }
 // }

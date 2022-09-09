@@ -93,7 +93,7 @@ class _EditModalState extends State<EditModal> {
         _viewPage = 2;
       });
     } catch (e) {
-      print(e.toString());
+      print(e);
     }
   }
 

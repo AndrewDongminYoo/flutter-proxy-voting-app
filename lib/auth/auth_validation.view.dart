@@ -74,7 +74,7 @@ class _AuthValidatePageState extends State<AuthValidatePage> {
       await _authCtrl.validateOtpCode(
           _authCtrl.user.phoneNumber, _otpCode, _notiCtrl.token);
     } catch (e) {
-      print(e.toString());
+      print(e);
       if (e is CustomException) {
         // _alertGoBack(e.message);
         setState(() {

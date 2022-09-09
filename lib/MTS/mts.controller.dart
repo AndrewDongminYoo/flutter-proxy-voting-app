@@ -134,11 +134,11 @@ class MtsController extends GetxController {
 
   void changePass(BuildContext context, RKSWCertItem item) async {
     String newPass = '';
-    _certPW = await Get.dialog(InputAlert(
+    _certPW = await Get.dialog(PasswordDialog(
       password: newPass,
       title: '기존의 비밀번호를 입력하세요.',
     ));
-    newPass = await Get.dialog(InputAlert(
+    newPass = await Get.dialog(PasswordDialog(
       password: newPass,
       title: '변경할 비밀번호를 입력하세요.',
     ));

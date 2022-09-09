@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
+// 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// 🌎 Project imports:
 import '../mts.dart';
 
 class CustomResponse implements InputOutput {

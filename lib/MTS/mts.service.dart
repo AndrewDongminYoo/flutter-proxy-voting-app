@@ -1,5 +1,3 @@
-// 🎯 Dart imports:
-
 // 📦 Package imports:
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart';

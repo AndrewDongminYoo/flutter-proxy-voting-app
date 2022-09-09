@@ -1,17 +1,19 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
 import '../../shared/custom_nav.dart';
 
 // ignore: must_be_immutable
-class InputAlert extends StatefulWidget {
-  InputAlert({super.key, required this.password, required this.title});
+class PasswordDialog extends StatefulWidget {
+  PasswordDialog({super.key, required this.password, required this.title});
   String password;
   String title;
   @override
-  State<InputAlert> createState() => _InputAlertState();
+  State<PasswordDialog> createState() => _PasswordDialogState();
 }
 
-class _InputAlertState extends State<InputAlert> {
+class _PasswordDialogState extends State<PasswordDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

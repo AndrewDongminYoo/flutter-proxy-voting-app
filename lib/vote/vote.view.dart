@@ -60,7 +60,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
         'latest': 4,
       };
     });
-    print(_voteResult.values.toString());
+    print(_voteResult.values);
     return _voteResult;
   }
 
@@ -77,7 +77,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
         'latest': 4,
       };
     });
-    print(_voteResult.values.toString());
+    print(_voteResult.values);
     return _voteResult;
   }
 
