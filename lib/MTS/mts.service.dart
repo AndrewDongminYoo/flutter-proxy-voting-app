@@ -94,12 +94,16 @@ class CooconMTSService extends GetConnect {
     await channel.invokeMethod('emptyCertifications');
   }
 
-  void changePasswordOfCert(
+  changePasswordOfCert(
       String oldPassword, String newPassword, String certName) async {
     await channel.invokeMethod('changePassword', {
       'newPassword': newPassword,
       'oldPassword': oldPassword,
       'certName': certName,
     });
+  }
+
+  deleteCert(String certName) async {
+    await channel.invokeMethod('deleteCertification', certName);
   }
 }

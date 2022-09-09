@@ -149,5 +149,6 @@ class MtsController extends GetxController {
 
   void deleteCert(RKSWCertItem item) {
     _certList.remove(item);
+    _service.deleteCert(item.certName);
   }
 }
