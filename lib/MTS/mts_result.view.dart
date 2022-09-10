@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:bside/lib.dart';
+import '../shared/shared.dart';
+import 'mts.controller.dart';
 
 class MTSShowResultPage extends StatefulWidget {
   const MTSShowResultPage({super.key});
