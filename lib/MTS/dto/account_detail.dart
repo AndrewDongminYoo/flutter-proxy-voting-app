@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import '../../utils/exception.dart';
 import '../mts.dart';
@@ -48,7 +45,7 @@ class AccountDetail implements MTSInterface {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     Set<String> accounts = {};
-    addResult('====================================');
+    controller.addResult('====================================');
     dynamic jobResult = response.Output.Result.accountDetail;
     switch (jobResult.runtimeType) {
       case List:
@@ -58,20 +55,20 @@ class AccountDetail implements MTSInterface {
               if (key == '계좌번호') {
                 if (!accounts.contains(value)) {
                   accounts.add(value);
-                  addResult('$key: ${hypen(value)}');
+                  controller.addResult('$key: ${hypen(value)}');
                 }
               } else if (key.endsWith('일자')) {
-                addResult('$key: ${dayOf(value)}');
+                controller.addResult('$key: ${dayOf(value)}');
               } else if (key == '수익률') {
-                addResult('$key: ${comma(value)}%');
+                controller.addResult('$key: ${comma(value)}%');
               } else if (key == '상품_종목명') {
-                addResult('$value의 주주입니다!!!! ${element["수량"]}주');
+                controller.addResult('$value의 주주입니다!!!! ${element["수량"]}주');
               } else if (!key.contains('코드')) {
-                addResult('$key: ${comma(value)}');
+                controller.addResult('$key: ${comma(value)}');
               }
             }
           });
-          addResult('-');
+          controller.addResult('-');
         }
         return accounts;
       default:
@@ -84,15 +81,6 @@ class AccountDetail implements MTSInterface {
 
   @override
   MtsController controller = MtsController.get();
-
-  @override
-  addResult(String value) {
-    bool valueIsNotLast =
-        controller.texts.isNotEmpty && controller.texts.last.data != value;
-    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
-      controller.texts.add(Text(value));
-    }
-  }
 }
 
 // class DetailAccount {

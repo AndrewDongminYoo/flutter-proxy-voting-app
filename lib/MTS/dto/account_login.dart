@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import '../mts.dart';
 
@@ -11,7 +8,7 @@ class LoginRequest implements MTSInterface {
     required this.userId,
     required this.password,
     required this.certExpire,
-    this.certUsername = '',
+    this.subjectDn = '',
     this.certPassword = '',
   });
 
@@ -21,7 +18,7 @@ class LoginRequest implements MTSInterface {
   late String userId;
   final String password;
   final String certPassword;
-  final String certUsername;
+  final String subjectDn;
   final String certExpire;
 
   @override
@@ -44,7 +41,7 @@ class LoginRequest implements MTSInterface {
         userId: userId, // IBK, KTB 필수 입력
         password: password, // IBK, KTB 필수 입력
         certExpire: certExpire, // 만료일자 예: 20161210
-        certUsername: certUsername, // 인증서이름 예: cn=홍길동()000...
+        certUsername: subjectDn, // 인증서이름 예: cn=홍길동()000...
         certPassword: certPassword, // 인증서비밀번호 예: qwer1234!
       )!;
     }
@@ -64,7 +61,7 @@ class LoginRequest implements MTSInterface {
     response.fetch(username);
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
-      addResult('$key: $value');
+      controller.addResult('$key: $value');
     });
     return username;
   }
@@ -74,13 +71,4 @@ class LoginRequest implements MTSInterface {
 
   @override
   MtsController controller = MtsController.get();
-
-  @override
-  addResult(String value) {
-    bool valueIsNotLast =
-        controller.texts.isNotEmpty && controller.texts.last.data != value;
-    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
-      controller.texts.add(Text(value));
-    }
-  }
 }

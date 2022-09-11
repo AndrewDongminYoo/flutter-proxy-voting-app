@@ -3,14 +3,6 @@ import 'package:intl/intl.dart';
 
 DateFormat _formatter = DateFormat('yyyyMMdd');
 
-hypen(String num) {
-  try {
-    return '${num.substring(0, 3)}-${num.substring(3, 7)}-${num.substring(7)}';
-  } catch (e) {
-    return num;
-  }
-}
-
 String dayOf(String day) {
   DateFormat formattor = DateFormat('yyyy-MM-dd');
   DateTime date = DateTime.parse(day);

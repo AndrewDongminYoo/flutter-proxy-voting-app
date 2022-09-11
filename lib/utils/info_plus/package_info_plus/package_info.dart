@@ -2,11 +2,10 @@
 import 'dart:async';
 
 // 🐦 Flutter imports:
-import 'package:bside/utils/info_plus/package_info_plus/package_info_data.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 
 // 🌎 Project imports:
-import 'package_info_interface.dart';
+import '../info_plus.dart';
 
 class PackageInfo {
   PackageInfo({

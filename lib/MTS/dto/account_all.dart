@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import '../../utils/exception.dart';
 import '../mts.dart';
@@ -41,7 +38,7 @@ class AccountAll implements MTSInterface {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     Set<String> accounts = {};
-    addResult('====================================');
+    controller.addResult('====================================');
     dynamic jobResult = response.Output.Result.accountAll;
     switch (jobResult.runtimeType) {
       case List:
@@ -51,18 +48,18 @@ class AccountAll implements MTSInterface {
               if (key == '계좌번호') {
                 if (!accounts.contains(value)) {
                   accounts.add(value);
-                  addResult('$key: ${hypen(value)}');
+                  controller.addResult('$key: ${hypen(value)}');
                 }
               } else if (key.contains('일자')) {
-                addResult('$key: ${dayOf(value)}');
+                controller.addResult('$key: ${dayOf(value)}');
               } else if (key.contains('수익률')) {
-                addResult('$key: ${comma(value)}%');
+                controller.addResult('$key: ${comma(value)}%');
               } else {
-                addResult('$key: ${comma(value)}');
+                controller.addResult('$key: ${comma(value)}');
               }
             }
           });
-          addResult('-');
+          controller.addResult('-');
         }
         return accounts;
       default:
@@ -74,32 +71,41 @@ class AccountAll implements MTSInterface {
   String toString() => json.toString();
 
   @override
-  addResult(String value) {
-    bool valueIsNotLast =
-        controller.texts.isNotEmpty && controller.texts.last.data != value;
-    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
-      controller.texts.add(Text(value));
-    }
-  }
-
-  @override
   MtsController controller = MtsController.get();
 }
 
-// class AllAccount {
-//   String 계좌번호;
-//   String 계좌번호표시용;
-//   String 원금;
-//   String 계좌명_유형;
-//   String 매입금액;
-//   String 대출금액;
-//   String 평가금액;
-//   String 평가손익;
-//   String 출금가능금액;
-//   String 예수금;
-//   String 예수금_D1;
-//   String 예수금_D2;
-//   String 외화예수금;
-//   String 수익률;
-//   String 총자산;
-// }
+class BankAccount {
+  late String accountNumber; // 계좌번호
+  late String accountPreNum; // 계좌번호표시용
+  late String accountType; // 계좌명_유형
+  late String accountCost; // 원금
+  late String purchaseAmount; // 매입금액
+  late String loanAmount; // 대출금액
+  late String valuationAmount; // 평가금액
+  late String valuationIncome; // 평가손익
+  late String availableAmount; // 출금가능금액
+  late String depositReceived; // 예수금
+  late String depositReceivedD1; // 예수금_D1
+  late String depositReceivedD2; // 예수금_D2
+  late String depositReceivedF; // 외화예수금
+  late String yield; // 수익률
+  late String totalAssets; // 총자산
+
+  BankAccount.from(Map<String, String> json) {
+    accountNumber = json['계좌번호'] ?? '';
+    accountPreNum = json['계좌번호표시용'] ?? '';
+    accountType = json['계좌명_유형'] ?? '';
+    accountCost = json['원금'] ?? '';
+    purchaseAmount = json['매입금액'] ?? '';
+    loanAmount = json['대출금액'] ?? '';
+    valuationAmount = json['평가금액'] ?? '';
+    valuationIncome = json['평가손익'] ?? '';
+    availableAmount = json['출금가능금액'] ?? '';
+    depositReceived = json['예수금'] ?? '';
+    depositReceivedD1 = json['예수금_D1'] ?? '';
+    depositReceivedD2 = json['예수금_D2'] ?? '';
+    depositReceivedF = json['외화예수금'] ?? '';
+    yield = json['수익률'] ?? '';
+    totalAssets = json['총자산'] ?? '';
+  }
+}

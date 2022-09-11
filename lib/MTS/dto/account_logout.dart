@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import '../mts.dart';
 
@@ -27,7 +24,7 @@ class LogoutRequest implements MTSInterface {
     CustomResponse response = await fetch(username);
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
-      addResult('$key: $value');
+      controller.addResult('$key: $value');
     });
   }
 
@@ -36,13 +33,4 @@ class LogoutRequest implements MTSInterface {
 
   @override
   MtsController controller = MtsController.get();
-
-  @override
-  addResult(String value) {
-    bool valueIsNotLast =
-        controller.texts.isNotEmpty && controller.texts.last.data != value;
-    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
-      controller.texts.add(Text(value));
-    }
-  }
 }

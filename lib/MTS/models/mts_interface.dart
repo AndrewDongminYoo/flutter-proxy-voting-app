@@ -18,8 +18,6 @@ abstract class MTSInterface {
 
   @override
   String toString() => json.toString();
-
-  addResult(String string);
 }
 
 abstract class IOBase {

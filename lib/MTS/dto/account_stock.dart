@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import '../mts.dart';
 
@@ -27,7 +24,7 @@ class AccountStocks implements MTSInterface {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     Set<String> accounts = {};
-    addResult('====================================');
+    controller.addResult('====================================');
     dynamic jobResult = response.Output.Result.accountStock;
     switch (jobResult.runtimeType) {
       case List:
@@ -36,16 +33,16 @@ class AccountStocks implements MTSInterface {
             if (element['상품코드'] == '01') {
               if (key == '계좌번호') {
                 if (module.isException) {
-                  value = processAcc(value);
+                  value = hypen(value);
                 }
                 if (!accounts.contains(value)) {
                   accounts.add(value);
-                  addResult('$key: ${hypen(value)}');
+                  controller.addResult('$key: ${hypen(value)}');
                 }
               }
             }
           });
-          addResult('-');
+          controller.addResult('-');
         }
         return accounts;
       default:
@@ -58,28 +55,31 @@ class AccountStocks implements MTSInterface {
 
   @override
   MtsController controller = MtsController.get();
-
-  @override
-  addResult(String value) {
-    bool valueIsNotLast =
-        controller.texts.isNotEmpty && controller.texts.last.data != value;
-    if ((valueIsNotLast) || (controller.texts.isEmpty)) {
-      controller.texts.add(Text(value));
-    }
-  }
 }
 
-// class StockAccount {
-//   String 계좌번호;
-//   String 상품코드; // 위탁 : 01, 펀드: 02, CMA: 05
-//   String 상품명;
-// }
-
-String processAcc(String acc) {
+String hypen(String acc) {
   int len = acc.length;
   try {
     return '${acc.substring(0, len - 2)}-${acc.substring(len - 2)}';
   } catch (e) {
     return acc;
+  }
+}
+
+class StockAccount {
+  late String accountNumber; // 계좌번호
+  late String productCode; // 상품코드
+  late String productType; // 상품타입
+  late String depositReceived; // 예수금
+  late String depositReceivedF; // 외화예수금
+  late String evaluationAmount; // 평가금액
+
+  StockAccount.from(Map<String, String> json) {
+    accountNumber = json['계좌번호'] ?? '';
+    productCode = json['상품코드'] ?? '';
+    productType = json['상품타입'] ?? '';
+    depositReceived = json['예수금'] ?? '';
+    depositReceivedF = json['외화예수금'] ?? '';
+    evaluationAmount = json['평가금액'] ?? '';
   }
 }

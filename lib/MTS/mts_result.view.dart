@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import 'mts.controller.dart';
+import 'utils/result_array.dart';
 
 class MTSShowResultPage extends StatefulWidget {
   const MTSShowResultPage({super.key});
@@ -14,7 +15,7 @@ class MTSShowResultPage extends StatefulWidget {
 
 class _MTSShowResultPageState extends State<MTSShowResultPage> {
   final MtsController _mtsController = MtsController.get();
-  List<Text> resultList = [];
+  TextList resultList = TextList();
 
   @override
   void initState() {

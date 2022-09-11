@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../shared/shared.dart';
 import '../utils/shared_prefs.dart';
 import 'mts.dart';
+import 'utils/result_array.dart';
 import 'widget/password_dialog.dart';
 
 class MtsController extends GetxController {
@@ -25,7 +26,8 @@ class MtsController extends GetxController {
   String _certEX = ''; // 인증서 만료일자
   bool idLogin = true;
   List<RKSWCertItem> _certList = []; // 공동인증서 리스트
-  final List<Text> texts = [];
+  final TextList texts = TextList();
+  void addResult(dynamic val) => texts.add(val);
 
   bool _needId = false;
   bool get needId {
