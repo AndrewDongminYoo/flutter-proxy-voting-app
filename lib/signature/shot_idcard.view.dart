@@ -6,7 +6,8 @@ import 'dart:typed_data' show Uint8List;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart' show Get, GetNavigation;
+import 'package:get/route_manager.dart' show Get;
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

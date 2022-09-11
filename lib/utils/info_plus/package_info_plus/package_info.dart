@@ -1,8 +1,8 @@
 // 🎯 Dart imports:
-import 'dart:async';
+import 'dart:async' show Future;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'package:flutter/foundation.dart';
 
 // 🌎 Project imports:
 import '../info_plus.dart';

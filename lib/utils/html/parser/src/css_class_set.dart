@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:collection';
+import 'dart:collection' show LinkedHashSet, SetBase;
 
 // 🌎 Project imports:
 import '../dom.dart';

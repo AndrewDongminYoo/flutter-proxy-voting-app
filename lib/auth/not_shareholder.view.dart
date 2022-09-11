@@ -1,6 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:url_launcher/url_launcher_string.dart';

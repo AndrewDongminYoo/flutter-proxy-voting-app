@@ -1,10 +1,12 @@
-// 🐦 Flutter imports:
-import 'dart:typed_data';
+// 🎯 Dart imports:
+import 'dart:typed_data' show Uint8List;
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart' show Get, GetNavigation;
+import 'package:get/route_manager.dart' show Get;
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:signature/signature.dart' show Signature, SignatureController;
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:lottie/lottie.dart' show Lottie, LottieBuilder;

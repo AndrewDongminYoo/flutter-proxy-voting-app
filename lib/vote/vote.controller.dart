@@ -3,10 +3,13 @@ import 'dart:async' show Future;
 import 'dart:io' show Platform;
 
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart';
+import 'package:get/get_connect/http/src/response/response.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/state_manager.dart';
+import 'package:get/instance_manager.dart';
 
 // 🌎 Project imports:
 import '../shared/loading_screen.dart';

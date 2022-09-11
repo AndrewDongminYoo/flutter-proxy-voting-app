@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:async';
+import 'dart:async' show Future;
 
 // 🌎 Project imports:
 import 'channel_device_info.dart';

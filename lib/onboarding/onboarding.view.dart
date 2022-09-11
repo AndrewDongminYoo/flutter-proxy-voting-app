@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart' show Get, GetNavigation, GetPlatform;
+import 'package:get/utils.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';

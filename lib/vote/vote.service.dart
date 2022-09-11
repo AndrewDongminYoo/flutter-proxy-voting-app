@@ -2,7 +2,7 @@
 import 'dart:convert' show jsonEncode;
 
 // 📦 Package imports:
-import 'package:get/get.dart' show GetConnect, Response;
+import 'package:get/get_connect/connect.dart';
 
 class VoteService extends GetConnect {
   final String _baseURL = 'https://api.bside.ai/onboarding';

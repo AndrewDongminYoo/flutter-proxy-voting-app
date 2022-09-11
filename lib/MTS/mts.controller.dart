@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/state_manager.dart';
+import 'package:get/instance_manager.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
 import '../utils/shared_prefs.dart';
 import 'mts.dart';
-import 'utils/result_array.dart';
-import 'widget/password_dialog.dart';
 
 class MtsController extends GetxController {
   static MtsController get() => Get.isRegistered<MtsController>()

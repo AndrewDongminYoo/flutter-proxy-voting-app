@@ -2,10 +2,7 @@
 import 'dart:convert' show jsonEncode;
 
 // 📦 Package imports:
-import 'package:get/get_connect.dart';
-
-// 📦 Package imports:
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get_connect/connect.dart';
 
 class AuthService extends GetConnect {
   final String _baseURL = 'https://api.bside.ai/onboarding';
@@ -19,8 +16,6 @@ class AuthService extends GetConnect {
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/identification';
   final String _lambdaResultURL =
       'https://uu6ro1ddc7.execute-api.ap-northeast-2.amazonaws.com/v1/mobile-identification-result';
-
-  // final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   /// 본인인증:
   Future<Response> getOtpCode(

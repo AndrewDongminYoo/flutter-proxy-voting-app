@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart'
+    show FilteringTextInputFormatter, TextInputFormatter, TextInputType;
 
 // 🌎 Project imports:
 import 'mts.controller.dart';

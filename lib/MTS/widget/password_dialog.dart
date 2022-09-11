@@ -6,7 +6,11 @@ import '../../shared/custom_nav.dart';
 
 // ignore: must_be_immutable
 class PasswordDialog extends StatefulWidget {
-  PasswordDialog({super.key, required this.password, required this.title});
+  PasswordDialog({
+    super.key,
+    required this.password,
+    required this.title,
+  });
   String password;
   String title;
   @override

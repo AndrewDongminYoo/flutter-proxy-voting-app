@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:collection';
+import 'dart:collection' show LinkedHashMap;
 
 // 📦 Package imports:
 import 'package:source_span/source_span.dart';

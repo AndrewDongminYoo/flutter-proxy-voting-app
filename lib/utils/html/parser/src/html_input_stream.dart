@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:collection';
+import 'dart:collection' show Queue;
 import 'dart:convert' show ascii, utf8;
 
 // 📦 Package imports:

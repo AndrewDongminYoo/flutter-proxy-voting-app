@@ -1,5 +1,5 @@
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
 import 'package:source_span/source_span.dart' show SourceSpan;

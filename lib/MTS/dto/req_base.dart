@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 // 🎯 Dart imports:
-import 'dart:convert';
+import 'dart:convert' show jsonDecode;
 
 // 🌎 Project imports:
 import '../../utils/global_channel.dart';

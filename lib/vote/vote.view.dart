@@ -5,7 +5,8 @@ import 'dart:math' show max;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart' show Get, GetNavigation;
+import 'package:get/route_manager.dart' show Get;
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 // 🌎 Project imports:
 import '../auth/auth.controller.dart';

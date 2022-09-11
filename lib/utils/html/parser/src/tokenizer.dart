@@ -1,5 +1,5 @@
 // 🎯 Dart imports:
-import 'dart:collection';
+import 'dart:collection' show LinkedHashMap, Queue;
 
 // 🌎 Project imports:
 import '../html.parser.dart';

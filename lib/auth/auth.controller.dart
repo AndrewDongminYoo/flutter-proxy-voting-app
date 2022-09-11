@@ -1,8 +1,11 @@
 // 🐦 Flutter imports:
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get_connect/connect.dart' show Response;
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/state_manager.dart' show Get, GetxController;
 
 // 🌎 Project imports:
 import '../shared/shared.dart';

@@ -2,15 +2,18 @@
 import 'dart:async' show runZonedGuarded;
 
 // 🐦 Flutter imports:
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/get.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/route_manager.dart' show Get, GetMaterialApp, Transition;
+import 'package:get/instance_manager.dart' show BindingsBuilder, Get;
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' show dotenv;
 import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 // 🌎 Project imports:
 import 'lib.dart';

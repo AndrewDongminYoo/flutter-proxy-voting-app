@@ -1,6 +1,6 @@
 // 🎯 Dart imports:
-import 'dart:async';
-import 'dart:io';
+import 'dart:async' show Future;
+import 'dart:io' show Platform;
 
 // 🌎 Project imports:
 import 'device_info_interface.dart';
