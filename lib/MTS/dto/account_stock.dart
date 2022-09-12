@@ -25,29 +25,21 @@ class AccountStocks implements MTSInterface {
     await response.fetch(username);
     Set<String> accounts = {};
     controller.addResult('====================================');
-    dynamic jobResult = response.Output.Result.accountStock;
-    switch (jobResult.runtimeType) {
-      case List:
-        for (Map<String, dynamic> element in jobResult) {
-          element.forEach((key, value) {
-            if (element['상품코드'] == '01') {
-              if (key == '계좌번호') {
-                if (module.isException) {
-                  value = hypen(value);
-                }
-                if (!accounts.contains(value)) {
-                  accounts.add(value);
-                  controller.addResult('$key: ${hypen(value)}');
-                }
-              }
-            }
-          });
-          controller.addResult('-');
+    List<Map<String, String>> jobResult = response.Output.Result.accountStock;
+    for (Map<String, String> element in jobResult) {
+      final stock = StockAccount.from(element);
+      if (stock.productCode == '01') {
+        if (module.isException) {
+          stock.accountNumber = process(stock.accountNumber);
         }
-        return accounts;
-      default:
-        return accounts;
+        if (!accounts.contains(stock.accountNumber)) {
+          accounts.add(stock.accountNumber);
+          controller.addResult('계좌번호: ${stock.accountNumber}');
+        }
+      }
+      controller.addResult('-');
     }
+    return accounts;
   }
 
   @override
@@ -57,7 +49,7 @@ class AccountStocks implements MTSInterface {
   MtsController controller = MtsController.get();
 }
 
-String hypen(String acc) {
+String process(String acc) {
   int len = acc.length;
   try {
     return '${acc.substring(0, len - 2)}-${acc.substring(len - 2)}';
@@ -76,7 +68,7 @@ class StockAccount implements IOBase {
 
   StockAccount.from(Map<String, String> json) {
     accountNumber = json['계좌번호'] ?? '';
-    productCode = json['상품코드'] ?? '';
+    productCode = json['상품코드'] ?? ''; // 주식인 경우 01
     productType = json['상품타입'] ?? '';
     depositReceived = json['예수금'] ?? '';
     depositReceivedF = json['외화예수금'] ?? '';

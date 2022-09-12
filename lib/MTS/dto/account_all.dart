@@ -39,32 +39,27 @@ class AccountAll implements MTSInterface {
     await response.fetch(username);
     Set<String> accounts = {};
     controller.addResult('====================================');
-    dynamic jobResult = response.Output.Result.accountAll;
-    switch (jobResult.runtimeType) {
-      case List:
-        for (Map<String, dynamic> element in jobResult) {
-          element.forEach((key, value) {
-            if (element['총자산'] != '0') {
-              if (key == '계좌번호') {
-                if (!accounts.contains(value)) {
-                  accounts.add(value);
-                  controller.addResult('$key: ${hypen(value)}');
-                }
-              } else if (key.contains('일자')) {
-                controller.addResult('$key: ${dayOf(value)}');
-              } else if (key.contains('수익률')) {
-                controller.addResult('$key: ${comma(value)}%');
-              } else {
-                controller.addResult('$key: ${comma(value)}');
-              }
+    List<Map<String, String>> jobResult = response.Output.Result.accountAll;
+    for (Map<String, String> element in jobResult) {
+      element.forEach((key, value) {
+        if (element['총자산'] != '0') {
+          if (key == '계좌번호') {
+            if (!accounts.contains(value)) {
+              accounts.add(value);
+              controller.addResult('$key: ${hypen(value)}');
             }
-          });
-          controller.addResult('-');
+          } else if (key.contains('일자')) {
+            controller.addResult('$key: ${dayOf(value)}');
+          } else if (key.contains('수익률')) {
+            controller.addResult('$key: ${comma(value)}%');
+          } else {
+            controller.addResult('$key: ${comma(value)}');
+          }
         }
-        return accounts;
-      default:
-        return accounts;
+      });
+      controller.addResult('-');
     }
+    return accounts;
   }
 
   @override

@@ -143,10 +143,10 @@ class CustomInput implements IOBase {
 class CustomResult implements IOBase {
   late String userId; // 사용자아이디
   late String username; // 사용자이름
-  late List accountStock; // 증권보유계좌조회
-  late List accountAll; // 전계좌조회
-  late List accountDetail; // 계좌상세조회
-  late List accountTransaction; // 거래내역조회
+  late List<Map<String, String>> accountStock; // 증권보유계좌조회
+  late List<Map<String, String>> accountAll; // 전계좌조회
+  late List<Map<String, String>> accountDetail; // 계좌상세조회
+  late List<Map<String, String>> accountTransaction; // 거래내역조회
   late String accountNum; // 계좌번호
   late String depositReceived; // 예수금
   late String foriegnDeposit; // 외화예수금

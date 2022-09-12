@@ -62,32 +62,28 @@ class AccountTransaction implements MTSInterface {
     await response.fetch(username);
     Set<String> accounts = {};
     controller.addResult('====================================');
-    dynamic jobResult = response.Output.Result.accountTransaction;
-    switch (jobResult.runtimeType) {
-      case List:
-        for (Map<String, dynamic> element in jobResult) {
-          if (element['거래유형'].contains('주식매수')) {
-            element.forEach((key, value) {
-              if (key == '입금계좌번호') {
-                if (!accounts.contains(value)) {
-                  accounts.add(value);
-                  controller.addResult('$key: ${hypen(value)}');
-                }
-              } else if (key.contains('거래일자')) {
-                controller.addResult('$key: ${dayOf(value)}');
-              } else if (key == '종목명') {
-                controller.addResult('$value의 주주입니다!!!!');
-              } else if (key != '통화코드') {
-                controller.addResult('$key: ${comma(value)}');
-              }
-            });
+    List<Map<String, String>> jobResult =
+        response.Output.Result.accountTransaction;
+    for (Map<String, String> element in jobResult) {
+      if (element['거래유형']!.contains('주식매수')) {
+        element.forEach((key, value) {
+          if (key == '입금계좌번호') {
+            if (!accounts.contains(value)) {
+              accounts.add(value);
+              controller.addResult('$key: ${hypen(value)}');
+            }
+          } else if (key.contains('거래일자')) {
+            controller.addResult('$key: ${dayOf(value)}');
+          } else if (key == '종목명') {
+            controller.addResult('$value의 주주입니다!!!!');
+          } else if (key != '통화코드') {
+            controller.addResult('$key: ${comma(value)}');
           }
-          controller.addResult('-');
-        }
-        return accounts;
-      default:
-        return accounts;
+        });
+      }
+      controller.addResult('-');
     }
+    return accounts;
   }
 
   @override

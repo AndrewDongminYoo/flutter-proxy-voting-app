@@ -46,34 +46,29 @@ class AccountDetail implements MTSInterface {
     await response.fetch(username);
     Set<String> accounts = {};
     controller.addResult('====================================');
-    dynamic jobResult = response.Output.Result.accountDetail;
-    switch (jobResult.runtimeType) {
-      case List:
-        for (Map<String, dynamic> element in jobResult) {
-          element.forEach((key, value) {
-            if (element['상품유형코드'] == '01' || element['상품명']!.contains('주식')) {
-              if (key == '계좌번호') {
-                if (!accounts.contains(value)) {
-                  accounts.add(value);
-                  controller.addResult('$key: ${hypen(value)}');
-                }
-              } else if (key.endsWith('일자')) {
-                controller.addResult('$key: ${dayOf(value)}');
-              } else if (key == '수익률') {
-                controller.addResult('$key: ${comma(value)}%');
-              } else if (key == '상품_종목명') {
-                controller.addResult('$value의 주주입니다!!!! ${element["수량"]}주');
-              } else if (!key.contains('코드')) {
-                controller.addResult('$key: ${comma(value)}');
-              }
+    List<Map<String, String>> jobResult = response.Output.Result.accountDetail;
+    for (Map<String, String> element in jobResult) {
+      element.forEach((key, value) {
+        if (element['상품유형코드'] == '01' || element['상품명']!.contains('주식')) {
+          if (key == '계좌번호') {
+            if (!accounts.contains(value)) {
+              accounts.add(value);
+              controller.addResult('$key: ${hypen(value)}');
             }
-          });
-          controller.addResult('-');
+          } else if (key.endsWith('일자')) {
+            controller.addResult('$key: ${dayOf(value)}');
+          } else if (key == '수익률') {
+            controller.addResult('$key: ${comma(value)}%');
+          } else if (key == '상품_종목명') {
+            controller.addResult('$value의 주주입니다!!!! ${element["수량"]}주');
+          } else if (!key.contains('코드')) {
+            controller.addResult('$key: ${comma(value)}');
+          }
         }
-        return accounts;
-      default:
-        return accounts;
+      });
+      controller.addResult('-');
     }
+    return accounts;
   }
 
   @override
