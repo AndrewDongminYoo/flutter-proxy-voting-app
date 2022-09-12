@@ -97,7 +97,7 @@ class AccountTransaction implements MTSInterface {
   MtsController controller = MtsController.get();
 }
 
-class BankAccountTransaction {
+class BankAccountTransaction implements IOBase {
   late String transactionDate; // 거래일자
   late String transactionTime; // 거래시각
   late String transactionType; // 거래유형
@@ -144,5 +144,35 @@ class BankAccountTransaction {
     tradingBank = json['처리점'] ?? '';
     bankOffice = json['입금은행'] ?? '';
     paidAccountNum = json['입금계좌번호'] ?? '';
+  }
+
+  @override
+  get json {
+    Map<String, String> temp = {
+      '거래일자': transactionDate,
+      '거래시각': transactionTime,
+      '거래유형': transactionType,
+      '적요': briefs,
+      '종목명': issueName,
+      '거래수량': transactionCount,
+      '거래금액': transactionVolume,
+      '정산금액': settlementAmount,
+      '수수료': commission,
+      '금잔수량': balanceCount,
+      '금잔금액': balanceAmount,
+      '금잔금액2': balanceAmount2,
+      '통화코드': monetaryCode,
+      '외화거래금액': transactionVolFor,
+      '세금': tax,
+      '원화거래금액': transactionVolWon,
+      '국외수수료': foriegnCommission,
+      '입금통장표시내용': paidAccountMemo,
+      '출금통장표시내용': receivedAccMemo,
+      '처리점': tradingBank,
+      '입금은행': bankOffice,
+      '입금계좌번호': paidAccountNum,
+    };
+    temp.removeWhere((key, value) => value.isEmpty);
+    return temp;
   }
 }

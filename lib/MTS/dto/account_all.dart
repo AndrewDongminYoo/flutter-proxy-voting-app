@@ -74,7 +74,7 @@ class AccountAll implements MTSInterface {
   MtsController controller = MtsController.get();
 }
 
-class BankAccount {
+class BankAccount implements IOBase {
   late String accountNumber; // 계좌번호
   late String accountPreNum; // 계좌번호표시용
   late String accountType; // 계좌명_유형
@@ -108,4 +108,30 @@ class BankAccount {
     yield = json['수익률'] ?? '';
     totalAssets = json['총자산'] ?? '';
   }
+
+  @override
+  get json {
+    Map<String, String> temp = {
+      '계좌번호': accountNumber,
+      '계좌번호표시용': accountPreNum,
+      '계좌명_유형': accountType,
+      '원금': accountCost,
+      '매입금액': purchaseAmount,
+      '대출금액': loanAmount,
+      '평가금액': valuationAmount,
+      '평가손익': valuationIncome,
+      '출금가능금액': availableAmount,
+      '예수금': depositReceived,
+      '예수금_D1': depositReceivedD1,
+      '예수금_D2': depositReceivedD2,
+      '외화예수금': depositReceivedF,
+      '수익률': yield,
+      '총자산': totalAssets,
+    };
+    temp.removeWhere((key, value) => value.isEmpty);
+    return temp;
+  }
+
+  @override
+  String toString() => json.toString();
 }

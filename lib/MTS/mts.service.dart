@@ -1,7 +1,7 @@
 // 📦 Package imports:
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:get/get_connect/connect.dart';
-import 'package:get/utils.dart';
+import 'package:get/get_connect/connect.dart' show GetConnect;
+import 'package:get/get_utils/src/extensions/dynamic_extensions.dart';
 
 // 🌎 Project imports:
 import '../utils/global_channel.dart';

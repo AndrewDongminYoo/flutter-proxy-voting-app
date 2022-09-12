@@ -1,5 +1,5 @@
 // 🌎 Project imports:
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 class RKSWCertItem {
   late String issuerName;

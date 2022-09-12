@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:get/utils.dart';
+import 'package:get/utils.dart' show Get;
 import 'package:get/route_manager.dart' show Get;
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/state_manager.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/get_core/get_core.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:get/state_manager.dart' show Get;
+import 'package:get/instance_manager.dart' show Get;
+import 'package:get/get_core/get_core.dart' show Get;
+import 'package:get/get_core/src/get_main.dart' show Get;
 import 'package:get/get_navigation/get_navigation.dart';
 
 // 🌎 Project imports:

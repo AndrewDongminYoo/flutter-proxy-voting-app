@@ -25,7 +25,7 @@ class VoteSignPage extends StatefulWidget {
 }
 
 class _VoteSignPageState extends State<VoteSignPage> {
-  final CustomSignController _signer = CustomSignController.get();
+  final SignController _signCtrl = SignController.get();
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
 
@@ -56,16 +56,16 @@ class _VoteSignPageState extends State<VoteSignPage> {
     super.initState();
   }
 
-  final SignatureController _signCtrl = SignatureController(
+  final SignatureController _signer = SignatureController(
     penStrokeWidth: 3,
     penColor: Colors.black,
     exportBackgroundColor: Colors.transparent,
   );
 
   void _onSubmit() async {
-    if (_signCtrl.isNotEmpty) {
-      final Uint8List? signature = await _signCtrl.toPngBytes();
-      final String url = await _signer.uploadSignature(
+    if (_signer.isNotEmpty) {
+      final Uint8List? signature = await _signer.toPngBytes();
+      final String url = await _signCtrl.uploadSignature(
         _voteCtrl.campaign.enName,
         '$_username-${DateTime.now()}.png',
         signature!,
@@ -105,7 +105,7 @@ class _VoteSignPageState extends State<VoteSignPage> {
                 child: lottieIDCard,
               )
             : Signature(
-                controller: _signCtrl,
+                controller: _signer,
                 backgroundColor: Colors.white,
                 height: 300,
                 width: Get.width,
@@ -116,7 +116,7 @@ class _VoteSignPageState extends State<VoteSignPage> {
       children: [
         OutlinedButton(
           onPressed: () async {
-            _signCtrl.clear();
+            _signer.clear();
           },
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.deepOrange,

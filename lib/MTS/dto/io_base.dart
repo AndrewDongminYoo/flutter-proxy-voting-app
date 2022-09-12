@@ -15,13 +15,13 @@ class CertDto implements IOBase {
 
   @override
   Map<String, dynamic> get json {
-    Map<String, dynamic> input = {
+    Map<String, String> temp = {
       '이름': certName,
       '만료일자': certExpire,
       '비밀번호': certPassword,
     };
-    input.removeWhere((k, v) => v == null || v.isEmpty);
-    return input;
+    temp.removeWhere((key, value) => value.isEmpty);
+    return temp;
   }
 }
 
@@ -44,13 +44,20 @@ class CustomOutput implements IOBase {
 
   @override
   Map<String, dynamic> get json {
-    Map<String, dynamic> input = {
+    Map<String, dynamic> temp = {
       'ErrorCode': ErrorCode,
       'ErrorMessage': ErrorMessage,
-      'Result': Result.json,
+      'Result': Result.isEmpty ? {} : Result.json,
     };
-    input.removeWhere((k, v) => v == null || v.isEmpty);
-    return input;
+    temp.removeWhere((k, v) {
+      if (v is String) {
+        return v.isEmpty;
+      } else if (v is Map) {
+        return v.isEmpty;
+      }
+      return true;
+    });
+    return temp;
   }
 
   @override
@@ -88,7 +95,7 @@ class CustomInput implements IOBase {
 
   @override
   Map<String, dynamic> get json {
-    Map<String, dynamic> input = {
+    Map<String, dynamic> temp = {
       '로그인방식': idOrCert,
       '사용자아이디': userId,
       '사용자비밀번호': password,
@@ -102,8 +109,8 @@ class CustomInput implements IOBase {
       '계좌번호확장': accountExt,
       '인증서': certificate?.json,
     };
-    input.removeWhere((k, v) => v == null || v.isEmpty);
-    return input;
+    temp.removeWhere((k, v) => v == null || v.isEmpty);
+    return temp;
   }
 
   CustomInput.from(dynamic input) {
@@ -171,9 +178,20 @@ class CustomResult implements IOBase {
     }
   }
 
+  bool get isEmpty => (userId.isEmpty &&
+      username.isEmpty &&
+      accountNum.isEmpty &&
+      depositReceived.isEmpty &&
+      foriegnDeposit.isEmpty &&
+      amountValuation.isEmpty &&
+      accountStock.isEmpty &&
+      accountAll.isEmpty &&
+      accountDetail.isEmpty &&
+      accountTransaction.isEmpty);
+
   @override
   Map<String, dynamic> get json {
-    Map<String, dynamic> result = {
+    Map<String, dynamic> temp = {
       '사용자아이디': userId,
       '사용자이름': username,
       '계좌번호': accountNum,
@@ -185,7 +203,7 @@ class CustomResult implements IOBase {
       '계좌상세조회': accountDetail,
       '거래내역조회': accountTransaction,
     };
-    result.removeWhere((k, v) => v == null || v.isEmpty);
-    return result;
+    temp.removeWhere((k, v) => v == null || v.isEmpty || v.isBlank);
+    return temp;
   }
 }

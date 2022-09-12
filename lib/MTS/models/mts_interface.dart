@@ -22,12 +22,12 @@ abstract class MTSInterface {
 
 abstract class IOBase {
   IOBase();
-  get json {}
+  Map<String, dynamic> get json => {};
   IOBase.from();
 }
 
 abstract class InputOutput {
   InputOutput();
-  get data;
+  Map<String, dynamic> get data;
   Future fetch(String username) async {}
 }

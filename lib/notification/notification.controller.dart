@@ -8,9 +8,11 @@ import 'package:flutter/foundation.dart';
 // 📦 Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/state_manager.dart';
-import 'package:get/instance_manager.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/state_manager.dart' show Get;
+import 'package:get/instance_manager.dart' show Get;
+import 'package:intl/intl.dart' show DateFormat;
 
 // 🌎 Project imports:
 import '../utils/shared_prefs.dart';

@@ -30,7 +30,7 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
   String _informationString = '';
   final ImagePicker _picker = ImagePicker();
 
-  final CustomSignController _controller = CustomSignController.get();
+  final SignController _controller = SignController.get();
   final AuthController _authCtrl = AuthController.get();
   final VoteController _voteCtrl = VoteController.get();
   ImageSource _source = ImageSource.camera;

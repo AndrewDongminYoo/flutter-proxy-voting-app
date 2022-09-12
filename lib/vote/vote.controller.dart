@@ -4,12 +4,14 @@ import 'dart:io' show Platform;
 
 // 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
 
 // 📦 Package imports:
+import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/state_manager.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/state_manager.dart' show Get;
+import 'package:get/instance_manager.dart' show Get;
 
 // 🌎 Project imports:
 import '../shared/loading_screen.dart';

@@ -3,13 +3,15 @@ import 'dart:typed_data' show Uint8List;
 
 // 📦 Package imports:
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:get/state_manager.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/state_manager.dart' show Get;
+import 'package:get/instance_manager.dart' show Get;
 
-class CustomSignController extends GetxController {
-  static CustomSignController get() => Get.isRegistered<CustomSignController>()
-      ? Get.find<CustomSignController>()
-      : Get.put(CustomSignController());
+class SignController extends GetxController {
+  static SignController get() => Get.isRegistered<SignController>()
+      ? Get.find<SignController>()
+      : Get.put(SignController());
 
   final FirebaseStorage _storage = FirebaseStorage.instance;
 

@@ -66,7 +66,7 @@ String hypen(String acc) {
   }
 }
 
-class StockAccount {
+class StockAccount implements IOBase {
   late String accountNumber; // 계좌번호
   late String productCode; // 상품코드
   late String productType; // 상품타입
@@ -81,5 +81,19 @@ class StockAccount {
     depositReceived = json['예수금'] ?? '';
     depositReceivedF = json['외화예수금'] ?? '';
     evaluationAmount = json['평가금액'] ?? '';
+  }
+
+  @override
+  get json {
+    Map<String, String> temp = {
+      '계좌번호': accountNumber,
+      '상품코드': productCode,
+      '상품타입': productType,
+      '예수금': depositReceived,
+      '외화예수금': depositReceivedF,
+      '평가금액': evaluationAmount,
+    };
+    temp.removeWhere((key, value) => value.isEmpty);
+    return temp;
   }
 }

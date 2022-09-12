@@ -83,21 +83,61 @@ class AccountDetail implements MTSInterface {
   MtsController controller = MtsController.get();
 }
 
-// class DetailAccount {
-//   String 상품명;
-//   String 계좌번호;
-//   String 상품코드;
-//   String 상품유형코드;
-//   String 상품_종목명;
-//   String 상품_종목코드;
-//   String 잔고유형;
-//   String 수량;
-//   String 현재가;
-//   String 평균매입가;
-//   String 매입금액;
-//   String 평가금액;
-//   String 평가손익;
-//   String 수익률;
-//   String 통화코드;
-//   String 계좌번호확장;
-// }
+class BankAccountDetail implements IOBase {
+  late String productName; // 상품명
+  late String productTypeCode; // 상품유형코드
+  late String productIssueName; // 상품_종목명
+  late String productIssueCode; // 상품_종목코드
+  late String balanceType; // 잔고유형
+  late String quantity; // 수량
+  late String presentValue; // 현재가
+  late String averageValue; // 평균매입가
+  late String purchaseAmount; // 매입금액
+  late String evaluationAmount; // 평가금액
+  late String valuationGain; // 평가손익
+  late String yield; // 수익률
+  late String monetaryCode; // 통화코드
+  late String accountNumberExt; // 계좌번호확장
+  late String oderableQuantity; // 주문가능수량
+
+  BankAccountDetail.from(Map<String, String> json) {
+    productName = json['상품명'] ?? '';
+    productTypeCode = json['상품유형코드'] ?? '';
+    productIssueName = json['상품_종목명'] ?? '';
+    productIssueCode = json['상품_종목코드'] ?? '';
+    balanceType = json['잔고유형'] ?? '';
+    quantity = json['수량'] ?? '';
+    presentValue = json['현재가'] ?? '';
+    averageValue = json['평균매입가'] ?? '';
+    purchaseAmount = json['매입금액'] ?? '';
+    evaluationAmount = json['평가금액'] ?? '';
+    valuationGain = json['평가손익'] ?? '';
+    yield = json['수익률'] ?? '';
+    monetaryCode = json['통화코드'] ?? '';
+    accountNumberExt = json['계좌번호확장'] ?? '';
+    oderableQuantity = json['주문가능수량'] ?? '';
+  }
+
+  @override
+  get json {
+    Map<String, String> temp = {
+      '상품명': productName,
+      '상품유형코드': productTypeCode,
+      '상품_종목명': productIssueName,
+      '상품_종목코드': productIssueCode,
+      '잔고유형': balanceType,
+      '수량': quantity,
+      '현재가': presentValue,
+      '평균매입가': averageValue,
+      '매입금액': purchaseAmount,
+      '평가금액': evaluationAmount,
+      '평가손익': valuationGain,
+      '수익률': yield,
+      '통화코드': monetaryCode,
+      '계좌번호확장': accountNumberExt,
+      '주문가능수량': oderableQuantity,
+    };
+    temp.removeWhere((key, value) => value.isEmpty);
+    return temp;
+  }
+}
