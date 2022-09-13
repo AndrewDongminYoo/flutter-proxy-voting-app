@@ -29,8 +29,6 @@ class MtsController extends GetxController {
   bool idLogin = true;
   Set<RKSWCertItem> _certList = {}; // 공동인증서 리스트
   final Set<Account> _accounts = {};
-  // TODO: 직접 결과물 보여줄 리스트. 나중에 제거할 것.
-  final TextList results = TextList();
   Set<Account> get accounts => _accounts;
   void addAccount(
     CustomModule module,
@@ -51,8 +49,6 @@ class MtsController extends GetxController {
       ));
     }
   }
-
-  void addResult(dynamic val) => results.add(val);
 
   bool _needId = false;
   bool get needId {

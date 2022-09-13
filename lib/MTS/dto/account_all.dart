@@ -41,15 +41,7 @@ class AccountAll implements MTSInterface {
   post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
-    controller.addResult('====================================');
     List<BankAccount> jobResult = res.Output.Result.accountAll;
-    for (BankAccount account in jobResult) {
-      if (account.totalAssets != '0') {
-        controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
-        controller.addResult('수익률: ${comma(account.yields)}%');
-      }
-      controller.addResult('-');
-    }
   }
 
   @override

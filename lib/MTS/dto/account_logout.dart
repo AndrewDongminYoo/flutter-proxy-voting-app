@@ -28,7 +28,6 @@ class LogoutRequest implements MTSInterface {
     CustomResponse response = await fetch(username);
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
-      controller.addResult('$key: $value');
     });
   }
 

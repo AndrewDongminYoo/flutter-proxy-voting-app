@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:get/route_manager.dart' show Get;
+import 'package:get/get_navigation/src/extension_navigation.dart';
+
+// 🌎 Project imports:
 import '../../shared/shared.dart';
 import '../models/acccount.model.dart';
 
@@ -16,7 +22,7 @@ class _AccountCardState extends State<AccountCard> {
   Widget build(BuildContext context) {
     Account account = widget.account;
     return Container(
-      width: Get.width - 24,
+      width: Get.width - 20,
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

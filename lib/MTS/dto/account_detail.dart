@@ -48,17 +48,7 @@ class AccountDetail implements MTSInterface {
   post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
-    controller.addResult('====================================');
     List<BankAccountDetail> jobResult = res.Output.Result.accountDetail;
-    for (BankAccountDetail acc in jobResult) {
-      if (acc.productTypeCode == '01' || acc.productName.contains('주식')) {
-        controller.addResult('계좌번호: ${hypen(res.Output.Result.accountNum)}');
-        controller.addResult('수익률: ${comma(acc.yields)}%');
-        controller
-            .addResult('${acc.productIssueName}의 주주입니다. ${acc.quantity}주');
-      }
-      controller.addResult('-');
-    }
   }
 
   @override

@@ -27,7 +27,6 @@ class AccountStocks implements MTSInterface {
   post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
-    controller.addResult('====================================');
     List<StockAccount> jobResult = response.Output.Result.accountStock;
     for (StockAccount account in jobResult) {
       if (account.productCode == '01') {
@@ -35,9 +34,7 @@ class AccountStocks implements MTSInterface {
           account.accountNumber = process(account.accountNumber);
         }
         controller.addAccount(module, idOrCert, account.accountNumber);
-        controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
       }
-      controller.addResult('-');
     }
   }
 

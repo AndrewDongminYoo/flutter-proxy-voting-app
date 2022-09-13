@@ -64,18 +64,8 @@ class AccountTransaction implements MTSInterface {
   post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
-    controller.addResult('====================================');
     List<BankAccountTransaction> jobResult =
         response.Output.Result.accountTransaction;
-    for (BankAccountTransaction trans in jobResult) {
-      if (trans.transactionType.contains('주식매수')) {
-        controller.addResult('입금계좌번호: ${hypen(trans.paidAccountNum)}');
-        controller.addResult('거래일자: ${dayOf(trans.transactionDate)}');
-        controller.addResult('${trans.issueName}의 주주입니다!');
-        controller.addResult('통화코드: ${comma(trans.monetaryCode)}');
-      }
-      controller.addResult('-');
-    }
   }
 
   @override

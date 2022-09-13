@@ -65,7 +65,6 @@ class LoginRequest implements MTSInterface {
     response.fetch(username);
     response.Output.Result.json.forEach((key, value) {
       print('$key: $value');
-      controller.addResult('$key: $value');
     });
     return username;
   }
