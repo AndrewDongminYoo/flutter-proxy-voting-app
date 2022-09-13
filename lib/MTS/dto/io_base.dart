@@ -141,40 +141,49 @@ class CustomInput implements IOBase {
 }
 
 class CustomResult implements IOBase {
-  late String userId; // 사용자아이디
-  late String username; // 사용자이름
-  late List<Map<String, String>> accountStock; // 증권보유계좌조회
-  late List<Map<String, String>> accountAll; // 전계좌조회
-  late List<Map<String, String>> accountDetail; // 계좌상세조회
-  late List<Map<String, String>> accountTransaction; // 거래내역조회
-  late String accountNum; // 계좌번호
-  late String depositReceived; // 예수금
-  late String foriegnDeposit; // 외화예수금
-  late String amountValuation; // 평가금액
+  String userId = ''; // 사용자아이디
+  String username = ''; // 사용자이름
+  List<BankAccount> accountAll = []; // 전계좌조회
+  List<StockAccount> accountStock = []; // 증권보유계좌조회
+  List<BankAccountDetail> accountDetail = []; // 계좌상세조회
+  List<BankAccountTransaction> accountTransaction = []; // 거래내역조회
+  String accountNum = ''; // 계좌번호
+  String depositReceived = ''; // 예수금
+  String foriegnDeposit = ''; // 외화예수금
+  String amountValuation = ''; // 평가금액
 
-  CustomResult.from(dynamic output) {
-    if (output is Map<String, dynamic>) {
+  CustomResult.from(Map<String, dynamic>? output) {
+    if (output != null) {
       userId = output['사용자아이디'] ?? '';
       username = output['사용자이름'] ?? '';
       accountNum = output['계좌번호'] ?? '';
       depositReceived = output['예수금'] ?? '';
       foriegnDeposit = output['외화예수금'] ?? '';
       amountValuation = output['평가금액'] ?? '';
-      accountStock = output['증권보유계좌조회'] ?? [];
-      accountAll = output['전계좌조회'] ?? [];
-      accountDetail = output['계좌상세조회'] ?? [];
-      accountTransaction = output['거래내역조회'] ?? [];
-    } else {
-      userId = '';
-      username = '';
-      accountNum = '';
-      depositReceived = '';
-      foriegnDeposit = '';
-      amountValuation = '';
-      accountStock = [];
-      accountAll = [];
-      accountDetail = [];
-      accountTransaction = [];
+      final stock = output['증권보유계좌조회'];
+      if (stock is List) {
+        accountStock = stock.map((e) {
+          return StockAccount.from(e);
+        }).toList();
+      }
+      final all = output['전계좌조회'];
+      if (all is List) {
+        accountAll = all.map((e) {
+          return BankAccount.from(e);
+        }).toList();
+      }
+      final detail = output['계좌상세조회'];
+      if (detail is List) {
+        accountDetail = detail.map((e) {
+          return BankAccountDetail.from(e);
+        }).toList();
+      }
+      final transaction = output['거래내역조회'];
+      if (transaction is List) {
+        accountTransaction = transaction.map((e) {
+          return BankAccountTransaction.from(e);
+        }).toList();
+      }
     }
   }
 
@@ -198,12 +207,12 @@ class CustomResult implements IOBase {
       '예수금': depositReceived,
       '외화예수금': foriegnDeposit,
       '평가금액': amountValuation,
-      '증권보유계좌조회': accountStock,
-      '전계좌조회': accountAll,
-      '계좌상세조회': accountDetail,
-      '거래내역조회': accountTransaction,
+      '증권보유계좌조회': accountStock.map((e) => e.json).toList(),
+      '전계좌조회': accountAll.map((e) => e.json).toList(),
+      '계좌상세조회': accountDetail.map((e) => e.json).toList(),
+      '거래내역조회': accountTransaction.map((e) => e.json).toList(),
     };
-    temp.removeWhere((k, v) => v == null || v.isEmpty || v.isBlank);
+    temp.removeWhere((k, v) => v == null || v.isEmpty);
     return temp;
   }
 }

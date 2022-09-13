@@ -27,9 +27,13 @@ class MtsController extends GetxController {
   String _certPW = ''; // 인증서 비밀번호
   String _certEX = ''; // 인증서 만료일자
   bool idLogin = true;
-  List<RKSWCertItem> _certList = []; // 공동인증서 리스트
-  final TextList texts = TextList();
-  void addResult(dynamic val) => texts.add(val);
+  Set<RKSWCertItem> _certList = {}; // 공동인증서 리스트
+  final Set<String> _accounts = {};
+  // TODO: 직접 결과물 보여줄 리스트. 나중에 제거할 것.
+  final TextList results = TextList();
+  Set<String> get accounts => _accounts;
+  void addAccount(String val) => _accounts.add(val);
+  void addResult(dynamic val) => results.add(val);
 
   bool _needId = false;
   bool get needId {
@@ -97,7 +101,7 @@ class MtsController extends GetxController {
   }
 
   Future<void> showMTSResult() async {
-    texts.clear();
+    results.clear();
     Get.dialog(LoadingScreen());
     for (CustomModule firm in firms) {
       await _service.fetchMTSData(
@@ -110,6 +114,7 @@ class MtsController extends GetxController {
         certExpire: _certEX,
         certUsername: _certID,
         certPassword: _certPW,
+        controller: this,
       );
     }
     if (Get.isDialogOpen!) Get.back();
@@ -124,14 +129,14 @@ class MtsController extends GetxController {
     return await _service.checkImport();
   }
 
-  Future<List<RKSWCertItem>?> loadCertList() async {
+  Future<Set<RKSWCertItem>?> loadCertList() async {
     _certList = await _service.loadCertificationList();
     return _certList;
   }
 
   void emptyCerts() async {
     await _service.emptyCerts();
-    _certList = [];
+    _certList.clear();
   }
 
   Map<String, String> detailInfo(RKSWCertItem item) => item.json;

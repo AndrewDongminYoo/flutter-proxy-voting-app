@@ -32,7 +32,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
   }
 
   checkCertList() async {
-    List<RKSWCertItem>? response = await _mtsController.loadCertList();
+    Set<RKSWCertItem>? response = await _mtsController.loadCertList();
     if (response != null && response.isNotEmpty) {
       goMTSLoginCert();
     }

@@ -42,7 +42,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
   }
 
   loadCertList() async {
-    List<RKSWCertItem>? response = await _mtsController.loadCertList();
+    Set<RKSWCertItem>? response = await _mtsController.loadCertList();
     setState(() {
       if (response != null && response.isNotEmpty) {
         for (RKSWCertItem element in response) {

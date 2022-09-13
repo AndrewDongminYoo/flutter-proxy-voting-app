@@ -57,33 +57,22 @@ class AccountTransaction implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(String username) async {
+  post(String username) async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
-    Set<String> accounts = {};
     controller.addResult('====================================');
-    List<Map<String, String>> jobResult =
+    List<BankAccountTransaction> jobResult =
         response.Output.Result.accountTransaction;
-    for (Map<String, String> element in jobResult) {
-      if (element['거래유형']!.contains('주식매수')) {
-        element.forEach((key, value) {
-          if (key == '입금계좌번호') {
-            if (!accounts.contains(value)) {
-              accounts.add(value);
-              controller.addResult('$key: ${hypen(value)}');
-            }
-          } else if (key.contains('거래일자')) {
-            controller.addResult('$key: ${dayOf(value)}');
-          } else if (key == '종목명') {
-            controller.addResult('$value의 주주입니다!!!!');
-          } else if (key != '통화코드') {
-            controller.addResult('$key: ${comma(value)}');
-          }
-        });
+    for (BankAccountTransaction trans in jobResult) {
+      if (trans.transactionType.contains('주식매수')) {
+        controller.addAccount(trans.paidAccountNum);
+        controller.addResult('입금계좌번호: ${hypen(trans.paidAccountNum)}');
+        controller.addResult('거래일자: ${dayOf(trans.transactionDate)}');
+        controller.addResult('${trans.issueName}의 주주입니다!');
+        controller.addResult('통화코드: ${comma(trans.monetaryCode)}');
       }
       controller.addResult('-');
     }
-    return accounts;
   }
 
   @override
@@ -117,7 +106,7 @@ class BankAccountTransaction implements IOBase {
   late String bankOffice; // 입금은행
   late String paidAccountNum; // 입금계좌번호
 
-  BankAccountTransaction.from(Map<String, String> json) {
+  BankAccountTransaction.from(Map<String, dynamic> json) {
     transactionDate = json['거래일자'] ?? '';
     transactionTime = json['거래시각'] ?? '';
     transactionType = json['거래유형'] ?? '';
@@ -143,7 +132,7 @@ class BankAccountTransaction implements IOBase {
   }
 
   @override
-  get json {
+  Map<String, String> get json {
     Map<String, String> temp = {
       '거래일자': transactionDate,
       '거래시각': transactionTime,

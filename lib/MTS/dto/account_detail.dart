@@ -41,34 +41,21 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(String username) async {
-    CustomResponse response = await fetch(username);
-    await response.fetch(username);
-    Set<String> accounts = {};
+  post(String username) async {
+    CustomResponse res = await fetch(username);
+    await res.fetch(username);
     controller.addResult('====================================');
-    List<Map<String, String>> jobResult = response.Output.Result.accountDetail;
-    for (Map<String, String> element in jobResult) {
-      element.forEach((key, value) {
-        if (element['상품유형코드'] == '01' || element['상품명']!.contains('주식')) {
-          if (key == '계좌번호') {
-            if (!accounts.contains(value)) {
-              accounts.add(value);
-              controller.addResult('$key: ${hypen(value)}');
-            }
-          } else if (key.endsWith('일자')) {
-            controller.addResult('$key: ${dayOf(value)}');
-          } else if (key == '수익률') {
-            controller.addResult('$key: ${comma(value)}%');
-          } else if (key == '상품_종목명') {
-            controller.addResult('$value의 주주입니다!!!! ${element["수량"]}주');
-          } else if (!key.contains('코드')) {
-            controller.addResult('$key: ${comma(value)}');
-          }
-        }
-      });
+    List<BankAccountDetail> jobResult = res.Output.Result.accountDetail;
+    for (BankAccountDetail acc in jobResult) {
+      if (acc.productTypeCode == '01' || acc.productName.contains('주식')) {
+        controller.addAccount(res.Output.Result.accountNum);
+        controller.addResult('계좌번호: ${hypen(res.Output.Result.accountNum)}');
+        controller.addResult('수익률: ${comma(acc.yields)}%');
+        controller
+            .addResult('${acc.productIssueName}의 주주입니다. ${acc.quantity}주');
+      }
       controller.addResult('-');
     }
-    return accounts;
   }
 
   @override
@@ -90,12 +77,12 @@ class BankAccountDetail implements IOBase {
   late String purchaseAmount; // 매입금액
   late String evaluationAmount; // 평가금액
   late String valuationGain; // 평가손익
-  late String yield; // 수익률
+  late String yields; // 수익률
   late String monetaryCode; // 통화코드
   late String accountNumberExt; // 계좌번호확장
   late String oderableQuantity; // 주문가능수량
 
-  BankAccountDetail.from(Map<String, String> json) {
+  BankAccountDetail.from(Map<String, dynamic> json) {
     productName = json['상품명'] ?? '';
     productTypeCode = json['상품유형코드'] ?? '';
     productIssueName = json['상품_종목명'] ?? '';
@@ -107,14 +94,14 @@ class BankAccountDetail implements IOBase {
     purchaseAmount = json['매입금액'] ?? '';
     evaluationAmount = json['평가금액'] ?? '';
     valuationGain = json['평가손익'] ?? '';
-    yield = json['수익률'] ?? '';
+    yields = json['수익률'] ?? '';
     monetaryCode = json['통화코드'] ?? '';
     accountNumberExt = json['계좌번호확장'] ?? '';
     oderableQuantity = json['주문가능수량'] ?? '';
   }
 
   @override
-  get json {
+  Map<String, String> get json {
     Map<String, String> temp = {
       '상품명': productName,
       '상품유형코드': productTypeCode,
@@ -127,7 +114,7 @@ class BankAccountDetail implements IOBase {
       '매입금액': purchaseAmount,
       '평가금액': evaluationAmount,
       '평가손익': valuationGain,
-      '수익률': yield,
+      '수익률': yields,
       '통화코드': monetaryCode,
       '계좌번호확장': accountNumberExt,
       '주문가능수량': oderableQuantity,

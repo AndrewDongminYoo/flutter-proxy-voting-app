@@ -34,32 +34,19 @@ class AccountAll implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(String username) async {
-    CustomResponse response = await fetch(username);
-    await response.fetch(username);
-    Set<String> accounts = {};
+  post(String username) async {
+    CustomResponse res = await fetch(username);
+    await res.fetch(username);
     controller.addResult('====================================');
-    List<Map<String, String>> jobResult = response.Output.Result.accountAll;
-    for (Map<String, String> element in jobResult) {
-      element.forEach((key, value) {
-        if (element['총자산'] != '0') {
-          if (key == '계좌번호') {
-            if (!accounts.contains(value)) {
-              accounts.add(value);
-              controller.addResult('$key: ${hypen(value)}');
-            }
-          } else if (key.contains('일자')) {
-            controller.addResult('$key: ${dayOf(value)}');
-          } else if (key.contains('수익률')) {
-            controller.addResult('$key: ${comma(value)}%');
-          } else {
-            controller.addResult('$key: ${comma(value)}');
-          }
-        }
-      });
+    List<BankAccount> jobResult = res.Output.Result.accountAll;
+    for (BankAccount account in jobResult) {
+      if (account.totalAssets != '0') {
+        controller.addAccount(account.accountNumber);
+        controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
+        controller.addResult('수익률: ${comma(account.yields)}%');
+      }
       controller.addResult('-');
     }
-    return accounts;
   }
 
   @override
@@ -83,10 +70,10 @@ class BankAccount implements IOBase {
   late String depositReceivedD1; // 예수금_D1
   late String depositReceivedD2; // 예수금_D2
   late String depositReceivedF; // 외화예수금
-  late String yield; // 수익률
+  late String yields; // 수익률
   late String totalAssets; // 총자산
 
-  BankAccount.from(Map<String, String> json) {
+  BankAccount.from(Map<String, dynamic> json) {
     accountNumber = json['계좌번호'] ?? '';
     accountPreNum = json['계좌번호표시용'] ?? '';
     accountType = json['계좌명_유형'] ?? '';
@@ -100,12 +87,12 @@ class BankAccount implements IOBase {
     depositReceivedD1 = json['예수금_D1'] ?? '';
     depositReceivedD2 = json['예수금_D2'] ?? '';
     depositReceivedF = json['외화예수금'] ?? '';
-    yield = json['수익률'] ?? '';
+    yields = json['수익률'] ?? '';
     totalAssets = json['총자산'] ?? '';
   }
 
   @override
-  get json {
+  Map<String, String> get json {
     Map<String, String> temp = {
       '계좌번호': accountNumber,
       '계좌번호표시용': accountPreNum,
@@ -120,7 +107,7 @@ class BankAccount implements IOBase {
       '예수금_D1': depositReceivedD1,
       '예수금_D2': depositReceivedD2,
       '외화예수금': depositReceivedF,
-      '수익률': yield,
+      '수익률': yields,
       '총자산': totalAssets,
     };
     temp.removeWhere((key, value) => value.isEmpty);

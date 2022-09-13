@@ -8,6 +8,8 @@ import '../utils/global_channel.dart';
 import 'mts.dart';
 
 class CooconMTSService extends GetConnect {
+  MtsController? ctrl;
+
   fetchMTSData({
     required CustomModule module,
     required String userId, // "ydm2790"
@@ -22,7 +24,9 @@ class CooconMTSService extends GetConnect {
     String certExpire = '',
     String certUsername = '',
     String certPassword = '',
+    required MtsController controller,
   }) async {
+    ctrl = controller;
     try {
       String name = await LoginRequest(
         module,
@@ -38,8 +42,8 @@ class CooconMTSService extends GetConnect {
         module,
         password: passNum,
       ).post(username);
-      Set<String> accounts = await AccountStocks(module).post(username);
-      for (String acc in accounts) {
+      await AccountStocks(module).post(username);
+      for (String acc in ctrl!.accounts) {
         await AccountDetail(module,
                 accountNum: acc,
                 accountPin: passNum,
@@ -47,7 +51,7 @@ class CooconMTSService extends GetConnect {
                 showISO: unit)
             .post(username);
       }
-      for (String acc in accounts) {
+      for (String acc in ctrl!.accounts) {
         await AccountTransaction(module,
                 accountNum: acc,
                 accountPin: passNum,
@@ -76,8 +80,8 @@ class CooconMTSService extends GetConnect {
     return await channel.invokeMethod('checkIfImported');
   }
 
-  Future<List<RKSWCertItem>> loadCertificationList() async {
-    List<RKSWCertItem> list = [];
+  Future<Set<RKSWCertItem>> loadCertificationList() async {
+    Set<RKSWCertItem> list = {};
     List? response = await channel.invokeListMethod('loadCertList');
     print(response);
     if (response != null) {

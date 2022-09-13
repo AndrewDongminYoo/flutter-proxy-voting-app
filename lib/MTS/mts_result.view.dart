@@ -20,7 +20,7 @@ class _MTSShowResultPageState extends State<MTSShowResultPage> {
   @override
   void initState() {
     setState(() {
-      resultList = _mtsController.texts;
+      resultList = _mtsController.results;
     });
     super.initState();
   }
@@ -36,7 +36,7 @@ class _MTSShowResultPageState extends State<MTSShowResultPage> {
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(30),
               )),
-          child: ListView(children: resultList)),
+          child: ListView(children: resultList.toList())),
     );
   }
 }

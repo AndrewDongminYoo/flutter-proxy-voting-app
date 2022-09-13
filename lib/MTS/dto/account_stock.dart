@@ -20,26 +20,21 @@ class AccountStocks implements MTSInterface {
   }
 
   @override
-  Future<Set<String>> post(String username) async {
+  post(String username) async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
-    Set<String> accounts = {};
     controller.addResult('====================================');
-    List<Map<String, String>> jobResult = response.Output.Result.accountStock;
-    for (Map<String, String> element in jobResult) {
-      final stock = StockAccount.from(element);
-      if (stock.productCode == '01') {
+    List<StockAccount> jobResult = response.Output.Result.accountStock;
+    for (StockAccount account in jobResult) {
+      if (account.productCode == '01') {
         if (module.isException) {
-          stock.accountNumber = process(stock.accountNumber);
+          account.accountNumber = process(account.accountNumber);
         }
-        if (!accounts.contains(stock.accountNumber)) {
-          accounts.add(stock.accountNumber);
-          controller.addResult('계좌번호: ${stock.accountNumber}');
-        }
+        controller.addAccount(account.accountNumber);
+        controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
       }
       controller.addResult('-');
     }
-    return accounts;
   }
 
   @override
@@ -66,7 +61,7 @@ class StockAccount implements IOBase {
   late String depositReceivedF; // 외화예수금
   late String evaluationAmount; // 평가금액
 
-  StockAccount.from(Map<String, String> json) {
+  StockAccount.from(Map<String, dynamic> json) {
     accountNumber = json['계좌번호'] ?? '';
     productCode = json['상품코드'] ?? ''; // 주식인 경우 01
     productType = json['상품타입'] ?? '';
@@ -76,7 +71,7 @@ class StockAccount implements IOBase {
   }
 
   @override
-  get json {
+  Map<String, String> get json {
     Map<String, String> temp = {
       '계좌번호': accountNumber,
       '상품코드': productCode,

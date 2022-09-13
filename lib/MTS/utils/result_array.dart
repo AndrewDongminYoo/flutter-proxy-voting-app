@@ -1,59 +1,47 @@
 // 🎯 Dart imports:
-import 'dart:collection' show ListBase;
+import 'dart:collection' show SetBase;
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 🌎 Project imports:
-import '../../utils/exception.dart';
-
-class TextList extends ListBase<Text> {
-  final _list = [];
+class TextList extends SetBase<Text> {
+  final Set<Text> _list = {};
 
   @override
   int get length => _list.length;
 
   @override
-  set length(int newLength) {
-    throw CustomException("cannot handle list's length");
-  }
-
-  @override
-  Text operator [](int index) {
-    for (int i = 0; i < _list.length; i++) {
-      if (i == index) {
-        return _list[index];
-      }
-    }
-    throw CustomException('cannot reach the index');
-  }
-
-  @override
-  void operator []=(int index, Text value) {
-    for (int i = 0; i < _list.length; i++) {
-      if (i == index) {
-        _list[index] = value;
-        return;
-      }
-    }
-    throw CustomException('cannot reach the index');
-  }
-
-  @override
-  void add(dynamic element) {
+  bool add(dynamic value) {
     Text text;
-    if (element is Text) {
-      text = element;
-    } else if (element is String) {
-      text = Text(element);
+    if (value is Text) {
+      text = value;
+    } else if (value is String) {
+      text = Text(value);
     } else {
-      text = Text(element.toString());
+      text = Text(value.toString());
     }
-    if (_list.isNotEmpty && _list.last != text) {
-      _list.add(text);
-    }
+    return _list.add(text);
   }
 
   @override
   void clear() => _list.clear();
+
+  @override
+  bool contains(Object? element) {
+    return _list.contains(element);
+  }
+
+  @override
+  Iterator<Text> get iterator => _list.iterator;
+
+  @override
+  Text? lookup(Object? element) => _list.lookup(element);
+
+  @override
+  bool remove(Object? value) => _list.remove(value);
+
+  @override
+  Set<Text> toSet() {
+    return _list.toSet();
+  }
 }
