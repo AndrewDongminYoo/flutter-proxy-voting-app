@@ -4,10 +4,14 @@ import '../mts.dart';
 class AccountStocks implements MTSInterface {
   AccountStocks(
     this.module,
+    this.username,
+    this.idOrCert,
   );
 
   final CustomModule module; // 금융사
   final String job = '증권보유계좌조회';
+  final String username; // 사용자명
+  final String idOrCert; // 로그인방법
 
   @override
   CustomRequest get json {
@@ -20,7 +24,7 @@ class AccountStocks implements MTSInterface {
   }
 
   @override
-  post(String username) async {
+  post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     controller.addResult('====================================');
@@ -30,7 +34,7 @@ class AccountStocks implements MTSInterface {
         if (module.isException) {
           account.accountNumber = process(account.accountNumber);
         }
-        controller.addAccount(account.accountNumber);
+        controller.addAccount(module.korName, idOrCert, account.accountNumber);
         controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
       }
       controller.addResult('-');

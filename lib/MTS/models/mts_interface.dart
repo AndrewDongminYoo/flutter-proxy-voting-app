@@ -12,7 +12,7 @@ abstract class MTSInterface {
     throw UnimplementedError();
   }
 
-  Future post(String username) {
+  Future post() {
     throw UnimplementedError();
   }
 

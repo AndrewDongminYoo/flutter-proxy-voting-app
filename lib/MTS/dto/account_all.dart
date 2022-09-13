@@ -7,12 +7,16 @@ class AccountAll implements MTSInterface {
     this.module, {
     this.queryCode = 'S',
     required this.password,
+    required this.username,
+    required this.idOrCert,
   });
 
   final CustomModule module; // 금융사
   final String job = '전계좌조회';
   final String queryCode; // 조회구분
   final String password; // 사용자비밀번호
+  final String username; // 사용자명
+  final String idOrCert; // 로그인방법
 
   @override
   CustomRequest get json {
@@ -34,14 +38,13 @@ class AccountAll implements MTSInterface {
   }
 
   @override
-  post(String username) async {
+  post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
     controller.addResult('====================================');
     List<BankAccount> jobResult = res.Output.Result.accountAll;
     for (BankAccount account in jobResult) {
       if (account.totalAssets != '0') {
-        controller.addAccount(account.accountNumber);
         controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
         controller.addResult('수익률: ${comma(account.yields)}%');
       }

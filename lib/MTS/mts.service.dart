@@ -27,6 +27,7 @@ class CooconMTSService extends GetConnect {
     required MtsController controller,
   }) async {
     ctrl = controller;
+    String idOrCert = idLogin ? '아이디' : '공인인증서';
     try {
       String name = await LoginRequest(
         module,
@@ -36,34 +37,52 @@ class CooconMTSService extends GetConnect {
         certExpire: certExpire,
         certPassword: certPassword,
         subjectDn: certUsername,
-      ).post(username);
+        username: username,
+        idOrCert: idOrCert,
+      ).post();
       username = name;
       await AccountAll(
         module,
         password: passNum,
-      ).post(username);
-      await AccountStocks(module).post(username);
-      for (String acc in ctrl!.accounts) {
-        await AccountDetail(module,
-                accountNum: acc,
-                accountPin: passNum,
-                queryCode: code,
-                showISO: unit)
-            .post(username);
+        username: username,
+        idOrCert: idOrCert,
+      ).post();
+      await AccountStocks(
+        module,
+        username,
+        idOrCert,
+      ).post();
+      for (Account acc in ctrl!.accounts) {
+        await AccountDetail(
+          module,
+          accountNum: acc.accountNum,
+          accountPin: passNum,
+          queryCode: code,
+          showISO: unit,
+          username: username,
+          idOrCert: idOrCert,
+        ).post();
       }
-      for (String acc in ctrl!.accounts) {
-        await AccountTransaction(module,
-                accountNum: acc,
-                accountPin: passNum,
-                accountExt: '',
-                accountType: '01',
-                queryCode: '1')
-            .post(username);
+      for (Account acc in ctrl!.accounts) {
+        await AccountTransaction(
+          module,
+          accountNum: acc.accountNum,
+          accountPin: passNum,
+          accountExt: '',
+          accountType: '01',
+          queryCode: '1',
+          username: username,
+          idOrCert: idOrCert,
+        ).post();
       }
     } catch (err, trc) {
       FirebaseCrashlytics.instance.recordError(err, trc);
     } finally {
-      await LogoutRequest(module).post(username);
+      await LogoutRequest(
+        module,
+        username,
+        idOrCert,
+      ).post();
     }
   }
 

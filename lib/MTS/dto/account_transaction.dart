@@ -11,6 +11,8 @@ class AccountTransaction implements MTSInterface {
     required this.queryCode,
     this.start = '',
     this.end = '',
+    required this.username,
+    required this.idOrCert,
   }) : super();
 
   final CustomModule module; // 금융사
@@ -22,6 +24,8 @@ class AccountTransaction implements MTSInterface {
   final String queryCode; // 조회구분
   final dynamic start; // 조회시작일
   final dynamic end; // 조회종료일
+  final String username; // 사용자명
+  final String idOrCert; // 로그인방법
 
   @override
   CustomRequest get json {
@@ -57,7 +61,7 @@ class AccountTransaction implements MTSInterface {
   }
 
   @override
-  post(String username) async {
+  post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     controller.addResult('====================================');
@@ -65,7 +69,6 @@ class AccountTransaction implements MTSInterface {
         response.Output.Result.accountTransaction;
     for (BankAccountTransaction trans in jobResult) {
       if (trans.transactionType.contains('주식매수')) {
-        controller.addAccount(trans.paidAccountNum);
         controller.addResult('입금계좌번호: ${hypen(trans.paidAccountNum)}');
         controller.addResult('거래일자: ${dayOf(trans.transactionDate)}');
         controller.addResult('${trans.issueName}의 주주입니다!');

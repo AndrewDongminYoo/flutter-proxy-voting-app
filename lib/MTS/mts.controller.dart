@@ -28,11 +28,30 @@ class MtsController extends GetxController {
   String _certEX = ''; // 인증서 만료일자
   bool idLogin = true;
   Set<RKSWCertItem> _certList = {}; // 공동인증서 리스트
-  final Set<String> _accounts = {};
+  final Set<Account> _accounts = {};
   // TODO: 직접 결과물 보여줄 리스트. 나중에 제거할 것.
   final TextList results = TextList();
-  Set<String> get accounts => _accounts;
-  void addAccount(String val) => _accounts.add(val);
+  Set<Account> get accounts => _accounts;
+  void addAccount(
+    String name,
+    String idOrCert,
+    String accountNum,
+  ) {
+    bool isOk = true;
+    for (Account element in _accounts) {
+      if (accountNum == element.accountNum) {
+        isOk = false;
+      }
+    }
+    if (isOk) {
+      _accounts.add(Account(
+        name: name,
+        idOrCert: idOrCert,
+        accountNum: accountNum,
+      ));
+    }
+  }
+
   void addResult(dynamic val) => results.add(val);
 
   bool _needId = false;

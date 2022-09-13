@@ -10,16 +10,20 @@ class LoginRequest implements MTSInterface {
     required this.certExpire,
     this.subjectDn = '',
     this.certPassword = '',
+    required this.username,
+    required this.idOrCert,
   });
 
+  late String userId;
+  late String username; // 사용자명
   final CustomModule module; // 금융사
   final String job = '로그인';
   final bool idLogin;
-  late String userId;
   final String password;
   final String certPassword;
   final String subjectDn;
   final String certExpire;
+  final String idOrCert; // 로그인방법
 
   @override
   CustomRequest get json {
@@ -53,7 +57,7 @@ class LoginRequest implements MTSInterface {
   }
 
   @override
-  Future<String> post(String username) async {
+  Future<String> post() async {
     CustomResponse response = await fetch(username);
     if (username.isEmpty) {
       username = response.Output.Result.username;

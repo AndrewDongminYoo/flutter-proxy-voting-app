@@ -9,6 +9,8 @@ class AccountDetail implements MTSInterface {
     required this.accountPin,
     required this.queryCode,
     required this.showISO,
+    required this.username,
+    required this.idOrCert,
   });
 
   final CustomModule module; // 금융사
@@ -17,6 +19,8 @@ class AccountDetail implements MTSInterface {
   final String accountPin; // 계좌비밀번호 // 입력 안해도 되지만 안하면 구매종목 안나옴.
   final String queryCode; // 조회구분 // 삼성 "K": 외화만, 없음: 기본조회
   final String showISO; // 통화코드출력여부 // KB "2": 통화코드,현재가,매입평균가 미출력, 없음: 모두출력
+  final String username; // 사용자명
+  final String idOrCert; // 로그인방법
 
   @override
   CustomRequest get json {
@@ -41,14 +45,13 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  post(String username) async {
+  post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
     controller.addResult('====================================');
     List<BankAccountDetail> jobResult = res.Output.Result.accountDetail;
     for (BankAccountDetail acc in jobResult) {
       if (acc.productTypeCode == '01' || acc.productName.contains('주식')) {
-        controller.addAccount(res.Output.Result.accountNum);
         controller.addResult('계좌번호: ${hypen(res.Output.Result.accountNum)}');
         controller.addResult('수익률: ${comma(acc.yields)}%');
         controller

@@ -4,6 +4,7 @@ import 'dart:collection' show SetBase;
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// TODO: 직접 결과물 보여줄 리스트. 나중에 제거할 것.
 class TextList extends SetBase<Text> {
   final Set<Text> _list = {};
 
