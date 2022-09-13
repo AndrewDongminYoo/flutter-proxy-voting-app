@@ -1,10 +1,12 @@
+import 'mts_firm.model.dart';
+
 class Account {
-  late String name;
+  late CustomModule module;
   late String idOrCert;
   late String accountNum;
 
   Account({
-    required this.name,
+    required this.module,
     required this.idOrCert,
     required this.accountNum,
   });

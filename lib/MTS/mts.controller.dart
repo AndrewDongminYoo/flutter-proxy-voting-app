@@ -33,7 +33,7 @@ class MtsController extends GetxController {
   final TextList results = TextList();
   Set<Account> get accounts => _accounts;
   void addAccount(
-    String name,
+    CustomModule module,
     String idOrCert,
     String accountNum,
   ) {
@@ -45,7 +45,7 @@ class MtsController extends GetxController {
     }
     if (isOk) {
       _accounts.add(Account(
-        name: name,
+        module: module,
         idOrCert: idOrCert,
         accountNum: accountNum,
       ));

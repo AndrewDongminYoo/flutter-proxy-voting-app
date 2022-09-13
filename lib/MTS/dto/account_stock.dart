@@ -34,7 +34,7 @@ class AccountStocks implements MTSInterface {
         if (module.isException) {
           account.accountNumber = process(account.accountNumber);
         }
-        controller.addAccount(module.korName, idOrCert, account.accountNumber);
+        controller.addAccount(module, idOrCert, account.accountNumber);
         controller.addResult('계좌번호: ${hypen(account.accountNumber)}');
       }
       controller.addResult('-');

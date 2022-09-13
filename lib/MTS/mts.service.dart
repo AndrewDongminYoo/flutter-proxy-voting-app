@@ -27,7 +27,7 @@ class CooconMTSService extends GetConnect {
     required MtsController controller,
   }) async {
     ctrl = controller;
-    String idOrCert = idLogin ? '아이디' : '공인인증서';
+    String idOrCert = idLogin ? '증권사아이디' : '공동인증서';
     try {
       String name = await LoginRequest(
         module,

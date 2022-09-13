@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import '../shared/shared.dart';
-import 'mts.controller.dart';
-import 'utils/result_array.dart';
+import 'mts.dart';
 
 class MTSShowResultPage extends StatefulWidget {
   const MTSShowResultPage({super.key});
@@ -16,11 +15,13 @@ class MTSShowResultPage extends StatefulWidget {
 class _MTSShowResultPageState extends State<MTSShowResultPage> {
   final MtsController _mtsController = MtsController.get();
   TextList resultList = TextList();
+  Set<Account>? accounts;
 
   @override
   void initState() {
     setState(() {
       resultList = _mtsController.results;
+      accounts = _mtsController.accounts;
     });
     super.initState();
   }
@@ -36,7 +37,10 @@ class _MTSShowResultPageState extends State<MTSShowResultPage> {
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(30),
               )),
-          child: ListView(children: resultList.toList())),
+          child: ListView(
+              children: accounts!.map((element) {
+            return AccountCard(account: element);
+          }).toList())),
     );
   }
 }
