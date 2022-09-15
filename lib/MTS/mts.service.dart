@@ -39,6 +39,7 @@ class CooconMTSService extends GetConnect {
         subjectDn: certUsername,
         username: username,
         idOrCert: idOrCert,
+        pinNum: passNum,
       ).post();
       username = name;
       await AccountAll(

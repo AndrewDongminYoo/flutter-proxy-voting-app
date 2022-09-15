@@ -14,6 +14,7 @@ class LoginRequest implements MTSInterface {
     this.certPassword = '',
     required this.username,
     required this.idOrCert,
+    required this.pinNum,
   });
 
   late String userId;
@@ -22,6 +23,7 @@ class LoginRequest implements MTSInterface {
   final String job = '로그인';
   final bool idLogin;
   final String password;
+  final String pinNum;
   final String certPassword;
   final String subjectDn;
   final String certExpire;
@@ -37,6 +39,7 @@ class LoginRequest implements MTSInterface {
         idLogin: idLogin,
         userId: userId, // 사용자아이디 예: hkd01234
         password: password, // 사용자비밀번호 예: qwer1234!
+        accountPin: pinNum,
       )!;
     } else {
       // 인증서로그인
@@ -49,6 +52,7 @@ class LoginRequest implements MTSInterface {
         certExpire: certExpire, // 만료일자 예: 20161210
         certUsername: subjectDn, // 인증서이름 예: cn=홍길동()000...
         certPassword: certPassword, // 인증서비밀번호 예: qwer1234!
+        accountPin: pinNum,
       )!;
     }
   }

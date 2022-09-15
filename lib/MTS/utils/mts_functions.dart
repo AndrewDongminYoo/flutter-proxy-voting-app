@@ -32,6 +32,7 @@ CustomRequest? makeFunction(
               userId: userId!,
               password: password!,
               certificate: null,
+              accountPin: accountPin!,
             ));
       } else {
         return CustomRequest(
@@ -41,6 +42,7 @@ CustomRequest? makeFunction(
               idOrCert: 'CERT', // CERT: 인증서, ID: 아이디
               userId: userId!, // IBK, KTB 필수 입력
               password: certPassword!, // IBK, KTB 필수 입력
+              accountPin: accountPin!,
               certificate: CertDto(
                 certName: certUsername!,
                 certExpire: certExpire!,

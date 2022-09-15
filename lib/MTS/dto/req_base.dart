@@ -3,8 +3,6 @@
 import 'dart:convert' show jsonDecode;
 
 // 🌎 Project imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../utils/global_channel.dart';
 import '../mts.dart';
 
