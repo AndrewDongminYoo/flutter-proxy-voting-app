@@ -36,10 +36,10 @@ class CustomOutput implements IOBase {
     required this.Result,
   });
 
-  CustomOutput.from(dynamic output) {
-    ErrorCode = output['ErrorCode'];
-    ErrorMessage = output['ErrorMessage'];
-    Result = CustomResult.from(output['Result']);
+  CustomOutput.from(Map<String, dynamic> output) {
+    ErrorCode = (output['ErrorCode']) as String;
+    ErrorMessage = (output['ErrorMessage']) as String;
+    Result = CustomResult.from(output['Result'] as Map<String, dynamic>);
   }
 
   @override
@@ -109,29 +109,27 @@ class CustomInput implements IOBase {
       '계좌번호확장': accountExt,
       '인증서': certificate?.json,
     };
-    temp.removeWhere((String k, dynamic v) => v == null || v.isEmpty);
+    temp.removeWhere((String k, dynamic v) => v == null || v.isEmpty == true);
     return temp;
   }
 
-  CustomInput.from(dynamic input) {
-    if (input is Map) {
-      idOrCert = input['로그인방식'] ?? '';
-      userId = input['사용자아이디'] ?? '';
-      password = input['사용자비밀번호'] ?? '';
-      queryCode = input['조회구분'] ?? '';
-      showISO = input['통화코드출력여부'] ?? '';
-      accountNum = input['계좌번호'] ?? '';
-      accountPin = input['계좌비밀번호'] ?? '';
-      start = input['조회시작일'] ?? '';
-      end = input['조회종료일'] ?? '';
-      type = input['상품구분'] ?? '';
-      accountExt = input['계좌번호확장'] ?? '';
-      certificate = CertDto(
-        certName: input['인증서']?['이름'] ?? '',
-        certPassword: input['인증서']?['비밀번호'] ?? '',
-        certExpire: input['인증서']?['만료일자'] ?? '',
-      );
-    }
+  CustomInput.from(Map<String, dynamic> input) {
+    idOrCert = (input['로그인방식'] ?? '') as String;
+    userId = (input['사용자아이디'] ?? '') as String;
+    password = (input['사용자비밀번호'] ?? '') as String;
+    queryCode = (input['조회구분'] ?? '') as String;
+    showISO = (input['통화코드출력여부'] ?? '') as String;
+    accountNum = (input['계좌번호'] ?? '') as String;
+    accountPin = (input['계좌비밀번호'] ?? '') as String;
+    start = (input['조회시작일'] ?? '') as String;
+    end = (input['조회종료일'] ?? '') as String;
+    type = (input['상품구분'] ?? '') as String;
+    accountExt = (input['계좌번호확장'] ?? '') as String;
+    certificate = CertDto(
+      certName: (input['인증서']?['이름'] ?? '') as String,
+      certPassword: (input['인증서']?['비밀번호'] ?? '') as String,
+      certExpire: (input['인증서']?['만료일자'] ?? '') as String,
+    );
   }
 
   @override
@@ -154,34 +152,34 @@ class CustomResult implements IOBase {
 
   CustomResult.from(Map<String, dynamic>? output) {
     if (output != null) {
-      userId = output['사용자아이디'] ?? '';
-      username = output['사용자이름'] ?? '';
-      accountNum = output['계좌번호'] ?? '';
-      depositReceived = output['예수금'] ?? '';
-      foriegnDeposit = output['외화예수금'] ?? '';
-      amountValuation = output['평가금액'] ?? '';
-      final dynamic stock = output['증권보유계좌조회'];
+      userId = (output['사용자아이디'] ?? '') as String;
+      username = (output['사용자이름'] ?? '') as String;
+      accountNum = (output['계좌번호'] ?? '') as String;
+      depositReceived = (output['예수금'] ?? '') as String;
+      foriegnDeposit = (output['외화예수금'] ?? '') as String;
+      amountValuation = (output['평가금액'] ?? '') as String;
+      final dynamic stock = (output['증권보유계좌조회']) as String;
       if (stock is List) {
         accountStock = stock.map((dynamic e) {
-          return StockAccount.from(e);
+          return StockAccount.from(e as Map<String, String>);
         }).toList();
       }
       final dynamic all = output['전계좌조회'];
       if (all is List) {
         accountAll = all.map((dynamic e) {
-          return BankAccountAll.from(e);
+          return BankAccountAll.from(e as Map<String, String>);
         }).toList();
       }
       final dynamic detail = output['계좌상세조회'];
       if (detail is List) {
         accountDetail = detail.map((dynamic e) {
-          return BankAccountDetail.from(e);
+          return BankAccountDetail.from(e as Map<String, String>);
         }).toList();
       }
       final dynamic transaction = output['거래내역조회'];
       if (transaction is List) {
         accountTransaction = transaction.map((dynamic e) {
-          return BankAccountTransaction.from(e);
+          return BankAccountTransaction.from(e as Map<String, String>);
         }).toList();
       }
     }
@@ -213,7 +211,7 @@ class CustomResult implements IOBase {
       '거래내역조회':
           accountTransaction.map((BankAccountTransaction e) => e.json).toList(),
     };
-    temp.removeWhere((String k, dynamic v) => v == null || v.isEmpty);
+    temp.removeWhere((String k, dynamic v) => v == null || v.isEmpty == true);
     return temp;
   }
 }

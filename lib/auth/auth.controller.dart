@@ -58,8 +58,10 @@ class AuthController extends GetxController {
     if (kDebugMode) {
       print('[AuthController] getUserInfo: ${response.body}');
     }
-    if (response.isOk && response.body != null && !response.body['isNew']) {
-      user = User.fromJson(response.body['user']);
+    if (response.isOk &&
+        response.body != null &&
+        response.body['isNew'] == false) {
+      user = User.fromJson(response.body['user'] as Map<String, dynamic>);
       print('[AuthController] user exist.\n Hello, ${user.username}!');
       return user;
     }
@@ -89,7 +91,7 @@ class AuthController extends GetxController {
   Future<void> getOtpCode(dynamic userLike) async {
     // Super User for apple QA
     if (userLike.phoneNumber == '01086199325' && userLike.frontId == '940701') {
-      user = await getUserInfo(userLike._phoneNumber);
+      user = await getUserInfo(userLike._phoneNumber as String);
       print('super user for apple QA');
       return;
     }
@@ -119,8 +121,8 @@ class AuthController extends GetxController {
         _user = null;
         throw CustomException('잘못된 인증번호입니다. 전화번호를 확인하세요.');
       } else {
-        user.ci = response.body['ci'] ?? '';
-        user.di = response.body['di'] ?? '';
+        user.ci = response.body['ci'] as String;
+        user.di = response.body['di'] as String;
         if (user.ci.isEmpty || user.di.isEmpty) {
           throw CustomException('인증이 잘못되었습니다. 다시 인증해주시길 바랍니다.');
         }

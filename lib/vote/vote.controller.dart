@@ -72,15 +72,15 @@ class VoteController extends GetxController {
     final dynamic campaignList = await getCompletedCampaignList();
     if (campaignList != null) {
       print('[VoteController] SharedPreferences exist');
-      completedCampaign = {...campaignList};
+      completedCampaign = {...campaignList as List<String>};
       for (String campaign in completedCampaign) {
         final dynamic shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
           Response<dynamic> response =
-              await _service.validateShareholder(shareholderId);
+              await _service.validateShareholder(shareholderId as int);
           if (response.statusCode != 500) {
-            _completedShareholder
-                .add(Shareholder.fromJson(response.body['shareholder']));
+            _completedShareholder.add(Shareholder.fromJson(
+                response.body['shareholder'] as Map<String, dynamic>));
           }
         }
       }
@@ -105,10 +105,11 @@ class VoteController extends GetxController {
 
     try {
       response = await _service.queryAgenda(uid, campaign.enName);
-      if (response.isOk && response.body['isExist']) {
+      if (response.isOk && response.body['isExist'] as bool) {
         // case A: 기존 사용자 - 결과페이지로 이동, 진행상황 표시
         print('[VoteController] user is exist');
-        _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+        _voteAgenda = VoteAgenda.fromJson(
+            response.body['agenda'] as Map<String, dynamic>);
         _shareholder = _completedShareholder
             .firstWhere((sh) => sh.company == campaign.enName);
         await jumpToVoteResult();
@@ -122,8 +123,8 @@ class VoteController extends GetxController {
       // case B: 신규 사용자 - 주주명부 확인
       response = await _service.findSharesByName('tli', name);
       _shareholders.clear(); // 기존 데이터 초기화
-      (response.body['shareholders'])
-          .forEach((dynamic e) => _shareholders.add(Shareholder.fromJson(e)));
+      (response.body['shareholders']).forEach((dynamic e) =>
+          _shareholders.add(Shareholder.fromJson(e as Map<String, dynamic>)));
     } catch (e) {
       print('[VoteController] findSharesByName error: $e');
     }
@@ -202,7 +203,8 @@ class VoteController extends GetxController {
       choice(voteResult[2]),
       choice(voteResult[3]),
     );
-    _voteAgenda = VoteAgenda.fromJson(response.body['agenda']);
+    _voteAgenda =
+        VoteAgenda.fromJson(response.body['agenda'] as Map<String, dynamic>);
 
     // 현재 캠페인을 완료 목록에 저장
     completedCampaign.add(campaign.enName);

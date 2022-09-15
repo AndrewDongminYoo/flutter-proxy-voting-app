@@ -123,7 +123,7 @@ class _CampaignPreviewPageState extends State<CampaignPreviewPage> {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: <Color>[
-                  campaign.color,
+                  campaign.color as Color,
                   const Color(0xFF7C299A),
                   const Color(0xFF572E67),
                   const Color(0xFF5E3F74),
@@ -139,7 +139,7 @@ class _CampaignPreviewPageState extends State<CampaignPreviewPage> {
                 ProgressInfoWidget(
                   progress: progress,
                   progressState: progressState,
-                  campaign: campaign,
+                  campaign: campaign as Campaign,
                 ),
                 RouteTileWidget(title: title, campaign: campaign),
                 const YoutubeApp(),

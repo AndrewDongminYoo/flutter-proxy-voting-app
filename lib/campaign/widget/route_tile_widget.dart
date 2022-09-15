@@ -45,7 +45,7 @@ class RouteTileWidget extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: Icon(
-                      title[index][1],
+                      title[index][1] as IconData,
                       size: 30,
                       color: const Color(0xFF572E66),
                     ),
@@ -62,7 +62,7 @@ class RouteTileWidget extends StatelessWidget {
                     },
                   ),
                   Text(
-                    title[index][0],
+                    title[index][0] as String,
                     style: const TextStyle(
                       letterSpacing: 0.28,
                       fontSize: 10,

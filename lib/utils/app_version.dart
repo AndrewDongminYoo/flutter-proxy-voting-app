@@ -87,16 +87,16 @@ class AppVersionValidator {
       }
 
       final dynamic jsonObj = json.decode(response.body);
-      final List<dynamic> results = jsonObj['results'];
+      final List<dynamic> results = jsonObj['results'] as List<dynamic>;
       if (results.isEmpty) {
         print('Can\'t find an app in the App Store with the id: $id');
         return null;
       }
-      storeVersion = jsonObj['results'][0]['version'];
+      storeVersion = jsonObj['results'][0]['version'] as String;
       return VersionStatus._(
         localVersion: _getCleanVersion(packageInfo.version),
         storeVersion: _getCleanVersion(storeVersion),
-        appStoreLink: jsonObj['results'][0]['trackViewUrl'],
+        appStoreLink: jsonObj['results'][0]['trackViewUrl'] as String,
       );
     } catch (e) {
       print('Get ios Version Error!!!');
@@ -137,7 +137,7 @@ class AppVersionValidator {
       final dynamic parsed = json.decode(param);
       final dynamic data = parsed['data'];
 
-      storeVersion = data[1][2][140][0][0][0];
+      storeVersion = data[1][2][140][0][0][0] as String;
       return VersionStatus._(
         localVersion: _getCleanVersion(packageInfo.version),
         storeVersion: _getCleanVersion(storeVersion),

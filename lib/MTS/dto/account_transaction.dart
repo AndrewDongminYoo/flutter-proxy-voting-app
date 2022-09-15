@@ -29,8 +29,8 @@ class AccountTransaction implements MTSInterface {
 
   @override
   CustomRequest get json {
-    String strEnd = end;
-    String strStart = start;
+    String strEnd;
+    String strStart;
     if (end.runtimeType == DateTime) {
       strEnd = end.toString();
     } else {
@@ -101,7 +101,7 @@ class BankAccountTransaction implements IOBase {
   late String receivedAccMemo; // 출금통장표시내용
   late String tradingBank; // 처리점
 
-  BankAccountTransaction.from(Map<String, dynamic> json) {
+  BankAccountTransaction.from(Map<String, String> json) {
     transactionDate = json['거래일자'] ?? '';
     transactionTime = json['거래시각'] ?? '';
     transactionType = json['거래유형'] ?? '';

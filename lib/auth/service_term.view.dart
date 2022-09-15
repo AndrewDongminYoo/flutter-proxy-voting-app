@@ -34,13 +34,13 @@ class _ServiceTermState extends State<ServiceTerm> {
   final List<bool> _agreeTerms = [false, false, false, false];
   bool _showDetails = false;
 
-  dynamic _getAllAgreeTerms() {
+  bool _getAllAgreeTerms() {
     return _agreeTerms.every((element) => element);
   }
 
-  void _setAllAgreeTerms(value) {
+  void _setAllAgreeTerms(bool? value) {
     for (int i = 0; i < _agreeTerms.length; i++) {
-      _agreeTerms[i] = value;
+      _agreeTerms[i] = value!;
     }
     if (mounted) setState(() {});
   }

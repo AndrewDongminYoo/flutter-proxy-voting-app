@@ -12,13 +12,13 @@ class CustomModule {
   String toString() => firmName;
 
   CustomModule.from(Map<String, dynamic> map) {
-    firmName = map['module'] ?? '';
-    korName = map['name'] ?? '';
-    logoImage = map['image'] ?? '';
-    canLoginWithID = map['아이디로그인여부'] ?? true;
-    isException = map['계좌번호이상여부'] ?? false;
+    firmName = (map['module'] ?? '') as String;
+    korName = (map['name'] ?? '') as String;
+    logoImage = (map['image'] ?? '') as String;
+    canLoginWithID = (map['아이디로그인여부'] ?? true) as bool;
+    isException = (map['계좌번호이상여부'] ?? false) as bool;
   }
 
-  static dynamic get(String name) => stockTradingFirms
+  static CustomModule? get(String name) => stockTradingFirms
       .firstWhere((CustomModule firm) => firm.firmName == name);
 }

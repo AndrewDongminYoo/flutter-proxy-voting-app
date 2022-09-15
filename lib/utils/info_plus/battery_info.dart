@@ -7,7 +7,7 @@ class Battery {
   static Future<String> getBattery() async {
     String battery = 'empty';
     try {
-      final int result = await channel.invokeMethod('getBatteryLevel');
+      final int result = await channel.invokeMethod('getBatteryLevel') as int;
       assert(result >= 0 && result <= 100);
       if (result <= 20) {
         print('You need to charge the battery');

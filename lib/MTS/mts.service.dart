@@ -97,7 +97,7 @@ class CooconMTSService extends GetConnect {
   }
 
   Future<bool> checkImport() async {
-    return await channel.invokeMethod('checkIfImported');
+    return await channel.invokeMethod('checkIfImported') as bool;
   }
 
   Future<Set<RKSWCertItem>> loadCertificationList() async {
@@ -105,7 +105,8 @@ class CooconMTSService extends GetConnect {
     List<dynamic>? response = await channel.invokeListMethod('loadCertList');
     print(response);
     if (response != null) {
-      for (Map<Object?, Object?> json in response) {
+      for (Map<Object?, Object?> json
+          in response as List<Map<Object?, Object?>>) {
         RKSWCertItem item = RKSWCertItem.from(json);
         list.add(item);
       }

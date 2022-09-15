@@ -23,12 +23,12 @@ class CustomResponse implements InputOutput {
   late String API_SEQ;
 
   CustomResponse.from(Map<String, dynamic> json) {
-    Module = CustomModule.get(json['Module']);
-    Class = json['Class'];
-    Job = json['Job'];
-    Input = CustomInput.from(json['Input']);
-    Output = CustomOutput.from(json['Output']);
-    API_SEQ = json['API_SEQ'] ?? '';
+    Module = CustomModule.get(json['Module'] as String) as CustomModule;
+    Class = json['Class'] as String;
+    Job = json['Job'] as String;
+    Input = CustomInput.from(json['Input'] as Map<String, dynamic>);
+    Output = CustomOutput.from(json['Output'] as Map<String, dynamic>);
+    API_SEQ = (json['API_SEQ'] ?? '') as String;
   }
 
   @override

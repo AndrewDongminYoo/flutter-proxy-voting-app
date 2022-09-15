@@ -126,7 +126,7 @@ class TreeBuilder {
           exactNode && node == target) {
         return true;
       } else if (invert !=
-          (listElements1.contains(getElementNameTuple(node)) ||
+          (listElements1.contains(getElementNameTuple(node)) as bool ||
               listElements2.contains(getElementNameTuple(node)))) {
         return false;
       }

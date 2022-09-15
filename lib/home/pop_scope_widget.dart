@@ -24,7 +24,7 @@ class _CustomPopScopeState extends State<CustomPopScope> {
       _backButtonPress = now;
       return false;
     }
-    return (await showDialog(
+    return ((await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             title: const Text('뒤로가기를 두번 클릭하셨습니다.'),
@@ -41,7 +41,7 @@ class _CustomPopScopeState extends State<CustomPopScope> {
             ],
           ),
         )) ??
-        false;
+        false) as bool;
   }
 
   @override

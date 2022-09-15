@@ -9,7 +9,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import '../lib.dart';
 
 dynamic goBack() => Get.back();
-dynamic goBackWithVal(dynamic context, dynamic value) =>
+dynamic goBackWithVal(BuildContext context, dynamic value) =>
     Navigator.pop(context, value);
 dynamic goOnboarding() => Get.to(() => const OnboardingPage());
 dynamic goMainHome() => Get.to(() => const MainHomePage());

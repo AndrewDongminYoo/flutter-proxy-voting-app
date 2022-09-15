@@ -40,7 +40,7 @@ dynamic main() async {
 
 class MyApp extends StatefulWidget {
   final bool firstTime;
-  final dynamic initialLink;
+  final PendingDynamicLinkData? initialLink;
 
   const MyApp({
     Key? key,
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _errorWidgetBuilder(dynamic context, dynamic child) {
+  Widget _errorWidgetBuilder(dynamic context, Widget? child) {
     Widget error = const Text('...rendering error...');
     if (child is Scaffold || child is Navigator) {
       error = Scaffold(body: Center(child: error));

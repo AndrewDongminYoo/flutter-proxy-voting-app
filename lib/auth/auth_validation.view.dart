@@ -33,7 +33,7 @@ class _AuthValidatePageState extends State<AuthValidatePage> {
   bool validation = true;
   @override
   void initState() {
-    if (!Get.arguments['new']) {
+    if (Get.arguments['new'] != true) {
       _title = '다시 돌아오신 것을 환영합니다\n인증번호를 입력해주세요';
     }
     _startTimer();

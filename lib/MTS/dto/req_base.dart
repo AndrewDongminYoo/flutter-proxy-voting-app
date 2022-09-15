@@ -32,7 +32,7 @@ class CustomRequest implements InputOutput {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
     String? response = await channel.invokeMethod('getMTSData', {'data': data});
     dynamic json = jsonDecode(response!);
-    return CustomResponse.from(json);
+    return CustomResponse.from(json as Map<String, dynamic>);
   }
 
   @override

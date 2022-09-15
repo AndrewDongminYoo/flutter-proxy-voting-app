@@ -100,33 +100,33 @@ class AndroidDeviceInfo implements BaseDeviceInfo {
 
   static AndroidDeviceInfo fromMap(Map<String, dynamic> map) {
     return AndroidDeviceInfo(
-      version: AndroidBuildVersion._fromMap(
-          map['version']?.cast<String, dynamic>() ?? {}),
-      board: map['board'],
-      bootloader: map['bootloader'],
-      brand: map['brand'],
-      device: map['device'],
-      display: map['display'],
-      fingerprint: map['fingerprint'],
-      hardware: map['hardware'],
-      host: map['host'],
-      id: map['id'],
-      manufacturer: map['manufacturer'],
-      model: map['model'],
-      product: map['product'],
+      version:
+          AndroidBuildVersion._fromMap(map['version'] as Map<String, dynamic>),
+      board: map['board'] as String,
+      bootloader: map['bootloader'] as String,
+      brand: map['brand'] as String,
+      device: map['device'] as String,
+      display: map['display'] as String,
+      fingerprint: map['fingerprint'] as String,
+      hardware: map['hardware'] as String,
+      host: map['host'] as String,
+      id: map['id'] as String,
+      manufacturer: map['manufacturer'] as String,
+      model: map['model'] as String,
+      product: map['product'] as String,
       supported32BitAbis: _fromList(map['supported32BitAbis'] ?? []),
       supported64BitAbis: _fromList(map['supported64BitAbis'] ?? []),
       supportedAbis: _fromList(map['supportedAbis'] ?? []),
-      tags: map['tags'],
-      type: map['type'],
-      isPhysicalDevice: map['isPhysicalDevice'],
-      androidId: map['androidId'],
+      tags: map['tags'] as String,
+      type: map['type'] as String,
+      isPhysicalDevice: map['isPhysicalDevice'] as bool,
+      androidId: map['androidId'] as String,
       systemFeatures: _fromList(map['systemFeatures'] ?? []),
     );
   }
 
   static List<String?> _fromList(dynamic message) {
-    final List<dynamic> list = message;
+    final List<dynamic> list = message as List<dynamic>;
     return List<String?>.from(list);
   }
 }
@@ -170,13 +170,13 @@ class AndroidBuildVersion {
 
   static AndroidBuildVersion _fromMap(Map<String, dynamic> map) {
     return AndroidBuildVersion._(
-      baseOS: map['baseOS'],
-      codename: map['codename'],
-      incremental: map['incremental'],
-      previewSdkInt: map['previewSdkInt'],
-      release: map['release'],
-      sdkInt: map['sdkInt'],
-      securityPatch: map['securityPatch'],
+      baseOS: map['baseOS'] as String?,
+      codename: map['codename'] as String?,
+      incremental: map['incremental'] as String?,
+      previewSdkInt: map['previewSdkInt'] as int?,
+      release: map['release'] as String?,
+      sdkInt: map['sdkInt'] as int?,
+      securityPatch: map['securityPatch'] as String?,
     );
   }
 }

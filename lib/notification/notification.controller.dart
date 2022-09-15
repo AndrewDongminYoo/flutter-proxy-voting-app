@@ -104,12 +104,13 @@ class NotiController extends GetxController {
     if (item is DateTime) {
       return item.toIso8601String();
     }
-    return item;
+    return item as String;
   }
 
   Map<String, dynamic> decodeJson(String message) {
     return json.decode(message,
-        reviver: (Object? key, Object? value) => reviverDateTime(key, value));
+        reviver: (Object? key, Object? value) =>
+            reviverDateTime(key, value)) as Map<String, dynamic>;
   }
 
   dynamic reviverDateTime(Object? key, Object? value) {
@@ -120,7 +121,7 @@ class NotiController extends GetxController {
   }
 
   String currentTime(time) {
-    return DateFormat('MM월 dd일', 'ko_KR').format(time);
+    return DateFormat('MM월 dd일', 'ko_KR').format(time as DateTime);
   }
 
   Future<void> requestPermission() async {

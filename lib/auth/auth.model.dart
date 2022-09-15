@@ -55,14 +55,14 @@ class User {
   int get sexCode => backId.startsWith(RegExp('[13]')) ? 1 : 2;
 
   User.fromJson(Map<String, dynamic> json) {
-    _id = json['id'] ?? -1;
-    username = json['name'] ?? '';
-    frontId = json['frontId'] ?? '';
+    _id = (json['id'] ?? -1) as int;
+    username = (json['name'] ?? '') as String;
+    frontId = (json['frontId'] ?? '') as String;
     backId = json['backId'] == null ? '1' : json['backId'].toString();
-    telecom = json['telecom'] ?? '';
-    phoneNumber = json['phoneNumber'] ?? '';
-    address = json['address'] ?? '';
-    _ci = json['ci'] ?? '';
-    _di = json['di'] ?? '';
+    telecom = (json['telecom'] ?? '') as String;
+    phoneNumber = (json['phoneNumber'] ?? '') as String;
+    address = (json['address'] ?? '') as String;
+    _ci = (json['ci'] ?? '') as String;
+    _di = (json['di'] ?? '') as String;
   }
 }

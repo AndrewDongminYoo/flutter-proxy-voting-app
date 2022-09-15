@@ -18,9 +18,9 @@ class Notification {
   }
 
   Notification.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    body = json['body'];
-    createdAt = json['createdAt'];
+    title = json['title'] as String;
+    body = json['body'] as String;
+    createdAt = DateTime.parse(json['createdAt'] as String);
   }
 
   Map<String, dynamic> toJson() => {

@@ -82,21 +82,21 @@ class BankAccountDetail implements IOBase {
   late String oderableQuantity; // 주문가능수량
 
   BankAccountDetail.from(Map<String, dynamic> json) {
-    productName = json['상품명'] ?? '';
-    productTypeCode = json['상품유형코드'] ?? '';
-    productIssueName = json['상품_종목명'] ?? '';
-    productIssueCode = json['상품_종목코드'] ?? '';
-    balanceType = json['잔고유형'] ?? '';
-    quantity = json['수량'] ?? '';
-    presentValue = json['현재가'] ?? '';
-    averageValue = json['평균매입가'] ?? '';
-    purchaseAmount = json['매입금액'] ?? '';
-    evaluationAmount = json['평가금액'] ?? '';
-    valuationGain = json['평가손익'] ?? '';
-    yields = json['수익률'] ?? '';
-    monetaryCode = json['통화코드'] ?? '';
-    accountNumberExt = json['계좌번호확장'] ?? '';
-    oderableQuantity = json['주문가능수량'] ?? '';
+    productName = (json['상품명'] ?? '') as String;
+    productTypeCode = (json['상품유형코드'] ?? '') as String;
+    productIssueName = (json['상품_종목명'] ?? '') as String;
+    productIssueCode = (json['상품_종목코드'] ?? '') as String;
+    balanceType = (json['잔고유형'] ?? '') as String;
+    quantity = (json['수량'] ?? '') as String;
+    presentValue = (json['현재가'] ?? '') as String;
+    averageValue = (json['평균매입가'] ?? '') as String;
+    purchaseAmount = (json['매입금액'] ?? '') as String;
+    evaluationAmount = (json['평가금액'] ?? '') as String;
+    valuationGain = (json['평가손익'] ?? '') as String;
+    yields = (json['수익률'] ?? '') as String;
+    monetaryCode = (json['통화코드'] ?? '') as String;
+    accountNumberExt = (json['계좌번호확장'] ?? '') as String;
+    oderableQuantity = (json['주문가능수량'] ?? '') as String;
   }
 
   @override

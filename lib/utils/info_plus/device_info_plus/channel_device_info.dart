@@ -10,14 +10,14 @@ class MethodChannelDeviceInfo extends DeviceInfoPlatform {
   @override
   Future<AndroidDeviceInfo> androidInfo() async {
     return AndroidDeviceInfo.fromMap(
-      (await channel.invokeMethod('getDeviceInfo')).cast<String, dynamic>(),
+      (await channel.invokeMethod('getDeviceInfo')) as Map<String, dynamic>,
     );
   }
 
   @override
   Future<IosDeviceInfo> iosInfo() async {
     return IosDeviceInfo.fromMap(
-      (await channel.invokeMethod('getDeviceInfo')).cast<String, dynamic>(),
+      (await channel.invokeMethod('getDeviceInfo')) as Map<String, dynamic>,
     );
   }
 }

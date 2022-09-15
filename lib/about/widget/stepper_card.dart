@@ -38,7 +38,7 @@ class _StepperCardState extends State<StepperCard> {
     );
   }
 
-  Widget customStep(dynamic title, dynamic active) {
+  Widget customStep(String title, bool active) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       width: Get.width,

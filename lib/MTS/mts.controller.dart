@@ -164,11 +164,11 @@ class MtsController extends GetxController {
     _certPW = await Get.dialog(PasswordDialog(
       password: newPass,
       title: '기존의 비밀번호를 입력하세요.',
-    ));
+    )) as String;
     newPass = await Get.dialog(PasswordDialog(
       password: newPass,
       title: '변경할 비밀번호를 입력하세요.',
-    ));
+    )) as String;
     _service.changePasswordOfCert(_certPW, newPass, item.certName);
     print(newPass);
     print(item.json);

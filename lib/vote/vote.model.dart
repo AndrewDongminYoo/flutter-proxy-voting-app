@@ -76,19 +76,25 @@ class VoteAgenda {
 
   factory VoteAgenda.fromJson(Map<String, dynamic> json) {
     return VoteAgenda(
-      id: json['id'] ?? -1,
-      company: json['company'] ?? '',
-      curStatus: json['curStatus'] ?? '',
-      sharesNum: json['sharesNum'] ?? 0,
-      agenda1: json['agenda1'] ?? 0,
-      agenda2: json['agenda2'] ?? 0,
-      agenda3: json['agenda3'] ?? 0,
-      agenda4: json['agenda4'] ?? 0,
-      signatureAt:
-          json['signatureAt'] != null ? parseDate(json['signatureAt']) : null,
-      idCardAt: json['idCardAt'] != null ? parseDate(json['idCardAt']) : null,
-      voteAt: json['voteAt'] != null ? parseDate(json['voteAt']) : null,
-      backIdAt: json['backIdAt'] != null ? parseDate(json['backIdAt']) : null,
+      id: (json['id'] ?? -1) as int,
+      company: (json['company'] ?? '') as String,
+      curStatus: (json['curStatus'] ?? '') as String,
+      sharesNum: (json['sharesNum'] ?? 0) as int,
+      agenda1: (json['agenda1'] ?? 0) as int,
+      agenda2: (json['agenda2'] ?? 0) as int,
+      agenda3: (json['agenda3'] ?? 0) as int,
+      agenda4: (json['agenda4'] ?? 0) as int,
+      signatureAt: json['signatureAt'] != null
+          ? parseDate(json['signatureAt'] as String)
+          : null,
+      idCardAt: json['idCardAt'] != null
+          ? parseDate(json['idCardAt'] as String)
+          : null,
+      voteAt:
+          json['voteAt'] != null ? parseDate(json['voteAt'] as String) : null,
+      backIdAt: json['backIdAt'] != null
+          ? parseDate(json['backIdAt'] as String)
+          : null,
     );
   }
 }
@@ -118,7 +124,9 @@ class Shareholder {
       id: json['id'] ?? -1,
       username: json['name'] ?? '',
       address: json['address'] ?? '',
-      sharesNum: json['sharesNum'] != null ? int.parse(json['sharesNum']) : 0,
+      sharesNum: json['sharesNum'] != null
+          ? int.parse(json['sharesNum'] as String)
+          : 0,
       company: json['company'] ?? 'tli',
     );
   }

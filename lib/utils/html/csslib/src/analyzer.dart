@@ -267,7 +267,7 @@ class TopLevelIncludes extends Visitor {
   void visitIncludeDirective(IncludeDirective node) {
     final CssMixinDefinition? currDef = this.currDef;
     if (map.containsKey(node.name)) {
-      CssMixinDefinition? mixinDef = map[node.name];
+      CssMixinDefinition? mixinDef = map[node.name] as CssMixinDefinition?;
       if (mixinDef is CssMixinRulesetDirective) {
         _TopLevelIncludeReplacer.replace(
             _messages, _styleSheet!, node, mixinDef.rulesets);
@@ -407,7 +407,7 @@ class CallMixin extends Visitor {
       }
 
       Map<CssExpressions, Set<int>>? expressions =
-          varUsages[varDef!.definedName];
+          varUsages[varDef!.definedName] as Map<CssExpressions, Set<int>>?;
       expressions!.forEach((CssExpressions k, Set<int> v) {
         for (int usagesIndex in v) {
           k.expressions.replaceRange(usagesIndex, usagesIndex + 1, callArg);
@@ -462,7 +462,8 @@ class CallMixin extends Visitor {
     assert(_currIndex != -1);
     assert(_currExpressions != null);
     if (varUsages.containsKey(node.name)) {
-      Map<CssExpressions, Set<int>>? expressions = varUsages[node.name];
+      Map<CssExpressions, Set<int>>? expressions =
+          varUsages[node.name] as Map<CssExpressions, Set<int>>?;
       Set<int>? allIndexes = expressions![_currExpressions];
       if (allIndexes == null) {
         _addExpression(expressions);

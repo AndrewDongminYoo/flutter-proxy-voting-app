@@ -51,7 +51,7 @@ class _EditModalState extends State<EditModal> {
   @override
   void initState() {
     if (Get.arguments is String) {
-      address = Get.arguments;
+      address = Get.arguments as String;
     } else if (_authCtrl.user.address.isNotEmpty) {
       address = _authCtrl.user.address;
     }
@@ -82,10 +82,11 @@ class _EditModalState extends State<EditModal> {
       final Uri uri = Uri.https('naveropenapi.apigw.ntruss.com',
           '/map-geocode/v2/geocode', parameters);
       final http.Response response = await http.get(uri, headers: headers);
-      final dynamic jsonObj = json.decode(response.body);
-
-      for (dynamic e in jsonObj['addresses']) {
-        roadAddressList.add(e['roadAddress']);
+      final Map<String, List<Map<String, String?>>> jsonObj =
+          json.decode(response.body) as Map<String, List<Map<String, String?>>>;
+      for (Map<String, String?> e
+          in jsonObj['addresses'] as List<Map<String, String?>>) {
+        roadAddressList.add(e['roadAddress']!);
       }
 
       _searchedRoadAddressList = roadAddressList;

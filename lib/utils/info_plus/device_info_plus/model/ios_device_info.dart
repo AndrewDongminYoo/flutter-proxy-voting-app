@@ -28,12 +28,12 @@ class IosDeviceInfo implements BaseDeviceInfo {
 
   static IosDeviceInfo fromMap(Map<String, dynamic> map) {
     return IosDeviceInfo(
-      name: map['name'],
-      systemName: map['systemName'],
-      systemVersion: map['systemVersion'],
-      model: map['model'],
-      localizedModel: map['localizedModel'],
-      identifierForVendor: map['identifierForVendor'],
+      name: map['name'] as String?,
+      systemName: map['systemName'] as String?,
+      systemVersion: map['systemVersion'] as String?,
+      model: map['model'] as String?,
+      localizedModel: map['localizedModel'] as String?,
+      identifierForVendor: map['identifierForVendor'] as String?,
       isPhysicalDevice: map['isPhysicalDevice'] == 'true',
     );
   }

@@ -31,7 +31,7 @@ class RKSWCertItem {
     expireDate = DateTime.parse(certExpire.replaceAll('.', ''));
   }
 
-  dynamic get json => {
+  Map<String, String> get json => {
         '인증서이름': certName,
         '유효기간': formatter.format(expireDate),
         '발급기관': origin,
