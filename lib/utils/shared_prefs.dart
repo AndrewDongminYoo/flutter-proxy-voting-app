@@ -54,17 +54,17 @@ Future<SharedPreferences> _() async {
   return await SharedPreferences.getInstance();
 }
 
-setCompletedCampaignList(completedCampaignList) async {
+dynamic setCompletedCampaignList(dynamic completedCampaignList) async {
   final SharedPreferences prefs = await _();
   await prefs.setStringList('completedCampaign', completedCampaignList);
 }
 
-getCompletedCampaignList() async {
+dynamic getCompletedCampaignList() async {
   final SharedPreferences prefs = await _();
   return prefs.getStringList('completedCampaign');
 }
 
-getShareholderId(campaignName) async {
+dynamic getShareholderId(dynamic campaignName) async {
   final SharedPreferences prefs = await _();
   return prefs.getInt('$campaignName-shareholder');
 }

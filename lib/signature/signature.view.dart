@@ -80,8 +80,8 @@ class _VoteSignPageState extends State<VoteSignPage> {
 
   @override
   Widget build(BuildContext context) {
-    const titleString = '전자위임';
-    const helpText = '전자 서명을 등록해주세요.';
+    const String titleString = '전자위임';
+    const String helpText = '전자 서명을 등록해주세요.';
     print('signatureAt: $_signatureAt');
     _informationString = _signatureAt != null
         ? '${timeago.format(_signatureAt!, locale: 'ko')}에 이미 서명하셨습니다. 다시 서명하려면 가운데를 클릭하세요.'

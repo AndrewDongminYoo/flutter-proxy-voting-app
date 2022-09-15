@@ -93,7 +93,7 @@ class NotificiationBtn extends StatefulWidget {
 class _NotificiationBtnState extends State<NotificiationBtn> {
   final NotiController _notificaitionCtrl = NotiController.get();
 
-  _onPressNotification() {
+  void _onPressNotification() {
     _showAnimatedDialog(
       context: context,
       builder: (BuildContext context) {
@@ -117,7 +117,7 @@ class _NotificiationBtnState extends State<NotificiationBtn> {
   }
 }
 
-_showAnimatedDialog<T extends Object?>({
+Future<T?> _showAnimatedDialog<T extends Object?>({
   required BuildContext context,
   bool barrierDismissible = true,
   required WidgetBuilder builder,

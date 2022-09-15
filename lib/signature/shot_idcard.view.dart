@@ -136,8 +136,8 @@ class _UploadIdCardPageState extends State<UploadIdCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    const titleString = '전자서명';
-    const helpText = '신분증을 촬영해주세요';
+    const String titleString = '전자서명';
+    const String helpText = '신분증을 촬영해주세요';
     _informationString = _voteCtrl.voteAgenda.idCardAt != null
         ? '${timeago.format(_voteCtrl.voteAgenda.idCardAt!, locale: 'ko')}에 이미 업로드하였습니다. 재 업로드하시려면 가운데를 클릭하세요.'
         : '''

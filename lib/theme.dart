@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart' show Get;
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
-const _gridMargin = 16;
-const _gridGutter = 10;
+const int _gridMargin = 16;
+const int _gridGutter = 10;
 final double _singleWidth = (Get.width - 2 * _gridMargin - 3 * _gridGutter) / 4;
 
 enum CustomW { w1, w2, w3, w4 }

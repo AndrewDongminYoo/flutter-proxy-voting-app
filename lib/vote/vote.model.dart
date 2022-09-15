@@ -105,7 +105,13 @@ class Shareholder {
   int sharesNum = 0;
   String company = 'tli';
 
-  Shareholder({id, username, address, sharesNum, company});
+  Shareholder({
+    id,
+    username,
+    address,
+    sharesNum,
+    company,
+  });
 
   factory Shareholder.fromJson(Map<String, dynamic> json) {
     return Shareholder(

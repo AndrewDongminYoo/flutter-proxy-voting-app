@@ -9,14 +9,14 @@ import 'package:source_span/source_span.dart';
 import 'dom.dart';
 import 'src/src.dart';
 
-Document htmlParse(input,
+Document htmlParse(dynamic input,
     {String? encoding, bool generateSpans = false, String? sourceUrl}) {
   final HtmlParser p = HtmlParser(input,
       encoding: encoding, generateSpans: generateSpans, sourceUrl: sourceUrl);
   return p.parse();
 }
 
-DocumentFragment parseFragment(input,
+DocumentFragment parseFragment(dynamic input,
     {String container = 'div',
     String? encoding,
     bool generateSpans = false,
@@ -287,7 +287,7 @@ class HtmlParser {
   }
 
   void adjustSVGAttributes(StartTagToken token) {
-    const replacements = {
+    const Map<String, String> replacements = {
       'attributename': 'attributeName',
       'attributetype': 'attributeType',
       'basefrequency': 'baseFrequency',
@@ -360,7 +360,7 @@ class HtmlParser {
   }
 
   void adjustForeignAttributes(StartTagToken token) {
-    const replacements = {
+    const Map<String, AttributeName> replacements = {
       'xlink:actuate': AttributeName('xlink', 'actuate', Namespaces.xlink),
       'xlink:arcrole': AttributeName('xlink', 'arcrole', Namespaces.xlink),
       'xlink:href': AttributeName('xlink', 'href', Namespaces.xlink),
@@ -2460,7 +2460,6 @@ class InCaptionPhase extends Phase {
 
   Token? startTagTableElement(StartTagToken token) {
     parser.parseError(token.span, 'undefined-error');
-    //XXX Have to duplicate logic here to find out if the tag is ignored
     final bool ignoreEndTag = ignoreEndTagCaption();
     parser.phase.processEndTag(EndTagToken('caption'));
     if (!ignoreEndTag) {
@@ -2652,9 +2651,8 @@ class InTableBodyPhase extends Phase {
   }
 
   void clearStackToTableBodyContext() {
-    const tableTags = ['tbody', 'tfoot', 'thead', 'html'];
+    const List<String> tableTags = ['tbody', 'tfoot', 'thead', 'html'];
     while (!tableTags.contains(tree.openElements.last.localName)) {
-      //XXX parser.parseError(token.span, "unexpected-implied-end-tag-in-table",
       tree.openElements.removeLast();
     }
     if (tree.openElements.last.localName == 'html') {

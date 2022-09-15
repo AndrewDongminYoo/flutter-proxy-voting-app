@@ -150,11 +150,11 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
     onContinue();
   }
 
-  onTapped(int index) {
+  void onTapped(int index) {
     print('selected index: $index');
   }
 
-  onCancel() {
+  void onCancel() {
     setState(() {
       if (_index > 0) {
         _index--;
@@ -162,7 +162,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
     });
   }
 
-  onContinue() {
+  void onContinue() {
     setState(() {
       if (_index < 3) {
         _index++;
@@ -170,7 +170,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
     });
   }
 
-  onPressed() async {
+  void onPressed() async {
     String? pin = await _mtsController.loadTwelveDigits();
     if (pin != null) {
       setState(() {

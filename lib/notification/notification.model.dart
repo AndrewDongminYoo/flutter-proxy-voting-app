@@ -5,7 +5,11 @@ class Notification {
   String title = '';
   String body = '';
   DateTime createdAt = DateTime.now();
-  Notification({title, body, createdAt});
+  Notification({
+    required this.title,
+    required this.body,
+    required this.createdAt,
+  });
 
   Notification.fromFireMessage(RemoteMessage message) {
     title = message.notification!.title!;

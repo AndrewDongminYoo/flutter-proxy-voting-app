@@ -196,7 +196,7 @@ class MtsController extends GetxController {
     }
   }
 
-  tradeStock(String accountNum, BankAccountTransaction trans) {
+  void tradeStock(String accountNum, BankAccountTransaction trans) {
     for (Account account in _accounts) {
       if (account.accountNum == accountNum) {
         account.transactions.add(Transaction.from(trans));

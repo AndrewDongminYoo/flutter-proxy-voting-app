@@ -20,12 +20,12 @@ class _MTSFirmChoicePageState extends State<MTSFirmChoicePage> {
   List<CustomModule> firms = [];
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     firms = _controller.firms;
   }
 
-  _onTap(CustomModule firm) {
+  void _onTap(CustomModule firm) {
     print(firm.firmName);
     setState(() {
       firms.add(firm);
@@ -33,7 +33,7 @@ class _MTSFirmChoicePageState extends State<MTSFirmChoicePage> {
     _controller.addMTSFirm(firm);
   }
 
-  _offTap(CustomModule firm) {
+  void _offTap(CustomModule firm) {
     print(firm.firmName);
     setState(() {
       firms.remove(firm);

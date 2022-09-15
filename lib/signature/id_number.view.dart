@@ -34,7 +34,7 @@ class _TakeIdNumberPageState extends State<TakeIdNumberPage> {
     super.initState();
   }
 
-  _onConfirmed() {
+  void _onConfirmed() {
     if (_backId.length == 7) {
       _authCtrl.putBackId(_backId);
       _voteCtrl.trackBackId();

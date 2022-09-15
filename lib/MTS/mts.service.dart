@@ -10,7 +10,7 @@ import 'mts.dart';
 class CooconMTSService extends GetConnect {
   MtsController? ctrl;
 
-  fetchMTSData({
+  Future<void> fetchMTSData({
     required CustomModule module,
     required String userId, // "ydm2790"
     required String username, // "유동민"
@@ -113,11 +113,11 @@ class CooconMTSService extends GetConnect {
     return list;
   }
 
-  emptyCerts() async {
+  Future<void> emptyCerts() async {
     await channel.invokeMethod('emptyCertifications');
   }
 
-  changePasswordOfCert(
+  Future<void> changePasswordOfCert(
       String oldPassword, String newPassword, String certName) async {
     await channel.invokeMethod('changePassword', {
       'newPassword': newPassword,
@@ -126,7 +126,7 @@ class CooconMTSService extends GetConnect {
     });
   }
 
-  deleteCert(String certName) async {
+  Future<void> deleteCert(String certName) async {
     await channel.invokeMethod('deleteCertification', certName);
   }
 }

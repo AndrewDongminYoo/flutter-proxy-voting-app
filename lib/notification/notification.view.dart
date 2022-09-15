@@ -20,11 +20,11 @@ class NotificaitionCard extends StatefulWidget {
 class _NotificaitionCardState extends State<NotificaitionCard> {
   final NotiController _notificaitionCtrl = NotiController.get();
 
-  onTapCancel() {
+  void onTapCancel() {
     Navigator.of(context).pop();
   }
 
-  _onTabNotification(int index) {
+  void _onTabNotification(int index) {
     setState(() {
       _notificaitionCtrl.removeNotification(index);
       _notificaitionCtrl.getNotificationsLocal();

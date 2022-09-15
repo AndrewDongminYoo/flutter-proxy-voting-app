@@ -24,10 +24,10 @@ class _MTSLoginIdPageState extends State<MTSLoginIdPage> {
   String _passNum = '';
   bool _passwordVisible = false;
   bool _buttonDisabled = true;
-  get passwordVisible => _passwordVisible;
-  _setVisible(bool val) => _passwordVisible = val;
+  bool get passwordVisible => _passwordVisible;
+  void _setVisible(bool val) => _passwordVisible = val;
 
-  _onIDLoginPressed() async {
+  Future<void> _onIDLoginPressed() async {
     try {
       _mtsController.setIDPW(_securitiesID, _securitiesPW, _passNum);
       await _mtsController.showMTSResult();

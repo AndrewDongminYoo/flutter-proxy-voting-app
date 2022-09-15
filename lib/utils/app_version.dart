@@ -125,7 +125,7 @@ class AppVersionValidator {
       final List<Element> scriptElements =
           document.getElementsByTagName('script');
       final Element infoScriptElement = scriptElements.firstWhere(
-        (elm) => elm.text.contains("key: 'ds:5'"),
+        (Element elm) => elm.text.contains("key: 'ds:5'"),
       );
       final String param = infoScriptElement.text
           .substring(20, infoScriptElement.text.length - 2)
@@ -164,7 +164,7 @@ class AppVersionValidator {
   }
 }
 
-compareAppVersion() async {
+dynamic compareAppVersion() async {
   final AppVersionValidator versionValidator = AppVersionValidator();
   final VersionStatus? version = await versionValidator._getVersionStatus();
   if (version != null) {

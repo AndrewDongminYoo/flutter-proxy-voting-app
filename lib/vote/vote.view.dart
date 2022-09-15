@@ -38,7 +38,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
   };
 
   @override
-  initState() {
+  void initState() {
     if (Get.arguments == 'memory') {
       _voteResult = _voteWithMemory();
     } else if (Get.arguments == 'example') {
@@ -49,7 +49,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
     super.initState();
   }
 
-  _voteWithExample() {
+  Map<int, VoteType> _voteWithExample() {
     print('example');
     setState(() {
       _voteResult[0] = VoteType.disagree;
@@ -65,7 +65,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
     return _voteResult;
   }
 
-  _voteWithMemory() {
+  Map<int, VoteType> _voteWithMemory() {
     print('memory');
     setState(() {
       VoteAgenda agenda = _voteCtrl.voteAgenda;
@@ -116,7 +116,7 @@ class _VoteToAgendaPageState extends State<VoteToAgendaPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: agendaList.asMap().entries.map(
-              (item) {
+              (MapEntry<int, AgendaItem> item) {
                 // Do not show the next item
                 if (item.key > _marker['latest']!) {
                   return Container();
