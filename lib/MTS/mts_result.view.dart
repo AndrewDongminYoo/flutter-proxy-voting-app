@@ -14,13 +14,11 @@ class MTSShowResultPage extends StatefulWidget {
 
 class _MTSShowResultPageState extends State<MTSShowResultPage> {
   final MtsController _mtsController = MtsController.get();
-  TextList resultList = TextList();
   Set<Account>? accounts;
 
   @override
   void initState() {
     setState(() {
-      resultList = _mtsController.results;
       accounts = _mtsController.accounts;
     });
     super.initState();

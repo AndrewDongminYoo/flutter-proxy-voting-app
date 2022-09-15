@@ -64,8 +64,6 @@ class AccountTransaction implements MTSInterface {
   post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
-    List<BankAccountTransaction> jobResult =
-        response.Output.Result.accountTransaction;
   }
 
   @override

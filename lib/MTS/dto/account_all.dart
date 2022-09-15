@@ -41,7 +41,6 @@ class AccountAll implements MTSInterface {
   post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
-    List<BankAccount> jobResult = res.Output.Result.accountAll;
   }
 
   @override

@@ -34,6 +34,8 @@ class MtsController extends GetxController {
     CustomModule module,
     String idOrCert,
     String accountNum,
+    String productCode,
+    String productName,
   ) {
     bool isOk = true;
     for (Account element in _accounts) {
@@ -46,6 +48,8 @@ class MtsController extends GetxController {
         module: module,
         idOrCert: idOrCert,
         accountNum: accountNum,
+        productCode: productCode,
+        productName: productName,
       ));
     }
   }
@@ -116,7 +120,6 @@ class MtsController extends GetxController {
   }
 
   Future<void> showMTSResult() async {
-    results.clear();
     Get.dialog(LoadingScreen());
     for (CustomModule firm in firms) {
       await _service.fetchMTSData(

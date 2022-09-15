@@ -1,4 +1,3 @@
-
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -9,6 +8,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 // 🌎 Project imports:
 import '../../shared/shared.dart';
 import '../models/acccount.model.dart';
+import '../utils/formatters.dart';
 
 class AccountCard extends StatefulWidget {
   const AccountCard({super.key, required this.account});
@@ -48,9 +48,17 @@ class _AccountCardState extends State<AccountCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                  text: account.module.korName, typoType: TypoType.h2Bold),
-              CustomText(text: account.idOrCert),
-              CustomText(text: '위탁 종합 ${account.accountNum}')
+                text: account.module.korName,
+                typoType: TypoType.h2Bold,
+              ),
+              CustomText(
+                  text: account.idOrCert, typoType: TypoType.bodySmaller),
+              CustomText(
+                  text: [
+                account.productCode,
+                account.productName,
+                hypen(account.accountNum)
+              ].join(' '))
             ],
           ),
           const Spacer(),
