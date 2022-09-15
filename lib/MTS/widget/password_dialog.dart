@@ -28,16 +28,16 @@ class _PasswordDialogState extends State<PasswordDialog> {
           TextFormField(
             initialValue: widget.password,
             obscureText: true,
-            onChanged: (value) => widget.password = value,
+            onChanged: (String value) => widget.password = value,
             onEditingComplete: () => goBackWithVal(
               context,
               widget.password,
             ),
-            onTapOutside: (e) => goBackWithVal(
+            onTapOutside: (PointerDownEvent e) => goBackWithVal(
               context,
               widget.password,
             ),
-            onSaved: (newValue) => goBackWithVal(
+            onSaved: (String? newValue) => goBackWithVal(
               context,
               newValue,
             ),

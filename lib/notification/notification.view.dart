@@ -61,7 +61,7 @@ class _NotificaitionCardState extends State<NotificaitionCard> {
     return SizedBox(
       height: Get.height * 0.5,
       child: ListView.builder(
-          itemBuilder: (context, index) {
+          itemBuilder: (BuildContext context, int index) {
             return InkWell(
                 child: _notificationCard(index),
                 onTap: () {

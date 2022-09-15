@@ -20,13 +20,13 @@ class _AddressDedupePageState extends State<AddressDedupePage> {
 
   int _selected = 0;
 
-  _onConfirmed(String address) {
+  void _onConfirmed(String address) {
     _authCtrl.setAddress(address);
     _voteCtrl.selectShareholder(_selected);
     jumpVoteNumCheck();
   }
 
-  _onSelectAddress(int index) {
+  void _onSelectAddress(int index) {
     setState(() {
       _selected = index;
     });
@@ -64,7 +64,7 @@ class _AddressDedupePageState extends State<AddressDedupePage> {
                           title: CustomText(text: arr[0]),
                           value: addressList[index],
                           groupValue: addressList[_selected],
-                          onChanged: (value) {
+                          onChanged: (String? value) {
                             _onSelectAddress(index);
                           }),
                     ),

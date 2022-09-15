@@ -18,7 +18,7 @@ import 'package:timeago/timeago.dart' as timeago;
 // 🌎 Project imports:
 import 'lib.dart';
 
-main() async {
+dynamic main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // initialize app
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   final NotiController _notificationCtrl = NotiController.get();
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     initializeDateFormatting('ko_KR', null);
     _initNotification();
@@ -67,13 +67,13 @@ class _MyAppState extends State<MyApp> {
     print('available addresses are $names');
   }
 
-  _initNotification() {
+  void _initNotification() {
     _notificationCtrl.listenFCM();
     _notificationCtrl.requestPermission();
     _notificationCtrl.getToken();
   }
 
-  _initDynamicLinks() {
+  void _initDynamicLinks() {
     if (widget.initialLink != null) {
       final Uri deepLink = widget.initialLink!.link;
       _initialRoute = deepLink.path;
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _errorWidgetBuilder(context, child) {
+  Widget _errorWidgetBuilder(dynamic context, dynamic child) {
     Widget error = const Text('...rendering error...');
     if (child is Scaffold || child is Navigator) {
       error = Scaffold(body: Center(child: error));

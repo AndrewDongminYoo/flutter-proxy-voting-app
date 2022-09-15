@@ -9,19 +9,20 @@ class Analyzer {
   Analyzer(this._styleSheets, this._messages);
 
   void run() {
-    _styleSheets.forEach(
-        (styleSheet) => TopLevelIncludes.expand(_messages, _styleSheets));
+    _styleSheets.forEach((CssStyleSheet styleSheet) =>
+        TopLevelIncludes.expand(_messages, _styleSheets));
+
+    _styleSheets.forEach((CssStyleSheet styleSheet) =>
+        DeclarationIncludes.expand(_messages, _styleSheets));
 
     _styleSheets.forEach(
-        (styleSheet) => DeclarationIncludes.expand(_messages, _styleSheets));
+        (CssStyleSheet styleSheet) => MixinsAndIncludes.remove(styleSheet));
 
-    _styleSheets.forEach((styleSheet) => MixinsAndIncludes.remove(styleSheet));
-
-    _styleSheets.forEach((styleSheet) => ExpandNestedSelectors()
+    _styleSheets.forEach((CssStyleSheet styleSheet) => ExpandNestedSelectors()
       ..visitStyleSheet(styleSheet)
       ..flatten(styleSheet));
 
-    _styleSheets.forEach((styleSheet) {
+    _styleSheets.forEach((CssStyleSheet styleSheet) {
       AllExtends allExtends = AllExtends()..visitStyleSheet(styleSheet);
       InheritExtends(_messages, allExtends).visitStyleSheet(styleSheet);
     });
@@ -406,7 +407,7 @@ class CallMixin extends Visitor {
 
       Map<CssExpressions, Set<int>>? expressions =
           varUsages[varDef!.definedName];
-      expressions!.forEach((k, v) {
+      expressions!.forEach((CssExpressions k, Set<int> v) {
         for (int usagesIndex in v) {
           k.expressions.replaceRange(usagesIndex, usagesIndex + 1, callArg);
         }
@@ -549,8 +550,9 @@ class DeclarationIncludes extends Visitor {
         } else {
           List<CssTreeNode> origRulesets = mixinDef.rulesets;
           List<CssDeclaration> rulesets = <CssDeclaration>[];
-          if (origRulesets.every((ruleset) => ruleset is IncludeDirective)) {
-            origRulesets.forEach((ruleset) {
+          if (origRulesets
+              .every((CssTreeNode ruleset) => ruleset is IncludeDirective)) {
+            origRulesets.forEach((CssTreeNode ruleset) {
               rulesets.add(CssIncludeMixinAtDeclaration(
                   ruleset as IncludeDirective, ruleset.span));
             });

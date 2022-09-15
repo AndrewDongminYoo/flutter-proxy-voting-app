@@ -45,7 +45,7 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  post() async {
+  Future<void> post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
     String accountNum = res.Output.Result.accountNum;
@@ -118,7 +118,7 @@ class BankAccountDetail implements IOBase {
       '계좌번호확장': accountNumberExt,
       '주문가능수량': oderableQuantity,
     };
-    temp.removeWhere((key, value) => value.isEmpty);
+    temp.removeWhere((String key, String value) => value.isEmpty);
     return temp;
   }
 }

@@ -26,7 +26,7 @@ class _CustomPopScopeState extends State<CustomPopScope> {
     }
     return (await showDialog(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (BuildContext context) => AlertDialog(
             title: const Text('뒤로가기를 두번 클릭하셨습니다.'),
             content: const Text('앱을 종료하시겠습니까?'),
             actions: <Widget>[

@@ -79,7 +79,7 @@ class CodeMarkupVisitor extends TreeVisitor {
     final String? tag = node.localName;
     _str.write('&lt;<code class="markup element-name">$tag</code>');
     if (node.attributes.isNotEmpty) {
-      node.attributes.forEach((key, v) {
+      node.attributes.forEach((Object key, String v) {
         v = htmlSerializeEscape(v, attributeMode: true);
         _str.write(' <code class="markup attribute-name">$key</code>'
             '=<code class="markup attribute-value">"$v"</code>');

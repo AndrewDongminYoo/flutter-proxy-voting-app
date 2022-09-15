@@ -24,7 +24,7 @@ class AccountStocks implements MTSInterface {
   }
 
   @override
-  post() async {
+  Future<void> post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     List<StockAccount> jobResult = response.Output.Result.accountStock;
@@ -78,7 +78,7 @@ class StockAccount implements IOBase {
       '상품코드': productCode,
       '상품명': productName,
     };
-    temp.removeWhere((key, value) => value.isEmpty);
+    temp.removeWhere((String key, String value) => value.isEmpty);
     return temp;
   }
 }

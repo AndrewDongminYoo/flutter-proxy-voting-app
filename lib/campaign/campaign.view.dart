@@ -105,7 +105,7 @@ class _CampaignOverviewPageState extends State<CampaignOverviewPage> {
         ),
         const SizedBox(height: 16),
         Column(
-            children: campaign.agendaList.map((item) {
+            children: campaign.agendaList.map((AgendaItem item) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: CustomCard(

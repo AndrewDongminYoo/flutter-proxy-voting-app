@@ -31,7 +31,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
     checkCertList();
   }
 
-  checkCertList() async {
+  dynamic checkCertList() async {
     Set<RKSWCertItem>? response = await _mtsController.loadCertList();
     if (response != null && response.isNotEmpty) {
       goMTSLoginCert();
@@ -91,9 +91,9 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
         currentStep: _index,
         onStepContinue: onContinue,
         onStepCancel: onCancel,
-        onStepTapped: (i) => onTapped(i),
+        onStepTapped: (int i) => onTapped(i),
         physics: const ClampingScrollPhysics(),
-        controlsBuilder: ((context, details) {
+        controlsBuilder: ((BuildContext context, ControlsDetails details) {
           Widget nextLevel = ElevatedButton(
             onPressed: onContinue,
             child: const Text('다음단계로'),

@@ -9,7 +9,7 @@ class Unfocused extends Builder {
     required this.child,
   }) : super(
           key: key,
-          builder: (context) {
+          builder: (BuildContext context) {
             return GestureDetector(
               key: key,
               behavior: HitTestBehavior.translucent,

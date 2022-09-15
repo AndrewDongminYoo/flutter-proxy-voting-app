@@ -8,10 +8,10 @@ enum CssMessageLevel { info, warning, severe }
 
 late CssMessages messages;
 
-const _greenColor = '\u001b[32m';
-const _redColor = '\u001b[31m';
-const _magentaColor = '\u001b[35m';
-const _noColor = '\u001b[0m';
+const String _greenColor = '\u001b[32m';
+const String _redColor = '\u001b[31m';
+const String _magentaColor = '\u001b[35m';
+const String _noColor = '\u001b[0m';
 
 const Map<CssMessageLevel, String> _errorColors = {
   CssMessageLevel.severe: _redColor,
@@ -97,7 +97,7 @@ class CssMessages {
   void mergeMessages(CssMessages newMessages) {
     messages.addAll(newMessages.messages);
     newMessages.messages
-        .where((message) =>
+        .where((CssMessage message) =>
             message.level == CssMessageLevel.severe || options.verbose)
         .forEach(printHandler);
   }

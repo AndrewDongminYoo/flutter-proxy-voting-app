@@ -19,6 +19,6 @@ class CustomModule {
     isException = map['계좌번호이상여부'] ?? false;
   }
 
-  static get(String name) =>
-      stockTradingFirms.firstWhere((firm) => firm.firmName == name);
+  static dynamic get(String name) => stockTradingFirms
+      .firstWhere((CustomModule firm) => firm.firmName == name);
 }

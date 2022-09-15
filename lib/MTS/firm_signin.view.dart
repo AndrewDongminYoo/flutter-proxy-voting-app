@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'
     show FilteringTextInputFormatter, TextInputFormatter, TextInputType;
+import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import 'mts.controller.dart';
@@ -27,8 +28,19 @@ class _MTSLoginIdPageState extends State<MTSLoginIdPage> {
   _setVisible(bool val) => _passwordVisible = val;
 
   _onIDLoginPressed() async {
-    _mtsController.setIDPW(_securitiesID, _securitiesPW, _passNum);
-    await _mtsController.showMTSResult();
+    try {
+      _mtsController.setIDPW(_securitiesID, _securitiesPW, _passNum);
+      await _mtsController.showMTSResult();
+    } catch (e) {
+      e.printInfo();
+      e.printError();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+          '아이디 로그인에 실패했습니다.',
+        )),
+      );
+    }
   }
 
   @override
@@ -59,7 +71,7 @@ class _MTSLoginIdPageState extends State<MTSLoginIdPage> {
       TextFormField(
         autofocus: true,
         initialValue: _securitiesID,
-        onChanged: (val) => {
+        onChanged: (String val) => {
           setState(() {
             _securitiesID = val;
           })
@@ -74,7 +86,7 @@ class _MTSLoginIdPageState extends State<MTSLoginIdPage> {
       ),
       TextFormField(
           initialValue: _securitiesPW,
-          onChanged: (val) => {
+          onChanged: (String val) => {
                 setState(() {
                   _securitiesPW = val;
                 })
@@ -99,7 +111,7 @@ class _MTSLoginIdPageState extends State<MTSLoginIdPage> {
               ))),
       TextFormField(
           initialValue: _passNum,
-          onChanged: (val) => {
+          onChanged: (String val) => {
                 setState(() {
                   if (val.length == 4) {
                     _passNum = val;

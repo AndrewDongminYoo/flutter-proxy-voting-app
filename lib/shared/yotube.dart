@@ -8,7 +8,7 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import '../vote/vote.controller.dart';
 
 class YoutubeApp extends StatefulWidget {
-  const YoutubeApp({Key? key, campaign}) : super(key: key);
+  const YoutubeApp({Key? key, dynamic campaign}) : super(key: key);
 
   @override
   State<YoutubeApp> createState() => _YoutubeAppState();

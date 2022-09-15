@@ -22,11 +22,11 @@ class CertificationCard extends StatelessWidget {
     required this.onPressed,
   });
 
-  changePass(BuildContext context) {
+  void changePass(BuildContext context) {
     _mtsController.changePass(context, item);
   }
 
-  detailInfo() {
+  void detailInfo() {
     Map<String, String> response = _mtsController.detailInfo(item);
     Get.dialog(AlertDialog(
       title: CustomText(
@@ -48,7 +48,7 @@ class CertificationCard extends StatelessWidget {
     ));
   }
 
-  deleteCert() {
+  void deleteCert() {
     _mtsController.deleteCert(item);
   }
 

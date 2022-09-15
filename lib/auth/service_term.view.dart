@@ -34,18 +34,18 @@ class _ServiceTermState extends State<ServiceTerm> {
   final List _agreeTerms = [false, false, false, false];
   bool _showDetails = false;
 
-  _getAllAgreeTerms() {
+  dynamic _getAllAgreeTerms() {
     return _agreeTerms.every((element) => element);
   }
 
-  _setAllAgreeTerms(value) {
+  void _setAllAgreeTerms(value) {
     for (int i = 0; i < _agreeTerms.length; i++) {
       _agreeTerms[i] = value;
     }
     if (mounted) setState(() {});
   }
 
-  _openPage(int index) async {
+  dynamic _openPage(int index) async {
     switch (index) {
       case 0:
         await launchUrlString(
@@ -72,7 +72,7 @@ class _ServiceTermState extends State<ServiceTerm> {
   Widget _buildCheckBox(int index, String label) {
     return CheckboxListTile(
       value: _agreeTerms[index],
-      onChanged: (value) {
+      onChanged: (bool? value) {
         if (mounted) {
           setState(() {
             _agreeTerms[index] = value;
@@ -106,7 +106,7 @@ class _ServiceTermState extends State<ServiceTerm> {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: items.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (BuildContext context, int index) {
               return _buildCheckBox(index, items[index]);
             }),
         const SizedBox(height: 50),

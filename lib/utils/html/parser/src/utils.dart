@@ -47,7 +47,7 @@ String padWithZeros(String str, int size) {
 
 String formatStr(String format, Map? data) {
   if (data == null) return format;
-  data.forEach((key, value) {
+  data.forEach((dynamic key, dynamic value) {
     final StringBuffer result = StringBuffer();
     final String search = '%($key)';
     int last = 0, match;

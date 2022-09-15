@@ -33,11 +33,11 @@ class _EditModalState extends State<EditModal> {
   String _pickAddress = '';
   List<String> _searchedRoadAddressList = [];
 
-  onClose() {
+  void onClose() {
     goBack();
   }
 
-  onSubmit() {
+  void onSubmit() {
     if (_detailAddress.isNotEmpty) {
       address = '$_pickAddress, $_detailAddress';
       _authCtrl.setAddress(address);
@@ -65,7 +65,7 @@ class _EditModalState extends State<EditModal> {
     super.initState();
   }
 
-  onSearch() async {
+  dynamic onSearch() async {
     try {
       String clientId = dotenv.get('NAVER_GEOCODE_ID');
       String clientKey = dotenv.get('NAVER_GEOCODE_KEY');
@@ -98,13 +98,13 @@ class _EditModalState extends State<EditModal> {
     }
   }
 
-  _onSelectAddress(int index) {
+  dynamic _onSelectAddress(int index) {
     setState(() {
       _selected = index;
     });
   }
 
-  _onConfirmed(String pickConfirmAddress) {
+  dynamic _onConfirmed(String pickConfirmAddress) {
     _pickAddress = pickConfirmAddress;
     _detailAddress = '';
     setState(() {
@@ -128,7 +128,7 @@ class _EditModalState extends State<EditModal> {
         border: const OutlineInputBorder(),
         labelText: labelText,
       ),
-      onChanged: (text) {
+      onChanged: (String text) {
         _detailAddress = text;
       },
     );
@@ -164,7 +164,7 @@ class _EditModalState extends State<EditModal> {
         border: const OutlineInputBorder(),
         labelText: '주소',
       ),
-      onChanged: (text) {
+      onChanged: (String text) {
         _searchAddress = text;
       },
     );
@@ -193,7 +193,7 @@ class _EditModalState extends State<EditModal> {
                     ),
                     value: _searchedRoadAddressList[index],
                     groupValue: _searchedRoadAddressList[_selected],
-                    onChanged: (value) {
+                    onChanged: (String? value) {
                       _onSelectAddress(index);
                     },
                   ),

@@ -101,12 +101,13 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: certificationList
-                    .map((cert) => CertificationCard(
+                    .map((RKSWCertItem cert) => CertificationCard(
                         item: cert,
                         onPressed: () {
                           _mtsController.setCertification(cert);
                           setState(() {
-                            certificationList.removeWhere((e) => e != cert);
+                            certificationList
+                                .removeWhere((RKSWCertItem e) => e != cert);
                             showInputElement = true;
                           });
                         }))
@@ -115,7 +116,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
             ? TextFormField(
                 autofocus: true,
                 initialValue: _certId,
-                onChanged: (val) => {
+                onChanged: (String val) => {
                   setState(() {
                     _certId = val;
                   })
@@ -132,7 +133,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
         showInputElement
             ? TextFormField(
                 initialValue: _certPW,
-                onChanged: (val) => {
+                onChanged: (String val) => {
                   setState(() {
                     _certPW = val;
                   })
@@ -176,7 +177,7 @@ class _MTSLoginCertPageState extends State<MTSLoginCertPage> {
         showInputElement
             ? TextFormField(
                 initialValue: _certPin,
-                onChanged: (val) => {
+                onChanged: (String val) => {
                       setState(() {
                         if (val.length == 4) {
                           _certPin = val;

@@ -458,7 +458,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
     str.write(localName);
 
     if (attributes.isNotEmpty) {
-      attributes.forEach((key, v) {
+      attributes.forEach((Object key, String v) {
         str.write(' ');
         str.write(key);
         str.write('="');
@@ -758,7 +758,7 @@ class FilteredElementList extends IterableBase<Element>
 
   @override
   void removeRange(int start, int end) {
-    _filtered.sublist(start, end).forEach((el) => el.remove());
+    _filtered.sublist(start, end).forEach((Element el) => el.remove());
   }
 
   @override

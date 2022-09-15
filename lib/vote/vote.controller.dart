@@ -122,7 +122,7 @@ class VoteController extends GetxController {
       response = await _service.findSharesByName('tli', name);
       _shareholders.clear(); // 기존 데이터 초기화
       (response.body['shareholders'])
-          .forEach((e) => _shareholders.add(Shareholder.fromJson(e)));
+          .forEach((dynamic e) => _shareholders.add(Shareholder.fromJson(e)));
     } catch (e) {
       print('[VoteController] findSharesByName error: $e');
     }

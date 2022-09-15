@@ -61,7 +61,7 @@ class AccountTransaction implements MTSInterface {
   }
 
   @override
-  post() async {
+  Future<void> post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
     for (BankAccountTransaction trans
@@ -152,7 +152,7 @@ class BankAccountTransaction implements IOBase {
       '입금은행': bankOffice,
       '입금계좌번호': paidAccountNum,
     };
-    temp.removeWhere((key, value) => value.isEmpty);
+    temp.removeWhere((String key, String value) => value.isEmpty);
     return temp;
   }
 }

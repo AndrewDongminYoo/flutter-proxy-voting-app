@@ -82,7 +82,7 @@ class CustomConfirmWithButton extends StatelessWidget {
 // JS의 Window.confirm() 참고
 // 함수 실행시 메세지와 함께 모달 대화 상자를 띄웁니다.
 // CustomConfirmWithButton와 유사하지만, 모달만 띄우는 함수.
-customWindowConfirm(
+void customWindowConfirm(
   String message,
   String okLabel,
   void Function() onConfirm,

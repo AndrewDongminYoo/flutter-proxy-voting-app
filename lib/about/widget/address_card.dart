@@ -25,7 +25,7 @@ class _AddressCardState extends State<AddressCard> {
   VoteController voteCtrl = VoteController.get();
   String address = '';
 
-  onEdit() async {
+  void onEdit() async {
     String? add = await Get.dialog(
       const EditModal(),
       arguments: address,

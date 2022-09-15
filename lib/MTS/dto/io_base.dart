@@ -20,7 +20,7 @@ class CertDto implements IOBase {
       '만료일자': certExpire,
       '비밀번호': certPassword,
     };
-    temp.removeWhere((key, value) => value.isEmpty);
+    temp.removeWhere((String key, String value) => value.isEmpty);
     return temp;
   }
 }
@@ -49,7 +49,7 @@ class CustomOutput implements IOBase {
       'ErrorMessage': ErrorMessage,
       'Result': Result.isEmpty ? {} : Result.json,
     };
-    temp.removeWhere((k, v) {
+    temp.removeWhere((String k, dynamic v) {
       if (v is String) {
         return v.isEmpty;
       } else if (v is Map) {
@@ -109,7 +109,7 @@ class CustomInput implements IOBase {
       '계좌번호확장': accountExt,
       '인증서': certificate?.json,
     };
-    temp.removeWhere((k, v) => v == null || v.isEmpty);
+    temp.removeWhere((String k, dynamic v) => v == null || v.isEmpty);
     return temp;
   }
 
@@ -160,27 +160,27 @@ class CustomResult implements IOBase {
       depositReceived = output['예수금'] ?? '';
       foriegnDeposit = output['외화예수금'] ?? '';
       amountValuation = output['평가금액'] ?? '';
-      final stock = output['증권보유계좌조회'];
+      final dynamic stock = output['증권보유계좌조회'];
       if (stock is List) {
-        accountStock = stock.map((e) {
+        accountStock = stock.map((dynamic e) {
           return StockAccount.from(e);
         }).toList();
       }
-      final all = output['전계좌조회'];
+      final dynamic all = output['전계좌조회'];
       if (all is List) {
-        accountAll = all.map((e) {
+        accountAll = all.map((dynamic e) {
           return BankAccountAll.from(e);
         }).toList();
       }
-      final detail = output['계좌상세조회'];
+      final dynamic detail = output['계좌상세조회'];
       if (detail is List) {
-        accountDetail = detail.map((e) {
+        accountDetail = detail.map((dynamic e) {
           return BankAccountDetail.from(e);
         }).toList();
       }
-      final transaction = output['거래내역조회'];
+      final dynamic transaction = output['거래내역조회'];
       if (transaction is List) {
-        accountTransaction = transaction.map((e) {
+        accountTransaction = transaction.map((dynamic e) {
           return BankAccountTransaction.from(e);
         }).toList();
       }
@@ -207,12 +207,13 @@ class CustomResult implements IOBase {
       '예수금': depositReceived,
       '외화예수금': foriegnDeposit,
       '평가금액': amountValuation,
-      '증권보유계좌조회': accountStock.map((e) => e.json).toList(),
-      '전계좌조회': accountAll.map((e) => e.json).toList(),
-      '계좌상세조회': accountDetail.map((e) => e.json).toList(),
-      '거래내역조회': accountTransaction.map((e) => e.json).toList(),
+      '증권보유계좌조회': accountStock.map((StockAccount e) => e.json).toList(),
+      '전계좌조회': accountAll.map((BankAccountAll e) => e.json).toList(),
+      '계좌상세조회': accountDetail.map((BankAccountDetail e) => e.json).toList(),
+      '거래내역조회':
+          accountTransaction.map((BankAccountTransaction e) => e.json).toList(),
     };
-    temp.removeWhere((k, v) => v == null || v.isEmpty);
+    temp.removeWhere((String k, dynamic v) => v == null || v.isEmpty);
     return temp;
   }
 }

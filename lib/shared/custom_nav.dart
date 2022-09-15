@@ -8,36 +8,41 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 // 🌎 Project imports:
 import '../lib.dart';
 
-goBack() => Get.back();
-goBackWithVal(context, value) => Navigator.pop(context, value);
-goOnboarding() => Get.to(() => const OnboardingPage());
-goMainHome() => Get.to(() => const MainHomePage());
-goCampaignPreview() => Get.to(() => const CampaignPreviewPage());
-goAuthSignUp() => Get.to(() => const AuthSignUpPage());
-goAuthValidNew() =>
+dynamic goBack() => Get.back();
+dynamic goBackWithVal(dynamic context, dynamic value) =>
+    Navigator.pop(context, value);
+dynamic goOnboarding() => Get.to(() => const OnboardingPage());
+dynamic goMainHome() => Get.to(() => const MainHomePage());
+dynamic goCampaignPreview() => Get.to(() => const CampaignPreviewPage());
+dynamic goAuthSignUp() => Get.to(() => const AuthSignUpPage());
+dynamic goAuthValidNew() =>
     Get.to(() => const AuthValidatePage(), arguments: {'new': true});
-goAuthValidOld() =>
+dynamic goAuthValidOld() =>
     Get.to(() => const AuthValidatePage(), arguments: {'new': false});
-goCampaignOverview() => Get.to(() => const CampaignOverviewPage());
-goVoteSign() => Get.to(() => const VoteSignPage());
-goUploadIdCard() => Get.to(() => const UploadIdCardPage());
-goTakeIdNumber() => Get.to(() => const TakeIdNumberPage());
-goNotShareholder() => Get.to(() => const NotShareholderPage());
-goAddressDedupe() => Get.to(() => const AddressDedupePage());
-goVoteNumCheck() => Get.to(() => const VoteNumCheckPage());
-jumpVoteNumCheck() => Get.offAll(const VoteNumCheckPage());
-goMTSFirmChoice() => Get.to(() => const MTSFirmChoicePage());
-goMTSLoginChoice() => Get.to(() => const MTSLoginChoicePage());
-goMTSLoginId() => Get.to(() => const MTSLoginIdPage());
-goMTSLoginCert() => Get.to(() => const MTSLoginCertPage());
-goMTSImportCert() => Get.to(() => const MTSImportCertPage());
-goMTSShowResult() => Get.to(() => const MTSShowResultPage());
-backToSignUp() => Get.offAll(() => const AuthSignUpPage());
-goVoteWithExample() =>
+dynamic goCampaignOverview() => Get.to(() => const CampaignOverviewPage());
+dynamic goVoteSign() => Get.to(() => const VoteSignPage());
+dynamic goUploadIdCard() => Get.to(() => const UploadIdCardPage());
+dynamic goTakeIdNumber() => Get.to(() => const TakeIdNumberPage());
+dynamic goNotShareholder() => Get.to(() => const NotShareholderPage());
+dynamic goAddressDedupe() => Get.to(() => const AddressDedupePage());
+dynamic goVoteNumCheck() => Get.to(() => const VoteNumCheckPage());
+dynamic jumpVoteNumCheck() => Get.offAll(const VoteNumCheckPage());
+dynamic goMTSFirmChoice() => Get.to(() => const MTSFirmChoicePage());
+dynamic goMTSLoginChoice() => Get.to(() => const MTSLoginChoicePage());
+dynamic goMTSLoginId() => Get.to(() => const MTSLoginIdPage());
+dynamic goMTSLoginCert() => Get.to(() => const MTSLoginCertPage());
+dynamic goMTSImportCert() => Get.to(() => const MTSImportCertPage());
+dynamic goMTSShowResult() => Get.to(() => const MTSShowResultPage());
+dynamic goMTSStockChoice(Account account) =>
+    Get.to(() => ShowTransactionPage(account: account));
+dynamic backToSignUp() => Get.offAll(() => const AuthSignUpPage());
+dynamic goVoteWithExample() =>
     Get.to(() => const VoteToAgendaPage(), arguments: 'example');
-goVoteWithMemory() =>
+dynamic goVoteWithMemory() =>
     Get.to(() => const VoteToAgendaPage(), arguments: 'memory');
-goVoteNoExample() => Get.to(() => const VoteToAgendaPage(), arguments: null);
-jumpToMainHome() => Get.offAll(() => const MainHomePage());
-jumpToCampaignOverview() => Get.offAll(() => const CampaignOverviewPage());
-jumpToVoteResult() => Get.offAll(() => const VoteResultPage());
+dynamic goVoteNoExample() =>
+    Get.to(() => const VoteToAgendaPage(), arguments: null);
+dynamic jumpToMainHome() => Get.offAll(() => const MainHomePage());
+dynamic jumpToCampaignOverview() =>
+    Get.offAll(() => const CampaignOverviewPage());
+dynamic jumpToVoteResult() => Get.offAll(() => const VoteResultPage());

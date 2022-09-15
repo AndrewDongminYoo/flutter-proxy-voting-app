@@ -26,7 +26,7 @@ class LogoutRequest implements MTSInterface {
   @override
   Future<void> post() async {
     CustomResponse response = await fetch(username);
-    response.Output.Result.json.forEach((key, value) {
+    response.Output.Result.json.forEach((String key, dynamic value) {
       print('$key: $value');
     });
   }

@@ -8,19 +8,19 @@ import '../campaign.model.dart';
 
 class CampaignInfo extends Column {
   final Campaign campaign;
-  final Function(Campaign) onPress;
+  final Function(Campaign) onPressed;
 
   CampaignInfo({
     Key? key,
     required this.campaign,
-    required this.onPress,
+    required this.onPressed,
   }) : super(
           key: key,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             const SizedBox(height: 24),
             GestureDetector(
-              onTap: () => {onPress(campaign)},
+              onTap: () => {onPressed(campaign)},
               child: CustomText(
                 text: campaign.koName,
                 typoType: TypoType.h1Title,
@@ -29,7 +29,7 @@ class CampaignInfo extends Column {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: () => {onPress(campaign)},
+              onTap: () => {onPressed(campaign)},
               child: CustomText(
                 text: campaign.moderator,
                 colorType: ColorType.white,
@@ -38,7 +38,7 @@ class CampaignInfo extends Column {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: () => {onPress(campaign)},
+              onTap: () => {onPressed(campaign)},
               child: CustomText(
                 text: campaign.date,
                 colorType: ColorType.white,

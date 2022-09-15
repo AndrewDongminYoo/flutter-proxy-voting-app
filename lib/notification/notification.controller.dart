@@ -109,10 +109,10 @@ class NotiController extends GetxController {
 
   Map<String, dynamic> decodeJson(String message) {
     return json.decode(message,
-        reviver: (key, value) => reviverDateTime(key, value));
+        reviver: (Object? key, Object? value) => reviverDateTime(key, value));
   }
 
-  dynamic reviverDateTime(key, value) {
+  dynamic reviverDateTime(Object? key, Object? value) {
     if (key == 'createdAt') {
       return DateTime.parse(value as String);
     }

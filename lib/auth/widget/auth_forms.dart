@@ -71,7 +71,7 @@ class _PhoneNumberFormState extends State<PhoneNumberForm> {
           color: Color.fromARGB(255, 255, 55, 0),
         ),
       ),
-      onChanged: (text) {
+      onChanged: (String text) {
         if (text.isEmpty) {
           setState(() {
             _validation = true;
@@ -182,7 +182,7 @@ class _KoreanIdFormState extends State<KoreanIdForm> {
               : const Color.fromARGB(255, 255, 55, 0),
         ),
       ),
-      onChanged: (text) {
+      onChanged: (String text) {
         if (text.isEmpty) {
           setState(() {
             _validation = true;
@@ -372,7 +372,7 @@ class _NameFormState extends State<NameForm> {
               : const Color.fromARGB(255, 255, 55, 0),
         ),
       ),
-      onChanged: (text) {
+      onChanged: (String text) {
         if (text.isEmpty) {
           setState(() {
             _validation = true;

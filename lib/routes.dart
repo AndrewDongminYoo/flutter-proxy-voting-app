@@ -30,5 +30,5 @@ List<GetPage> getPages = [
   GetPage(name: '/mts-result', page: () => const MTSShowResultPage()),
 ];
 
-List<String> names = getPages.map((element) => element.name).toList();
-List<Widget> pages = getPages.map((element) => element.page()).toList();
+List<String> names = getPages.map((GetPage element) => element.name).toList();
+List<Widget> pages = getPages.map((GetPage element) => element.page()).toList();

@@ -117,7 +117,7 @@ class _TakeIdNumberPageState extends State<TakeIdNumberPage> {
                     autocorrect: false,
                     keyboardType: TextInputType.number,
                     autofocus: true,
-                    onChanged: ((input) {
+                    onChanged: ((String input) {
                       if (!input.contains(RegExp(r'^[0-9]*$'))) {
                         setState(() {
                           _validation = false;

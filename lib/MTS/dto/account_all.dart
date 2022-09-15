@@ -38,7 +38,7 @@ class AccountAll implements MTSInterface {
   }
 
   @override
-  post() async {
+  Future<void> post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
     for (BankAccountAll account in res.Output.Result.accountAll) {
@@ -107,7 +107,9 @@ class BankAccountAll implements IOBase {
       '수익률': yields,
       '총자산': totalAssets,
     };
-    temp.removeWhere((key, value) => value.isEmpty);
+    temp.removeWhere((String key, String value) {
+      return value.isEmpty;
+    });
     return temp;
   }
 

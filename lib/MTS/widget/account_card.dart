@@ -7,8 +7,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 
 // 🌎 Project imports:
 import '../../shared/shared.dart';
-import '../models/acccount.model.dart';
-import '../utils/formatters.dart';
+import '../mts.dart';
 
 class AccountCard extends StatefulWidget {
   const AccountCard({super.key, required this.account});
@@ -18,66 +17,74 @@ class AccountCard extends StatefulWidget {
 }
 
 class _AccountCardState extends State<AccountCard> {
+  MtsController mtsController = MtsController.get();
   @override
   Widget build(BuildContext context) {
     Account account = widget.account;
-    return Container(
-      width: Get.width - 20,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-          boxShadow: kElevationToShadow[3],
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20)),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 20,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                account.module.logoImage,
+    return GestureDetector(
+      onTap: () => onTap(account),
+      child: Container(
+        width: Get.width - 20,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            boxShadow: kElevationToShadow[3],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20)),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 20,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.asset(
+                  account.module.logoImage,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: account.module.korName,
-                typoType: TypoType.h2Bold,
-              ),
-              CustomText(
-                  text: account.idOrCert, typoType: TypoType.bodySmaller),
-              CustomText(
-                  text: [
-                codeMap[account.productCode],
-                account.productName,
-                hypen(account.accountNum)
-              ].join(' '))
-            ],
-          ),
-          const Spacer(),
-          Flex(
-            direction: Axis.vertical,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            verticalDirection: VerticalDirection.down,
-            children: const [
-              Icon(Icons.more_vert),
-              SizedBox(
-                height: 50,
-              )
-            ],
-          ),
-        ],
+            const SizedBox(
+              width: 20,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  text: account.module.korName,
+                  typoType: TypoType.h2Bold,
+                ),
+                CustomText(
+                    text: account.idOrCert, typoType: TypoType.bodySmaller),
+                CustomText(
+                    text: [
+                  codeMap[account.productCode],
+                  account.productName,
+                  hypen(account.accountNum)
+                ].join(' '))
+              ],
+            ),
+            const Spacer(),
+            Flex(
+              direction: Axis.vertical,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              verticalDirection: VerticalDirection.down,
+              children: const [
+                Icon(Icons.more_vert),
+                SizedBox(
+                  height: 50,
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void onTap(Account account) {
+    goMTSStockChoice(account);
   }
 }
 

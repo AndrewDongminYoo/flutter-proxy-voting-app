@@ -202,7 +202,7 @@ Widget _customPageViewLayer(
                     pageSnapping: true,
                     controller: controller,
                     onPageChanged: updateCurPage,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (BuildContext context, int index) {
                       int realIndex = _getRealIndex(index, campaigns.length);
                       return Container(
                           margin: const EdgeInsets.all(13),
@@ -243,7 +243,7 @@ Widget _informationBox(Campaign curCampaign, void Function(Campaign) onPress,
               )),
           CampaignInfo(
             campaign: curCampaign,
-            onPress: onPress,
+            onPressed: onPress,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),

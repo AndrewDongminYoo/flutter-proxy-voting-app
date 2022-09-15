@@ -506,7 +506,7 @@ class Phase {
       parser.parseError(token.span, 'non-html-root');
     }
     tree.openElements[0].sourceSpan = token.span;
-    token.data.forEach((attr, value) {
+    token.data.forEach((Object attr, String value) {
       tree.openElements[0].attributes.putIfAbsent(attr, () => value);
     });
     parser.firstStartTag = false;
@@ -1444,7 +1444,7 @@ class InBodyPhase extends Phase {
       assert(parser.innerHTMLMode);
     } else {
       parser.framesetOK = false;
-      token.data.forEach((attr, value) {
+      token.data.forEach((Object attr, String value) {
         tree.openElements[1].attributes.putIfAbsent(attr, () => value);
       });
     }

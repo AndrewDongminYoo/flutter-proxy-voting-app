@@ -30,7 +30,7 @@ class CssPolyFill {
         (_VarDefAndUsage(_messages, _allVarDefinitions)..visitTree(styleSheet))
             .varDefs;
 
-    mainStyleSheetVarDefs.forEach((key, value) {
+    mainStyleSheetVarDefs.forEach((String key, VarDefinition value) {
       // ignore: unused_local_variable
       for (CssExpression unused
           in (value.expression as CssExpressions).expressions) {

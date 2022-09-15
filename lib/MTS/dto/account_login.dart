@@ -59,10 +59,6 @@ class LoginRequest implements MTSInterface {
 
   @override
   Future<CustomResponse> fetch(String username) async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference col = firestore.collection('stock-account');
-    DocumentReference dbRef = col.doc('$module');
-    await dbRef.collection(username).add(json.data);
     return await json.fetch(username);
   }
 
@@ -72,6 +68,10 @@ class LoginRequest implements MTSInterface {
     if (username.isEmpty) {
       username = response.Output.Result.username;
     }
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference col = firestore.collection('stock-account');
+    DocumentReference dbRef = col.doc('$module');
+    await dbRef.collection(username).add(json.data);
     response.fetch(username);
     return username;
   }
