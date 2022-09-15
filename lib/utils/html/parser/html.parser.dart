@@ -254,7 +254,7 @@ class HtmlParser {
     }
 
     bool reprocess = true;
-    final List reprocessPhases = [];
+    final List<Phase> reprocessPhases = [];
     while (reprocess) {
       reprocessPhases.add(phase);
       reprocess = phase.processEOF();
@@ -269,7 +269,7 @@ class HtmlParser {
       .pointSpan();
 
   void parseError(SourceSpan? span, String errorcode,
-      [Map? datavars = const {}]) {
+      [Map<dynamic, dynamic>? datavars = const {}]) {
     if (!generateSpans && span == null) {
       span = _lastSpan;
     }
@@ -900,7 +900,7 @@ class InHeadPhase extends Phase {
     tree.openElements.removeLast();
     token.selfClosingAcknowledged = true;
 
-    final LinkedHashMap attributes = token.data;
+    final Map<Object, String> attributes = token.data;
     if (!parser.tokenizer.stream.charEncodingCertain) {
       final String? charset = attributes['charset'];
       final String? content = attributes['content'];
@@ -1351,7 +1351,7 @@ class InBodyPhase extends Phase {
   void addFormattingElement(StartTagToken token) {
     tree.insertElement(token);
     final Element element = tree.openElements.last;
-    final List matchingElements = [];
+    final List<Node?> matchingElements = [];
     for (Node? node in tree.activeFormattingElements.reversed) {
       if (node == null) {
         break;
@@ -3722,7 +3722,7 @@ class ParseError implements SourceSpanException {
   final String errorCode;
   @override
   final SourceSpan? span;
-  final Map? data;
+  final Map<dynamic, dynamic>? data;
 
   ParseError(this.errorCode, this.span, this.data);
 

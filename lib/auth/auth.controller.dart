@@ -54,7 +54,7 @@ class AuthController extends GetxController {
 
   // 서버에서 사용자 데이터 불러오기
   Future<User?> getUserInfo(String telNum) async {
-    Response response = await _service.getUserByTelNum(telNum);
+    Response<dynamic> response = await _service.getUserByTelNum(telNum);
     if (kDebugMode) {
       print('[AuthController] getUserInfo: ${response.body}');
     }
@@ -67,10 +67,16 @@ class AuthController extends GetxController {
   }
 
   // 회원가입
-  Future<Response> _signUp() async {
+  Future<Response<dynamic>> _signUp() async {
     print('[AuthController] signUp');
-    Response response = await _service.createUser(user.username, user.frontId,
-        user.backId, user.telecom, user.phoneNumber, user.ci, user.di);
+    Response<dynamic> response = await _service.createUser(
+        user.username,
+        user.frontId,
+        user.backId,
+        user.telecom,
+        user.phoneNumber,
+        user.ci,
+        user.di);
     print(response.bodyString);
     _isLogined = true;
     return response;

@@ -17,7 +17,7 @@ class RouteTileWidget extends StatelessWidget {
     required this.campaign,
   }) : super(key: key);
 
-  final List<List> title;
+  final List<List<dynamic>> title;
   final Campaign campaign;
 
   @override

@@ -69,7 +69,7 @@ abstract class StringToken extends Token {
 }
 
 class ParseErrorToken extends StringToken {
-  Map? messageParams;
+  Map<String, dynamic>? messageParams;
 
   ParseErrorToken(String data, {this.messageParams}) : super(data);
 

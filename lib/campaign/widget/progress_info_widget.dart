@@ -13,7 +13,7 @@ class ProgressInfoWidget extends StatelessWidget {
     required this.campaign,
   }) : super(key: key);
 
-  final List progress;
+  final List<String> progress;
   final int progressState;
   final Campaign campaign;
 

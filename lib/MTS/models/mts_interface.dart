@@ -12,7 +12,7 @@ abstract class MTSInterface {
     throw UnimplementedError();
   }
 
-  Future post() {
+  Future<dynamic> post() {
     throw UnimplementedError();
   }
 
@@ -29,5 +29,5 @@ abstract class IOBase {
 abstract class InputOutput {
   InputOutput();
   Map<String, dynamic> get data;
-  Future fetch(String username) async {}
+  Future<dynamic> fetch(String username) async {}
 }

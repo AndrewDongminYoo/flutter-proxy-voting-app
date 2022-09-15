@@ -102,10 +102,10 @@ class CooconMTSService extends GetConnect {
 
   Future<Set<RKSWCertItem>> loadCertificationList() async {
     Set<RKSWCertItem> list = {};
-    List? response = await channel.invokeListMethod('loadCertList');
+    List<dynamic>? response = await channel.invokeListMethod('loadCertList');
     print(response);
     if (response != null) {
-      for (dynamic json in response) {
+      for (Map<Object?, Object?> json in response) {
         RKSWCertItem item = RKSWCertItem.from(json);
         list.add(item);
       }

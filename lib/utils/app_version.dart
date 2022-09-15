@@ -87,7 +87,7 @@ class AppVersionValidator {
       }
 
       final dynamic jsonObj = json.decode(response.body);
-      final List results = jsonObj['results'];
+      final List<dynamic> results = jsonObj['results'];
       if (results.isEmpty) {
         print('Can\'t find an app in the App Store with the id: $id');
         return null;

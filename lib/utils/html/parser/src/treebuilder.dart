@@ -31,7 +31,7 @@ class ActiveFormattingElements extends ListProxy<Element?> {
   }
 }
 
-bool _mapEquals(Map a, Map b) {
+bool _mapEquals(Map<dynamic, dynamic> a, Map<dynamic, dynamic> b) {
   if (a.length != b.length) return false;
   if (a.isEmpty) return true;
 

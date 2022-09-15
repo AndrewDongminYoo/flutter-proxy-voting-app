@@ -53,7 +53,7 @@ String toString(Object? obj) {
 DateFormat formatter = DateFormat('yyyy년 MM월 dd일');
 RegExp fRegex = RegExp(r'ou=([A-Za-z가-힣]+)');
 RegExp nRegex = RegExp(r'cn=([A-Za-z가-힣0-9]+)');
-Set _banks = {
+Set<String> _banks = {
   '한국은행',
   '중국은행',
   '산업은행',

@@ -240,7 +240,7 @@ class TopLevelIncludes extends Visitor {
   CssStyleSheet? _styleSheet;
   final CssMessages _messages;
 
-  final Map map = <String, CssMixinDefinition>{};
+  final Map<dynamic, dynamic> map = <String, CssMixinDefinition>{};
   CssMixinDefinition? currDef;
 
   static void expand(CssMessages messages, List<CssStyleSheet> styleSheets) {
@@ -353,7 +353,7 @@ class _TopLevelIncludeReplacer extends Visitor {
   }
 }
 
-int _findInclude(List list, CssTreeNode node) {
+int _findInclude(List<dynamic> list, CssTreeNode node) {
   final IncludeDirective matchNode = (node is CssIncludeMixinAtDeclaration)
       ? node.include
       : node as IncludeDirective;
@@ -370,11 +370,12 @@ int _findInclude(List list, CssTreeNode node) {
 
 class CallMixin extends Visitor {
   final CssMixinDefinition mixinDef;
-  List? _definedArgs;
+  List<dynamic>? _definedArgs;
   CssExpressions? _currExpressions;
   int _currIndex = -1;
 
-  final Map varUsages = <String, Map<CssExpressions, Set<int>>>{};
+  final Map<dynamic, dynamic> varUsages =
+      <String, Map<CssExpressions, Set<int>>>{};
 
   final Map<String, VarDefinition>? varDefs;
 
@@ -688,11 +689,12 @@ class MixinsAndIncludes extends Visitor {
 }
 
 class AllExtends extends Visitor {
-  final Map inherits = <String, List<CssSelectorGroup>>{};
+  final Map<String, List<CssSelectorGroup>> inherits =
+      <String, List<CssSelectorGroup>>{};
 
   CssSelectorGroup? _currSelectorGroup;
   int? _currDeclIndex;
-  final List _extendsToRemove = <int>[];
+  final List<int> _extendsToRemove = <int>[];
 
   @override
   void visitRuleSet(CssRuleSet node) {

@@ -26,14 +26,19 @@ class CampaignPreviewPage extends StatefulWidget {
 
 class _CampaignPreviewPageState extends State<CampaignPreviewPage> {
   final VoteController _voteCtrl = VoteController.get();
-  final List<List> title = [
+  final List<List<dynamic>> title = [
     ['전자위임', Icons.description_outlined],
     ['캠페인', Icons.import_contacts_outlined],
     ['라운지', Icons.people_outline],
     ['공시서류', Icons.attachment_outlined],
     ['이전기록', Icons.history]
   ];
-  final List progress = ['공개 진행중', '주주제안 진행중', '의결권 위임 진행중', '주주총회 진행중'];
+  final List<String> progress = [
+    '공개 진행중',
+    '주주제안 진행중',
+    '의결권 위임 진행중',
+    '주주총회 진행중'
+  ];
   // TODO: 데이터 직접 입력 제거하기
   final int progressState = 2;
   int bottomsheetHeight = 3;

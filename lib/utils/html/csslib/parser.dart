@@ -1915,7 +1915,8 @@ class _Parser {
           return CssLiteralTerm(nameValue, nameValue.name, _makeSpan(start));
         }
 
-        Map? colorEntry = CssTokenKind.matchColorName(nameValue.name);
+        Map<String, dynamic>? colorEntry =
+            CssTokenKind.matchColorName(nameValue.name);
         if (colorEntry == null) {
           if (isChecked) {
             String propName = nameValue.name;

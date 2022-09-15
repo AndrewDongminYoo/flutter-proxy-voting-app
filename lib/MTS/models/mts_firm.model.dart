@@ -11,7 +11,7 @@ class CustomModule {
   @override
   String toString() => firmName;
 
-  CustomModule.from(Map map) {
+  CustomModule.from(Map<String, dynamic> map) {
     firmName = map['module'] ?? '';
     korName = map['name'] ?? '';
     logoImage = map['image'] ?? '';

@@ -45,7 +45,7 @@ String padWithZeros(String str, int size) {
   return result.toString();
 }
 
-String formatStr(String format, Map? data) {
+String formatStr(String format, Map<dynamic, dynamic>? data) {
   if (data == null) return format;
   data.forEach((dynamic key, dynamic value) {
     final StringBuffer result = StringBuffer();

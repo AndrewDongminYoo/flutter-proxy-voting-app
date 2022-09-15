@@ -7,7 +7,7 @@ import 'package:get/route_manager.dart' show GetPage;
 // 🌎 Project imports:
 import 'lib.dart';
 
-List<GetPage> getPages = [
+List<GetPage<String>> getPages = [
   GetPage(name: '/onboarding', page: () => const OnboardingPage()),
   GetPage(name: '/', page: () => const MainHomePage()),
   GetPage(name: '/preview', page: () => const CampaignPreviewPage()),
@@ -30,5 +30,13 @@ List<GetPage> getPages = [
   GetPage(name: '/mts-result', page: () => const MTSShowResultPage()),
 ];
 
-List<String> names = getPages.map((GetPage element) => element.name).toList();
-List<Widget> pages = getPages.map((GetPage element) => element.page()).toList();
+List<String> names = getPages
+    .map(
+      (GetPage<String> element) => element.name,
+    )
+    .toList();
+List<Widget> pages = getPages
+    .map(
+      (GetPage<String> element) => element.page(),
+    )
+    .toList();

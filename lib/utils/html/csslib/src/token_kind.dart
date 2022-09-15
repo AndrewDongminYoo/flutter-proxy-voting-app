@@ -276,7 +276,7 @@ class CssTokenKind {
   static const int ASCII_UPPER_A = 65;
   static const int ASCII_UPPER_Z = 90;
 
-  static const List<Map> _EXTENDED_COLOR_NAMES = [
+  static const List<Map<String, dynamic>> _EXTENDED_COLOR_NAMES = [
     {'name': 'aliceblue', 'value': 0xF08FF},
     {'name': 'antiquewhite', 'value': 0xFAEBD7},
     {'name': 'aqua', 'value': 0x00FFFF},
@@ -440,7 +440,7 @@ class CssTokenKind {
 
   static int matchList(Iterable<Map<String, dynamic>> identList,
       String tokenField, String text, int offset, int length) {
-    for (final Map entry in identList) {
+    for (final Map<String, dynamic> entry in identList) {
       final String ident = entry['value'] as String;
 
       if (length == ident.length) {
@@ -498,7 +498,7 @@ class CssTokenKind {
     if (unitTokenToFind == CssTokenKind.PERCENT) {
       return '%';
     } else {
-      for (final Map entry in _UNITS) {
+      for (final Map<String, dynamic> entry in _UNITS) {
         final int unit = entry['unit'] as int;
         if (unit == unitTokenToFind) {
           return entry['value'] as String?;
@@ -509,20 +509,20 @@ class CssTokenKind {
     return '<BAD UNIT>';
   }
 
-  static Map? matchColorName(String text) {
+  static Map<String, dynamic>? matchColorName(String text) {
     String name = text.toLowerCase();
-    for (Map<dynamic, dynamic> color in _EXTENDED_COLOR_NAMES) {
+    for (Map<String, dynamic> color in _EXTENDED_COLOR_NAMES) {
       if (color['name'] == name) return color;
     }
     return null;
   }
 
-  static int colorValue(Map entry) {
+  static int colorValue(Map<String, dynamic> entry) {
     return entry['value'] as int;
   }
 
   static String? hexToColorName(hexValue) {
-    for (final Map entry in _EXTENDED_COLOR_NAMES) {
+    for (final Map<String, dynamic> entry in _EXTENDED_COLOR_NAMES) {
       if (entry['value'] == hexValue) {
         return entry['name'] as String?;
       }

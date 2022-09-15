@@ -185,9 +185,9 @@ abstract class Node {
   void _ensureAttributeSpans() {
     if (_attributeSpans != null) return;
 
-    final LinkedHashMap attributeSpans =
+    final LinkedHashMap<Object, FileSpan> attributeSpans =
         _attributeSpans = LinkedHashMap<Object, FileSpan>();
-    final LinkedHashMap attributeValueSpans =
+    final LinkedHashMap<Object, FileSpan> attributeValueSpans =
         _attributeValueSpans = LinkedHashMap<Object, FileSpan>();
 
     if (sourceSpan == null) return;
@@ -367,7 +367,7 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
 
   static final RegExp _startTagRegexp = RegExp('<(\\w+)');
 
-  static final Map _customParentTagMap = {
+  static final Map<String, String> _customParentTagMap = {
     'body': 'html',
     'head': 'html',
     'caption': 'table',
@@ -737,7 +737,7 @@ class FilteredElementList extends IterableBase<Element>
 
   @override
   void sort([int Function(Element, Element)? compare]) {
-    throw UnsupportedError('TODO(jacobr): should we impl?');
+    throw UnsupportedError('(jacobr): should we impl?');
   }
 
   @override

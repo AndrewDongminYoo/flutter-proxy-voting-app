@@ -218,8 +218,8 @@ class EncodingParser {
       return null;
     }
 
-    final List attrName = [];
-    final List attrValue = [];
+    final List<String> attrName = [];
+    final List<String> attrValue = [];
 
     while (true) {
       if (c == null) {

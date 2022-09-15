@@ -56,7 +56,7 @@ class _EditModalState extends State<EditModal> {
       address = _authCtrl.user.address;
     }
     if (address.isNotEmpty) {
-      List splitAddress = address.split(', ');
+      List<String> splitAddress = address.split(', ');
       _pickAddress = splitAddress[0];
       _searchAddress = splitAddress[0];
       _detailAddress = splitAddress[1];

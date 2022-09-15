@@ -76,7 +76,8 @@ class VoteController extends GetxController {
       for (String campaign in completedCampaign) {
         final dynamic shareholderId = await getShareholderId(campaign);
         if (shareholderId != null) {
-          Response response = await _service.validateShareholder(shareholderId);
+          Response<dynamic> response =
+              await _service.validateShareholder(shareholderId);
           if (response.statusCode != 500) {
             _completedShareholder
                 .add(Shareholder.fromJson(response.body['shareholder']));
@@ -99,7 +100,7 @@ class VoteController extends GetxController {
   //     case B-2: 주주가 한명인 경우, 주식수 확인으로 이동
   //     case B-3: 주주가 없는 경우, 주주가 아닌 화면으로 이동
   void toVote(int uid, String name) async {
-    Response response;
+    Response<dynamic> response;
     _startLoading();
 
     try {
@@ -192,7 +193,7 @@ class VoteController extends GetxController {
       }
     }
 
-    Response response = await _service.postResult(
+    Response<dynamic> response = await _service.postResult(
       uid,
       shareholder.id,
       deviceName,

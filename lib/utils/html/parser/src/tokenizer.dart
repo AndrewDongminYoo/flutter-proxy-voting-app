@@ -136,7 +136,7 @@ class HtmlTokenizer implements Iterator<Token> {
       radix = 16;
     }
 
-    final List charStack = [];
+    final List<String?> charStack = [];
 
     String? c = stream.char();
     while (allowed(c) && c != eof) {

@@ -31,7 +31,7 @@ class ServiceTerm extends StatefulWidget {
 }
 
 class _ServiceTermState extends State<ServiceTerm> {
-  final List _agreeTerms = [false, false, false, false];
+  final List<bool> _agreeTerms = [false, false, false, false];
   bool _showDetails = false;
 
   dynamic _getAllAgreeTerms() {
@@ -75,7 +75,7 @@ class _ServiceTermState extends State<ServiceTerm> {
       onChanged: (bool? value) {
         if (mounted) {
           setState(() {
-            _agreeTerms[index] = value;
+            _agreeTerms[index] = value!;
           });
         }
       },

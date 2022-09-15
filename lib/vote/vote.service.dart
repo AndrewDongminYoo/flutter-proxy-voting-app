@@ -9,20 +9,20 @@ class VoteService extends GetConnect {
 
   String _getURL(String url) => _baseURL + url;
 
-  Future<Response> queryAgenda(int uid, String company) {
+  Future<Response<dynamic>> queryAgenda(int uid, String company) {
     return get(_getURL('/agenda?uid=$uid&company=$company'));
   }
 
-  Future<Response> findSharesByName(String company, String name) {
+  Future<Response<dynamic>> findSharesByName(String company, String name) {
     return get(_getURL('/shareholders'),
         query: {'company': company, 'name': name});
   }
 
-  Future<Response> validateShareholder(int id) {
+  Future<Response<dynamic>> validateShareholder(int id) {
     return put(_getURL('/shareholders/$id'), jsonEncode({}));
   }
 
-  Future<Response> postResult(
+  Future<Response<dynamic>> postResult(
     int uid,
     int shareholderId,
     String deviceName,
@@ -56,17 +56,18 @@ class VoteService extends GetConnect {
     );
   }
 
-  Future<Response> postSignature(int agendaId, String signature) {
+  Future<Response<dynamic>> postSignature(int agendaId, String signature) {
     return put(_getURL('/agenda/signature'),
         jsonEncode({'agendaId': agendaId, 'signature': signature}));
   }
 
-  Future<Response> postIdCard(int agendaId, String idCard) {
+  Future<Response<dynamic>> postIdCard(int agendaId, String idCard) {
     return put(_getURL('/agenda/idcard'),
         jsonEncode({'agendaId': agendaId, 'idCard': idCard}));
   }
 
-  Future<Response> postTakeBackNumberAt(int agendaId, String takeBackNumberAt) {
+  Future<Response<dynamic>> postTakeBackNumberAt(
+      int agendaId, String takeBackNumberAt) {
     return put(
         _getURL('/agenda/idcard'),
         jsonEncode(
