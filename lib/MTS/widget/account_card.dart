@@ -55,7 +55,7 @@ class _AccountCardState extends State<AccountCard> {
                   text: account.idOrCert, typoType: TypoType.bodySmaller),
               CustomText(
                   text: [
-                account.productCode,
+                codeMap[account.productCode],
                 account.productName,
                 hypen(account.accountNum)
               ].join(' '))
@@ -80,3 +80,10 @@ class _AccountCardState extends State<AccountCard> {
     );
   }
 }
+
+Map<String, String> codeMap = {
+  '': '위탁',
+  '01': '위탁',
+  '02': '펀드',
+  '05': 'CMA',
+};
