@@ -48,6 +48,13 @@ class AccountDetail implements MTSInterface {
   post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
+    String accountNum = res.Output.Result.accountNum;
+    List<BankAccountDetail> details = res.Output.Result.accountDetail;
+    for (BankAccountDetail detail in details) {
+      if (detail.productTypeCode == '01') {
+        controller.updateDetail(accountNum, detail);
+      }
+    }
   }
 
   @override

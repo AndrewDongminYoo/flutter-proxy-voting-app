@@ -63,20 +63,12 @@ String process(String acc) {
 class StockAccount implements IOBase {
   late String accountNumber; // 계좌번호
   late String productCode; // 상품코드
-  late String productName; // 상품코드
-  // late String productType; // 상품타입
-  // late String depositReceived; // 예수금
-  // late String depositReceivedF; // 외화예수금
-  // late String evaluationAmount; // 평가금액
+  late String productName; // 상품명
 
   StockAccount.from(Map<String, dynamic> json) {
     accountNumber = json['계좌번호'] ?? '';
     productCode = json['상품코드'] ?? ''; // 주식인 경우 01
     productName = json['상품명'] ?? '';
-    // productType = json['상품타입'] ?? '';
-    // depositReceived = json['예수금'] ?? '';
-    // depositReceivedF = json['외화예수금'] ?? '';
-    // evaluationAmount = json['평가금액'] ?? '';
   }
 
   @override
@@ -85,10 +77,6 @@ class StockAccount implements IOBase {
       '계좌번호': accountNumber,
       '상품코드': productCode,
       '상품명': productName,
-      // '상품타입': productType,
-      // '예수금': depositReceived,
-      // '외화예수금': depositReceivedF,
-      // '평가금액': evaluationAmount,
     };
     temp.removeWhere((key, value) => value.isEmpty);
     return temp;

@@ -64,6 +64,10 @@ class AccountTransaction implements MTSInterface {
   post() async {
     CustomResponse response = await fetch(username);
     await response.fetch(username);
+    for (BankAccountTransaction trans
+        in response.Output.Result.accountTransaction) {
+      controller.tradeStock(accountNum, trans);
+    }
   }
 
   @override
@@ -77,25 +81,25 @@ class BankAccountTransaction implements IOBase {
   late String transactionDate; // 거래일자
   late String transactionTime; // 거래시각
   late String transactionType; // 거래유형
-  late String briefs; // 적요
-  late String issueName; // 종목명
   late String transactionCount; // 거래수량
   late String transactionVolume; // 거래금액
+  late String transactionVolFor; // 외화거래금액
+  late String transactionVolWon; // 원화거래금액
+  late String foriegnCommission; // 국외수수료
   late String settlementAmount; // 정산금액
+  late String briefs; // 적요
+  late String issueName; // 종목명
   late String commission; // 수수료
   late String balanceCount; // 금잔수량
   late String balanceAmount; // 금잔금액
   late String balanceAmount2; // 금잔금액2
   late String monetaryCode; // 통화코드
-  late String transactionVolFor; // 외화거래금액
   late String tax; // 세금
-  late String transactionVolWon; // 원화거래금액
-  late String foriegnCommission; // 국외수수료
+  late String bankOffice; // 입금은행
+  late String paidAccountNum; // 입금계좌번호
   late String paidAccountMemo; // 입금통장표시내용
   late String receivedAccMemo; // 출금통장표시내용
   late String tradingBank; // 처리점
-  late String bankOffice; // 입금은행
-  late String paidAccountNum; // 입금계좌번호
 
   BankAccountTransaction.from(Map<String, dynamic> json) {
     transactionDate = json['거래일자'] ?? '';

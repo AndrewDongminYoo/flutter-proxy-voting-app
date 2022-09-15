@@ -41,6 +41,9 @@ class AccountAll implements MTSInterface {
   post() async {
     CustomResponse res = await fetch(username);
     await res.fetch(username);
+    for (BankAccountAll account in res.Output.Result.accountAll) {
+      controller.updateAccount(account);
+    }
   }
 
   @override
@@ -50,7 +53,7 @@ class AccountAll implements MTSInterface {
   MtsController controller = MtsController.get();
 }
 
-class BankAccount implements IOBase {
+class BankAccountAll implements IOBase {
   late String accountNumber; // 계좌번호
   late String accountPreNum; // 계좌번호표시용
   late String accountType; // 계좌명_유형
@@ -67,7 +70,7 @@ class BankAccount implements IOBase {
   late String yields; // 수익률
   late String totalAssets; // 총자산
 
-  BankAccount.from(Map<String, dynamic> json) {
+  BankAccountAll.from(Map<String, dynamic> json) {
     accountNumber = json['계좌번호'] ?? '';
     accountPreNum = json['계좌번호표시용'] ?? '';
     accountType = json['계좌명_유형'] ?? '';

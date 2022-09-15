@@ -143,7 +143,7 @@ class CustomInput implements IOBase {
 class CustomResult implements IOBase {
   String userId = ''; // 사용자아이디
   String username = ''; // 사용자이름
-  List<BankAccount> accountAll = []; // 전계좌조회
+  List<BankAccountAll> accountAll = []; // 전계좌조회
   List<StockAccount> accountStock = []; // 증권보유계좌조회
   List<BankAccountDetail> accountDetail = []; // 계좌상세조회
   List<BankAccountTransaction> accountTransaction = []; // 거래내역조회
@@ -169,7 +169,7 @@ class CustomResult implements IOBase {
       final all = output['전계좌조회'];
       if (all is List) {
         accountAll = all.map((e) {
-          return BankAccount.from(e);
+          return BankAccountAll.from(e);
         }).toList();
       }
       final detail = output['계좌상세조회'];

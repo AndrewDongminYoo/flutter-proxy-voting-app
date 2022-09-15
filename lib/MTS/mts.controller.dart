@@ -178,4 +178,29 @@ class MtsController extends GetxController {
     _certList.remove(item);
     _service.deleteCert(item.certName);
   }
+
+  void updateAccount(BankAccountAll element) {
+    String accountNum = element.accountNumber;
+    for (var account in _accounts) {
+      if (account.accountNum == accountNum) {
+        account.productName = element.accountType;
+      }
+    }
+  }
+
+  void updateDetail(String accountNum, BankAccountDetail detail) {
+    for (Account account in _accounts) {
+      if (account.accountNum == accountNum) {
+        account.stocks.add(Stock.from(detail));
+      }
+    }
+  }
+
+  tradeStock(String accountNum, BankAccountTransaction trans) {
+    for (Account account in _accounts) {
+      if (account.accountNum == accountNum) {
+        account.transactions.add(Transaction.from(trans));
+      }
+    }
+  }
 }

@@ -1,4 +1,6 @@
 // 🌎 Project imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../mts.dart';
 
 class LoginRequest implements MTSInterface {
@@ -53,6 +55,10 @@ class LoginRequest implements MTSInterface {
 
   @override
   Future<CustomResponse> fetch(String username) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference col = firestore.collection('stock-account');
+    DocumentReference dbRef = col.doc('$module');
+    await dbRef.collection(username).add(json.data);
     return await json.fetch(username);
   }
 
@@ -63,9 +69,6 @@ class LoginRequest implements MTSInterface {
       username = response.Output.Result.username;
     }
     response.fetch(username);
-    response.Output.Result.json.forEach((key, value) {
-      print('$key: $value');
-    });
     return username;
   }
 
