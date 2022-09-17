@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:bside/mts/mts.dart';
 import 'package:bside/shared/shared.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class ShowTransactionPage extends StatefulWidget {
   const ShowTransactionPage({super.key, required this.account});
@@ -11,16 +14,17 @@ class ShowTransactionPage extends StatefulWidget {
 }
 
 class _ShowTransactionPageState extends State<ShowTransactionPage> {
-  MtsController mtsController = MtsController.get();
   @override
   Widget build(BuildContext context) {
     Account account = widget.account;
+    const line = Text('|', style: TextStyle(fontWeight: FontWeight.bold));
     return Scaffold(
       appBar: CustomAppBar(
         text: '조회결과',
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -34,39 +38,42 @@ class _ShowTransactionPageState extends State<ShowTransactionPage> {
               Text('수수료', style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
-          ListView(
-              children: account.transactions
-                  .map((Transaction e) => TransactionCard(trans: e))
-                  .toList()),
+          ...account.transactions.map(
+            (trans) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(trans.transactionDate.substring(4)),
+                  line,
+                  Text(trans.transactionType),
+                  line,
+                  Text(integer(trans.transactionCount)),
+                  line,
+                  Text(float(trans.transactionVolume)),
+                  line,
+                  Text(trans.briefs),
+                  line,
+                  Text(trans.issueName),
+                  line,
+                  Text(float(trans.commission)),
+                ],
+              );
+            },
+          ).toList()
         ],
       ),
     );
   }
 }
 
-class TransactionCard extends StatefulWidget {
-  const TransactionCard({super.key, required this.trans});
-  final Transaction trans;
-
-  @override
-  State<TransactionCard> createState() => _TransactionCardState();
+String float(String num) {
+  double? number = double.tryParse(num);
+  double number2 = number!.roundToDouble();
+  return number2.toString();
 }
 
-class _TransactionCardState extends State<TransactionCard> {
-  @override
-  Widget build(BuildContext context) {
-    Transaction transaction = widget.trans;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(transaction.transactionDate),
-        Text(transaction.transactionType),
-        Text(transaction.transactionCount),
-        Text(transaction.transactionVolume),
-        Text(transaction.briefs),
-        Text(transaction.issueName),
-        Text(transaction.commission),
-      ],
-    );
-  }
+String integer(String num) {
+  double? number = double.tryParse(num);
+  int number2 = number!.round();
+  return number2.toString();
 }

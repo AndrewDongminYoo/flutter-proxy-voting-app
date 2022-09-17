@@ -70,7 +70,7 @@ class BankAccountAll implements IOBase {
   late String yields; // 수익률
   late String totalAssets; // 총자산
 
-  BankAccountAll.from(Map<String, String> json) {
+  BankAccountAll.from(Map<String, dynamic> json) {
     accountNumber = json['계좌번호'] ?? '';
     accountPreNum = json['계좌번호표시용'] ?? '';
     accountType = json['계좌명_유형'] ?? '';

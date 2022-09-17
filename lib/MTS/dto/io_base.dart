@@ -39,7 +39,7 @@ class CustomOutput implements IOBase {
   CustomOutput.from(Map<String, dynamic> output) {
     ErrorCode = (output['ErrorCode']) as String;
     ErrorMessage = (output['ErrorMessage']) as String;
-    Result = CustomResult.from(output['Result'] as Map<String, dynamic>);
+    Result = CustomResult.from(output['Result'] as Map<String, dynamic>?);
   }
 
   @override
@@ -158,29 +158,31 @@ class CustomResult implements IOBase {
       depositReceived = (output['예수금'] ?? '') as String;
       foriegnDeposit = (output['외화예수금'] ?? '') as String;
       amountValuation = (output['평가금액'] ?? '') as String;
-      final dynamic stock = (output['증권보유계좌조회']) as String;
+      final dynamic stock = output['증권보유계좌조회'];
       if (stock is List) {
-        accountStock = stock.map((dynamic e) {
-          return StockAccount.from(e as Map<String, String>);
-        }).toList();
+        accountStock = stock
+            .map((dynamic e) => StockAccount.from(e as Map<String, dynamic>))
+            .toList();
       }
       final dynamic all = output['전계좌조회'];
       if (all is List) {
-        accountAll = all.map((dynamic e) {
-          return BankAccountAll.from(e as Map<String, String>);
-        }).toList();
+        accountAll = all
+            .map((dynamic e) => BankAccountAll.from(e as Map<String, dynamic>))
+            .toList();
       }
       final dynamic detail = output['계좌상세조회'];
       if (detail is List) {
-        accountDetail = detail.map((dynamic e) {
-          return BankAccountDetail.from(e as Map<String, String>);
-        }).toList();
+        accountDetail = detail
+            .map((dynamic e) =>
+                BankAccountDetail.from(e as Map<String, dynamic>))
+            .toList();
       }
       final dynamic transaction = output['거래내역조회'];
       if (transaction is List) {
-        accountTransaction = transaction.map((dynamic e) {
-          return BankAccountTransaction.from(e as Map<String, String>);
-        }).toList();
+        accountTransaction = transaction
+            .map((dynamic e) =>
+                BankAccountTransaction.from(e as Map<String, dynamic>))
+            .toList();
       }
     }
   }

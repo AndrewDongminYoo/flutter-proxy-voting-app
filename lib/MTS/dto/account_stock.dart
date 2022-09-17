@@ -65,7 +65,7 @@ class StockAccount implements IOBase {
   late String productCode; // 상품코드
   late String productName; // 상품명
 
-  StockAccount.from(Map<String, String> json) {
+  StockAccount.from(Map<String, dynamic> json) {
     accountNumber = json['계좌번호'] ?? '';
     productCode = json['상품코드'] ?? ''; // 주식인 경우 01
     productName = json['상품명'] ?? '';
