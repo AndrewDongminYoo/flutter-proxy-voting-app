@@ -31,13 +31,13 @@ class _ShowTransactionPageState extends State<ShowTransactionPage> {
         child: Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: {
-            0: FixedColumnWidth(width * 0.65),
+            0: FixedColumnWidth(width * 0.675),
             1: FixedColumnWidth(width * 1.475),
             2: FixedColumnWidth(width * 0.675),
             3: FixedColumnWidth(width * 1.125),
             4: FixedColumnWidth(width * 1.125),
             5: FixedColumnWidth(width * 1.475),
-            6: FixedColumnWidth(width * 0.575),
+            6: FixedColumnWidth(width * 0.55),
           },
           border: const TableBorder(
               verticalInside: BorderSide(
@@ -50,75 +50,26 @@ class _ShowTransactionPageState extends State<ShowTransactionPage> {
           children: [
             const TableRow(
               children: [
-                TableCell(
-                    child: Text('거래일자',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(
-                    child: Text('거래유형',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(
-                    child: Text('거래수량',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(
-                    child: Text('거래금액',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(
-                    child: Text('적요',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(
-                    child: Text('종목명',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(
-                    child: Text('수수료',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                THead(data: '거래일자'),
+                THead(data: '거래유형'),
+                THead(data: '거래수량'),
+                THead(data: '거래금액'),
+                THead(data: '적요'),
+                THead(data: '종목명'),
+                THead(data: '수수료'),
               ],
             ),
             ...account.transactions.map(
               (Transaction trans) {
                 return TableRow(
                   children: [
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            trans.transactionDate.substring(4))),
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            trans.transactionType)),
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            integer(trans.transactionCount))),
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            float(trans.transactionVolume))),
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            trans.briefs)),
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            trans.issueName)),
-                    TableCell(
-                        child: Text(
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            float(trans.commission))),
+                    TBody(data: date(trans.transactionDate)),
+                    TBody(data: trans.transactionType),
+                    TBody(data: integer(trans.transactionCount)),
+                    TBody(data: float(trans.transactionVolume)),
+                    TBody(data: trans.briefs),
+                    TBody(data: trans.issueName),
+                    TBody(data: float(trans.commission)),
                   ],
                 );
               },
@@ -128,6 +79,47 @@ class _ShowTransactionPageState extends State<ShowTransactionPage> {
       ),
     );
   }
+}
+
+class THead extends StatelessWidget {
+  const THead({
+    super.key,
+    required this.data,
+  });
+
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return TableCell(
+        child: Text(
+      data,
+      textAlign: TextAlign.center,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    ));
+  }
+}
+
+class TBody extends StatelessWidget {
+  const TBody({
+    super.key,
+    required this.data,
+  });
+  final String data;
+  @override
+  Widget build(BuildContext context) {
+    return TableCell(
+        child: Text(
+      textAlign: TextAlign.right,
+      overflow: TextOverflow.ellipsis,
+      data,
+    ));
+  }
+}
+
+String date(String dateString) {
+  DateTime dt = DateTime.parse(dateString);
+  return '${dt.month}.${dt.day}';
 }
 
 String float(String num) {
