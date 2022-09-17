@@ -26,55 +26,55 @@ class _ShowTransactionPageState extends State<ShowTransactionPage> {
       appBar: CustomAppBar(
         text: '조회결과',
       ),
-      body: Padding(
-        padding: EdgeInsets.all(padding),
-        child: Table(
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          columnWidths: {
-            0: FixedColumnWidth(width * 0.675),
-            1: FixedColumnWidth(width * 1.475),
-            2: FixedColumnWidth(width * 0.675),
-            3: FixedColumnWidth(width * 1.125),
-            4: FixedColumnWidth(width * 1.125),
-            5: FixedColumnWidth(width * 1.475),
-            6: FixedColumnWidth(width * 0.55),
-          },
-          border: const TableBorder(
-              verticalInside: BorderSide(
-                color: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(padding),
+          child: Table(
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            columnWidths: {
+              0: FixedColumnWidth(width * 0.675),
+              1: FixedColumnWidth(width * 1.475),
+              2: FixedColumnWidth(width * 0.675),
+              3: FixedColumnWidth(width * 1.125),
+              4: FixedColumnWidth(width * 1.125),
+              5: FixedColumnWidth(width * 1.475),
+              6: FixedColumnWidth(width * 0.55),
+            },
+            border: TableBorder.symmetric(
+                inside: const BorderSide(
+              color: Colors.white,
+            )),
+            defaultColumnWidth: FlexColumnWidth(width),
+            children: [
+              const TableRow(
+                children: [
+                  THead(data: '거래일자'),
+                  THead(data: '거래유형'),
+                  THead(data: '거래수량'),
+                  THead(data: '거래금액'),
+                  THead(data: '적요'),
+                  THead(data: '종목명'),
+                  THead(data: '수수료'),
+                ],
               ),
-              horizontalInside: BorderSide(
-                color: Colors.white,
-              )),
-          defaultColumnWidth: FlexColumnWidth(width),
-          children: [
-            const TableRow(
-              children: [
-                THead(data: '거래일자'),
-                THead(data: '거래유형'),
-                THead(data: '거래수량'),
-                THead(data: '거래금액'),
-                THead(data: '적요'),
-                THead(data: '종목명'),
-                THead(data: '수수료'),
-              ],
-            ),
-            ...account.transactions.map(
-              (Transaction trans) {
-                return TableRow(
-                  children: [
-                    TBody(data: date(trans.transactionDate)),
-                    TBody(data: trans.transactionType),
-                    TBody(data: integer(trans.transactionCount)),
-                    TBody(data: float(trans.transactionVolume)),
-                    TBody(data: trans.briefs),
-                    TBody(data: trans.issueName),
-                    TBody(data: float(trans.commission)),
-                  ],
-                );
-              },
-            ).toList()
-          ],
+              ...account.transactions.map(
+                (Transaction trans) {
+                  return TableRow(
+                    children: [
+                      TBody(data: date(trans.transactionDate)), // 거래일자
+                      TBody(data: trans.transactionType), // 거래유형
+                      TBody(data: integer(trans.transactionCount)), // 거래수량
+                      TBody(data: float(trans.transactionVolume)), // 거래금액
+                      TBody(data: trans.briefs), // 적요
+                      TBody(data: trans.issueName), // 종목명
+                      TBody(data: float(trans.commission)), // 수수료
+                    ],
+                  );
+                },
+              ).toList()
+            ],
+          ),
         ),
       ),
     );
@@ -86,9 +86,7 @@ class THead extends StatelessWidget {
     super.key,
     required this.data,
   });
-
   final String data;
-
   @override
   Widget build(BuildContext context) {
     return TableCell(
@@ -117,8 +115,8 @@ class TBody extends StatelessWidget {
   }
 }
 
-String date(String dateString) {
-  DateTime dt = DateTime.parse(dateString);
+String date(String str) {
+  DateTime dt = DateTime.parse(str);
   return '${dt.month}.${dt.day}';
 }
 
