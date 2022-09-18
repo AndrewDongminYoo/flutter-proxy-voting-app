@@ -40,14 +40,14 @@ class AccountDetail implements MTSInterface {
   }
 
   @override
-  Future<CustomResponse> fetch(String username) async {
-    return await json.fetch(username);
+  Future<CustomResponse> apply(String username) async {
+    return await json.send(username);
   }
 
   @override
   Future<void> post() async {
-    CustomResponse res = await fetch(username);
-    await res.fetch(username);
+    CustomResponse res = await apply(username);
+    await res.send(username);
     String accountNum = res.Output.Result.accountNum;
     List<BankAccountDetail> details = res.Output.Result.accountDetail;
     for (BankAccountDetail detail in details) {

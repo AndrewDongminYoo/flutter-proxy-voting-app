@@ -28,7 +28,7 @@ class CustomRequest implements InputOutput {
       };
 
   @override
-  Future<CustomResponse> fetch(String username) async {
+  Future<CustomResponse> send(String username) async {
     print('===========$Module ${Job.padLeft(6, ' ')}===========');
     String? response = await channel.invokeMethod('getMTSData', {'data': data});
     dynamic json = jsonDecode(response!);

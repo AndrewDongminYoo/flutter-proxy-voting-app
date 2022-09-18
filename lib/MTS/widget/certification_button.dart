@@ -1,6 +1,9 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:get/route_manager.dart';
+
 // 🌎 Project imports:
 import '../../theme.dart';
 
@@ -44,4 +47,29 @@ class UnderlinedButton extends InkWell {
                 ),
               )),
         );
+}
+
+void showActions(
+  BuildContext context,
+  List<UnderlinedButton> actions,
+) {
+  Get.bottomSheet(Container(
+    padding: const EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 80,
+    ),
+    height: Get.height * 0.5,
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(20),
+      ),
+    ),
+    child: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: actions,
+      ),
+    ),
+  ));
 }

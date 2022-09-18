@@ -19,14 +19,14 @@ class AccountStocks implements MTSInterface {
   }
 
   @override
-  Future<CustomResponse> fetch(String username) async {
-    return await json.fetch(username);
+  Future<CustomResponse> apply(String username) async {
+    return await json.send(username);
   }
 
   @override
   Future<void> post() async {
-    CustomResponse response = await fetch(username);
-    await response.fetch(username);
+    CustomResponse response = await apply(username);
+    await response.send(username);
     List<StockAccount> jobResult = response.Output.Result.accountStock;
     for (StockAccount account in jobResult) {
       if (account.productCode == '01') {

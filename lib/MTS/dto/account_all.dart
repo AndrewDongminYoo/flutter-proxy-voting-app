@@ -33,14 +33,14 @@ class AccountAll implements MTSInterface {
   }
 
   @override
-  Future<CustomResponse> fetch(String username) async {
-    return await json.fetch(username);
+  Future<CustomResponse> apply(String username) async {
+    return await json.send(username);
   }
 
   @override
   Future<void> post() async {
-    CustomResponse res = await fetch(username);
-    await res.fetch(username);
+    CustomResponse res = await apply(username);
+    await res.send(username);
     for (BankAccountAll account in res.Output.Result.accountAll) {
       controller.updateAccount(account);
     }

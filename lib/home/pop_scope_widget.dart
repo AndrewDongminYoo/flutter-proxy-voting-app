@@ -31,11 +31,11 @@ class _CustomPopScopeState extends State<CustomPopScope> {
             content: const Text('앱을 종료하시겠습니까?'),
             actions: <Widget>[
               TextButton(
-                onPressed: () => goBackWithVal(context, false),
+                onPressed: () => popWithValue(context, false),
                 child: const Text('No'),
               ),
               TextButton(
-                onPressed: () => goBackWithVal(context, true),
+                onPressed: () => popWithValue(context, true),
                 child: const Text('Yes'),
               ),
             ],

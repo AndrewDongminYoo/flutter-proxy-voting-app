@@ -54,18 +54,23 @@ class _MTSShowResultPageState extends State<MTSShowResultPage> {
               color: Colors.grey.withOpacity(0.1),
               borderRadius: BorderRadius.circular(20)),
         ),
-        onDismissed: (DismissDirection direction) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-              '${account.productName} 삭제되었습니다.',
-            )),
-          );
-          setState(() {
-            accounts!.remove(account);
-          });
-          _mtsController.accounts.remove(account);
-        },
-        child: AccountCard(account: account));
+        onDismissed: (DismissDirection _) => onDismissed(context, account),
+        child: AccountCard(
+          onDismissed: () => onDismissed(context, account),
+          account: account,
+        ));
+  }
+
+  onDismissed(BuildContext context, Account account) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text(
+        '${account.productName} 삭제되었습니다.',
+      )),
+    );
+    setState(() {
+      accounts!.remove(account);
+    });
+    _mtsController.accounts.remove(account);
   }
 }

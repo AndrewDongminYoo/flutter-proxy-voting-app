@@ -7,11 +7,18 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 
 // 🌎 Project imports:
 import '../../shared/shared.dart';
+import '../../theme.dart';
 import '../mts.dart';
 
 class AccountCard extends StatefulWidget {
-  const AccountCard({super.key, required this.account});
+  const AccountCard({
+    super.key,
+    required this.account,
+    required this.onDismissed,
+  });
   final Account account;
+  final Function() onDismissed;
+
   @override
   State<AccountCard> createState() => _AccountCardState();
 }
@@ -21,6 +28,30 @@ class _AccountCardState extends State<AccountCard> {
   @override
   Widget build(BuildContext context) {
     Account account = widget.account;
+    List<UnderlinedButton> actions = [
+      UnderlinedButton(
+        textColor: Colors.black,
+        label: '연결끊기',
+        width: CustomW.w4,
+        onPressed: () {
+          widget.onDismissed();
+          goBack();
+        },
+      ),
+      UnderlinedButton(
+        textColor: Colors.black,
+        label: '계좌정보',
+        width: CustomW.w4,
+        onPressed: () {},
+      ),
+      UnderlinedButton(
+        textColor: const Color(0xFFC70039),
+        label: '삭제하기',
+        width: CustomW.w4,
+        onPressed: () {},
+      ),
+    ];
+
     return GestureDetector(
       onTap: () => onTap(account),
       child: Container(
@@ -54,7 +85,9 @@ class _AccountCardState extends State<AccountCard> {
                   typoType: TypoType.h2Bold,
                 ),
                 CustomText(
-                    text: account.idOrCert, typoType: TypoType.bodySmaller),
+                  text: account.idOrCert,
+                  typoType: TypoType.bodySmaller,
+                ),
                 CustomText(
                     text: [
                   codeMap[account.productCode],
@@ -70,9 +103,14 @@ class _AccountCardState extends State<AccountCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               verticalDirection: VerticalDirection.down,
-              children: const [
-                Icon(Icons.more_vert),
-                SizedBox(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {
+                    showActions(context, actions);
+                  },
+                ),
+                const SizedBox(
                   height: 50,
                 )
               ],

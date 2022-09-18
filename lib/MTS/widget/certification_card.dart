@@ -54,6 +54,26 @@ class CertificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<UnderlinedButton> actions = [
+      UnderlinedButton(
+        textColor: Colors.black,
+        onPressed: () => changePass(context),
+        label: '암호변경',
+        width: CustomW.w4,
+      ),
+      UnderlinedButton(
+        textColor: Colors.black,
+        onPressed: detailInfo,
+        label: '인증서 정보',
+        width: CustomW.w4,
+      ),
+      UnderlinedButton(
+        textColor: const Color(0xFFC70039),
+        onPressed: deleteCert,
+        label: '삭제하기',
+        width: CustomW.w4,
+      ),
+    ];
     bool isExpired = DateTime.now().isAfter(item.expireDate);
     return GestureDetector(
         onTap: onPressed,
@@ -83,44 +103,7 @@ class CertificationCard extends StatelessWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: () {
-                        Get.bottomSheet(Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 80,
-                          ),
-                          height: Get.height * 0.5,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                UnderlinedButton(
-                                  textColor: Colors.black,
-                                  onPressed: () => changePass(context),
-                                  label: '암호변경',
-                                  width: CustomW.w4,
-                                ),
-                                UnderlinedButton(
-                                  textColor: Colors.black,
-                                  onPressed: detailInfo,
-                                  label: '인증서 정보',
-                                  width: CustomW.w4,
-                                ),
-                                UnderlinedButton(
-                                  textColor: const Color(0xFFC70039),
-                                  onPressed: deleteCert,
-                                  label: '삭제하기',
-                                  width: CustomW.w4,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ));
+                        showActions(context, actions);
                       },
                       icon: Icon(
                         Icons.more_vert,

@@ -29,15 +29,15 @@ class _PasswordDialogState extends State<PasswordDialog> {
             initialValue: widget.password,
             obscureText: true,
             onChanged: (String value) => widget.password = value,
-            onEditingComplete: () => goBackWithVal(
+            onEditingComplete: () => popWithValue(
               context,
               widget.password,
             ),
-            onTapOutside: (PointerDownEvent e) => goBackWithVal(
+            onTapOutside: (PointerDownEvent e) => popWithValue(
               context,
               widget.password,
             ),
-            onSaved: (String? newValue) => goBackWithVal(
+            onSaved: (String? newValue) => popWithValue(
               context,
               newValue,
             ),

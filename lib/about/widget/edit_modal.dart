@@ -42,7 +42,7 @@ class _EditModalState extends State<EditModal> {
       address = '$_pickAddress, $_detailAddress';
       _authCtrl.setAddress(address);
       setState(() {});
-      goBackWithVal(context, address);
+      popWithValue(context, address);
     } else {
       goBack();
     }

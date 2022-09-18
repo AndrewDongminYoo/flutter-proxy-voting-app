@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 // 🌎 Project imports:
+import '../../utils/exception.dart';
 import '../mts.dart';
 
 class CertDto implements IOBase {
@@ -34,11 +35,14 @@ class CustomOutput implements IOBase {
     this.ErrorCode = '00000000',
     this.ErrorMessage = '오류 메세지',
     required this.Result,
-  });
+  }) : super() {
+    if (ErrorCode != '00000000') throwError();
+  }
 
   CustomOutput.from(Map<String, dynamic> output) {
     ErrorCode = (output['ErrorCode']) as String;
     ErrorMessage = (output['ErrorMessage']) as String;
+    if (ErrorCode != '00000000') throwError();
     Result = CustomResult.from(output['Result'] as Map<String, dynamic>?);
   }
 
@@ -62,6 +66,14 @@ class CustomOutput implements IOBase {
 
   @override
   String toString() => ErrorCode;
+
+  void throwError() {
+    if (errorMsg.containsKey(ErrorCode)) {
+      throw CustomException(errorMsg[ErrorCode]);
+    } else {
+      throw CustomException(ErrorMessage);
+    }
+  }
 }
 
 class CustomInput implements IOBase {

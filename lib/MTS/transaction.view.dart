@@ -37,14 +37,20 @@ class _ShowTransactionPageState extends State<ShowTransactionPage> {
               1: FixedColumnWidth(width * 1.475),
               2: FixedColumnWidth(width * 0.675),
               3: FixedColumnWidth(width * 1.125),
-              4: FixedColumnWidth(width * 1.125),
-              5: FixedColumnWidth(width * 1.475),
+              4: FixedColumnWidth(width * 1.0),
+              5: FixedColumnWidth(width * 1.6),
               6: FixedColumnWidth(width * 0.55),
             },
-            border: TableBorder.symmetric(
-                inside: const BorderSide(
-              color: Colors.white,
-            )),
+            border: const TableBorder(
+              horizontalInside: BorderSide(
+                color: Colors.red,
+                width: 0.25,
+              ),
+              verticalInside: BorderSide(
+                color: Colors.black,
+                width: 0.125,
+              ),
+            ),
             defaultColumnWidth: FlexColumnWidth(width),
             children: [
               const TableRow(
@@ -109,7 +115,7 @@ class TBody extends StatelessWidget {
     return TableCell(
         child: Text(
       textAlign: TextAlign.right,
-      overflow: TextOverflow.ellipsis,
+      overflow: TextOverflow.visible,
       data,
     ));
   }
@@ -117,17 +123,21 @@ class TBody extends StatelessWidget {
 
 String date(String str) {
   DateTime dt = DateTime.parse(str);
-  return '${dt.month}.${dt.day}';
+  String month = dt.month.toString();
+  String day = dt.day.toString().padLeft(2, '0');
+  return '$month/$day';
 }
 
 String float(String num) {
   double? number = double.tryParse(num);
   double number2 = number!.roundToDouble();
+  if (number2 == 0) return '0';
   return number2.toString();
 }
 
 String integer(String num) {
   double? number = double.tryParse(num);
   int number2 = number!.round();
+  if (number2 == 0) return '0';
   return number2.toString();
 }

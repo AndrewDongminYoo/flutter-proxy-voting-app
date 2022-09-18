@@ -42,7 +42,7 @@ class CustomResponse implements InputOutput {
       };
 
   @override
-  Future<void> fetch(String username) async {
+  Future<void> send(String username) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference col = firestore.collection('transactions');
     DocumentReference dbRef = col.doc('$Module $Job $username');
