@@ -1,5 +1,4 @@
 <p align="center">
-  <img src="./docs/flutter-sample.webp" width="200" />
   <h1 align="center">Flutter Sample</h1>
 </p>
 
