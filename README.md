@@ -10,7 +10,7 @@
 ### Requirements
 
 - Flutter (>=3.0.x)
-  - Flutter beta 버전으로 업그레이드 필요 ([참고 링크](https://docs.flutter.dev/development/tools/sdk/upgrading))
+  - Flutter beta 버전으로 업그레이드 필요
   - 혹은 하단 scripts 참고
 - .env
 - android/key.properties
@@ -43,14 +43,6 @@ touch .env
 flutter run
 ```
 
-### App Screenshots
-
-<p float="left">
-  <img src="./docs/intro_1.png" width="100" />
-  <img src="./docs/intro_2.png" width="100" />
-  <img src="./docs/intro_3.png" width="100" />
-</p>
-
 ## Tutorial
 
 ```bash
@@ -76,9 +68,3 @@ flutter clean && flutter run
 # import sorter
 flutter pub run import_sorter:main
 ```
-
-## Roadmap
-
-1. 7월 초: 디자인 시스템 반영 후 서비스 출시 ()
-2. 8월 중순: 디자인 시스템 완전 반영, 애니메이션 적용, 테스트 셋업 (8월 중순 목표)
-3. 8월 말: 자동 테스트 및 배포 셋업 (8월 말 목표)
