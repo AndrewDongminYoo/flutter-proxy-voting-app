@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "Dart-Code.dart-code",
+    "Dart-Code.flutter",
+    "alexisvt.flutter-snippets",
+    "jeroen-meijer.pubspec-assist",
+    "luanpotter.dart-import",
+    "localizely.flutter-intl",
+    "Nash.awesome-flutter-snippets",
+    "get-snippets.get-snippets",
+    "marcelovelasquez.flutter-tree",
+    "vscjava.vscode-gradle",
+    "seatonjiang.gitmoji-vscode",
+    "eamodio.gitlens",
+    "miquelddg.dart-barrel-file-generator",
+    "mathiasfrohlich.Kotlin",
+    "fwcd.kotlin",
+    "Kasik96.swift"
+  ],
+  "unwantedRecommendations": []
+}
