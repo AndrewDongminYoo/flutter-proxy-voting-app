@@ -121,7 +121,7 @@ Widget backgroundImageLayer(String imgUrl) {
 }
 
 Widget _topBar() {
-  const String assetName = 'assets/images/bside_logo.png';
+  const String assetName = 'assets/images/flutter_logo.png';
   return Positioned(
       top: 40,
       left: 16,

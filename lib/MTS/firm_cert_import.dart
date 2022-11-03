@@ -43,7 +43,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
     List<EnhanceStep> steps = [
       EnhanceStep(
         icon: EnhanceIcon(icon: Icons.link),
-        title: const Text('비사이드 홈페이지에 접속하세요.'),
+        title: const Text('플러터 샘플 홈페이지에 접속하세요.'),
         content: const Text(''),
       ),
       EnhanceStep(
@@ -105,7 +105,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
           switch (details.stepIndex) {
             case 0:
               nextLevel = ElevatedButton(
-                onPressed: copyBside,
+                onPressed: copyLink,
                 child: const Text('링크복사'),
               );
               prevLevel = Container();
@@ -139,7 +139,7 @@ class _MTSImportCertPageState extends State<MTSImportCertPage> {
     );
   }
 
-  void copyBside() {
+  void copyLink() {
     String text = 'https://relay.coocon.net/beside/#none';
     Clipboard.setData(
       ClipboardData(

@@ -5,7 +5,7 @@ import 'dart:convert' show jsonEncode;
 import 'package:get/get_connect/connect.dart';
 
 class AuthService extends GetConnect {
-  final String _baseURL = 'https://api.bside.ai/onboarding';
+  final String _baseURL = 'https://api.example.sample/onboarding';
 
   String _getURL(String url) => _baseURL + url;
 

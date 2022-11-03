@@ -8,7 +8,7 @@ class CompanyLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String assetName = 'assets/images/bside_logo.png';
+    const String assetName = 'assets/images/flutter_logo.png';
     return Align(
       alignment: Alignment.topLeft,
       child: Container(

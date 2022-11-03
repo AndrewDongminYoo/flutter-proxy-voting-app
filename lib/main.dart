@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       builder: _errorWidgetBuilder,
-      title: 'Bside',
+      title: 'Flutter Sample',
       theme: _theme(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),

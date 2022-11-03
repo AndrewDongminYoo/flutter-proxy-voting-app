@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "bside-pie",
+            "name": "flutter-sample",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "bside-pie (profile mode)",
+            "name": "flutter-sample (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "bside-pie (release mode)",
+            "name": "flutter-sample (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

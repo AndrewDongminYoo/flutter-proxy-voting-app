@@ -20,8 +20,8 @@ class NotShareholderPage extends StatefulWidget {
 
 class _NotShareholderPageState extends State<NotShareholderPage> {
   // TODO: 데이터 직접 입력 제거하기
-  final String _contact = 'sjcho0070@naver.com';
-  final String _tele = '010-8697-1669';
+  final String _contact = '';
+  final String _tele = '';
 
   final VoteController _voteCtrl = VoteController.get();
 
@@ -30,17 +30,12 @@ class _NotShareholderPageState extends State<NotShareholderPage> {
 '주주명부에 등록되어 있지 않습니다.'라는 메세지가 나타납니다.
 성함: ${_voteCtrl.shareholder.username}
 회사: ${_voteCtrl.voteAgenda.company}
-
-받는사람: $_tele 조상준 $_contact
 기한: ~${_voteCtrl.campaign.date} 까지
->> Bside Co.ltd.
 """;
     try {
       final Mailto mailTo = Mailto(
         to: [_contact],
         cc: [
-          'aaron.so@bside.ai',
-          'andrew@bside.ai',
         ],
         subject: '주주명부에 등록되어 있지 않습니다.',
         body: body,

@@ -49,19 +49,19 @@ class _ServiceTermState extends State<ServiceTerm> {
     switch (index) {
       case 0:
         await launchUrlString(
-            'https://bsidekr.notion.site/af50b14ac5f148ccabef47c89882dd17');
+            'https://www.notion.so/donminzzi/f29cdc00386e40c3be426d7f8566f3e9');
         break;
       case 1:
         await launchUrlString(
-            'https://bsidekr.notion.site/f951d82e310d45bc85ec533c0267c8eb');
+            'https://www.notion.so/donminzzi/bd9ea120ddf34d4b88a7bfac41dfb6af');
         break;
       case 2:
         await launchUrlString(
-            'https://safe.ok-name.co.kr/eterms/agreement002.jsp');
+            'https://www.notion.so/donminzzi/8f807abf669b4f9b881ce61b46547493');
         break;
       // case 3:
       //   await launchUrlString(
-      //       'https://safe.ok-name.co.kr/eterms/agreement001.jsp');
+      //       'https://www.notion.so/donminzzi/CS-535bf8db896e466ebfd48368c927e39d');
       //   break;
       default:
         break;

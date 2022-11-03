@@ -61,7 +61,7 @@ import '../theme.dart';
 //   final ScrollController _controller = ScrollController();
 //   final AuthController _authCtrl = AuthController.get();
 
-//   Widget _buildBsideChat(Chat chat) {
+//   Widget _buildChat(Chat chat) {
 //     return Container(
 //       margin: const EdgeInsets.only(top: 18),
 //       child: Row(
@@ -121,7 +121,7 @@ import '../theme.dart';
 
 //   Widget _buildChat(Chat chat, index) {
 //     if (index % 2 == 0) {
-//       return _buildBsideChat(chat);
+//       return _buildChat(chat);
 //     }
 //     return _buildUserChat(chat);
 //   }

@@ -6,7 +6,7 @@ import 'package:get/route_manager.dart';
 
 // 📦 Package imports:
 import '../shared/custom_appbar.dart';
-import 'models/acccount.model.dart';
+import 'models/account.model.dart';
 
 class ShowTransactionPage extends StatefulWidget {
   const ShowTransactionPage({super.key, required this.account});

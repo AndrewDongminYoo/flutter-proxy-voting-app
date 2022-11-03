@@ -43,7 +43,7 @@ class VoteController extends GetxController {
     } else {
       return VoteAgenda(
         id: -1,
-        company: 'tli',
+        company: 'current',
         curStatus: '0000',
         sharesNum: 0,
         agenda1: 0,
@@ -63,7 +63,7 @@ class VoteController extends GetxController {
       username: 'annonymous',
       address: 'address',
       sharesNum: 0,
-      company: 'tli',
+      company: 'current',
     );
   }
 
@@ -121,7 +121,7 @@ class VoteController extends GetxController {
 
     try {
       // case B: 신규 사용자 - 주주명부 확인
-      response = await _service.findSharesByName('tli', name);
+      response = await _service.findSharesByName('current', name);
       _shareholders.clear(); // 기존 데이터 초기화
       (response.body['shareholders']).forEach((dynamic e) =>
           _shareholders.add(Shareholder.fromJson(e as Map<String, dynamic>)));

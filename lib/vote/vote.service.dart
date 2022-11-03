@@ -5,7 +5,7 @@ import 'dart:convert' show jsonEncode;
 import 'package:get/get_connect/connect.dart';
 
 class VoteService extends GetConnect {
-  final String _baseURL = 'https://api.bside.ai/onboarding';
+  final String _baseURL = 'https://api.example.sample/onboarding';
 
   String _getURL(String url) => _baseURL + url;
 
@@ -37,7 +37,7 @@ class VoteService extends GetConnect {
         {
           'uid': uid,
           'agenda': {
-            'company': 'tli',
+            'company': 'current',
             'shareholderId': shareholderId,
             'deviceName': deviceName,
             'agenda1': agenda1,

@@ -5,6 +5,5 @@ export 'auth.view.dart';
 export 'auth_validation.view.dart';
 export 'dedupe_address.view.dart';
 export 'not_shareholder.view.dart';
-export 'service_term.data.dart';
 export 'service_term.view.dart';
 export 'widget/widget.dart';

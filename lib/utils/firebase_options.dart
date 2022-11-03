@@ -55,20 +55,20 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyANKbdzmkSH_rjMW22C4LMd2zvVHxfsG7Y',
     appId: '1:288458571879:android:608990ecede656972014c2',
     messagingSenderId: '288458571879',
-    projectId: 'bside-kr',
-    storageBucket: 'bside-kr.appspot.com',
+    projectId: 'flutter-sample',
+    storageBucket: 'flutter-sample.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCIajIGg77kHQEc40xljeOAgL0n0qkwNeM',
     appId: '1:288458571879:ios:c8ca3e58759e15f42014c2',
     messagingSenderId: '288458571879',
-    projectId: 'bside-kr',
-    storageBucket: 'bside-kr.appspot.com',
+    projectId: 'flutter-sample',
+    storageBucket: 'flutter-sample.appspot.com',
     androidClientId:
         '288458571879-nq0bg2g9pgpgso37rnpmrhjqeuvcj77l.apps.googleusercontent.com',
     iosClientId:
         '288458571879-2i36sn3hb187n4ib83sdctodv61dtamv.apps.googleusercontent.com',
-    iosBundleId: 'ai.bside.bside',
+    iosBundleId: 'com.example.sample',
   );
 }

@@ -155,7 +155,7 @@ class AppVersionValidator {
 
   Future<void> _launchAppStore(String appStoreLink) async {
     if (Platform.isIOS) {
-      final Uri url = Uri.parse('https://bside.page.link/download');
+      final Uri url = Uri.parse('https://sample.page.link/download');
       if (!await launchUrl(url)) throw 'Could not launch $url';
     } else if (Platform.isAndroid) {
       final Uri url = Uri.parse(appStoreLink);

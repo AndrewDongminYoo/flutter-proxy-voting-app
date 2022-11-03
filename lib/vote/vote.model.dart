@@ -47,7 +47,7 @@ class VoteButton {
 
 class VoteAgenda {
   int id = -1;
-  String company = 'tli';
+  String company = 'current';
   String curStatus = '00000';
   int sharesNum = 0;
   int agenda1 = 0;
@@ -109,7 +109,7 @@ class Shareholder {
   String username = '홍길동';
   String address = '';
   int sharesNum = 0;
-  String company = 'tli';
+  String company = 'current';
 
   Shareholder({
     id,
@@ -127,7 +127,7 @@ class Shareholder {
       sharesNum: json['sharesNum'] != null
           ? int.parse(json['sharesNum'] as String)
           : 0,
-      company: json['company'] ?? 'tli',
+      company: json['company'] ?? 'current',
     );
   }
 }

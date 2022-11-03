@@ -7,7 +7,7 @@ MethodChannel get channel {
   if (_channel != null) {
     return _channel!;
   } else {
-    _channel = const MethodChannel('bside.native.dev/info');
+    _channel = const MethodChannel('flutter.native.dev/info');
     return _channel!;
   }
 }
